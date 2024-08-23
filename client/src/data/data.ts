@@ -63,8 +63,17 @@ const workers: Workers[] = [
   }
 ];
 
+const chartData = [
+  {month: 'January', workingHour: 250, workerType: 'Part-Time'},
+  {month: 'February', workingHour: 25, workerType: 'Full-Time'},
+  {month: 'March', workingHour: 220, workerType: 'Contractor'},
+  // {month: 'May', workingHour: 50, workerType: 'Part-Time'},
+]
+
+
 export {
-  workers
+  workers,
+  chartData
 }
 
 export type {

@@ -27,7 +27,6 @@ const MapComponent = () => {
           .setPopup(new mapboxgl.Popup().setHTML("<h3>Kusmunda Coal Mine</h3>"))
           .addTo(mapInstance);
         mapInstance.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
         setMap(mapInstance);
       });
 
@@ -37,7 +36,7 @@ const MapComponent = () => {
     if (!map) initializeMap();
   }, [map]);
 
-  return <div id="map-container" style={{ width: '100%', height: '100vh' }} />;
+  return <div id="map-container" className='rounded-sm' style={{ width: '100%', height: '100%' }} />;
 };
 
 export default MapComponent;

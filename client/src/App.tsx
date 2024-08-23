@@ -5,6 +5,7 @@ import { Toaster } from './components/ui/sonner'
 import Home from './pages/Home/Home'
 import ManageWorker from './pages/ManageWorkers/ManageWorker'
 import AssignWorks from './pages/AssignWorks/AssignWorks'
+import MapComponent from './pages/Map/MapComponent'
 
 function App() {
   const routes = createBrowserRouter([
@@ -28,17 +29,19 @@ function App() {
     {
       path: '/assign-works',
       element: <AssignWorks />
+    },
+    {
+      path: '/map',
+      element: <MapComponent />
     }
-  ])
+  ]);
 
   return (
-    <>
-      <div className='min-h-screen w-full'>
-        <RouterProvider router={routes} />
-        <Toaster />
-      </div>
-    </>
-  )
+    <div className='min-h-screen w-full'>
+      <RouterProvider router={routes} />
+      <Toaster />
+    </div>
+  );
 }
 
-export default App
+export default App;

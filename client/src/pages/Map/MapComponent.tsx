@@ -1,50 +1,43 @@
+import React, { useState, useEffect } from 'react';
+import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useState} from 'react';
-import Map, { Marker, MapProps, ViewStateChangeEvent } from 'react-map-gl';
 
-const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
-const KUSMUNDA_COORDINATES = {
-  latitude: 22.332635,
-  longitude: 82.666666
-};
+const KUSMUNDA_COORDINATES = [82.666666, 22.332635];
 
-const MapComponent: React.FC = () => {
-  const [viewPort, setViewPort] = useState<MapProps['initialViewState']>({
-    latitude: 22.332635,
-    longitude: 82.666666,
-    zoom: 10,
-    pitch: 75,
-    bearing: 0
-  });
+const MapComponent = () => {
+  const [map, setMap] = useState(null);
 
-  // useEffect(() => {
-  //   console.log('Mapbox Token:', TOKEN);
-  //   console.log('Initial Viewport:', viewPort);
-  // }, []);
+  useEffect(() => {
+    const initializeMap = () => {
+      const mapInstance = new mapboxgl.Map({
+        container: 'map-container',
+        style: 'mapbox://styles/harshiniakshaya/cm06pg3n800ix01pla6jq8tav',
+        center: KUSMUNDA_COORDINATES,
+        zoom: 10,
+        pitch: 75,
+        bearing: 0
+      });
 
-  const handleViewportChange = (event: ViewStateChangeEvent) => {
-    setViewPort(event.viewState);
-    console.log('Updated Viewport:', event.viewState);
-  };
+      mapInstance.on('load', () => {
+        new mapboxgl.Marker()
+          .setLngLat(KUSMUNDA_COORDINATES)
+          .setPopup(new mapboxgl.Popup().setHTML("<h3>Kusmunda Coal Mine</h3>"))
+          .addTo(mapInstance);
+        mapInstance.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-  return (
-    <Map
-      initialViewState={viewPort}
-      style={{ width: "100%", height: "100%" }}
-      mapStyle="mapbox://styles/harshiniakshaya/cm06pg3n800ix01pla6jq8tav"
-      mapboxAccessToken={TOKEN}
-      onMove={handleViewportChange}
-    >
-      <Marker
-        latitude={KUSMUNDA_COORDINATES.latitude}
-        longitude={KUSMUNDA_COORDINATES.longitude}
-        anchor="bottom"
-      >
-        <div style={{ color: 'black', fontWeight: 'bold' }}>🪨 Kusmunda Coal Mine</div>
-      </Marker>
-    </Map>
-  );
+        setMap(mapInstance);
+      });
+
+      return () => mapInstance.remove();
+    };
+
+    if (!map) initializeMap();
+  }, [map]);
+
+  return <div id="map-container" style={{ width: '100%', height: '100vh' }} />;
 };
 
 export default MapComponent;

@@ -64,6 +64,9 @@ const workers: Workers[] = [
 ];
 
 export {
-  workers,
+  workers
+}
+
+export type {
   Workers
 }

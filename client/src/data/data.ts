@@ -7,6 +7,7 @@ type Workers = {
   workerSalary: number; // Adding a field for worker's salary
   workerStatus: string; // Adding a field for status (e.g., "Active", "On Leave")
   hireDate: string; // Adding a field for hire date
+  currentWork?: string;
 };
 
 const workers: Workers[] = [

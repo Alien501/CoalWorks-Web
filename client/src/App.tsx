@@ -4,6 +4,7 @@ import Login from './pages/Login/Login'
 import { Toaster } from './components/ui/sonner'
 import Home from './pages/Home/Home'
 import ManageWorker from './pages/ManageWorkers/ManageWorker'
+import AssignWorks from './pages/AssignWorks/AssignWorks'
 
 function App() {
   const routes = createBrowserRouter([
@@ -23,6 +24,10 @@ function App() {
     {
       path: '/manage-worker',
       element: <ManageWorker />
+    },
+    {
+      path: '/assign-works',
+      element: <AssignWorks />
     }
   ])
 

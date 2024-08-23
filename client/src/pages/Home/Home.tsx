@@ -23,7 +23,7 @@ const Home = () => {
             />
             <MenuCardItem
               menuName="Assign Works"
-              onMenuClicked={() => menuItemClicked ('/manage-worker')}
+              onMenuClicked={() => menuItemClicked ('/assign-works')}
             />
             <MenuCardItem
               menuName="Generate Report"

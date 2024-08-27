@@ -6,6 +6,7 @@ import Home from './pages/Home/Home'
 import ManageWorker from './pages/ManageWorkers/ManageWorker'
 import AssignWorks from './pages/AssignWorks/AssignWorks'
 import MapComponent from './pages/Map/MapComponent'
+import GenerateReport from './pages/GenerateReport/GenerateReport'
 
 function App() {
   const routes = createBrowserRouter([
@@ -33,6 +34,10 @@ function App() {
     {
       path: '/map',
       element: <MapComponent />
+    },
+    {
+      path: '/generate-report',
+      element: <GenerateReport />
     }
   ]);
 

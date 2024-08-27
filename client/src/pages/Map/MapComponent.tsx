@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-const KUSMUNDA_COORDINATES = [82.666666, 22.332635];
+// const KUSMUNDA_COORDINATES = [82.666666, 22.332635];
 
 const MapComponent = () => {
   const [map, setMap] = useState(null);
@@ -15,7 +15,7 @@ const MapComponent = () => {
       const mapInstance = new mapboxgl.Map({
         container: 'map-container',
         style: 'mapbox://styles/harshiniakshaya/cm06pg3n800ix01pla6jq8tav',
-        center: KUSMUNDA_COORDINATES,
+        center: [82.666666, 22.332635],
         zoom: 10,
         pitch: 75,
         bearing: 0
@@ -23,7 +23,7 @@ const MapComponent = () => {
 
       mapInstance.on('load', () => {
         new mapboxgl.Marker()
-          .setLngLat(KUSMUNDA_COORDINATES)
+          .setLngLat([82.666666, 22.332635])
           .setPopup(new mapboxgl.Popup().setHTML("<h3>Kusmunda Coal Mine</h3>"))
           .addTo(mapInstance);
         mapInstance.addControl(new mapboxgl.NavigationControl(), 'top-right');

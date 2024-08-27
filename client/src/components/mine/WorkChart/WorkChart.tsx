@@ -1,5 +1,5 @@
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import { chartData } from "@/data/data";
 
 const COLORS = ['#2563eb', '#60a5fa', '#93c5fd', '#bfdbfe'];

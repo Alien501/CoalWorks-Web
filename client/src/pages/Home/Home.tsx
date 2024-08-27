@@ -7,7 +7,7 @@ import MapComponent from "../Map/MapComponent";
 
 const Home = () => {
   const navigate = useNavigate();
-  const menuItemClicked = (path) => {
+  const menuItemClicked = (path: string) => {
     navigate(path);
   }
 
@@ -29,7 +29,7 @@ const Home = () => {
             />
             <MenuCardItem
               menuName="Generate Report"
-              onMenuClicked={() => menuItemClicked ('/manage-worker')}
+              onMenuClicked={() => menuItemClicked ('/generate-report')}
             />
           </div>
           <div className="my-4 flex flex-row">

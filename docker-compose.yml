@@ -1,0 +1,14 @@
+services:
+  server-1:
+    build: ./server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
+
+  server-2:
+    build: ./server-2
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/app-2

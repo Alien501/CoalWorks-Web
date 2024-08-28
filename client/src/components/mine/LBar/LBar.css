@@ -1,5 +1,5 @@
 .horizontal-bar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50px;
   width: calc(100% - 50px);
@@ -9,7 +9,7 @@
 }
 
 .vertical-bar {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   bottom: 0;

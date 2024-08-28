@@ -26,7 +26,7 @@ const LBar = () => {
           <NavMenu to='/' icon={<HomeIcon />} text='Home' />
           <NavMenu to='/' icon={<RocketIcon />} text='Shift Planning' />
           <NavMenu to='/alerts' icon={<ExclamationTriangleIcon />} text='Alerts' />
-          <NavMenu to='/' icon={<FileTextIcon />} text='Logs' />
+          <NavMenu to='/shiftlogs' icon={<FileTextIcon />} text='Logs' />
           <NavMenu to='/' icon={<BackpackIcon />} text='Operator' />
         </div>
       </div>

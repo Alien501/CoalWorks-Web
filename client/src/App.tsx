@@ -7,6 +7,7 @@ import ManageWorker from './pages/ManageWorkers/ManageWorker'
 import AssignWorks from './pages/AssignWorks/AssignWorks'
 import MapComponent from './pages/Map/MapComponent'
 import GenerateReport from './pages/GenerateReport/GenerateReport'
+import {ShiftLogs} from "./pages/shiftLogs/shiftLogs"
 import { Alerts } from './pages/alerts/alerts'
 
 function App() {
@@ -43,6 +44,10 @@ function App() {
     {
       path: '/alerts',
       element: <Alerts />
+    },
+    {
+      path: '/shiftlogs',
+      element: <ShiftLogs/>
     }
   ]);
 

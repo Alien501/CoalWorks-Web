@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { workers, Workers } from "@/data/data";
+import LBar from "@/components/mine/LBar/Lbar";
 
 const AssignWorks = () => {
   const [workerList, setWorkerList] = useState<Workers[]>(workers);
@@ -23,7 +24,7 @@ const AssignWorks = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Navbar />
+      <LBar />
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold mb-8 text-center">Assign Works</h1>
 

@@ -4,6 +4,7 @@ import PageUser from "@/components/mine/PageUser/PageUser";
 import WorkChart from "@/components/mine/WorkChart/WorkChart";
 import { useNavigate } from "react-router-dom";
 import MapComponent from "../Map/MapComponent";
+import LBar from "@/components/mine/LBar/Lbar";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,8 +14,9 @@ const Home = () => {
 
   return(
     <>
-      <Navbar />
-        <div className="my-11">
+      {/* <Navbar /> */}
+        <LBar />
+        <div className="my-14">
         <div>
           <PageUser />
           <br />

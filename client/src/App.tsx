@@ -8,6 +8,7 @@ import AssignWorks from './pages/AssignWorks/AssignWorks'
 import MapComponent from './pages/Map/MapComponent'
 import GenerateReport from './pages/GenerateReport/GenerateReport'
 import ShiftPlanning from './pages/ShiftPlanning/ShiftPlanning'
+import { Alerts } from './pages/alerts/alerts'
 
 function App() {
   const routes = createBrowserRouter([
@@ -39,10 +40,6 @@ function App() {
     {
       path: '/generate-report',
       element: <GenerateReport />
-    },
-    {
-      path: '/shift-planning',
-      element: <ShiftPlanning />
     }
   ]);
 

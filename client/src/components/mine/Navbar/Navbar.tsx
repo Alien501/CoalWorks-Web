@@ -15,7 +15,7 @@ const Navbar = () => {
     { name: 'Settings', path: '/settings' },
   ];
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: string) => {
     navigate(path);
     setIsOpen(false);
   };

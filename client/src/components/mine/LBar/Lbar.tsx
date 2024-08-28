@@ -25,7 +25,7 @@ const LBar = () => {
         <div className="menu-item-container flex flex-col justify-center items-center">
           <NavMenu to='/' icon={<HomeIcon fill='red' fillOpacity={1} />} text='Home' />
           <NavMenu to='/' icon={<RocketIcon />} text='Shift Planning' />
-          <NavMenu to='/' icon={<ExclamationTriangleIcon />} text='Alerts' />
+          <NavMenu to='/alerts' icon={<ExclamationTriangleIcon />} text='Alerts' />
           <NavMenu to='/' icon={<FileTextIcon />} text='Logs' />
           <NavMenu to='/' icon={<BackpackIcon />} text='Operator' />
         </div>

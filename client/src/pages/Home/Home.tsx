@@ -1,5 +1,4 @@
 import MenuCardItem from "@/components/mine/MenuCardItem/MenuCardItem";
-import Navbar from "@/components/mine/Navbar/Navbar";
 import PageUser from "@/components/mine/PageUser/PageUser";
 import WorkChart from "@/components/mine/WorkChart/WorkChart";
 import { useNavigate } from "react-router-dom";

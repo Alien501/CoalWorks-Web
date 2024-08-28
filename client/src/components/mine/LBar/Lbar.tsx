@@ -23,7 +23,7 @@ const LBar = () => {
         </div>
 
         <div className="menu-item-container flex flex-col justify-center items-center">
-          <NavMenu to='/' icon={<HomeIcon />} text='Home' />
+          <NavMenu to='/' icon={<HomeIcon fill='red' fillOpacity={1} />} text='Home' />
           <NavMenu to='/' icon={<RocketIcon />} text='Shift Planning' />
           <NavMenu to='/' icon={<ExclamationTriangleIcon />} text='Alerts' />
           <NavMenu to='/' icon={<FileTextIcon />} text='Logs' />

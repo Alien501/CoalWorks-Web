@@ -8,6 +8,7 @@ import { createMachinery, getAllMachinery, getMachinery, updateMachineryStatus, 
 import { createSafetyCompliance, getAllSafetyCompliances, getSafetyCompliance, updateComplianceStatus } from "./safetyCompliance.mjs";
 import { createReport, getAllReports, getReport } from "./report.mjs";
 import { createPayroll, getAllPayrolls, getPayroll, updatePayrollHours, updatePayrollSalary } from "./payroll.mjs";
+import { createIncident, getAllIncidents, getIncident, modifyIncident } from "./incident.mjs";
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -38,6 +39,12 @@ router.put('/tasks/:task_id', putTask);
 router.get('/tasks/:task_id', getTasks);
 router.get('/tasks/all', getAllTasks);
 router.put('/tasks/status/:task_id', tasksStatus);
+
+// Incidenets Routes
+router.post('incidents/createIncident', createIncident);
+router.put('incidents/:incident_id', modifyIncident);
+router.get('incidents/:incident_id', getIncident);
+router.get('incidents/all', getAllIncidents);
 
 // Alerts
 router.post('/alerts/create', createAlert);

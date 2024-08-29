@@ -42,30 +42,44 @@ const Login = () => {
           <p className="text-base font-medium text-center">You Mine, we Mine!</p>
         </div>
       </div>
-      <div>
-        <Card className="min-w-[320px] shadow-lg">
+      <div className="w-full h-full flex justify-evenly items-center flex-col">
+        <div className="min-w-full">
+          <div className="mx-auto logo-container w-12 h-12 bg-black rounded-sm">
+            {/* Moss Logo */}
+          </div>
+          <div>
+            <h1 className="text-base font-bold text-center">Coalworks</h1>
+          </div>
+          <div className="w-[330px] mx-auto">
+            <h1 className="text-center">Login</h1>
+            <form ref={loginForm} onSubmit={onFormSubmit}>
+                <label htmlFor="user-name">User Name</label>
+                <Input id="user-name" className="mx-auto my-2" name="username" placeholder="User Name" type="text" />
+                <label htmlFor="password">Password</label>
+                <Input id="password" className="mx-auto my-2" name="password" placeholder="Password" type="password" />
+                {submitButtonCLicked?
+                  <Button disabled className="mx-auto my-2 block">
+                    Submit
+                  </Button>
+                  :
+                  <Button className="mx-auto my-2 block">
+                    Submit
+                  </Button>
+                }
+              </form>
+          </div>
+        </div>
+        {/* <Card className="min-w-[320px] shadow-lg">
           <CardHeader>
             <h1 className="text-xl font-bold text-center">Login</h1>
           </CardHeader>
           <CardContent>
-            <form ref={loginForm} onSubmit={onFormSubmit}>
-              <Input className="mx-auto my-2" name="username" placeholder="User Name" type="text" />
-              <Input className="mx-auto my-2" name="password" placeholder="Password" type="password" />
-              {submitButtonCLicked?
-                <Button disabled className="mx-auto my-2 block">
-                  Submit
-                </Button>
-                :
-                <Button className="mx-auto my-2 block">
-                  Submit
-                </Button>
-              }
-            </form>
+
           </CardContent>
           <CardFooter className="flex justify-center items-center">
             <p className="text-sm text-center font-medium">&copy;Coal Works</p>
           </CardFooter>
-        </Card>
+        </Card> */}
       </div>
     </div>
   )

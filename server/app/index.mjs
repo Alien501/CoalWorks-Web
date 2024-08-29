@@ -4,16 +4,19 @@ import cors from 'cors';
 import { configDotenv } from "dotenv";
 import { handleError } from './utils/handleError.mjs';
 import { logger } from './utils/logger.mjs';
+import { user } from './routes/user.mjs';
+import { role } from './routes/role.mjs';
+import { shift } from './routes/shift.mjs';
 
 configDotenv();
-
 const PORT = process.env.PORT;
 const app = express();
-const primsa = new PrismaClient();
 app.use(express.json());
 app.use(cors());
-
 app.use(logger);
+app.use('/user',user);
+app.use('/role', role);
+app.use('/shift', shift);
 
 app.use('/api/v1', (req, res) => {
   res.status(200).send({

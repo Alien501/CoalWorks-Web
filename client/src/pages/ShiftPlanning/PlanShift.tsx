@@ -37,7 +37,7 @@ const PlanShift = () => {
         }/>
       </div>
       <div>
-        <Table>
+        <Table className="border">
           <TableHeader>
             <TableRow>
               <TableHead>Shift ID</TableHead>

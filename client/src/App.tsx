@@ -7,6 +7,7 @@ import ManageWorker from './pages/ManageWorkers/ManageWorker'
 import AssignWorks from './pages/AssignWorks/AssignWorks'
 import MapComponent from './pages/Map/MapComponent'
 import GenerateReport from './pages/GenerateReport/GenerateReport'
+import {ShiftLogs} from "./pages/shiftLogs/shiftLogs"
 import { Alerts } from './pages/alerts/alerts'
 import ShiftPlanning from './pages/ShiftPlanning/ShiftPlanning'
 
@@ -48,6 +49,10 @@ function App() {
     {
       path: '/shift-planning',
       element: <ShiftPlanning />
+    },
+    {
+      path: '/shiftlogs',
+      element: <ShiftLogs/>
     }
   ]);
 

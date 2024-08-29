@@ -32,5 +32,4 @@ const LBar = () => {
     </>
   )
 };
-
 export default LBar;

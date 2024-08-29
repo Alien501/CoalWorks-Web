@@ -7,7 +7,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-const AddShift = ({trigger}) => {
+const AddShift = ({trigger}:{
+  trigger:any
+}) => {
   const shifTypes = [
     {
       text: 'Day',

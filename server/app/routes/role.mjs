@@ -1,10 +1,8 @@
-import express from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-export const role = express.Router();
 
-role.post("/createRole", async (req, res) => {
+const createRole = async (req, res) => {
     const { role_name } = req.body;
     try {
         if (!role_name) {
@@ -27,9 +25,9 @@ role.post("/createRole", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while creating the role.' });
     }
-});
+};
 
-role.get("/getAllRoles", async (req, res) => {
+const getAllRoles = async (req, res) => {
     try {
         const roles = await prisma.role.findMany();
         res.status(200).json(roles);
@@ -37,9 +35,9 @@ role.get("/getAllRoles", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching roles.' });
     }
-});
+};
 
-role.get("/getRole/:role_id", async (req, res) => {
+const getRole = async (req, res) => {
     const { role_id } = req.params;
     try {
         const role = await prisma.role.findUnique({
@@ -56,4 +54,10 @@ role.get("/getRole/:role_id", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching the role.' });
     }
-});
+};
+
+export {
+    createRole,
+    getAllRoles,
+    getRole
+}

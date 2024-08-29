@@ -1,10 +1,9 @@
-import express, { Router } from "express"
 import { PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt"
-const prisma = new PrismaClient()
-export const user = express.Router()
 
-user.post('/createUser', async (req, res) => {
+const prisma = new PrismaClient()
+
+const createUser = async (req, res) => {
     const { username, password, email, contact_number, status, role_id } = req.body;
     try {
         if (!username || !password || !role_id) {
@@ -37,13 +36,13 @@ user.post('/createUser', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while creating the user' });
     }
-});
+}
 
-user.get('/getAllUsers', async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await prisma.user.findMany({
             include: {
-                role: true 
+                role: true
             }
         });
         res.status(200).json(users);
@@ -51,9 +50,9 @@ user.get('/getAllUsers', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching users' });
     }
-});
+};
 
-user.get('/getUser/:user_id', async (req, res) => {
+const getUser = async (req, res) => {
     const { user_id } = req.params;
 
     try {
@@ -62,7 +61,7 @@ user.get('/getUser/:user_id', async (req, res) => {
                 user_id: parseInt(user_id)
             },
             include: {
-                role: true 
+                role: true
             }
         });
 
@@ -75,6 +74,10 @@ user.get('/getUser/:user_id', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching the user' });
     }
-});
+}
 
-
+export {
+    createUser,
+    getAllUsers,
+    getUser
+}

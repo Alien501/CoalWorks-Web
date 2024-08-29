@@ -1,10 +1,8 @@
-import express from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-export const shift = express.Router();
 
-shift.post("/createShift", async (req, res) => {
+const createShift = async (req, res) => {
     const { date, start_time, end_time, supervisor_id, status } = req.body;
     try {
         const supervisor = await prisma.user.findFirst({
@@ -30,9 +28,9 @@ shift.post("/createShift", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while creating the shift.' });
     }
-});
+};
 
-shift.get("/getAllShifts", async (req, res) => {
+const getAllShifts = async (req, res) => {
     try {
         const shifts = await prisma.shiftSchedule.findMany({
             include: {
@@ -46,9 +44,9 @@ shift.get("/getAllShifts", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching shifts.' });
     }
-});
+};
 
-shift.put("/updateShiftStatus/:shift_id", async (req, res) => {
+const updateShiftStatus = async (req, res) => {
     const { shift_id } = req.params;
     const { status } = req.body;
 
@@ -62,7 +60,7 @@ shift.put("/updateShiftStatus/:shift_id", async (req, res) => {
         });
 
 
-        //need to implement 
+        //need to implement
         // when the shift status is completed we have to change the status of the supervisor (for ex: from active to free)
         if (!updatedShift) {
             return res.status(404).json({ message: 'Shift not found.' });
@@ -72,4 +70,10 @@ shift.put("/updateShiftStatus/:shift_id", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while updating the shift status.' });
     }
-});
+};
+
+export {
+    createShift,
+    getAllShifts,
+    updateShiftStatus
+}

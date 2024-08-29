@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export const tasks = express.Router();
 
-tasks.post("/createTask", async (req, res) => {
+const createTask = async (req, res) => {
     const { task_description, assigned_to_id, shift_id, status } = req.body;
 
     try {
@@ -26,9 +26,9 @@ tasks.post("/createTask", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while creating the task.' });
     }
-});
+};
 
-tasks.put("/tasks/:task_id", async (req, res) => {
+const putTask = async (req, res) => {
     const { task_id } = req.params;
     const { task_description, assigned_to_id, shift_id, status } = req.body;
 
@@ -52,9 +52,9 @@ tasks.put("/tasks/:task_id", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while updating the task.' });
     }
-});
+};
 
-tasks.get("/tasks/:task_id", async (req, res) => {
+const getTasks = async (req, res) => {
     const { task_id } = req.params;
 
     try {
@@ -72,12 +72,12 @@ tasks.get("/tasks/:task_id", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching the task.' });
     }
-});
+};
 
-tasks.get("/getAllTasks", async (req, res) => {
+const getAllTasks = async (req, res) => {
     try {
         const allTasks = await prisma.task.findMany({
-            include: { assigned_to: true, shift: true } 
+            include: { assigned_to: true, shift: true }
         });
 
         res.status(200).json(allTasks);
@@ -85,9 +85,9 @@ tasks.get("/getAllTasks", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while fetching tasks.' });
     }
-});
+};
 
-tasks.put("/tasks/:task_id", async (req, res) => {
+const tasksStatus = async (req, res) => {
     const { task_id } = req.params;
     const { status } = req.body;
 
@@ -110,4 +110,12 @@ tasks.put("/tasks/:task_id", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while updating the task status.' });
     }
-});
+};
+
+export {
+    createTask,
+    putTask,
+    getTasks,
+    getAllTasks,
+    tasksStatus
+}

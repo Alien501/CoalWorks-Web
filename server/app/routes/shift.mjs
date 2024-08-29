@@ -47,3 +47,29 @@ shift.get("/getAllShifts", async (req, res) => {
         res.status(500).json({ message: 'An error occurred while fetching shifts.' });
     }
 });
+
+shift.put("/updateShiftStatus/:shift_id", async (req, res) => {
+    const { shift_id } = req.params;
+    const { status } = req.body;
+
+    try {
+        if (!status || typeof status !== 'string') {
+            return res.status(400).json({ message: 'Invalid status value.' });
+        }
+        const updatedShift = await prisma.shiftSchedule.update({
+            where: { shift_id: parseInt(shift_id, 10) },
+            data: { status: status }
+        });
+
+
+        //need to implement 
+        // when the shift status is completed we have to change the status of the supervisor (for ex: from active to free)
+        if (!updatedShift) {
+            return res.status(404).json({ message: 'Shift not found.' });
+        }
+        res.status(200).json({ message: 'Shift status updated successfully', shift: updatedShift });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while updating the shift status.' });
+    }
+});

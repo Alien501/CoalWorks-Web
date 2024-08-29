@@ -1,8 +1,6 @@
-import React from "react"
 import { ShiftLogsTable } from "@/components/mine/shiftlogsTable/ShiftLogsTable"
 import LBar from "@/components/mine/LBar/Lbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useState } from "react";
 export const ShiftLogs = (() => {
     return (
         <div className="min-h-screen overflow-hidden">

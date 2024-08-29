@@ -1,6 +1,6 @@
 import LBar from "@/components/mine/LBar/Lbar";
 import { useState } from "react";
-import { Exceptions } from "@/components/mine/exceptions/Exceptions"
+import { Exceptions } from "@/components/mine/exceptions/exceptions"
 import {Issues} from "@/components/mine/issues/issues"
 export const Alerts = () => {
   const [showExceptions, setShowExceptions] = useState(true)

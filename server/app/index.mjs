@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 
 import { configDotenv } from "dotenv";
-
 import { handleError } from './utils/handleError.mjs';
 import { logger } from './utils/logger.mjs';
 
@@ -10,7 +9,7 @@ configDotenv();
 
 const PORT = process.env.PORT;
 const app = express();
-
+const primsa = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 

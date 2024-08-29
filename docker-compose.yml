@@ -43,7 +43,7 @@ services:
     image: bitnami/postgresql
     restart: always
     ports:
-      - '5432'
+      - '5433:5432'
     depends_on:
       - postgresql-master
     environment:
@@ -56,6 +56,28 @@ services:
       - POSTGRESQL_REPLICATION_PASSWORD=repl_user
       - POSTGRESQL_MASTER_PORT_NUMBER=5432
       - ALLOW_EMPTY_PASSWORD=yes
+
+  prisma:
+    image: prismagraphql/prisma:latest
+    restart: always
+    ports:
+      - '4466:4466'
+    depends_on:
+      - postgresql-master
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgresql
+            host: postgresql-master
+            port: 5432
+            user: postgres
+            password: postgres
+            migrations: true
+            database: development_database
+    volumes:
+      - ./prisma:/app/prisma
 
 volumes:
   postgresql_master_data:

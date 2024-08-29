@@ -1,0 +1,158 @@
+-- CreateTable
+CREATE TABLE "User" (
+    "user_id" SERIAL NOT NULL,
+    "username" TEXT NOT NULL,
+    "password_hash" TEXT NOT NULL,
+    "email" TEXT,
+    "contact_number" TEXT,
+    "status" TEXT,
+    "role_id" INTEGER NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("user_id")
+);
+
+-- CreateTable
+CREATE TABLE "Role" (
+    "role_id" SERIAL NOT NULL,
+    "role_name" TEXT NOT NULL,
+
+    CONSTRAINT "Role_pkey" PRIMARY KEY ("role_id")
+);
+
+-- CreateTable
+CREATE TABLE "ShiftSchedule" (
+    "shift_id" SERIAL NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "start_time" TIMESTAMP(3) NOT NULL,
+    "end_time" TIMESTAMP(3) NOT NULL,
+    "supervisor_id" INTEGER NOT NULL,
+    "status" TEXT,
+
+    CONSTRAINT "ShiftSchedule_pkey" PRIMARY KEY ("shift_id")
+);
+
+-- CreateTable
+CREATE TABLE "Task" (
+    "task_id" SERIAL NOT NULL,
+    "task_description" TEXT NOT NULL,
+    "assigned_to_id" INTEGER NOT NULL,
+    "shift_id" INTEGER NOT NULL,
+    "status" TEXT,
+
+    CONSTRAINT "Task_pkey" PRIMARY KEY ("task_id")
+);
+
+-- CreateTable
+CREATE TABLE "Incident" (
+    "incident_id" SERIAL NOT NULL,
+    "reported_by_id" INTEGER NOT NULL,
+    "incident_type" TEXT NOT NULL,
+    "description" TEXT,
+    "date_reported" TIMESTAMP(3) NOT NULL,
+    "status" TEXT,
+    "assigned_to_id" INTEGER NOT NULL,
+
+    CONSTRAINT "Incident_pkey" PRIMARY KEY ("incident_id")
+);
+
+-- CreateTable
+CREATE TABLE "Alert" (
+    "alert_id" SERIAL NOT NULL,
+    "alert_type" TEXT NOT NULL,
+    "priority" TEXT NOT NULL,
+    "date_created" TIMESTAMP(3) NOT NULL,
+    "assigned_to_id" INTEGER NOT NULL,
+    "status" TEXT,
+
+    CONSTRAINT "Alert_pkey" PRIMARY KEY ("alert_id")
+);
+
+-- CreateTable
+CREATE TABLE "Machinery" (
+    "machine_id" SERIAL NOT NULL,
+    "machine_name" TEXT NOT NULL,
+    "status" TEXT,
+    "last_maintenance_date" TIMESTAMP(3),
+    "location" TEXT,
+
+    CONSTRAINT "Machinery_pkey" PRIMARY KEY ("machine_id")
+);
+
+-- CreateTable
+CREATE TABLE "SafetyCompliance" (
+    "compliance_id" SERIAL NOT NULL,
+    "safety_supervisor_id" INTEGER NOT NULL,
+    "machine_id" INTEGER NOT NULL,
+    "compliance_status" TEXT NOT NULL,
+    "date_checked" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "SafetyCompliance_pkey" PRIMARY KEY ("compliance_id")
+);
+
+-- CreateTable
+CREATE TABLE "Report" (
+    "report_id" SERIAL NOT NULL,
+    "report_type" TEXT NOT NULL,
+    "generated_by_id" INTEGER NOT NULL,
+    "date_generated" TIMESTAMP(3) NOT NULL,
+    "content" TEXT NOT NULL,
+
+    CONSTRAINT "Report_pkey" PRIMARY KEY ("report_id")
+);
+
+-- CreateTable
+CREATE TABLE "Payroll" (
+    "payroll_id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "shift_id" INTEGER NOT NULL,
+    "hours_worked" DOUBLE PRECISION NOT NULL,
+    "overtime_hours" DOUBLE PRECISION NOT NULL,
+    "salary" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "Payroll_pkey" PRIMARY KEY ("payroll_id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Role_role_name_key" ON "Role"("role_name");
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Role"("role_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ShiftSchedule" ADD CONSTRAINT "ShiftSchedule_supervisor_id_fkey" FOREIGN KEY ("supervisor_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_assigned_to_id_fkey" FOREIGN KEY ("assigned_to_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_shift_id_fkey" FOREIGN KEY ("shift_id") REFERENCES "ShiftSchedule"("shift_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Incident" ADD CONSTRAINT "Incident_reported_by_id_fkey" FOREIGN KEY ("reported_by_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Incident" ADD CONSTRAINT "Incident_assigned_to_id_fkey" FOREIGN KEY ("assigned_to_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Alert" ADD CONSTRAINT "Alert_assigned_to_id_fkey" FOREIGN KEY ("assigned_to_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SafetyCompliance" ADD CONSTRAINT "SafetyCompliance_safety_supervisor_id_fkey" FOREIGN KEY ("safety_supervisor_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SafetyCompliance" ADD CONSTRAINT "SafetyCompliance_machine_id_fkey" FOREIGN KEY ("machine_id") REFERENCES "Machinery"("machine_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Report" ADD CONSTRAINT "Report_generated_by_id_fkey" FOREIGN KEY ("generated_by_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Payroll" ADD CONSTRAINT "Payroll_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Payroll" ADD CONSTRAINT "Payroll_shift_id_fkey" FOREIGN KEY ("shift_id") REFERENCES "ShiftSchedule"("shift_id") ON DELETE RESTRICT ON UPDATE CASCADE;

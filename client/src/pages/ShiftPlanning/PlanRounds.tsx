@@ -9,7 +9,7 @@ import MySelectBox from "@/components/mine/MySelectbox/MySelectbox";
 import SelectDate from "@/components/mine/SelectDate/SelectDate";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableHeader, TableHead, TableRow, TableCell } from '@/components/ui/table';
-import { Dialog, DialogTrigger, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useState } from 'react';
 
 const DetailsTab = () => (

@@ -1,5 +1,5 @@
 import './LBar.css'
-import { BackpackIcon, ExclamationTriangleIcon, FileTextIcon, HomeIcon, RocketIcon } from '@radix-ui/react-icons';
+import { BackpackIcon, ExclamationTriangleIcon, FileTextIcon, HomeIcon, RocketIcon, CrumpledPaperIcon } from '@radix-ui/react-icons';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,8 +46,8 @@ const LBar = () => {
           <NavMenu to='/' icon={<HomeIcon fill='red' fillOpacity={1} />} text='Home' />
           <NavMenu to='/shift-planning' icon={<RocketIcon />} text='Shift Planning' />
           <NavMenu to='/alerts' icon={<ExclamationTriangleIcon />} text='Alerts' />
-          <NavMenu to='/shiftlogs' icon={<FileTextIcon />} text='Logs' />
-          <NavMenu to='/' icon={<BackpackIcon />} text='Operator' />
+          <NavMenu to='/' icon={<FileTextIcon />} text='Logs' />
+          <NavMenu to='/' icon={<CrumpledPaperIcon />} text='Operator' />
         </div>
       </div>
     </>

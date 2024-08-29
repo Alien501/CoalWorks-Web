@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, LineChart, PieChart, Line, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -9,7 +8,7 @@ import MapComponent from "../Map/MapComponent";
 const Home = () => {
   const navigate = useNavigate();
 
-  const menuItemClicked = (path) => {
+  const menuItemClicked = (path: string) => {
     navigate(path);
   };
 

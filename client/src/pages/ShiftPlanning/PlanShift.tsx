@@ -14,7 +14,7 @@ const PlanShift = () => {
     const getAllShiftDetail = (async () => {
       const res = await axios.get("http://localhost:3000/api/v1/shift/all");
       console.log(res.data);
-      setShiftDetails(res.data);
+      setShiftDetails(prev => res.data);
     })
     getAllShiftDetail();
   },[])
@@ -63,10 +63,10 @@ const PlanShift = () => {
           </TableHeader>
           <TableBody>
             {
-              shiftDetails.map((shift, index) => {
-                <TableRow>
+              shiftDetails && shiftDetails.map((shift, index) => {
+                <TableRow key={index} className="text-black">
                   <TableCell>{shift.shift_id}</TableCell>
-                  <TableCell>{shift.date}</TableCell>
+                  <TableCell>hello</TableCell>
                   <TableCell>{shift.start_time}</TableCell>
                   <TableCell>{shift.end_time}</TableCell>
                   <TableCell>{shift.supervisor.username}</TableCell>

@@ -4,29 +4,31 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
 model User {
-  user_id           Int              @id @default(autoincrement())
-  username          String           @unique
-  password_hash     String
-  email             String?          @unique
-  contact_number    String?
-  status            String?
-  role_id           Int
-  role              Role             @relation(fields: [role_id], references: [role_id])
+  user_id        Int     @id @default(autoincrement())
+  username       String  @unique
+  password_hash  String
+  email          String? @unique
+  contact_number String?
+  status         String?
+  role_id        Int
+  role           Role    @relation(fields: [role_id], references: [role_id])
 
   // Relations
-  shiftsSupervised  ShiftSchedule[]  @relation("UserShifts")
-  tasksAssigned     Task[]           @relation("TaskAssignedToUser")
-  incidentsReported Incident[]       @relation("IncidentReportedByUser")
-  incidentsAssigned Incident[]       @relation("IncidentAssignedToUser")
-  alertsAssigned    Alert[]          @relation("AlertAssignedToUser")
+  shiftsSupervised  ShiftSchedule[]    @relation("UserShifts")
+  tasksAssigned     Task[]             @relation("TaskAssignedToUser")
+  incidentsReported Incident[]         @relation("IncidentReportedByUser")
+  incidentsAssigned Incident[]         @relation("IncidentAssignedToUser")
+  alertsAssigned    Alert[]            @relation("AlertAssignedToUser")
   safetyCompliances SafetyCompliance[] @relation("SafetyComplianceSupervisor")
-  reportsGenerated  Report[]         @relation("ReportsGeneratedByUser")
-  payrolls          Payroll[]        @relation("PayrollsForUser")
+  reportsGenerated  Report[]           @relation("ReportsGeneratedByUser")
+  payrolls          Payroll[]          @relation("PayrollsForUser")
+  SensorWorker      SensorWorker[]
+  ShiftLog          ShiftLog[]
 }
 
 model Role {
@@ -38,17 +40,17 @@ model Role {
 }
 
 model ShiftSchedule {
-  shift_id       Int       @id @default(autoincrement())
-  date           DateTime
-  start_time     DateTime
-  end_time       DateTime
-  supervisor_id  Int
-  status         String?
+  shift_id      Int      @id @default(autoincrement())
+  date          DateTime
+  start_time    DateTime
+  end_time      DateTime
+  supervisor_id Int
+  status        String?
 
   // Relations
-  supervisor     User      @relation("UserShifts", fields: [supervisor_id], references: [user_id])
-  tasks          Task[]
-  payrolls       Payroll[]
+  supervisor User      @relation("UserShifts", fields: [supervisor_id], references: [user_id])
+  tasks      Task[]
+  payrolls   Payroll[]
 }
 
 model Task {
@@ -59,26 +61,26 @@ model Task {
   status           String?
 
   // Relations
-  assigned_to      User          @relation("TaskAssignedToUser", fields: [assigned_to_id], references: [user_id])
-  shift            ShiftSchedule @relation(fields: [shift_id], references: [shift_id])
+  assigned_to User          @relation("TaskAssignedToUser", fields: [assigned_to_id], references: [user_id])
+  shift       ShiftSchedule @relation(fields: [shift_id], references: [shift_id])
 }
 
 model Incident {
-  incident_id   Int     @id @default(autoincrement())
+  incident_id    Int      @id @default(autoincrement())
   reported_by_id Int
-  incident_type String
-  description   String?
-  date_reported DateTime
-  status        String?
+  incident_type  String
+  description    String?
+  date_reported  DateTime
+  status         String?
   assigned_to_id Int
 
   // Relations
-  reported_by   User    @relation("IncidentReportedByUser", fields: [reported_by_id], references: [user_id])
-  assigned_to   User    @relation("IncidentAssignedToUser", fields: [assigned_to_id], references: [user_id])
+  reported_by User @relation("IncidentReportedByUser", fields: [reported_by_id], references: [user_id])
+  assigned_to User @relation("IncidentAssignedToUser", fields: [assigned_to_id], references: [user_id])
 }
 
 model Alert {
-  alert_id       Int     @id @default(autoincrement())
+  alert_id       Int      @id @default(autoincrement())
   alert_type     String
   priority       String
   date_created   DateTime
@@ -86,45 +88,45 @@ model Alert {
   status         String?
 
   // Relations
-  assigned_to    User    @relation("AlertAssignedToUser", fields: [assigned_to_id], references: [user_id])
+  assigned_to User @relation("AlertAssignedToUser", fields: [assigned_to_id], references: [user_id])
 }
 
 model Machinery {
-  machine_id             Int     @id @default(autoincrement())
-  machine_name           String
-  status                 String?
-  last_maintenance_date  DateTime?
-  location               String?
+  machine_id            Int       @id @default(autoincrement())
+  machine_name          String
+  status                String?
+  last_maintenance_date DateTime?
+  location              String?
 
   // Relations
-  safetyCompliances      SafetyCompliance[]
+  safetyCompliances SafetyCompliance[]
 }
 
 model SafetyCompliance {
-  compliance_id          Int     @id @default(autoincrement())
-  safety_supervisor_id   Int
-  machine_id             Int
-  compliance_status      String
-  date_checked           DateTime
+  compliance_id        Int      @id @default(autoincrement())
+  safety_supervisor_id Int
+  machine_id           Int
+  compliance_status    String
+  date_checked         DateTime
 
   // Relations
-  safety_supervisor      User       @relation("SafetyComplianceSupervisor", fields: [safety_supervisor_id], references: [user_id])
-  machine                Machinery  @relation(fields: [machine_id], references: [machine_id])
+  safety_supervisor User      @relation("SafetyComplianceSupervisor", fields: [safety_supervisor_id], references: [user_id])
+  machine           Machinery @relation(fields: [machine_id], references: [machine_id])
 }
 
 model Report {
-  report_id      Int     @id @default(autoincrement())
-  report_type    String
+  report_id       Int      @id @default(autoincrement())
+  report_type     String
   generated_by_id Int
-  date_generated DateTime
-  content        String
+  date_generated  DateTime
+  content         String
 
   // Relations
-  generated_by   User    @relation("ReportsGeneratedByUser", fields: [generated_by_id], references: [user_id])
+  generated_by User @relation("ReportsGeneratedByUser", fields: [generated_by_id], references: [user_id])
 }
 
 model Payroll {
-  payroll_id     Int           @id @default(autoincrement())
+  payroll_id     Int   @id @default(autoincrement())
   user_id        Int
   shift_id       Int
   hours_worked   Float
@@ -132,33 +134,33 @@ model Payroll {
   salary         Float
 
   // Relations
-  user           User          @relation("PayrollsForUser", fields: [user_id], references: [user_id])
-  shift          ShiftSchedule @relation(fields: [shift_id], references: [shift_id])
+  user  User          @relation("PayrollsForUser", fields: [user_id], references: [user_id])
+  shift ShiftSchedule @relation(fields: [shift_id], references: [shift_id])
 }
 
 model SensorNode {
-  node_id @id @default(autoincrement())
-  p Float
-  gas Float
+  node_id   Int    @id @default(autoincrement())
+  p         Float
+  gas       Float
   vibration Float
-  temphum Float
-  sound Float
-  sos String
+  temphum   Float
+  sound     Float
+  sos       String
 }
 
 model SensorWorker {
-  worker_id Int @id
-  user User @relation(fields: [worker_id], references: [user_id])
-  p Float
-  spo2 Float
+  worker_id     Int   @id
+  user          User  @relation(fields: [worker_id], references: [user_id])
+  p             Float
+  spo2          Float
   falldetection Float
 }
 
 model ShiftLog {
-  log_id Int @id @default(autoincrement())
-  worker_id Int
-  worker User @relation(fields: [worker_id], references: [user_id])
+  log_id      Int    @id @default(autoincrement())
+  worker_id   Int
+  worker      User   @relation(fields: [worker_id], references: [user_id])
   log_details String
-  issue_type String
-  site String
+  issue_type  String
+  site        String
 }

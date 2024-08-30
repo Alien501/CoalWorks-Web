@@ -68,9 +68,30 @@ const updateAlertStatus = async (req, res) => {
   return res.status(301).send({message: 'updated!'});
 }
 
+const deleteAlert = async (req, res) => {
+  const { alert_id } = req.params;
+  const alertId = await prisma.alert.findFirst({
+      where: { alertId: alert_id }
+  });
+
+  if (!alertId) {
+      return res.status(404).json({ message: 'Alert not found.' });
+  }
+
+  const deleteThisAlert = await prisma.alert.delete({
+      where: {
+          alert_id: alert_id
+      }
+  })
+  if(deleteThisAlert)
+      return res.status(200).send({ message: 'Deleted alert sucessfully!' })
+  return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
+
 export {
   createAlert,
   getAlert,
   getAllAlerts,
-  updateAlertStatus
+  updateAlertStatus,
+  deleteAlert
 }

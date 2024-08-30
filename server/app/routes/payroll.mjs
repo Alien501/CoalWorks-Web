@@ -93,10 +93,31 @@ const updatePayrollSalary = async (req, res) => {
   }
 };
 
+const deletePayroll = async (req, res) => {
+  const { payroll_id } = req.params;
+  const payrollId = await prisma.payroll.findFirst({
+      where: { payroll_id: payroll_id }
+  });
+
+  if (!payrollId) {
+      return res.status(404).json({ message: 'Payroll not found.' });
+  }
+
+  const deleteThisPayroll = await prisma.payroll.delete({
+      where: {
+          payroll_id: payroll_id
+      }
+  })
+  if(deleteThisPayroll)
+      return res.status(200).send({ message: 'Deleted Payroll sucessfully!' })
+  return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
+
 export {
   createPayroll,
   getAllPayrolls,
   getPayroll,
   updatePayrollHours,
-  updatePayrollSalary
+  updatePayrollSalary,
+  deletePayroll
 };

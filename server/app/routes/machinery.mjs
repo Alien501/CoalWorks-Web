@@ -80,10 +80,31 @@ const updateMachineryMaintenance = async (req, res) => {
   }
 };
 
+const deleteMachinery = async (req, res) => {
+  const { machine_id } = req.params;
+  const machineId = await prisma.machinery.findFirst({
+      where: { machine_id: machine_id }
+  });
+
+  if (!incidentId) {
+      return res.status(404).json({ message: 'Mahcinery not found.' });
+  }
+
+  const deleteThisMachinery = await prisma.machinery.delete({
+      where: {
+          machine_id: machine_id
+      }
+  })
+  if(deleteThisIncident)
+      return res.status(200).send({ message: 'Deleted machine sucessfully!' })
+  return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
+
 export {
   createMachinery,
   getAllMachinery,
   getMachinery,
   updateMachineryStatus,
-  updateMachineryMaintenance
+  updateMachineryMaintenance,
+  deleteMachinery
 };

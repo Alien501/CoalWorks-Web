@@ -67,9 +67,31 @@ const getAllIncidents = async (req, res) => {
     }
 };
 
+
+const deleteIncident = async (req, res) => {
+    const { incident_id } = req.params;
+    const incidentId = await prisma.incident.findFirst({
+        where: { incident_id: incident_id }
+    });
+
+    if (!incidentId) {
+        return res.status(404).json({ message: 'Incident not found.' });
+    }
+
+    const deleteThisIncident = await prisma.incident.delete({
+        where: {
+            incident_id: incident_id
+        }
+    })
+    if(deleteThisIncident)
+        return res.status(200).send({ message: 'Deleted incident sucessfully!' })
+    return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
+
 export {
     createIncident,
     modifyIncident,
     getAllIncidents,
-    getIncident
+    getIncident,
+    deleteIncident
 }

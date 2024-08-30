@@ -6,9 +6,7 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar";
 
-const SelectDate = () => {
-  const [date, setDate] = useState();
-
+const SelectDate = ({date, setDate}) => {
   return(
     <Popover>
       <PopoverTrigger asChild>
@@ -29,7 +27,6 @@ const SelectDate = () => {
           selected={date}
           onSelect={setDate}
           initialFocus
-
         />
       </PopoverContent>
     </Popover>

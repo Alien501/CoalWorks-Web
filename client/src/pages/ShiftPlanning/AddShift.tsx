@@ -3,123 +3,120 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import SelectDate from "@/components/mine/SelectDate/SelectDate";
 import MySelectBox from "@/components/mine/MySelectbox/MySelectbox";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { useRef, useState } from "react";
+import { submitNewShift } from "@/utils/submitNewShift";
+import { toast } from "sonner";
 
-const AddShift = ({trigger}:{
-  trigger:any
-}) => {
-  const shifTypes = [
-    {
-      text: 'Day',
-      value: 'day'
-    },
-    {
-      text: 'Night',
-      value: 'night'
-    },
-    {
-      text: 'maintenance',
-      value: 'Maintenance'
-    }
+const AddShift = ({ trigger }) => {
+  const shiftTypes = [
+    { text: 'Day', value: 'day' },
+    { text: 'Night', value: 'night' },
+    { text: 'Maintenance', value: 'maintenance' }
   ];
   const supervisorNames = [
-    {
-      text: 'Super One',
-      value: 's1'
-    },
-    {
-      text: 'Super Two',
-      value: 's2'
-    },
-    {
-      text: 'Super Three',
-      value: 's3'
-    }
+    { text: 'Super One', value: 1 },
+    { text: 'Super Two', value: 2 },
+    { text: 'Super Three', value: 3 }
   ];
-  const mineNo = [
-    {
-      text: 'Mine 1',
-      value: 'm1'
-    },
-    {
-      text: 'Mine 2',
-      value: 'm2'
-    },
-    {
-      text: 'Mine 3',
-      value: 'm3'
-    }
+  const statusOptions = [
+    { text: 'Not Started', value: 'notStarted' },
+    { text: 'Started', value: 'started' },
+    { text: 'Overdue', value: 'overDue' }
   ];
 
+  const formRef = useRef();
 
-  return(
+  const [date, setDate] = useState('');
+  const [supervisorId, setSupervisorId] = useState('');
+  const [shiftStatus, setShiftStatus] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      date: date,
+      start_time: startTime,
+      end_time: endTime,
+      supervisor_id: parseInt(supervisorId),
+      status: shiftStatus,
+    };
+
+    if(supervisorId.trim() == '' || shiftStatus.trim() == '')
+      return
+
+    const submittedOrNot = await submitNewShift(formData);
+    if(submittedOrNot) {
+      toast('Created New Shift Successfully!');
+    } else {
+      toast('Something went wrong while creating new shift, try again later!')
+    }
+  };
+
+  return (
     <div>
       <Dialog>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
-          <DialogContent className="h-[80%]">
-            <ScrollArea className="h-full w-full rounded-md">
+        <DialogContent className="min-h-fit max-h-[80%]">
+          <ScrollArea className="h-full w-full rounded-md">
             <DialogHeader>
               <DialogTitle className="text-sm font-semibold text-center">Add New Shift</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <form>
+              <form ref={formRef} onSubmit={handleFormSubmit}>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="shiftId">Shift ID</label>
-                  <Input name="shiftId" placeholder="Shift ID" type="text"  />
+                  <label className="font-sm font-semibold text-black" htmlFor="shiftDate">Shift Date</label>
+                  <Input required className="w-fit" name="date" type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)} />
                 </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Shift Date</label>
-                  <SelectDate />
-                </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Shift Time</label>
-                  <Input name="date" type="time" />
-                </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Shift Type</label>
-                  <MySelectBox key={'st'} placeholder={'Shift Type'} content={shifTypes} />
-                </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Task Description</label>
-                  <Input name="taskDescription" placeholder="Task Description" type="text"  />
-                </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Supervisor Name</label>
-                  <MySelectBox key={'sn'} placeholder={'Supervisor Name'} content={supervisorNames} />
-                </div>
-                <div className="p-1">
-                  <p className="font-sm font-semibold text-black">Machineries Assigned</p>
-                  <div>
-                    <Checkbox id="machine-one"/>
-                    <label htmlFor="machine-one">Machine One</label>
-                    <br />
-                    <Checkbox id="machine-two"/>
-                    <label htmlFor="machine-two">Machine Two</label>
-                    <br />
-                    <Checkbox id="machine-three"/>
-                    <label htmlFor="machine-three">Machine Three</label>
+                <div className="flex flex-row justify-evenly">
+                  <div className="p-1">
+                    <label className="font-sm font-semibold text-black" htmlFor="startTime">Start Time</label>
+                    <Input required name="start_time" type="datetime-local" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+                  </div>
+                  <div className="p-1">
+                    <label className="font-sm font-semibold text-black" htmlFor="endTime">End Time</label>
+                    <Input required name="end_time" type="datetime-local" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                   </div>
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Mine unit</label>
-                  <MySelectBox key={'mn'} placeholder={'Mine no.'} content={mineNo} />
+                  <label className="font-sm font-semibold text-black" htmlFor="supervisorId">Supervisor ID</label>
+                  <MySelectBox
+                    key={'sid'}
+                    placeholder={'Supervisor ID'}
+                    content={supervisorNames}
+                    selectedValue={supervisorId}
+                    setSelectValue={setSupervisorId}
+                  />
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Note</label>
-                  <Textarea placeholder="Note to be considered" />
+                  <label className="font-sm font-semibold text-black" htmlFor="shiftStatus">Status</label>
+                  <MySelectBox
+                    placeholder={'Status'}
+                    content={statusOptions}
+                    selectedValue={shiftStatus}
+                    setSelectValue={setShiftStatus}
+                  />
                 </div>
-                <Button className="mx-auto block my-1">
-                  Add
-                </Button>
+                {
+                  isSubmitted?
+                  <Button disabled onClick={() => console.log('Vro!')} className="mx-auto block my-1">
+                    Add
+                  </Button>
+                  :
+                  <Button type="submit" className="mx-auto block my-1">
+                    Add
+                  </Button>
+                }
               </form>
             </DialogDescription>
           </ScrollArea>
-          </DialogContent>
+        </DialogContent>
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
 export default AddShift;

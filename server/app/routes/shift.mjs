@@ -46,34 +46,39 @@ const getAllShifts = async (req, res) => {
     }
 };
 
-const updateShiftStatus = async (req, res) => {
+const updateShiftSchedule = async (req, res) => {
     const { shift_id } = req.params;
-    const { status } = req.body;
+    const { date, supervisorId, status, start_time, end_time } = req.body;
 
     try {
-        if (!status || typeof status !== 'string') {
-            return res.status(400).json({ message: 'Invalid status value.' });
-        }
-        const updatedShift = await prisma.shiftSchedule.update({
-            where: { shift_id: parseInt(shift_id, 10) },
-            data: { status: status }
+        const data = {
+            date: new Date(date), 
+            supervisor_id: supervisorId,
+            status,
+            start_time: new Date(start_time), 
+            end_time: new Date(end_time), 
+        };
+
+        // Update the ShiftSchedule table with the provided data
+        const result = await prisma.shiftSchedule.update({
+            where: { shift_id: parseInt(shift_id) }, 
+            data: data,
         });
 
-
-        //need to implement
-        // when the shift status is completed we have to change the status of the supervisor (for ex: from active to free)
-        if (!updatedShift) {
+        if (result) {
+            return res.status(200).json({ message: 'Shift updated successfully.' });
+        } else {
             return res.status(404).json({ message: 'Shift not found.' });
         }
-        res.status(200).json({ message: 'Shift status updated successfully', shift: updatedShift });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'An error occurred while updating the shift status.' });
+        console.error('Error updating shift:', error);
+        return res.status(500).json({ message: 'An error occurred while updating the shift.' });
     }
 };
+
 
 export {
     createShift,
     getAllShifts,
-    updateShiftStatus
+    updateShiftSchedule
 }

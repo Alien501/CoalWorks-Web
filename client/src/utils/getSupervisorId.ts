@@ -3,5 +3,5 @@ const getSuperVisorId = async () => {
 }
 
 export {
-  getSuperVisorId
+  getSuperVisorId,
 }

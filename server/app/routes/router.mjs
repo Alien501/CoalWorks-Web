@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createUser, getAllUsers, getUser } from "./user.mjs";
 import { createRole, getAllRoles, getRole } from "./role.mjs";
-import { createShift, getAllShifts, updateShiftStatus } from "./shift.mjs";
+import { createShift, getAllShifts, updateShiftSchedule } from "./shift.mjs";
 import { createTask, getAllTasks, getTasks, putTask, tasksStatus } from "./tasks.mjs";
 import { createAlert, getAlert, getAllAlerts, updateAlertStatus } from "./alerts.mjs";
 import { createMachinery, getAllMachinery, getMachinery, updateMachineryStatus, updateMachineryMaintenance } from "./machinery.mjs";
@@ -31,7 +31,7 @@ router.get('/role/:role_id', getRole);
 // Shift Routes
 router.post('/shift/create', createShift);
 router.get('/shift/all', getAllShifts);
-router.put('/shift/update/:shift_id', updateShiftStatus);
+router.put('/shift/update/:shift_id', updateShiftSchedule);
 
 // Task Routes
 router.post('/tasks/create', createTask);

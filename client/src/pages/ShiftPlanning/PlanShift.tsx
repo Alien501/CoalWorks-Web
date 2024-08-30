@@ -6,6 +6,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Table, TableBody, TableHeader, TableCell, TableRow, TableHead } from "@/components/ui/table";
 import MySelectBox from "@/components/mine/MySelectbox/MySelectbox";
 import { useEffect, useState } from "react";
+import { EditShift } from "./editShift";
 import axios from "axios"
 
 const PlanShift = () => {
@@ -73,11 +74,11 @@ const PlanShift = () => {
                   <TableCell ><span className={`${shift.status.toLowerCase()==='completed'?"bg-green-500": shift.status.toLowerCase()==="inprogress"?"bg-yellow-500" :"bg-slate-400 "} rounded-full px-3 py-2 my-1`}>{shift.status}</span></TableCell>
                   {/* <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell> */}
                   <TableCell>
-                    <AddShift shift={shift} trigger={
+                    <EditShift shift={shift} trigger={
                       <Button variant={'secondary'}>
                         Edit
                       </Button>
-                    } />
+                    } shift={shift} />
                   </TableCell>
                 </TableRow>
               ))

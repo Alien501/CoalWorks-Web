@@ -85,8 +85,8 @@ export const SensorData = () => {
         <div className="overflow-hidden">
             <LBar />
             <div className="my-14 ml-16 mr-4 ">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    <div className="p-4 border rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div className="p-4 border rounded-lg bg-slate ">
                         <h3 className="text-lg font-semibold mb-4">Temperature</h3>
                         <Line data={tempData} />
                     </div>

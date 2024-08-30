@@ -72,9 +72,30 @@ const updateComplianceStatus = async (req, res) => {
   }
 };
 
+const deleteSafety = async (req, res) => {
+  const { compliance_id } = req.params;
+  const complianceId = await prisma.safetyCompliance.findFirst({
+      where: { compliance_id: compliance_id }
+  });
+
+  if (!complianceId) {
+      return res.status(404).json({ message: 'Compliance not found.' });
+  }
+
+  const deleteThisCompliance = await prisma.safetyCompliance.delete({
+      where: {
+          compliance_id: compliance_id
+      }
+  })
+  if(deleteThisCompliance)
+      return res.status(200).send({ message: 'Deleted safety compliance sucessfully!' })
+  return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
+
 export {
   createSafetyCompliance,
   getAllSafetyCompliances,
   getSafetyCompliance,
-  updateComplianceStatus
+  updateComplianceStatus,
+  deleteSafety
 };

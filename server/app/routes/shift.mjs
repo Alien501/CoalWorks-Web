@@ -76,9 +76,29 @@ const updateShiftSchedule = async (req, res) => {
     }
 };
 
+const deleteShift = async (req, res) => {
+    const { shift_id } = req.params;
+    const shiftId = await prisma.shiftSchedule.findFirst({
+        where: { shift_id: shift_id }
+    });
+
+    if (!shiftId) {
+        return res.status(404).json({ message: 'Supervisor not found.' });
+    }
+
+    const deleteThisShift = await prisma.shiftSchedule.delete({
+        where: {
+            shift_id: shift_id
+        }
+    })
+    if(deleteThisShift)
+        return res.status(200).send({ message: 'Deleted role sucessfully!' })
+    return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
 
 export {
     createShift,
     getAllShifts,
-    updateShiftSchedule
+    updateShiftSchedule,
+    deleteShift
 }

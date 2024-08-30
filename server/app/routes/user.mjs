@@ -76,8 +76,28 @@ const getUser = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    const { user_id } = req.params;
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            user_id: user_id
+        }
+    });
+    if(!existingUser)
+        return res.status(404).send({ message: 'User not exist!' });
+    const deleteThisGuy = await prisma.user.delete({
+        where: {
+            user_id: user_id
+        }
+    })
+    if(deleteThisGuy)
+        return res.status(200).send({message: 'Deleted user Sucessfully!'});
+    return res.status(500).send({message: 'Something went wrong while deleting!'})
+}
+
 export {
     createUser,
     getAllUsers,
-    getUser
+    getUser,
+    deleteUser
 }

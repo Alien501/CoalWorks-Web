@@ -56,8 +56,26 @@ const getRole = async (req, res) => {
     }
 };
 
+const deleteRole = async (req, res) => {
+    const { role_id } = req.params;
+    const existingRole = await prisma.role.findUnique({
+        where: { role_id: role_id }
+    });
+    if(!existingRole)
+        return res.status(404).send('Role not found!');
+    const deleteTHisRole = await prisma.role.delete({
+        where: {
+            role_id: role_id
+        }
+    })
+    if(deleteRole)
+        return res.status(200).send({message: 'Deleted this role successfully!'});
+    return res.status(500).send({ message: 'Somthing went wrong while deleting this role!' })
+}
+
 export {
     createRole,
     getAllRoles,
-    getRole
+    getRole,
+    deleteRole
 }

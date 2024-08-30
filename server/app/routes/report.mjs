@@ -53,8 +53,29 @@ const getReport = async (req, res) => {
   }
 };
 
+const deleteReport = async (req, res) => {
+  const { report_id } = req.params;
+  const reportId = await prisma.report.findFirst({
+      where: { report_id: report_id }
+  });
+
+  if (!complianceId) {
+      return res.status(404).json({ message: 'Report not found.' });
+  }
+
+  const deleteThisReport = await prisma.report.delete({
+      where: {
+          report_id: report_id
+      }
+  })
+  if(deleteThisReport)
+      return res.status(200).send({ message: 'Deleted report compliance sucessfully!' })
+  return res.status(500).send({ message: "Somthing went wrong while deleting!" })
+}
+
 export {
   createReport,
   getAllReports,
-  getReport
+  getReport,
+  deleteReport
 };

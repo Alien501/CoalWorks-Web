@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
+
 
 const createReport = async (req, res) => {
   const { report_type, generated_by_id, date_generated, content } = req.body;
@@ -8,7 +8,7 @@ const createReport = async (req, res) => {
   }
 
   try {
-    const newReport = await prisma.report.create({
+    const newReport = await prismaWrite.report.create({
       data: {
         report_type,
         generated_by_id: parseInt(generated_by_id),
@@ -24,7 +24,7 @@ const createReport = async (req, res) => {
 
 const getAllReports = async (req, res) => {
   try {
-    const allReports = await prisma.report.findMany({
+    const allReports = await prismaRead.report.findMany({
       include: {
         generated_by: true
       }
@@ -38,7 +38,7 @@ const getAllReports = async (req, res) => {
 const getReport = async (req, res) => {
   const { report_id } = req.params;
   try {
-    const report = await prisma.report.findUnique({
+    const report = await prismaRead.report.findUnique({
       where: { report_id: parseInt(report_id) },
       include: {
         generated_by: true
@@ -55,7 +55,7 @@ const getReport = async (req, res) => {
 
 const deleteReport = async (req, res) => {
   const { report_id } = req.params;
-  const reportId = await prisma.report.findFirst({
+  const reportId = await prismaRead.report.findFirst({
       where: { report_id: report_id }
   });
 
@@ -63,7 +63,7 @@ const deleteReport = async (req, res) => {
       return res.status(404).json({ message: 'Report not found.' });
   }
 
-  const deleteThisReport = await prisma.report.delete({
+  const deleteThisReport = await prismaWrite.report.delete({
       where: {
           report_id: report_id
       }

@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
-const prisma = new PrismaClient();
 
 const createIncident = async (req, res) => {
     const { reported_by_id, incident_type, description, date_reported, status, assigned_to_id } = req.body;
     try {
-        const newIncident = await prisma.incident.create({
+        const newIncident = await prismaWrite.incident.create({
             data: {
                 reported_by_id: parseInt(reported_by_id, 10),
                 incident_type,
@@ -26,7 +25,7 @@ const modifyIncident = async (req, res) => {
     const { incident_id } = req.params;
     const { status } = req.body;
     try {
-        const updatedIncident = await prisma.incident.update({
+        const updatedIncident = await prismaWrite.incident.update({
             where: { incident_id: parseInt(incident_id, 10) },
             data: { status }
         });
@@ -43,7 +42,7 @@ const modifyIncident = async (req, res) => {
 const getIncident = async (req, res) => {
     const { incident_id } = req.params;
     try {
-        const incident = await prisma.incident.findUnique({
+        const incident = await prismaRead.incident.findUnique({
             where: { incident_id: parseInt(incident_id, 10) }
         });
         if (!incident) {
@@ -59,7 +58,7 @@ const getIncident = async (req, res) => {
 // Get All Incidents
 const getAllIncidents = async (req, res) => {
     try {
-        const incidentsList = await prisma.incident.findMany();
+        const incidentsList = await prismaRead.incident.findMany();
         res.status(200).json(incidentsList);
     } catch (error) {
         console.error(error);
@@ -70,7 +69,7 @@ const getAllIncidents = async (req, res) => {
 
 const deleteIncident = async (req, res) => {
     const { incident_id } = req.params;
-    const incidentId = await prisma.incident.findFirst({
+    const incidentId = await prismaRead.incident.findFirst({
         where: { incident_id: incident_id }
     });
 
@@ -78,7 +77,7 @@ const deleteIncident = async (req, res) => {
         return res.status(404).json({ message: 'Incident not found.' });
     }
 
-    const deleteThisIncident = await prisma.incident.delete({
+    const deleteThisIncident = await prismaWrite.incident.delete({
         where: {
             incident_id: incident_id
         }

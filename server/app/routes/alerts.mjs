@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
-const prisma = new PrismaClient();
 
 const createAlert = async (req, res) => {
   const { alert_type, priority, date_created, assigned_to, status } = req.body;
@@ -8,7 +7,7 @@ const createAlert = async (req, res) => {
     return res.status(400).send({
       message: 'Something is miising!'
     })
-  const whetherAlertAlreadyExist = await prisma.alert.findFirst({
+  const whetherAlertAlreadyExist = await prismaRead.alert.findFirst({
     where: {
       AND: [
         {alert_type: alert_type},
@@ -20,7 +19,7 @@ const createAlert = async (req, res) => {
   if(whetherAlertAlreadyExist)
     return res.status(400).send({ message: 'Alert notified already' });
 
-  const newAlert = await prisma.alert.create({
+  const newAlert = await prismaWrite.alert.create({
     data: {
       alert_type: alert_type,
       priority: priority,
@@ -33,7 +32,7 @@ const createAlert = async (req, res) => {
 }
 
 const getAllAlerts = async (req, res) => {
-  const allAlerts =  await prisma.alert.findMany({alert_type: true});
+  const allAlerts =  await prismaRead.alert.findMany({alert_type: true});
   return res.status(200).send({
     message: 'Done!',
     data: allAlerts
@@ -44,7 +43,7 @@ const getAlert = async (req, res) => {
   const { alert_id } = req.params;
   if(!alert_id)
     return res.status(400).send({message: "Missing alert id!"});
-  const alert = await prisma.alert.findFirst({alert_id: alert_id});
+  const alert = await prismaRead.alert.findFirst({alert_id: alert_id});
   return res.status(200).send({
     message: 'Found',
     data: alert
@@ -58,7 +57,7 @@ const updateAlertStatus = async (req, res) => {
   if(!alert_id || !status)
     return res.status(400).send({message: "Missing alert id or status!"});
 
-  const updateAlert = await prisma.alert.update({
+  const updateAlert = await prismaWrite.alert.update({
     where: {alert_id: alert_id},
     data: { status: status }
   })
@@ -70,7 +69,7 @@ const updateAlertStatus = async (req, res) => {
 
 const deleteAlert = async (req, res) => {
   const { alert_id } = req.params;
-  const alertId = await prisma.alert.findFirst({
+  const alertId = await prismaRead.alert.findFirst({
       where: { alertId: alert_id }
   });
 
@@ -78,7 +77,7 @@ const deleteAlert = async (req, res) => {
       return res.status(404).json({ message: 'Alert not found.' });
   }
 
-  const deleteThisAlert = await prisma.alert.delete({
+  const deleteThisAlert = await prismaWrite.alert.delete({
       where: {
           alert_id: alert_id
       }

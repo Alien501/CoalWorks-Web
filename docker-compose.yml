@@ -18,12 +18,12 @@ services:
   #   volumes:
   #     - ./server:/app-2
 
-  # hw-gateway:
-  #   build: ./gateway-1
-  #   ports:
-  #     - "4001:4001"
-  #   volumes:
-  #     - ./gateway-1:/app/gateway-1
+  hw-gateway:
+    build: ./gateway-1
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./gateway-1:/app/gateway-1
 
   postgresql-master:
     image: bitnami/postgresql
@@ -62,51 +62,29 @@ services:
       - POSTGRESQL_MASTER_PORT_NUMBER=5432
       - ALLOW_EMPTY_PASSWORD=yes
 
-  # prisma:
-  #   image: prismagraphql/prisma:latest
-  #   restart: always
-  #   ports:
-  #     - '4466:4466'
-  #   depends_on:
-  #     - postgresql-master
-  #   environment:
-  #     PRISMA_CONFIG: |
-  #       port: 4466
-  #       databases:
-  #         default:
-  #           connector: postgresql
-  #           host: postgresql-master
-  #           port: 5432
-  #           user: postgres
-  #           password: postgres
-  #           migrations: true
-  #           database: development_database
-  #   volumes:
-  #     - ./prisma:/app/prisma
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
 
-  # zookeeper:
-  #   image: bitnami/zookeeper:latest
-  #   container_name: zookeeper
-  #   environment:
-  #     - ALLOW_ANONYMOUS_LOGIN=yes
-  #   ports:
-  #     - "2181:2181"
-
-  # kafka:
-  #   image: bitnami/kafka:latest
-  #   container_name: kafka
-  #   environment:
-  #     - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-  #     - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-  #     - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093
-  #     - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:9093
-  #     - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-  #     - ALLOW_PLAINTEXT_LISTENER=yes
-  #   ports:
-  #     - "9092:9092"
-  #     - "9093:9093"
-  #   depends_on:
-  #     - zookeeper
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    depends_on:
+      - zookeeper
 
 volumes:
   postgresql_master_data:

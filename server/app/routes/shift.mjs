@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
-const prisma = new PrismaClient();
 
 const createShift = async (req, res) => {
     const { date, start_time, end_time, supervisor_id, status } = req.body;
     try {
-        const supervisor = await prisma.user.findFirst({
+        const supervisor = await prismaRead.user.findFirst({
             where: { user_id: supervisor_id }
         });
 
@@ -13,7 +12,7 @@ const createShift = async (req, res) => {
             console.log(supervisor)
             return res.status(404).json({ message: 'Supervisor not found.' });
         }
-        const newShift = await prisma.shiftSchedule.create({
+        const newShift = await prismaWrite.shiftSchedule.create({
             data: {
                 date: new Date(date),
                 start_time: new Date(start_time),
@@ -32,7 +31,7 @@ const createShift = async (req, res) => {
 
 const getAllShifts = async (req, res) => {
     try {
-        const shifts = await prisma.shiftSchedule.findMany({
+        const shifts = await prismaRead.shiftSchedule.findMany({
             include: {
                 supervisor: true,
                 tasks: true,
@@ -52,16 +51,16 @@ const updateShiftSchedule = async (req, res) => {
 
     try {
         const data = {
-            date: new Date(date), 
+            date: new Date(date),
             supervisor_id: supervisorId,
             status,
-            start_time: new Date(start_time), 
-            end_time: new Date(end_time), 
+            start_time: new Date(start_time),
+            end_time: new Date(end_time),
         };
 
         // Update the ShiftSchedule table with the provided data
-        const result = await prisma.shiftSchedule.update({
-            where: { shift_id: parseInt(shift_id) }, 
+        const result = await prismaWrite.shiftSchedule.update({
+            where: { shift_id: parseInt(shift_id) },
             data: data,
         });
 
@@ -78,7 +77,7 @@ const updateShiftSchedule = async (req, res) => {
 
 const deleteShift = async (req, res) => {
     const { shift_id } = req.params;
-    const shiftId = await prisma.shiftSchedule.findFirst({
+    const shiftId = await prismaRead.shiftSchedule.findFirst({
         where: { shift_id: shift_id }
     });
 
@@ -86,7 +85,7 @@ const deleteShift = async (req, res) => {
         return res.status(404).json({ message: 'Supervisor not found.' });
     }
 
-    const deleteThisShift = await prisma.shiftSchedule.delete({
+    const deleteThisShift = await prismaWrite.shiftSchedule.delete({
         where: {
             shift_id: shift_id
         }

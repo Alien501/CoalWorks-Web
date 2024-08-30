@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt"
-
-const prisma = new PrismaClient()
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
 const createUser = async (req, res) => {
     const { username, password, email, contact_number, status, role_id } = req.body;
@@ -9,7 +7,7 @@ const createUser = async (req, res) => {
         if (!username || !password || !role_id) {
             return res.status(400).json({ message: 'Username, password, and role_id are required.' });
         }
-        const existingUser = await prisma.user.findFirst({
+        const existingUser = await prismaRead.user.findFirst({
             where: {
                 OR: [
                     { username: username },
@@ -21,7 +19,7 @@ const createUser = async (req, res) => {
             return res.status(400).json({ message: 'Username or email already exists.' });
         }
         const password_hash = await bcrypt.hash(password, 10);
-        const newUser = await prisma.user.create({
+        const newUser = await prismaWrite.user.create({
             data: {
                 username: username,
                 password_hash: password_hash,
@@ -40,7 +38,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await prisma.user.findMany({
+        const users = await prismaRead.user.findMany({
             include: {
                 role: true
             }
@@ -56,7 +54,7 @@ const getUser = async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const user = await prisma.user.findUnique({
+        const user = await prismaRead.user.findUnique({
             where: {
                 user_id: parseInt(user_id)
             },
@@ -78,14 +76,14 @@ const getUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const { user_id } = req.params;
-    const existingUser = await prisma.user.findFirst({
+    const existingUser = await prismaRead.user.findFirst({
         where: {
             user_id: user_id
         }
     });
     if(!existingUser)
         return res.status(404).send({ message: 'User not exist!' });
-    const deleteThisGuy = await prisma.user.delete({
+    const deleteThisGuy = await prismaWrite.user.delete({
         where: {
             user_id: user_id
         }

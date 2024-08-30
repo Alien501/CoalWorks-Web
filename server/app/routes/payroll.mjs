@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
 const createPayroll = async (req, res) => {
   const { user_id, shift_id, hours_worked, overtime_hours, salary } = req.body;
@@ -8,7 +7,7 @@ const createPayroll = async (req, res) => {
   }
 
   try {
-    const newPayroll = await prisma.payroll.create({
+    const newPayroll = await prismaWrite.payroll.create({
       data: {
         user_id: parseInt(user_id),
         shift_id: parseInt(shift_id),
@@ -25,7 +24,7 @@ const createPayroll = async (req, res) => {
 
 const getAllPayrolls = async (req, res) => {
   try {
-    const allPayrolls = await prisma.payroll.findMany({
+    const allPayrolls = await prismaRead.payroll.findMany({
       include: {
         user: true,
         shift: true
@@ -40,7 +39,7 @@ const getAllPayrolls = async (req, res) => {
 const getPayroll = async (req, res) => {
   const { payroll_id } = req.params;
   try {
-    const payroll = await prisma.payroll.findUnique({
+    const payroll = await prismaRead.payroll.findUnique({
       where: { payroll_id: parseInt(payroll_id) },
       include: {
         user: true,
@@ -63,7 +62,7 @@ const updatePayrollHours = async (req, res) => {
     return res.status(400).send({ message: 'Hours worked or overtime hours must be provided!' });
   }
   try {
-    const updatedPayroll = await prisma.payroll.update({
+    const updatedPayroll = await prismaWrite.payroll.update({
       where: { payroll_id: parseInt(payroll_id) },
       data: {
         ...(hours_worked !== undefined && { hours_worked: parseFloat(hours_worked) }),
@@ -83,7 +82,7 @@ const updatePayrollSalary = async (req, res) => {
     return res.status(400).send({ message: 'Salary must be provided!' });
   }
   try {
-    const updatedPayroll = await prisma.payroll.update({
+    const updatedPayroll = await prismaWrite.payroll.update({
       where: { payroll_id: parseInt(payroll_id) },
       data: { salary: parseFloat(salary) }
     });
@@ -95,7 +94,7 @@ const updatePayrollSalary = async (req, res) => {
 
 const deletePayroll = async (req, res) => {
   const { payroll_id } = req.params;
-  const payrollId = await prisma.payroll.findFirst({
+  const payrollId = await prismaRead.payroll.findFirst({
       where: { payroll_id: payroll_id }
   });
 
@@ -103,7 +102,7 @@ const deletePayroll = async (req, res) => {
       return res.status(404).json({ message: 'Payroll not found.' });
   }
 
-  const deleteThisPayroll = await prisma.payroll.delete({
+  const deleteThisPayroll = await prismaWrite.payroll.delete({
       where: {
           payroll_id: payroll_id
       }

@@ -7,10 +7,11 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
+COPY prisma ./prisma/
 
 # Install all dependencies
 RUN npm ci
-RUN npx prisma init
+RUN npx prisma generate
 
 # Copy the rest of the application code
 COPY . .

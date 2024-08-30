@@ -1,15 +1,15 @@
 services:
-  # server-1:
-  #   build:
-  #     context: ./server
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./server:/app
-  #     - /app/node_modules
-  #   depends_on:
-  #     - postgresql-master
+  server-1:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - postgresql-master
 
   # server-2:
   #   build: ./server-2

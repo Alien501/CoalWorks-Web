@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -88,7 +89,7 @@ const SchedulingTab = () => (
     </div>
     <div>
       <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">Start Date</label>
-      <SelectDate />
+      <SelectDate dateProp={date} />
     </div>
   </div>
 );

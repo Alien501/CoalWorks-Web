@@ -1,11 +1,4 @@
 import { Router } from "express";
-import { createUser, getAllUsers, getUser } from "./user.mjs";
-import { createRole, getAllRoles, getRole } from "./role.mjs";
-import { createShift, getAllShifts, updateShiftSchedule } from "./shift.mjs";
-import { createTask, getAllTasks, getTasks, putTask, tasksStatus } from "./tasks.mjs";
-import { createAlert, getAlert, getAllAlerts, updateAlertStatus } from "./alerts.mjs";
-import { createMachinery, getAllMachinery, getMachinery, updateMachineryStatus, updateMachineryMaintenance } from "./machinery.mjs";
-import { createSafetyCompliance, getAllSafetyCompliances, getSafetyCompliance, updateComplianceStatus } from "./safetyCompliance.mjs";
 import { createUser, deleteUser, getAllUsers, getUser } from "./user.mjs";
 import { createRole, deleteRole, getAllRoles, getRole } from "./role.mjs";
 import { createShift, deleteShift, getAllShifts, updateShiftSchedule } from "./shift.mjs";

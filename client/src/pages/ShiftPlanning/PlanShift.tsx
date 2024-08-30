@@ -1,11 +1,23 @@
+//@ts-nocheck
 import { Badge } from "@/components/ui/badge";
 import AddShift from "./AddShift";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Table, TableBody, TableHeader, TableCell, TableRow, TableHead } from "@/components/ui/table";
 import MySelectBox from "@/components/mine/MySelectbox/MySelectbox";
+import { useEffect, useState } from "react";
+import axios from "axios"
 
 const PlanShift = () => {
+  const [shiftDetails, setShiftDetails] = useState([]);
+  useEffect(() => {
+    const getAllShiftDetail = (async () => {
+      const res = await axios.get("http://localhost:3000/api/v1/shift/all");
+      console.log(res.data);
+      setShiftDetails(res.data);
+    })
+    getAllShiftDetail();
+  },[])
   const shiftStatus = [
     {
       text: <Badge variant={'default'}>Not Started</Badge>,
@@ -25,7 +37,7 @@ const PlanShift = () => {
     }
   ];
 
-  return(
+  return (
     <div className="w-[95%] h-full">
       <div className="flex p-1 justify-between items-center">
         <p className="text-sm font-medium">Mange Shifts</p>
@@ -34,7 +46,7 @@ const PlanShift = () => {
             <PlusIcon />
             Create New Shift
           </Button>
-        }/>
+        } />
       </div>
       <div>
         <Table className="border">
@@ -42,74 +54,34 @@ const PlanShift = () => {
             <TableRow>
               <TableHead>Shift ID</TableHead>
               <TableHead>Shift Date</TableHead>
-              <TableHead>Shift Time</TableHead>
+              <TableHead>Shift Start Time</TableHead>
+              <TableHead>Shift End Time</TableHead>
               <TableHead>Supervisor Name</TableHead>
-              <TableHead>Mine No</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Edit</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>S001</TableCell>
-              <TableCell>24/8/24</TableCell>
-              <TableCell>8:00 pm</TableCell>
-              <TableCell>Nesamani</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell>
-              <TableCell>
-                <AddShift trigger={
-                  <Button variant={'secondary'}>
-                    Edit
-                  </Button>
-                } />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>S002</TableCell>
-              <TableCell>23/8/24</TableCell>
-              <TableCell>8:00 pm</TableCell>
-              <TableCell>Nesamani</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell>
-              <TableCell>
-                <AddShift trigger={
-                  <Button variant={'secondary'}>
-                    Edit
-                  </Button>
-                } />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>S003</TableCell>
-              <TableCell>24/8/24</TableCell>
-              <TableCell>8:00 pm</TableCell>
-              <TableCell>Nesamani</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell>
-              <TableCell>
-                <AddShift trigger={
-                  <Button variant={'secondary'}>
-                    Edit
-                  </Button>
-                } />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>S004</TableCell>
-              <TableCell>24/8/24</TableCell>
-              <TableCell>8:00 pm</TableCell>
-              <TableCell>Nesamani</TableCell>
-              <TableCell>0</TableCell>
-              <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell>
-              <TableCell>
-                <AddShift trigger={
-                  <Button variant={'secondary'}>
-                    Edit
-                  </Button>
-                } />
-              </TableCell>
-            </TableRow>
+            {
+              shiftDetails.map((shift, index) => {
+                <TableRow>
+                  <TableCell>{shift.shift_id}</TableCell>
+                  <TableCell>{shift.date}</TableCell>
+                  <TableCell>{shift.start_time}</TableCell>
+                  <TableCell>{shift.end_time}</TableCell>
+                  <TableCell>{shift.supervisor.username}</TableCell>
+                  <TableCell>{shift.status}</TableCell>
+                  {/* <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell> */}
+                  <TableCell>
+                    <AddShift trigger={
+                      <Button variant={'secondary'}>
+                        Edit
+                      </Button>
+                    } />
+                  </TableCell>
+                </TableRow>
+              })
+            }
           </TableBody>
         </Table>
       </div>

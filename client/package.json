@@ -28,6 +28,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tanstack/react-table": "^8.20.1",
     "@types/react-map-gl": "^6.1.6",
+    "axios": "^1.7.5",
     "class-variance-authority": "^0.7.0",
     "client": "file:",
     "clsx": "^2.1.1",

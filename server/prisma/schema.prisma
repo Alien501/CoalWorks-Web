@@ -135,3 +135,30 @@ model Payroll {
   user           User          @relation("PayrollsForUser", fields: [user_id], references: [user_id])
   shift          ShiftSchedule @relation(fields: [shift_id], references: [shift_id])
 }
+
+model SensorNode {
+  node_id @id @default(autoincrement())
+  p Float
+  gas Float
+  vibration Float
+  temphum Float
+  sound Float
+  sos String
+}
+
+model SensorWorker {
+  worker_id Int @id
+  user User @relation(fields: [worker_id], references: [user_id])
+  p Float
+  spo2 Float
+  falldetection Float
+}
+
+model ShiftLog {
+  log_id Int @id @default(autoincrement())
+  worker_id Int
+  worker User @relation(fields: [worker_id], references: [user_id])
+  log_details String
+  issue_type String
+  site String
+}

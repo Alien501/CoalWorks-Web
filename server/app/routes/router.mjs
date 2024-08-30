@@ -1,4 +1,5 @@
 import { Router } from "express";
+<<<<<<< HEAD
 import { createUser, deleteUser, getAllUsers, getUser } from "./user.mjs";
 import { createRole, deleteRole, getAllRoles, getRole } from "./role.mjs";
 import { createShift, deleteShift, getAllShifts, updateShiftSchedule } from "./shift.mjs";
@@ -9,6 +10,19 @@ import { createSafetyCompliance, deleteSafety, getAllSafetyCompliances, getSafet
 import { createReport, getAllReports, getReport } from "./report.mjs";
 import { createPayroll, deletePayroll, getAllPayrolls, getPayroll, updatePayrollHours, updatePayrollSalary } from "./payroll.mjs";
 import { createIncident, deleteIncident, getAllIncidents, getIncident, modifyIncident } from "./incident.mjs";
+=======
+import {createUser, deleteUser, getAllUsers, getUser} from "./user.mjs";
+import {createRole, deleteRole, getAllRoles, getRole} from "./role.mjs";
+import {createShift, deleteShift, getAllShifts, updateShiftSchedule} from "./shift.mjs";
+import {createTask, deleteTask, getAllTasks, getTasks, putTask, tasksStatus} from "./tasks.mjs";
+import {createAlert, deleteAlert, getAlert, getAllAlerts, updateAlertStatus} from "./alerts.mjs";
+import {createMachinery, deleteMachinery, getAllMachinery, getMachinery,updateMachineryStatus, updateMachineryMaintenance} from "./machinery.mjs";
+import {createSafetyCompliance, deleteSafety, getAllSafetyCompliances,getSafetyCompliance, updateComplianceStatus} from "./safetyCompliance.mjs";
+import {createReport, getAllReports, getReport} from "./report.mjs";
+import {createPayroll, deletePayroll, getAllPayrolls, getPayroll,updatePayrollHours, updatePayrollSalary} from "./payroll.mjs";
+import {createIncident, deleteIncident, getAllIncidents, getIncident, modifyIncident} from "./incident.mjs";
+
+>>>>>>> origin/main
 const router = Router();
 
 router.get('/', (req, res) => {

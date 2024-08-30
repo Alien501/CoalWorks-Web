@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
+
 
 const createMachinery = async (req, res) => {
   const { machine_name, status, last_maintenance_date, location } = req.body;
@@ -8,7 +8,7 @@ const createMachinery = async (req, res) => {
   }
 
   try {
-    const newMachinery = await prisma.machinery.create({
+    const newMachinery = await prismaWrite.machinery.create({
       data: {
         machine_name,
         status,
@@ -24,7 +24,7 @@ const createMachinery = async (req, res) => {
 
 const getAllMachinery = async (req, res) => {
   try {
-    const allMachinery = await prisma.machinery.findMany();
+    const allMachinery = await prismaRead.machinery.findMany();
     return res.status(200).send({ message: 'All machinery retrieved', data: allMachinery });
   } catch (error) {
     return res.status(500).send({ message: 'Error retrieving machinery', error: error.message });
@@ -34,7 +34,7 @@ const getAllMachinery = async (req, res) => {
 const getMachinery = async (req, res) => {
   const { machine_id } = req.params;
   try {
-    const machinery = await prisma.machinery.findUnique({
+    const machinery = await prismaRead.machinery.findUnique({
       where: { machine_id: parseInt(machine_id) }
     });
     if (!machinery) {
@@ -53,7 +53,7 @@ const updateMachineryStatus = async (req, res) => {
     return res.status(400).send({ message: 'Status is required!' });
   }
   try {
-    const updatedMachinery = await prisma.machinery.update({
+    const updatedMachinery = await prismaWrite.machinery.update({
       where: { machine_id: parseInt(machine_id) },
       data: { status }
     });
@@ -70,7 +70,7 @@ const updateMachineryMaintenance = async (req, res) => {
     return res.status(400).send({ message: 'Maintenance date is required!' });
   }
   try {
-    const updatedMachinery = await prisma.machinery.update({
+    const updatedMachinery = await prismaWrite.machinery.update({
       where: { machine_id: parseInt(machine_id) },
       data: { last_maintenance_date: new Date(last_maintenance_date) }
     });
@@ -82,7 +82,7 @@ const updateMachineryMaintenance = async (req, res) => {
 
 const deleteMachinery = async (req, res) => {
   const { machine_id } = req.params;
-  const machineId = await prisma.machinery.findFirst({
+  const machineId = await prismaRead.machinery.findFirst({
       where: { machine_id: machine_id }
   });
 
@@ -90,12 +90,12 @@ const deleteMachinery = async (req, res) => {
       return res.status(404).json({ message: 'Mahcinery not found.' });
   }
 
-  const deleteThisMachinery = await prisma.machinery.delete({
+  const deleteThisMachinery = await prismaWrite.machinery.delete({
       where: {
           machine_id: machine_id
       }
   })
-  if(deleteThisIncident)
+  if(deleteThisMachinery)
       return res.status(200).send({ message: 'Deleted machine sucessfully!' })
   return res.status(500).send({ message: "Somthing went wrong while deleting!" })
 }

@@ -1,8 +1,5 @@
-import express from "express";
-import { PrismaClient } from "@prisma/client";
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
-const prisma = new PrismaClient();
-export const tasks = express.Router();
 
 const createTask = async (req, res) => {
     const { task_description, assigned_to_id, shift_id, status } = req.body;
@@ -12,7 +9,7 @@ const createTask = async (req, res) => {
             return res.status(400).json({ message: 'Missing required fields.' });
         }
 
-        const newTask = await prisma.task.create({
+        const newTask = await prismaWrite.task.create({
             data: {
                 task_description,
                 assigned_to_id: parseInt(assigned_to_id, 10),
@@ -33,7 +30,7 @@ const putTask = async (req, res) => {
     const { task_description, assigned_to_id, shift_id, status } = req.body;
 
     try {
-        const updatedTask = await prisma.task.update({
+        const updatedTask = await prismaWrite.task.update({
             where: { task_id: parseInt(task_id, 10) },
             data: {
                 task_description,
@@ -58,7 +55,7 @@ const getTasks = async (req, res) => {
     const { task_id } = req.params;
 
     try {
-        const task = await prisma.task.findUnique({
+        const task = await prismaRead.task.findUnique({
             where: { task_id: parseInt(task_id, 10) },
             include: { assigned_to: true, shift: true }
         });
@@ -76,7 +73,7 @@ const getTasks = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const allTasks = await prisma.task.findMany({
+        const allTasks = await prismaRead.task.findMany({
             include: { assigned_to: true, shift: true }
         });
 
@@ -96,7 +93,7 @@ const tasksStatus = async (req, res) => {
             return res.status(400).json({ message: 'Invalid status value.' });
         }
 
-        const updatedTask = await prisma.task.update({
+        const updatedTask = await prismaWrite.task.update({
             where: { task_id: parseInt(task_id, 10) },
             data: { status: status }
         });
@@ -115,7 +112,7 @@ const tasksStatus = async (req, res) => {
 
 const deleteTask = async (req, res) => {
     const { task_id } = req.params;
-    const taskId = await prisma.task.findFirst({
+    const taskId = await prismaRead.task.findFirst({
         where: { task_id: task_id }
     });
 
@@ -123,7 +120,7 @@ const deleteTask = async (req, res) => {
         return res.status(404).json({ message: 'Task not found.' });
     }
 
-    const deleteThistask = await prisma.task.delete({
+    const deleteThistask = await prismaWrite.task.delete({
         where: {
             task_id: task_id
         }

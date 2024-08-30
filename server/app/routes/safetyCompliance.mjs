@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
+
 
 const createSafetyCompliance = async (req, res) => {
   const { safety_supervisor_id, machine_id, compliance_status, date_checked } = req.body;
@@ -8,7 +8,7 @@ const createSafetyCompliance = async (req, res) => {
   }
 
   try {
-    const newCompliance = await prisma.safetyCompliance.create({
+    const newCompliance = await prismaWrite.safetyCompliance.create({
       data: {
         safety_supervisor_id: parseInt(safety_supervisor_id),
         machine_id: parseInt(machine_id),
@@ -24,7 +24,7 @@ const createSafetyCompliance = async (req, res) => {
 
 const getAllSafetyCompliances = async (req, res) => {
   try {
-    const allCompliances = await prisma.safetyCompliance.findMany({
+    const allCompliances = await prismaRead.safetyCompliance.findMany({
       include: {
         safety_supervisor: true,
         machine: true
@@ -39,7 +39,7 @@ const getAllSafetyCompliances = async (req, res) => {
 const getSafetyCompliance = async (req, res) => {
   const { compliance_id } = req.params;
   try {
-    const compliance = await prisma.safetyCompliance.findUnique({
+    const compliance = await prismaRead.safetyCompliance.findUnique({
       where: { compliance_id: parseInt(compliance_id) },
       include: {
         safety_supervisor: true,
@@ -62,7 +62,7 @@ const updateComplianceStatus = async (req, res) => {
     return res.status(400).send({ message: 'Compliance status is required!' });
   }
   try {
-    const updatedCompliance = await prisma.safetyCompliance.update({
+    const updatedCompliance = await prismaWrite.safetyCompliance.update({
       where: { compliance_id: parseInt(compliance_id) },
       data: { compliance_status }
     });
@@ -74,7 +74,7 @@ const updateComplianceStatus = async (req, res) => {
 
 const deleteSafety = async (req, res) => {
   const { compliance_id } = req.params;
-  const complianceId = await prisma.safetyCompliance.findFirst({
+  const complianceId = await prismaRead.safetyCompliance.findFirst({
       where: { compliance_id: compliance_id }
   });
 
@@ -82,7 +82,7 @@ const deleteSafety = async (req, res) => {
       return res.status(404).json({ message: 'Compliance not found.' });
   }
 
-  const deleteThisCompliance = await prisma.safetyCompliance.delete({
+  const deleteThisCompliance = await prismaWrite.safetyCompliance.delete({
       where: {
           compliance_id: compliance_id
       }

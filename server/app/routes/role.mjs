@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
-const prisma = new PrismaClient();
 
 const createRole = async (req, res) => {
     const { role_name } = req.body;
@@ -8,14 +7,14 @@ const createRole = async (req, res) => {
         if (!role_name) {
             return res.status(400).json({ message: 'Role name is required.' });
         }
-        const existingRole = await prisma.role.findUnique({
+        const existingRole = await prismaRead.role.findUnique({
             where: { role_name: role_name }
         });
 
         if (existingRole) {
             return res.status(400).json({ message: 'Role already exists.' });
         }
-        const newRole = await prisma.role.create({
+        const newRole = await prismaWrite.role.create({
             data: {
                 role_name: role_name
             }
@@ -29,7 +28,7 @@ const createRole = async (req, res) => {
 
 const getAllRoles = async (req, res) => {
     try {
-        const roles = await prisma.role.findMany();
+        const roles = await prismaRead.role.findMany();
         res.status(200).json(roles);
     } catch (error) {
         console.error(error);
@@ -40,7 +39,7 @@ const getAllRoles = async (req, res) => {
 const getRole = async (req, res) => {
     const { role_id } = req.params;
     try {
-        const role = await prisma.role.findUnique({
+        const role = await prismaWrite.role.findUnique({
             where: {
                 role_id: parseInt(role_id)
             }
@@ -58,17 +57,17 @@ const getRole = async (req, res) => {
 
 const deleteRole = async (req, res) => {
     const { role_id } = req.params;
-    const existingRole = await prisma.role.findUnique({
+    const existingRole = await prismaRead.role.findUnique({
         where: { role_id: role_id }
     });
     if(!existingRole)
         return res.status(404).send('Role not found!');
-    const deleteTHisRole = await prisma.role.delete({
+    const deleteThisRole = await prismaWrite.role.delete({
         where: {
             role_id: role_id
         }
     })
-    if(deleteRole)
+    if(deleteThisRole)
         return res.status(200).send({message: 'Deleted this role successfully!'});
     return res.status(500).send({ message: 'Somthing went wrong while deleting this role!' })
 }

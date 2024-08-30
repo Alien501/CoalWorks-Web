@@ -74,7 +74,7 @@ const PlanShift = () => {
                   <TableCell ><span className={`${shift.status.toLowerCase()==='completed'?"bg-green-500": shift.status.toLowerCase()==="inprogress"?"bg-yellow-500" :"bg-slate-400 "} rounded-full px-3 py-2 my-1`}>{shift.status}</span></TableCell>
                   {/* <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell> */}
                   <TableCell>
-                    <EditShift shift={shift} trigger={
+                    <EditShift trigger={
                       <Button variant={'secondary'}>
                         Edit
                       </Button>

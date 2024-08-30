@@ -1,16 +1,4 @@
 import { Router } from "express";
-<<<<<<< HEAD
-import { createUser, deleteUser, getAllUsers, getUser } from "./user.mjs";
-import { createRole, deleteRole, getAllRoles, getRole } from "./role.mjs";
-import { createShift, deleteShift, getAllShifts, updateShiftSchedule } from "./shift.mjs";
-import { createTask, deleteTask, getAllTasks, getTasks, putTask, tasksStatus } from "./tasks.mjs";
-import { createAlert, deleteAlert, getAlert, getAllAlerts, updateAlertStatus } from "./alerts.mjs";
-import { createMachinery, getAllMachinery, getMachinery, updateMachineryStatus, updateMachineryMaintenance, deleteMachinery } from "./machinery.mjs";
-import { createSafetyCompliance, deleteSafety, getAllSafetyCompliances, getSafetyCompliance, updateComplianceStatus } from "./safetyCompliance.mjs";
-import { createReport, getAllReports, getReport } from "./report.mjs";
-import { createPayroll, deletePayroll, getAllPayrolls, getPayroll, updatePayrollHours, updatePayrollSalary } from "./payroll.mjs";
-import { createIncident, deleteIncident, getAllIncidents, getIncident, modifyIncident } from "./incident.mjs";
-=======
 import {createUser, deleteUser, getAllUsers, getUser} from "./user.mjs";
 import {createRole, deleteRole, getAllRoles, getRole} from "./role.mjs";
 import {createShift, deleteShift, getAllShifts, updateShiftSchedule} from "./shift.mjs";
@@ -21,8 +9,8 @@ import {createSafetyCompliance, deleteSafety, getAllSafetyCompliances,getSafetyC
 import {createReport, getAllReports, getReport} from "./report.mjs";
 import {createPayroll, deletePayroll, getAllPayrolls, getPayroll,updatePayrollHours, updatePayrollSalary} from "./payroll.mjs";
 import {createIncident, deleteIncident, getAllIncidents, getIncident, modifyIncident} from "./incident.mjs";
+import { sensorData } from "./sensors.mjs";
 
->>>>>>> origin/main
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -99,6 +87,10 @@ router.get('/payroll/all', getAllPayrolls);
 router.get('/payroll/:payroll_id', getPayroll);
 router.put('/payroll/hours/:payroll_id', updatePayrollHours);
 router.delete('/payroll/delete/:payroll_id', deletePayroll);
+
+// Sensor Data
+
+router.post('/sensor/iot-data', sensorData);
 
 
 export { router };

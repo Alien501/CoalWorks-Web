@@ -47,7 +47,7 @@ const LBar = () => {
           <NavMenu to='/shift-planning' icon={<RocketIcon />} text='Shift Planning' />
           <NavMenu to='/alerts' icon={<ExclamationTriangleIcon />} text='Alerts' />
           <NavMenu to='/shiftlogs' icon={<FileTextIcon />} text='Logs' />
-          <NavMenu to='/' icon={<CrumpledPaperIcon />} text='Operator' />
+          <NavMenu to='/sensordata' icon={<CrumpledPaperIcon />} text='Sensors Data' />
         </div>
       </div>
     </>

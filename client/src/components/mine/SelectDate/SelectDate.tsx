@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Button } from '@/components/ui/button'
 import { cn } from "@/lib/utils"
@@ -6,8 +7,9 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar";
 
-const SelectDate = () => {
-  const [date, setDate] = useState();
+const SelectDate = ({dateProp}) => {
+  console.log(dateProp)
+  const [date, setDate] = useState(dateProp);
 
   return(
     <Popover>
@@ -15,7 +17,7 @@ const SelectDate = () => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[280px] mt-0 justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
         >

@@ -63,24 +63,24 @@ const PlanShift = () => {
           </TableHeader>
           <TableBody>
             {
-              shiftDetails && shiftDetails.map((shift, index) => {
+              shiftDetails.map((shift, index) => (
                 <TableRow key={index} className="text-black">
                   <TableCell>{shift.shift_id}</TableCell>
-                  <TableCell>hello</TableCell>
-                  <TableCell>{shift.start_time}</TableCell>
-                  <TableCell>{shift.end_time}</TableCell>
+                  <TableCell> {shift.date.split('T')[0]}</TableCell>
+                  <TableCell>{shift.start_time.split('T')[1].split(':').slice(0, 2).join(':')}</TableCell>
+                  <TableCell>{shift.end_time.split('T')[1].split(':').slice(0, 2).join(':')}</TableCell>
                   <TableCell>{shift.supervisor.username}</TableCell>
-                  <TableCell>{shift.status}</TableCell>
+                  <TableCell ><span className={`${shift.status.toLowerCase()==='completed'?"bg-green-500": shift.status.toLowerCase()==="inprogress"?"bg-yellow-500" :"bg-slate-400 "} rounded-full px-3 py-2 my-1`}>{shift.status}</span></TableCell>
                   {/* <TableCell><MySelectBox placeholder={'Shift Status'} content={shiftStatus} /></TableCell> */}
                   <TableCell>
-                    <AddShift trigger={
+                    <AddShift shift={shift} trigger={
                       <Button variant={'secondary'}>
                         Edit
                       </Button>
                     } />
                   </TableCell>
                 </TableRow>
-              })
+              ))
             }
           </TableBody>
         </Table>

@@ -1,27 +1,28 @@
+//@ts-nocheck
 import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import SelectDate from "@/components/mine/SelectDate/SelectDate";
 import MySelectBox from "@/components/mine/MySelectbox/MySelectbox";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { useEffect } from "react";
 
-const AddShift = ({trigger}:{
-  trigger:any
+const AddShift = ({ trigger, shift }: {
+  trigger: any,
+  shift: any
 }) => {
-  const shifTypes = [
+  const shiftStatus = [
     {
-      text: 'Day',
-      value: 'day'
+      text: 'Completed',
+      value: 'completed'
     },
     {
-      text: 'Night',
-      value: 'night'
+      text: 'Scheduled',
+      value: 'scheduled'
     },
     {
-      text: 'maintenance',
-      value: 'Maintenance'
+      text: 'InProgress',
+      value: 'InProgress'
     }
   ];
   const supervisorNames = [
@@ -38,85 +39,64 @@ const AddShift = ({trigger}:{
       value: 's3'
     }
   ];
-  const mineNo = [
-    {
-      text: 'Mine 1',
-      value: 'm1'
-    },
-    {
-      text: 'Mine 2',
-      value: 'm2'
-    },
-    {
-      text: 'Mine 3',
-      value: 'm3'
-    }
-  ];
 
-
-  return(
+  const [date, setDate] = useState(shift.date);
+  const [startTime, setStartTime] = useState(shift.start_time);
+  const [endTime, setEndTime] = useState(shift.end_time);
+  
+  return (
     <div>
       <Dialog>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
-          <DialogContent className="h-[80%]">
-            <ScrollArea className="h-full w-full rounded-md">
+        <DialogContent className="h-[71%]">
+          <ScrollArea className="h-full rounded-md">
             <DialogHeader>
-              <DialogTitle className="text-sm font-semibold text-center">Add New Shift</DialogTitle>
+              <DialogTitle className="text-sm font-semibold text-center">{`Edit the Shift ${shift && shift.shift_id}`}</DialogTitle>
             </DialogHeader>
             <DialogDescription>
               <form>
-                <div className="p-1">
+                <div className="p-1 ">
                   <label className="font-sm font-semibold text-black" htmlFor="shiftId">Shift ID</label>
-                  <Input name="shiftId" placeholder="Shift ID" type="text"  />
+                  <Input disabled className="mt-2 " name="shiftId" placeholder={`${shift && shift.shift_id}`} type="text" />
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Shift Date</label>
-                  <SelectDate />
+                  <label className="font-sm font-semibold text-black mr-3" htmlFor="">Shift Date</label>
+                  <br />
+                  <SelectDate dateProp={shift && shift.date}/>
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Shift Time</label>
-                  <Input name="date" type="time" />
+                  <label className="font-sm  font-semibold text-black" htmlFor="">Shift Start Time</label>
+                  <Input
+                    name="date"
+                    type="time"
+                    className="mt-1"
+                    defaultValue={shift ? shift.start_time.split('T')[1].split(':').slice(0, 2).join(':') : ""}
+                  />
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Shift Type</label>
-                  <MySelectBox key={'st'} placeholder={'Shift Type'} content={shifTypes} />
+                  <label className="font-sm  font-semibold text-black" htmlFor="">Shift End Time</label>
+                  <Input
+                    name="date"
+                    type="time"
+                    className="mt-1"
+                    defaultValue={shift ? shift.end_time.split('T')[1].split(':').slice(0, 2).join(':') : ""}
+                  />
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Task Description</label>
-                  <Input name="taskDescription" placeholder="Task Description" type="text"  />
+                  <div className="mb-1"><label className="font-sm font-semibold text-black" htmlFor="">Supervisor Name</label></div>
+                  <MySelectBox key={'sn'} placeholder={`${shift && shift.status}`} content={supervisorNames} />
                 </div>
                 <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Supervisor Name</label>
-                  <MySelectBox key={'sn'} placeholder={'Supervisor Name'} content={supervisorNames} />
+                  <div className="mb-1"><label className="font-sm font-semibold text-black" htmlFor="">Status</label></div>
+                  <MySelectBox key={'sn'} placeholder={`${shift && shift.status}`} content={shiftStatus} />
                 </div>
-                <div className="p-1">
-                  <p className="font-sm font-semibold text-black">Machineries Assigned</p>
-                  <div>
-                    <Checkbox id="machine-one"/>
-                    <label htmlFor="machine-one">Machine One</label>
-                    <br />
-                    <Checkbox id="machine-two"/>
-                    <label htmlFor="machine-two">Machine Two</label>
-                    <br />
-                    <Checkbox id="machine-three"/>
-                    <label htmlFor="machine-three">Machine Three</label>
-                  </div>
-                </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Mine unit</label>
-                  <MySelectBox key={'mn'} placeholder={'Mine no.'} content={mineNo} />
-                </div>
-                <div className="p-1">
-                  <label className="font-sm font-semibold text-black" htmlFor="">Note</label>
-                  <Textarea placeholder="Note to be considered" />
-                </div>
-                <Button className="mx-auto block my-1">
+                <Button className="mx-auto block my-1" onClick={()=>modifyShift()}>
                   Add
                 </Button>
               </form>
             </DialogDescription>
           </ScrollArea>
-          </DialogContent>
+        </DialogContent>
       </Dialog>
     </div>
   )

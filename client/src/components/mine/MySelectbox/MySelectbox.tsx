@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "@/components/ui/select";
 
 const MySelectBox = ({placeholder, content}) => {

@@ -82,7 +82,7 @@ export const SensorData = () => {
     };
 
     return (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden font-poppins">
             <LBar />
             <div className="my-14 ml-16 mr-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
@@ -103,7 +103,7 @@ export const SensorData = () => {
                         <Line data={soundData} />
                     </div>
                 </div>
-                <span className="font-bold text-xl font-mono">Detailed Logs</span>
+                <span className="font-bold text-xl">Detailed Logs</span>
                 <div className="h-[300px] overflow-y-scroll">
                     <Table className="">
                         <TableHeader>

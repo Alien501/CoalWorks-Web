@@ -11,12 +11,12 @@ services:
     depends_on:
       - postgresql-master
 
-  # server-2:
-  #   build: ./server-2
-  #   ports:
-  #     - "3001:3001"
-  #   volumes:
-  #     - ./server:/app-2
+  iot-service:
+    build: ./iot-service
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./iot-service:/app-2
 
   hw-gateway:
     build: ./gateway-1

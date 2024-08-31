@@ -1,5 +1,7 @@
+import { PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt"
-import { prismaRead, prismaWrite } from "../db/prisma.mjs";
+
+const prisma = new PrismaClient()
 
 const createUser = async (req, res) => {
     const { username, password, email, contact_number, status, role_id } = req.body;
@@ -7,7 +9,7 @@ const createUser = async (req, res) => {
         if (!username || !password || !role_id) {
             return res.status(400).json({ message: 'Username, password, and role_id are required.' });
         }
-        const existingUser = await prismaRead.user.findFirst({
+        const existingUser = await prisma.user.findFirst({
             where: {
                 OR: [
                     { username: username },
@@ -19,7 +21,7 @@ const createUser = async (req, res) => {
             return res.status(400).json({ message: 'Username or email already exists.' });
         }
         const password_hash = await bcrypt.hash(password, 10);
-        const newUser = await prismaWrite.user.create({
+        const newUser = await prisma.user.create({
             data: {
                 username: username,
                 password_hash: password_hash,
@@ -50,7 +52,7 @@ const getUser = async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const user = await prismaRead.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
                 user_id: parseInt(user_id)
             },
@@ -70,28 +72,42 @@ const getUser = async (req, res) => {
     }
 }
 
-const deleteUser = async (req, res) => {
-    const { user_id } = req.params;
-    const existingUser = await prismaRead.user.findFirst({
+const getAllSupervisor = async (req, res) => {
+    try {
+      // Find the role ID for the "Supervisor" role
+      const supervisorRole = await prisma.role.findUnique({
         where: {
-            user_id: user_id
+          name: "Supervisor"
+        },
+        select: {
+          id: true
         }
-    });
-    if(!existingUser)
-        return res.status(404).send({ message: 'User not exist!' });
-    const deleteThisGuy = await prismaWrite.user.delete({
+      });
+
+      if (!supervisorRole) {
+        return res.status(404).json({ error: "Supervisor role not found" });
+      }
+
+      const supervisors = await prisma.user.findMany({
         where: {
-            user_id: user_id
+          roleId: supervisorRole.id // Assuming "roleId" is the foreign key in the user table
+        },
+        select: {
+          id: true,
+          username: true, // Assuming "username" is the field for the user's name
+          email: true, // Include other fields as needed
         }
-    })
-    if(deleteThisGuy)
-        return res.status(200).send({message: 'Deleted user Sucessfully!'});
-    return res.status(500).send({message: 'Something went wrong while deleting!'})
-}
+      });
+
+      res.status(200).json(supervisors);
+    } catch (error) {
+      console.error("Error fetching supervisors:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
 
 export {
     createUser,
     getAllUsers,
-    getUser,
-    deleteUser
+    getUser
 }

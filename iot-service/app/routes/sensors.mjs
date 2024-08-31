@@ -1,4 +1,4 @@
-import { emitSensorData } from "./websocket.mjs";
+import { emitSensorData } from "./webSocket.mjs";
 const sensorData = async(req, res) => {
     console.log("hello")
     const data = req.body;

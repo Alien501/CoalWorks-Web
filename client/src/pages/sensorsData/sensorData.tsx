@@ -8,7 +8,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const SOCKET_URL = "ws://localhost:3000";
+const SOCKET_URL = "ws://localhost:4444";
 
 export const SensorData = () => {
     const [sensorData, setSensorData] = useState([]);

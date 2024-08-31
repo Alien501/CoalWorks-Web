@@ -66,6 +66,26 @@ services:
       - POSTGRESQL_MASTER_PORT_NUMBER=5432
       - ALLOW_EMPTY_PASSWORD=yes
 
+  timescale-master:
+    image: timescale/timescaledb:latest-pg14
+    restart: always
+    ports:
+      - '5434:5432'
+    volumes:
+      - timescaledb_master_data:/var/lib/postgresql/data
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=development_database
+      - TIMESCALEDB_TELEMETRY=off
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    command: >
+      -c wal_level=replica
+      -c max_wal_senders=5
+      -c max_replication_slots=5
+      -c hot_standby=on
+
   zookeeper:
     image: bitnami/zookeeper:latest
     container_name: zookeeper
@@ -94,3 +114,4 @@ services:
 volumes:
   postgresql_master_data:
     driver: local
+  timescaledb_master_data:

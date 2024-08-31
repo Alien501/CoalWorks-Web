@@ -17,6 +17,8 @@ services:
       - "3001:3001"
     volumes:
       - ./iot-service:/app-2
+    depends_on:
+      - kafka
 
   hw-gateway:
     build: ./gateway-1
@@ -24,6 +26,8 @@ services:
       - "4001:4001"
     volumes:
       - ./gateway-1:/app/gateway-1
+    depends_on:
+      - kafka
 
   postgresql-master:
     image: bitnami/postgresql

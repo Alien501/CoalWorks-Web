@@ -31,13 +31,7 @@ const createShift = async (req, res) => {
 
 const getAllShifts = async (req, res) => {
     try {
-        const shifts = await prismaRead.shiftSchedule.findMany({
-            include: {
-                supervisor: true,
-                tasks: true,
-                payrolls: true
-            }
-        });
+        const shifts = await prismaRead.shiftSchedule.findMany();
         res.status(200).json(shifts);
     } catch (error) {
         console.error(error);

@@ -38,11 +38,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await prismaRead.user.findMany({
-            include: {
-                role: true
-            }
-        });
+        const users = await prismaRead.user.findMany();
         res.status(200).json(users);
     } catch (error) {
         console.error(error);

@@ -24,11 +24,7 @@ const createReport = async (req, res) => {
 
 const getAllReports = async (req, res) => {
   try {
-    const allReports = await prismaRead.report.findMany({
-      include: {
-        generated_by: true
-      }
-    });
+    const allReports = await prismaRead.report.findMany();
     return res.status(200).send({ message: 'All reports retrieved', data: allReports });
   } catch (error) {
     return res.status(500).send({ message: 'Error retrieving reports', error: error.message });

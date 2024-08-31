@@ -73,9 +73,7 @@ const getTasks = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const allTasks = await prismaRead.task.findMany({
-            include: { assigned_to: true, shift: true }
-        });
+        const allTasks = await prismaRead.task.findMany();
 
         res.status(200).json(allTasks);
     } catch (error) {

@@ -32,7 +32,7 @@ const createAlert = async (req, res) => {
 }
 
 const getAllAlerts = async (req, res) => {
-  const allAlerts =  await prismaRead.alert.findMany({alert_type: true});
+  const allAlerts = await prismaRead.alert.findMany();
   return res.status(200).send({
     message: 'Done!',
     data: allAlerts

@@ -24,12 +24,7 @@ const createSafetyCompliance = async (req, res) => {
 
 const getAllSafetyCompliances = async (req, res) => {
   try {
-    const allCompliances = await prismaRead.safetyCompliance.findMany({
-      include: {
-        safety_supervisor: true,
-        machine: true
-      }
-    });
+    const allCompliances = await prismaRead.safetyCompliance.findMany();
     return res.status(200).send({ message: 'All safety compliances retrieved', data: allCompliances });
   } catch (error) {
     return res.status(500).send({ message: 'Error retrieving safety compliances', error: error.message });

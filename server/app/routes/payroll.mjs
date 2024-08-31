@@ -24,12 +24,7 @@ const createPayroll = async (req, res) => {
 
 const getAllPayrolls = async (req, res) => {
   try {
-    const allPayrolls = await prismaRead.payroll.findMany({
-      include: {
-        user: true,
-        shift: true
-      }
-    });
+    const allPayrolls = await prismaRead.payroll.findMany();
     return res.status(200).send({ message: 'All payroll records retrieved', data: allPayrolls });
   } catch (error) {
     return res.status(500).send({ message: 'Error retrieving payroll records', error: error.message });

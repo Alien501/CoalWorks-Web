@@ -10,6 +10,7 @@ import GenerateReport from './pages/GenerateReport/GenerateReport'
 import {ShiftLogs} from "./pages/shiftLogs/shiftLogs"
 import { Alerts } from './pages/alerts/alerts'
 import ShiftPlanning from './pages/ShiftPlanning/ShiftPlanning'
+import { SensorData } from './pages/sensorsData/sensorData'
 
 function App() {
   const routes = createBrowserRouter([
@@ -53,6 +54,10 @@ function App() {
     {
       path: '/shiftlogs',
       element: <ShiftLogs/>
+    },
+    {
+      path: '/sensordata',
+      element: <SensorData/>
     }
   ]);
 

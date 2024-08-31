@@ -27,6 +27,7 @@ model User {
   safetyCompliances SafetyCompliance[] @relation("SafetyComplianceSupervisor")
   reportsGenerated  Report[]           @relation("ReportsGeneratedByUser")
   payrolls          Payroll[]          @relation("PayrollsForUser")
+  SensorWorker      SensorWorker[]
   ShiftLog          ShiftLog[]
 }
 
@@ -135,6 +136,24 @@ model Payroll {
   // Relations
   user  User          @relation("PayrollsForUser", fields: [user_id], references: [user_id])
   shift ShiftSchedule @relation(fields: [shift_id], references: [shift_id])
+}
+
+model SensorNode {
+  node_id   Int    @id @default(autoincrement())
+  p         Float
+  gas       Float
+  vibration Float
+  temphum   Float
+  sound     Float
+  sos       String
+}
+
+model SensorWorker {
+  worker_id     Int   @id
+  user          User  @relation(fields: [worker_id], references: [user_id])
+  p             Float
+  spo2          Float
+  falldetection Float
 }
 
 model ShiftLog {

@@ -6,7 +6,7 @@ export const Alerts = () => {
   const [showExceptions, setShowExceptions] = useState(true)
   const [showIssues, setShowIssues] = useState(true)
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className="min-h-screen overflow-hidden font-poppins">
       <LBar />
       <div className="ml-[80px] mr-[30px] my-16">
         <div>

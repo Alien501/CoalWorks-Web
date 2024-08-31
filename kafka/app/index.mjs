@@ -3,7 +3,7 @@ import { Kafka } from 'kafkajs';
 
 const kafka = new Kafka({
   clientId: 'Kafka',
-  brokers: ['localhost:9093'],
+  brokers: ['172.16.8.247:9093'],
 })
 
 const admin = kafka.admin();
@@ -16,7 +16,6 @@ admin.connect();
 
 app.post('/create-topic', async (req, res) => {
   const { topicName, numPartitions } = req.body;
-
   try {
     await admin.createTopics({
       topics: [

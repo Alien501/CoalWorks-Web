@@ -11,7 +11,7 @@ COPY prisma ./prisma/
 
 # Install all dependencies
 RUN npm ci
-RUN npx prisma generate
+# RUN npx prisma generate
 
 # Copy the rest of the application code
 COPY . .
@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the application using nodemon for development
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]

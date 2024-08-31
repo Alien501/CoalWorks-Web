@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import {createServer} from "http"
-import { configDotenv } from "dotenv";
+import { createServer } from 'http';
+import { configDotenv } from 'dotenv';
 import { handleError } from './utils/handleError.mjs';
 import { logger } from './utils/logger.mjs';
 import { run } from './kafka/kafka.mjs';
@@ -13,24 +13,25 @@ configDotenv();
 const PORT = process.env.PORT || 4444;
 const app = express();
 const httpServer = createServer(app);
-initializeWebsocket(httpServer)
+
+initializeWebsocket(httpServer);
 
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({ origin: '*' }));
 app.use(logger);
 
-// await run();
-app.use('api/v1', router);
+await run();
+
+app.use('/api/v1', router);
 app.use('/api/v1', (req, res) => {
   res.status(200).send({
     message: 'Working',
-    error: null
-  })
+    error: null,
+  });
 });
 
 app.use(handleError);
 
-app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
-})
+httpServer.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

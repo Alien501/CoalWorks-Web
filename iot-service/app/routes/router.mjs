@@ -1,9 +1,9 @@
 import express from "express"
-import { emitSensorData } from "./webSocket.mjs";
+import { sensorData } from "./sensors.mjs";
 
 const router = express.Router();
 
-router.post('/sensor/iot-data', emitSensorData);
+router.post('/sensor/iot-data', sensorData);
 
 export {
     router

@@ -1,30 +1,32 @@
 import { Server } from "socket.io";
 
 let io;
-const initializeWebsocket = (server) =>{
+
+const initializeWebsocket = (server) => {
     io = new Server(server, {
-        cors:{
-            origin:"*"
-        }
-    })
-    io.on("connection",(socket)=>{
-        console.log("websocket connection established")
-        socket.on("disconnect",()=>{
-            console.log("a client disconnected")
-        })
-    })
-}
+        cors: {
+            origin: "*", 
+        },
+    });
 
-const emitSensorData = (data)=>{
-    if(io){
-        io.emit('iot-update',data);
-    }
-    else{
-        console.error("websocket server not initialized")
-    }
-}
+    io.on("connection", (socket) => {
+        console.log("WebSocket connection established");
 
-export{
+        socket.on("disconnect", () => {
+            console.log("A client disconnected");
+        });
+    });
+};
+
+const emitSensorData = (data) => {
+    if (io) {
+        io.emit('iot-update', data); 
+    } else {
+        console.error("WebSocket server not initialized");
+    }
+};
+
+export {
     initializeWebsocket,
     emitSensorData
-}
+};

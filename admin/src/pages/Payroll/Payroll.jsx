@@ -56,12 +56,12 @@ const Payroll = () => {
     .filter(
       (payroll) => filterStatus === "All" || payroll.status === filterStatus
     )
-    .sort((a, b) => {
-      if (typeof a[sortKey] === "number" && typeof b[sortKey] === "number") {
-        return b[sortKey] - a[sortKey];
-      }
-      return a[sortKey].localeCompare(b[sortKey]);
-    });
+    // .sort((a, b) => {
+    //   if (typeof a[sortKey] === "number" && typeof b[sortKey] === "number") {
+    //     return b[sortKey] - a[sortKey];
+    //   }
+    //   return a[sortKey].localeCompare(b[sortKey]);
+    // });
 
   return (
     <div className="ml-16 mt-16 text-black">

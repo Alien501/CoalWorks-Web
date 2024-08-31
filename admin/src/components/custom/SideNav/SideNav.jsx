@@ -1,8 +1,9 @@
 import "./SideNav.css";
 import { HomeIcon } from "@radix-ui/react-icons";
-import { TbReportAnalytics } from "react-icons/tb";
-import { AiFillSafetyCertificate } from "react-icons/ai";
-import { MdOutlinePayment } from "react-icons/md";
+import { MdReportProblem } from "react-icons/md";
+import { MdEvent } from "react-icons/md";
+import { FaFirstAid } from "react-icons/fa";
+import { AiOutlineIssuesClose } from "react-icons/ai";
 import { FaUserCog, FaUserFriends } from "react-icons/fa";
 
 import {
@@ -58,16 +59,17 @@ const LBar = () => {
           />
           <NavMenu to="/operators" icon={<FaUserCog />} text="Operators" />
           <NavMenu
-            to="/productivity-report"
-            icon={<TbReportAnalytics />}
-            text="Productivity Report"
+            to="/alerts"
+            icon={<MdReportProblem />}
+            text="Alerts"
           />
           <NavMenu
-            to="/safety-report"
-            icon={<AiFillSafetyCertificate />}
-            text="Safety Report"
+            to="/events"
+            icon={<MdEvent />}
+            text="Events"
           />
-          <NavMenu to="/payroll" icon={<MdOutlinePayment />} text="Payroll" />
+          <NavMenu to="/injuries" icon={<FaFirstAid />} text="Injuries" />
+          <NavMenu to="/issues" icon={<AiOutlineIssuesClose />} text="Issues" />
         </div>
       </div>
     </>

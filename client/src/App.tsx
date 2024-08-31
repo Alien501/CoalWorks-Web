@@ -12,6 +12,10 @@ import { Alerts } from './pages/alerts/alerts'
 import ShiftPlanning from './pages/ShiftPlanning/ShiftPlanning'
 import { SensorData } from './pages/sensorsData/sensorData'
 
+import { Webchat, WebchatProvider, Fab, getClient } from "@botpress/webchat";
+import { buildTheme } from "@botpress/webchat-generator";
+import { useState } from 'react'
+import Mine from './pages/Mine/Mine'
 function App() {
   const routes = createBrowserRouter([
     {
@@ -58,6 +62,10 @@ function App() {
     {
       path: '/sensordata',
       element: <SensorData/>
+    },
+    {
+      path: '/3d',
+      element: <Mine />
     }
   ]);
 

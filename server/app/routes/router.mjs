@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createUser, deleteUser, getAllUsers, getUser} from "./user.mjs";
+import {createUser, getAllUsers, getUser} from "./user.mjs";
 import {createRole, deleteRole, getAllRoles, getRole} from "./role.mjs";
 import {createShift, deleteShift, getAllShifts, updateShiftSchedule} from "./shift.mjs";
 import {createTask, deleteTask, getAllTasks, getTasks, putTask, tasksStatus} from "./tasks.mjs";
@@ -9,7 +9,6 @@ import {createSafetyCompliance, deleteSafety, getAllSafetyCompliances,getSafetyC
 import {createReport, getAllReports, getReport} from "./report.mjs";
 import {createPayroll, deletePayroll, getAllPayrolls, getPayroll,updatePayrollHours, updatePayrollSalary} from "./payroll.mjs";
 import {createIncident, deleteIncident, getAllIncidents, getIncident, modifyIncident} from "./incident.mjs";
-import { sensorData } from "./sensors.mjs";
 
 const router = Router();
 
@@ -24,7 +23,7 @@ router.get('/', (req, res) => {
 router.post('/user/create', createUser);
 router.get('/user/all', getAllUsers);
 router.get('/user/:user_id', getUser);
-router.delete('/user/delete/:user_id', deleteUser);
+// router.delete('/user/delete/:user_id', deleteUser);
 
 // Role Routes
 router.post('/role/create', createRole);
@@ -87,10 +86,5 @@ router.get('/payroll/all', getAllPayrolls);
 router.get('/payroll/:payroll_id', getPayroll);
 router.put('/payroll/hours/:payroll_id', updatePayrollHours);
 router.delete('/payroll/delete/:payroll_id', deletePayroll);
-
-// Sensor Data
-
-router.post('/sensor/iot-data', sensorData);
-
 
 export { router };

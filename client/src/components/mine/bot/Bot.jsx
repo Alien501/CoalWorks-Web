@@ -2,8 +2,8 @@ import { Webchat, WebchatProvider, Fab, getClient } from "@botpress/webchat";
 import { buildTheme } from "@botpress/webchat-generator";
 import { useState } from "react";
 
-import './bot.css'
-import builderHat from './assets/builder-hat.png'
+// import './bot.css'
+// import builderHat from './assets/builder-hat.png'
 
 const { theme, style } = buildTheme({
   themeName: "eggplant",
@@ -40,7 +40,7 @@ const config = {
   },
 };
 
-export default function Bot() {
+const ChatBot = () => {
   const client = getClient({ clientId });
   const [isWebchatOpen, setIsWebchatOpen] = useState(false);
 
@@ -48,8 +48,8 @@ export default function Bot() {
     setIsWebchatOpen((prevState) => !prevState);
   };
 
-    return (
-      <div style={{ width: "100vw", height: "100vh" }}>
+  return (
+      <div style={{ width: "100%", height: "100%" }}>
         <style>{style}</style>
         <WebchatProvider
           key={JSON.stringify(config)}
@@ -58,16 +58,11 @@ export default function Bot() {
           configuration={config}
           client={client}
         >
-          <Fab onClick={toggleWebchat} />
-          <div
-            style={{
-              display: isWebchatOpen ? "block" : "none",
-            }}
-          >
-            <Webchat />
-          </div>
+          <Webchat />
         </WebchatProvider>
       </div>
 
   );
-  }
+}
+
+export default ChatBot;

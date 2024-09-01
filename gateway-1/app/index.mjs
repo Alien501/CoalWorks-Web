@@ -43,18 +43,20 @@ app.use('/api/v1', (req, res) => {
 
 app.post('/produce', async (req, res) => {
   const bodyData = req.body;
+  // console.log(req.body)
   if(!bodyData)
     return res.status(400).send({
       message: 'Invalid Body'
     })
 
   try {
-    await producer.send({
+    const producerRes = await producer.send({
       topic: 'iot-data',
       messages: [
         {value: JSON.stringify(bodyData)}
       ]
     })
+    console.log(producerRes);
     res.status(200).send({
       message: 'Message produced successfully',
       status: 200

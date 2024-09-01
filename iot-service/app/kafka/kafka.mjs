@@ -1,5 +1,6 @@
 import { Kafka } from "kafkajs";
 import { configDotenv } from "dotenv";
+import { emitSensorData } from "../routes/webSocket.mjs";
 
 configDotenv();
 
@@ -28,6 +29,7 @@ const run = async () => {
       });
       try {
         const parsedMessage = JSON.parse(messageValue);
+        emitSensorData(parsedMessage)
         console.log('Parsed message: ', parsedMessage);
 
       } catch (error) {

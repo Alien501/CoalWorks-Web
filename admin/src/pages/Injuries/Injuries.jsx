@@ -51,7 +51,7 @@ const Injuries = () => {
               <TableCell>{injury.injuredperson}</TableCell>
               <TableCell>{injury.location}</TableCell>
               <TableCell>{injury.severity}</TableCell>
-              <TableCell>{injury.timestamp}</TableCell>
+              <TableCell>{new Date(injury.timestamp).toLocaleString()}</TableCell>
               <TableCell>{injury.description}</TableCell>
             </TableRow>
           ))}

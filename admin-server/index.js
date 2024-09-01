@@ -77,6 +77,41 @@ app.get('/issues', async(req,res)=>{
     }
 })
 
+app.get('/tasks', async (req, res) => {
+    console.log('called');
+    try {
+        const result = await pool.query('SELECT * FROM tasks');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        res.status(500).json({ error: 'Failed to fetch tasks' });
+    }
+});
+
+app.post('/tasks', async (req, res) => {
+    console.log('Creating task');
+    const { task, isdone, allottedtime, completedtime, description } = req.body;
+
+    if (!task || allottedtime === undefined || description === undefined) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const query = `
+            INSERT INTO tasks (task, isdone, allottedtime, completedtime, description)
+            VALUES ($1, $2, $3, $4, $5) RETURNING *;
+        `;
+        const values = [task, isdone, allottedtime, completedtime, description];
+
+        const result = await pool.query(query, values);
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error creating task:', error);
+        res.status(500).json({ error: 'Failed to create task' });
+    }
+});
+
+
 // module.exports = pool;
 app.listen(3001,()=>{
     console.log("server is running!");

@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 const Alerts = () => {
   const [alerts, setAlerts] = useState([]);
@@ -48,7 +49,15 @@ const Alerts = () => {
               <TableCell>{alert.location}</TableCell>
               <TableCell>{alert.description}</TableCell>
               <TableCell>{alert.isresolved ? "Yes" : "No"}</TableCell>
-              <TableCell> {alert.urgencyLevel}</TableCell>
+              <TableCell> 
+              <Button className={`${
+    alert.urgencylevel > 7
+      ? "bg-red-600 text-white w-16 hover:bg-red-600"
+      : "bg-green-600 text-white w-16 hover:bg-green-600"
+  }`}>
+              {alert.urgencylevel}
+              </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

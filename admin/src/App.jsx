@@ -8,6 +8,7 @@ import Alerts from "./pages/Alerts/Alerts";
 import Events from "./pages/Events/Events";
 import Injuries from "./pages/Injuries/Injuries";
 import Issues from "./pages/Issues/Issues";
+import Tasks from "./pages/Tasks/Tasks";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/events" element={<Events /> }/>
           <Route path="/injuries" element={<Injuries /> }/>
           <Route path="/issues" element={<Issues /> }/>
+          <Route path="/tasks" element={<Tasks /> }/>
         </Routes>
       </div>
     </BrowserRouter>

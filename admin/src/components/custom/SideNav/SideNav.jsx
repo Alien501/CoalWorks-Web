@@ -5,6 +5,7 @@ import { MdEvent } from "react-icons/md";
 import { FaFirstAid } from "react-icons/fa";
 import { AiOutlineIssuesClose } from "react-icons/ai";
 import { FaUserCog, FaUserFriends } from "react-icons/fa";
+import { RiTaskFill } from "react-icons/ri";
 
 import {
   DropdownMenu,
@@ -70,6 +71,7 @@ const LBar = () => {
           />
           <NavMenu to="/injuries" icon={<FaFirstAid />} text="Injuries" />
           <NavMenu to="/issues" icon={<AiOutlineIssuesClose />} text="Issues" />
+          <NavMenu to="/tasks" icon={<RiTaskFill />} text="Tasks" />
         </div>
       </div>
     </>

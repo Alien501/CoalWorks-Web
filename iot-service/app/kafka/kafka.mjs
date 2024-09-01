@@ -1,7 +1,8 @@
 import { Kafka } from "kafkajs";
 import { configDotenv } from "dotenv";
 import { emitSensorData } from "../routes/webSocket.mjs";
-
+import pkg from 'pg';
+import { insertSensorData } from "../queries/insert.mjs";
 configDotenv();
 
 const kafka = new Kafka({
@@ -9,8 +10,8 @@ const kafka = new Kafka({
   brokers: ['172.16.8.247:9093'],
 });
 
+  
 const consumer = kafka.consumer({groupId: 'iot-group'});
-
 const run = async () => {
   await consumer.connect();
   console.log('Connected to kafka successfully!');
@@ -30,6 +31,7 @@ const run = async () => {
       try {
         const parsedMessage = JSON.parse(messageValue);
         emitSensorData(parsedMessage)
+        insertSensorData(parsedMessage)
         console.log('Parsed message: ', parsedMessage);
 
       } catch (error) {

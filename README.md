@@ -178,12 +178,6 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 2. Log in using your credentials.
 3. Use the **Dashboard** to manage shift logs, view task assignments, and monitor safety incidents.
 
-### Mobile App:
-
-1. Download the **CoalWorks** mobile app (available on iOS/Android).
-2. Log in with your credentials.
-3. Access shift details, log events, and receive alerts in real-time.
-
 ---
 
 ## Screenshots

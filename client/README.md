@@ -129,7 +129,7 @@ The Web App component of CoalWorks provides a robust interface for supervisors a
 ## System Design Diagrams
 
 ### Architecture Diagram
-![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png)
+![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-webAppArchitecture.png)
 
 **Description:**
 The Architecture Diagram provides a high-level overview of the CoalWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.

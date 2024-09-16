@@ -15,8 +15,8 @@ const LBar = () => {
   return (
     <>
       <div className="bg-white horizontal-bar flex flex-row justify-between items-center p-1 border-b">
-        <div className=" font-mono font-bold">
-          CoalWorks
+        <div className="">
+          App Name
         </div>
         <div className="right-content">
           <DropdownMenu>

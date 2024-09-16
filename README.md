@@ -171,32 +171,27 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 ---
 ## Screenshots
 
-### 1. Home Page
-![Home Page](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png)
-
-### 2. Critical Alerts
-![Critical Alerts](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png)
-
-### 3. Logs
-![Logs](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png)
-
-### 4. Simulation Engine
-![Simulation Engine](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png)
-
+<table>
+  <tr>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png" alt="Home Page" width="200"/><br /><sub><b>Home Page</b></sub></td>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png" alt="Critical Alerts" width="200"/><br /><sub><b>Critical Alerts</b></sub></td>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png" alt="Logs" width="200"/><br /><sub><b>Logs</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png" alt="Simulation Engine" width="200"/><br /><sub><b>Simulation Engine</b></sub></td>
+  </tr>
+</table>
 
 ## System Design Diagrams
 
-### Use Case Diagram
-![Use Case Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png)
-
-### Sequence Diagram
-![Sequence Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png)
-
-### Deployment Diagram
-![Deployment Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png)
-
-### ER Diagram
-![ER Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)
-
-### Architecture Diagram
-![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)
+<table>
+  <tr>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png" alt="Use Case Diagram" width="200"/><br /><sub><b>Use Case Diagram</b></sub></td>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png" alt="Sequence Diagram" width="200"/><br /><sub><b>Sequence Diagram</b></sub></td>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png" alt="Deployment Diagram" width="200"/><br /><sub><b>Deployment Diagram</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="200"/><br /><sub><b>ER Diagram</b></sub></td>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="Architecture Diagram" width="200"/><br /><sub><b>Architecture Diagram</b></sub></td>
+  </tr>
+</table>

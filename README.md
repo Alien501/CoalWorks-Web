@@ -168,22 +168,34 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 3. Access shift details, log events, and receive alerts in real-time.
 
 ---
-
 ## Screenshots
 
-### 1. Home Page
-![Home Page](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png)
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
 
-### 2. Critical Alerts
-![Critical Alerts](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png)
+  <div style="flex: 1; padding: 10px;">
+    <h4>Home Page</h4>
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png" alt="Home Page" width="300">
+  </div>
 
-### 3. Logs
-![Logs](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png)
+  <div style="flex: 1; padding: 10px;">
+    <h4>Critical Alerts</h4>
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png" alt="Critical Alerts" width="300">
+  </div>
 
-### 4. Simulation Engine
-![Simulation Engine](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png)
+  <div style="flex: 1; padding: 10px;">
+    <h4>Logs</h4>
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png" alt="Logs" width="300">
+  </div>
 
-### 1. ER Diagram
-![ER Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)
+  <div style="flex: 1; padding: 10px;">
+    <h4>Simulation Engine</h4>
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png" alt="Simulation Engine" width="300">
+  </div>
 
+  <div style="flex: 1; padding: 10px;">
+    <h4>ER Diagram</h4>
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="300">
+  </div>
+
+</div>
 

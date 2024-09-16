@@ -170,32 +170,31 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 ---
 ## Screenshots
 
-<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
 
-  <div style="flex: 1; padding: 10px;">
+  <div style="grid-column: span 2; grid-row: span 2;">
     <h4>Home Page</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png" alt="Home Page" width="300">
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png" alt="Home Page" width="100%" height="auto">
   </div>
 
-  <div style="flex: 1; padding: 10px;">
+  <div>
     <h4>Critical Alerts</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png" alt="Critical Alerts" width="300">
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png" alt="Critical Alerts" width="100%" height="auto">
   </div>
 
-  <div style="flex: 1; padding: 10px;">
+  <div>
     <h4>Logs</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png" alt="Logs" width="300">
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png" alt="Logs" width="100%" height="auto">
   </div>
 
-  <div style="flex: 1; padding: 10px;">
+  <div style="grid-column: span 2;">
     <h4>Simulation Engine</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png" alt="Simulation Engine" width="300">
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png" alt="Simulation Engine" width="100%" height="auto">
   </div>
 
-  <div style="flex: 1; padding: 10px;">
+  <div>
     <h4>ER Diagram</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="300">
+    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="100%" height="auto">
   </div>
 
 </div>
-

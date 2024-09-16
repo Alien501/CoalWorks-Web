@@ -192,6 +192,6 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
   </tr>
   <tr>
     <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="200"/><br /><sub><b>ER Diagram</b></sub></td>
-    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="Architecture Diagram" width="200"/><br /><sub><b>Architecture Diagram</b></sub></td>
+    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png" alt="Architecture Diagram" width="200"/><br /><sub><b>Architecture Diagram</b></sub></td>
   </tr>
 </table>

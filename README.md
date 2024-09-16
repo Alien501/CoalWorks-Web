@@ -67,6 +67,7 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 **Web App**
 - **Frontend**: Typescript, React.js, Electron.js (for both web and Desktop platforms)
 - **Backend Integration**: 
+  - **NodeJS and ExpressJS** (for the primary backend server)
   - **Kafka** (for real-time data streaming and message queuing)
   - **Zookeeper** (for managing Kafka clusters)
 - **Database**: PostgreSQL, SQLite, TimeScale DB
@@ -170,31 +171,32 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 ---
 ## Screenshots
 
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+### 1. Home Page
+![Home Page](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png)
 
-  <div style="grid-column: span 2; grid-row: span 2;">
-    <h4>Home Page</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-homePage.png" alt="Home Page" width="100%" height="auto">
-  </div>
+### 2. Critical Alerts
+![Critical Alerts](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png)
 
-  <div>
-    <h4>Critical Alerts</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-criticalAlerts.png" alt="Critical Alerts" width="100%" height="auto">
-  </div>
+### 3. Logs
+![Logs](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png)
 
-  <div>
-    <h4>Logs</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-logs.png" alt="Logs" width="100%" height="auto">
-  </div>
+### 4. Simulation Engine
+![Simulation Engine](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png)
 
-  <div style="grid-column: span 2;">
-    <h4>Simulation Engine</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-simulationEngine.png" alt="Simulation Engine" width="100%" height="auto">
-  </div>
 
-  <div>
-    <h4>ER Diagram</h4>
-    <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="100%" height="auto">
-  </div>
+## System Design Diagrams
 
-</div>
+### Use Case Diagram
+![Use Case Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png)
+
+### Sequence Diagram
+![Sequence Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png)
+
+### Deployment Diagram
+![Deployment Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png)
+
+### ER Diagram
+![ER Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)
+
+### Architecture Diagram
+![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)

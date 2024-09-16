@@ -208,6 +208,22 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 
 ## System Design Diagrams
 
+### Architecture Diagram
+![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png)
+
+**Description:**
+The Architecture Diagram provides a high-level overview of the CoalWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.
+
+**Key Points:**
+
+- **Frontend Components**: Shows the web and mobile app interfaces built with React.js and Flutter, respectively. These components interact with backend services to provide a user interface for managing shift logs, alerts, and safety compliance.
+- **Backend Services**: Illustrates the Node.js and Express.js servers that handle API requests, business logic, and data processing. They also interface with the database and Kafka for real-time data handling.
+- **Database Systems**: Includes PostgreSQL and SQLite databases, storing structured and unstructured data, respectively.
+- **AI and Machine Learning**: Depicts the TensorFlow and Python components used for predictive simulations and data analysis.
+- **Integration Points**: Highlights external integrations such as ERP systems and the file server for secure storage of documents.
+
+---
+
 ### Use Case Diagram
 ![Use Case Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png)
 
@@ -267,18 +283,4 @@ The ER Diagram provides a detailed view of the data model for CoalWorks. It maps
   - **Safety Compliance Records** are linked to specific **Users** and **Shift Logs**.
 - **Attributes**: Lists important attributes for each entity, such as IDs, timestamps, and status indicators, essential for effective data management.
 
----
 
-### Architecture Diagram
-![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png)
-
-**Description:**
-The Architecture Diagram provides a high-level overview of the CoalWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.
-
-**Key Points:**
-
-- **Frontend Components**: Shows the web and mobile app interfaces built with React.js and Flutter, respectively. These components interact with backend services to provide a user interface for managing shift logs, alerts, and safety compliance.
-- **Backend Services**: Illustrates the Node.js and Express.js servers that handle API requests, business logic, and data processing. They also interface with the database and Kafka for real-time data handling.
-- **Database Systems**: Includes PostgreSQL and SQLite databases, storing structured and unstructured data, respectively.
-- **AI and Machine Learning**: Depicts the TensorFlow and Python components used for predictive simulations and data analysis.
-- **Integration Points**: Highlights external integrations such as ERP systems and the file server for secure storage of documents.

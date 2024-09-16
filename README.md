@@ -208,30 +208,77 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 
 ## System Design Diagrams
 
-<table style="width: 100%; border-collapse: collapse;">
-  <tr>
-    <td style="width: 33.33%; text-align: center;">
-      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png" alt="Use Case Diagram" style="width: 90%; max-width: 300px;"/><br />
-      <sub><b>Use Case Diagram</b></sub>
-    </td>
-    <td style="width: 33.33%; text-align: center;">
-      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png" alt="Sequence Diagram" style="width: 90%; max-width: 300px;"/><br />
-      <sub><b>Sequence Diagram</b></sub>
-    </td>
-    <td style="width: 33.33%; text-align: center;">
-      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png" alt="Deployment Diagram" style="width: 90%; max-width: 300px;"/><br />
-      <sub><b>Deployment Diagram</b></sub>
-    </td>
-  </tr>
-  <tr>
-    <td style="width: 50%; text-align: center;">
-      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" style="width: 90%; max-width: 300px;"/><br />
-      <sub><b>ER Diagram</b></sub>
-    </td>
-    <td style="width: 50%; text-align: center;">
-      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png" alt="Architecture Diagram" style="width: 90%; max-width: 300px;"/><br />
-      <sub><b>Architecture Diagram</b></sub>
-    </td>
-  </tr>
-</table>
+### Use Case Diagram
+![Use Case Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png)
 
+**Description:**
+This Use Case Diagram illustrates the interactions between different actors (Admin, Supervisor, Worker) and the system. It depicts how each actor engages with the system's functionalities, such as managing shift logs, monitoring alerts, and handling safety protocols.
+
+**Key Points:**
+- **Admin**: Manages user roles, oversees system operations, and handles high-level configurations.
+- **Supervisor**: Monitors shift activities, tracks task progress, and manages critical alerts.
+- **Worker**: Logs shift activities, reports issues, and follows safety instructions.
+
+### Sequence Diagram
+![Sequence Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png)
+
+**Description:**
+The Sequence Diagram illustrates the flow of events and interactions between components in the CoalWorks system. It details how different parts of the application communicate during specific processes such as logging shift information, handling alerts, and updating safety data.
+
+**Key Points:**
+
+- **Shift Logging Process**: Demonstrates how a Worker logs shift activities through the mobile app. The request is sent to the backend server, which processes the data and updates the database accordingly.
+- **Alert Handling**: Shows the sequence of events when a critical alert is triggered. The system sends notifications to the Supervisor and updates the web dashboard with real-time information.
+- **Data Synchronization**: Illustrates how periodic data from IoT devices is collected via Kafka, processed by the backend, and synchronized with the database. This ensures that the web dashboard and mobile app reflect the most current information.
+- **Safety Compliance Update**: Details the steps involved in updating and reviewing safety compliance information. The Admin can review and modify safety protocols through the web interface, which communicates with the backend to store changes securely.
+
+### Deployment Diagram
+![Deployment Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png)
+
+**Description:**
+The Deployment Diagram outlines the physical arrangement of components in the CoalWorks system. It visualizes how various servers, databases, and IoT devices are deployed and interconnected, highlighting the infrastructure required to support the application's functionalities.
+
+**Key Points:**
+
+- **Web Servers**: Depicts the Nginx web server setup, which handles HTTP/HTTPS requests from Admin, Supervisor, and Worker devices. It manages load balancing and ensures secure and efficient delivery of web content.
+- **Backend Services**: Illustrates the backend servers that handle API requests, process data, and interface with the database and Kafka message broker.
+- **Database Servers**: Shows PostgreSQL and SQLite servers responsible for storing application data, including shift logs, user information, and safety compliance records.
+- **IoT Devices**: Highlights the ESP32-based IoT devices collecting real-time data from the mining environment, which is processed and transmitted to the backend via Kafka.
+- **Network Configuration**: Demonstrates how components are connected over the network, including the use of firewalls and encryption to ensure secure communication.
+
+---
+
+### ER Diagram
+![ER Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)
+
+**Description:**
+The ER Diagram provides a detailed view of the data model for CoalWorks. It maps out the entities, their attributes, and the relationships between them, showcasing how data is structured and organized within the system.
+
+**Key Points:**
+
+- **Entities**: Includes key entities such as Users, Shift Logs, Alerts, and Safety Compliance Records.
+  - **Users**: Represents Admin, Supervisor, and Worker entities with attributes like user ID, role, and credentials.
+  - **Shift Logs**: Details shift-related data including shift ID, worker ID, and log entries.
+  - **Alerts**: Contains information about critical alerts, their severity, and timestamps.
+  - **Safety Compliance**: Tracks safety management plans and compliance records.
+- **Relationships**: Illustrates how entities are connected. For example:
+  - **Users** create and manage **Shift Logs**.
+  - **Shift Logs** generate **Alerts**.
+  - **Safety Compliance Records** are linked to specific **Users** and **Shift Logs**.
+- **Attributes**: Lists important attributes for each entity, such as IDs, timestamps, and status indicators, essential for effective data management.
+
+---
+
+### Architecture Diagram
+![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png)
+
+**Description:**
+The Architecture Diagram provides a high-level overview of the CoalWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.
+
+**Key Points:**
+
+- **Frontend Components**: Shows the web and mobile app interfaces built with React.js and Flutter, respectively. These components interact with backend services to provide a user interface for managing shift logs, alerts, and safety compliance.
+- **Backend Services**: Illustrates the Node.js and Express.js servers that handle API requests, business logic, and data processing. They also interface with the database and Kafka for real-time data handling.
+- **Database Systems**: Includes PostgreSQL and SQLite databases, storing structured and unstructured data, respectively.
+- **AI and Machine Learning**: Depicts the TensorFlow and Python components used for predictive simulations and data analysis.
+- **Integration Points**: Highlights external integrations such as ERP systems and the file server for secure storage of documents.

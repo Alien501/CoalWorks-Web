@@ -214,14 +214,30 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 
 ## System Design Diagrams
 
-<table>
+<table style="width: 100%; border-collapse: collapse;">
   <tr>
-    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png" alt="Use Case Diagram" width="200"/><br /><sub><b>Use Case Diagram</b></sub></td>
-    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png" alt="Sequence Diagram" width="200"/><br /><sub><b>Sequence Diagram</b></sub></td>
-    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png" alt="Deployment Diagram" width="200"/><br /><sub><b>Deployment Diagram</b></sub></td>
+    <td style="width: 33.33%; text-align: center;">
+      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-useCaseDiagram.png" alt="Use Case Diagram" style="width: 90%; max-width: 300px;"/><br />
+      <sub><b>Use Case Diagram</b></sub>
+    </td>
+    <td style="width: 33.33%; text-align: center;">
+      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png" alt="Sequence Diagram" style="width: 90%; max-width: 300px;"/><br />
+      <sub><b>Sequence Diagram</b></sub>
+    </td>
+    <td style="width: 33.33%; text-align: center;">
+      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png" alt="Deployment Diagram" style="width: 90%; max-width: 300px;"/><br />
+      <sub><b>Deployment Diagram</b></sub>
+    </td>
   </tr>
   <tr>
-    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" width="200"/><br /><sub><b>ER Diagram</b></sub></td>
-    <td align="center"><img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png" alt="Architecture Diagram" width="200"/><br /><sub><b>Architecture Diagram</b></sub></td>
+    <td style="width: 50%; text-align: center;">
+      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png" alt="ER Diagram" style="width: 90%; max-width: 300px;"/><br />
+      <sub><b>ER Diagram</b></sub>
+    </td>
+    <td style="width: 50%; text-align: center;">
+      <img src="https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png" alt="Architecture Diagram" style="width: 90%; max-width: 300px;"/><br />
+      <sub><b>Architecture Diagram</b></sub>
+    </td>
   </tr>
 </table>
+

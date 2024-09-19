@@ -2,7 +2,7 @@
 
 **Overview:**
 
-The Web App component of CoalWorks provides a robust interface for supervisors and administrators to monitor and manage mining operations. It integrates various functionalities such as shift management, task tracking, safety monitoring, and real-time alerts. The web application is designed to be user-friendly, responsive, and capable of handling complex workflows involved in coal mining operations.
+The Web Dashboard of CoalWorks provides a robust interface for supervisors and administrators to monitor and manage mining operations. It integrates various functionalities such as shift management, task tracking, safety monitoring, and real-time alerts. The web application is designed to be user-friendly, responsive, and capable of handling complex workflows involved in coal mining operations.
 
 ### Technology Stack
 

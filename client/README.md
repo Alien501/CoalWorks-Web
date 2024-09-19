@@ -1,4 +1,4 @@
-## Web App
+## Shift Supervisor Web Dashboard
 
 **Overview:**
 

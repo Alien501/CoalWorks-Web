@@ -1,40 +1,5 @@
-# CoalWorks - Mining Operations Software for Productivity and Safety Management
-
-## Overview
-
-CoalWorks is a comprehensive mining operations software designed for enhancing the productivity and safety management of coal mines. With integrated web, mobile, and IoT solutions, it ensures seamless digital shift handover, safety compliance, and real-time monitoring. The solution adheres to the Directorate General of Mines Safety (DGMS) guidelines while incorporating AI and IoT for proactive decision-making and resource optimization.
-
+# CoalWorks
 ---
-
-## Table of Contents
-
-- [Problem Statement](#problem-statement)
-- [Solution Overview](#solution-overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-
----
-
-## Problem Statement
-
-**Problem ID**: 1645  
-**Problem Title**: An app and web-based software for Productivity and Safety Management of Coal Mines.
-
-Despite the transition towards renewable energy, coal remains essential for India's energy security. The coal industry faces the challenge of achieving a production target of 1.5 Bt by 2030. To meet this goal, improving the productivity and safety of mining operations is crucial.
-
-The problem is divided into two key areas:
-
-1. **Digital Shift Handover Log System**: A streamlined, digital solution is required to replace manual paper logs used for shift handovers. The new system will enhance communication, reduce time loss, and improve productivity by briefing the next shift about critical issues and tasks beforehand.
-2. **Safety Management Plan (SMP)**: As per DGMS guidelines, every mine must implement an SMP based on hazard identification and control mechanisms. The challenge is to digitalize the SMP for better risk management and to integrate it with ERP systems.
-
----
-
-## Solution Overview
-
-**Project Title**: CoalWorks
-
 CoalWorks provides a digital platform to address the issues faced in manual shift handovers and safety management. The software integrates with the current Statutory and non-statutory log formats and adheres to DGMS guidelines. It combines web and app-based platforms with AI and IoT technologies to streamline mining operations.
 
 **Key Capabilities:**

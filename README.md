@@ -1,5 +1,4 @@
 # CoalWorks
----
 CoalWorks provides a digital platform to address the issues faced in manual shift handovers and safety management. The software integrates with the current Statutory and non-statutory log formats and adheres to DGMS guidelines. It combines web and app-based platforms with AI and IoT technologies to streamline mining operations.
 
 **Key Capabilities:**

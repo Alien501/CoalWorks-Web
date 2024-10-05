@@ -172,9 +172,6 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 
 ## System Design Diagrams
 
-### Architecture Diagram
-![Architecture Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-architectureDiagram.png)
-
 **Description:**
 The Architecture Diagram provides a high-level overview of the CoalWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.
 

@@ -10,7 +10,7 @@ const Login = () => {
     return(
         <div className="h-screen overflow-hidden flex justify-center items-center bg-coal font-noto" id="login-page">
             <Card className="bg-black border-0 w-[90%] h-[90%] flex gap-2 flex-row items-center p-5 shadow-sm">
-                <div className="slider-image-container bg-white h-[97%] w-[40%] rounded-sm relative">
+                <div className="slider-image-container bg-white h-[97%] w-[50%] rounded-sm relative">
                     <img src={banner1} alt="Banner One" className="block h-full object-cover" />
                     <div className="overlay bg-black/50 absolute top-0 bottom-0 w-full h-full"></div>
                     {/* <span className="app-name text-white font-bold absolute text-3xl mt-6 left-1/2 -translate-x-1/2 -translate-y-1/2 top-0 mx-auto">CoalWorks</span> */}

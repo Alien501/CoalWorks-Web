@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import FormBuilder from './components/custom/FormBuilder/FormBuilder'
 
 function App() {
 
@@ -17,6 +18,10 @@ function App() {
     {
       path: "/register",
       element: <Register />
+    },
+    {
+      path: '/form',
+      element: <FormBuilder />
     }
   ])
 

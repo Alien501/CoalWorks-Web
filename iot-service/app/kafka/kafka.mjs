@@ -7,7 +7,7 @@ configDotenv();
 
 const kafka = new Kafka({
   clientId: 'iot-service',
-  brokers: ['172.16.8.247:9093'],
+  brokers: ['172.16.73.11:9093'],
 });
 
   

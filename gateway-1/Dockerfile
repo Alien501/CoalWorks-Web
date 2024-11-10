@@ -6,7 +6,7 @@ COPY ./package*.json ./
 
 ENV PORT=4001
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 

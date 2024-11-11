@@ -3,6 +3,7 @@ import './App.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import FormBuilder from './components/custom/FormBuilder/FormBuilder'
+import Migration from './components/custom/Migration/Migration'
 
 function App() {
 
@@ -22,6 +23,10 @@ function App() {
     {
       path: '/form',
       element: <FormBuilder />
+    },
+    {
+      path: '/migrate',
+      element: <Migration />
     }
   ])
 

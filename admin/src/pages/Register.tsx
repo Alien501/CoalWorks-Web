@@ -24,7 +24,7 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex">
+        <div className="min-h-screen flex overflow-hidden">
             <div className="w-[20%] p-3">
                 <RegisterLeft setActiveSection={setActiveSection} />
             </div>

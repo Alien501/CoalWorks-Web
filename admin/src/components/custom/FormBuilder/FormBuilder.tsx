@@ -6,34 +6,43 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { PlusIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import DynamicInputField from "./InputType";
+import { Switch } from "@/components/ui/switch";
 
-
-const QuestionField = () => {
+const QuestionField = ({ id, handleDelete }) => {
     const [inputType, setInputType] = useState(null);
 
     const onInputTypeSelected = (e) => {
-        setInputType(prev => e);
-    }
+        setInputType((prev) => e);
+    };
 
     return (
-        <Card className="w-[80%] mx-auto p-2 mt-2 mb-2">
+        <Card className="w-[80%] mx-auto p-2 mt-2 mb-2 shadow-none overflow-hidden">
             <CardDescription>
-                <CardHeader>
-                    <Label>
-                        Question 1
-                    </Label>
+                <CardHeader className="flex flex-row justify-between items-center">
+                    <Label>Question {id}</Label>
+                    <div className="flex items-center space-x-2">
+                        <div className="space-x-2 flex items-center">
+                            <Label htmlFor={`switch-${id}`}>Required</Label>
+                            <Switch id={`switch-${id}`} />
+                        </div>
+                        <div>
+                            <Button onClick={() => handleDelete(id)} variant={"ghost"}>
+                                <Trash2 />
+                            </Button>
+                        </div>
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <Input
                         placeholder="Question"
-                        className="border-b-2 bg-slate-300/30 border-b-black/50 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-14 focus:outline-none focus:outline-transparent active::outline-none active:outline-transparent rounded-none"
+                        className="border-b-2 bg-slate-100/30 border-b-black/20 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-14 focus:outline-none focus:outline-transparent active:outline-none active:outline-transparent rounded-none"
                     />
                 </CardContent>
                 <CardFooter className="gap-1 flex flex-col w-full">
                     <div className="w-full flex flex-row gap-2 items-center justify-evenly">
                         <Input
                             placeholder="Note"
-                            className="border-b-2 bg-slate-300/20 border-b-black/50 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-10 focus:outline-none focus:outline-transparent active::outline-none active:outline-transparent rounded-none"
+                            className="border-b-2 bg-slate-100/20 border-b-black/20 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-10 focus:outline-none focus:outline-transparent active:outline-none active:outline-transparent rounded-none"
                         />
                         <div className="w-[80%] mx-auto flex flex-row justify-between items-center">
                             <Select onValueChange={onInputTypeSelected}>
@@ -61,19 +70,25 @@ const QuestionField = () => {
                 </CardFooter>
             </CardDescription>
         </Card>
-    )
-}
+    );
+};
 
 const FormBuilder = () => {
-    const [formFields, setFormFields] = useState([
+    const [formFields, setFormFields] = useState([]);
 
-    ])
+    const [formMetaData, setFormMetaData] = useState("");
+
+    const handleDelete = (id) => {
+        setFormFields((prev) => prev.filter((field) => field.id !== id));
+    };
 
     const onAddButtonClicked = () => {
-        setFormFields(prev => {
-            return [...prev, <QuestionField />]
-        })
-    }
+        setFormFields((prev) => [
+            ...prev,
+            { id: prev.length + 1, component: <QuestionField handleDelete={handleDelete} id={prev.length + 1} /> }
+        ]);
+    };
+
     return (
         <div id="form-builder">
             <div className="flex justify-center items-center h-11">
@@ -82,39 +97,36 @@ const FormBuilder = () => {
             <Card className="w-[80%] mx-auto p-2 mt-2 mb-2">
                 <CardDescription>
                     <CardHeader>
-                        <Label>
-                            Form Name
-                        </Label>
+                        <h1 className="text-center text-3x font-medium">{formMetaData}</h1>
                     </CardHeader>
                     <CardContent>
                         <Input
+                            onChange={(e) => setFormMetaData(e.target.value)}
                             placeholder="Form Title"
-                            className="border-b-2 bg-slate-300/30 border-b-black/50 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-14 focus:outline-none focus:outline-transparent active::outline-none active:outline-transparent rounded-none"
+                            className="border-b-2 border-b-black/50 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-14 focus:outline-none focus:outline-transparent active:outline-none active:outline-transparent rounded-none"
                         />
                     </CardContent>
                     <CardFooter>
                         <Input
                             placeholder="Form Description"
-                            className="border-b-2 bg-slate-300/20 border-b-black/50 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-10 focus:outline-none focus:outline-transparent active::outline-none active:outline-transparent rounded-none"
+                            className="border-b-2 bg-gray-200/20 border-b-black/50 focus:border-b-black/80 border-l-0 border-t-0 focus-visible:ring-0 border-r-0 h-10 focus:outline-none focus:outline-transparent active:outline-none active:outline-transparent rounded-none"
                         />
                     </CardFooter>
                 </CardDescription>
             </Card>
-            {
-                formFields
-            }
+            {formFields.map((field) => (
+                <div key={field.id}>{field.component}</div>
+            ))}
             <div className="button-container h-[80px] flex items-center justify-center">
                 <Button onClick={onAddButtonClicked}>
                     <span>
                         <PlusIcon />
                     </span>
-                    <span>
-                        Add Field
-                    </span>
+                    <span>Add Field</span>
                 </Button>
             </div>
         </div>
     );
-}
+};
 
 export default FormBuilder;

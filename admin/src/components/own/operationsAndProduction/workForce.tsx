@@ -13,9 +13,6 @@ import {
 } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import {
-    cn
-} from "@/lib/utils"
-import {
     Button
 } from "@/components/ui/button"
 import {
@@ -60,7 +57,10 @@ const formSchema = z.object({
     name_7359237946: z.string()
 });
 
-const ShiftDetails = () => {
+const ShiftDetails = ({ key, onDelete }:{
+    key:number,
+    onDelete: any
+}) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -68,9 +68,12 @@ const ShiftDetails = () => {
         },
     })
 
-    return(
-        <Card className="m-2">
+    return (
+        <Card className="m-2" key={key}>
             <CardContent>
+                <div className="w-full flex justify-end pt-5">
+                    <Button onClick={()=> onDelete(key)}>Delete Shift</Button>
+                </div>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-6">
                         <FormField
@@ -165,7 +168,6 @@ const ShiftDetails = () => {
                         />
 
                     </div>
-
                 </div>
             </CardContent>
         </Card>
@@ -175,15 +177,16 @@ const ShiftDetails = () => {
 export default function WrokForce() {
 
     const [files, setFiles] = useState<File[] | null>(null);
-    const [shiftDetails, setShiftDetails] = useState([
-        <ShiftDetails />
-    ])
+    const [shiftDetails, setShiftDetails] = useState([{ id: 0 }]);
 
-    const onShiftAddButtonClicked = (e) => {
+    const deleteShift = (id:number) => {
+        setShiftDetails(prevDetails => prevDetails.filter(shift => shift.id !== id));
+    };
+
+
+    const onShiftAddButtonClicked = (e: any) => {
         e.preventDefault()
-        setShiftDetails(prev => {
-            return [...prev, <ShiftDetails />]
-        })
+        setShiftDetails((prev) => [...prev, {id: prev.length}])
     }
 
     const dropZoneConfig = {
@@ -254,7 +257,7 @@ export default function WrokForce() {
                             <FormMessage />
                         </FormItem>
                     )}
-                />
+            />
 
                 <FormField
                     control={form.control}
@@ -299,7 +302,9 @@ export default function WrokForce() {
                         <h1>Shift Details</h1>
                     </div>
                     {
-                        shiftDetails
+                        shiftDetails.map((shift) => (
+                            <ShiftDetails key={shift.id} onDelete = {()=> deleteShift(shift.id)} /> 
+                        ))
                     }
                     <div className="h-16 flex items-center justify-center">
                         <Button onClick={onShiftAddButtonClicked}>

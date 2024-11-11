@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { defineStepper } from '@stepperize/react';
 import ProductionAndCost from './productionAndCost';
+import WrokForce from './workForce';
+import Compliance from './compliance';
 
 const { useStepper, steps } = defineStepper(
   {
@@ -79,8 +81,8 @@ function OperationsAndProduction({title, sections}) {
       <div className="space-y-4">
         {stepper.switch({
           production: () => <ProductionAndCost />,
-          workforce: () => <MineIdentification />,
-          infrastructure: () => <Infrastructure />,
+          workforce: () => <WrokForce />,
+          compliance: () => <Compliance />,
         })}
         {!stepper.isLast ? (
           <div className="flex justify-end gap-4">

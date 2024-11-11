@@ -1,35 +1,30 @@
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
 import { defineStepper } from '@stepperize/react';
-import CompanyInfo from './companyInfo';
-import MineIdentification from './mineIdentification';
-import Infrastructure from './infrastructure';
-
+import ProductionAndCost from './productionAndCost';
 
 const { useStepper, steps } = defineStepper(
   {
-    id: 'companyInfo',
-    title: 'Company Information',
-    description: 'Enter Company Information details',
+    id: 'production',
+    title: 'Production and Cost Details',
+    description: 'Enter Production and Cost details',
   },
   {
-    id: 'mineIdentification',
-    title: 'Mine Identification',
-    description: 'Enter Mine Identification details',
+    id: 'workforce',
+    title: 'Workforce Management',
+    description: 'Enter Workforce Management details',
   },
   {
-    id: 'infrastructure',
-    title: 'Infrastructure',
-    description: 'Enter Infrastruture details',
+    id: 'compliance',
+    title: 'Compliance',
+    description: 'Enter Compliance details',
   }
 );
 
 //@ts-ignore
-function CompanyRegistration({title, sections}) {
+function OperationsAndProduction({title, sections}) {
   const stepper = useStepper();
 
   return (
@@ -83,8 +78,8 @@ function CompanyRegistration({title, sections}) {
       </nav>
       <div className="space-y-4">
         {stepper.switch({
-          companyInfo: () => <CompanyInfo />,
-          mineIdentification: () => <MineIdentification />,
+          production: () => <ProductionAndCost />,
+          workforce: () => <MineIdentification />,
           infrastructure: () => <Infrastructure />,
         })}
         {!stepper.isLast ? (
@@ -108,4 +103,4 @@ function CompanyRegistration({title, sections}) {
   );
 }
 
-export default CompanyRegistration;
+export default OperationsAndProduction;

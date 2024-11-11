@@ -5,12 +5,12 @@ import React from 'react';
 
 const { useStepper, steps } = defineStepper(
     {
-        id: 'registration',
+        id: 'companyRegistration',
         title: 'Company Registration and Licensing',
         description: 'Enter your Company Registration and Licensing details',
     },
     {
-        id: 'roles',
+        id: 'rolesAndRes',
         title: 'Roles and Responsibilities',
         description: 'Enter Roles and Responsibilities details',
     },
@@ -20,7 +20,7 @@ const { useStepper, steps } = defineStepper(
         description: 'Enter Operations and Production details',
     },
     {
-        id: 'migration',
+        id: 'dbMigration',
         title: 'DB Migration',
         description: 'Enter DB Migration details',
     },
@@ -29,7 +29,7 @@ const { useStepper, steps } = defineStepper(
 
 
 
-export default function RegisterLeft() {
+export default function RegisterLeft({setActiveSection}) {
 
     const stepper = useStepper();
     return (
@@ -60,7 +60,10 @@ export default function RegisterLeft() {
                                         aria-setsize={steps.length}
                                         aria-selected={stepper.current.id === step.id}
                                         className="flex size-10 items-center justify-center rounded-full"
-                                        onClick={() => stepper.goTo(step.id)}
+                                        onClick={() => {
+                                            stepper.goTo(step.id); // Navigate to the step
+                                            setActiveSection(step.id); // Call setActiveSection to update the state in the parent
+                                        }}
                                     >
                                         {index + 1}
                                     </Button>
@@ -84,8 +87,8 @@ export default function RegisterLeft() {
                                     <div className="flex-1 my-4">
                                         {stepper.current.id === step.id &&
                                             stepper.switch({
-                                                registration: () => <ShippingComponent />,
-                                                roles: () => <ShippingComponent />,
+                                                registration: () => <PaymentComponent />,
+                                                roles: () => <PaymentComponent />,
                                                 operations: () => <PaymentComponent />,
                                                 migration: () => <PaymentComponent />,
                                                 complete: () => <PaymentComponent />,
@@ -96,44 +99,14 @@ export default function RegisterLeft() {
                         ))}
                     </ol>
                 </nav>
-                {/* <div className="space-y-4">
-        {!stepper.isLast ? (
-          <div className="flex justify-end gap-4">
-            <Button
-              variant="secondary"
-              onClick={stepper.prev}
-              disabled={stepper.isFirst}
-            >
-              Back
-            </Button>
-            <Button onClick={stepper.next}>
-              {stepper.isLast ? 'Complete' : 'Next'}
-            </Button>
-          </div>
-        ) : (
-          <Button onClick={stepper.reset}>Reset</Button>
-        )}
-      </div> */}
             </div>
         </div>
     )
 }
 
-
-const ShippingComponent = () => {
-    return (
-        <div>
-        </div>
-    );
-};
-
 const PaymentComponent = () => {
     return (
         <div>
-
         </div>
     );
 };
-
-
-

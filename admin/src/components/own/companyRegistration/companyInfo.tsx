@@ -1,7 +1,3 @@
-"use client"
-import {
-  useState
-} from "react"
 import {
   toast
 } from "sonner"
@@ -12,9 +8,6 @@ import {
   zodResolver
 } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import {
-  cn
-} from "@/lib/utils"
 import {
   Button
 } from "@/components/ui/button"
@@ -31,47 +24,101 @@ import {
   Input
 } from "@/components/ui/input"
 import {
-  CloudUpload,
-  Paperclip
-} from "lucide-react"
-import {
-  FileInput,
-  FileUploader,
-  FileUploaderContent,
-  FileUploaderItem
-} from "@/components/ui/file-upload"
-import {
   Textarea
 } from "@/components/ui/textarea"
+import { useEffect } from "react"
 
 const formSchema = z.object({
-  name_9137913975: z.string(),
-  name_2878851239: z.string(),
-  name_0773125827: z.string(),
-  name_8165747981: z.string(),
-  name_9609308434: z.string(),
-  name_7559707751: z.string(),
-  name_8755841274: z.string(),
-  parentCompany: z.string()
+  companyName: z.string().min(1, "Company name is required"),
+  ownerName: z.string().min(1, "Owner name is required"),
+  registrationNumber: z.string().min(1, "Registration number is required"),
+  parentCompany: z.string().optional(),
+  address: z.string().min(5, "Address is required"),
+  email: z.string().email(),
 });
 
-export default function CompanyInfo() {
-
-  const [files, setFiles] = useState < File[] | null > (null);
-
-  const dropZoneConfig = {
-    maxFiles: 5,
-    maxSize: 1024 * 1024 * 4,
-    multiple: true,
-  };
-  const form = useForm < z.infer < typeof formSchema >> ({
+export default function CompanyInfo({ setIsSubmitted, setRegisterData, registerData }) {
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      companyName: registerData?.[0]?.get ? registerData[0].get("companyName") || "" : "",
+      ownerName: registerData?.[0]?.get ? registerData[0].get("ownerName") || "" : "",
+      registrationNumber: registerData?.[0]?.get ? registerData[0].get("registrationNumber") || "" : "",
+      parentCompany: registerData?.[0]?.get ? registerData[0].get("parentCompany") || "" : "",
+      address: registerData?.[0]?.get ? registerData[0].get("address") || "" : "",
+      email: registerData?.[0]?.get ? registerData[0].get("email") || "" : "",
+    }
+  });
 
-  })
+  useEffect(() => {
+    if (registerData?.[0]?.get) {
+      form.reset({
+        companyName: registerData[0].get("companyName") || "",
+        ownerName: registerData[0].get("ownerName") || "",
+        registrationNumber: registerData[0].get("registrationNumber") || "",
+        parentCompany: registerData[0].get("parentCompany") || "",
+        address: registerData[0].get("address") || "",
+        email: registerData[0].get("email") || "",
+      });
+    }
+  }, [registerData, form]);
 
-  function onSubmit(values: z.infer < typeof formSchema > ) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const formData = new FormData();
+
+    // Add all values to the new FormData object
+    for (const [key, value] of Object.entries(values)) {
+      if (value) {
+        formData.append(key, value);
+      }
+    }
+
+    setRegisterData((prev: FormData[]) => {
+      const newFormData = new FormData();
+
+      // If there's previous data, copy over unchanged values
+      if (prev?.[0]) {
+        const prevForm = prev[0];
+        // Get all keys from previous FormData
+        for (const key of prevForm.keys()) {
+          const oldValue = prevForm.get(key);
+          const newValue = formData.get(key);
+
+          // If new value exists and is different, use new value
+          // If new value doesn't exist, keep old value
+          if (newValue !== null && newValue !== oldValue) {
+            newFormData.append(key, newValue);
+          } else if (oldValue !== null) {
+            newFormData.append(key, oldValue);
+          }
+        }
+
+        // Add any new keys that weren't in the previous data
+        for (const key of formData.keys()) {
+          if (!prevForm.has(key)) {
+            const newValue = formData.get(key);
+            if (newValue !== null) {
+              newFormData.append(key, newValue);
+            }
+          }
+        }
+      } else {
+        // If no previous data, use all values from new formData
+        for (const [key, value] of formData.entries()) {
+          newFormData.append(key, value);
+        }
+      }
+
+      return [newFormData];
+    });
+
+    setIsSubmitted((prev) => {
+      const updated = [...prev];
+      updated[0] = true;
+      return updated;
+    });
+
     try {
-      console.log(values);
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(values, null, 2)}</code>
@@ -81,64 +128,57 @@ export default function CompanyInfo() {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
     }
-  }
-
-  return (
+  } return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
-        
+
         <FormField
           control={form.control}
-          name="name_9137913975"
+          name="companyName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company Name</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Company Name"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Company Name"
+                  {...field}
+                  defaultValue={registerData?.companyName || ""}
+                />
               </FormControl>
-              {/* <FormDescription>This is your public display name.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
-          name="name_2878851239"
+          name="ownerName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Owner Name</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Owner Name"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Owner Name"
+                  type=""
+                  {...field} />
               </FormControl>
-              {/* <FormDescription>This is your public display name.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
-          name="name_0773125827"
+          name="registrationNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Registration Number</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Registration Number"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Registration Number"
+                  type=""
+                  {...field} />
               </FormControl>
-              {/* <FormDescription>This is your public display name.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -150,165 +190,25 @@ export default function CompanyInfo() {
             <FormItem>
               <FormLabel>Parent Company (if any)</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Parent Company"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Parent Company"
+                  type=""
+                  {...field} />
               </FormControl>
-              {/* <FormDescription>This is your public display name.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        
-            <FormField
-              control={form.control}
-              name="name_8165747981"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company Pan</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={files}
-                      onValueChange={setFiles}
-                      dropzoneOptions={dropZoneConfig}
-                      className="relative bg-background rounded-lg p-2"
-                    >
-                      <FileInput
-                        id="fileInput"
-                        className="outline-dashed outline-1 outline-slate-500"
-                      >
-                        <div className="flex items-center justify-center flex-col p-8 w-full ">
-                          <CloudUpload className='text-gray-500 w-10 h-10' />
-                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">Click to upload</span>
-                            &nbsp; or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF
-                          </p>
-                        </div>
-                      </FileInput>
-                      <FileUploaderContent>
-                        {files &&
-                          files.length > 0 &&
-                          files.map((file, i) => (
-                            <FileUploaderItem key={i} index={i}>
-                              <Paperclip className="h-4 w-4 stroke-current" />
-                              <span>{file.name}</span>
-                            </FileUploaderItem>
-                          ))}
-                      </FileUploaderContent>
-                    </FileUploader>
-                  </FormControl>
-                  <FormDescription>Select a file to upload.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-        
-            <FormField
-              control={form.control}
-              name="name_9609308434"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>GST Number</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={files}
-                      onValueChange={setFiles}
-                      dropzoneOptions={dropZoneConfig}
-                      className="relative bg-background rounded-lg p-2"
-                    >
-                      <FileInput
-                        id="fileInput"
-                        className="outline-dashed outline-1 outline-slate-500"
-                      >
-                        <div className="flex items-center justify-center flex-col p-8 w-full ">
-                          <CloudUpload className='text-gray-500 w-10 h-10' />
-                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">Click to upload</span>
-                            &nbsp; or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF
-                          </p>
-                        </div>
-                      </FileInput>
-                      <FileUploaderContent>
-                        {files &&
-                          files.length > 0 &&
-                          files.map((file, i) => (
-                            <FileUploaderItem key={i} index={i}>
-                              <Paperclip className="h-4 w-4 stroke-current" />
-                              <span>{file.name}</span>
-                            </FileUploaderItem>
-                          ))}
-                      </FileUploaderContent>
-                    </FileUploader>
-                  </FormControl>
-                  <FormDescription>Select a file to upload.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name_9609308434"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>DGMS Certificate</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={files}
-                      onValueChange={setFiles}
-                      dropzoneOptions={dropZoneConfig}
-                      className="relative bg-background rounded-lg p-2"
-                    >
-                      <FileInput
-                        id="fileInput"
-                        className="outline-dashed outline-1 outline-slate-500"
-                      >
-                        <div className="flex items-center justify-center flex-col p-8 w-full ">
-                          <CloudUpload className='text-gray-500 w-10 h-10' />
-                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">Click to upload</span>
-                            &nbsp; or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF
-                          </p>
-                        </div>
-                      </FileInput>
-                      <FileUploaderContent>
-                        {files &&
-                          files.length > 0 &&
-                          files.map((file, i) => (
-                            <FileUploaderItem key={i} index={i}>
-                              <Paperclip className="h-4 w-4 stroke-current" />
-                              <span>{file.name}</span>
-                            </FileUploaderItem>
-                          ))}
-                      </FileUploaderContent>
-                    </FileUploader>
-                  </FormControl>
-                  <FormDescription>Select a file to upload.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-        
+
         <FormField
           control={form.control}
-          name="name_7559707751"
+          name="address"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Address"
-                //   className="resize-none"
                   {...field}
                 />
               </FormControl>
@@ -317,21 +217,20 @@ export default function CompanyInfo() {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
-          name="name_8755841274"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="email"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="email"
+
+                  type=""
+                  {...field} />
               </FormControl>
-              {/* <FormDescription>This is your public display name.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}

@@ -6,7 +6,7 @@ import { defineStepper } from '@stepperize/react';
 import CompanyInfo from './companyInfo';
 import MineIdentification from './mineIdentification';
 import Infrastructure from './infrastructure';
-
+import { useState } from 'react';
 
 const { useStepper, steps } = defineStepper(
   {
@@ -27,11 +27,20 @@ const { useStepper, steps } = defineStepper(
 );
 
 //@ts-ignore
-function CompanyRegistration({title, sections}) {
+function CompanyRegistration({ title, sections, setRegisterData, registerData }) {
+
+  const [isSubmitted, setIsSubmitted] = useState([false, false, false]);
   const stepper = useStepper();
 
+  const stepperFunction = () => {
+    if (isSubmitted[stepper.current.index])
+      stepper.next();
+    else
+      alert("Please submit all the details before moving to the next section")
+  }
+
   return (
-    <div className="space-y-6 p-6 border rounded-lg w-full">
+    <div className="space-y-6 p-6 border rounded-lg w-full h-full overflow-y-auto">
       <div className="flex justify-between">
         <h2 className="text-lg font-medium">{title}</h2>
         <div className="flex items-center gap-2">
@@ -70,9 +79,8 @@ function CompanyRegistration({title, sections}) {
               </li>
               {index < array.length - 1 && (
                 <Separator
-                  className={`flex-1 ${
-                    index < stepper.current.index ? 'bg-primary' : 'bg-muted'
-                  }`}
+                  className={`flex-1 ${index < stepper.current.index ? 'bg-primary' : 'bg-muted'
+                    }`}
                 />
               )}
             </React.Fragment>
@@ -81,9 +89,9 @@ function CompanyRegistration({title, sections}) {
       </nav>
       <div className="space-y-4">
         {stepper.switch({
-          companyInfo: () => <CompanyInfo />,
-          mineIdentification: () => <MineIdentification />,
-          infrastructure: () => <Infrastructure />,
+          companyInfo: () => <CompanyInfo setIsSubmitted={setIsSubmitted} setRegisterData = {setRegisterData} registerData = {registerData} />,
+          mineIdentification: () => <MineIdentification setIsSubmitted={setIsSubmitted} setRegisterData = {setRegisterData} registerData = {registerData}/>,
+          infrastructure: () => <Infrastructure setIsSubmitted={setIsSubmitted} setRegisterData = {setRegisterData} registerData = {registerData}/>,
         })}
         {!stepper.isLast ? (
           <div className="flex justify-end gap-4">
@@ -94,7 +102,7 @@ function CompanyRegistration({title, sections}) {
             >
               Back
             </Button>
-            <Button onClick={stepper.next}>
+            <Button onClick={stepperFunction}>
               {stepper.isLast ? 'Complete' : 'Next'}
             </Button>
           </div>

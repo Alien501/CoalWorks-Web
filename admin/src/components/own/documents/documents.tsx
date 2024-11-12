@@ -1,36 +1,33 @@
+//@ts-nocheck
 import * as React from 'react';
-
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 import { defineStepper } from '@stepperize/react';
-
+import OperationsAndProduction from './operationsAndProduction';
+import CompanyRegistrationAndLicensing from './companyRegistrationAndLicensing';
 
 const { useStepper, steps } = defineStepper(
   {
-    id: 'companyInfo',
-    title: 'Company Information',
-    description: 'Enter Company Information details',
+    id: 'companyRegistrationAndLicensing',
+    title: 'Company Registration and Licensing',
+    description: 'Upload Company Registration and Licensing Reports',
   },
   {
-    id: 'mineIdentification',
-    title: 'Mine Identification',
-    description: 'Enter Mine Identification details',
+    id: 'operationsAndProduction',
+    title: 'Operations and Production',
+    description: 'Upload Operations and Production Reports',
   },
-  {
-    id: 'infrastructure',
-    title: 'Infrastructure',
-    description: 'Enter Infrastruture details',
-  }
 );
 
-//@ts-ignore
-function RolesAndResponsibilties({title, sections}) {
+export default function Documents() {
   const stepper = useStepper();
 
   return (
     <div className="space-y-6 p-6 border rounded-lg w-full">
       <div className="flex justify-between">
-        <h2 className="text-lg font-medium">{title}</h2>
+        <h2 className="text-lg font-medium">Documents</h2>
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">
             Step {stepper.current.index + 1} of {steps.length}
@@ -77,11 +74,10 @@ function RolesAndResponsibilties({title, sections}) {
         </ol>
       </nav>
       <div className="space-y-4">
-        {/* {stepper.switch({
-          companyInfo: () => <CompanyInfo />,
-          mineIdentification: () => <MineIdentification />,
-          infrastructure: () => <Infrastructure />,
-        })} */}
+        {stepper.switch({
+          companyRegistrationAndLicensing: () => <CompanyRegistrationAndLicensing />,
+          operationsAndProduction: () => <OperationsAndProduction />,
+        })}
         {!stepper.isLast ? (
           <div className="flex justify-end gap-4">
             <Button
@@ -102,5 +98,3 @@ function RolesAndResponsibilties({title, sections}) {
     </div>
   );
 }
-
-export default RolesAndResponsibilties;

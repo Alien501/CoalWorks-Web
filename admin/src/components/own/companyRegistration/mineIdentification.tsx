@@ -1,7 +1,3 @@
-"use client"
-import {
-  useState
-} from "react"
 import {
   toast
 } from "sonner"
@@ -45,16 +41,6 @@ import {
   Calendar as CalendarIcon
 } from "lucide-react"
 import {
-  CloudUpload,
-  Paperclip
-} from "lucide-react"
-import {
-  FileInput,
-  FileUploader,
-  FileUploaderContent,
-  FileUploaderItem
-} from "@/components/ui/file-upload"
-import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -69,79 +55,116 @@ import {
 import {
   Textarea
 } from "@/components/ui/textarea"
+import { useEffect } from "react"
 
 const formSchema = z.object({
-  name_3474302322: z.string(),
-  name_6496088014: z.string(),
-  name_3980192583: z.coerce.date(),
-  name_5430123614: z.string(),
-  name_6739610667: z.string(),
-  name_8337881871: z.string(),
-  name_5168890881: z.string(),
-  name_1989288213: z.string(),
-  name_0434656515: z.string(),
-  name_5420134849: z.string(),
-  name_6529525208: z.string(),
-  name_6259928364: z.string()
+  mineName: z.string(),
+  mineRegisterNumber: z.string(),
+  username: z.string(),
+  noOfPits: z.string(),
+  noOfPitsPlanned: z.string(),
+  nearestPoliceStation: z.string(),
+  nearestHospital: z.string(),
+  openDate: z.any(),
+  mineType: z.string(),
+  mineLeaseNumber: z.string()
 });
 
-export default function MineIdentification() {
-
-  const [files, setFiles] = useState < File[] | null > (null);
-
-  const dropZoneConfig = {
-    maxFiles: 5,
-    maxSize: 1024 * 1024 * 4,
-    multiple: true,
-  };
-  const languages = [{
-      label: "English",
-      value: "en"
-    },
-    {
-      label: "French",
-      value: "fr"
-    },
-    {
-      label: "German",
-      value: "de"
-    },
-    {
-      label: "Spanish",
-      value: "es"
-    },
-    {
-      label: "Portuguese",
-      value: "pt"
-    },
-    {
-      label: "Russian",
-      value: "ru"
-    },
-    {
-      label: "Japanese",
-      value: "ja"
-    },
-    {
-      label: "Korean",
-      value: "ko"
-    },
-    {
-      label: "Chinese",
-      value: "zh"
-    },
-  ] as
-  const;
-  const form = useForm < z.infer < typeof formSchema >> ({
+//@ts-ignore
+export default function MineIdentification({ setIsSubmitted, setRegisterData, registerData }) {
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      "name_3980192583": new Date()
+      mineName: registerData?.[0]?.get ? registerData[0].get("mineName") || "" : "",
+      mineRegisterNumber: registerData?.[0]?.get ? registerData[0].get("mineRegisterNumber") || "" : "",
+      username: registerData?.[0]?.get ? registerData[0].get("username") || "" : "",
+      nearestPoliceStation: registerData?.[0]?.get ? registerData[0].get("nearestPoliceStation") || "" : "",
+      nearestHospital: registerData?.[0]?.get ? registerData[0].get("nearestHospital") || "" : "",
+      noOfPits: registerData?.[0]?.get ? registerData[0].get("noOfPits") || "" : "",
+      noOfPitsPlanned: registerData?.[0]?.get ? registerData[0].get("noOfPitsPlanned") || "" : "",
+      openDate: registerData?.[0]?.get ? registerData[0].get("openDate") || "" : "",
+      mineType: registerData?.[0]?.get ? registerData[0].get("mineType") || "" : "",
+      mineLeaseNumber: registerData?.[0]?.get ? registerData[0].get("mineLeaseNumber") || "" : ""
     },
-  })
+  });
 
-  function onSubmit(values: z.infer < typeof formSchema > ) {
+  useEffect(() => {
+    if (registerData?.[0]?.get) {
+      form.reset({
+        mineName: registerData[0].get("mineName") || "",
+        mineRegisterNumber: registerData[0].get("mineRegisterNumber") || "",
+        username: registerData[0].get("username") || "",
+        nearestPoliceStation: registerData[0].get("nearestPoliceStation") || "",
+        nearestHospital: registerData[0].get("nearestHospital") || "",
+        noOfPits: registerData[0].get("noOfPits") || "",
+        noOfPitsPlanned: registerData[0].get("noOfPitsPlanned") || "",
+        openDate: registerData[0].get("openDate") || "",
+        mineType: registerData[0].get("mineType") || "",
+        mineLeaseNumber: registerData[0].get("mineLeaseNumber") || ""
+      });
+    }
+  }, [registerData, form]);
+
+  const mines = [
+    {
+      label: "OpenCast",
+      value: "opencast"
+    },
+    {
+      label: "Underground",
+      value: "underground"
+    },
+  ] as const;
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(values)) {
+      if (value) {
+        formData.append(key, value);
+      }
+    }
+
+    setRegisterData((prev: FormData[]) => {
+      const newFormData = new FormData();
+
+      if (prev?.[0]) {
+        const prevForm = prev[0];
+        for (const key of prevForm.keys()) {
+          const oldValue = prevForm.get(key);
+          const newValue = formData.get(key);
+
+          if (newValue !== null && newValue !== oldValue) {
+            newFormData.append(key, newValue);
+          } else if (oldValue !== null) {
+            newFormData.append(key, oldValue);
+          }
+        }
+
+        for (const key of formData.keys()) {
+          if (!prevForm.has(key)) {
+            const newValue = formData.get(key);
+            if (newValue !== null) {
+              newFormData.append(key, newValue);
+            }
+          }
+        }
+      } else {
+        for (const [key, value] of formData.entries()) {
+          newFormData.append(key, value);
+        }
+      }
+
+      return [newFormData];
+    });
+
+    setIsSubmitted((prev: any) => {
+      const updated = [...prev];
+      updated[1] = true;
+      return updated;
+    });
+
     try {
-      console.log(values);
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(values, null, 2)}</code>
@@ -152,208 +175,115 @@ export default function MineIdentification() {
       toast.error("Failed to submit the form. Please try again.");
     }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
-        
+
         <FormField
           control={form.control}
-          name="name_3474302322"
+          name="mineName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mine Name</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Mine Name"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Mine Name"
+
+                  type=""
+                  {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
-          name="name_6496088014"
+          name="mineRegisterNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mine Register Number</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Mine Register Number"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Mine Register Number"
+
+                  type=""
+                  {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        
-      <FormField
-      control={form.control}
-      name="name_3980192583"
-      render={({ field }) => (
-        <FormItem className="flex flex-col">
-          <FormLabel>Opening Date</FormLabel>
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
-                    !field.value && "text-muted-foreground"
-                  )}
-                >
-                  {field.value ? (
-                    format(field.value, "PPP")
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={field.value}
-                onSelect={field.onChange}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-        
+
         <FormField
           control={form.control}
-          name="name_5430123614"
+          name="openDate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Opening Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    //@ts-ignore
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="mineLeaseNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mine Lease Number</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="Mine Lease Number"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="Mine Lease Number"
+
+                  type=""
+                  {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        
-            <FormField
-              control={form.control}
-              name="name_6739610667"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mine Lease Document</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={files}
-                      onValueChange={setFiles}
-                      dropzoneOptions={dropZoneConfig}
-                      className="relative bg-background rounded-lg p-2"
-                    >
-                      <FileInput
-                        id="fileInput"
-                        className="outline-dashed outline-1 outline-slate-500"
-                      >
-                        <div className="flex items-center justify-center flex-col p-8 w-full ">
-                          <CloudUpload className='text-gray-500 w-10 h-10' />
-                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">Click to upload</span>
-                            &nbsp; or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF
-                          </p>
-                        </div>
-                      </FileInput>
-                      <FileUploaderContent>
-                        {files &&
-                          files.length > 0 &&
-                          files.map((file, i) => (
-                            <FileUploaderItem key={i} index={i}>
-                              <Paperclip className="h-4 w-4 stroke-current" />
-                              <span>{file.name}</span>
-                            </FileUploaderItem>
-                          ))}
-                      </FileUploaderContent>
-                    </FileUploader>
-                  </FormControl>
-                  <FormDescription>Select a file to upload.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-        
-            <FormField
-              control={form.control}
-              name="name_8337881871"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mine Plan</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={files}
-                      onValueChange={setFiles}
-                      dropzoneOptions={dropZoneConfig}
-                      className="relative bg-background rounded-lg p-2"
-                    >
-                      <FileInput
-                        id="fileInput"
-                        className="outline-dashed outline-1 outline-slate-500"
-                      >
-                        <div className="flex items-center justify-center flex-col p-8 w-full ">
-                          <CloudUpload className='text-gray-500 w-10 h-10' />
-                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">Click to upload</span>
-                            &nbsp; or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF
-                          </p>
-                        </div>
-                      </FileInput>
-                      <FileUploaderContent>
-                        {files &&
-                          files.length > 0 &&
-                          files.map((file, i) => (
-                            <FileUploaderItem key={i} index={i}>
-                              <Paperclip className="h-4 w-4 stroke-current" />
-                              <span>{file.name}</span>
-                            </FileUploaderItem>
-                          ))}
-                      </FileUploaderContent>
-                    </FileUploader>
-                  </FormControl>
-                  <FormDescription>Select a file to upload.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-        
         <FormField
           control={form.control}
-          name="name_5168890881"
+          name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input 
-                placeholder="shadcn"
-                
-                type=""
-                {...field} />
+                <Input
+                  placeholder="username"
+
+                  type=""
+                  {...field} />
               </FormControl>
               <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
@@ -362,10 +292,10 @@ export default function MineIdentification() {
         />
         <FormField
           control={form.control}
-          name="name_1989288213"
+          name="mineType"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Mining Type</FormLabel>
+              <FormLabel>Mine Type</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -376,40 +306,36 @@ export default function MineIdentification() {
                         "w-[200px] justify-between",
                         !field.value && "text-muted-foreground"
                       )}
-                      
+
                     >
-                      {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
-                        : "Select language"}
+                      {field.value ? mines.find((mine) => mine.value === mine.value)?.label : "Select Mine Type"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search language..." />
+                    <CommandInput placeholder="Search Mine Type" />
                     <CommandList>
-                      <CommandEmpty>No Mine found.</CommandEmpty>
+                      <CommandEmpty>No Mine Found.</CommandEmpty>
                       <CommandGroup>
-                        {languages.map((language) => (
+                        {mines.map((mine) => (
                           <CommandItem
-                            value={language.label}
-                            key={language.value}
+                            value={mine.label}
+                            key={mine.value}
                             onSelect={() => {
-                              form.setValue("name_1989288213", language.value);
+                              form.setValue("mineType", mine.value);
                             }}
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                language.value === field.value
+                                mine.value === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
                             />
-                            {language.label}
+                            {mine.label}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -421,56 +347,56 @@ export default function MineIdentification() {
             </FormItem>
           )}
         />
-        
+
         <div className="grid grid-cols-12 gap-4">
-          
+
           <div className="col-span-6">
-            
-        <FormField
-          control={form.control}
-          name="name_0434656515"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number of pits Active</FormLabel>
-              <FormControl>
-                <Input 
-                placeholder="shadcn"
-                
-                type=""
-                {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+            <FormField
+              control={form.control}
+              name="noOfPits"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of pits Active</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="pits active"
+
+                      type=""
+                      {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          
+
           <div className="col-span-6">
-            
-        <FormField
-          control={form.control}
-          name="name_5420134849"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number of Pits Planned</FormLabel>
-              <FormControl>
-                <Input 
-                placeholder="shadcn"
-                
-                type=""
-                {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+            <FormField
+              control={form.control}
+              name="noOfPitsPlanned"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Pits Planned</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="pits planned"
+
+                      type=""
+                      {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          
+
         </div>
-        
+
         <FormField
           control={form.control}
-          name="name_6529525208"
+          name="nearestPoliceStation"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nearest Police Station and Contact</FormLabel>
@@ -485,10 +411,10 @@ export default function MineIdentification() {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
-          name="name_6259928364"
+          name="nearestHospital"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nearest Hospital and Contact</FormLabel>

@@ -10,26 +10,23 @@ const { useStepper, steps } = defineStepper(
         description: 'Enter your Company Registration and Licensing details',
     },
     {
-        id: 'rolesAndRes',
-        title: 'Roles and Responsibilities',
-        description: 'Enter Roles and Responsibilities details',
-    },
-    {
         id: 'operations',
         title: 'Operations and Production',
         description: 'Enter Operations and Production details',
     },
     {
-        id: 'dbMigration',
-        title: 'DB Migration',
-        description: 'Enter DB Migration details',
+        id: 'documents',
+        title: 'Documents',
+        description: 'Upload the necessary documents',
     },
     { id: 'complete', title: 'Complete', description: 'Registration complete' }
 );
 
 
 
-export default function RegisterLeft({setActiveSection}) {
+export default function RegisterLeft({setActiveSection}:{
+    setActiveSection: any
+}) {
 
     const stepper = useStepper();
     return (
@@ -87,11 +84,10 @@ export default function RegisterLeft({setActiveSection}) {
                                     <div className="flex-1 my-4">
                                         {stepper.current.id === step.id &&
                                             stepper.switch({
-                                                registration: () => <PaymentComponent />,
-                                                roles: () => <PaymentComponent />,
-                                                operations: () => <PaymentComponent />,
-                                                migration: () => <PaymentComponent />,
-                                                complete: () => <PaymentComponent />,
+                                                companyRegistration: () => null,
+                                                operations: () => null,
+                                                dbMigration: () => null,
+                                                complete: () => null,
                                             })}
                                     </div>
                                 </div>
@@ -103,10 +99,3 @@ export default function RegisterLeft({setActiveSection}) {
         </div>
     )
 }
-
-const PaymentComponent = () => {
-    return (
-        <div>
-        </div>
-    );
-};

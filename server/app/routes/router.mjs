@@ -9,6 +9,7 @@ import {createSafetyCompliance, deleteSafety, getAllSafetyCompliances,getSafetyC
 import {createReport, getAllReports, getReport} from "./report.mjs";
 import {createPayroll, deletePayroll, getAllPayrolls, getPayroll,updatePayrollHours, updatePayrollSalary} from "./payroll.mjs";
 import {createIncident, deleteIncident, getAllIncidents, getIncident, modifyIncident} from "./incident.mjs";
+import { checkDbConnection, getFields } from "./admin/migrate.mjs";
 
 const router = Router();
 
@@ -86,5 +87,8 @@ router.get('/payroll/all', getAllPayrolls);
 router.get('/payroll/:payroll_id', getPayroll);
 router.put('/payroll/hours/:payroll_id', updatePayrollHours);
 router.delete('/payroll/delete/:payroll_id', deletePayroll);
+
+router.post('/admin/db/check', checkDbConnection)
+router.post('/admin/db/fields', getFields)
 
 export { router };

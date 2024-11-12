@@ -1,6 +1,11 @@
 import { prismaRead, prismaWrite } from "../db/prisma.mjs";
 
-
+/**
+ * 
+ * @param {req} req Request
+ * @param {res} res Response
+ * @returns Resoponse
+ */
 const createAlert = async (req, res) => {
   const { alert_type, priority, date_created, assigned_to, status } = req.body;
   if(!alert_type || !priority || !date_created || !assigned_to || !status)

@@ -5,6 +5,56 @@ import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useState, useEffect } from "react";
+import { AlertCircle, ChevronDown, ChevronRight } from "lucide-react";
+import DbMapping from "./DbMapping";
+
+const DatabaseList = ({ databases }) => {
+    const [expandedDbs, setExpandedDbs] = useState({});
+
+    const toggleDatabase = (dbName) => {
+        setExpandedDbs(prev => ({
+            ...prev,
+            [dbName]: !prev[dbName]
+        }));
+    };
+
+    return (
+        <div className="space-y-2">
+            <Label>Available Databases and Tables</Label>
+            <div className="p-4 bg-gray-100 rounded-md">
+                <div className="space-y-2">
+                    {databases.map((db) => (
+                        <div key={db.name} className="space-y-1">
+                            <div 
+                                className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-1 rounded"
+                                onClick={() => toggleDatabase(db.name)}
+                            >
+                                {expandedDbs[db.name] ? 
+                                    <ChevronDown className="w-4 h-4" /> : 
+                                    <ChevronRight className="w-4 h-4" />
+                                }
+                                <span className="font-medium">{db.name}</span>
+                                <span className="text-xs text-gray-500">({db.tables.length} tables)</span>
+                            </div>
+                            {expandedDbs[db.name] && (
+                                <div className="ml-6 space-y-1">
+                                    {db.tables.map((table) => (
+                                        <div 
+                                            key={table}
+                                            className="text-sm text-gray-600 hover:bg-gray-200 p-1 rounded pl-2"
+                                        >
+                                            {table}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const Migration = () => {
     const [formData, setFormData] = useState({
@@ -16,7 +66,7 @@ const Migration = () => {
         password: '',
     });
     const [isRequestSent, setIsRequestSent] = useState(false);
-
+    const [databases, setDatabases] = useState([]);
     const [connectionString, setConnectionString] = useState('');
     const [error, setError] = useState('');
 
@@ -80,7 +130,7 @@ const Migration = () => {
         }
 
         try {
-            setIsRequestSent(true)
+            setIsRequestSent(true);
             const res = await fetch('http://localhost:3000/api/v1/admin/db/check', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -93,21 +143,24 @@ const Migration = () => {
                 },
             });
 
+            const data = await res.json();
+
             if (res.status === 200) {
-                alert('Connection Successful!');
+                setDatabases(data.data);
                 setIsRequestSent(false);
             } else {
-                alert('Something went wrong while connecting!');
-                setIsRequestSent(false)
+                alert('Something went wrong while connecting!: ' + data.error);
+                setIsRequestSent(false);
             }
         } catch (error) {
             console.error('Error connecting to database:', error);
             setError('Error connecting to database');
+            setIsRequestSent(false);
         }
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+        <div className="flex space-y-2 flex-col justify-center items-center min-h-screen bg-gray-50 p-4">
             <Card className="w-full max-w-lg">
                 <CardHeader>
                     <h1 className="text-center text-2xl font-semibold">Database Migration</h1>
@@ -191,6 +244,10 @@ const Migration = () => {
                             </div>
                         )}
 
+                        {databases.length > 0 && (
+                            <DatabaseList databases={databases} />
+                        )}
+
                         {error && (
                             <Alert variant="destructive">
                                 <AlertDescription>{error}</AlertDescription>
@@ -204,6 +261,15 @@ const Migration = () => {
                     </Button>
                 </CardFooter>
             </Card>
+            {
+                databases.length != 0 ?
+                <DbMapping
+                    databases={databases}
+                    connectionString={connectionString}
+                    dbType={formData.dbType}
+                />:
+                <p></p>
+            }
         </div>
     );
 };

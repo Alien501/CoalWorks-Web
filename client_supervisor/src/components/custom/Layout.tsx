@@ -33,7 +33,7 @@ const Layout = () => {
             <SideNavbar />
             <SidebarInset>
                 <main>
-                    <div className="flex items-center p-2 h-16 shadow-lg">
+                    <div className="flex items-center p-2 h-16 shadow-md">
                         <SidebarTrigger />
                         <TopNavbar pageTitle={pageTitle} />
                     </div>

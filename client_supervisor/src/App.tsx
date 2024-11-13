@@ -9,6 +9,7 @@ import Archives from './pages/Archives'
 import Templates from './pages/Templates'
 import ShiftHandover from './pages/ShiftHandover'
 import RoundPlans from './pages/RoundPlans'
+import PdfGenerator from './pages/PdfGenerator'
 
 function App() {
   const router = createBrowserRouter([
@@ -51,6 +52,10 @@ function App() {
         {
           path: 'shift-handover',
           element: <ShiftHandover />
+        },
+        {
+          path: 'pdf-generator',
+          element: <PdfGenerator />
         }
       ]
     }

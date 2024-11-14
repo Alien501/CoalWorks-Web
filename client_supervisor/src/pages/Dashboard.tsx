@@ -10,6 +10,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { ChartBar, ChartColumn, ChartPie, ChartSpline, FileText, MailPlus } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const WidgetForm = () => {
     const [chartType, setChartType] = useState<string>('');
@@ -135,9 +136,11 @@ const Dashboard = () => {
                     <Button variant="secondary" className="hover:bg-gray-200">
                         <span><MailPlus /></span>
                     </Button>
-                    <Button variant="secondary" className="hover:bg-gray-200">
-                        <span><FileText /></span>
-                    </Button>
+                    <Link to={'/pdf-generator'}>
+                        <Button variant="secondary" className="hover:bg-gray-200">
+                            <span><FileText /></span>
+                        </Button>
+                    </Link>
                     <Dialog>
                         <DialogTrigger>
                             <Button>

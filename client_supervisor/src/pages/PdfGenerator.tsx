@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { DownloadIcon, MoveLeftIcon } from "lucide-react";
 import { useState } from "react";
 import { Document, Text, View, Page, StyleSheet, PDFDownloadLink } from "@react-pdf/renderer";
+import { useNavigate } from "react-router-dom";
 
 const PdfGenerator = () => {
     const [config, setConfig] = useState({
@@ -19,6 +20,8 @@ const PdfGenerator = () => {
         customText: "",
         customLabel: ""
     });
+
+    const navigate = useNavigate();
 
     const onCheckBoxClicked = (key) => {
         setConfig(prev => ({
@@ -179,7 +182,7 @@ const PdfGenerator = () => {
     return (
         <div className="pdf-gen-wrapper">
             <div className="pdf-gen-header w-full h-14 flex items-center">
-                <Button id="back-button" variant="ghost">
+                <Button onClick={() => navigate(-1)} id="back-button" variant="ghost">
                     <MoveLeftIcon />
                 </Button>
                 <Label htmlFor="back-button">Back</Label>

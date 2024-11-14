@@ -16,7 +16,8 @@ const pageTitles: PageTitle[] = [
     { url: '/observations', title: 'Observations' },
     { url: '/archives', title: 'Archives' },
     { url: '/templates', title: 'Templates' },
-    { url: '/shift-handover', title: 'Shift Handover' }
+    { url: '/shift-handover', title: 'Shift Handover' },
+    { url: '/pdf-generator', title: 'Generate PDF' }
 ]
 
 const Layout = () => {

@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
 import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, Gauge, GroupIcon, Handshake, Home, LayoutPanelTop, PartyPopperIcon, Route } from "lucide-react";
+import {Box} from "lucide-react"
 
 interface MenuItems {
     title: string;
@@ -56,18 +57,18 @@ const menuItems: MenuItems[] = [
 
 const SideNavbar = () => {
     return(
-        <Sidebar collapsible="icon" variant="sidebar">
-            <SidebarHeader className="flex justify-center items-center">
-                <span><PartyPopperIcon /></span>
+        <Sidebar collapsible="icon" variant="sidebar" className="font-poppins">
+            <SidebarHeader className="flex justify-center items-center border-b h-[64px]">
+                <span className="flex font-bold space-x-1 justify-center text-xl items-center w-full h-[23px]"><Box /><span>CoalWorks</span></span>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuItems.map((menu) => (
-                                <SidebarMenuItem key={menu.title} className="h-10">
+                                <SidebarMenuItem key={menu.title} className="h-9">
                                     <SidebarMenuButton asChild>
-                                        <Link className="text-black bg-gray-200/20 hover:bg-gray-200/80 text-sm font-medium" to={menu.url}>
+                                        <Link className="text-black hover:bg-gray-200/80 text-lg font-medium" to={menu.url}>
                                             <menu.icon />
                                             <span>{menu.title}</span>
                                         </Link>
@@ -85,7 +86,7 @@ const SideNavbar = () => {
 
 const TopNavbar = ({pageTitle}: { pageTitle: string }) => {
     return(
-        <header className="w-full flex justify-between items-center">
+        <header className="w-full flex justify-between items-center font-poppins">
             <div>
                 <span className="text-sm font-bold">{pageTitle}</span>                
             </div>

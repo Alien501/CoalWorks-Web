@@ -20,7 +20,7 @@ const WidgetForm = () => {
     }
 
     return (
-        <div>
+        <div className="font-poppins">
             <div className="flex items-center">
                 <div className="space-y-4">
                     <Input

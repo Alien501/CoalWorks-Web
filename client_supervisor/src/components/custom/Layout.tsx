@@ -34,7 +34,7 @@ const Layout = () => {
             <SideNavbar />
             <SidebarInset>
                 <main>
-                    <div className="flex items-center p-2 h-16 shadow-md">
+                    <div className="flex items-center px-2 py-4 h-16 border-b ">
                         <SidebarTrigger />
                         <TopNavbar pageTitle={pageTitle} />
                     </div>

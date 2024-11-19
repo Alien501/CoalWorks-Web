@@ -1,15 +1,16 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import Layout from './components/custom/Layout'
-import Dashboard from './pages/Dashboard'
-import Reports from './pages/Reports'
-import Scheduler from './pages/Scheduler'
-import Observations from './pages/Observations'
-import Archives from './pages/Archives'
-import Templates from './pages/Templates'
-import ShiftHandover from './pages/ShiftHandover'
-import RoundPlans from './pages/RoundPlans'
-import PdfGenerator from './pages/PdfGenerator'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './App.css';
+import Layout from './components/custom/Layout';
+import Dashboard from './pages/Dashboard';
+import Reports from './pages/Reports';
+import Scheduler from './pages/Scheduler';
+import Observations from './pages/Observations';
+import Archives from './pages/Archives';
+import Templates from './pages/Templates';
+import ShiftHandover from './pages/ShiftHandover';
+import RoundPlans from './pages/RoundPlans';
+import PdfGenerator from './pages/PdfGenerator';
+import { Toaster } from 'sonner';
 
 function App() {
   const router = createBrowserRouter([
@@ -19,49 +20,54 @@ function App() {
       children: [
         {
           index: true,
-          element: <Dashboard />
+          element: <Dashboard />,
         },
         {
           path: 'home',
-          element: <Dashboard />
+          element: <Dashboard />,
         },
         {
           path: 'reports',
-          element: <Reports />
+          element: <Reports />,
         },
         {
           path: 'rounds',
-          element: <RoundPlans />
+          element: <RoundPlans />,
         },
         {
           path: 'scheduler',
-          element: <Scheduler />
+          element: <Scheduler />,
         },
         {
           path: 'observations',
-          element: <Observations />
+          element: <Observations />,
         },
         {
           path: 'archives',
-          element: <Archives />
+          element: <Archives />,
         },
         {
           path: 'templates',
-          element: <Templates />
+          element: <Templates />,
         },
         {
           path: 'shift-handover',
-          element: <ShiftHandover />
+          element: <ShiftHandover />,
         },
         {
           path: 'pdf-generator',
-          element: <PdfGenerator />
-        }
-      ]
-    }
-  ])
+          element: <PdfGenerator />,
+        },
+      ],
+    },
+  ]);
 
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <Toaster />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
-export default App
+export default App;

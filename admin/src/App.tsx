@@ -7,6 +7,7 @@ import Migration from './components/custom/Migration/Migration'
 import HomePage from './pages/Home'
 import ComplianceDashboard from './pages/ComplianceDashboard'
 import Layout from './components/custom/Layout'
+import MasterData from './pages/MasterData'
 
 function App() {
 
@@ -23,6 +24,10 @@ function App() {
           path: 'home',
           element: <HomePage />
         },
+        {
+          path: 'master-data',
+          element: <MasterData />
+        }
       ]
     },
     {

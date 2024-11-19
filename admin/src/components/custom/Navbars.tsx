@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, Gauge, Handshake, LayoutPanelTop, Route } from "lucide-react";
+import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, Handshake, LayoutPanelTop, PickaxeIcon, Route, Settings, Settings2Icon, UserRoundCog } from "lucide-react";
 import {Box} from "lucide-react"
 
 interface MenuItems {
@@ -19,40 +19,35 @@ const menuItems: MenuItems[] = [
         title: "Dashboard"
     },
     {
-        icon: FileChartColumn,
+        icon: FolderCog2Icon,
         url: '/reports',
         title: 'Reports'
     },
     {
-        icon: Route,
+        icon: UserRoundCog,
         url: '/rounds',
         title: 'Round Plans'
     },
     {
-        icon: CalendarCheck2,
+        icon: ForkliftIcon,
         url: '/scheduler',
         title: 'Scheduler'
     },
     {
-        icon: Eye,
+        icon: FileTextIcon,
         url: '/observations',
         title: 'Observations'
     },
     {
-        icon: Archive,
+        icon: PickaxeIcon,
         url: '/archives',
         title: 'Archives'
     },
     {
-        icon: LayoutPanelTop,
+        icon: Settings,
         url: '/templates',
         title: 'Templates'
     },
-    {
-        icon: Handshake,
-        url: '/shift-handover',
-        title: 'Shift Handover'
-    }
 ]
 
 const SideNavbar = () => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pie, PieChart, Cell, Legend } from "recharts";
 
 const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'];
@@ -14,6 +13,7 @@ const data = [
     },
 ];
 
+//@ts-ignore
 const CustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -49,7 +49,7 @@ const PieChartComponent = () => {
                     dataKey="percentage"
                     nameKey="status"
                 >
-                    {data.map((entry, index) => (
+                    {data.map((_, index) => (
                         <Cell 
                             key={`cell-${index}`} 
                             fill={COLORS[index % COLORS.length]}

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { SchedulerTable } from "@/components/custom/schedulerTable";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react"
 const Scheduler = () => {
     const [activeTab, setActiveTab] = useState('Plans');

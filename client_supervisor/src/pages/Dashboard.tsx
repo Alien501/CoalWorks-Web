@@ -92,6 +92,7 @@ const WidgetForm = () => {
 
 const Dashboard = () => {
     const [dayFilter, setDayFilter] = useState('');
+    console.log(dayFilter)
 
     const onDayFilterChanged = (e: string) => {
         setDayFilter(e);

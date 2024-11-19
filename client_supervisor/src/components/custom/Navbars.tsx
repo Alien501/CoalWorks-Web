@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, Gauge, GroupIcon, Handshake, Home, LayoutPanelTop, PartyPopperIcon, Route } from "lucide-react";
+import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, Gauge, Handshake, LayoutPanelTop, Route } from "lucide-react";
 import {Box} from "lucide-react"
 
 interface MenuItems {

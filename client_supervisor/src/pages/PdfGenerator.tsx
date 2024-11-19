@@ -23,14 +23,15 @@ const PdfGenerator = () => {
 
     const navigate = useNavigate();
 
-    const onCheckBoxClicked = (key) => {
+    const onCheckBoxClicked = (key:any) => {
         setConfig(prev => ({
             ...prev,
+            //@ts-ignore
             [key]: !prev[key]
         }));
     };
 
-    const onInputChanged = (e) => {
+    const onInputChanged = (e:any) => {
         setConfig(prev => ({
             ...prev,
             [e.target.name]: e.target.value

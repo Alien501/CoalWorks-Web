@@ -6,13 +6,24 @@ import FormBuilder from './components/custom/FormBuilder/FormBuilder'
 import Migration from './components/custom/Migration/Migration'
 import HomePage from './pages/Home'
 import ComplianceDashboard from './pages/ComplianceDashboard'
+import Layout from './components/custom/Layout'
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <HomePage />
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />
+        },
+        {
+          path: 'home',
+          element: <HomePage />
+        },
+      ]
     },
     {
       path: '/login',

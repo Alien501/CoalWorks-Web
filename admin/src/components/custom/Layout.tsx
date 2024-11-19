@@ -15,7 +15,7 @@ const pageTitles: PageTitle[] = [
     { url: '/scheduler', title: 'Scheduler' },
     { url: '/observations', title: 'Observations' },
     { url: '/archives', title: 'Archives' },
-    { url: '/templates', title: 'Templates' },
+    { url: '/master-data', title: 'Master Config' },
     { url: '/shift-handover', title: 'Shift Handover' },
     { url: '/pdf-generator', title: 'Generate PDF' }
 ]

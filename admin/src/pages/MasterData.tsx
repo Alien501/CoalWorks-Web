@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Crown, FactoryIcon } from "lucide-react";
+import { CalendarCheck, Crown, FactoryIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const MasterData = () => {
@@ -21,6 +21,21 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <FactoryIcon className="mx-auto mb-4" size={70} strokeWidth={1.5} />
+                                    <p className="text-xl font-semibold text-gray-700">Manage Plants</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                    <Link to={'/master-data/shift'} className="block">
+                        <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <CardHeader>
+                                <CardTitle className="flex items-center justify-between">
+                                    Shift Configuration
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex items-center justify-center h-40">
+                                <div className="text-center">
+                                    <CalendarCheck className="mx-auto mb-4" size={70} strokeWidth={1.5} />
                                     <p className="text-xl font-semibold text-gray-700">Manage Plants</p>
                                 </div>
                             </CardContent>

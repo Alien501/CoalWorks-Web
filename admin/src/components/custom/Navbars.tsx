@@ -45,8 +45,8 @@ const menuItems: MenuItems[] = [
     },
     {
         icon: Settings,
-        url: '/templates',
-        title: 'Templates'
+        url: '/master-data',
+        title: 'Master Config'
     },
 ]
 

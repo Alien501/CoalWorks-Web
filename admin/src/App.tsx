@@ -8,6 +8,7 @@ import HomePage from './pages/Home'
 import ComplianceDashboard from './pages/ComplianceDashboard'
 import Layout from './components/custom/Layout'
 import MasterData from './pages/MasterData'
+import MasterShift from './pages/MasterShift'
 
 function App() {
 
@@ -27,6 +28,10 @@ function App() {
         {
           path: 'master-data',
           element: <MasterData />
+        },
+        {
+          path: 'master-data/shift',
+          element: <MasterShift />
         }
       ]
     },

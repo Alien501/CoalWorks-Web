@@ -4,13 +4,15 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import FormBuilder from './components/custom/FormBuilder/FormBuilder'
 import Migration from './components/custom/Migration/Migration'
+import HomePage from './pages/Home'
+import ComplianceDashboard from './pages/ComplianceDashboard'
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <h1>Home</h1>
+      element: <HomePage />
     },
     {
       path: '/login',
@@ -27,14 +29,14 @@ function App() {
     {
       path: '/migrate',
       element: <Migration />
+    },
+    {
+      path: '/compliance',
+      element: <ComplianceDashboard />
     }
   ])
 
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App

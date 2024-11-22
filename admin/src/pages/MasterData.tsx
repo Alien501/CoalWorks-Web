@@ -36,7 +36,7 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <CalendarCheck className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700">Manage Plants</p>
+                                    <p className="text-xl font-semibold text-gray-700">Manage Shifts</p>
                                 </div>
                             </CardContent>
                         </Card>

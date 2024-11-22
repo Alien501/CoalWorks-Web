@@ -1,3 +1,9 @@
+"use client"
+
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import {
     Table,
     TableBody,
@@ -5,112 +11,309 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
-import { Ellipsis } from "lucide-react";
-import { Search } from "lucide-react"
+} from "@/components/ui/table"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { Factory } from "lucide-react"
-const Plants = () => {
-    const plants = [
-        {
-            "Name": "DTY Plant",
-            "Plant Id": "DTY Plant",
-            "Country": "IN",
-            "State": "Maharashtra",
-            "Zip Code": "400324"
+import { Input } from "@/components/ui/input"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import { Factory, MoreHorizontal, Plus, Search } from 'lucide-react'
+import Modal from "@/components/own/Modal"
+
+const plantsData = [
+    {
+        "Name": "DTY Plant",
+        "Plant Id": "DTY Plant",
+        "Country": "IN",
+        "State": "Maharashtra",
+        "Zip Code": "400324"
+    },
+    {
+        "Name": "Hershey",
+        "Plant Id": "HER",
+        "Country": "USA",
+        "State": "USA",
+        "Zip Code": "940404"
+    },
+    {
+        "Name": "RELJamNagar",
+        "Plant Id": "REL",
+        "Country": "REL",
+        "State": "Gujarat",
+        "Zip Code": "500006"
+    },
+    {
+        "Name": "JK Cement",
+        "Plant Id": "112909",
+        "Country": "India",
+        "State": "Rajasthan",
+        "Zip Code": "400983"
+    },
+    {
+        "Name": "Cement Production Plant",
+        "Plant Id": "1008",
+        "Country": "IN",
+        "State": "Maharashtra",
+        "Zip Code": "440023"
+    },
+    {
+        "Name": "Chems Plant",
+        "Plant Id": "1100",
+        "Country": "USA",
+        "State": "Texas",
+        "Zip Code": "462132"
+    },
+    {
+        "Name": "Pasadena Plastics",
+        "Plant Id": "UA01",
+        "Country": "US",
+        "State": "CA",
+        "Zip Code": "010020"
+    }
+]
+
+const formSchema = z.object({
+    name: z.string().min(2, {
+        message: "Name must be at least 2 characters.",
+    }),
+    plantId: z.string().min(2, {
+        message: "Plant ID must be at least 2 characters.",
+    }),
+    country: z.string().min(2, {
+        message: "Country must be at least 2 characters.",
+    }),
+    state: z.string().min(2, {
+        message: "State must be at least 2 characters.",
+    }),
+    zipCode: z.string().min(5, {
+        message: "Zip Code must be at least 5 characters.",
+    }),
+})
+
+export function Plants() {
+    const [plants, setPlants] = useState(plantsData)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [sortColumn, setSortColumn] = useState("")
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",
+            plantId: "",
+            country: "",
+            state: "",
+            zipCode: "",
         },
-        {
-            "Name": "Hershey",
-            "Plant Id": "HER",
-            "Country": "USA",
-            "State": "USA",
-            "Zip Code": "940404"
-        },
-        {
-            "Name": "RELJamNagar",
-            "Plant Id": "REL",
-            "Country": "REL",
-            "State": "Gujarat",
-            "Zip Code": "500006"
-        },
-        {
-            "Name": "JK Cement",
-            "Plant Id": "112909",
-            "Country": "India",
-            "State": "Rajasthan",
-            "Zip Code": "400983"
-        },
-        {
-            "Name": "Cement Production Plant",
-            "Plant Id": "1008",
-            "Country": "IN",
-            "State": "Maharashtra",
-            "Zip Code": "440023"
-        },
-        {
-            "Name": "Chems Plant",
-            "Plant Id": "1100",
-            "Country": "USA",
-            "State": "Texas",
-            "Zip Code": "462132"
-        },
-        {
-            "Name": "Pasadena Plastics",
-            "Plant Id": "UA01",
-            "Country": "US",
-            "State": "CA",
-            "Zip Code": "010020"
+    })
+
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        setPlants([...plants, { ...values, "Plant Id": values.plantId, "Zip Code": values.zipCode }])
+        form.reset()
+    }
+
+    const filteredPlants = plants.filter((plant) =>
+        Object.values(plant).some((value) =>
+            value.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    )
+
+    const sortedPlants = [...filteredPlants].sort((a, b) => {
+        if (!sortColumn) return 0
+        const aValue = a[sortColumn as keyof typeof a]
+        const bValue = b[sortColumn as keyof typeof b]
+        if (aValue < bValue) return sortOrder === "asc" ? -1 : 1
+        if (aValue > bValue) return sortOrder === "asc" ? 1 : -1
+        return 0
+    })
+
+    const handleSort = (column: string) => {
+        if (column === sortColumn) {
+            setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+        } else {
+            setSortColumn(column)
+            setSortOrder("asc")
         }
-    ]
+    }
+
+    const NewPlant = () => {
+        return(
+            <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Plant name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="plantId"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Plant ID</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Plant ID" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Country</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Country" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>State</FormLabel>
+                            <FormControl>
+                                <Input placeholder="State" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Zip Code</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Zip Code" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <DialogFooter>
+                    <Button type="submit">Save Plant</Button>
+                </DialogFooter>
+            </form>
+        </Form>
+        )
+    }
 
     return (
-        <div id="ShiftHandover-wrapper" className=" font-poppins">
-            <div className="mt-2 border-b pb-2 flex justify-between items-center px-2 h-12">
-                <span className="font-semibold">Plants</span>
-                <div className="flex">
-                    <span className='pr-4'>
-                        <div className="flex items-center border rounded w-60 p-1">
-                            <Search className="text-gray-400 mr-2" size={20} />
-                            <input
-                                placeholder="Search"
-                                className="w-full border-none focus:ring-0 focus:outline-none text-sm py-1"
-                            />
-                        </div>
-                    </span>
-                    <Button>Create New</Button>
+        <div className="container mx-auto py-10">
+            <div className="flex justify-between items-center mb-6 p-2">
+                <h1 className="text-3xl font-bold">Plants</h1>
+                <div className="flex items-center space-x-4">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                        <Input
+                            placeholder="Search plants..."
+                            className="pl-10 w-64"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <Modal
+                        modalTitle="Add New Plant"
+                        modalTriggerElement={<Button><Plus className="mr-2 h-4 w-4" /> Add New Plant</Button>}
+                        modalContent={<NewPlant />}
+                    />
                 </div>
             </div>
-            <div>
+            <div className="border rounded-lg overflow-hidden">
                 <Table>
-                    <TableHeader className="bg-black/[0.05]">
+                    <TableHeader>
                         <TableRow>
-                            <TableHead className="w-[200px]">Name</TableHead>
-                            <TableHead>Plant Id</TableHead>
-                            <TableHead>Country</TableHead>
-                            <TableHead>State</TableHead>
-                            <TableHead>Zip Code</TableHead>
+                            <TableHead className="w-[200px] cursor-pointer" onClick={() => handleSort("Name")}>
+                                Name {sortColumn === "Name" && (sortOrder === "asc" ? "▲" : "▼")}
+                            </TableHead>
+                            <TableHead className="cursor-pointer" onClick={() => handleSort("Plant Id")}>
+                                Plant Id {sortColumn === "Plant Id" && (sortOrder === "asc" ? "▲" : "▼")}
+                            </TableHead>
+                            <TableHead className="cursor-pointer" onClick={() => handleSort("Country")}>
+                                Country {sortColumn === "Country" && (sortOrder === "asc" ? "▲" : "▼")}
+                            </TableHead>
+                            <TableHead className="cursor-pointer" onClick={() => handleSort("State")}>
+                                State {sortColumn === "State" && (sortOrder === "asc" ? "▲" : "▼")}
+                            </TableHead>
+                            <TableHead className="cursor-pointer" onClick={() => handleSort("Zip Code")}>
+                                Zip Code {sortColumn === "Zip Code" && (sortOrder === "asc" ? "▲" : "▼")}
+                            </TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {plants.map((plant, index) => (
+                        {sortedPlants.map((plant, index) => (
                             <TableRow key={index}>
-                                <TableCell className="font-medium flex space-x-2"><span className="mr-2"><Factory></Factory></span><span>{plant.Name}</span></TableCell>
+                                <TableCell className="font-medium">
+                                    <div className="flex items-center space-x-2">
+                                        <Factory className="h-4 w-4" />
+                                        <span>{plant.Name}</span>
+                                    </div>
+                                </TableCell>
                                 <TableCell>{plant["Plant Id"]}</TableCell>
                                 <TableCell>{plant.Country}</TableCell>
                                 <TableCell>{plant.State}</TableCell>
                                 <TableCell>{plant["Zip Code"]}</TableCell>
-                                <TableCell className="text-right flex justify-end pr-8">
-                                    <span className="hover:cursor-pointer"><Ellipsis className="w-5" /></span>
+                                <TableCell className="text-right">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                                <span className="sr-only">Open menu</span>
+                                                <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                            <DropdownMenuItem>Edit Plant</DropdownMenuItem>
+                                            <DropdownMenuItem>View Details</DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem className="text-red-600">Delete Plant</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-
             </div>
         </div>
     )
 }
 
-export default Plants;

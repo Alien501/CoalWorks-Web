@@ -7,10 +7,11 @@ import Migration from './components/custom/Migration/Migration'
 import HomePage from './pages/Home'
 import ComplianceDashboard from './pages/ComplianceDashboard'
 import Layout from './components/custom/Layout'
-import Plants from './pages/plants'
 import Locations from './pages/locations'
 import MasterData from './pages/MasterData'
 import MasterShift from './pages/MasterShift'
+import MasterAsset from './pages/MasterAsset'
+import { Plants } from './pages/plants'
 
 function App() {
 
@@ -34,6 +35,18 @@ function App() {
         {
           path: 'master-data/shift',
           element: <MasterShift />
+        },
+        {
+          path:'master-data/plants',
+          element: <Plants />
+        },
+        {
+          path:'master-data/locations',
+          element: <Locations />
+        },
+        {
+          path: 'master-data/assets',
+          element: <MasterAsset />
         }
       ]
     },
@@ -56,14 +69,6 @@ function App() {
     {
       path: '/compliance',
       element: <ComplianceDashboard />
-    },
-    {
-      path:'/master-data/plants',
-      element: <Plants />
-    },
-    {
-      path:'/master-data/locations',
-      element: <Locations />
     }
   ])
 

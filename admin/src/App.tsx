@@ -11,6 +11,7 @@ import Locations from './pages/locations'
 import MasterData from './pages/MasterData'
 import MasterShift from './pages/MasterShift'
 import MasterAsset from './pages/MasterAsset'
+import Map from './pages/map'
 import { Plants } from './pages/plants'
 
 function App() {
@@ -69,6 +70,10 @@ function App() {
     {
       path: '/compliance',
       element: <ComplianceDashboard />
+    },
+    {
+      path: '/map',
+      element: <Map></Map>
     }
   ])
 

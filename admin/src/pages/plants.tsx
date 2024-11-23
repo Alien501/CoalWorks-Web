@@ -95,21 +95,11 @@ const plantsData = [
 ]
 
 const formSchema = z.object({
-    name: z.string().min(2, {
-        message: "Name must be at least 2 characters.",
-    }),
-    plantId: z.string().min(2, {
-        message: "Plant ID must be at least 2 characters.",
-    }),
-    country: z.string().min(2, {
-        message: "Country must be at least 2 characters.",
-    }),
-    state: z.string().min(2, {
-        message: "State must be at least 2 characters.",
-    }),
-    zipCode: z.string().min(5, {
-        message: "Zip Code must be at least 5 characters.",
-    }),
+    name: z.string(),
+    plantId: z.string(),
+    country: z.string(),
+    state: z.string(),
+    zipCode: z.string()
 })
 
 export function Plants() {
@@ -117,6 +107,8 @@ export function Plants() {
     const [searchTerm, setSearchTerm] = useState("")
     const [sortColumn, setSortColumn] = useState("")
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
+    const [name, setName] = useState("")
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -130,7 +122,8 @@ export function Plants() {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        setPlants([...plants, { ...values, "Plant Id": values.plantId, "Zip Code": values.zipCode }])
+        console.log(values)
+        setPlants((...prev: any) => [...prev, { ...values, "Plant Id": values.plantId, "Zip Code": values.zipCode }])
         form.reset()
     }
 

@@ -13,6 +13,7 @@ import MasterShift from './pages/MasterShift'
 import MasterAsset from './pages/MasterAsset'
 import Map from './pages/map'
 import { Plants } from './pages/plants'
+import MapConfg from './pages/MapConfg'
 
 function App() {
 
@@ -73,7 +74,11 @@ function App() {
     },
     {
       path: '/map',
-      element: <Map></Map>
+      element: <Map />
+    },
+    {
+      path: '/map-confg',
+      element: <MapConfg />
     }
   ])
 

@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, X as CrossIcon } from "lucide-react";
+import Map from './map';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const MapConfig = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -88,7 +90,29 @@ const MapConfig = () => {
 
     return (
         <section id="map-config">
-            <Dialog defaultOpen open={currentStep <= 5} onOpenChange={handleOpenChange}>
+            <div className='grid grid-cols-[80%_20%] h-screen'>
+                <div className='w-full h-full'>
+                    <Map />
+                </div>
+                <div className='w-full h-full p-1'>
+                    <div>
+                        <Select>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value='scale-1'>Large Section</SelectItem>
+                                <SelectItem value='scale-2'>Medium Section</SelectItem>
+                                <SelectItem value='scale-3'>Small Section</SelectItem>
+                                <SelectItem value='scale-4'>Extra Small Section</SelectItem>
+                                <SelectItem value='scale-5'>Unit Section</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                     
+                </div>
+            </div>
+            {/* <Dialog defaultOpen open={currentStep <= 5} onOpenChange={handleOpenChange}>
                 <DialogContent className="max-w-2xl" onInteractOutside={(e) => {
                     if (!isAllSectionsComplete()) {
                         e.preventDefault();
@@ -206,7 +230,7 @@ const MapConfig = () => {
                         </div>
                     </DialogDescription>
                 </DialogContent>
-            </Dialog>
+            </Dialog> */}
         </section>
     );
 };

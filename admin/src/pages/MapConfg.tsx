@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { PlusIcon, X as CrossIcon } from "lucide-react";
+import { PlusIcon, X as CrossIcon, PencilIcon, SaveIcon } from "lucide-react";
 import Map from './map';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Item } from '@radix-ui/react-select';
@@ -24,9 +24,54 @@ const MapConfig = () => {
     });
     const [newItem, setNewItem] = useState('');
     const [currentSection, setCurrentSection] = useState(null);
+    const [canEditMap, setCanEditMap] = useState(false);
+    const [areaName, setAreaName] = useState('');
+    const [areaItems, setAreaItems] = useState([]);
+    const [areaDescription, setAreaDescription] = useState('');
+    const [areaSize, setAreaSize] = useState(0);
 
     const onSectionChange = (e) => {
         setCurrentSection(e)
+    }
+
+    const onAreaNameChanged = (e) => {
+        const value = e.target.value;
+        setAreaName(prev => value.trim())
+    }
+
+    const onAreaDescriptionChanged = (e) => {
+        const value = e.target.value;
+        setAreaDescription(prev => value.trim())
+    }
+
+    const onAreaSizeChanged = (e) => {
+        const value = e.target.value;
+        if (!isNaN(value)) {
+            setAreaSize(prev => parseFloat(value));
+        }
+    }
+
+    const onAreaItemsSelected = (e: string) => {
+        if (e.trim() == '') {
+            return;
+        }
+        setAreaItems(prev => {
+            return [
+                ...prev,
+                e
+            ]
+        })
+    }
+
+    const onAddAreaClicked = () => {
+        if (areaName.trim() == '' || areaDescription.trim() == '') {
+            return
+        }
+        console.log(areaName);
+        console.log(areaDescription);
+        console.log(areaSize);
+        console.log(areaItems)
+        setCanEditMap(prev => !prev);
     }
 
     const sections = {
@@ -119,13 +164,22 @@ const MapConfig = () => {
         }
     }, []);
 
+    // TODO: Save all map details as a list with coordinates
+    // 1. Create a state to hold that data
+    // 2. Drill that state inside map component
+    // 3. Retain previous drawing if possible
+    // 4. Drill current formdata inside map and make it available inside drawn area
+    const onSaveAreaClicked = () => {
+        setCanEditMap(prev => !prev)
+    }
+
     return (
         <section id="map-config">
             <div className='grid grid-cols-[79%_19%] h-[90vh] gap-2'>
                 <div className='w-full h-full'>
                     <Card className='p-2'>
                         <CardContent className='p-0 rounded-sm overflow-hidden'>
-                            <Map />
+                            <Map isEditable={canEditMap} />
                         </CardContent>
                     </Card>
                 </div>
@@ -159,7 +213,7 @@ const MapConfig = () => {
                                                 <div className="pr-4"> {/* Add padding for scrollbar */}
                                                     {formData[currentSection].items.map((item, index) => (
                                                         <div key={`${item}-${index}`} className="p-2 flex w-full items-center space-x-2 hover:bg-gray-50">
-                                                            <Checkbox id={`${item}-${index}`} />
+                                                            <Checkbox onCheckedChange={() => onAreaItemsSelected(item)} id={`${item}-${index}`} />
                                                             <Label
                                                                 htmlFor={`${item}-${index}`}
                                                                 className="text-sm cursor-pointer"
@@ -183,14 +237,17 @@ const MapConfig = () => {
                                 <Input
                                     placeholder='Name'
                                     type='text'
+                                    onChange={onAreaNameChanged}
                                 />
                                 <Textarea
                                     placeholder='Descritpion about that palce'
+                                    onChange={onAreaDescriptionChanged}
                                 />
                                 <div className='flex items-center space-x-2'>
                                     <Input
                                         placeholder='Approx. Area'
                                         type='number'
+                                        onChange={onAreaSizeChanged}
                                     />
                                     <span>
                                         km
@@ -198,11 +255,29 @@ const MapConfig = () => {
                                 </div>
                             </div>
 
-                            <div className='flex items-center justify-end'>
-                                <Button>
-                                    <span><PlusIcon /></span>
-                                    <span>Add icon</span>
-                                </Button>
+                            <div className='flex items-center justify-evenly'>
+                                {canEditMap ?
+                                    <Button disabled>
+                                        <span><PlusIcon /></span>
+                                        <span>Add Area</span>
+                                    </Button>
+                                    :
+                                    <Button onClick={onAddAreaClicked}>
+                                        <span><PencilIcon /></span>
+                                        <span>Draw Area</span>
+                                    </Button>
+                                }
+                                {!canEditMap ?
+                                    <Button disabled>
+                                        <span><SaveIcon /></span>
+                                        <span>Save Area</span>
+                                    </Button>
+                                    :
+                                    <Button onClick={onAddAreaClicked}>
+                                        <span><SaveIcon /></span>
+                                        <span>Save Area</span>
+                                    </Button>
+                                }
                             </div>
                         </div>
                     </CardContent>

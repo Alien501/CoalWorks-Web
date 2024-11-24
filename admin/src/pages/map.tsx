@@ -17,7 +17,7 @@ const SECTION_COLORS = {
   unit: '#FF44FF'
 };
 
-export default function Map() {
+export default function Map({ isEditable }: { isEditable: boolean }) {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const drawRef = useRef(null);
@@ -43,7 +43,6 @@ export default function Map() {
         zoom: viewState.zoom,
       });
 
-      // Wait for map to load before adding controls
       mapRef.current.on('load', () => {
         initializeDraw();
       });
@@ -55,25 +54,19 @@ export default function Map() {
         mapRef.current = null;
       }
     };
-  }, []); 
+  }, []);
 
-  // Reinitialize draw control when section changes
   useEffect(() => {
     if (mapRef.current && mapRef.current.loaded()) {
-      // Store existing features before reinitializing
       const existingFeatures = drawRef.current ? drawRef.current.getAll() : null;
-      
-      // Remove existing draw control
+
       if (drawRef.current) {
         mapRef.current.removeControl(drawRef.current);
       }
 
-      // Initialize new draw control with updated styles
       initializeDraw();
 
-      // Restore existing features with updated styles
       if (existingFeatures && existingFeatures.features.length > 0) {
-        // Update properties of all features to match current section
         existingFeatures.features = existingFeatures.features.map(feature => ({
           ...feature,
           properties: {
@@ -82,18 +75,18 @@ export default function Map() {
             color: SECTION_COLORS[currentSection]
           }
         }));
-        
+
         drawRef.current.add(existingFeatures);
       }
     }
-  }, [currentSection]);
+  }, [currentSection, isEditable]);
 
   function initializeDraw() {
     drawRef.current = new MapboxDraw({
       displayControlsDefault: false,
       controls: {
-        polygon: true,
-        trash: true
+        polygon: isEditable,
+        trash: isEditable
       },
       defaultMode: drawMode,
       styles: getDrawStyles(currentSection),
@@ -101,7 +94,6 @@ export default function Map() {
 
     mapRef.current.addControl(drawRef.current);
 
-    // Add event listeners
     mapRef.current.on('draw.create', handleDrawCreate);
     mapRef.current.on('draw.update', handleDrawUpdate);
     mapRef.current.on('draw.delete', handleDrawDelete);
@@ -189,7 +181,7 @@ export default function Map() {
   };
 
   // Rest of the component remains the same...
-  
+
   function handleDrawCreate(e) {
     const feature = e.features[0];
     feature.properties = {
@@ -266,13 +258,53 @@ export default function Map() {
   }, [isLocked]);
 
   return (
-    <div className="relative h-full">
-      <div ref={mapContainerRef} className="map-container h-full w-full" />
+    <div className="relative">
+      <div ref={mapContainerRef} className="map-container h-screen w-full" />
 
-      <div className="absolute top-4 left-4 space-y-2">
-        <div className="bg-white p-2 rounded-lg shadow-lg space-y-2">
-        
-            <Select value={currentSection} onValueChange={handleSectionChange}>
+      {isEditable &&
+        <>
+          <div className="absolute top-4 left-4 space-y-2">
+            <div className="bg-white p-2 rounded-lg shadow-lg space-y-2">
+              <Button
+                onClick={toggleDrawMode}
+                variant="outline"
+                className="w-full"
+              >
+                {drawMode === 'draw_polygon' ? (
+                  <><Pencil className="mr-2 h-4 w-4" />Drawing Mode</>
+                ) : (
+                  <><MousePointer className="mr-2 h-4 w-4" />Select Mode</>
+                )}
+              </Button>
+            </div>
+          </div>
+
+          <div className="absolute bottom-4 left-4 space-x-2">
+            <Button
+              onClick={handleLock}
+              variant={isLocked ? "destructive" : "default"}
+              className="shadow-lg"
+            >
+              {isLocked ? <Unlock className="mr-2 h-4 w-4" /> : <Lock className="mr-2 h-4 w-4" />}
+              {isLocked ? 'Unlock View' : 'Lock View'}
+            </Button>
+
+            <Button
+              onClick={deleteAllFeatures}
+              variant="destructive"
+              className="shadow-lg"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete All
+            </Button>
+          </div>
+        </>
+      }
+    </div>
+  );
+}
+
+{/* <Select value={currentSection} onValueChange={handleSectionChange}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Select section type" />
             </SelectTrigger>
@@ -289,41 +321,4 @@ export default function Map() {
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select>
-
-          <Button
-            onClick={toggleDrawMode}
-            variant="outline"
-            className="w-full"
-          >
-            {drawMode === 'draw_polygon' ? (
-              <><Pencil className="mr-2 h-4 w-4" />Drawing Mode</>
-            ) : (
-              <><MousePointer className="mr-2 h-4 w-4" />Select Mode</>
-            )}
-          </Button>
-        </div>
-      </div>
-
-      <div className="absolute bottom-4 left-4 space-x-2">
-        <Button
-          onClick={handleLock}
-          variant={isLocked ? "destructive" : "default"}
-          className="shadow-lg"
-        >
-          {isLocked ? <Unlock className="mr-2 h-4 w-4" /> : <Lock className="mr-2 h-4 w-4" />}
-          {isLocked ? 'Unlock View' : 'Lock View'}
-        </Button>
-
-        <Button
-          onClick={deleteAllFeatures}
-          variant="destructive"
-          className="shadow-lg"
-        >
-          <Trash2 className="mr-2 h-4 w-4" />
-          Delete All
-        </Button>
-      </div>
-    </div>
-  );
-}
+          </Select> */}

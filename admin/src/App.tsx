@@ -14,6 +14,7 @@ import MasterAsset from './pages/MasterAsset'
 import Map from './pages/map'
 import Dashboard from './pages/dashboard'
 import { Plants } from './pages/plants'
+import MapConfg from './pages/MapConfg'
 
 function App() {
 
@@ -74,11 +75,19 @@ function App() {
     },
     {
       path: '/map',
+<<<<<<< HEAD
       element: <Map></Map>
     },
     {
       path: '/dashboard',
       element: <Dashboard />
+=======
+      element: <Map />
+    },
+    {
+      path: '/map-confg',
+      element: <MapConfg />
+>>>>>>> 5ec4671dc4f8caca5e2049793bf04682735cfdb1
     }
   ])
 

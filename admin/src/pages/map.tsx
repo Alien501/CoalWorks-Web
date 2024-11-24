@@ -7,42 +7,37 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 export default function Map() {
-  const mapContainerRef = useRef(null); // Initialize with null
-  const mapRef = useRef(null); // Initialize with null
-  const drawRef = useRef(null); // Keep a reference for MapboxDraw
+  const mapContainerRef = useRef(null); 
+  const mapRef = useRef(null); 
+  const drawRef = useRef(null); 
 
   useEffect(() => {
-    // Set Mapbox access token
     mapboxgl.accessToken =
       'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA';
 
-    // Initialize the map
     if (!mapRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [82.545748, 22.336312], // Longitude, Latitude
+        center: [82.545748, 22.336312], 
         zoom: 12,
       });
 
-      // Initialize MapboxDraw and add it to the map
       drawRef.current = new MapboxDraw({
         displayControlsDefault: false,
         controls: {
-          polygon: true, // Enable polygon drawing
-          trash: true, // Enable delete option
+          polygon: true, 
+          trash: true, 
         },
         defaultMode: 'draw_polygon',
       });
       mapRef.current.addControl(drawRef.current);
 
-      // Handle Polygon Creation and Update
       mapRef.current.on('draw.create', updateArea);
       mapRef.current.on('draw.update', updateArea);
     }
 
     return () => {
-      // Cleanup on component unmount
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
@@ -50,13 +45,11 @@ export default function Map() {
     };
   }, []);
 
-  // Highlight the Polygon Area
   function updateArea(e) {
-    const data = drawRef.current.getAll(); // Get all drawn shapes
+    const data = drawRef.current.getAll(); 
     if (data.features.length > 0) {
-      const polygon = data.features[0]; // Get the first drawn polygon
+      const polygon = data.features[0]; 
 
-      // Add or update the polygon fill layer
       if (mapRef.current.getLayer('polygon-fill')) {
         mapRef.current.getSource('polygon-data').setData(polygon);
       } else {
@@ -71,13 +64,12 @@ export default function Map() {
           source: 'polygon-data',
           layout: {},
           paint: {
-            'fill-color': '#888888', // Highlight color
+            'fill-color': '#888888', 
             'fill-opacity': 0.5,
           },
         });
       }
     } else {
-      // Remove the layer if no polygon is present
       if (mapRef.current.getLayer('polygon-fill')) {
         mapRef.current.removeLayer('polygon-fill');
         mapRef.current.removeSource('polygon-data');
@@ -88,7 +80,7 @@ export default function Map() {
   return (
     <div
       ref={mapContainerRef}
-      className="map-container min-h-screen"
+      className="map-container h-full w-full "
     />
   );
 }

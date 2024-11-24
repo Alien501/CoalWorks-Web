@@ -12,6 +12,7 @@ import MasterData from './pages/MasterData'
 import MasterShift from './pages/MasterShift'
 import MasterAsset from './pages/MasterAsset'
 import Map from './pages/map'
+import Dashboard from './pages/dashboard'
 import { Plants } from './pages/plants'
 
 function App() {
@@ -74,6 +75,10 @@ function App() {
     {
       path: '/map',
       element: <Map></Map>
+    },
+    {
+      path: '/dashboard',
+      element: <Dashboard />
     }
   ])
 

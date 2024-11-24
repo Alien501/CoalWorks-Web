@@ -179,7 +179,10 @@ const MapConfig = () => {
                 <div className='w-full h-full'>
                     <Card className='p-2'>
                         <CardContent className='p-0 rounded-sm overflow-hidden'>
-                            <Map isEditable={canEditMap} />
+                            <Map
+                                areaName={areaName}
+                                isEditable={canEditMap}
+                            />
                         </CardContent>
                     </Card>
                 </div>

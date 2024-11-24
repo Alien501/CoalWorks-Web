@@ -17,14 +17,14 @@ const SECTION_COLORS = {
   unit: '#FF44FF'
 };
 
-export default function Map({ isEditable }: { isEditable: boolean }) {
+export default function Map({ isEditable, areaName }: { isEditable: boolean, areaName: string }) {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const drawRef = useRef(null);
 
   const [isLocked, setIsLocked] = useState(false);
   const [currentSection, setCurrentSection] = useState('large');
-  const [drawMode, setDrawMode] = useState('draw_polygon');
+  const [drawMode, setDrawMode] = useState('simple_select');
   const [viewState, setViewState] = useState({
     center: [82.545748, 22.336312],
     zoom: 12,
@@ -44,6 +44,29 @@ export default function Map({ isEditable }: { isEditable: boolean }) {
       });
 
       mapRef.current.on('load', () => {
+        mapRef.current.addLayer({
+          id: 'polygon-labels',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: []
+            }
+          },
+          layout: {
+            'text-field': ['get', 'areaName'],
+            'text-size': 16,
+            'text-anchor': 'center',
+            'text-justify': 'center'
+          },
+          paint: {
+            'text-color': SECTION_COLORS[currentSection],
+            // 'text-halo-color': '#fff',
+            'text-halo-width': 1
+          }
+        });
+
         initializeDraw();
       });
     }
@@ -54,6 +77,56 @@ export default function Map({ isEditable }: { isEditable: boolean }) {
         mapRef.current = null;
       }
     };
+  }, []);
+
+  const updatePolygonLabels = (features) => {
+    if (!mapRef.current) return;
+
+    // Create label points at the center of each polygon
+    const labelFeatures = features.map(feature => {
+      if (feature.geometry.type !== 'Polygon') return null;
+
+      // Calculate the center of the polygon
+      const coordinates = feature.geometry.coordinates[0];
+      const bounds = coordinates.reduce((bounds, coord) => {
+        return [
+          [Math.min(bounds[0][0], coord[0]), Math.min(bounds[0][1], coord[1])],
+          [Math.max(bounds[1][0], coord[0]), Math.max(bounds[1][1], coord[1])]
+        ];
+      }, [[coordinates[0][0], coordinates[0][1]], [coordinates[0][0], coordinates[0][1]]]);
+
+      const center = [
+        (bounds[0][0] + bounds[1][0]) / 2,
+        (bounds[0][1] + bounds[1][1]) / 2
+      ];
+
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: center
+        },
+        properties: {
+          areaName: feature.properties.areaName || areaName || 'Unnamed Area'
+        }
+      };
+    }).filter(Boolean);
+
+    // Update the labels source
+    const source = mapRef.current.getSource('polygon-labels');
+    if (source) {
+      source.setData({
+        type: 'FeatureCollection',
+        features: labelFeatures
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (mapRef.current && drawRef.current) {
+      const features = drawRef.current ? drawRef.current.getAll() : null;
+      updatePolygonLabels(features);
+    }
   }, []);
 
   useEffect(() => {
@@ -175,31 +248,32 @@ export default function Map({ isEditable }: { isEditable: boolean }) {
     ];
   }
 
-  // Handle section change
   const handleSectionChange = (newSection) => {
     setCurrentSection(newSection);
   };
-
-  // Rest of the component remains the same...
 
   function handleDrawCreate(e) {
     const feature = e.features[0];
     feature.properties = {
       sectionType: currentSection,
-      color: SECTION_COLORS[currentSection]
+      color: SECTION_COLORS[currentSection],
+      areaName: areaName || 'Unnamed Area'
     };
+    updatePolygonLabels(drawRef.current.getAll().features);
   }
 
   function handleDrawUpdate(e) {
     const feature = e.features[0];
     feature.properties = {
       sectionType: currentSection,
-      color: SECTION_COLORS[currentSection]
+      color: SECTION_COLORS[currentSection],
+      areaName: areaName || 'Unnamed Area'
     };
+    updatePolygonLabels(drawRef.current.getAll().features);
   }
 
   function handleDrawDelete() {
-    console.log('Feature deleted');
+    updatePolygonLabels(drawRef.current.getAll().features);
   }
 
   function handleDrawModeChange(e) {
@@ -243,7 +317,6 @@ export default function Map({ isEditable }: { isEditable: boolean }) {
     }
   }
 
-  // Handle lock state changes
   useEffect(() => {
     if (mapRef.current) {
       if (isLocked) {

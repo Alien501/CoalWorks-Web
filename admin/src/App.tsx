@@ -75,19 +75,15 @@ function App() {
     },
     {
       path: '/map',
-<<<<<<< HEAD
       element: <Map></Map>
     },
     {
       path: '/dashboard',
       element: <Dashboard />
-=======
-      element: <Map />
     },
     {
       path: '/map-confg',
       element: <MapConfg />
->>>>>>> 5ec4671dc4f8caca5e2049793bf04682735cfdb1
     }
   ])
 

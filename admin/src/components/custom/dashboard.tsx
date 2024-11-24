@@ -10,6 +10,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import Map from "@/pages/map"
+import { ProductionGraph } from "./areaChart"
 const shift =
     [
         {
@@ -54,9 +55,9 @@ export default function Dashboard() {
         <div className="h-full w-full font-satoshi">
             <h3 className="pl-6 pt-5 font-semibold text-xl ">Overview Dashboard</h3>
             <div className="grid grid-cols-[55%_45%] py-3 px-5 gap-4">
-                <div className="rounded-2xl border border-gray-300 h-[330px]">
+                <div className="rounded-2xl border border-gray-300 h-[420px]">
                     <div className="flex flex-col h-full">
-                        <div className="h-[60%] flex px-5">
+                        <div className="h-[65%] flex px-5">
                             <div className="w-[40%]">
                                 <p className="font-semibold text-gray-700 pt-3 ">Total Productivity overview</p>
                                 <p className="font-semibold text-gray-500 text-sm">12-Jan-2023 - 12-Jan-2024</p>
@@ -67,10 +68,10 @@ export default function Dashboard() {
                                 <Badge variant={"outline"} className="mt-3">You have a great performance 💪</Badge>
                             </div>
                             <div className="w-[60%]">
-                                right side
+                                <ProductionGraph></ProductionGraph>
                             </div>
                         </div>
-                        <div className="h-[40%] flex space-x-4 py-4">
+                        <div className="h-[35%] flex space-x-4 py-4">
                             <div className="border-r flex-1 px-5 flex flex-col justify-between items-center">
                                 <div className="flex space-x-3 justify-center items-center">
                                     <span className="p-3 border rounded-full bg-slate-200">
@@ -118,7 +119,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className="rounded-2xl border border-gray-300 h-[330px] flex">
+                <div className="rounded-2xl border border-gray-300 h-[420px] flex">
                     <div className="w-[55%] rounded-2xl h-full pl-3 py-3">
                         <h3 className="font-semibold mb-2">Resource utilisation overview</h3>
                         <div className="w-full flex gap-2 h-[calc(100%-40px)]">
@@ -156,7 +157,7 @@ export default function Dashboard() {
                     </div>
 
                 </div>
-                <div className="rounded-2xl border border-gray-300 h-[330px] px-5 pt-3">
+                <div className="rounded-2xl border border-gray-300 h-[420px] px-5 pt-3">
                     <h3 className="font-semibold">Mine Division Overview</h3>
                     <Table>
                         <TableHeader>
@@ -181,7 +182,7 @@ export default function Dashboard() {
                         </TableBody>
                     </Table>
                 </div>
-                <div className="rounded-2xl border border-gray-300 h-[330px] p-3"><Map></Map></div>
+                <div className="rounded-2xl border border-gray-300 h-[420px] p-3"><Map></Map></div>
             </div>
         </div>
     )

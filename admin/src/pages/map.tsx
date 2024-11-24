@@ -266,8 +266,8 @@ export default function Map() {
   }, [isLocked]);
 
   return (
-    <div className="relative">
-      <div ref={mapContainerRef} className="map-container h-screen w-full" />
+    <div className="relative h-full">
+      <div ref={mapContainerRef} className="map-container h-full w-full" />
 
       <div className="absolute top-4 left-4 space-y-2">
         <div className="bg-white p-2 rounded-lg shadow-lg space-y-2">

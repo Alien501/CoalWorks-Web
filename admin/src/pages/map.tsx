@@ -270,7 +270,8 @@ export default function Map() {
 
       <div className="absolute top-4 left-4 space-y-2">
         <div className="bg-white p-2 rounded-lg shadow-lg space-y-2">
-          <Select value={currentSection} onValueChange={handleSectionChange}>
+        
+            <Select value={currentSection} onValueChange={handleSectionChange}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Select section type" />
             </SelectTrigger>

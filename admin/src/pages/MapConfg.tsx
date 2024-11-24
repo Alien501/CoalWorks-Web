@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, X as CrossIcon } from "lucide-react";
 import Map from './map';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Item } from '@radix-ui/react-select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
 
 const MapConfig = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const [showDialog, setShowDialog] = useState(true);
     const [formData, setFormData] = useState({
         section1: { name: '', items: [] },
         section2: { name: '', items: [] },
@@ -16,6 +23,11 @@ const MapConfig = () => {
         section5: { name: '', items: [] }
     });
     const [newItem, setNewItem] = useState('');
+    const [currentSection, setCurrentSection] = useState(null);
+
+    const onSectionChange = (e) => {
+        setCurrentSection(e)
+    }
 
     const sections = {
         1: { name: 'Large Section', description: 'Larger section can be defined as something that covers area over 200km, ie, spans over a wide-spread area' },
@@ -64,7 +76,7 @@ const MapConfig = () => {
     };
 
     const isAllSectionsComplete = () => {
-        return Object.values(formData).every(section => 
+        return Object.values(formData).every(section =>
             section.name.trim() !== '' && section.items.length > 0
         );
     };
@@ -85,34 +97,118 @@ const MapConfig = () => {
         if (!open && !isAllSectionsComplete()) {
             return false;
         }
-        return true;
+        setShowDialog(open);
     };
+
+    const onFinishClick = () => {
+        localStorage.setItem('mapConfig', JSON.stringify(formData));
+        setShowDialog(false);
+    };
+
+    useEffect(() => {
+        const mapConfig = localStorage.getItem('mapConfig');
+        if (mapConfig) {
+            setFormData(prev => ({
+                ...JSON.parse(mapConfig)
+            }));
+            const parsedConfig = JSON.parse(mapConfig);
+            const isComplete = Object.values(parsedConfig).every(
+                section => section.name.trim() !== '' && section.items.length > 0
+            );
+            setShowDialog(!isComplete);
+        }
+    }, []);
 
     return (
         <section id="map-config">
-            <div className='grid grid-cols-[80%_20%] h-screen'>
+            <div className='grid grid-cols-[79%_19%] h-[90vh] gap-2'>
                 <div className='w-full h-full'>
-                    <Map />
+                    <Card className='p-2'>
+                        <CardContent className='p-0 rounded-sm overflow-hidden'>
+                            <Map />
+                        </CardContent>
+                    </Card>
                 </div>
-                <div className='w-full h-full p-1'>
-                    <div>
-                        <Select>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value='scale-1'>Large Section</SelectItem>
-                                <SelectItem value='scale-2'>Medium Section</SelectItem>
-                                <SelectItem value='scale-3'>Small Section</SelectItem>
-                                <SelectItem value='scale-4'>Extra Small Section</SelectItem>
-                                <SelectItem value='scale-5'>Unit Section</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                     
-                </div>
+                <Card>
+                    <CardContent className='p-1'>
+                        <div className='w-full h-full p-1 space-y-2'>
+                            <div>
+                                <Select onValueChange={onSectionChange}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Area Type" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {Object.entries(formData).map(([key, value]) => (
+                                            <SelectItem key={key} value={key}>
+                                                {value.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {
+                                currentSection &&
+                                <Card className="p-1 h-[200px] w-full shadow-none flex flex-col">
+                                    <CardContent className="pb-2">
+                                        <p className="text-sm text-gray-600">Items that might be present in this area</p>
+                                    </CardContent>
+                                    <CardContent className="p-0 flex-1 min-h-0"> {/* min-h-0 is crucial for nested flex content */}
+                                        <ScrollArea className="h-[120px]"> {/* Explicit height for scroll area */}
+                                            {currentSection && formData[currentSection]?.items.length > 0 ? (
+                                                <div className="pr-4"> {/* Add padding for scrollbar */}
+                                                    {formData[currentSection].items.map((item, index) => (
+                                                        <div key={`${item}-${index}`} className="p-2 flex w-full items-center space-x-2 hover:bg-gray-50">
+                                                            <Checkbox id={`${item}-${index}`} />
+                                                            <Label
+                                                                htmlFor={`${item}-${index}`}
+                                                                className="text-sm cursor-pointer"
+                                                            >
+                                                                {item}
+                                                            </Label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="h-full flex items-center justify-center text-gray-500 text-sm">
+                                                    {currentSection ? 'No items available' : 'Select Area'}
+                                                </div>
+                                            )}
+                                        </ScrollArea>
+                                    </CardContent>
+                                </Card>
+                            }
+
+                            <div className='space-y-2'>
+                                <Input
+                                    placeholder='Name'
+                                    type='text'
+                                />
+                                <Textarea
+                                    placeholder='Descritpion about that palce'
+                                />
+                                <div className='flex items-center space-x-2'>
+                                    <Input
+                                        placeholder='Approx. Area'
+                                        type='number'
+                                    />
+                                    <span>
+                                        km
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className='flex items-center justify-end'>
+                                <Button>
+                                    <span><PlusIcon /></span>
+                                    <span>Add icon</span>
+                                </Button>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
-            {/* <Dialog defaultOpen open={currentStep <= 5} onOpenChange={handleOpenChange}>
+            <Dialog open={showDialog} onOpenChange={handleOpenChange}>
                 <DialogContent className="max-w-2xl" onInteractOutside={(e) => {
                     if (!isAllSectionsComplete()) {
                         e.preventDefault();
@@ -131,13 +227,12 @@ const MapConfig = () => {
                             {[1, 2, 3, 4, 5].map((step) => (
                                 <Button
                                     key={step}
-                                    className={`rounded-full w-10 h-10 ${
-                                        step === currentStep
-                                            ? 'bg-black'
-                                            : step < currentStep
+                                    className={`rounded-full w-10 h-10 ${step === currentStep
+                                        ? 'bg-black'
+                                        : step < currentStep
                                             ? 'bg-black'
                                             : 'bg-gray-300'
-                                    }`}
+                                        }`}
                                     disabled={step !== currentStep}
                                 >
                                     {step}
@@ -215,9 +310,7 @@ const MapConfig = () => {
                                     Back
                                 </Button>
                                 {currentStep === 5 && isAllSectionsComplete() ? (
-                                    <DialogClose asChild>
-                                        <Button>Finish</Button>
-                                    </DialogClose>
+                                    <Button onClick={onFinishClick}>Finish</Button>
                                 ) : (
                                     <Button
                                         onClick={handleNext}
@@ -230,7 +323,7 @@ const MapConfig = () => {
                         </div>
                     </DialogDescription>
                 </DialogContent>
-            </Dialog> */}
+            </Dialog>
         </section>
     );
 };

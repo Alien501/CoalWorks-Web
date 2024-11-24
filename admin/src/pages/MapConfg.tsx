@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 const MapConfig = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [showDialog, setShowDialog] = useState(true);
+    const [areaData, setAreaData] = useState([])
     const [formData, setFormData] = useState({
         section1: { name: '', items: [] },
         section2: { name: '', items: [] },
@@ -23,12 +24,21 @@ const MapConfig = () => {
         section5: { name: '', items: [] }
     });
     const [newItem, setNewItem] = useState('');
+    const [saveAreaClicked, setSaveAreaClicked]= useState(false)
     const [currentSection, setCurrentSection] = useState(null);
     const [canEditMap, setCanEditMap] = useState(false);
     const [areaName, setAreaName] = useState('');
     const [areaItems, setAreaItems] = useState([]);
     const [areaDescription, setAreaDescription] = useState('');
     const [areaSize, setAreaSize] = useState(0);
+    const [overAllData, setOverAllData] = useState([])
+    const areaNameRef = useRef<HTMLInputElement>(null);
+    const areaDescriptionRef = useRef<HTMLInputElement>(null);
+    const areaSizeRef = useRef<HTMLInputElement>(null);
+
+    useEffect(()=> {
+        console.log(overAllData)
+    }, [overAllData])
 
     const onSectionChange = (e) => {
         setCurrentSection(e)
@@ -72,6 +82,27 @@ const MapConfig = () => {
         console.log(areaSize);
         console.log(areaItems)
         setCanEditMap(prev => !prev);
+    }
+
+    const onSaveAreaClicked = () => {
+        setOverAllData((prev)=> [...prev, {areaName: areaName, areaDescription: areaDescription, areaSize: areaSize, areaItems:areaItems, coordinates: null}])
+        setSaveAreaClicked(!saveAreaClicked)
+        setAreaName("")
+        setAreaDescription("")
+        setAreaDescription("")
+        if (areaNameRef?.current) {
+            areaNameRef.current.value = "";
+          }
+          
+          if (areaDescriptionRef?.current) {
+            areaDescriptionRef.current.value = "";
+          }
+          
+          if (areaSizeRef?.current) {
+            areaSizeRef.current.value = "";
+          }
+          
+        setAreaItems([])
     }
 
     const sections = {
@@ -169,10 +200,6 @@ const MapConfig = () => {
     // 2. Drill that state inside map component
     // 3. Retain previous drawing if possible
     // 4. Drill current formdata inside map and make it available inside drawn area
-    const onSaveAreaClicked = () => {
-        setCanEditMap(prev => !prev)
-    }
-
     return (
         <section id="map-config">
             <div className='grid grid-cols-[79%_19%] h-[90vh] gap-2'>
@@ -182,6 +209,8 @@ const MapConfig = () => {
                             <Map
                                 areaName={areaName}
                                 isEditable={canEditMap}
+                                overAllData = {overAllData}
+                                setOverAllData = {setOverAllData}
                             />
                         </CardContent>
                     </Card>
@@ -241,16 +270,19 @@ const MapConfig = () => {
                                     placeholder='Name'
                                     type='text'
                                     onChange={onAreaNameChanged}
+                                    ref = {areaNameRef}
                                 />
                                 <Textarea
                                     placeholder='Descritpion about that palce'
                                     onChange={onAreaDescriptionChanged}
+                                    ref = {areaDescriptionRef}
                                 />
                                 <div className='flex items-center space-x-2'>
                                     <Input
                                         placeholder='Approx. Area'
                                         type='number'
                                         onChange={onAreaSizeChanged}
+                                        ref = {areaSizeRef}
                                     />
                                     <span>
                                         km
@@ -276,7 +308,7 @@ const MapConfig = () => {
                                         <span>Save Area</span>
                                     </Button>
                                     :
-                                    <Button onClick={onAddAreaClicked}>
+                                    <Button onClick={onSaveAreaClicked}>
                                         <span><SaveIcon /></span>
                                         <span>Save Area</span>
                                     </Button>

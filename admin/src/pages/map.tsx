@@ -17,11 +17,12 @@ const SECTION_COLORS = {
   unit: '#FF44FF'
 };
 
-export default function Map({ isEditable, areaName }: { isEditable: boolean, areaName: string }) {
+export default function Map({ isEditable, areaName, overAllData, setOverAllData, saveAreaClicked }: { isEditable: boolean, areaName: string }) {
+  console.log(JSON.stringify(overAllData))
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const drawRef = useRef(null);
-
+  const [lastCoordinates, setLastCoordinates] = useState()
   const [isLocked, setIsLocked] = useState(false);
   const [currentSection, setCurrentSection] = useState('large');
   const [drawMode, setDrawMode] = useState('simple_select');
@@ -31,7 +32,53 @@ export default function Map({ isEditable, areaName }: { isEditable: boolean, are
     bounds: null
   });
 
-  // Initialize map only once
+
+
+  // useEffect(() => {
+    
+    // console.log("last coordinates changes")
+    // const updatedOverAllData = [...overAllData];
+
+    // if (updatedOverAllData.length > 0 && lastCoordinates) {
+    //   updatedOverAllData[updatedOverAllData.length - 1] = {
+    //     ...updatedOverAllData[updatedOverAllData.length - 1], 
+    //     coordinates: lastCoordinates, 
+    //   };
+    // }
+
+  //   setOverAllData(updatedOverAllData);
+
+  // }, [saveAreaClicked])
+
+  useEffect(() => {
+    if (overAllData.length > 0) {
+      // Safely get the features array and its last index
+      const features = drawRef.current.getAll().features;
+      if (features && features.length > 0) {
+        const lastCoordinates = features[features.length - 1].geometry.coordinates;
+  
+        const lastElement = overAllData[overAllData.length - 1];
+        // Compare the new coordinates with the current coordinates of the last element
+        if (!lastElement.coordinates || 
+            JSON.stringify(lastElement.coordinates) !== JSON.stringify(lastCoordinates)) {
+          const updatedOverAllData = [...overAllData];
+          updatedOverAllData[updatedOverAllData.length - 1] = {
+            ...lastElement,
+            coordinates: lastCoordinates,
+          };
+  
+          // Update the state only if necessary
+          setOverAllData(updatedOverAllData);
+        }
+      }
+    }
+  }, [overAllData]);
+  
+  
+
+  useEffect(()=> {
+    console.log(lastCoordinates)
+  }, [lastCoordinates])
   useEffect(() => {
     if (mapContainerRef.current && !mapRef.current) {
       mapboxgl.accessToken = 'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA';
@@ -155,6 +202,7 @@ export default function Map({ isEditable, areaName }: { isEditable: boolean, are
   }, [currentSection, isEditable]);
 
   function initializeDraw() {
+    console.log("initialise draw is called")
     drawRef.current = new MapboxDraw({
       displayControlsDefault: false,
       controls: {
@@ -259,6 +307,8 @@ export default function Map({ isEditable, areaName }: { isEditable: boolean, are
       color: SECTION_COLORS[currentSection],
       areaName: areaName || 'Unnamed Area'
     };
+    console.log(drawRef.current.getAll().features)
+    setLastCoordinates(drawRef.current.getAll().features)
     updatePolygonLabels(drawRef.current.getAll().features);
   }
 

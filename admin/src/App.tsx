@@ -15,6 +15,7 @@ import Map from './pages/map'
 import Dashboard from './pages/dashboard'
 import { Plants } from './pages/plants'
 import MapConfg from './pages/MapConfg'
+import NewMap from './pages/MapTest'
 
 function App() {
 
@@ -84,6 +85,10 @@ function App() {
     {
       path: '/map-confg',
       element: <MapConfg />
+    },
+    {
+      path: '/map-test',
+      element: <NewMap />
     }
   ])
 

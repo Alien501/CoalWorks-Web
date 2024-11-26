@@ -25,13 +25,20 @@ const MapConfig = () => {
     });
     const [newItem, setNewItem] = useState('');
     const [saveAreaClicked, setSaveAreaClicked]= useState(false)
-    const [currentSection, setCurrentSection] = useState(null);
+    const [currentSection, setCurrentSection] = useState("");
     const [canEditMap, setCanEditMap] = useState(false);
     const [areaName, setAreaName] = useState('');
     const [areaItems, setAreaItems] = useState([]);
     const [areaDescription, setAreaDescription] = useState('');
     const [areaSize, setAreaSize] = useState(0);
-    const [overAllData, setOverAllData] = useState([])
+    const [overAllData, setOverAllData] = useState<{
+        areaName: string, 
+        areaDescription: string, 
+        areaSize: number, 
+        areaItems: string[], 
+        coordinates: any | null, 
+        sectionType: string
+    }[]>([]);
     const areaNameRef = useRef<HTMLInputElement>(null);
     const areaDescriptionRef = useRef<HTMLInputElement>(null);
     const areaSizeRef = useRef<HTMLInputElement>(null);
@@ -39,6 +46,17 @@ const MapConfig = () => {
     useEffect(()=> {
         console.log(overAllData)
     }, [overAllData])
+
+    const getSectionType = () => {
+        switch(currentStep) {
+            case 1: return 'large';
+            case 2: return 'medium';
+            case 3: return 'small';
+            case 4: return 'micro';
+            case 5: return 'unit';
+            default: return 'large';
+        }
+    };
 
     const onSectionChange = (e) => {
         setCurrentSection(e)
@@ -85,25 +103,34 @@ const MapConfig = () => {
     }
 
     const onSaveAreaClicked = () => {
-        setOverAllData((prev)=> [...prev, {areaName: areaName, areaDescription: areaDescription, areaSize: areaSize, areaItems:areaItems, coordinates: null}])
-        setSaveAreaClicked(!saveAreaClicked)
-        setAreaName("")
-        setAreaDescription("")
-        setAreaDescription("")
-        if (areaNameRef?.current) {
-            areaNameRef.current.value = "";
-          }
-          
-          if (areaDescriptionRef?.current) {
-            areaDescriptionRef.current.value = "";
-          }
-          
-          if (areaSizeRef?.current) {
-            areaSizeRef.current.value = "";
-          }
-          
-        setAreaItems([])
-    }
+        // Prevent saving if essential data is missing
+        if (!areaName.trim() || !areaDescription.trim()) return;
+
+        const newArea = {
+            areaName, 
+            areaDescription, 
+            areaSize, 
+            areaItems, 
+            coordinates: null, 
+            sectionType: getSectionType()
+        };
+
+        setOverAllData(prev => [...prev, newArea]);
+
+        // Reset form fields
+        setAreaName('');
+        setAreaDescription('');
+        setAreaSize(0);
+        setAreaItems([]);
+
+        // Reset input refs
+        if (areaNameRef.current) areaNameRef.current.value = '';
+        if (areaDescriptionRef.current) areaDescriptionRef.current.value = '';
+        if (areaSizeRef.current) areaSizeRef.current.value = '';
+
+        // Toggle map editing
+        setCanEditMap(prev => !prev);
+    };
 
     const sections = {
         1: { name: 'Large Section', description: 'Larger section can be defined as something that covers area over 200km, ie, spans over a wide-spread area' },
@@ -211,6 +238,7 @@ const MapConfig = () => {
                                 isEditable={canEditMap}
                                 overAllData = {overAllData}
                                 setOverAllData = {setOverAllData}
+                                sectionName={currentSection}
                             />
                         </CardContent>
                     </Card>
@@ -313,6 +341,25 @@ const MapConfig = () => {
                                         <span>Save Area</span>
                                     </Button>
                                 }
+                            </div>
+
+                            <div>
+                                <p>Area Mapped</p>
+                                <div className='p-1 space-y-2'>
+                                    {
+                                    overAllData.length == 0?
+                                        <p>No area Had been Mapped</p>
+                                    :
+                                    overAllData.map(data => (
+                                        <Card className='rounded-sm'>
+                                            <CardContent className='p-2'>
+                                                <p>{data.areaName}</p>
+                                                <p>{data.areaSize}km</p>
+                                            </CardContent>
+                                        </Card>
+                                    ))
+                                    }
+                                </div>
                             </div>
                         </div>
                     </CardContent>

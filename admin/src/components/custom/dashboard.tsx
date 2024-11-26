@@ -52,10 +52,10 @@ const shift =
 
 export default function Dashboard() {
     return (
-        <div className="h-full w-full font-satoshi">
+        <div className="h-full w-full font-satoshi bg-slate-100/20">
             <h3 className="pl-6 pt-5 font-semibold text-xl ">Overview Dashboard</h3>
             <div className="grid grid-cols-[55%_45%] py-3 px-5 gap-4">
-                <div className="rounded-2xl border border-gray-300 h-[420px]">
+                <div className="rounded-2xl border border-gray-300 h-[420px] bg-white">
                     <div className="flex flex-col h-full">
                         <div className="h-[65%] flex px-5">
                             <div className="w-[40%]">
@@ -119,7 +119,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className="rounded-2xl border border-gray-300 h-[420px] flex">
+                <div className="rounded-2xl border border-gray-300 h-[420px] flex bg-white">
                     <div className="w-[55%] rounded-2xl h-full pl-3 py-3">
                         <h3 className="font-semibold mb-2">Resource utilisation overview</h3>
                         <div className="w-full flex gap-2 h-[calc(100%-40px)]">
@@ -157,7 +157,7 @@ export default function Dashboard() {
                     </div>
 
                 </div>
-                <div className="rounded-2xl border border-gray-300 h-[420px] px-5 pt-3">
+                <div className="rounded-2xl border border-gray-300 h-[420px] px-5 pt-3 bg-white">
                     <h3 className="font-semibold">Mine Division Overview</h3>
                     <Table>
                         <TableHeader>
@@ -182,7 +182,7 @@ export default function Dashboard() {
                         </TableBody>
                     </Table>
                 </div>
-                <div className="rounded-2xl border border-gray-300 h-[420px] p-3"><Map></Map></div>
+                <div className="rounded-2xl border border-gray-300 h-[420px] p-3 bg-white"><Map></Map></div>
             </div>
         </div>
     )

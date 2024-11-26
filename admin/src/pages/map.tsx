@@ -288,8 +288,8 @@ export default function Map({
   }, [isLocked]);
 
   return (
-    <div className="relative">
-      <div ref={mapContainerRef} className="map-container h-screen w-full" />
+    <div className="relative h-full">
+      <div ref={mapContainerRef} className="map-container h-full rounded-sm w-full" />
 
       {isEditable && (
         <>

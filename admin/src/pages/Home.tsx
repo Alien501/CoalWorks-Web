@@ -1,7 +1,9 @@
+import NewDashboard from "./Dashboard2";
+
 const HomePage = () => {
     return (
         <div id="home">
-            <h1>'m home page</h1>
+            <NewDashboard />
         </div>
     )
 }

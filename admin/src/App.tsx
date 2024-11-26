@@ -89,7 +89,7 @@ function App() {
     {
       path: '/map-test',
       element: <NewMap />
-    }
+    },
   ])
 
   return <RouterProvider router={router} />

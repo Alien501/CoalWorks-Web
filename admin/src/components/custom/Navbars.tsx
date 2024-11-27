@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -51,6 +51,8 @@ const menuItems: MenuItems[] = [
 ]
 
 const SideNavbar = () => {
+    const location = useLocation();
+
     return(
         <Sidebar collapsible="icon" variant="sidebar" className="font-poppins">
             <SidebarHeader className="flex justify-center items-center border-b h-[64px]">
@@ -61,9 +63,20 @@ const SideNavbar = () => {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuItems.map((menu) => (
-                                <SidebarMenuItem key={menu.title} className="h-9">
+                                <SidebarMenuItem key={menu.title} className="h-10">
                                     <SidebarMenuButton asChild>
-                                        <Link className="text-black hover:bg-gray-200/80 text-lg font-medium" to={menu.url}>
+                                        <Link 
+                                            className={`
+                                                text-black text-lg font-medium 
+                                                hover:bg-black/10
+                                                ${location.pathname === menu.url 
+                                                    ? 'bg-black text-white' 
+                                                    : 'hover:bg-gray-200/80'
+                                                }
+                                                h-9 w-9
+                                            `} 
+                                            to={menu.url}
+                                        >
                                             <menu.icon />
                                             <span>{menu.title}</span>
                                         </Link>
@@ -81,7 +94,7 @@ const SideNavbar = () => {
 
 const TopNavbar = ({pageTitle}: { pageTitle: string }) => {
     return(
-        <header className="w-full flex justify-between items-center font-poppins">
+        <header className="w-full flex justify-between items-center font-poppins bg-white">
             <div>
                 <span className="text-sm font-bold">{pageTitle}</span>                
             </div>

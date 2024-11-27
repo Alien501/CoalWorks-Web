@@ -30,14 +30,14 @@ const Layout = () => {
     }, [location.pathname])
     
     return(
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
             <SideNavbar />
             <SidebarInset>
-                <main>
-                    <div className="flex items-center px-2 py-4 h-16 border-b ">
+                    <div className="flex items-center sticky top-0 z-50 px-2 py-4 h-16 border-b bg-white">
                         <SidebarTrigger />
                         <TopNavbar pageTitle={pageTitle} />
                     </div>
+                <main>
                     <Outlet />
                 </main>
             </SidebarInset>

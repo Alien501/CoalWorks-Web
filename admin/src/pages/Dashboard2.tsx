@@ -303,7 +303,7 @@ const NewDashboard = () => {
     const [date, setDate] = useState();
 
     return (
-        <section id="dashboad" className="font-satoshi p-2 bg-slate-100">
+        <section id="dashboad" className="p-2 bg-slate-100">
             {/* Header Section */}
             <div id="dash-header-section" className="flex justify-between items-center">
                 <div>
@@ -343,7 +343,7 @@ const NewDashboard = () => {
                 </div>
             </div>
             {/* Grid section starts here */}
-            <div id="dashboard-section-container" className="grid grid-cols-2 mt-4">
+            <div id="dashboard-section-container" className="grid gap-1 grid-cols-2 mt-4">
                 <div>
                     <div className="flex space-x-2 justify-between">
                         <StatsCard
@@ -396,7 +396,7 @@ const NewDashboard = () => {
                         </Card>
                     </div>
                 </div>
-                <div className="p-2 grid grid-cols-2 grid-rows-2 gap-2">
+                <div className="p-2 grid grid-cols-2 grid-rows-2 gap-4">
                     <div className="">
                         <UtilityCard
                             title="Analytic View"

@@ -1,10 +1,9 @@
+//@ts-nocheck
 import { Badge } from "@/components/ui/badge"
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,

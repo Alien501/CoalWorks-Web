@@ -68,15 +68,14 @@ const SideNavbar = () => {
                                     <SidebarMenuButton asChild>
                                         <Link
                                             className={`
-                                                text-black text-lg font-medium 
-                                                hover:bg-black/10
-                                                dark:text-white
-                                                hover:dark:bg-white/10
-                                                ${window.location.pathname === menu.url
-                                                    ? 'bg-black text-white dark:bg-white dark:text-black'
-                                                    : 'hover:bg-gray-200/80'
-                                                }
-                                                h-9 w-9
+                                                text-foreground text-lg font-medium 
+                                                        hover:bg-black/10 
+                                                        dark:hover:bg-white/10 
+                                                        ${location.pathname === menu.url 
+                                                            ? 'bg-black text-white dark:bg-white dark:text-black' 
+                                                            : 'hover:bg-gray-200/80'
+                                                        } 
+                                               h-9 w-9
                                             `}
                                             to={menu.url}
                                         >

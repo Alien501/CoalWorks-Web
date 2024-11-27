@@ -85,10 +85,10 @@ function App() {
       path: '/compliance',
       element: <ComplianceDashboard />
     },
-    {
-      path: '/map',
-      element: <Map></Map>
-    },
+    // {
+    //   path: '/map',
+    //   element: <Map></Map>
+    // },
     {
       path: '/dashboard',
       element: <Dashboard />

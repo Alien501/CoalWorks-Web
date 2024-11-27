@@ -74,7 +74,7 @@ const SideNavbar = () => {
                                                 dark:text-white
                                                 hover:dark:bg-white/10
                                                 ${location.pathname === menu.url 
-                                                    ? 'bg-black text-white dark:bg-white dark:text-black' 
+                                                    ? 'bg-black text-white dark:bg-white dark:text-black/100' 
                                                     : 'hover:bg-gray-200/80'
                                                 }
                                                 h-9 w-9
@@ -82,7 +82,10 @@ const SideNavbar = () => {
                                             `} 
                                             to={menu.url}
                                         >
-                                            <menu.icon />
+                                            <menu.icon className={`dark: stroke-white ${location.pathname === menu.url 
+                                                    ? 'stroke-black' 
+                                                    : 'hover:bg-gray-200/80'
+                                                }`}/>
                                             <span>{menu.title}</span>
                                         </Link>
                                     </SidebarMenuButton>

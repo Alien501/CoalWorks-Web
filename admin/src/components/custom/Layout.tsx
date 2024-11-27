@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar"
 import { SideNavbar, TopNavbar } from "./Navbars"
+import { ThemeProvider, useTheme } from "./theme";
 
 interface PageTitle {
     url: string;
@@ -28,22 +29,24 @@ const Layout = () => {
 
     useEffect(() => {
         const currentPage = pageTitles.find(page => page.url === location.pathname);
-        setPageTitle(currentPage? currentPage.title: 'Page Not Found')
+        setPageTitle(currentPage ? currentPage.title : 'Page Not Found')
     }, [location.pathname])
-    
-    return(
-        <SidebarProvider>
-            <SideNavbar />
-            <SidebarInset>
-                <main>
-                    <div className="flex items-center px-2 py-4 h-16 border-b ">
-                        <SidebarTrigger />
+
+    return (
+        <ThemeProvider>
+            <SidebarProvider defaultOpen={false}>
+                <SideNavbar />
+                <SidebarInset>
+                    <div className="flex items-center sticky top-0 z-50 px-2 py-4 h-16 border-b bg-background">
+                        <SidebarTrigger className="dark:text-white" />
                         <TopNavbar pageTitle={pageTitle} />
                     </div>
-                    <Outlet />
-                </main>
-            </SidebarInset>
-        </SidebarProvider>
+                    <main>
+                        <Outlet />
+                    </main>
+                </SidebarInset>
+            </SidebarProvider>
+        </ThemeProvider>
     )
 }
 

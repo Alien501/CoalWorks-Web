@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const MasterData = () => {
     return (
-        <section className="p-4 bg-gray-50 min-h-screen">
+        <section className="p-4 bg-gray-50 dark:bg-background min-h-screen">
             <div className="container mx-auto">
                 <h1 className="text-2xl font-bold mb-6 flex items-center">
                     <Crown className="mr-3" /> Master Data Configuration
@@ -21,7 +21,7 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <FactoryIcon className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700">Manage Plants</p>
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Plants</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -36,7 +36,7 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <CalendarCheck className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700">Manage Plants</p>
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Plants</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -52,7 +52,7 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <MapIcon className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700">Manage Locations</p>
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Locations</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -68,7 +68,7 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <Boxes className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700">Manage Assets</p>
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Assets</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -107,7 +107,7 @@ const MasterData = () => {
                     <div className="opacity-50 pointer-events-none">
                         <Card className="h-full">
                             <CardContent className="flex items-center justify-center h-full">
-                                <p className="text-gray-500">More configurations coming soon</p>
+                                <p className="text-gray-500 dark:text-slate-500">More configurations coming soon</p>
                             </CardContent>
                         </Card>
                     </div>

@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, Handshake, LayoutPanelTop, PickaxeIcon, Route, Settings, Settings2Icon, UserRoundCog } from "lucide-react";
+import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, Handshake, LayoutPanelTop, PickaxeIcon, Route, Settings, Settings2Icon, SunIcon, UserRoundCog } from "lucide-react";
 import {Box} from "lucide-react"
+import { useTheme } from "./theme";
 
 interface MenuItems {
     title: string;
@@ -51,6 +52,9 @@ const menuItems: MenuItems[] = [
 ]
 
 const SideNavbar = () => {
+    const {isDarkMode, toggleTheme} = useTheme()
+    const location = useLocation();
+
     return(
         <Sidebar collapsible="icon" variant="sidebar" className="font-poppins">
             <SidebarHeader className="flex justify-center items-center border-b h-[64px]">
@@ -61,9 +65,23 @@ const SideNavbar = () => {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuItems.map((menu) => (
-                                <SidebarMenuItem key={menu.title} className="h-9">
+                                <SidebarMenuItem key={menu.title} className="h-10">
                                     <SidebarMenuButton asChild>
-                                        <Link className="text-black hover:bg-gray-200/80 text-lg font-medium" to={menu.url}>
+                                        <Link 
+                                            className={`
+                                                text-black text-lg font-medium 
+                                                hover:bg-black/10
+                                                dark:text-white
+                                                hover:dark:bg-white/10
+                                                ${location.pathname === menu.url 
+                                                    ? 'bg-black text-white dark:bg-white dark:text-black' 
+                                                    : 'hover:bg-gray-200/80'
+                                                }
+                                                h-9 w-9
+                                                
+                                            `} 
+                                            to={menu.url}
+                                        >
                                             <menu.icon />
                                             <span>{menu.title}</span>
                                         </Link>
@@ -73,15 +91,27 @@ const SideNavbar = () => {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
+                <SidebarGroup></SidebarGroup>
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Button onClick={toggleTheme} variant={'ghost'} className="flex items-center justify-start">
+                                <SunIcon />
+                                <span className="text-sm font-medium">Change Theme</span>
+                            </Button>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }
 
 const TopNavbar = ({pageTitle}: { pageTitle: string }) => {
     return(
-        <header className="w-full flex justify-between items-center font-poppins">
+        <header className="w-full flex justify-between items-center font-poppins bg-background text-foreground">
             <div>
                 <span className="text-sm font-bold">{pageTitle}</span>                
             </div>

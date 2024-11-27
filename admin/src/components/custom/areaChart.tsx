@@ -149,8 +149,8 @@ export function ProductionGraph() {
   })
 
   return (
-    <Card className="border-none shadow-none bg-transparent w-full">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+    <Card className="border-none shadow-none bg-transparent w-full ">
+      <CardHeader className="flex justify-between items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Coal Production</CardTitle>
           <CardDescription>

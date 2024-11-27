@@ -228,7 +228,7 @@ const MapConfig = () => {
     // 3. Retain previous drawing if possible
     // 4. Drill current formdata inside map and make it available inside drawn area
     return (
-        <section id="map-config">
+        <section id="map-config" className='h-dvh'>
             <div className='grid grid-cols-[79%_19%] h-[90vh] gap-2'>
                 <div className='w-full h-full'>
                     <Card className='p-2'>

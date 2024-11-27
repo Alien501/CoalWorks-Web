@@ -37,7 +37,7 @@ export default function AlertsCard() {
   ]
 
   return (
-    <div className="bg-white shadow-sm rounded-lg border">
+    <div className="bg-background shadow-sm rounded-lg border">
       <ScrollArea className="h-[250px]">
         <div className="p-4 space-y-4">
           {entries.map((entry, index) => (

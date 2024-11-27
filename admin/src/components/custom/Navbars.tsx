@@ -3,8 +3,9 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, Handshake, LayoutPanelTop, PickaxeIcon, Route, Settings, Settings2Icon, UserRoundCog } from "lucide-react";
+import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, Handshake, LayoutPanelTop, PickaxeIcon, Route, Settings, Settings2Icon, SunIcon, UserRoundCog } from "lucide-react";
 import {Box} from "lucide-react"
+import { useTheme } from "./theme";
 
 interface MenuItems {
     title: string;
@@ -51,6 +52,7 @@ const menuItems: MenuItems[] = [
 ]
 
 const SideNavbar = () => {
+    const {isDarkMode, toggleTheme} = useTheme()
     const location = useLocation();
 
     return(
@@ -69,11 +71,14 @@ const SideNavbar = () => {
                                             className={`
                                                 text-black text-lg font-medium 
                                                 hover:bg-black/10
+                                                dark:text-white
+                                                hover:dark:bg-white/10
                                                 ${location.pathname === menu.url 
-                                                    ? 'bg-black text-white' 
+                                                    ? 'bg-black text-white dark:bg-white dark:text-black' 
                                                     : 'hover:bg-gray-200/80'
                                                 }
                                                 h-9 w-9
+                                                
                                             `} 
                                             to={menu.url}
                                         >
@@ -86,15 +91,27 @@ const SideNavbar = () => {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
+                <SidebarGroup></SidebarGroup>
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Button onClick={toggleTheme} variant={'ghost'} className="flex items-center justify-start">
+                                <SunIcon />
+                                <span className="text-sm font-medium">Change Theme</span>
+                            </Button>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }
 
 const TopNavbar = ({pageTitle}: { pageTitle: string }) => {
     return(
-        <header className="w-full flex justify-between items-center font-poppins bg-white">
+        <header className="w-full flex justify-between items-center font-poppins bg-background text-foreground">
             <div>
                 <span className="text-sm font-bold">{pageTitle}</span>                
             </div>

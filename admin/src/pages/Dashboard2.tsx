@@ -128,7 +128,7 @@ const StatsCard = ({ icon, value, percentage, status, name }: { icon: React.JSX.
         <Card className="w-max bg-transparent border-none shadow-none">
             <CardContent className="p-1">
                 <div className="flex items-center gap-2">
-                    <div className="mt-1 w-16 h-16 flex items-center justify-center bg-white p-1 rounded-full">
+                    <div className="mt-1 w-16 h-16 flex items-center justify-center bg-white dark:bg-slate-500/10 p-1 rounded-full">
                         {icon}
                     </div>
                     <div className="space-y-2">
@@ -153,11 +153,11 @@ const StatsCard = ({ icon, value, percentage, status, name }: { icon: React.JSX.
 
 const UtilityCard = ({ title, subTitle, bodyContent }: { title: string, subTitle: string, bodyContent: React.JSX.Element }) => {
     return (
-        <Card className="border-none shadow-none w-full h-full">
+        <Card className="border-none shadow-none w-full h-full dark:bg-zinc-900/50">
             <CardHeader className="flex flex-row items-center justify-between p-2">
                 <div className="font-medium">
                     <p className="text-sm">{title}</p>
-                    <p className="text-xs text-gray-800">{subTitle}</p>
+                    <p className="text-xs text-gray-800 dark:text-slate-400">{subTitle}</p>
                 </div>
                 <div>
                     <Button className="rounded-full h-12 w-12" variant={'secondary'}>
@@ -184,7 +184,7 @@ const SafetyCardContent = () => {
                 <div className="flex justify-between items-center">
                     <div className="font-medium h-14 bg-red-200/0 mt-2">
                         <p className="text-base">Alerts</p>
-                        <p className="text-xs text-slate-600">Track alerts here</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400">Track alerts here</p>
                     </div>
                     <div>
                         <SirenIcon className="text-red-500" />
@@ -205,10 +205,10 @@ const DashboardTable = () => {
                 <CardHeader className="flex flex-row items-center justify-between">
                     <div className="font-bold">
                         <p className="text-sm">Shipment Activities</p>
-                        <p className="text-xs text-gray-600">keep track of recent shipping activities</p>
+                        <p className="text-xs text-gray-600 dark:text-slate-400">keep track of recent shipping activities</p>
                     </div>
                     <div className="flex flex-row items-center space-x-2">
-                        <TabsList className="h-12 rounded-full">
+                        <TabsList className="h-14 rounded-full p-2">
                             <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="all">All Shipments</TabsTrigger>
                             <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="del">Delivered</TabsTrigger>
                             <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="transit">In transit</TabsTrigger>
@@ -234,7 +234,7 @@ const DashboardTable = () => {
                     <TabsContent value="all">
                         <Table>
                             <TableHeader className="bg-red-200/0 h-14 rounded-full">
-                                <TableRow className="rounded-full bg-white">
+                                <TableRow className="rounded-full bg-background">
                                     <TableHead>Order ID</TableHead>
                                     <TableHead>Category</TableHead>
                                     <TableHead>Company</TableHead>
@@ -303,7 +303,7 @@ const NewDashboard = () => {
     const [date, setDate] = useState();
 
     return (
-        <section id="dashboad" className="p-2 bg-slate-100">
+        <section id="dashboad" className="p-2 bg-slate-100 dark:bg-zinc-950 dark:text-foreground">
             {/* Header Section */}
             <div id="dash-header-section" className="flex justify-between items-center">
                 <div>
@@ -369,11 +369,11 @@ const NewDashboard = () => {
                         />
                     </div>
                     <div>
-                        <Card className="border-none shadow-none mt-6">
+                        <Card className="border-none shadow-none mt-6 dark:bg-zinc-900/50">
                             <CardHeader className="flex flex-row justify-between">
                                 <div className="font-medium">
                                     <p className="text-base">Shipment Statistics</p>
-                                    <p className="text-xs text-gray-800">Total number of deliveries 72.8k</p>
+                                    <p className="text-xs text-gray-800 dark:text-slate-400">Total number of deliveries 72.8k</p>
                                 </div>
                                 <div>
                                     <Select>

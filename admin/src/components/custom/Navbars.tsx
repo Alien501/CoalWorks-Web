@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
 import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, PickaxeIcon, Settings, SunIcon, UserRoundCog } from "lucide-react";
-import {Box} from "lucide-react"
+import { Box } from "lucide-react"
 import { useTheme } from "./theme";
 
 interface MenuItems {
@@ -52,10 +52,10 @@ const menuItems: MenuItems[] = [
 ]
 
 const SideNavbar = () => {
-    const {isDarkMode, toggleTheme} = useTheme()
+    const { isDarkMode, toggleTheme } = useTheme()
     const location = useLocation();
 
-    return(
+    return (
         <Sidebar collapsible="icon" variant="sidebar" className="font-poppins">
             <SidebarHeader className="flex justify-center items-center border-b h-[64px]">
                 <span className="flex font-bold space-x-1 justify-center text-xl items-center w-full h-[23px]"><Box /></span>
@@ -67,19 +67,18 @@ const SideNavbar = () => {
                             {menuItems.map((menu) => (
                                 <SidebarMenuItem key={menu.title} className="h-10">
                                     <SidebarMenuButton asChild>
-                                        <Link 
+                                        <Link
                                             className={`
                                                 text-black text-lg font-medium 
                                                 hover:bg-black/10
                                                 dark:text-white
                                                 hover:dark:bg-white/10
-                                                ${location.pathname === menu.url 
-                                                    ? 'bg-black text-white dark:bg-white dark:text-black/100' 
+                                                ${location.pathname === menu.url
+                                                    ? 'bg-black text-white dark:bg-white dark:text-black/100'
                                                     : 'hover:bg-gray-200/80'
                                                 }
                                                 h-9 w-9
-                                                
-                                            `} 
+                                            `}
                                             to={menu.url}
                                         >
                                             <menu.icon />
@@ -109,23 +108,18 @@ const SideNavbar = () => {
     )
 }
 
-const TopNavbar = ({pageTitle}: { pageTitle: string }) => {
-    return(
+const TopNavbar = ({ pageTitle }: { pageTitle: string }) => {
+    return (
         <header className="w-full flex justify-between items-center font-poppins bg-background text-foreground">
             <div>
-                <span className="text-sm font-bold">{pageTitle}</span>                
+                <span className="text-sm font-bold">{pageTitle}</span>
             </div>
-            <div>
+            <div className="flex items-center mr-2">
                 <Popover>
-                    <PopoverTrigger>
-                        <Button variant='ghost' className="border-2 h-[70%] rounded-full">
-                            <span>
-                                <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                </Avatar>
-                            </span>
-                            <span>User Name</span>
-                        </Button>
+                    <PopoverTrigger className="">
+                        <Avatar>
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                        </Avatar>
                     </PopoverTrigger>
                     <PopoverContent className="w-max">
                         <Button className="bg-red-300/30 text-red-500 hover:bg-red-300 hover:text-white">Logout</Button>

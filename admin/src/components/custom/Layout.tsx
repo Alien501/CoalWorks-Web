@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar"
 import { SideNavbar, TopNavbar } from "./Navbars"
@@ -19,8 +19,12 @@ const pageTitles: PageTitle[] = [
     { url: '/master-data', title: 'Master Config' },
     { url: '/shift-handover', title: 'Shift Handover' },
     { url: '/pdf-generator', title: 'Generate PDF' },
-    { url: '/master-data/positions', title: "Positions"},
-    { url: '/master-data/permissions', title: "Roles and Permissions"}
+    { url: '/master-data/plants', title: 'Manage Plants'},
+    { url: '/master-data/shift', title: 'Manage Shifts'},
+    { url: '/master-data/locations', title: 'Manage Locations'},
+    { url: '/master-data/assets', title: 'Manage Assets'},
+    { url: '/master-data/positions', title: "Manage Positions"},
+    { url: '/master-data/permissions', title: "Manage Roles and Permissions"}
 ]
 
 const Layout = () => {

@@ -14,6 +14,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { BarGraph, AreaGraph, LineGraph, PieGraph, RadialGraph, SpiderGraph } from '@/components/custom/graphs'
 import { Badge } from "@/components/ui/badge";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ClipboardList, Phone } from "lucide-react";
 
 const StatsCard = ({ icon, value, percentage, status, name }: { icon: React.JSX.Element, value: number, percentage: number, status: string, name: string }) => {
     return (
@@ -342,8 +344,8 @@ const DashboardTable = () => {
                             </TableHeader>
                             <TableBody>
                                 {filteredShifts.map((shift) => (
-                                    <TableRow 
-                                        key={shift.id} 
+                                    <TableRow
+                                        key={shift.id}
                                         className="cursor-pointer hover:bg-muted/50"
                                         onClick={() => setSelectedShift(shift)}
                                     >
@@ -374,33 +376,53 @@ const DashboardTable = () => {
                 </CardContent>
             </Tabs>
 
-            <Drawer 
-                open={!!selectedShift} 
+            <Drawer
+                open={!!selectedShift}
                 onOpenChange={() => setSelectedShift(null)}
             >
-                <DrawerContent className="w-[420px] mx-auto">
+                <DrawerContent className="w-[70%] mx-auto">
                     {selectedShift && (
-                        <div className="p-4 bg-background rounded-lg w-[400px] mx-auto">
-                            <h3 className="font-bold mb-2">Shift Details for {selectedShift.id}</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <p className="font-medium">Pending Tasks:</p>
-                                    {selectedShift.details.taskList.length > 0 ? (
-                                        <ul className="list-disc pl-5">
-                                            {selectedShift.details.taskList.map((task, index) => (
-                                                <li key={index}>{task}</li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>No pending tasks</p>
-                                    )}
+                        <ScrollArea>
+                            <div className="p-6 bg-background rounded-lg w-[92%] mx-auto mb-4">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h3 className="font-bold text-2xl">Shift Details</h3>
+                                    <Badge variant="outline" className="text-lg px-3 py-1">
+                                        {selectedShift.id}
+                                    </Badge>
                                 </div>
-                                <div>
-                                    <p className="font-semibold">Contact Information:</p>
-                                    <p>{selectedShift.details.contactInfo}</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-4">
+                                        <h4 className="font-semibold text-xl flex items-center gap-2">
+                                            <ClipboardList className="h-5 w-5" />
+                                            Pending Tasks
+                                        </h4>
+                                        {selectedShift.details.taskList.length > 0 ? (
+                                            <ul className="space-y-2">
+                                                {selectedShift.details.taskList.map((task, index) => (
+                                                    <li key={index} className="flex items-start gap-3">
+                                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-medium flex-shrink-0">
+                                                            {index + 1}
+                                                        </span>
+                                                        <span className="text-sm">{task}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p className="text-muted-foreground">No pending tasks</p>
+                                        )}
+                                    </div>
+                                    <div className="space-y-4">
+                                        <h4 className="font-semibold text-xl flex items-center gap-2">
+                                            <Phone className="h-5 w-5" />
+                                            Contact Information
+                                        </h4>
+                                        <p className="text-sm bg-muted/50 p-3 rounded-md">
+                                            {selectedShift.details.contactInfo}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </ScrollArea>
                     )}
                 </DrawerContent>
             </Drawer>
@@ -461,7 +483,7 @@ const NewDashboard = () => {
                             <Button className="rounded-full leading-tight text-xs shadow-none" variant='outline'>
                                 Export CSV
                             </Button>
-                            <Button className="rounded-full leading-tight text-xs shadow-none">
+                            <Button className="rounded-full leading-tight text-xs shadow-none dark:bg-dull-lavender-400 dark:hover:bg-dull-lavender-500">
                                 Add new shipment
                             </Button>
                         </CardContent>

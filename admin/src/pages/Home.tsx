@@ -1,7 +1,8 @@
+import Dashboard from "./dashboard";
 const HomePage = () => {
     return (
         <div id="home">
-            <h1>'m home page</h1>
+            <h1><Dashboard /></h1>
         </div>
     )
 }

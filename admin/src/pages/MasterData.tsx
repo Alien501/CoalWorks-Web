@@ -73,6 +73,36 @@ const MasterData = () => {
                             </CardContent>
                         </Card>
                     </Link>
+                    <Link to={'/master-data/positions'} className="block">
+                        <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <CardHeader>
+                                <CardTitle className="flex items-center justify-between">
+                                    Position
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex items-center justify-center h-40">
+                                <div className="text-center">
+                                    <Boxes className="mx-auto mb-4" size={70} strokeWidth={1.5} />
+                                    <p className="text-xl font-semibold text-gray-700">Manage Positions</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                    <Link to={'/master-data/permissions'} className="block">
+                        <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <CardHeader>
+                                <CardTitle className="flex items-center justify-between">
+                                    Roles and Permissions
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex items-center justify-center h-40">
+                                <div className="text-center">
+                                    <Boxes className="mx-auto mb-4" size={70} strokeWidth={1.5} />
+                                    <p className="text-xl font-semibold text-gray-700">Manage Roles and Permissions</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
 
                     <div className="opacity-50 pointer-events-none">
                         <Card className="h-full">

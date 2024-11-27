@@ -16,6 +16,9 @@ import Dashboard from './pages/dashboard'
 import { Plants } from './pages/plants'
 import MapConfg from './pages/MapConfg'
 import NewMap from './pages/MapTest'
+import Positions from './pages/positions'
+import { Toaster } from 'sonner'
+import RolesAndPermission from './pages/rolesAndPermissions'
 
 function App() {
 
@@ -41,16 +44,24 @@ function App() {
           element: <MasterShift />
         },
         {
-          path:'master-data/plants',
+          path: 'master-data/plants',
           element: <Plants />
         },
         {
-          path:'master-data/locations',
+          path: 'master-data/locations',
           element: <Locations />
         },
         {
           path: 'master-data/assets',
           element: <MasterAsset />
+        },
+        {
+          path: '/master-data/positions',
+          element: <Positions />
+        },
+        {
+          path: '/master-data/permissions',
+          element: <RolesAndPermission />
         }
       ]
     },
@@ -89,10 +100,15 @@ function App() {
     {
       path: '/map-test',
       element: <NewMap />
-    }
+    },
   ])
 
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <Toaster></Toaster>
+      <RouterProvider router={router} />
+    </>
+  )
 }
 
 export default App

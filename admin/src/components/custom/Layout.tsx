@@ -17,7 +17,9 @@ const pageTitles: PageTitle[] = [
     { url: '/archives', title: 'Archives' },
     { url: '/master-data', title: 'Master Config' },
     { url: '/shift-handover', title: 'Shift Handover' },
-    { url: '/pdf-generator', title: 'Generate PDF' }
+    { url: '/pdf-generator', title: 'Generate PDF' },
+    { url: '/master-data/positions', title: "Positions"},
+    { url: '/master-data/permissions', title: "Roles and Permissions"}
 ]
 
 const Layout = () => {

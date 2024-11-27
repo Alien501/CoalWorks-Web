@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Archive, Calendar, CalendarCheck2, Eye, FileChartColumn, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, Handshake, LayoutPanelTop, PickaxeIcon, Route, Settings, Settings2Icon, SunIcon, UserRoundCog } from "lucide-react";
+import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, PickaxeIcon, Settings, SunIcon, UserRoundCog } from "lucide-react";
 import {Box} from "lucide-react"
 import { useTheme } from "./theme";
 
@@ -74,7 +74,7 @@ const SideNavbar = () => {
                                                 dark:text-white
                                                 hover:dark:bg-white/10
                                                 ${location.pathname === menu.url 
-                                                    ? 'bg-black text-white dark:bg-white dark:text-black/100' 
+                                                    ? 'bg-black text-white dark:bg-white dark:text-black' 
                                                     : 'hover:bg-gray-200/80'
                                                 }
                                                 h-9 w-9
@@ -82,10 +82,7 @@ const SideNavbar = () => {
                                             `} 
                                             to={menu.url}
                                         >
-                                            <menu.icon className={`dark: stroke-white ${location.pathname === menu.url 
-                                                    ? 'stroke-black' 
-                                                    : 'hover:bg-gray-200/80'
-                                                }`}/>
+                                            <menu.icon />
                                             <span>{menu.title}</span>
                                         </Link>
                                     </SidebarMenuButton>

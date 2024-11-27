@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -53,7 +53,6 @@ const menuItems: MenuItems[] = [
 
 const SideNavbar = () => {
     const { isDarkMode, toggleTheme } = useTheme()
-    const location = useLocation();
 
     return (
         <Sidebar collapsible="icon" variant="sidebar" className="font-poppins">
@@ -73,8 +72,8 @@ const SideNavbar = () => {
                                                 hover:bg-black/10
                                                 dark:text-white
                                                 hover:dark:bg-white/10
-                                                ${location.pathname === menu.url
-                                                    ? 'bg-black text-white dark:bg-white dark:text-black/100'
+                                                ${window.location.pathname === menu.url
+                                                    ? 'bg-black text-white dark:bg-white dark:text-black'
                                                     : 'hover:bg-gray-200/80'
                                                 }
                                                 h-9 w-9
@@ -114,11 +113,13 @@ const TopNavbar = ({ pageTitle }: { pageTitle: string }) => {
             <div>
                 <span className="text-sm font-bold">{pageTitle}</span>
             </div>
-            <div className="flex items-center mr-2">
+            <div className="flex items-center space-x-2 mr-2">
+                <span>Vignesh Chellapandi</span>
+
                 <Popover>
-                    <PopoverTrigger className="">
+                    <PopoverTrigger>
                         <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarImage src="https://media.licdn.com/dms/image/v2/D5603AQG5SClyaWsBMw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1714279635112?e=1738195200&v=beta&t=368LklGi1yTDqZsNtV8qSvWoKeQ2VLgINOseR0joHQU" />
                         </Avatar>
                     </PopoverTrigger>
                     <PopoverContent className="w-max">

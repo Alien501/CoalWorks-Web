@@ -62,7 +62,7 @@ const MasterData = () => {
                         <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
                             <CardHeader>
                                 <CardTitle className="flex items-center justify-between">
-                                    Loaction
+                                    Location
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="flex items-center justify-center h-40">

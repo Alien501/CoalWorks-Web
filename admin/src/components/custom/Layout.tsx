@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar"
 import { SideNavbar, TopNavbar } from "./Navbars"
-import { ThemeProvider, useTheme } from "./theme";
+import { ThemeProvider } from "./theme";
 
 interface PageTitle {
     url: string;

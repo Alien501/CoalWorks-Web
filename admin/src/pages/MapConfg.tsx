@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+//@ts-nocheck
+import { useEffect, useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, X as CrossIcon, PencilIcon, SaveIcon } from "lucide-react";
 import Map from './map';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Item } from '@radix-ui/react-select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';

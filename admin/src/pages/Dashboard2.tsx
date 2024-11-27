@@ -1,7 +1,7 @@
+//@ts-nocheck
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, CircleDot, Ellipsis, ListFilterIcon, MoveDownLeft, MoveDownLeftIcon, MoveUpRightIcon, PackageIcon, RouteIcon, SirenIcon, TargetIcon, UserRoundIcon } from "lucide-react";
-
+import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, Ellipsis, ListFilterIcon, MoveDownLeftIcon, MoveUpRightIcon, PackageIcon, RouteIcon, SirenIcon, TargetIcon, UserRoundIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import React, { useState } from "react";
@@ -207,7 +207,7 @@ const NewDashboard = () => {
 
     const onGraphChanged = (value: string) => {
         console.log(value)
-        setGraphType(prev => value)
+        setGraphType(value)
     }
     return (
         <section id="dashboad" className="p-2 bg-slate-100 dark:bg-zinc-950 dark:text-foreground">

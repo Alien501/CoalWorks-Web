@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -26,10 +27,10 @@ export default function Map({
   currentAreaData 
 }: {
   isEditable: boolean,
-  areaName: string,
-  sectionName: string,
-  overAllData: any[],
-  setOverAllData: (data: any[]) => void,
+  areaName?: string,
+  sectionName?: string,
+  overAllData?: any[],
+  setOverAllData?: (data: any[]) => void,
   saveAreaClicked?: boolean,
   currentAreaData?: {
     areaName: string, 

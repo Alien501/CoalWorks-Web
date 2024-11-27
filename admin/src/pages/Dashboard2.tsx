@@ -1,17 +1,19 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, CircleDot, Ellipsis, ListFilterIcon, MoveDownLeft, MoveDownLeftIcon, MoveUpRightIcon, PackageIcon, RouteIcon, SirenIcon, TargetIcon, UserRoundIcon } from "lucide-react";
+import { AlertCircleIcon, CalendarIcon, CheckCircleIcon, ChevronLeftIcon, ChevronRightIcon, CircleDot, Ellipsis, ListFilterIcon, MoveDownLeft, MoveDownLeftIcon, MoveUpRightIcon, PackageIcon, RouteIcon, SirenIcon, TargetIcon, UserRoundIcon } from "lucide-react";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Map from "./map";
 import AlertsCard from "@/components/custom/alertTimeLine";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import {BarGraph, AreaGraph, LineGraph, PieGraph, RadialGraph, SpiderGraph} from '@/components/custom/graphs'
+import { BarGraph, AreaGraph, LineGraph, PieGraph, RadialGraph, SpiderGraph } from '@/components/custom/graphs'
+import { Badge } from "@/components/ui/badge";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 
 const StatsCard = ({ icon, value, percentage, status, name }: { icon: React.JSX.Element, value: number, percentage: number, status: string, name: string }) => {
     return (
@@ -89,26 +91,230 @@ const SafetyCardContent = () => {
 }
 
 const DashboardTable = () => {
+    const [expandedRow, setExpandedRow] = useState(null);
+    const [activeTab, setActiveTab] = useState('all');
+    const [selectedShift, setSelectedShift] = useState(null);
+    const tabsList = [
+        { name: 'All Shifts', value: 'all' },
+        { name: 'Active Shifts', value: 'active' },
+        { name: 'Completed Shifts', value: 'completed' },
+        { name: 'Critical Issues', value: 'critical' }
+    ];
+
+    const shiftsData = [
+        {
+            id: 'SHIFT-001',
+            personnel: ['Rajesh Kumar', 'Priya Sharma'],
+            pendingTasks: 3,
+            criticalIncidents: 0,
+            startTime: '8:00',
+            endTime: '4:00',
+            status: 'active',
+            productivityScore: 85,
+            details: {
+                taskList: [
+                    'Maintenance check on Production Line',
+                    'Inventory reconciliation',
+                    'Equipment calibration'
+                ],
+                contactInfo: '+91-9876543210'
+            }
+        },
+        {
+            id: 'SHIFT-002',
+            personnel: ['Amit Patel'],
+            pendingTasks: 1,
+            criticalIncidents: 2,
+            startTime: '3:00',
+            endTime: '8:00',
+            status: 'critical',
+            productivityScore: 60,
+            details: {
+                taskList: [
+                    'Urgent machinery repair'
+                ],
+                contactInfo: '+91-8765432109'
+            }
+        },
+        {
+            id: 'SHIFT-003',
+            personnel: ['Deepa Gupta'],
+            pendingTasks: 0,
+            criticalIncidents: 0,
+            startTime: '4:00',
+            endTime: '12:00',
+            status: 'completed',
+            productivityScore: 95,
+            details: {
+                taskList: [],
+                contactInfo: '+91-7654321098'
+            }
+        },
+        {
+            id: 'SHIFT-004',
+            personnel: ['Suresh Reddy'],
+            pendingTasks: 2,
+            criticalIncidents: 1,
+            startTime: '6:00',
+            endTime: '2:00',
+            status: 'active',
+            productivityScore: 75,
+            details: {
+                taskList: [
+                    'Quality control check',
+                    'Safety protocol review'
+                ],
+                contactInfo: '+91-9543210987'
+            }
+        },
+        {
+            id: 'SHIFT-005',
+            personnel: ['Meera Nair'],
+            pendingTasks: 0,
+            criticalIncidents: 0,
+            startTime: '10:00',
+            endTime: '6:00',
+            status: 'completed',
+            productivityScore: 90,
+            details: {
+                taskList: [],
+                contactInfo: '+91-8432109876'
+            }
+        },
+        {
+            id: 'SHIFT-006',
+            personnel: ['Vikram Singh'],
+            pendingTasks: 1,
+            criticalIncidents: 3,
+            startTime: '2:00',
+            endTime: '10:00',
+            status: 'critical',
+            productivityScore: 55,
+            details: {
+                taskList: [
+                    'Emergency equipment failure'
+                ],
+                contactInfo: '+91-7321098765'
+            }
+        },
+        {
+            id: 'SHIFT-007',
+            personnel: ['Ananya Mishra'],
+            pendingTasks: 2,
+            criticalIncidents: 0,
+            startTime: '12:00',
+            endTime: '8:00',
+            status: 'active',
+            productivityScore: 80,
+            details: {
+                taskList: [
+                    'Supply chain audit',
+                    'Process optimization'
+                ],
+                contactInfo: '+91-9210987654'
+            }
+        },
+        {
+            id: 'SHIFT-008',
+            personnel: ['Rahul Khanna'],
+            pendingTasks: 0,
+            criticalIncidents: 1,
+            startTime: '8:00',
+            endTime: '4:00',
+            status: 'critical',
+            productivityScore: 65,
+            details: {
+                taskList: [],
+                contactInfo: '+91-8109876543'
+            }
+        },
+        {
+            id: 'SHIFT-009',
+            personnel: ['Pooja Desai'],
+            pendingTasks: 0,
+            criticalIncidents: 0,
+            startTime: '4:00',
+            endTime: '12:00',
+            status: 'completed',
+            productivityScore: 92,
+            details: {
+                taskList: [],
+                contactInfo: '+91-7098765432'
+            }
+        },
+        {
+            id: 'SHIFT-010',
+            personnel: ['Sanjay Maurya'],
+            pendingTasks: 3,
+            criticalIncidents: 2,
+            startTime: '6:00',
+            endTime: '2:00',
+            status: 'critical',
+            productivityScore: 58,
+            details: {
+                taskList: [
+                    'Technical system overhaul',
+                    'Risk assessment',
+                    'Emergency protocol update'
+                ],
+                contactInfo: '+91-9987654321'
+            }
+        }
+    ];
+
+    const filteredShifts = useMemo(() => {
+        return shiftsData.filter(shift => {
+            if (activeTab === 'all') return true;
+            return shift.status === activeTab;
+        });
+    }, [activeTab]);
+
+    const getPriorityIndicator = (incidents, pendingTasks) => {
+        if (incidents > 0) return 'red';
+        if (pendingTasks > 0) return 'yellow';
+        return 'green';
+    };
+
+    const renderPriorityIcon = (color) => {
+        const icons = {
+            red: <AlertCircleIcon color="red" />,
+            yellow: <AlertCircleIcon color="orange" />,
+            green: <CheckCircleIcon color="green" />
+        };
+        return icons[color];
+    };
+
+    const toggleRowExpand = (id) => {
+        setExpandedRow(expandedRow === id ? null : id);
+    };
+
     return (
         <Card className="border-none shadow-none">
-            <Tabs defaultValue="all">
+            <Tabs
+                defaultValue={tabsList[0].value}
+                onValueChange={(value) => setActiveTab(value)}
+            >
                 <CardHeader className="flex flex-row items-center justify-between">
                     <div className="font-bold">
-                        <p className="text-sm">Shipment Activities</p>
-                        <p className="text-xs text-gray-600 dark:text-slate-400">keep track of recent shipping activities</p>
+                        <p className="text-sm">Shift Management</p>
+                        <p className="text-xs text-gray-600 dark:text-slate-400">Track and manage shift operations</p>
                     </div>
                     <div className="flex flex-row items-center space-x-2">
                         <TabsList className="h-14 rounded-full p-2">
-                            <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="all">All Shipments</TabsTrigger>
-                            <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="del">Delivered</TabsTrigger>
-                            <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="transit">In transit</TabsTrigger>
-                            <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="pending">Pending</TabsTrigger>
-                            <TabsTrigger className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm" value="processing">Processing</TabsTrigger>
+                            {tabsList.map(tabItem => (
+                                <TabsTrigger
+                                    key={tabItem.value}
+                                    className="data-[state=active]:bg-black data-[state=active]:text-white h-12 rounded-full text-sm"
+                                    value={tabItem.value}
+                                >
+                                    {tabItem.name}
+                                </TabsTrigger>
+                            ))}
                         </TabsList>
                         <Button variant={'secondary'} className="rounded-full h-12 w-12">
                             <ListFilterIcon />
                         </Button>
-                        <p>1-10 of 60</p>
+                        <p>1-{filteredShifts.length} of {shiftsData.length}</p>
                         <div>
                             <Button className="rounded-full h-10 w-10 border-none" variant={'outline'}>
                                 <ChevronLeftIcon />
@@ -120,74 +326,87 @@ const DashboardTable = () => {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    {/* TODO: Need to convert it into data table (if possible) */}
-                    <TabsContent value="all">
+                    <TabsContent value={activeTab}>
                         <Table>
                             <TableHeader className="bg-red-200/0 h-14 rounded-full">
                                 <TableRow className="rounded-full bg-background">
-                                    <TableHead>Order ID</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Company</TableHead>
-                                    <TableHead>Arrival time</TableHead>
-                                    <TableHead>Route</TableHead>
-                                    <TableHead>Price</TableHead>
+                                    <TableHead>Priority</TableHead>
+                                    <TableHead>Shift ID</TableHead>
+                                    <TableHead>Assigned Personnel</TableHead>
+                                    <TableHead>Pending Tasks</TableHead>
+                                    <TableHead>Critical Incidents</TableHead>
+                                    <TableHead>Shift Timing</TableHead>
+                                    <TableHead>Productivity</TableHead>
                                     <TableHead>Status</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>Electronic</TableCell>
-                                    <TableCell>Exetron Co</TableCell>
-                                    <TableCell>24 Dec 2024</TableCell>
-                                    <TableCell>London - Prague</TableCell>
-                                    <TableCell>$5,867.90</TableCell>
-                                    <TableCell>Delivered</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>Electronic</TableCell>
-                                    <TableCell>Exetron Co</TableCell>
-                                    <TableCell>24 Dec 2024</TableCell>
-                                    <TableCell>London - Prague</TableCell>
-                                    <TableCell>$5,867.90</TableCell>
-                                    <TableCell>Delivered</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>Electronic</TableCell>
-                                    <TableCell>Exetron Co</TableCell>
-                                    <TableCell>24 Dec 2024</TableCell>
-                                    <TableCell>London - Prague</TableCell>
-                                    <TableCell>$5,867.90</TableCell>
-                                    <TableCell>Delivered</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>Electronic</TableCell>
-                                    <TableCell>Exetron Co</TableCell>
-                                    <TableCell>24 Dec 2024</TableCell>
-                                    <TableCell>London - Prague</TableCell>
-                                    <TableCell>$5,867.90</TableCell>
-                                    <TableCell>Delivered</TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>Electronic</TableCell>
-                                    <TableCell>Exetron Co</TableCell>
-                                    <TableCell>24 Dec 2024</TableCell>
-                                    <TableCell>London - Prague</TableCell>
-                                    <TableCell>$5,867.90</TableCell>
-                                    <TableCell>Delivered</TableCell>
-                                </TableRow>
+                                {filteredShifts.map((shift) => (
+                                    <TableRow 
+                                        key={shift.id} 
+                                        className="cursor-pointer hover:bg-muted/50"
+                                        onClick={() => setSelectedShift(shift)}
+                                    >
+                                        <TableCell>
+                                            {renderPriorityIcon(getPriorityIndicator(shift.criticalIncidents, shift.pendingTasks))}
+                                        </TableCell>
+                                        <TableCell>{shift.id}</TableCell>
+                                        <TableCell>{shift.personnel.join(', ')}</TableCell>
+                                        <TableCell>{shift.pendingTasks}</TableCell>
+                                        <TableCell>{shift.criticalIncidents}</TableCell>
+                                        <TableCell>{shift.startTime} - {shift.endTime}</TableCell>
+                                        <TableCell>{shift.productivityScore}%</TableCell>
+                                        <TableCell>
+                                            <Badge
+                                                className={`rounded-full text-white ${shift.status === 'active' ? 'bg-blue-400/90' :
+                                                    shift.status === 'completed' ? 'bg-green-500' :
+                                                        'bg-red-500/90'
+                                                    }`}
+                                            >
+                                                {shift.status.charAt(0).toUpperCase() + shift.status.slice(1)}
+                                            </Badge>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </TabsContent>
                 </CardContent>
             </Tabs>
+
+            <Drawer 
+                open={!!selectedShift} 
+                onOpenChange={() => setSelectedShift(null)}
+            >
+                <DrawerContent className="w-[420px] mx-auto">
+                    {selectedShift && (
+                        <div className="p-4 bg-background rounded-lg w-[400px] mx-auto">
+                            <h3 className="font-bold mb-2">Shift Details for {selectedShift.id}</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-medium">Pending Tasks:</p>
+                                    {selectedShift.details.taskList.length > 0 ? (
+                                        <ul className="list-disc pl-5">
+                                            {selectedShift.details.taskList.map((task, index) => (
+                                                <li key={index}>{task}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>No pending tasks</p>
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="font-semibold">Contact Information:</p>
+                                    <p>{selectedShift.details.contactInfo}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </DrawerContent>
+            </Drawer>
         </Card>
-    )
-}
+    );
+};
 
 const NewDashboard = () => {
     const [date, setDate] = useState();

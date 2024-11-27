@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, X as CrossIcon, PencilIcon, SaveIcon } from "lucide-react";
-import Map from './map';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Item } from '@radix-ui/react-select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
+import Map from "react-map-gl";
+import DrawControl from './draw-control';
 
 const MapConfig = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -44,6 +44,11 @@ const MapConfig = () => {
     const areaNameRef = useRef<HTMLInputElement>(null);
     const areaDescriptionRef = useRef<HTMLInputElement>(null);
     const areaSizeRef = useRef<HTMLInputElement>(null);
+    const [viewState, setViewState] = useState({
+        center: [82.545748, 22.336312],
+        zoom: 12,
+        bounds: null
+      });
 
     useEffect(()=> {
         console.log(overAllData)
@@ -242,20 +247,62 @@ const MapConfig = () => {
         })
     }
 
+    const ReferenceMap = () => {
+        const [features, setFeatures] = useState({});
+
+        const onUpdate = useCallback(e => {
+          setFeatures(currFeatures => {
+            const newFeatures = {...currFeatures};
+            for (const f of e.features) {
+              newFeatures[f.id] = f;
+            }
+            return newFeatures;
+          });
+        }, []);
+      
+        const onDelete = useCallback(e => {
+          setFeatures(currFeatures => {
+            const newFeatures = {...currFeatures};
+            for (const f of e.features) {
+              delete newFeatures[f.id];
+            }
+            return newFeatures;
+          });
+        }, []);
+        
+        return(
+            <Map
+            initialViewState={{
+              longitude: viewState.center[0],
+              latitude: viewState.center[1],
+              zoom: 12
+            }}
+            mapStyle="mapbox://styles/mapbox/satellite-v9"
+            mapboxAccessToken={'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA'}
+          >
+            <DrawControl
+              position="top-left"
+              displayControlsDefault={false}
+              controls={{
+                polygon: true,
+                trash: true
+              }}
+              defaultMode="draw_polygon"
+              onCreate={onUpdate}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            />
+          </Map>
+        )
+    }
+
     return (
         <section id="map-config" className='h-dvh'>
             <div className='grid grid-cols-[79%_19%] h-[90vh] gap-2'>
                 <div className='w-full h-full'>
                     <Card className='p-2'>
                         <CardContent className='p-0 h-screen rounded-sm overflow-hidden'>
-                            <Map
-                                areaName={areaName}
-                                isEditable={canEditMap}
-                                overAllData = {overAllData}
-                                setOverAllData = {setOverAllData}
-                                sectionName={currentSection}
-                                currentAreaData={currentAreaData}
-                            />
+                            <ReferenceMap />
                         </CardContent>
                     </Card>
                 </div>

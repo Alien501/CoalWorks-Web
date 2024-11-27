@@ -22,20 +22,28 @@ export default function Map({
   overAllData,
   setOverAllData,
   saveAreaClicked,
-  sectionName
+  sectionName,
+  currentAreaData 
 }: {
   isEditable: boolean,
   areaName: string,
   sectionName: string,
   overAllData: any[],
   setOverAllData: (data: any[]) => void,
-  saveAreaClicked?: boolean
+  saveAreaClicked?: boolean,
+  currentAreaData?: {
+    areaName: string, 
+    areaDescription: string, 
+    areaSize: number, 
+    areaItems: string[], 
+    sectionType: string
+  }
 }) {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const drawRef = useRef(null);
   const [isLocked, setIsLocked] = useState(false);
-  const [drawMode, setDrawMode] = useState('draw_polygon');
+  const [drawMode, setDrawMode] = useState('simple_select');
   const [viewState, setViewState] = useState({
     center: [82.545748, 22.336312],
     zoom: 12,
@@ -99,6 +107,10 @@ export default function Map({
     };
   }, []);
 
+  useEffect(() => {
+    console.log('herex  ')
+  }, [saveAreaClicked])
+
   function initializeDraw() {
     console.log('Before initialisation')
     console.log(drawRef.current)
@@ -158,8 +170,8 @@ export default function Map({
       ],
     });
     console.log('After initialisation')
-    console.log(drawRef.current)
-    mapRef.current.addControl(drawRef.current);
+    // console.log(drawRef.current.setFeatureProperty({hi:''}))
+    mapRef.current.addControl(drawRef.current); 
 
     mapRef.current.on('draw.create', handleDrawCreate);
     mapRef.current.on('draw.update', handleDrawUpdate);
@@ -211,21 +223,57 @@ export default function Map({
 
   function handleDrawCreate(e) {
     const feature = e.features[0];
+    const sectionType = getAreaType();
+    
     feature.properties = {
       ...feature.properties,
-      'section_type': Number(getAreaType()), // Explicitly convert to number
+      'section_type': Number(sectionType),
+      'areaName': areaName || 'Unnamed Area'
     };
-    console.log('Created feature:', feature);
+
+    // Update the overAllData with the new feature's coordinates
+    if (currentAreaData) {
+      const updatedOverAllData = overAllData.map(area => {
+        if (area.areaName === currentAreaData.areaName) {
+          return {
+            ...area,
+            coordinates: feature.geometry
+          };
+        }
+        return area;
+      });
+      
+      setOverAllData(updatedOverAllData);
+    }
+
     updatePolygonLabels(drawRef.current.getAll().features);
   }
   
   function handleDrawUpdate(e) {
     const feature = e.features[0];
+    const sectionType = getAreaType();
+    
     feature.properties = {
       ...feature.properties,
-      'section_type': Number(getAreaType()), // Explicitly convert to number
+      'section_type': Number(sectionType),
+      'areaName': areaName || 'Unnamed Area'
     };
-    console.log('Updated feature:', feature);
+
+    // Update the overAllData with the updated feature's coordinates
+    if (currentAreaData) {
+      const updatedOverAllData = overAllData.map(area => {
+        if (area.areaName === currentAreaData.areaName) {
+          return {
+            ...area,
+            coordinates: feature.geometry
+          };
+        }
+        return area;
+      });
+      
+      setOverAllData(updatedOverAllData);
+    }
+
     updatePolygonLabels(drawRef.current.getAll().features);
   }
 

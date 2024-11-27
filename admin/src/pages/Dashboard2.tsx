@@ -7,121 +7,11 @@ import { Calendar } from "@/components/ui/calendar";
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, PolarAngleAxis, PolarGrid, Radar, RadarChart, XAxis } from "recharts";
 import Map from "./map";
 import AlertsCard from "@/components/custom/alertTimeLine";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "bg-black",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(210, 20%, 70%)",
-    },
-} satisfies ChartConfig
-
-const BarGrapph = () => {
-    return (
-        <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={chartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dashed" />}
-                />
-                <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} width={10} />
-                <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} width={10} />
-            </BarChart>
-        </ChartContainer>
-    )
-}
-
-const LineGraph = () => {
-    return (
-        <ChartContainer config={chartConfig}>
-<AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
-            <ChartLegend content={<ChartLegendContent />} />
-          </AreaChart>
-        </ChartContainer>
-    )
-}
-
-const SpiderGraph = () => {
-    return (
-        <ChartContainer config={chartConfig}>
-            <RadarChart data={chartData}>
-                <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="line" />}
-                />
-                <PolarAngleAxis dataKey="month" />
-                <PolarGrid />
-                <Radar
-                    dataKey="desktop"
-                    fill="var(--color-desktop)"
-                    fillOpacity={0.6}
-                />
-                <Radar dataKey="mobile" fill="var(--color-mobile)" />
-            </RadarChart>
-        </ChartContainer>
-    )
-}
+import {BarGraph, AreaGraph, LineGraph, PieGraph, RadialGraph, SpiderGraph} from '@/components/custom/graphs'
 
 const StatsCard = ({ icon, value, percentage, status, name }: { icon: React.JSX.Element, value: number, percentage: number, status: string, name: string }) => {
     return (
@@ -199,7 +89,7 @@ const SafetyCardContent = () => {
 }
 
 const DashboardTable = () => {
-    return(
+    return (
         <Card className="border-none shadow-none">
             <Tabs defaultValue="all">
                 <CardHeader className="flex flex-row items-center justify-between">
@@ -301,7 +191,24 @@ const DashboardTable = () => {
 
 const NewDashboard = () => {
     const [date, setDate] = useState();
+    const [graphType, setGraphType] = useState<string>('bar')
+    const graphList = {
+        'bar': <BarGraph />,
+        'area': <AreaGraph />,
+        'area-linear': <AreaGraph type="linear" />,
+        'area-step': <AreaGraph type="step" />,
+        'radar': <SpiderGraph />,
+        'pie': <PieGraph />,
+        'line': <LineGraph />,
+        'line-linear': <LineGraph type="linear" />,
+        'line-step': <LineGraph type="step" />,
+        'radial': <RadialGraph />
+    }
 
+    const onGraphChanged = (value: string) => {
+        console.log(value)
+        setGraphType(prev => value)
+    }
     return (
         <section id="dashboad" className="p-2 bg-slate-100 dark:bg-zinc-950 dark:text-foreground">
             {/* Header Section */}
@@ -375,7 +282,24 @@ const NewDashboard = () => {
                                     <p className="text-base">Shipment Statistics</p>
                                     <p className="text-xs text-gray-800 dark:text-slate-400">Total number of deliveries 72.8k</p>
                                 </div>
-                                <div>
+                                <div className="flex space-x-2">
+                                    <Select onValueChange={onGraphChanged}>
+                                        <SelectTrigger defaultValue={'bar'} className="rounded-full bg-secondary h-10 shadow-none border-none">
+                                            <SelectValue placeholder='Graph Type' />
+                                        </SelectTrigger>
+                                        <SelectContent className="border-none">
+                                            <SelectItem value="bar">Bar</SelectItem>
+                                            <SelectItem value="pie">Pie</SelectItem>
+                                            <SelectItem value="area">Area</SelectItem>
+                                            <SelectItem value="area-linear">Area Linear</SelectItem>
+                                            <SelectItem value="area-step">Area Step</SelectItem>
+                                            <SelectItem value="line">Line</SelectItem>
+                                            <SelectItem value="line-linear">Line Linear</SelectItem>
+                                            <SelectItem value="line-step">Line Step</SelectItem>
+                                            <SelectItem value="radar">Radar</SelectItem>
+                                            <SelectItem value="radial">Radial</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                     <Select>
                                         <SelectTrigger className="rounded-full bg-secondary h-10 shadow-none border-none">
                                             <SelectValue placeholder='Time' />
@@ -389,9 +313,8 @@ const NewDashboard = () => {
                                     </Select>
                                 </div>
                             </CardHeader>
-                            <CardContent>
-                                {/* <BarGrapph /> */}
-                                <LineGraph />
+                            <CardContent key={graphType}>
+                                {graphList[graphType]}
                             </CardContent>
                         </Card>
                     </div>

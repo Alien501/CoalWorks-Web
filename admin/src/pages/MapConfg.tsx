@@ -16,6 +16,8 @@ const MapConfig = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [showDialog, setShowDialog] = useState(true);
     const [areaData, setAreaData] = useState([])
+    const [currentAreaData, setCurrentAreaData] = useState(null);
+
     const [formData, setFormData] = useState({
         section1: { name: '', items: [] },
         section2: { name: '', items: [] },
@@ -105,32 +107,35 @@ const MapConfig = () => {
     const onSaveAreaClicked = () => {
         // Prevent saving if essential data is missing
         if (!areaName.trim() || !areaDescription.trim()) return;
-
+    
         const newArea = {
-            areaName, 
-            areaDescription, 
-            areaSize, 
-            areaItems, 
-            coordinates: null, 
-            sectionType: getSectionType()
+          areaName, 
+          areaDescription, 
+          areaSize, 
+          areaItems, 
+          coordinates: null, 
+          sectionType: getSectionType()
         };
-
+    
         setOverAllData(prev => [...prev, newArea]);
-
+        
+        // Set the current area data for coordinate tracking
+        setCurrentAreaData(newArea);
+    
         // Reset form fields
         setAreaName('');
         setAreaDescription('');
         setAreaSize(0);
         setAreaItems([]);
-
+    
         // Reset input refs
         if (areaNameRef.current) areaNameRef.current.value = '';
         if (areaDescriptionRef.current) areaDescriptionRef.current.value = '';
         if (areaSizeRef.current) areaSizeRef.current.value = '';
-
+    
         // Toggle map editing
         setCanEditMap(prev => !prev);
-    };
+      };
 
     const sections = {
         1: { name: 'Large Section', description: 'Larger section can be defined as something that covers area over 200km, ie, spans over a wide-spread area' },
@@ -227,18 +232,29 @@ const MapConfig = () => {
     // 2. Drill that state inside map component
     // 3. Retain previous drawing if possible
     // 4. Drill current formdata inside map and make it available inside drawn area
+
+    const onSaveButtonPressed = (data) => {
+        setOverAllData(prev => {
+            return {
+                ...prev,
+                data
+            }
+        })
+    }
+
     return (
         <section id="map-config" className='h-dvh'>
             <div className='grid grid-cols-[79%_19%] h-[90vh] gap-2'>
                 <div className='w-full h-full'>
                     <Card className='p-2'>
-                        <CardContent className='p-0 rounded-sm overflow-hidden'>
+                        <CardContent className='p-0 h-screen rounded-sm overflow-hidden'>
                             <Map
                                 areaName={areaName}
                                 isEditable={canEditMap}
                                 overAllData = {overAllData}
                                 setOverAllData = {setOverAllData}
                                 sectionName={currentSection}
+                                currentAreaData={currentAreaData}
                             />
                         </CardContent>
                     </Card>
@@ -336,7 +352,7 @@ const MapConfig = () => {
                                         <span>Save Area</span>
                                     </Button>
                                     :
-                                    <Button onClick={onSaveAreaClicked}>
+                                    <Button onClick={onSaveButtonPressed}>
                                         <span><SaveIcon /></span>
                                         <span>Save Area</span>
                                     </Button>

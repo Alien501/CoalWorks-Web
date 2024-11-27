@@ -104,14 +104,10 @@ function App() {
   ])
 
   return (
-<<<<<<< HEAD
     <>
       <Toaster></Toaster>
       <RouterProvider router={router} />
     </>
-=======
-    <RouterProvider router={router} />
->>>>>>> 435fad479573544b55eb40b17d91e8f3ae83c46a
   )
 }
 

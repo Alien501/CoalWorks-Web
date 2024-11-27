@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { PlusIcon, X as CrossIcon, PencilIcon, SaveIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,8 +10,134 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import Map from "react-map-gl";
+import Map, { Layer, Source } from "react-map-gl";
 import DrawControl from './draw-control';
+
+const SECTION_COLORS = {
+    'section1': '#FF4444', // large - red
+    'section2': '#44FF44', // medium - green
+    'section3': '#4444FF', // small - blue
+    'section4': '#FFFF44', // micro - yellow
+    'section5': '#FF44FF'  // unit - magenta
+};
+
+const MAPBOX_TOKEN = 'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA';
+const ReferenceMap = ({ 
+        currentSection, 
+        onSaveArea, 
+        canEditMap 
+    }) => {
+        const [drawnPolygons, setDrawnPolygons] = useState([]);
+        const [currentDrawing, setCurrentDrawing] = useState([]);
+        const mapRef = useRef(null);
+    
+        const onUpdate = useCallback((e) => {
+            if (e.type === 'draw.create') {
+                const newPolygon = {
+                    id: e.features[0].id,
+                    coordinates: e.features[0].geometry.coordinates[0],
+                    color: SECTION_COLORS[currentSection] || '#000000',
+                    name: currentSection
+                };
+                setDrawnPolygons(prev => [...prev, newPolygon]);
+            } else if (e.type === 'draw.update') {
+                console.log(drawnPolygons)
+                const updatedPolygons = drawnPolygons.map(polygon => {
+                    const updatedFeature = e.features.find(f => f.id === polygon.id);
+                    console.log(updatedFeature)
+                    if (updatedFeature) {
+                        return {
+                            ...polygon,
+                            coordinates: updatedFeature.geometry.coordinates[0],
+                        };
+                    }
+                    return polygon;
+                });
+                setDrawnPolygons(updatedPolygons);
+            }
+        }, [currentSection, drawnPolygons]);
+    
+        const onDelete = useCallback((e) => {
+            const deletedIds = e.features.map(f => f.id);
+            setDrawnPolygons(prev => 
+                prev.filter(polygon => !deletedIds.includes(polygon.id))
+            );
+        }, []);
+    
+        const onSaveButtonPressed = () => {
+            onSaveArea(drawnPolygons);
+        };
+    
+        return (
+            <Map
+                ref={mapRef}
+                initialViewState={{
+                    longitude: 82.545748,
+                    latitude: 22.336312,
+                    zoom: 12
+                }}
+                style={{ width: '100%', height: '100%' }}
+                mapStyle="mapbox://styles/mapbox/satellite-v9"
+                mapboxAccessToken={MAPBOX_TOKEN}
+            >
+                <DrawControl
+                    position="top-left"
+                    displayControlsDefault={false}
+                    controls={{
+                        polygon: true,
+                        trash: true
+                    }}
+                    defaultMode={"simple_select"}
+                    onCreate={onUpdate}
+                    onUpdate={onUpdate}
+                    onDelete={onDelete}
+                />
+    
+                {/* Drawn Polygons */}
+                {drawnPolygons.map((polygon) => (
+                    <Source
+                        key={polygon.id}
+                        type="geojson"
+                        data={{
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Polygon',
+                                coordinates: [polygon.coordinates]
+                            },
+                            properties: {
+                                name: polygon.name
+                            }
+                        }}
+                    >
+                        <Layer
+                            id={`polygon-${polygon.id}`}
+                            type="fill"
+                            paint={{
+                                'fill-color': polygon.color,
+                                'fill-opacity': 0.5
+                            }}
+                        />
+                        <Layer
+                            id={`polygon-outline-${polygon.id}`}
+                            type="line"
+                            paint={{
+                                'line-color': polygon.color,
+                                'line-width': 2
+                            }}
+                        />
+                    </Source>
+                ))}
+    
+                {canEditMap && drawnPolygons.length > 0 && (
+                    <div className="absolute bottom-4 right-4 z-10">
+                        <Button onClick={onSaveButtonPressed}>
+                            Save Drawn Area
+                        </Button>
+                    </div>
+                )}
+            </Map>
+        );
+    }
 
 const MapConfig = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -27,7 +153,7 @@ const MapConfig = () => {
         section5: { name: '', items: [] }
     });
     const [newItem, setNewItem] = useState('');
-    const [saveAreaClicked, setSaveAreaClicked]= useState(false)
+    const [saveAreaClicked, setSaveAreaClicked] = useState(false)
     const [currentSection, setCurrentSection] = useState("");
     const [canEditMap, setCanEditMap] = useState(false);
     const [areaName, setAreaName] = useState('');
@@ -35,11 +161,11 @@ const MapConfig = () => {
     const [areaDescription, setAreaDescription] = useState('');
     const [areaSize, setAreaSize] = useState(0);
     const [overAllData, setOverAllData] = useState<{
-        areaName: string, 
-        areaDescription: string, 
-        areaSize: number, 
-        areaItems: string[], 
-        coordinates: any | null, 
+        areaName: string,
+        areaDescription: string,
+        areaSize: number,
+        areaItems: string[],
+        coordinates: any | null,
         sectionType: string
     }[]>([]);
     const areaNameRef = useRef<HTMLInputElement>(null);
@@ -49,26 +175,26 @@ const MapConfig = () => {
         center: [82.545748, 22.336312],
         zoom: 12,
         bounds: null
-      });
+    });
 
-    useEffect(()=> {
+    useEffect(() => {
         console.log(overAllData)
     }, [overAllData])
 
     const getSectionType = () => {
-        switch(currentStep) {
-            case 1: return 'large';
-            case 2: return 'medium';
-            case 3: return 'small';
-            case 4: return 'micro';
-            case 5: return 'unit';
+        switch (currentSection) {
+            case 'large': return 1;
+            case 'medium': return 2;
+            case 'small': return 3;
+            case 'micro': return 4;
+            case 'unit': return 5;
             default: return 'large';
         }
     };
 
-    const onSectionChange = (e) => {
+    const onSectionChange = useCallback((e) => {
         setCurrentSection(e)
-    }
+    }, []);
 
     const onAreaNameChanged = (e) => {
         const value = e.target.value;
@@ -99,49 +225,45 @@ const MapConfig = () => {
         })
     }
 
-    const onAddAreaClicked = () => {
+    const onAddAreaClicked = useCallback(() => {
         if (areaName.trim() == '' || areaDescription.trim() == '') {
             return
         }
-        console.log(areaName);
-        console.log(areaDescription);
-        console.log(areaSize);
-        console.log(areaItems)
         setCanEditMap(prev => !prev);
-    }
+    }, [areaName, areaDescription]);
 
     const onSaveAreaClicked = () => {
         // Prevent saving if essential data is missing
         if (!areaName.trim() || !areaDescription.trim()) return;
-    
+
         const newArea = {
-          areaName, 
-          areaDescription, 
-          areaSize, 
-          areaItems, 
-          coordinates: null, 
-          sectionType: getSectionType()
+            areaName,
+            areaDescription,
+            areaSize,
+            areaItems,
+            coordinates: null,
+            sectionType: getSectionType()
         };
-    
+
         setOverAllData(prev => [...prev, newArea]);
-        
+
         // Set the current area data for coordinate tracking
         setCurrentAreaData(newArea);
-    
+
         // Reset form fields
         setAreaName('');
         setAreaDescription('');
         setAreaSize(0);
         setAreaItems([]);
-    
+
         // Reset input refs
         if (areaNameRef.current) areaNameRef.current.value = '';
         if (areaDescriptionRef.current) areaDescriptionRef.current.value = '';
         if (areaSizeRef.current) areaSizeRef.current.value = '';
-    
+
         // Toggle map editing
         setCanEditMap(prev => !prev);
-      };
+    };
 
     const sections = {
         1: { name: 'Large Section', description: 'Larger section can be defined as something that covers area over 200km, ie, spans over a wide-spread area' },
@@ -248,54 +370,22 @@ const MapConfig = () => {
         })
     }
 
-    const ReferenceMap = () => {
-        const [features, setFeatures] = useState({});
-
-        const onUpdate = useCallback(e => {
-          setFeatures(currFeatures => {
-            const newFeatures = {...currFeatures};
-            for (const f of e.features) {
-              newFeatures[f.id] = f;
-            }
-            return newFeatures;
-          });
-        }, []);
-      
-        const onDelete = useCallback(e => {
-          setFeatures(currFeatures => {
-            const newFeatures = {...currFeatures};
-            for (const f of e.features) {
-              delete newFeatures[f.id];
-            }
-            return newFeatures;
-          });
-        }, []);
-        
-        return(
-            <Map
-            initialViewState={{
-              longitude: viewState.center[0],
-              latitude: viewState.center[1],
-              zoom: 12
-            }}
-            mapStyle="mapbox://styles/mapbox/satellite-v9"
-            mapboxAccessToken={'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA'}
-          >
-            <DrawControl
-              position="top-left"
-              displayControlsDefault={false}
-              controls={{
-                polygon: true,
-                trash: true
-              }}
-              defaultMode="draw_polygon"
-              onCreate={onUpdate}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-            />
-          </Map>
-        )
-    }
+    const memoizedSaveAreaClicked = useCallback((data) => {
+            setOverAllData(prev => {
+                return [
+                    ...prev,
+                    {
+                        areaName,
+                        areaDescription,
+                        areaItems,
+                        areaSize,
+                        mapping: data
+                    }
+                ]
+            })
+            console.log(overAllData)
+    }, [areaName, areaDescription, areaSize, areaItems]);
+    
 
     return (
         <section id="map-config" className='h-dvh'>
@@ -303,7 +393,12 @@ const MapConfig = () => {
                 <div className='w-full h-full'>
                     <Card className='p-2'>
                         <CardContent className='p-0 h-screen rounded-sm overflow-hidden'>
-                            <ReferenceMap />
+                            <ReferenceMap
+                                canEditMap={canEditMap}
+                                currentSection={currentSection}
+                                onSaveArea={memoizedSaveAreaClicked}
+                                key={currentSection}
+                            />
                         </CardContent>
                     </Card>
                 </div>
@@ -362,19 +457,19 @@ const MapConfig = () => {
                                     placeholder='Name'
                                     type='text'
                                     onChange={onAreaNameChanged}
-                                    ref = {areaNameRef}
+                                    ref={areaNameRef}
                                 />
                                 <Textarea
                                     placeholder='Descritpion about that palce'
                                     onChange={onAreaDescriptionChanged}
-                                    ref = {areaDescriptionRef}
+                                    ref={areaDescriptionRef}
                                 />
                                 <div className='flex items-center space-x-2'>
                                     <Input
                                         placeholder='Approx. Area'
                                         type='number'
                                         onChange={onAreaSizeChanged}
-                                        ref = {areaSizeRef}
+                                        ref={areaSizeRef}
                                     />
                                     <span>
                                         km
@@ -394,7 +489,7 @@ const MapConfig = () => {
                                         <span>Draw Area</span>
                                     </Button>
                                 }
-                                {!canEditMap ?
+                                {/* {!canEditMap ?
                                     <Button disabled>
                                         <span><SaveIcon /></span>
                                         <span>Save Area</span>
@@ -404,24 +499,24 @@ const MapConfig = () => {
                                         <span><SaveIcon /></span>
                                         <span>Save Area</span>
                                     </Button>
-                                }
+                                } */}
                             </div>
 
                             <div>
                                 <p>Area Mapped</p>
                                 <div className='p-1 space-y-2'>
                                     {
-                                    overAllData.length == 0?
-                                        <p>No area Had been Mapped</p>
-                                    :
-                                    overAllData.map(data => (
-                                        <Card className='rounded-sm'>
-                                            <CardContent className='p-2'>
-                                                <p>{data.areaName}</p>
-                                                <p>{data.areaSize}km</p>
-                                            </CardContent>
-                                        </Card>
-                                    ))
+                                        overAllData.length == 0 ?
+                                            <p>No area Had been Mapped</p>
+                                            :
+                                            overAllData.map(data => (
+                                                <Card className='rounded-sm'>
+                                                    <CardContent className='p-2'>
+                                                        <p>{data.areaName}</p>
+                                                        <p>{data.areaSize}km</p>
+                                                    </CardContent>
+                                                </Card>
+                                            ))
                                     }
                                 </div>
                             </div>

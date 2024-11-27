@@ -1,4 +1,4 @@
-import { Card, CardContent} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -6,14 +6,15 @@ import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { format } from "date-fns";
 import { BarGraph, AreaGraph, LineGraph, PieGraph, RadialGraph, SpiderGraph } from '@/components/custom/graphs'
-import { HardHat, Tractor,TriangleAlert } from "lucide-react";
+import { HardHat, Tractor, TriangleAlert } from "lucide-react";
 import ShipmentStatistics from "@/components/custom/shipmentStatistics";
 import { DashboardTable } from "@/components/custom/dashboardTable";
 import { shiftsData } from "@/lib/dummyShiftData";
 import { StatsCard } from "@/components/custom/StatsCard";
 import { UtilityCard } from "@/components/custom/utilityCard";
 import { SafetyCardContent } from "@/components/custom/safetyCard";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { DialogModel } from "@/components/custom/dialogModel";
 const NewDashboard = () => {
     const [date, setDate] = useState();
     const [graphType, setGraphType] = useState<string>('bar')
@@ -67,7 +68,7 @@ const NewDashboard = () => {
                             <Button className="rounded-full leading-tight text-xs shadow-none" variant='outline'>
                                 Export CSV
                             </Button>
-                            <Button className="rounded-full leading-tight text-xs shadow-none dark:bg-dull-lavender-400 dark:hover:bg-dull-lavender-500">
+                            <Button className="rounded-full leading-tight dark:text-azure-radiance-500 font-semibold text-xs shadow-none dark:bg-azure-radiance-500/10 dark:hover:bg-azure-radiance-200 dark:border-azure-radiance-500 border-2">
                                 Add new shipment
                             </Button>
                         </CardContent>
@@ -76,23 +77,57 @@ const NewDashboard = () => {
             </div>
             <div id="dashboard-section-container" className="grid gap-1 grid-cols-2 mt-4">
                 <div>
-                    <div className="flex space-x-2 justify-between">
+                    <div className="flex space-x-2 justify-between group">
                         <StatsCard
-                            icon={<HardHat className="h-7 w-7" />}
+                            icon={
+                                <DialogModel dialogTrigger={
+                                <span>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <HardHat className="h-7 w-7 hover:stroke-azure-radiance-500" />
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>View More</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </span>
+                                } />
+
+                            }
                             value={172}
                             percentage={1.92}
                             status="inc"
                             name="Active Workers"
                         />
                         <StatsCard
-                            icon={<Tractor className="h-7 w-7" />}
+                            icon={<TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Tractor className="h-7 w-7 hover:stroke-azure-radiance-500" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>View More</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>}
                             value={42}
                             percentage={1.89}
                             status="inc"
                             name="Active Equipments"
                         />
                         <StatsCard
-                            icon={<TriangleAlert className="h-7 w-7" />}
+                            icon={<TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <TriangleAlert className="h-7 w-7 hover:stroke-azure-radiance-500" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>View More</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>}
                             value={172}
                             percentage={1.92}
                             status="dec"

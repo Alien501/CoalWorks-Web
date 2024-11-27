@@ -2,10 +2,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import {MoveUpRightIcon, MoveDownLeftIcon} from "lucide-react"
 export const StatsCard = ({ icon, value, percentage, status, name }: { icon: React.JSX.Element, value: number, percentage: number, status: string, name: string }) => {
     return (
-        <Card className="w-max bg-transparent border-none shadow-none cursor-pointer dark:bg-zinc-900/75 p-3">
+        <Card className="w-max bg-transparent border-none shadow-none p-3">
             <CardContent className="p-1">
                 <div className="flex items-center gap-2">
-                    <div className="mt-1 w-16 h-16 flex items-center justify-center bg-white dark:bg-slate-500/10 p-1 rounded-full">
+                    <div className="mt-1 w-16 h-16 flex items-center justify-center bg-white dark:bg-slate-500/10 p-1 rounded-full hover:dark:bg-azure-radiance-500/10 hover:dark:border-azure-radiance-500 border-2 cursor-pointer">
                         {icon}
                     </div>
                     <div className="space-y-2">

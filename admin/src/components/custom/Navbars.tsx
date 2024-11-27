@@ -1,10 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
 import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, PickaxeIcon, Settings, SunIcon, UserRoundCog } from "lucide-react";
-import {Box} from "lucide-react"
+import { Box } from "lucide-react"
 import { useTheme } from "./theme";
 
 interface MenuItems {
@@ -52,10 +52,9 @@ const menuItems: MenuItems[] = [
 ]
 
 const SideNavbar = () => {
-    const {isDarkMode, toggleTheme} = useTheme()
-    const location = useLocation();
+    const { isDarkMode, toggleTheme } = useTheme()
 
-    return(
+    return (
         <Sidebar collapsible="icon" variant="sidebar" className="font-poppins">
             <SidebarHeader className="flex justify-center items-center border-b h-[64px]">
                 <span className="flex font-bold space-x-1 justify-center text-xl items-center w-full h-[23px]"><Box /></span>
@@ -67,7 +66,7 @@ const SideNavbar = () => {
                             {menuItems.map((menu) => (
                                 <SidebarMenuItem key={menu.title} className="h-10">
                                     <SidebarMenuButton asChild>
-                                        <Link 
+                                        <Link
                                             className={`
                                                         text-foreground text-lg font-medium 
                                                         hover:bg-black/10 
@@ -107,23 +106,20 @@ const SideNavbar = () => {
     )
 }
 
-const TopNavbar = ({pageTitle}: { pageTitle: string }) => {
-    return(
+const TopNavbar = ({ pageTitle }: { pageTitle: string }) => {
+    return (
         <header className="w-full flex justify-between items-center font-poppins bg-background text-foreground">
             <div>
-                <span className="text-sm font-bold">{pageTitle}</span>                
+                <span className="text-sm font-bold">{pageTitle}</span>
             </div>
-            <div>
+            <div className="flex items-center space-x-2 mr-2">
+                <span>Vignesh Chellapandi</span>
+
                 <Popover>
                     <PopoverTrigger>
-                        <Button variant='ghost' className="border-2 h-[70%] rounded-full">
-                            <span>
-                                <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                </Avatar>
-                            </span>
-                            <span>User Name</span>
-                        </Button>
+                        <Avatar>
+                            <AvatarImage src="https://media.licdn.com/dms/image/v2/D5603AQG5SClyaWsBMw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1714279635112?e=1738195200&v=beta&t=368LklGi1yTDqZsNtV8qSvWoKeQ2VLgINOseR0joHQU" />
+                        </Avatar>
                     </PopoverTrigger>
                     <PopoverContent className="w-max">
                         <Button className="bg-red-300/30 text-red-500 hover:bg-red-300 hover:text-white">Logout</Button>

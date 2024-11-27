@@ -1,13 +1,29 @@
+import {
+    Drawer,
+    DrawerTrigger,
+    DrawerContent
+} from "@/components/ui/drawer"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Boxes, CalendarCheck, Crown, FactoryIcon, MapIcon } from "lucide-react";
+import { Boxes, CalendarCheck, Crown, FactoryIcon, MapIcon, Info } from "lucide-react";
 import { Link } from "react-router-dom";
+import MasterConfigDrawer from "@/components/own/masterConfigDrawer";
 
 const MasterData = () => {
     return (
         <section className="p-4 bg-gray-50 dark:bg-background min-h-screen">
             <div className="container mx-auto">
-                <h1 className="text-2xl font-bold mb-6 flex items-center">
+                <h1 className="text-2xl font-bold mb-6 flex items-center space-x-3">
                     <Crown className="mr-3" /> Master Data Configuration
+                    <Drawer>
+                        <DrawerTrigger asChild>
+                            <span className="p-1 cursor-pointer"><Info /></span>
+                        </DrawerTrigger>
+                        <DrawerContent className="">
+                            <MasterConfigDrawer></MasterConfigDrawer>
+                        </DrawerContent>
+
+                    </Drawer>
                 </h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -36,7 +52,7 @@ const MasterData = () => {
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <CalendarCheck className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Plants</p>
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Shifts</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -46,7 +62,7 @@ const MasterData = () => {
                         <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
                             <CardHeader>
                                 <CardTitle className="flex items-center justify-between">
-                                    Loaction
+                                    Location
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="flex items-center justify-center h-40">

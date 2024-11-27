@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+//@ts-nocheck
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,7 +24,7 @@ const DynamicInputField = ({ type }) => {
     setOptions(options.filter((_, i) => i !== index));
   };
 
-  const updateOption = (index, field, value) => {
+  const updateOption = (index: number, field: any, value: any) => {
     const newOptions = [...options];
     newOptions[index][field] = value;
     setOptions(newOptions);

@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is your Prisma schema file
 
 generator client {
   provider = "prisma-client-js"
@@ -11,4 +7,132 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Mine {
+  mineId             Int      @id @default(autoincrement())
+  mineName           String   @db.VarChar(100)
+  locationLatitude   Decimal  @db.Decimal(9,6)
+  locationLongitude  Decimal  @db.Decimal(9,6)
+  address            String   @db.VarChar(255)
+  ownerId            Int
+  mineType           String   @db.VarChar(50)
+  productionCapacity Decimal  @db.Decimal(10,2)
+  operationalStatus  String   @db.VarChar(50)
+  startDate          DateTime @db.Date
+  endDate            DateTime? @db.Date
+  
+  owner              Owner    @relation(fields: [ownerId], references: [ownerId])
+  largeSections      LargeSection[]
+
+  @@map("mines")
+}
+
+model Owner {
+  ownerId      Int      @id @default(autoincrement())
+  ownerName    String   @db.VarChar(100)
+  contactName  String   @db.VarChar(100)
+  contactEmail String   @db.VarChar(100)
+  contactPhone String   @db.VarChar(15)
+  mines        Mine[]
+
+  @@map("owners")
+}
+
+model LargeSection {
+  sectionId    Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  description  String?   @db.Text
+  area         Decimal?  @db.Decimal(10, 2)
+  typeId       Int
+  insiderToId  Int?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  mine         Mine?      @relation(fields: [insiderToId], references: [mineId])
+  sectionType  SectionType @relation(fields: [typeId], references: [typeId])
+  mediumSections MediumSection[]
+
+  @@map("large_sections")
+}
+
+model MediumSection {
+  sectionId    Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  description  String?   @db.Text
+  area         Decimal?  @db.Decimal(10, 2)
+  typeId       Int
+  insiderToId  Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  largeSection LargeSection @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType  @relation(fields: [typeId], references: [typeId])
+  smallSections SmallSection[]
+
+  @@map("medium_sections")
+}
+
+model SmallSection {
+  sectionId    Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  description  String?   @db.Text
+  area         Decimal?  @db.Decimal(10, 2)
+  typeId       Int
+  insiderToId  Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  mediumSection MediumSection @relation(fields: [insiderToId], references: [sectionId])
+  sectionType   SectionType   @relation(fields: [typeId], references: [typeId])
+  microSections MicroSection[]
+
+  @@map("small_sections")
+}
+
+model MicroSection {
+  sectionId    Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  description  String?   @db.Text
+  area         Decimal?  @db.Decimal(10, 2)
+  typeId       Int
+  insiderToId  Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  smallSection SmallSection @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType  @relation(fields: [typeId], references: [typeId])
+  unitSections UnitSection[]
+
+  @@map("micro_sections")
+}
+
+model UnitSection {
+  unitId      Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  description String?   @db.Text
+  model       String?   @db.VarChar(255)
+  typeId      Int
+  insiderToId Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+
+  microSection MicroSection @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType  @relation(fields: [typeId], references: [typeId])
+
+  @@map("unit_sections")
+}
+
+model SectionType {
+  typeId          Int            @id @default(autoincrement())
+  name            String         @db.VarChar(100)
+  description     String?        @db.Text
+  
+  largeSections   LargeSection[]
+  mediumSections  MediumSection[]
+  smallSections   SmallSection[]
+  microSections   MicroSection[]
+  unitSections    UnitSection[]
+
+  @@map("section_types")
 }

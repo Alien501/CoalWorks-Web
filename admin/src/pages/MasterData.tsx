@@ -22,7 +22,6 @@ const MasterData = () => {
                         <DrawerContent className="">
                             <MasterConfigDrawer></MasterConfigDrawer>
                         </DrawerContent>
-
                     </Drawer>
                 </h1>
 

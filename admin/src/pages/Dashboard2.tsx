@@ -15,6 +15,7 @@ import { UtilityCard } from "@/components/custom/utilityCard";
 import { SafetyCardContent } from "@/components/custom/safetyCard";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { DialogModel } from "@/components/custom/dialogModel";
+import Map from "./map";
 const NewDashboard = () => {
     const [date, setDate] = useState();
     const [graphType, setGraphType] = useState<string>('bar')
@@ -38,11 +39,11 @@ const NewDashboard = () => {
     return (
         <section id="dashboad" className="p-2 bg-slate-100 dark:bg-zinc-950 dark:text-foreground">
             {/* Header Section */}
-            <div id="dash-header-section" className="flex justify-end items-center">
-                {/* <div>
+            <div id="dash-header-section" className="flex justify-between items-center">
+                <div>
                     <p className="font-medium">Hello Lincoln,</p>
                     <p className="font-semibold text-3xl">Good Morning</p>
-                </div> */}
+                </div>
                 <div>
                     <Card className="h-12 shadow-none flex items-center rounded-full mt-1">
                         <CardContent className="p-1 space-x-2 flex">
@@ -134,23 +135,26 @@ const NewDashboard = () => {
                             name="Safety Incidents"
                         />
                     </div>
-                    <div>
-                        <ShipmentStatistics onGraphChanged={onGraphChanged} graphType={graphType} graphList={graphList}></ShipmentStatistics>
+                    <div className="h-full">
+                        <Card className="h-[83%]">
+                            <CardContent className="h-full p-4">
+                                <Map isEditable={false} />
+                            </CardContent>
+                        </Card>
+                        {/* <UtilityCard
+                            title="Map"
+                            subTitle="See alll things here"
+                            bodyContent={<div className="h-[470px] bg-white w-full rounded-sm"><Map isEditable={false} /></div>}
+                        /> */}
+                        {/* <ShipmentStatistics onGraphChanged={onGraphChanged} graphType={graphType} graphList={graphList}></ShipmentStatistics> */}
                     </div>
                 </div>
-                <div className="p-2 grid grid-cols-2 grid-rows-2 gap-4">
-                    <div className="">
+                <div className="p-2 grid grid-cols-2 gap-4">
+                    <div className="h-max">
                         <UtilityCard
                             title="Analytic View"
                             subTitle="Total shipping revenue overview"
                             bodyContent={<SpiderGraph />}
-                        />
-                    </div>
-                    <div className=" row-span-2">
-                        <UtilityCard
-                            title="Tracking Delivery"
-                            subTitle="Last viewed delivery history"
-                            bodyContent={<SafetyCardContent />}
                         />
                     </div>
                     <div className="">
@@ -158,6 +162,13 @@ const NewDashboard = () => {
                             title="Delivery vehicles"
                             subTitle="vehicles operating on the road"
                             bodyContent={<h1 className="font-bold text-3xl">@Rakhul, What to display here</h1>}
+                        />
+                    </div>
+                    <div className="col-span-2">
+                        <UtilityCard
+                            title="Alerts"
+                            subTitle="Track alerts here"
+                            bodyContent={<SafetyCardContent />}
                         />
                     </div>
                 </div>

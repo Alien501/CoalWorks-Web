@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/form"
 import { Factory, MoreHorizontal, Plus, Search } from 'lucide-react'
 import Modal from "@/components/own/Modal"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const plantsData = [
     {
@@ -230,82 +231,96 @@ export function Plants() {
 
     return (
         <div className="container mx-auto py-10">
-            <div className="flex justify-between items-center mb-6 p-2">
-                <h1 className="text-3xl font-bold">Plants</h1>
-                <div className="flex items-center space-x-4">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                        <Input
-                            placeholder="Search plants..."
-                            className="pl-10 w-64"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+            <Tabs defaultValue="section1">
+                    <div className="w-full bg-slate-50/0 flex items-center justify-center h-14">
+                <TabsList className="h-full bg-transparent">
+                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section1">Section 1</TabsTrigger>
+                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section2">Section 2</TabsTrigger>
+                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section3">Section 3</TabsTrigger>
+                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section4">Section 4</TabsTrigger>
+                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section5">Section 5</TabsTrigger>
+                </TabsList>
                     </div>
-                    <Modal
-                        modalTitle="Add New Plant"
-                        modalTriggerElement={<Button><Plus className="mr-2 h-4 w-4" /> Add New Plant</Button>}
-                        modalContent={<NewPlant />}
-                    />
-                </div>
-            </div>
-            <div className="border rounded-lg overflow-hidden">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[200px] cursor-pointer" onClick={() => handleSort("Name")}>
-                                Name {sortColumn === "Name" && (sortOrder === "asc" ? "▲" : "▼")}
-                            </TableHead>
-                            <TableHead className="cursor-pointer" onClick={() => handleSort("Plant Id")}>
-                                Plant Id {sortColumn === "Plant Id" && (sortOrder === "asc" ? "▲" : "▼")}
-                            </TableHead>
-                            <TableHead className="cursor-pointer" onClick={() => handleSort("Country")}>
-                                Country {sortColumn === "Country" && (sortOrder === "asc" ? "▲" : "▼")}
-                            </TableHead>
-                            <TableHead className="cursor-pointer" onClick={() => handleSort("State")}>
-                                State {sortColumn === "State" && (sortOrder === "asc" ? "▲" : "▼")}
-                            </TableHead>
-                            <TableHead className="cursor-pointer" onClick={() => handleSort("Zip Code")}>
-                                Zip Code {sortColumn === "Zip Code" && (sortOrder === "asc" ? "▲" : "▼")}
-                            </TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {sortedPlants.map((plant, index) => (
-                            <TableRow key={index}>
-                                <TableCell className="font-medium">
-                                    <div className="flex items-center space-x-2">
-                                        <Factory className="h-4 w-4" />
-                                        <span>{plant.Name}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>{plant["Plant Id"]}</TableCell>
-                                <TableCell>{plant.Country}</TableCell>
-                                <TableCell>{plant.State}</TableCell>
-                                <TableCell>{plant["Zip Code"]}</TableCell>
-                                <TableCell className="text-right">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                                <span className="sr-only">Open menu</span>
-                                                <MoreHorizontal className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem>Edit Plant</DropdownMenuItem>
-                                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem className="text-red-600">Delete Plant</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                <TabsContent value="section1">
+                    <div className="flex justify-between items-center mb-6 p-2">
+                        <h1 className="text-3xl font-bold">Plants</h1>
+                        <div className="flex items-center space-x-4">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                                <Input
+                                    placeholder="Search plants..."
+                                    className="pl-10 w-64"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                            <Modal
+                                modalTitle="Add New Plant"
+                                modalTriggerElement={<Button><Plus className="mr-2 h-4 w-4" /> Add New Plant</Button>}
+                                modalContent={<NewPlant />}
+                            />
+                        </div>
+                    </div>
+                    <div className="border rounded-lg overflow-hidden">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[200px] cursor-pointer" onClick={() => handleSort("Name")}>
+                                        Name {sortColumn === "Name" && (sortOrder === "asc" ? "▲" : "▼")}
+                                    </TableHead>
+                                    <TableHead className="cursor-pointer" onClick={() => handleSort("Plant Id")}>
+                                        Plant Id {sortColumn === "Plant Id" && (sortOrder === "asc" ? "▲" : "▼")}
+                                    </TableHead>
+                                    <TableHead className="cursor-pointer" onClick={() => handleSort("Country")}>
+                                        Country {sortColumn === "Country" && (sortOrder === "asc" ? "▲" : "▼")}
+                                    </TableHead>
+                                    <TableHead className="cursor-pointer" onClick={() => handleSort("State")}>
+                                        State {sortColumn === "State" && (sortOrder === "asc" ? "▲" : "▼")}
+                                    </TableHead>
+                                    <TableHead className="cursor-pointer" onClick={() => handleSort("Zip Code")}>
+                                        Zip Code {sortColumn === "Zip Code" && (sortOrder === "asc" ? "▲" : "▼")}
+                                    </TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {sortedPlants.map((plant, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className="font-medium">
+                                            <div className="flex items-center space-x-2">
+                                                <Factory className="h-4 w-4" />
+                                                <span>{plant.Name}</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>{plant["Plant Id"]}</TableCell>
+                                        <TableCell>{plant.Country}</TableCell>
+                                        <TableCell>{plant.State}</TableCell>
+                                        <TableCell>{plant["Zip Code"]}</TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" className="h-8 w-8 p-0">
+                                                        <span className="sr-only">Open menu</span>
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                    <DropdownMenuItem>Edit Plant</DropdownMenuItem>
+                                                    <DropdownMenuItem>View Details</DropdownMenuItem>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem className="text-red-600">Delete Plant</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                    
+                </TabsContent>
+            </Tabs>
         </div>
     )
 }

@@ -68,7 +68,8 @@ export default function Map({
 
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'mapbox://styles/mapbox/satellite-v9',
+        // style: 'mapbox://styles/mapbox/satellite-v9',
+        style: 'mapbox://styles/mapbox/dark-v11 ',
         center: viewState.center,
         zoom: viewState.zoom,
       });

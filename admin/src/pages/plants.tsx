@@ -153,94 +153,124 @@ export function Plants() {
     }
 
     const NewPlant = () => {
-        return(
+        return (
             <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Plant name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="plantId"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Plant ID</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Plant ID" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Country</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Country" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="state"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>State</FormLabel>
-                            <FormControl>
-                                <Input placeholder="State" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="zipCode"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Zip Code</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Zip Code" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <DialogFooter>
-                    <Button type="submit">Save Plant</Button>
-                </DialogFooter>
-            </form>
-        </Form>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Plant name" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="plantId"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Plant ID</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Plant ID" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="country"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Country</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Country" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="state"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>State</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="State" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="zipCode"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Zip Code</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Zip Code" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <Button type="submit">Save Plant</Button>
+                    </DialogFooter>
+                </form>
+            </Form>
         )
     }
 
     return (
         <div className="container mx-auto py-10">
             <Tabs defaultValue="section1">
-                    <div className="w-full bg-slate-50/0 flex items-center justify-center h-14">
-                <TabsList className="h-full bg-transparent">
-                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section1">Section 1</TabsTrigger>
-                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section2">Section 2</TabsTrigger>
-                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section3">Section 3</TabsTrigger>
-                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section4">Section 4</TabsTrigger>
-                        <TabsTrigger className="h-full data-[state=active]:text-azure-radiance-500 data-[state=active]:ring-2 font-semibold" value="section5">Section 5</TabsTrigger>
-                </TabsList>
-                    </div>
+                <div className=" bg-slate-50/0 flex items-center justify-center h-14">
+                    <TabsList className="h-12 bg-gray-100 dark:bg-black border rounded-lg p-1">
+                        <TabsTrigger
+                            className="h-full flex-1 rounded-md text-sm font-medium transition-all data-[state=active]:bg-white dark:data-[state=active]:bg-white/85 data-[state=active]:text-black data-[state=active]:shadow-sm relative overflow-hidden"
+                            value="section1"
+                        >
+                            <span>Section 1</span>
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary transform origin-left transition-transform data-[state=active]:scale-x-100 scale-x-0" />
+                        </TabsTrigger>
+                        <TabsTrigger
+                            className="h-full flex-1 rounded-md text-sm font-medium transition-all data-[state=active]:bg-white dark:data-[state=active]:bg-white/85 data-[state=active]:text-black data-[state=active]:shadow-sm relative overflow-hidden"
+                            value="section2"
+                        >
+                            <span>Section 2</span>
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black transform origin-left transition-transform data-[state=active]:scale-x-100 scale-x-0" />
+                        </TabsTrigger>
+                        <TabsTrigger
+                            className="h-full flex-1 rounded-md text-sm font-medium transition-all data-[state=active]:bg-white dark:data-[state=active]:bg-white/85 data-[state=active]:text-black data-[state=active]:shadow-sm relative overflow-hidden"
+                            value="section3"
+                        >
+                            <span>Section 3</span>
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black transform origin-left transition-transform data-[state=active]:scale-x-100 scale-x-0" />
+                        </TabsTrigger>
+                        <TabsTrigger
+                            className="h-full flex-1 rounded-md text-sm font-medium transition-all data-[state=active]:bg-white dark:data-[state=active]:bg-white/85 data-[state=active]:text-black data-[state=active]:shadow-sm relative overflow-hidden"
+                            value="section4"
+                        >
+                            <span>Section 4</span>
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black transform origin-left transition-transform data-[state=active]:scale-x-100 scale-x-0" />
+                        </TabsTrigger>
+                        <TabsTrigger
+                            className="h-full flex-1 rounded-md text-sm font-medium transition-all data-[state=active]:bg-white dark:data-[state=active]:bg-white/85 data-[state=active]:text-black data-[state=active]:shadow-sm relative overflow-hidden"
+                            value="section5"
+                        >
+                            <span>Section 5</span>
+                            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary transform origin-left transition-transform data-[state=active]:scale-x-100 scale-x-0" />
+                        </TabsTrigger>
+                    </TabsList>
+                </div>
                 <TabsContent value="section1">
                     <div className="flex justify-between items-center mb-6 p-2">
                         <h1 className="text-3xl font-bold">Plants</h1>
@@ -318,10 +348,10 @@ export function Plants() {
                             </TableBody>
                         </Table>
                     </div>
-                    
+
                 </TabsContent>
-            </Tabs>
-        </div>
+            </Tabs >
+        </div >
     )
 }
 

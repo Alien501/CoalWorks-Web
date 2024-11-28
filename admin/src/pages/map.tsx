@@ -3,47 +3,28 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Lock, Unlock, Trash2, Pencil, MousePointer } from "lucide-react";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 const SECTION_COLORS = {
-  1: '#FF4444', // large
-  2: '#44FF44', // medium
-  3: '#4444FF', // small
-  4: '#FFFF44', // micro
-  5: '#FF44FF'  // unit
+  large: '#FF4444',
+  medium: '#44FF44',
+  small: '#4444FF',
+  micro: '#FFFF44',
+  unit: '#FF44FF'
 };
 
-
-export default function Map({
-  isEditable,
-  areaName,
-  overAllData,
-  setOverAllData,
-  saveAreaClicked,
-  sectionName,
-  currentAreaData 
-}: {
-  isEditable: boolean,
-  areaName?: string,
-  sectionName?: string,
-  overAllData?: any[],
-  setOverAllData?: (data: any[]) => void,
-  saveAreaClicked?: boolean,
-  currentAreaData?: {
-    areaName: string, 
-    areaDescription: string, 
-    areaSize: number, 
-    areaItems: string[], 
-    sectionType: string
-  }
-}) {
+export default function Map({ isEditable, areaName, overAllData, setOverAllData, saveAreaClicked }: { isEditable: boolean, areaName: string }) {
+  console.log(JSON.stringify(overAllData))
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const drawRef = useRef(null);
+  const [lastCoordinates, setLastCoordinates] = useState()
   const [isLocked, setIsLocked] = useState(false);
+  const [currentSection, setCurrentSection] = useState('large');
   const [drawMode, setDrawMode] = useState('simple_select');
   const [viewState, setViewState] = useState({
     center: [82.545748, 22.336312],
@@ -51,17 +32,33 @@ export default function Map({
     bounds: null
   });
 
-  function getAreaType() {
-    switch (sectionName) {
-      case 'section1': return 1;
-      case 'section2': return 2;
-      case 'section3': return 3;
-      case 'section4': return 4;
-      case 'section5': return 5;
-      default: return 1;
-    }
-  }
 
+  useEffect(() => {
+    if (overAllData?.length > 0) {
+      const features = drawRef.current.getAll().features;
+      if (features && features.length > 0) {
+        const lastCoordinates = features[features.length - 1].geometry.coordinates;
+  
+        const lastElement = overAllData[overAllData.length - 1];
+        if (!lastElement.coordinates || 
+            JSON.stringify(lastElement.coordinates) !== JSON.stringify(lastCoordinates)) {
+          const updatedOverAllData = [...overAllData];
+          updatedOverAllData[updatedOverAllData.length - 1] = {
+            ...lastElement,
+            coordinates: lastCoordinates,
+          };
+  
+          setOverAllData(updatedOverAllData);
+        }
+      }
+    }
+  }, [overAllData]);
+  
+  
+
+  useEffect(()=> {
+    console.log(lastCoordinates)
+  }, [lastCoordinates])
   useEffect(() => {
     if (mapContainerRef.current && !mapRef.current) {
       mapboxgl.accessToken = 'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA';
@@ -91,7 +88,8 @@ export default function Map({
             'text-justify': 'center'
           },
           paint: {
-            'text-color': '#000000',
+            'text-color': SECTION_COLORS[currentSection],
+            // 'text-halo-color': '#fff',
             'text-halo-width': 1
           }
         });
@@ -108,86 +106,14 @@ export default function Map({
     };
   }, []);
 
-  useEffect(() => {
-    console.log('herex  ')
-  }, [saveAreaClicked])
-
-  function initializeDraw() {
-    console.log('Before initialisation')
-    console.log(drawRef.current)
-    drawRef.current = new MapboxDraw({
-      userProperties: true,
-      displayControlsDefault: false,
-      controls: {
-        polygon: isEditable,
-        trash: isEditable
-      },
-      defaultMode: drawMode,
-      styles: [
-        {
-          id: 'gl-draw-polygon-fill-inactive',
-          type: 'fill',
-          filter: [
-            'all',
-            ['==', 'active', 'false'],
-            ['==', '$type', 'Polygon'],
-            ['!=', 'mode', 'static'],
-            ['!=', '$meta', 'feature']
-          ],
-          paint: {
-            'fill-color': [
-              'step',
-              ['number', ['get', 'user_section_type']], // Ensure it's a number
-              '#fff',  // default color
-              1, '#FF4444',
-              2, '#44FF44',
-              3, '#4444FF',
-              4, '#FFFF44',
-              5, '#FF44FF'
-            ],
-            'fill-outline-color': '#000000',
-            'fill-opacity': 0.3,
-          },
-        },
-        {
-          id: 'gl-draw-polygon-fill-active',
-          type: 'fill',
-          filter: ['all', ['==', '$type', 'Polygon'], ['==', 'active', 'true']],
-          paint: {
-            'fill-color': [
-              'step',
-              ['get', 'user_section_type'],
-              '#fff',  // default color
-              1, '#FF4444',
-              2, '#44FF44',
-              3, '#4444FF',
-              4, '#FFFF44',
-              5, '#FF44FF'
-            ],
-            'fill-outline-color': '#000000',
-            'fill-opacity': 0.5,
-          },
-        }
-      ],
-    });
-    console.log('After initialisation')
-    // console.log(drawRef.current.setFeatureProperty({hi:''}))
-    mapRef.current.addControl(drawRef.current); 
-
-    mapRef.current.on('draw.create', handleDrawCreate);
-    mapRef.current.on('draw.update', handleDrawUpdate);
-    mapRef.current.on('draw.delete', handleDrawDelete);
-    mapRef.current.on('draw.modechange', handleDrawModeChange);
-    mapRef.current.on('moveend', handleMoveEnd);
-    mapRef.current.on('zoomend', handleZoomEnd);
-  }
-
-  function updatePolygonLabels(features) {
+  const updatePolygonLabels = (features) => {
     if (!mapRef.current) return;
 
+    // Create label points at the center of each polygon
     const labelFeatures = features.map(feature => {
       if (feature.geometry.type !== 'Polygon') return null;
 
+      // Calculate the center of the polygon
       const coordinates = feature.geometry.coordinates[0];
       const bounds = coordinates.reduce((bounds, coord) => {
         return [
@@ -213,6 +139,7 @@ export default function Map({
       };
     }).filter(Boolean);
 
+    // Update the labels source
     const source = mapRef.current.getSource('polygon-labels');
     if (source) {
       source.setData({
@@ -220,61 +147,158 @@ export default function Map({
         features: labelFeatures
       });
     }
+  };
+
+  useEffect(() => {
+    if (mapRef.current && drawRef.current) {
+      const features = drawRef.current ? drawRef.current.getAll() : null;
+      updatePolygonLabels(features);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mapRef.current && mapRef.current.loaded()) {
+      const existingFeatures = drawRef.current ? drawRef.current.getAll() : null;
+
+      if (drawRef.current) {
+        mapRef.current.removeControl(drawRef.current);
+      }
+
+      initializeDraw();
+
+      if (existingFeatures && existingFeatures.features.length > 0) {
+        existingFeatures.features = existingFeatures.features.map(feature => ({
+          ...feature,
+          properties: {
+            ...feature.properties,
+            sectionType: currentSection,
+            color: SECTION_COLORS[currentSection]
+          }
+        }));
+
+        drawRef.current.add(existingFeatures);
+      }
+    }
+  }, [currentSection, isEditable]);
+
+  function initializeDraw() {
+    console.log("initialise draw is called")
+    drawRef.current = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+        polygon: isEditable,
+        trash: isEditable
+      },
+      defaultMode: drawMode,
+      styles: getDrawStyles(currentSection),
+    });
+
+    mapRef.current.addControl(drawRef.current);
+
+    mapRef.current.on('draw.create', handleDrawCreate);
+    mapRef.current.on('draw.update', handleDrawUpdate);
+    mapRef.current.on('draw.delete', handleDrawDelete);
+    mapRef.current.on('draw.modechange', handleDrawModeChange);
+    mapRef.current.on('moveend', handleMoveEnd);
+    mapRef.current.on('zoomend', handleZoomEnd);
   }
+
+  function getDrawStyles(sectionType) {
+    return [
+      {
+        id: 'gl-draw-polygon-fill-inactive',
+        type: 'fill',
+        filter: ['all', ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
+        paint: {
+          'fill-color': SECTION_COLORS[sectionType],
+          'fill-outline-color': '#000000',
+          'fill-opacity': 0.3,
+        },
+      },
+      {
+        id: 'gl-draw-polygon-fill-active',
+        type: 'fill',
+        filter: ['all', ['==', '$type', 'Polygon'], ['==', 'active', 'true']],
+        paint: {
+          'fill-color': SECTION_COLORS[sectionType],
+          'fill-outline-color': '#000000',
+          'fill-opacity': 0.5,
+        },
+      },
+      {
+        id: 'gl-draw-polygon-stroke-inactive',
+        type: 'line',
+        filter: ['all', ['==', '$type', 'Polygon'], ['!=', 'active', 'true']],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round',
+        },
+        paint: {
+          'line-color': SECTION_COLORS[sectionType],
+          'line-width': 2,
+        },
+      },
+      {
+        id: 'gl-draw-polygon-stroke-active',
+        type: 'line',
+        filter: ['all', ['==', '$type', 'Polygon'], ['==', 'active', 'true']],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round',
+        },
+        paint: {
+          'line-color': SECTION_COLORS[sectionType],
+          'line-width': 3,
+        },
+      },
+      {
+        id: 'gl-draw-polygon-and-line-vertex-active',
+        type: 'circle',
+        filter: ['all', ['==', 'meta', 'vertex'], ['==', '$type', 'Point']],
+        paint: {
+          'circle-radius': 6,
+          'circle-color': '#fff',
+          'circle-stroke-color': SECTION_COLORS[sectionType],
+          'circle-stroke-width': 2
+        }
+      },
+      {
+        id: 'gl-draw-polygon-and-line-midpoint',
+        type: 'circle',
+        filter: ['all', ['==', 'meta', 'midpoint'], ['==', '$type', 'Point']],
+        paint: {
+          'circle-radius': 4,
+          'circle-color': SECTION_COLORS[sectionType],
+          'circle-stroke-color': '#fff',
+          'circle-stroke-width': 1
+        }
+      }
+    ];
+  }
+
+  const handleSectionChange = (newSection) => {
+    setCurrentSection(newSection);
+  };
 
   function handleDrawCreate(e) {
     const feature = e.features[0];
-    const sectionType = getAreaType();
-    
     feature.properties = {
-      ...feature.properties,
-      'section_type': Number(sectionType),
-      'areaName': areaName || 'Unnamed Area'
+      sectionType: currentSection,
+      color: SECTION_COLORS[currentSection],
+      areaName: areaName || 'Unnamed Area'
     };
-
-    // Update the overAllData with the new feature's coordinates
-    if (currentAreaData) {
-      const updatedOverAllData = overAllData.map(area => {
-        if (area.areaName === currentAreaData.areaName) {
-          return {
-            ...area,
-            coordinates: feature.geometry
-          };
-        }
-        return area;
-      });
-      
-      setOverAllData(updatedOverAllData);
-    }
-
+    console.log(drawRef.current.getAll().features)
+    setLastCoordinates(drawRef.current.getAll().features)
     updatePolygonLabels(drawRef.current.getAll().features);
   }
-  
+
   function handleDrawUpdate(e) {
     const feature = e.features[0];
-    const sectionType = getAreaType();
-    
     feature.properties = {
-      ...feature.properties,
-      'section_type': Number(sectionType),
-      'areaName': areaName || 'Unnamed Area'
+      sectionType: currentSection,
+      color: SECTION_COLORS[currentSection],
+      areaName: areaName || 'Unnamed Area'
     };
-
-    // Update the overAllData with the updated feature's coordinates
-    if (currentAreaData) {
-      const updatedOverAllData = overAllData.map(area => {
-        if (area.areaName === currentAreaData.areaName) {
-          return {
-            ...area,
-            coordinates: feature.geometry
-          };
-        }
-        return area;
-      });
-      
-      setOverAllData(updatedOverAllData);
-    }
-
     updatePolygonLabels(drawRef.current.getAll().features);
   }
 
@@ -337,10 +361,10 @@ export default function Map({
   }, [isLocked]);
 
   return (
-    <div className="relative h-full">
-      <div ref={mapContainerRef} className="map-container h-full rounded-sm w-full" />
+    <div className="relative">
+      <div ref={mapContainerRef} className="map-container h-screen w-full" />
 
-      {isEditable && (
+      {isEditable &&
         <>
           <div className="absolute top-4 left-4 space-y-2">
             <div className="bg-white p-2 rounded-lg shadow-lg space-y-2">
@@ -378,7 +402,26 @@ export default function Map({
             </Button>
           </div>
         </>
-      )}
+      }
     </div>
   );
 }
+
+{/* <Select value={currentSection} onValueChange={handleSectionChange}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Select section type" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(SECTION_COLORS).map(([key, color]) => (
+                <SelectItem key={key} value={key}>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-4 h-4 rounded-full"
+                      style={{ backgroundColor: color }}
+                    />
+                    {key.charAt(0).toUpperCase() + key.slice(1)} Section
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select> */}

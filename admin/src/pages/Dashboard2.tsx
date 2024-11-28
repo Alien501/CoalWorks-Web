@@ -68,8 +68,8 @@ const NewDashboard = () => {
                             <Button className="rounded-full leading-tight text-xs shadow-none" variant='outline'>
                                 Export CSV
                             </Button>
-                            <Button className="rounded-full leading-tight dark:text-azure-radiance-500 font-semibold text-xs shadow-none dark:bg-azure-radiance-500/10 dark:hover:bg-azure-radiance-200 dark:border-azure-radiance-500 border-2">
-                                Add new shipment
+                            <Button className="rounded-full leading-tight dark:text-azure-radiance-500 font-semibold text-xs shadow-none dark:bg-azure-radiance-500/10 dark:hover:bg-azure-radiance-500 dark:border-azure-radiance-500 dark:hover:text-white border-2">
+                                Generate Report
                             </Button>
                         </CardContent>
                     </Card>

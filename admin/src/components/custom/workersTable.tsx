@@ -15,21 +15,15 @@ import { Worker } from '@/lib/workerData'
 import {Phone} from "lucide-react"
 
 interface WorkerTableProps {
-  workers: Worker[]
+  workers: Worker[],
+  onWorkerClicked: (a: number) => void;
 }
 
-export default function WorkerTable({ workers }: WorkerTableProps) {
-  const [expandedRows, setExpandedRows] = useState<number[]>([])
+export default function WorkerTable({ workers, onWorkerClicked }: WorkerTableProps) {
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
-  const toggleRowExpansion = (workerId: number) => {
-    setExpandedRows(prev =>
-      prev.includes(workerId)
-        ? prev.filter(id => id !== workerId)
-        : [...prev, workerId]
-    )
-  }
-
-  return (
+  const TableContent = () => {
+    return(
     <Table>
       <TableHeader>
         <TableRow>
@@ -39,13 +33,13 @@ export default function WorkerTable({ workers }: WorkerTableProps) {
           <TableHead>Current Task</TableHead>
           <TableHead>Zone/Location</TableHead>
           <TableHead>Contact</TableHead>
-          <TableHead></TableHead>
+          {/* <TableHead></TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
         {workers.map((worker) => (
           <>
-            <TableRow key={worker.id}>
+            <TableRow key={worker.id} onClick={() => onWorkerClicked(worker.id)} className='hover:cursor-pointer'>
               <TableCell>{worker.name}</TableCell>
               <TableCell>{`${worker.role} / ${worker.department}`}</TableCell>
               <TableCell>{`${worker.shiftStart} - ${worker.shiftEnd}`}</TableCell>
@@ -54,7 +48,7 @@ export default function WorkerTable({ workers }: WorkerTableProps) {
               <TableCell>
                 <Button variant="outline" size="sm"><Phone /><span className=''>Contact</span></Button>
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -66,9 +60,9 @@ export default function WorkerTable({ workers }: WorkerTableProps) {
                     <ChevronDownIcon className="h-4 w-4" />
                   )}
                 </Button>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
-            {expandedRows.includes(worker.id) && (
+            {/* {expandedRows.includes(worker.id) && (
               <TableRow>
                 <TableCell colSpan={7}>
                   <div className="p-4 bg-muted rounded-md">
@@ -83,11 +77,26 @@ export default function WorkerTable({ workers }: WorkerTableProps) {
                   </div>
                 </TableCell>
               </TableRow>
-            )}
+            )} */}
           </>
         ))}
       </TableBody>
     </Table>
+    )
+  }
+
+  const toggleRowExpansion = (workerId: number) => {
+    setExpandedRows(prev =>
+      prev.includes(workerId)
+        ? prev.filter(id => id !== workerId)
+        : [...prev, workerId]
+    )
+  }
+
+  return (
+    <>
+      <TableContent />
+    </>
   )
 }
 

@@ -125,8 +125,11 @@ model UnitSection {
 
 model SectionType {
   typeId          Int            @id @default(autoincrement())
-  name            String         @db.VarChar(100)
+  scaleLevel      Int            @db.Integer
+  name            String         @db.VarChar(255)
   description     String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now()) @updatedAt
   
   largeSections   LargeSection[]
   mediumSections  MediumSection[]
@@ -134,5 +137,6 @@ model SectionType {
   microSections   MicroSection[]
   unitSections    UnitSection[]
 
+  @@unique([scaleLevel, name])
   @@map("section_types")
 }

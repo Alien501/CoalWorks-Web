@@ -1,14 +1,22 @@
-import { Table, TableBody, TableRow, TableCell, TableHeader,TableHead } from "../ui/table"
+import { Table, TableBody, TableRow, TableCell, TableHeader, TableHead } from "../ui/table"
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuSeparator } from "../ui/dropdown-menu"
 import { Button } from "../ui/button"
 import { MoreHorizontal } from "lucide-react"
-export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSectionDummyData}:{
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useState } from "react"
+import { MapView } from "./mapView"
+
+export const LargeSectionTable = ({ sortColumn, sortOrder, handleSort, largeSectionDummyData, deleteSection, sectionType }: {
     sortColumn: any,
     sortOrder: any,
     handleSort: any,
-    largeSectionDummyData: any
+    largeSectionDummyData: any,
+    deleteSection: (sectionName: string, type: string) => void;
+    sectionType: string
 }) => {
-    console.log(largeSectionDummyData)
+
+    const [selectedSection, setSelectedSection] = useState(null)
+
     return (
         <div className="border rounded-lg overflow-hidden">
             <Table>
@@ -32,6 +40,7 @@ export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSecti
                         <TableHead className="cursor-pointer" onClick={() => handleSort("Zip Code")}>
                             Type {sortColumn === "Zip Code" && (sortOrder === "asc" ? "▲" : "▼")}
                         </TableHead>
+                        <TableHead>View on Map</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -44,6 +53,9 @@ export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSecti
                             <TableCell>{item.area ? parseFloat(item.area).toFixed(2) : "N/A"}</TableCell>
                             <TableCell>{item.mine}</TableCell>
                             <TableCell>{item.type}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => setSelectedSection(item)}>View Map</Button>
+                            </TableCell>
                             {/* <TableCell>{item.sectionType.typeName}</TableCell> */}
                             <TableCell className="text-right">
                                 <DropdownMenu>
@@ -55,18 +67,25 @@ export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSecti
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                        <DropdownMenuItem>Edit Shift</DropdownMenuItem>
+                                        <DropdownMenuItem>Edit Section</DropdownMenuItem>
                                         <DropdownMenuItem>View Details</DropdownMenuItem>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem className="text-red-600">Delete Shift</DropdownMenuItem>
+                                        <DropdownMenuItem className="text-red-600" onClick={() => deleteSection(item.name, sectionType)}>Delete Section</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
-
             </Table>
+            <Dialog open={!!selectedSection} onOpenChange={() => setSelectedSection(null)}>
+                <DialogContent className="sm:max-w-[800px] sm:max-h-[600px]">
+                    <DialogHeader>
+                        <DialogTitle>{selectedSection?.name}</DialogTitle>
+                    </DialogHeader>
+                    {selectedSection && <MapView coordinates={selectedSection.coordinates} />}
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

@@ -26,7 +26,6 @@ const generatePasswordHash: (password: string) => Promise<{salt: string, passwor
 
 const createUser: RequestHandler = async (req: Request, res: Response) => {
     const validateData = CreateUserSchema.parse(req.body);
-
     const {salt, passwordHash} = await generatePasswordHash(validateData.password);
     const newUser = await prisma.user.create(
         {
@@ -36,8 +35,8 @@ const createUser: RequestHandler = async (req: Request, res: Response) => {
                 phone: validateData.phone,
                 positionId: validateData.positionId,
                 userRoleId: validateData.userRoleId,
-                salt,
-                passwordHash
+                passwordHash,
+                salt
             },
             select: {
                 userId: true,

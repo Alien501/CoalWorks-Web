@@ -1,5 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { createUser } from "../libs/user/createUser";
+import { createRole } from "../libs/role/createRole";
+import { createPosition } from "../libs/position/createPosition";
 
 const router = Router();
 
@@ -18,6 +20,14 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
 
 router.post('/user/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await createUser(req, res, next);
+}))
+
+router.post('/role/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await createRole(req, res, next);
+}))
+
+router.post('/position/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await createPosition(req, res, next)
 }))
 
 export { router };

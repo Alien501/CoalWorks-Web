@@ -22,8 +22,8 @@ interface FormData {
     name: string;
     description: string;
     area: number;
-    mine: Mine;
-    type: SectionType;
+    mine: Mine | " ";
+    type: SectionType | " ";
 }
 
 export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, sectionType }: {
@@ -36,15 +36,8 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
         name: '',
         description: '',
         area: 0,
-        mine: {
-            mineId: 0,
-            location: '',
-            name: ''
-        },
-        type: {
-            typeId: 0,
-            typeName: ''
-        }
+        mine: " ",
+        type: " ",
     })
 
     const onValueChange = (e) => {
@@ -57,7 +50,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
     }
 
     const addNewLargeSection = () => {
-        if (formData.name.trim() == '' || formData.description.trim() == '' || formData.mine.trim() == '' || formData.type.trim() == '') {
+        if (formData.name.trim() == '' || formData.description.trim() == '') {
             return
         }
         onSaveClicked(formData, sectionType)
@@ -66,16 +59,9 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                 name: '',
                 description: '',
                 area: 0,
-                mine: {
-                    mineId: 0,
-                    location: '',
-                    name: ''
-                },
-                type: {
-                    typeId: 0,
-                    typeName: ''
-                }
-            }      
+                mine: '',
+                type: '',
+            }
         }
         )
     }
@@ -157,7 +143,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                                                 className="col-span-3"
                                                 type="text"
                                                 name="mine"
-                                                value={formData.mine}
+                                                // value={formData.mine}
                                                 onChange={onValueChange}
                                             />
                                         </div>
@@ -170,7 +156,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                                                 id="type"
                                                 className="col-span-3"
                                                 name="type"
-                                                value={formData.type}
+                                                // value={formData.type}
                                                 onChange={onValueChange}
                                             />
                                         </div>

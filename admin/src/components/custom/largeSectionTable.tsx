@@ -8,6 +8,7 @@ export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSecti
     handleSort: any,
     largeSectionDummyData: any
 }) => {
+    console.log(largeSectionDummyData)
     return (
         <div className="border rounded-lg overflow-hidden">
             <Table>
@@ -41,8 +42,8 @@ export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSecti
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description || "N/A"}</TableCell>
                             <TableCell>{item.area ? parseFloat(item.area).toFixed(2) : "N/A"}</TableCell>
-                            <TableCell>{item.mine.name}</TableCell>
-                            <TableCell>{item.mine.location}</TableCell>
+                            <TableCell>{item.mine}</TableCell>
+                            <TableCell>{item.type}</TableCell>
                             {/* <TableCell>{item.sectionType.typeName}</TableCell> */}
                             <TableCell className="text-right">
                                 <DropdownMenu>

@@ -16,15 +16,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal } from 'lucide-react'
-import { mediumSectionData } from "@/lib/largeSectionDummyData"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useState } from "react"
+import { MapView } from "./mapView"
 
-export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData}: {
+export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData, deleteSection, sectionType}: {
     sortColumn: any,
     sortOrder: any,
     handleSort: any,
-    sectionData: any
+    sectionData: any,
+    deleteSection: any,
+    sectionType: string
 }) => {
-    console.log(sectionData)
+    const [selectedSection, setSelectedSection] = useState(null)
     return (
         <div className="border rounded-lg overflow-hidden">
             <Table>
@@ -45,6 +49,7 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData}: {
                         <TableHead className="cursor-pointer" onClick={() => handleSort("Zip Code")}>
                             Type {sortColumn === "Zip Code" && (sortOrder === "asc" ? "▲" : "▼")}
                         </TableHead>
+                        <TableCell>View on Map</TableCell>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -56,6 +61,9 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData}: {
                             <TableCell>{item.area ? item.area.toFixed(2) : "N/A"}</TableCell>
                             <TableCell>{item.inside}</TableCell>
                             <TableCell>{item.type}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => setSelectedSection(item)}>View Map</Button>
+                            </TableCell>
                             <TableCell className="text-right">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -66,10 +74,10 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData}: {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                        <DropdownMenuItem>Edit Shift</DropdownMenuItem>
+                                        <DropdownMenuItem>Edit Section</DropdownMenuItem>
                                         <DropdownMenuItem>View Details</DropdownMenuItem>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem className="text-red-600">Delete Shift</DropdownMenuItem>
+                                        <DropdownMenuItem className="text-red-600" onClick={() => deleteSection(item.name, sectionType)}>Delete Section</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>
@@ -77,6 +85,14 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData}: {
                     ))}
                 </TableBody>
             </Table>
+            <Dialog open={!!selectedSection} onOpenChange={() => setSelectedSection(null)}>
+                <DialogContent className="sm:max-w-[800px] sm:max-h-[600px]">
+                    <DialogHeader>
+                        <DialogTitle>{selectedSection?.name}</DialogTitle>
+                    </DialogHeader>
+                    {selectedSection && <MapView coordinates={selectedSection.coordinates} />}
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { Check, ChevronsUpDown, Plus, Search } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus, Search, MapPin } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { useState, useEffect } from "react"
+import { MapboxAreaPlotter } from "./MapboxAreaPlotter"
 
 interface SectionType {
   typeId: number;
@@ -38,6 +39,7 @@ interface FormData {
   area: number;
   inside: string;
   type: SectionType | string;
+  coordinates: number[][];
 }
 
 interface AddNewSectionProps {
@@ -71,9 +73,11 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
     area: 0,
     inside: "",
     type: "",
+    coordinates: [],
   })
 
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [isMapOpen, setIsMapOpen] = useState(false)
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -94,9 +98,18 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
       area: 0,
       inside: "",
       type: '',
+      coordinates: [],
     })
     setValue("")
     setDialogOpen(false)
+  }
+
+  const handleSaveCoordinates = (coordinates: number[][]) => {
+    setFormData(prev => ({
+      ...prev,
+      coordinates
+    }))
+    setIsMapOpen(false)
   }
 
   useEffect(() => {
@@ -228,6 +241,18 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
                   onChange={onValueChange}
                 />
               </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="coordinates" className="text-right">
+                  Plot Area
+                </Label>
+                <Button 
+                  onClick={() => setIsMapOpen(true)} 
+                  className="col-span-3"
+                >
+                  <MapPin className="mr-2 h-4 w-4" />
+                  {formData.coordinates.length > 0 ? 'Edit Area' : 'Plot Area on Map'}
+                </Button>
+              </div>
             </div>
             <DialogFooter>
               <Button onClick={addNewSection}>Save changes</Button>
@@ -235,6 +260,20 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
           </DialogContent>
         </Dialog>
       </div>
+      {isMapOpen && (
+        <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
+          <DialogContent className="sm:max-w-[800px] sm:max-h-[600px]">
+            <DialogHeader>
+              <DialogTitle>Plot Area on Map</DialogTitle>
+              <DialogDescription>
+                Click on the map to create a polygon. Double-click to finish.
+              </DialogDescription>
+            </DialogHeader>
+            <MapboxAreaPlotter onSaveCoordinates={handleSaveCoordinates} initialCoordinates={formData.coordinates} />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }
+

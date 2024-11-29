@@ -30,6 +30,26 @@ export function Plants() {
         }
     }
 
+    function deleteSection (sectionName: string, type: string){
+        switch (type) {
+            case 'large':
+                setLargeSection(prev => prev.filter(section => section.name !== sectionName));
+                break;
+            case 'medium':
+                setMediumSection(prev => prev.filter(section => section.name !== sectionName));
+                break;
+            case 'small':
+                setSmallSection(prev => prev.filter(section => section.name !== sectionName));
+                break;
+            case 'micro':
+                setMicroSection(prev => prev.filter(section => section.name !== sectionName));
+                break;
+            case 'unit':
+                setUnitSection(prev => prev.filter(section => section.name !== sectionName));
+                break;
+        }
+    }
+
     const addNewSection = (data: any, type: string) => {
         if (type === "large") {
             setLargeSection(prev => {
@@ -124,23 +144,23 @@ export function Plants() {
                 )}
                 <TabsContent value="section1">
                     <AddNewLargeSection sectionType={'large'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm}></AddNewLargeSection>
-                    <LargeSectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} largeSectionDummyData={largeSection}></LargeSectionTable>
+                    <LargeSectionTable sectionType={'large'} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} largeSectionDummyData={largeSection} deleteSection = {deleteSection}></LargeSectionTable>
                 </TabsContent>
                 <TabsContent value="section2">
                     <AddNewSection areaType="Medium Area" sectionType={'medium'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={largeSection}></AddNewSection>
-                    <SectionTable sectionData={mediumSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <SectionTable sectionType={'medium'} sectionData={mediumSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} deleteSection = {deleteSection}></SectionTable>
                 </TabsContent>
-                <TabsContent value="section3">addNewSection
+                <TabsContent value="section3">
                     <AddNewSection areaType="Small Area" sectionType={'small'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={mediumSection}></AddNewSection>
-                    <SectionTable sectionData={smallSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <SectionTable sectionType={'small'} sectionData={smallSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} deleteSection = {deleteSection}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section4">
                     <AddNewSection areaType="Micro Area" sectionType={'micro'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={smallSection}></AddNewSection>
-                    <SectionTable sectionData={microSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <SectionTable sectionType={'micro'} sectionData={microSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} deleteSection = {deleteSection}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section5">
                     <AddNewSection areaType="Unit Area" sectionType={'unit'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={microSection}></AddNewSection>
-                    <SectionTable sectionData={unitSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <SectionTable sectionType={'unit'} sectionData={unitSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} deleteSection = {deleteSection}></SectionTable>
                 </TabsContent>
             </Tabs>
         </div >

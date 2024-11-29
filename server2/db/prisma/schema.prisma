@@ -140,3 +140,54 @@ model SectionType {
   @@unique([scaleLevel, name])
   @@map("section_types")
 }
+
+model Position {
+  positionId      Int         @id @default(autoincrement())
+  positionName    String      @db.VarChar(100)
+  description     String      @db.Text
+  isActive        Boolean     @db.Boolean
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @default(now()) @updatedAt
+  responsibilities Json
+  Users            User[]
+
+}
+
+model Role {
+  roleId          Int           @id @default(autoincrement())
+  roleName        String        @unique @db.VarChar(100)
+  description     String?       @db.Text
+  permissions     Json
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  Users           User[]
+}
+
+model Permission {
+  permissionId    Int           @id @default(autoincrement())
+  name            String        @unique @db.VarChar(100)
+  category        String        @db.VarChar(50)
+  description     String?       @db.Text
+  isActive        Boolean       @default(true)
+}
+
+model User {
+  userId              Int       @id @default(autoincrement())
+  username            String    @unique @db.VarChar(100)
+  email               String    @unique @db.VarChar(100)
+  phone               String?   @db.VarChar(20)
+  passwordHash        String    @db.VarChar(255)
+  userRoleId          Int       // Scalar field for the foreign key
+  userRole            Role      @relation(fields: [userRoleId], references: [roleId])
+  positionId          Int?
+  Position            Position? @relation(fields: [positionId], references: [positionId])
+  isActive            Boolean   @default(true)
+  profileImage        String?   @db.VarChar(255)
+  lastLogin           DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  createdBy           Int?
+  Creator             User?     @relation("UserCreation", fields: [createdBy], references: [userId])
+  CreatedUsers        User[]    @relation("UserCreation")
+}

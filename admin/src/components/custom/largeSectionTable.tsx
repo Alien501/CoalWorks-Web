@@ -40,7 +40,7 @@ export const LargeSectionTable = ({sortColumn, sortOrder, handleSort, largeSecti
                             <TableCell>{item.sectionId}</TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description || "N/A"}</TableCell>
-                            <TableCell>{item.area ? item.area.toFixed(2) : "N/A"}</TableCell>
+                            <TableCell>{item.area ? parseFloat(item.area).toFixed(2) : "N/A"}</TableCell>
                             <TableCell>{item.mine.name}</TableCell>
                             <TableCell>{item.mine.location}</TableCell>
                             {/* <TableCell>{item.sectionType.typeName}</TableCell> */}

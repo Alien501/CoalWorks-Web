@@ -27,8 +27,17 @@ export function Plants() {
         }
     }
 
-    const addNewLargeSection = () => {
-
+    const addNewSection = (data?: any, type: string) => {
+        setLargeSection(prev => {
+            return [
+                {
+                    sectionId: largeSection.length + 1,
+                    ...data
+                },
+                ...prev
+            ]
+        })
+        console.log(largeSection)
     }
 
 
@@ -66,23 +75,23 @@ export function Plants() {
                     />
                 )}
                 <TabsContent value="section1">
-                    <AddNewLargeSection searchTerm={searchTerm} setSearchTerm={setSearchTerm}></AddNewLargeSection>
-                    <LargeSectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} largeSectionDummyData={largeSectionDummyData}></LargeSectionTable>
+                    <AddNewLargeSection sectionType={'large'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm}></AddNewLargeSection>
+                    <LargeSectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} largeSectionDummyData={largeSection}></LargeSectionTable>
                 </TabsContent>
                 <TabsContent value="section2">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewLargeSection}></AddNewSection>
+                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
                     <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
-                <TabsContent value="section3">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewLargeSection}></AddNewSection>
+                <TabsContent value="section3">addNewSection
+                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
                     <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section4">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewLargeSection}></AddNewSection>
+                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
                     <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section5">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewLargeSection}></AddNewSection>
+                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
                     <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
             </Tabs>

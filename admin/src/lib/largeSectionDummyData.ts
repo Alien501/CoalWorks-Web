@@ -4,45 +4,24 @@ export const largeSectionDummyData = [
     name: "Main Processing Area",
     description: "This section is used for the primary processing activities.",
     area: 1500.5,
-    mine: {
-      mineId: 5,
-      name: "Gold Mine A",
-      location: "Region X",
-    },
-    sectionType: {
-      typeId: 2,
-      typeName: "Processing",
-    },
+    mine: "mine 1",
+    type: "type 1"
   },
   {
     sectionId: 2,
     name: "Storage Area",
     description: "This section is used for storing raw materials.",
     area: 800.75,
-    mine: {
-      mineId: 6,
-      name: "Coal Mine B",
-      location: "Region Y",
-    },
-    sectionType: {
-      typeId: 3,
-      typeName: "Storage",
-    },
+    mine: "mine 1",
+    type: "type 1"
   },
   {
     sectionId: 3,
     name: "Administration Office",
     description: "This section houses administrative activities.",
     area: 500.0,
-    mine: {
-      mineId: 7,
-      name: "Diamond Mine C",
-      location: "Region Z",
-    },
-    sectionType: {
-      typeId: 4,
-      typeName: "Office",
-    },
+    mine: "mine 1",
+    type: "type 1"
   },
 ];
 

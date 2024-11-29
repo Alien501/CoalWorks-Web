@@ -18,19 +18,18 @@ import { Button } from "@/components/ui/button"
 import { MoreHorizontal } from 'lucide-react'
 import { mediumSectionData } from "@/lib/largeSectionDummyData"
 
-export const SectionTable = ({sortColumn, sortOrder, handleSort}: {
+export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData}: {
     sortColumn: any,
     sortOrder: any,
-    handleSort: any
+    handleSort: any,
+    sectionData: any
 }) => {
+    console.log(sectionData)
     return (
         <div className="border rounded-lg overflow-hidden">
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[200px] cursor-pointer" onClick={() => handleSort("Name")}>
-                            Section Id {sortColumn === "Name" && (sortOrder === "asc" ? "▲" : "▼")}
-                        </TableHead>
                         <TableHead className="cursor-pointer" onClick={() => handleSort("Plant Id")}>
                             Name {sortColumn === "Plant Id" && (sortOrder === "asc" ? "▲" : "▼")}
                         </TableHead>
@@ -50,15 +49,13 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort}: {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {mediumSectionData.map((item, index) => (
-                        <TableRow key={item.sectionId}>
-                            <TableCell>{item.sectionId}</TableCell>
+                    {sectionData?.map((item: any, index: number) => (
+                        <TableRow key={index}>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description || "N/A"}</TableCell>
                             <TableCell>{item.area ? item.area.toFixed(2) : "N/A"}</TableCell>
-                            <TableCell>{item.largeSection.name}</TableCell>
-                            <TableCell>{item.sectionType.typeName}</TableCell>
-                            {/* <TableCell>{item.sectionType.typeName}</TableCell> */}
+                            <TableCell>{item.inside}</TableCell>
+                            <TableCell>{item.type}</TableCell>
                             <TableCell className="text-right">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>

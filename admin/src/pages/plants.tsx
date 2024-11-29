@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { hoverContent } from "@/lib/hoverContent"
-import { largeSectionDummyData, mediumSectionData } from "@/lib/largeSectionDummyData"
 import { AddNewLargeSection } from "@/components/custom/addNewLargeSection"
 import { LargeSectionTable } from "@/components/custom/largeSectionTable"
 import { AddNewSection } from "@/components/custom/addNewSection"
@@ -9,7 +8,7 @@ import { SectionTable } from "@/components/custom/sectionTable"
 
 export function Plants() {
 
-    const [largeSection, setLargeSection] = useState(largeSectionDummyData)
+    const [largeSection, setLargeSection] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [sortColumn, setSortColumn] = useState("")
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
@@ -17,6 +16,10 @@ export function Plants() {
     const [hoverPosition, setHoverPosition] = useState({ left: 0, top: 0 });
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+    const [mediumSection, setMediumSection] = useState([])
+    const [smallSection, setSmallSection] = useState([])
+    const [microSection, setMicroSection] = useState([])
+    const [unitSection, setUnitSection] = useState([])
 
     const handleSort = (column: string) => {
         if (column === sortColumn) {
@@ -27,17 +30,62 @@ export function Plants() {
         }
     }
 
-    const addNewSection = (data?: any, type: string) => {
-        setLargeSection(prev => {
-            return [
-                {
-                    sectionId: largeSection.length + 1,
-                    ...data
-                },
-                ...prev
-            ]
-        })
-        console.log(largeSection)
+    const addNewSection = (data: any, type: string) => {
+        if (type === "large") {
+            setLargeSection(prev => {
+                return [
+                    {
+                        sectionId: largeSection.length + 1,
+                        ...data
+                    },
+                    ...prev
+                ]
+            })
+        }
+        else if (type === "medium") {
+            setMediumSection(prev => {
+                return [
+                    {
+                        sectionId: mediumSection.length + 1,
+                        ...data
+                    },
+                    ...prev
+                ]
+            })
+        }
+        else if (type === "small") {
+            setSmallSection(prev => {
+                return [
+                    {
+                        sectionId: smallSection.length + 1,
+                        ...data
+                    },
+                    ...prev
+                ]
+            })
+        }
+        else if (type === "micro") {
+            setMicroSection(prev => {
+                return [
+                    {
+                        sectionId: microSection.length + 1,
+                        ...data
+                    },
+                    ...prev
+                ]
+            })
+        }
+        else {
+            setUnitSection(prev => {
+                return [
+                    {
+                        sectionId: unitSection.length + 1,
+                        ...data
+                    },
+                    ...prev
+                ]
+            })
+        }
     }
 
 
@@ -79,20 +127,20 @@ export function Plants() {
                     <LargeSectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort} largeSectionDummyData={largeSection}></LargeSectionTable>
                 </TabsContent>
                 <TabsContent value="section2">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
-                    <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <AddNewSection areaType="Medium Area" sectionType={'medium'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={largeSection}></AddNewSection>
+                    <SectionTable sectionData={mediumSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section3">addNewSection
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
-                    <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <AddNewSection areaType="Small Area" sectionType={'small'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={mediumSection}></AddNewSection>
+                    <SectionTable sectionData={smallSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section4">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
-                    <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <AddNewSection areaType="Micro Area" sectionType={'micro'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={smallSection}></AddNewSection>
+                    <SectionTable sectionData={microSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
                 <TabsContent value="section5">
-                    <AddNewSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} addNewLargeSection={addNewSection}></AddNewSection>
-                    <SectionTable sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
+                    <AddNewSection areaType="Unit Area" sectionType={'unit'} onSaveClicked={addNewSection} searchTerm={searchTerm} setSearchTerm={setSearchTerm} open={open} setOpen={setOpen} value={value} setValue={setValue} outerSection={microSection}></AddNewSection>
+                    <SectionTable sectionData={unitSection} sortColumn={sortColumn} sortOrder={sortOrder} handleSort={handleSort}></SectionTable>
                 </TabsContent>
             </Tabs>
         </div >

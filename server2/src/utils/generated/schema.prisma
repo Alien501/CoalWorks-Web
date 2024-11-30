@@ -45,13 +45,13 @@ model LargeSection {
   name        String   @db.VarChar(255)
   description String?  @db.Text
   area        Decimal? @db.Decimal(10, 2)
-  typeId      Int
+  typeId      Int?
   insiderToId Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
   mine           Mine?           @relation(fields: [insiderToId], references: [mineId])
-  sectionType    SectionType     @relation(fields: [typeId], references: [typeId])
+  sectionType    SectionType?    @relation(fields: [typeId], references: [typeId])
   mediumSections MediumSection[]
 
   @@map("large_sections")
@@ -138,8 +138,20 @@ model SectionType {
   microSections  MicroSection[]
   unitSections   UnitSection[]
 
+  sectionItems SectionItem[]
+
   @@unique([scaleLevel, name])
   @@map("section_types")
+}
+
+model SectionItem {
+  itemId   Int    @id @default(autoincrement())
+  typeId   Int
+  itemName String @db.VarChar(255)
+
+  sectionType SectionType @relation(fields: [typeId], references: [typeId])
+
+  @@map("section_items")
 }
 
 model Position {

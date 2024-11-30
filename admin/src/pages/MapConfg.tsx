@@ -335,8 +335,47 @@ const MapConfig = () => {
         }
         setShowDialog(open);
     };
+    const processSectionData = (rawData: Record<string, { name: string, items: string[] }>) => {
+        const sectionLevels = [
+            { key: 'section1', level: 5, type: 'Large' },
+            { key: 'section2', level: 4, type: 'Medium' },
+            { key: 'section3', level: 3, type: 'Small' },
+            { key: 'section4', level: 2, type: 'Micro' },
+            { key: 'section5', level: 1, type: 'Unit' }
+        ];
+    
+        const processedSections = sectionLevels.map(section => {
+            const sectionData = rawData[section.key];
+            return {
+                scaleLevel: section.level,
+                name: sectionData.name,
+                description: `${section.type} Section`,
+                sectionItems: sectionData.items.map(itemName => ({
+                    itemName: itemName
+                }))
+            };
+        });
+    
+        return processedSections;
+    };
+    const onFinishClick = async () => {
+        const processedSections = processSectionData(formData);
+        const res = await fetch('http://localhost:3000/api/v1/config/section', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(processedSections)
+        })
 
-    const onFinishClick = () => {
+        if(res.ok) {
+            const d = await res.json();
+            alert('Data stored successfully!');
+            localStorage.setItem('sectionsConfig', JSON.stringify(d));
+        } else {
+            alert('Sorry bruh u fucked up! try again!');
+            return;
+        }
         localStorage.setItem('mapConfig', JSON.stringify(formData));
         setShowDialog(false);
     };

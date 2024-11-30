@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { hoverContent } from "@/lib/hoverContent"
 import { AddNewLargeSection } from "@/components/custom/addNewLargeSection"
@@ -20,6 +20,16 @@ export function Plants() {
     const [smallSection, setSmallSection] = useState([])
     const [microSection, setMicroSection] = useState([])
     const [unitSection, setUnitSection] = useState([])
+
+    const getLargeSections = async () => {
+        const res = await fetch('http://localhost:3000/api/v1/section/5');
+        const d = await res.json();
+        setLargeSection(prev => d.data)
+    }
+
+    useEffect(() => {
+        getLargeSections();
+    }, [])
 
     const handleSort = (column: string) => {
         if (column === sortColumn) {

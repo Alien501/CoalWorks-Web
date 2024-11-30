@@ -50,11 +50,26 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
         }))
     }
 
-    const addNewLargeSection = () => {
+    const addNewLargeSection = async () => {
         if (formData.name.trim() === '' || formData.description.trim() === '') {
             return
         }
-        console.log(formData)
+        const res = await fetch('http://localhost:3000/api/v1/section/large/create', {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                ...formData,
+                area: parseInt(formData.area),
+                scaleLevel: 5
+            })
+        })
+
+        if(res.ok) {
+            const d = await res.json();
+            console.log(d)
+        }
         onSaveClicked(formData, sectionType)
         setFormData({
             name: '',

@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { createUser } from "../libs/user/createUser";
 import { createRole } from "../libs/role/createRole";
 import { createPosition } from "../libs/position/createPosition";
+import { getSections, insertSectionData, newLargeSection } from "../libs/config/section";
 
 const router = Router();
 
@@ -17,6 +18,20 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
         data: null,
     });
 }));
+
+router.post('/config/section', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await insertSectionData(req, res, next);
+}))
+
+router.get('/section/:scaleLevel', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getSections(req, res, next);
+}))
+
+router.post('/section/large/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await newLargeSection(req, res, next);
+}))
+
+// router.get('/config/section', asyncHandler(async (req: Request, res: Response, next: NextFunction)))
 
 router.post('/user/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await createUser(req, res, next);

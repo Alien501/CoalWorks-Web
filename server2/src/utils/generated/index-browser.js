@@ -208,6 +208,12 @@ exports.Prisma.SectionTypeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SectionItemScalarFieldEnum = {
+  itemId: 'itemId',
+  typeId: 'typeId',
+  itemName: 'itemName'
+};
+
 exports.Prisma.PositionScalarFieldEnum = {
   positionId: 'positionId',
   positionName: 'positionName',
@@ -288,6 +294,7 @@ exports.Prisma.ModelName = {
   MicroSection: 'MicroSection',
   UnitSection: 'UnitSection',
   SectionType: 'SectionType',
+  SectionItem: 'SectionItem',
   Position: 'Position',
   Role: 'Role',
   Permission: 'Permission',

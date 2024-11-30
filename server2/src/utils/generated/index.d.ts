@@ -5569,8 +5569,8 @@ export namespace Prisma {
     name: string
     description: string | null
     area: Decimal | null
-    typeId: number
-    insiderToId: number
+    typeId: number | null
+    insiderToId: number | null
     createdAt: Date
     updatedAt: Date
     _count: MediumSectionCountAggregateOutputType | null
@@ -5603,8 +5603,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    largeSection?: boolean | LargeSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    largeSection?: boolean | MediumSection$largeSectionArgs<ExtArgs>
+    sectionType?: boolean | MediumSection$sectionTypeArgs<ExtArgs>
     smallSections?: boolean | MediumSection$smallSectionsArgs<ExtArgs>
     _count?: boolean | MediumSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mediumSection"]>
@@ -5618,8 +5618,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    largeSection?: boolean | LargeSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    largeSection?: boolean | MediumSection$largeSectionArgs<ExtArgs>
+    sectionType?: boolean | MediumSection$sectionTypeArgs<ExtArgs>
   }, ExtArgs["result"]["mediumSection"]>
 
   export type MediumSectionSelectScalar = {
@@ -5634,21 +5634,21 @@ export namespace Prisma {
   }
 
   export type MediumSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    largeSection?: boolean | LargeSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    largeSection?: boolean | MediumSection$largeSectionArgs<ExtArgs>
+    sectionType?: boolean | MediumSection$sectionTypeArgs<ExtArgs>
     smallSections?: boolean | MediumSection$smallSectionsArgs<ExtArgs>
     _count?: boolean | MediumSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MediumSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    largeSection?: boolean | LargeSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    largeSection?: boolean | MediumSection$largeSectionArgs<ExtArgs>
+    sectionType?: boolean | MediumSection$sectionTypeArgs<ExtArgs>
   }
 
   export type $MediumSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "MediumSection"
     objects: {
-      largeSection: Prisma.$LargeSectionPayload<ExtArgs>
-      sectionType: Prisma.$SectionTypePayload<ExtArgs>
+      largeSection: Prisma.$LargeSectionPayload<ExtArgs> | null
+      sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       smallSections: Prisma.$SmallSectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5656,8 +5656,8 @@ export namespace Prisma {
       name: string
       description: string | null
       area: Prisma.Decimal | null
-      typeId: number
-      insiderToId: number
+      typeId: number | null
+      insiderToId: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["mediumSection"]>
@@ -6024,8 +6024,8 @@ export namespace Prisma {
    */
   export interface Prisma__MediumSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    largeSection<T extends LargeSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LargeSectionDefaultArgs<ExtArgs>>): Prisma__LargeSectionClient<$Result.GetResult<Prisma.$LargeSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    largeSection<T extends MediumSection$largeSectionArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$largeSectionArgs<ExtArgs>>): Prisma__LargeSectionClient<$Result.GetResult<Prisma.$LargeSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    sectionType<T extends MediumSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     smallSections<T extends MediumSection$smallSectionsArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$smallSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6382,6 +6382,36 @@ export namespace Prisma {
   }
 
   /**
+   * MediumSection.largeSection
+   */
+  export type MediumSection$largeSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LargeSection
+     */
+    select?: LargeSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LargeSectionInclude<ExtArgs> | null
+    where?: LargeSectionWhereInput
+  }
+
+  /**
+   * MediumSection.sectionType
+   */
+  export type MediumSection$sectionTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionType
+     */
+    select?: SectionTypeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionTypeInclude<ExtArgs> | null
+    where?: SectionTypeWhereInput
+  }
+
+  /**
    * MediumSection.smallSections
    */
   export type MediumSection$smallSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6616,8 +6646,8 @@ export namespace Prisma {
     name: string
     description: string | null
     area: Decimal | null
-    typeId: number
-    insiderToId: number
+    typeId: number | null
+    insiderToId: number | null
     createdAt: Date
     updatedAt: Date
     _count: SmallSectionCountAggregateOutputType | null
@@ -6650,8 +6680,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    mediumSection?: boolean | MediumSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    mediumSection?: boolean | SmallSection$mediumSectionArgs<ExtArgs>
+    sectionType?: boolean | SmallSection$sectionTypeArgs<ExtArgs>
     microSections?: boolean | SmallSection$microSectionsArgs<ExtArgs>
     _count?: boolean | SmallSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["smallSection"]>
@@ -6665,8 +6695,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    mediumSection?: boolean | MediumSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    mediumSection?: boolean | SmallSection$mediumSectionArgs<ExtArgs>
+    sectionType?: boolean | SmallSection$sectionTypeArgs<ExtArgs>
   }, ExtArgs["result"]["smallSection"]>
 
   export type SmallSectionSelectScalar = {
@@ -6681,21 +6711,21 @@ export namespace Prisma {
   }
 
   export type SmallSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mediumSection?: boolean | MediumSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    mediumSection?: boolean | SmallSection$mediumSectionArgs<ExtArgs>
+    sectionType?: boolean | SmallSection$sectionTypeArgs<ExtArgs>
     microSections?: boolean | SmallSection$microSectionsArgs<ExtArgs>
     _count?: boolean | SmallSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SmallSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    mediumSection?: boolean | MediumSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    mediumSection?: boolean | SmallSection$mediumSectionArgs<ExtArgs>
+    sectionType?: boolean | SmallSection$sectionTypeArgs<ExtArgs>
   }
 
   export type $SmallSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SmallSection"
     objects: {
-      mediumSection: Prisma.$MediumSectionPayload<ExtArgs>
-      sectionType: Prisma.$SectionTypePayload<ExtArgs>
+      mediumSection: Prisma.$MediumSectionPayload<ExtArgs> | null
+      sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       microSections: Prisma.$MicroSectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6703,8 +6733,8 @@ export namespace Prisma {
       name: string
       description: string | null
       area: Prisma.Decimal | null
-      typeId: number
-      insiderToId: number
+      typeId: number | null
+      insiderToId: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["smallSection"]>
@@ -7071,8 +7101,8 @@ export namespace Prisma {
    */
   export interface Prisma__SmallSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    mediumSection<T extends MediumSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MediumSectionDefaultArgs<ExtArgs>>): Prisma__MediumSectionClient<$Result.GetResult<Prisma.$MediumSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    mediumSection<T extends SmallSection$mediumSectionArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$mediumSectionArgs<ExtArgs>>): Prisma__MediumSectionClient<$Result.GetResult<Prisma.$MediumSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    sectionType<T extends SmallSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     microSections<T extends SmallSection$microSectionsArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$microSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7429,6 +7459,36 @@ export namespace Prisma {
   }
 
   /**
+   * SmallSection.mediumSection
+   */
+  export type SmallSection$mediumSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediumSection
+     */
+    select?: MediumSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MediumSectionInclude<ExtArgs> | null
+    where?: MediumSectionWhereInput
+  }
+
+  /**
+   * SmallSection.sectionType
+   */
+  export type SmallSection$sectionTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionType
+     */
+    select?: SectionTypeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionTypeInclude<ExtArgs> | null
+    where?: SectionTypeWhereInput
+  }
+
+  /**
    * SmallSection.microSections
    */
   export type SmallSection$microSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7663,8 +7723,8 @@ export namespace Prisma {
     name: string
     description: string | null
     area: Decimal | null
-    typeId: number
-    insiderToId: number
+    typeId: number | null
+    insiderToId: number | null
     createdAt: Date
     updatedAt: Date
     _count: MicroSectionCountAggregateOutputType | null
@@ -7697,8 +7757,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    smallSection?: boolean | SmallSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    smallSection?: boolean | MicroSection$smallSectionArgs<ExtArgs>
+    sectionType?: boolean | MicroSection$sectionTypeArgs<ExtArgs>
     unitSections?: boolean | MicroSection$unitSectionsArgs<ExtArgs>
     _count?: boolean | MicroSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["microSection"]>
@@ -7712,8 +7772,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    smallSection?: boolean | SmallSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    smallSection?: boolean | MicroSection$smallSectionArgs<ExtArgs>
+    sectionType?: boolean | MicroSection$sectionTypeArgs<ExtArgs>
   }, ExtArgs["result"]["microSection"]>
 
   export type MicroSectionSelectScalar = {
@@ -7728,21 +7788,21 @@ export namespace Prisma {
   }
 
   export type MicroSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    smallSection?: boolean | SmallSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    smallSection?: boolean | MicroSection$smallSectionArgs<ExtArgs>
+    sectionType?: boolean | MicroSection$sectionTypeArgs<ExtArgs>
     unitSections?: boolean | MicroSection$unitSectionsArgs<ExtArgs>
     _count?: boolean | MicroSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MicroSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    smallSection?: boolean | SmallSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    smallSection?: boolean | MicroSection$smallSectionArgs<ExtArgs>
+    sectionType?: boolean | MicroSection$sectionTypeArgs<ExtArgs>
   }
 
   export type $MicroSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "MicroSection"
     objects: {
-      smallSection: Prisma.$SmallSectionPayload<ExtArgs>
-      sectionType: Prisma.$SectionTypePayload<ExtArgs>
+      smallSection: Prisma.$SmallSectionPayload<ExtArgs> | null
+      sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       unitSections: Prisma.$UnitSectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -7750,8 +7810,8 @@ export namespace Prisma {
       name: string
       description: string | null
       area: Prisma.Decimal | null
-      typeId: number
-      insiderToId: number
+      typeId: number | null
+      insiderToId: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["microSection"]>
@@ -8118,8 +8178,8 @@ export namespace Prisma {
    */
   export interface Prisma__MicroSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    smallSection<T extends SmallSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SmallSectionDefaultArgs<ExtArgs>>): Prisma__SmallSectionClient<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    smallSection<T extends MicroSection$smallSectionArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$smallSectionArgs<ExtArgs>>): Prisma__SmallSectionClient<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    sectionType<T extends MicroSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     unitSections<T extends MicroSection$unitSectionsArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$unitSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitSectionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8476,6 +8536,36 @@ export namespace Prisma {
   }
 
   /**
+   * MicroSection.smallSection
+   */
+  export type MicroSection$smallSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SmallSection
+     */
+    select?: SmallSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SmallSectionInclude<ExtArgs> | null
+    where?: SmallSectionWhereInput
+  }
+
+  /**
+   * MicroSection.sectionType
+   */
+  export type MicroSection$sectionTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionType
+     */
+    select?: SectionTypeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionTypeInclude<ExtArgs> | null
+    where?: SectionTypeWhereInput
+  }
+
+  /**
    * MicroSection.unitSections
    */
   export type MicroSection$unitSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8706,8 +8796,8 @@ export namespace Prisma {
     name: string
     description: string | null
     model: string | null
-    typeId: number
-    insiderToId: number
+    typeId: number | null
+    insiderToId: number | null
     createdAt: Date
     updatedAt: Date
     _count: UnitSectionCountAggregateOutputType | null
@@ -8740,8 +8830,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    microSection?: boolean | MicroSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
+    sectionType?: boolean | UnitSection$sectionTypeArgs<ExtArgs>
   }, ExtArgs["result"]["unitSection"]>
 
   export type UnitSectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8753,8 +8843,8 @@ export namespace Prisma {
     insiderToId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    microSection?: boolean | MicroSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
+    sectionType?: boolean | UnitSection$sectionTypeArgs<ExtArgs>
   }, ExtArgs["result"]["unitSection"]>
 
   export type UnitSectionSelectScalar = {
@@ -8769,27 +8859,27 @@ export namespace Prisma {
   }
 
   export type UnitSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    microSection?: boolean | MicroSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
+    sectionType?: boolean | UnitSection$sectionTypeArgs<ExtArgs>
   }
   export type UnitSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    microSection?: boolean | MicroSectionDefaultArgs<ExtArgs>
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
+    sectionType?: boolean | UnitSection$sectionTypeArgs<ExtArgs>
   }
 
   export type $UnitSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UnitSection"
     objects: {
-      microSection: Prisma.$MicroSectionPayload<ExtArgs>
-      sectionType: Prisma.$SectionTypePayload<ExtArgs>
+      microSection: Prisma.$MicroSectionPayload<ExtArgs> | null
+      sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       unitId: number
       name: string
       description: string | null
       model: string | null
-      typeId: number
-      insiderToId: number
+      typeId: number | null
+      insiderToId: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["unitSection"]>
@@ -9156,8 +9246,8 @@ export namespace Prisma {
    */
   export interface Prisma__UnitSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    microSection<T extends MicroSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MicroSectionDefaultArgs<ExtArgs>>): Prisma__MicroSectionClient<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    microSection<T extends UnitSection$microSectionArgs<ExtArgs> = {}>(args?: Subset<T, UnitSection$microSectionArgs<ExtArgs>>): Prisma__MicroSectionClient<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    sectionType<T extends UnitSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, UnitSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9510,6 +9600,36 @@ export namespace Prisma {
      * Filter which UnitSections to delete
      */
     where?: UnitSectionWhereInput
+  }
+
+  /**
+   * UnitSection.microSection
+   */
+  export type UnitSection$microSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MicroSection
+     */
+    select?: MicroSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MicroSectionInclude<ExtArgs> | null
+    where?: MicroSectionWhereInput
+  }
+
+  /**
+   * UnitSection.sectionType
+   */
+  export type UnitSection$sectionTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionType
+     */
+    select?: SectionTypeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionTypeInclude<ExtArgs> | null
+    where?: SectionTypeWhereInput
   }
 
   /**
@@ -16218,12 +16338,12 @@ export namespace Prisma {
     name?: StringFilter<"MediumSection"> | string
     description?: StringNullableFilter<"MediumSection"> | string | null
     area?: DecimalNullableFilter<"MediumSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"MediumSection"> | number
-    insiderToId?: IntFilter<"MediumSection"> | number
+    typeId?: IntNullableFilter<"MediumSection"> | number | null
+    insiderToId?: IntNullableFilter<"MediumSection"> | number | null
     createdAt?: DateTimeFilter<"MediumSection"> | Date | string
     updatedAt?: DateTimeFilter<"MediumSection"> | Date | string
-    largeSection?: XOR<LargeSectionRelationFilter, LargeSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     smallSections?: SmallSectionListRelationFilter
   }
 
@@ -16232,8 +16352,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     largeSection?: LargeSectionOrderByWithRelationInput
@@ -16249,12 +16369,12 @@ export namespace Prisma {
     name?: StringFilter<"MediumSection"> | string
     description?: StringNullableFilter<"MediumSection"> | string | null
     area?: DecimalNullableFilter<"MediumSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"MediumSection"> | number
-    insiderToId?: IntFilter<"MediumSection"> | number
+    typeId?: IntNullableFilter<"MediumSection"> | number | null
+    insiderToId?: IntNullableFilter<"MediumSection"> | number | null
     createdAt?: DateTimeFilter<"MediumSection"> | Date | string
     updatedAt?: DateTimeFilter<"MediumSection"> | Date | string
-    largeSection?: XOR<LargeSectionRelationFilter, LargeSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     smallSections?: SmallSectionListRelationFilter
   }, "sectionId">
 
@@ -16263,8 +16383,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MediumSectionCountOrderByAggregateInput
@@ -16282,8 +16402,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"MediumSection"> | string
     description?: StringNullableWithAggregatesFilter<"MediumSection"> | string | null
     area?: DecimalNullableWithAggregatesFilter<"MediumSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntWithAggregatesFilter<"MediumSection"> | number
-    insiderToId?: IntWithAggregatesFilter<"MediumSection"> | number
+    typeId?: IntNullableWithAggregatesFilter<"MediumSection"> | number | null
+    insiderToId?: IntNullableWithAggregatesFilter<"MediumSection"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"MediumSection"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MediumSection"> | Date | string
   }
@@ -16296,12 +16416,12 @@ export namespace Prisma {
     name?: StringFilter<"SmallSection"> | string
     description?: StringNullableFilter<"SmallSection"> | string | null
     area?: DecimalNullableFilter<"SmallSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"SmallSection"> | number
-    insiderToId?: IntFilter<"SmallSection"> | number
+    typeId?: IntNullableFilter<"SmallSection"> | number | null
+    insiderToId?: IntNullableFilter<"SmallSection"> | number | null
     createdAt?: DateTimeFilter<"SmallSection"> | Date | string
     updatedAt?: DateTimeFilter<"SmallSection"> | Date | string
-    mediumSection?: XOR<MediumSectionRelationFilter, MediumSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     microSections?: MicroSectionListRelationFilter
   }
 
@@ -16310,8 +16430,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     mediumSection?: MediumSectionOrderByWithRelationInput
@@ -16327,12 +16447,12 @@ export namespace Prisma {
     name?: StringFilter<"SmallSection"> | string
     description?: StringNullableFilter<"SmallSection"> | string | null
     area?: DecimalNullableFilter<"SmallSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"SmallSection"> | number
-    insiderToId?: IntFilter<"SmallSection"> | number
+    typeId?: IntNullableFilter<"SmallSection"> | number | null
+    insiderToId?: IntNullableFilter<"SmallSection"> | number | null
     createdAt?: DateTimeFilter<"SmallSection"> | Date | string
     updatedAt?: DateTimeFilter<"SmallSection"> | Date | string
-    mediumSection?: XOR<MediumSectionRelationFilter, MediumSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     microSections?: MicroSectionListRelationFilter
   }, "sectionId">
 
@@ -16341,8 +16461,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SmallSectionCountOrderByAggregateInput
@@ -16360,8 +16480,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"SmallSection"> | string
     description?: StringNullableWithAggregatesFilter<"SmallSection"> | string | null
     area?: DecimalNullableWithAggregatesFilter<"SmallSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntWithAggregatesFilter<"SmallSection"> | number
-    insiderToId?: IntWithAggregatesFilter<"SmallSection"> | number
+    typeId?: IntNullableWithAggregatesFilter<"SmallSection"> | number | null
+    insiderToId?: IntNullableWithAggregatesFilter<"SmallSection"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"SmallSection"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SmallSection"> | Date | string
   }
@@ -16374,12 +16494,12 @@ export namespace Prisma {
     name?: StringFilter<"MicroSection"> | string
     description?: StringNullableFilter<"MicroSection"> | string | null
     area?: DecimalNullableFilter<"MicroSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"MicroSection"> | number
-    insiderToId?: IntFilter<"MicroSection"> | number
+    typeId?: IntNullableFilter<"MicroSection"> | number | null
+    insiderToId?: IntNullableFilter<"MicroSection"> | number | null
     createdAt?: DateTimeFilter<"MicroSection"> | Date | string
     updatedAt?: DateTimeFilter<"MicroSection"> | Date | string
-    smallSection?: XOR<SmallSectionRelationFilter, SmallSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     unitSections?: UnitSectionListRelationFilter
   }
 
@@ -16388,8 +16508,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     smallSection?: SmallSectionOrderByWithRelationInput
@@ -16405,12 +16525,12 @@ export namespace Prisma {
     name?: StringFilter<"MicroSection"> | string
     description?: StringNullableFilter<"MicroSection"> | string | null
     area?: DecimalNullableFilter<"MicroSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"MicroSection"> | number
-    insiderToId?: IntFilter<"MicroSection"> | number
+    typeId?: IntNullableFilter<"MicroSection"> | number | null
+    insiderToId?: IntNullableFilter<"MicroSection"> | number | null
     createdAt?: DateTimeFilter<"MicroSection"> | Date | string
     updatedAt?: DateTimeFilter<"MicroSection"> | Date | string
-    smallSection?: XOR<SmallSectionRelationFilter, SmallSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     unitSections?: UnitSectionListRelationFilter
   }, "sectionId">
 
@@ -16419,8 +16539,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     area?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MicroSectionCountOrderByAggregateInput
@@ -16438,8 +16558,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"MicroSection"> | string
     description?: StringNullableWithAggregatesFilter<"MicroSection"> | string | null
     area?: DecimalNullableWithAggregatesFilter<"MicroSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntWithAggregatesFilter<"MicroSection"> | number
-    insiderToId?: IntWithAggregatesFilter<"MicroSection"> | number
+    typeId?: IntNullableWithAggregatesFilter<"MicroSection"> | number | null
+    insiderToId?: IntNullableWithAggregatesFilter<"MicroSection"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"MicroSection"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MicroSection"> | Date | string
   }
@@ -16452,12 +16572,12 @@ export namespace Prisma {
     name?: StringFilter<"UnitSection"> | string
     description?: StringNullableFilter<"UnitSection"> | string | null
     model?: StringNullableFilter<"UnitSection"> | string | null
-    typeId?: IntFilter<"UnitSection"> | number
-    insiderToId?: IntFilter<"UnitSection"> | number
+    typeId?: IntNullableFilter<"UnitSection"> | number | null
+    insiderToId?: IntNullableFilter<"UnitSection"> | number | null
     createdAt?: DateTimeFilter<"UnitSection"> | Date | string
     updatedAt?: DateTimeFilter<"UnitSection"> | Date | string
-    microSection?: XOR<MicroSectionRelationFilter, MicroSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
   }
 
   export type UnitSectionOrderByWithRelationInput = {
@@ -16465,8 +16585,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     microSection?: MicroSectionOrderByWithRelationInput
@@ -16481,12 +16601,12 @@ export namespace Prisma {
     name?: StringFilter<"UnitSection"> | string
     description?: StringNullableFilter<"UnitSection"> | string | null
     model?: StringNullableFilter<"UnitSection"> | string | null
-    typeId?: IntFilter<"UnitSection"> | number
-    insiderToId?: IntFilter<"UnitSection"> | number
+    typeId?: IntNullableFilter<"UnitSection"> | number | null
+    insiderToId?: IntNullableFilter<"UnitSection"> | number | null
     createdAt?: DateTimeFilter<"UnitSection"> | Date | string
     updatedAt?: DateTimeFilter<"UnitSection"> | Date | string
-    microSection?: XOR<MicroSectionRelationFilter, MicroSectionWhereInput>
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
+    sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
   }, "unitId">
 
   export type UnitSectionOrderByWithAggregationInput = {
@@ -16494,8 +16614,8 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     model?: SortOrderInput | SortOrder
-    typeId?: SortOrder
-    insiderToId?: SortOrder
+    typeId?: SortOrderInput | SortOrder
+    insiderToId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UnitSectionCountOrderByAggregateInput
@@ -16513,8 +16633,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"UnitSection"> | string
     description?: StringNullableWithAggregatesFilter<"UnitSection"> | string | null
     model?: StringNullableWithAggregatesFilter<"UnitSection"> | string | null
-    typeId?: IntWithAggregatesFilter<"UnitSection"> | number
-    insiderToId?: IntWithAggregatesFilter<"UnitSection"> | number
+    typeId?: IntNullableWithAggregatesFilter<"UnitSection"> | number | null
+    insiderToId?: IntNullableWithAggregatesFilter<"UnitSection"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"UnitSection"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UnitSection"> | Date | string
   }
@@ -17180,8 +17300,8 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    largeSection: LargeSectionCreateNestedOneWithoutMediumSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutMediumSectionsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
     smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
   }
 
@@ -17190,8 +17310,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
@@ -17203,8 +17323,8 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    largeSection?: LargeSectionUpdateOneRequiredWithoutMediumSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutMediumSectionsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
     smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
   }
 
@@ -17213,8 +17333,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
@@ -17225,8 +17345,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17244,8 +17364,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17256,8 +17376,8 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    mediumSection: MediumSectionCreateNestedOneWithoutSmallSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutSmallSectionsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
     microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
   }
 
@@ -17266,8 +17386,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
@@ -17279,8 +17399,8 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    mediumSection?: MediumSectionUpdateOneRequiredWithoutSmallSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutSmallSectionsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
     microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
   }
 
@@ -17289,8 +17409,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
@@ -17301,8 +17421,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17320,8 +17440,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17332,8 +17452,8 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    smallSection: SmallSectionCreateNestedOneWithoutMicroSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutMicroSectionsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
     unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
   }
 
@@ -17342,8 +17462,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
@@ -17355,8 +17475,8 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    smallSection?: SmallSectionUpdateOneRequiredWithoutMicroSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutMicroSectionsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
     unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
   }
 
@@ -17365,8 +17485,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
@@ -17377,8 +17497,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17396,8 +17516,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17408,8 +17528,8 @@ export namespace Prisma {
     model?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    microSection: MicroSectionCreateNestedOneWithoutUnitSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutUnitSectionsInput
+    microSection?: MicroSectionCreateNestedOneWithoutUnitSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutUnitSectionsInput
   }
 
   export type UnitSectionUncheckedCreateInput = {
@@ -17417,8 +17537,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     model?: string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17429,8 +17549,8 @@ export namespace Prisma {
     model?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    microSection?: MicroSectionUpdateOneRequiredWithoutUnitSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutUnitSectionsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutUnitSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutUnitSectionsNestedInput
   }
 
   export type UnitSectionUncheckedUpdateInput = {
@@ -17438,8 +17558,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17449,8 +17569,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     model?: string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17468,8 +17588,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18319,14 +18439,9 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type LargeSectionRelationFilter = {
-    is?: LargeSectionWhereInput
-    isNot?: LargeSectionWhereInput
-  }
-
-  export type SectionTypeRelationFilter = {
-    is?: SectionTypeWhereInput
-    isNot?: SectionTypeWhereInput
+  export type LargeSectionNullableRelationFilter = {
+    is?: LargeSectionWhereInput | null
+    isNot?: LargeSectionWhereInput | null
   }
 
   export type SmallSectionListRelationFilter = {
@@ -18386,9 +18501,9 @@ export namespace Prisma {
     insiderToId?: SortOrder
   }
 
-  export type MediumSectionRelationFilter = {
-    is?: MediumSectionWhereInput
-    isNot?: MediumSectionWhereInput
+  export type MediumSectionNullableRelationFilter = {
+    is?: MediumSectionWhereInput | null
+    isNot?: MediumSectionWhereInput | null
   }
 
   export type MicroSectionListRelationFilter = {
@@ -18448,9 +18563,9 @@ export namespace Prisma {
     insiderToId?: SortOrder
   }
 
-  export type SmallSectionRelationFilter = {
-    is?: SmallSectionWhereInput
-    isNot?: SmallSectionWhereInput
+  export type SmallSectionNullableRelationFilter = {
+    is?: SmallSectionWhereInput | null
+    isNot?: SmallSectionWhereInput | null
   }
 
   export type UnitSectionListRelationFilter = {
@@ -18510,9 +18625,9 @@ export namespace Prisma {
     insiderToId?: SortOrder
   }
 
-  export type MicroSectionRelationFilter = {
-    is?: MicroSectionWhereInput
-    isNot?: MicroSectionWhereInput
+  export type MicroSectionNullableRelationFilter = {
+    is?: MicroSectionWhereInput | null
+    isNot?: MicroSectionWhereInput | null
   }
 
   export type UnitSectionCountOrderByAggregateInput = {
@@ -18610,6 +18725,11 @@ export namespace Prisma {
   export type SectionTypeSumOrderByAggregateInput = {
     typeId?: SortOrder
     scaleLevel?: SortOrder
+  }
+
+  export type SectionTypeRelationFilter = {
+    is?: SectionTypeWhereInput
+    isNot?: SectionTypeWhereInput
   }
 
   export type SectionItemCountOrderByAggregateInput = {
@@ -19140,18 +19260,22 @@ export namespace Prisma {
     connect?: SmallSectionWhereUniqueInput | SmallSectionWhereUniqueInput[]
   }
 
-  export type LargeSectionUpdateOneRequiredWithoutMediumSectionsNestedInput = {
+  export type LargeSectionUpdateOneWithoutMediumSectionsNestedInput = {
     create?: XOR<LargeSectionCreateWithoutMediumSectionsInput, LargeSectionUncheckedCreateWithoutMediumSectionsInput>
     connectOrCreate?: LargeSectionCreateOrConnectWithoutMediumSectionsInput
     upsert?: LargeSectionUpsertWithoutMediumSectionsInput
+    disconnect?: LargeSectionWhereInput | boolean
+    delete?: LargeSectionWhereInput | boolean
     connect?: LargeSectionWhereUniqueInput
     update?: XOR<XOR<LargeSectionUpdateToOneWithWhereWithoutMediumSectionsInput, LargeSectionUpdateWithoutMediumSectionsInput>, LargeSectionUncheckedUpdateWithoutMediumSectionsInput>
   }
 
-  export type SectionTypeUpdateOneRequiredWithoutMediumSectionsNestedInput = {
+  export type SectionTypeUpdateOneWithoutMediumSectionsNestedInput = {
     create?: XOR<SectionTypeCreateWithoutMediumSectionsInput, SectionTypeUncheckedCreateWithoutMediumSectionsInput>
     connectOrCreate?: SectionTypeCreateOrConnectWithoutMediumSectionsInput
     upsert?: SectionTypeUpsertWithoutMediumSectionsInput
+    disconnect?: SectionTypeWhereInput | boolean
+    delete?: SectionTypeWhereInput | boolean
     connect?: SectionTypeWhereUniqueInput
     update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutMediumSectionsInput, SectionTypeUpdateWithoutMediumSectionsInput>, SectionTypeUncheckedUpdateWithoutMediumSectionsInput>
   }
@@ -19210,18 +19334,22 @@ export namespace Prisma {
     connect?: MicroSectionWhereUniqueInput | MicroSectionWhereUniqueInput[]
   }
 
-  export type MediumSectionUpdateOneRequiredWithoutSmallSectionsNestedInput = {
+  export type MediumSectionUpdateOneWithoutSmallSectionsNestedInput = {
     create?: XOR<MediumSectionCreateWithoutSmallSectionsInput, MediumSectionUncheckedCreateWithoutSmallSectionsInput>
     connectOrCreate?: MediumSectionCreateOrConnectWithoutSmallSectionsInput
     upsert?: MediumSectionUpsertWithoutSmallSectionsInput
+    disconnect?: MediumSectionWhereInput | boolean
+    delete?: MediumSectionWhereInput | boolean
     connect?: MediumSectionWhereUniqueInput
     update?: XOR<XOR<MediumSectionUpdateToOneWithWhereWithoutSmallSectionsInput, MediumSectionUpdateWithoutSmallSectionsInput>, MediumSectionUncheckedUpdateWithoutSmallSectionsInput>
   }
 
-  export type SectionTypeUpdateOneRequiredWithoutSmallSectionsNestedInput = {
+  export type SectionTypeUpdateOneWithoutSmallSectionsNestedInput = {
     create?: XOR<SectionTypeCreateWithoutSmallSectionsInput, SectionTypeUncheckedCreateWithoutSmallSectionsInput>
     connectOrCreate?: SectionTypeCreateOrConnectWithoutSmallSectionsInput
     upsert?: SectionTypeUpsertWithoutSmallSectionsInput
+    disconnect?: SectionTypeWhereInput | boolean
+    delete?: SectionTypeWhereInput | boolean
     connect?: SectionTypeWhereUniqueInput
     update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutSmallSectionsInput, SectionTypeUpdateWithoutSmallSectionsInput>, SectionTypeUncheckedUpdateWithoutSmallSectionsInput>
   }
@@ -19280,18 +19408,22 @@ export namespace Prisma {
     connect?: UnitSectionWhereUniqueInput | UnitSectionWhereUniqueInput[]
   }
 
-  export type SmallSectionUpdateOneRequiredWithoutMicroSectionsNestedInput = {
+  export type SmallSectionUpdateOneWithoutMicroSectionsNestedInput = {
     create?: XOR<SmallSectionCreateWithoutMicroSectionsInput, SmallSectionUncheckedCreateWithoutMicroSectionsInput>
     connectOrCreate?: SmallSectionCreateOrConnectWithoutMicroSectionsInput
     upsert?: SmallSectionUpsertWithoutMicroSectionsInput
+    disconnect?: SmallSectionWhereInput | boolean
+    delete?: SmallSectionWhereInput | boolean
     connect?: SmallSectionWhereUniqueInput
     update?: XOR<XOR<SmallSectionUpdateToOneWithWhereWithoutMicroSectionsInput, SmallSectionUpdateWithoutMicroSectionsInput>, SmallSectionUncheckedUpdateWithoutMicroSectionsInput>
   }
 
-  export type SectionTypeUpdateOneRequiredWithoutMicroSectionsNestedInput = {
+  export type SectionTypeUpdateOneWithoutMicroSectionsNestedInput = {
     create?: XOR<SectionTypeCreateWithoutMicroSectionsInput, SectionTypeUncheckedCreateWithoutMicroSectionsInput>
     connectOrCreate?: SectionTypeCreateOrConnectWithoutMicroSectionsInput
     upsert?: SectionTypeUpsertWithoutMicroSectionsInput
+    disconnect?: SectionTypeWhereInput | boolean
+    delete?: SectionTypeWhereInput | boolean
     connect?: SectionTypeWhereUniqueInput
     update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutMicroSectionsInput, SectionTypeUpdateWithoutMicroSectionsInput>, SectionTypeUncheckedUpdateWithoutMicroSectionsInput>
   }
@@ -19336,18 +19468,22 @@ export namespace Prisma {
     connect?: SectionTypeWhereUniqueInput
   }
 
-  export type MicroSectionUpdateOneRequiredWithoutUnitSectionsNestedInput = {
+  export type MicroSectionUpdateOneWithoutUnitSectionsNestedInput = {
     create?: XOR<MicroSectionCreateWithoutUnitSectionsInput, MicroSectionUncheckedCreateWithoutUnitSectionsInput>
     connectOrCreate?: MicroSectionCreateOrConnectWithoutUnitSectionsInput
     upsert?: MicroSectionUpsertWithoutUnitSectionsInput
+    disconnect?: MicroSectionWhereInput | boolean
+    delete?: MicroSectionWhereInput | boolean
     connect?: MicroSectionWhereUniqueInput
     update?: XOR<XOR<MicroSectionUpdateToOneWithWhereWithoutUnitSectionsInput, MicroSectionUpdateWithoutUnitSectionsInput>, MicroSectionUncheckedUpdateWithoutUnitSectionsInput>
   }
 
-  export type SectionTypeUpdateOneRequiredWithoutUnitSectionsNestedInput = {
+  export type SectionTypeUpdateOneWithoutUnitSectionsNestedInput = {
     create?: XOR<SectionTypeCreateWithoutUnitSectionsInput, SectionTypeUncheckedCreateWithoutUnitSectionsInput>
     connectOrCreate?: SectionTypeCreateOrConnectWithoutUnitSectionsInput
     upsert?: SectionTypeUpsertWithoutUnitSectionsInput
+    disconnect?: SectionTypeWhereInput | boolean
+    delete?: SectionTypeWhereInput | boolean
     connect?: SectionTypeWhereUniqueInput
     update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutUnitSectionsInput, SectionTypeUpdateWithoutUnitSectionsInput>, SectionTypeUncheckedUpdateWithoutUnitSectionsInput>
   }
@@ -20318,7 +20454,7 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    sectionType: SectionTypeCreateNestedOneWithoutMediumSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
     smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
   }
 
@@ -20327,7 +20463,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
@@ -20443,8 +20579,8 @@ export namespace Prisma {
     name?: StringFilter<"MediumSection"> | string
     description?: StringNullableFilter<"MediumSection"> | string | null
     area?: DecimalNullableFilter<"MediumSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"MediumSection"> | number
-    insiderToId?: IntFilter<"MediumSection"> | number
+    typeId?: IntNullableFilter<"MediumSection"> | number | null
+    insiderToId?: IntNullableFilter<"MediumSection"> | number | null
     createdAt?: DateTimeFilter<"MediumSection"> | Date | string
     updatedAt?: DateTimeFilter<"MediumSection"> | Date | string
   }
@@ -20513,7 +20649,7 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    sectionType: SectionTypeCreateNestedOneWithoutSmallSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
     microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
   }
 
@@ -20522,7 +20658,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
@@ -20632,8 +20768,8 @@ export namespace Prisma {
     name?: StringFilter<"SmallSection"> | string
     description?: StringNullableFilter<"SmallSection"> | string | null
     area?: DecimalNullableFilter<"SmallSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"SmallSection"> | number
-    insiderToId?: IntFilter<"SmallSection"> | number
+    typeId?: IntNullableFilter<"SmallSection"> | number | null
+    insiderToId?: IntNullableFilter<"SmallSection"> | number | null
     createdAt?: DateTimeFilter<"SmallSection"> | Date | string
     updatedAt?: DateTimeFilter<"SmallSection"> | Date | string
   }
@@ -20644,8 +20780,8 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    largeSection: LargeSectionCreateNestedOneWithoutMediumSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutMediumSectionsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
   }
 
   export type MediumSectionUncheckedCreateWithoutSmallSectionsInput = {
@@ -20653,8 +20789,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20702,7 +20838,7 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    sectionType: SectionTypeCreateNestedOneWithoutMicroSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
     unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
   }
 
@@ -20711,7 +20847,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
@@ -20744,8 +20880,8 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    largeSection?: LargeSectionUpdateOneRequiredWithoutMediumSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutMediumSectionsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
   }
 
   export type MediumSectionUncheckedUpdateWithoutSmallSectionsInput = {
@@ -20753,8 +20889,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20821,8 +20957,8 @@ export namespace Prisma {
     name?: StringFilter<"MicroSection"> | string
     description?: StringNullableFilter<"MicroSection"> | string | null
     area?: DecimalNullableFilter<"MicroSection"> | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFilter<"MicroSection"> | number
-    insiderToId?: IntFilter<"MicroSection"> | number
+    typeId?: IntNullableFilter<"MicroSection"> | number | null
+    insiderToId?: IntNullableFilter<"MicroSection"> | number | null
     createdAt?: DateTimeFilter<"MicroSection"> | Date | string
     updatedAt?: DateTimeFilter<"MicroSection"> | Date | string
   }
@@ -20833,8 +20969,8 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    mediumSection: MediumSectionCreateNestedOneWithoutSmallSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutSmallSectionsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
   }
 
   export type SmallSectionUncheckedCreateWithoutMicroSectionsInput = {
@@ -20842,8 +20978,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20891,7 +21027,7 @@ export namespace Prisma {
     model?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    sectionType: SectionTypeCreateNestedOneWithoutUnitSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutUnitSectionsInput
   }
 
   export type UnitSectionUncheckedCreateWithoutMicroSectionInput = {
@@ -20899,7 +21035,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     model?: string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20931,8 +21067,8 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    mediumSection?: MediumSectionUpdateOneRequiredWithoutSmallSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutSmallSectionsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
   }
 
   export type SmallSectionUncheckedUpdateWithoutMicroSectionsInput = {
@@ -20940,8 +21076,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21008,8 +21144,8 @@ export namespace Prisma {
     name?: StringFilter<"UnitSection"> | string
     description?: StringNullableFilter<"UnitSection"> | string | null
     model?: StringNullableFilter<"UnitSection"> | string | null
-    typeId?: IntFilter<"UnitSection"> | number
-    insiderToId?: IntFilter<"UnitSection"> | number
+    typeId?: IntNullableFilter<"UnitSection"> | number | null
+    insiderToId?: IntNullableFilter<"UnitSection"> | number | null
     createdAt?: DateTimeFilter<"UnitSection"> | Date | string
     updatedAt?: DateTimeFilter<"UnitSection"> | Date | string
   }
@@ -21020,8 +21156,8 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    smallSection: SmallSectionCreateNestedOneWithoutMicroSectionsInput
-    sectionType: SectionTypeCreateNestedOneWithoutMicroSectionsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
   }
 
   export type MicroSectionUncheckedCreateWithoutUnitSectionsInput = {
@@ -21029,8 +21165,8 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
-    insiderToId: number
+    typeId?: number | null
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21089,8 +21225,8 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    smallSection?: SmallSectionUpdateOneRequiredWithoutMicroSectionsNestedInput
-    sectionType?: SectionTypeUpdateOneRequiredWithoutMicroSectionsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
   }
 
   export type MicroSectionUncheckedUpdateWithoutUnitSectionsInput = {
@@ -21098,8 +21234,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21179,7 +21315,7 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    largeSection: LargeSectionCreateNestedOneWithoutMediumSectionsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
     smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
   }
 
@@ -21188,7 +21324,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
@@ -21210,7 +21346,7 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    mediumSection: MediumSectionCreateNestedOneWithoutSmallSectionsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
     microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
   }
 
@@ -21219,7 +21355,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
@@ -21241,7 +21377,7 @@ export namespace Prisma {
     area?: Decimal | DecimalJsLike | number | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    smallSection: SmallSectionCreateNestedOneWithoutMicroSectionsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
     unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
   }
 
@@ -21250,7 +21386,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
@@ -21272,7 +21408,7 @@ export namespace Prisma {
     model?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    microSection: MicroSectionCreateNestedOneWithoutUnitSectionsInput
+    microSection?: MicroSectionCreateNestedOneWithoutUnitSectionsInput
   }
 
   export type UnitSectionUncheckedCreateWithoutSectionTypeInput = {
@@ -21280,7 +21416,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     model?: string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21975,7 +22111,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21986,7 +22122,7 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionType?: SectionTypeUpdateOneRequiredWithoutMediumSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
     smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
   }
 
@@ -21995,7 +22131,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
@@ -22006,7 +22142,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22016,7 +22152,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22027,7 +22163,7 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionType?: SectionTypeUpdateOneRequiredWithoutSmallSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
     microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
   }
 
@@ -22036,7 +22172,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
@@ -22047,7 +22183,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22057,7 +22193,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22068,7 +22204,7 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionType?: SectionTypeUpdateOneRequiredWithoutMicroSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
     unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
   }
 
@@ -22077,7 +22213,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
@@ -22088,7 +22224,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22098,7 +22234,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     model?: string | null
-    typeId: number
+    typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22109,7 +22245,7 @@ export namespace Prisma {
     model?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sectionType?: SectionTypeUpdateOneRequiredWithoutUnitSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutUnitSectionsNestedInput
   }
 
   export type UnitSectionUncheckedUpdateWithoutMicroSectionInput = {
@@ -22117,7 +22253,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22127,7 +22263,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
-    typeId?: IntFieldUpdateOperationsInput | number
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22147,7 +22283,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22157,7 +22293,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22167,7 +22303,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     area?: Decimal | DecimalJsLike | number | string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22177,7 +22313,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     model?: string | null
-    insiderToId: number
+    insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22224,7 +22360,7 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    largeSection?: LargeSectionUpdateOneRequiredWithoutMediumSectionsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
     smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
   }
 
@@ -22233,7 +22369,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
@@ -22244,7 +22380,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22255,7 +22391,7 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    mediumSection?: MediumSectionUpdateOneRequiredWithoutSmallSectionsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
     microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
   }
 
@@ -22264,7 +22400,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
@@ -22275,7 +22411,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22286,7 +22422,7 @@ export namespace Prisma {
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    smallSection?: SmallSectionUpdateOneRequiredWithoutMicroSectionsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
     unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
   }
 
@@ -22295,7 +22431,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
@@ -22306,7 +22442,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22317,7 +22453,7 @@ export namespace Prisma {
     model?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    microSection?: MicroSectionUpdateOneRequiredWithoutUnitSectionsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutUnitSectionsNestedInput
   }
 
   export type UnitSectionUncheckedUpdateWithoutSectionTypeInput = {
@@ -22325,7 +22461,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22335,7 +22471,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     model?: NullableStringFieldUpdateOperationsInput | string | null
-    insiderToId?: IntFieldUpdateOperationsInput | number
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

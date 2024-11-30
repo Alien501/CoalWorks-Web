@@ -60,16 +60,18 @@ const LargeSectionSchema = z.object({
     description: z.string().optional(),
     area: z.number().optional(),
     scaleLevel: z.number().int().min(1, "Scale level must be at least 1"),
-    mineId: z.number().optional()
+    mineId: z.number().optional(),
+    insiderToId: z.number().optional(),
+    model: z.string().optional()
 });
 
-const newLargeSection: RequestHandler = async (req: Request, res: Response) => {
+const newSection: RequestHandler = async (req: Request, res: Response) => {
     console.log(req.body)
-    const largeSectionData = LargeSectionSchema.parse(req.body);
+    const validatedData = LargeSectionSchema.parse(req.body);
 
     const sectionType = await prisma.sectionType.findFirst({
         where: {
-            scaleLevel: largeSectionData.scaleLevel
+            scaleLevel: validatedData.scaleLevel
         }
     });
 
@@ -79,26 +81,85 @@ const newLargeSection: RequestHandler = async (req: Request, res: Response) => {
             error: true
         });
     }
+    let newSection = null;
+    switch (validatedData.scaleLevel) {
+        case 5:
+            newSection = await prisma.largeSection.create({
+                data: {
+                    name: validatedData.name,
+                    description: validatedData.description,
+                    area: validatedData.area,
+                    typeId: sectionType?.typeId,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    ...(validatedData.mineId && { insiderToId: validatedData.mineId })
+                },
+                select: {
+                    area: true,
+                    mine: true,
+                    sectionId: true,
+                    sectionType: true,
+                    name: true,
+                    typeId: true
+                }
+            });        
+            break;
+        case 4:
+            newSection = await prisma.mediumSection.create({
+                data: {
+                    name: validatedData.name,
+                    description: validatedData.description,
+                    area: validatedData.area,
+                    typeId: sectionType?.typeId,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                }
+            })
+            break;
+        case 3:
+            newSection = await prisma.smallSection.create({
+                data: {
+                    name: validatedData.name,
+                    description: validatedData.description,
+                    area: validatedData.area,
+                    typeId: sectionType?.typeId,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                }
+            })
+            break;
+        case 2:
+            newSection = await prisma.microSection.create({
+                data: {
+                    name: validatedData.name,
+                    description: validatedData.description,
+                    area: validatedData.area,
+                    typeId: sectionType?.typeId,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                }
+            })
+            break;
+        case 1:
+            newSection = await prisma.unitSection.create({
+                data: {
+                    name: validatedData.name,
+                    description: validatedData.description,
+                    model: validatedData.model,
+                    typeId: sectionType?.typeId,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                }
+            })
+            break;
+        default:
+            break;
+    }
 
-    const newSection = await prisma.largeSection.create({
-        data: {
-            name: largeSectionData.name,
-            description: largeSectionData.description,
-            area: largeSectionData.area,
-            typeId: sectionType?.typeId, // Remove optional chaining, ensure typeId exists
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            ...(largeSectionData.mineId && { insiderToId: largeSectionData.mineId })
-        },
-        select: {
-            area: true,
-            mine: true,
-            sectionId: true,
-            sectionType: true,
-            name: true,
-            typeId: true
-        }
-    });
 
     res.status(201).json({
         message: 'Large section created successfully',
@@ -106,6 +167,26 @@ const newLargeSection: RequestHandler = async (req: Request, res: Response) => {
         error: null
     });
 }
+// TODO: Merge both function to create a genereic one
+// const NewSectioionSchema = z.object({
+//     scaleLevel: z.number(),
+//     name: z.string(),
+//     description: z.string(),
+//     area: z.number(),
+// })
+
+// const newSection: RequestHandler = async (req: Request, res: Response) => {
+//     const validatedData = NewSectioionSchema.parse(NewSectioionSchema);
+
+//     switch (validatedData.scaleLevel) {
+//         case 4:
+            
+//             break;
+    
+//         default:
+//             break;
+//     }
+// }
 
 const GetSectionsSchema = z.object({
     scaleLevel: z.number().gte(1, "Invalid section type").lte(5, "Invalid section type")
@@ -132,6 +213,19 @@ const getSections: RequestHandler = async (req: Request, res: Response) => {
             });
             data = largeSections;
             break;
+        case 4:
+            const mediumSections = await prisma.mediumSection.findMany({
+                select: {
+                    name: true,
+                    sectionId: true,
+                    description: true,
+                    area: true,
+                    typeId: true,
+                    insiderToId: true
+                }
+            })
+            data = mediumSections
+            break;
         default:
             res.status(404).json({
                 message: "Wrong section!",
@@ -150,6 +244,6 @@ const getSections: RequestHandler = async (req: Request, res: Response) => {
 
 export {
     insertSectionData,
-    newLargeSection,
+    newSection,
     getSections
 }

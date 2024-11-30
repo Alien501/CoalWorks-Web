@@ -58,7 +58,7 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData, de
                         <TableRow key={index}>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description || "N/A"}</TableCell>
-                            <TableCell>{item.area ? item.area.toFixed(2) : "N/A"}</TableCell>
+                            <TableCell>{item.area ? parseFloat(item.area).toFixed(2) : "N/A"}</TableCell>
                             <TableCell>{item.inside}</TableCell>
                             <TableCell>{item.type}</TableCell>
                             <TableCell>

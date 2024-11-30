@@ -54,7 +54,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
         if (formData.name.trim() === '' || formData.description.trim() === '') {
             return
         }
-        const res = await fetch('http://localhost:3000/api/v1/section/large/create', {
+        const res = await fetch('http://localhost:3000/api/v1/section/create', {
             headers: {
                 'Content-type': 'application/json'
             },

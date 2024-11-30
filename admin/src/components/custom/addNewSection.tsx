@@ -27,6 +27,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { useState, useEffect } from "react"
 import { MapboxAreaPlotter } from "./MapboxAreaPlotter"
+import { getSectionLevel } from '@/utils/getSectionLevel'
 
 interface SectionType {
   typeId: number;
@@ -87,10 +88,26 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
     }))
   }
 
-  const addNewSection = () => {
+  const addNewSection = async () => {
     if (formData.name.trim() === '' || formData.description.trim() === '') {
       return
     }
+    const res = await fetch('http://localhost:3000/api/v1/section/create', {
+      headers: {
+          'Content-type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+          ...formData,
+          area: parseInt(formData.area),
+          scaleLevel: getSectionLevel(sectionType)
+      })
+  })
+
+  if(res.ok) {
+      const d = await res.json();
+      console.log(d)
+  }
     onSaveClicked(formData, sectionType)
     setFormData({
       name: '',
@@ -207,10 +224,11 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
                           {outerSection?.map((item) => (
                             <CommandItem
                               key={item.name}
-                              value={item.name}
+                              value={item?.name}
                               onSelect={(currentValue) => {
+                                console.log("Current Value " + currentValue)
                                 setValue(currentValue === value ? "" : currentValue)
-                                setFormData(prev => ({ ...prev, inside: currentValue }))
+                                setFormData(prev => ({ ...prev, inside: currentValue,insiderToId: outerSection.find(item => item.name == currentValue).sectionId }))
                                 setOpen(false)
                               }}
                             >

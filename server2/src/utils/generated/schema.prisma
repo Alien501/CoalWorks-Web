@@ -62,13 +62,13 @@ model MediumSection {
   name        String   @db.VarChar(255)
   description String?  @db.Text
   area        Decimal? @db.Decimal(10, 2)
-  typeId      Int
-  insiderToId Int
+  typeId      Int?
+  insiderToId Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
-  largeSection  LargeSection   @relation(fields: [insiderToId], references: [sectionId])
-  sectionType   SectionType    @relation(fields: [typeId], references: [typeId])
+  largeSection  LargeSection?  @relation(fields: [insiderToId], references: [sectionId])
+  sectionType   SectionType?   @relation(fields: [typeId], references: [typeId])
   smallSections SmallSection[]
 
   @@map("medium_sections")
@@ -79,13 +79,13 @@ model SmallSection {
   name        String   @db.VarChar(255)
   description String?  @db.Text
   area        Decimal? @db.Decimal(10, 2)
-  typeId      Int
-  insiderToId Int
+  typeId      Int?
+  insiderToId Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
-  mediumSection MediumSection  @relation(fields: [insiderToId], references: [sectionId])
-  sectionType   SectionType    @relation(fields: [typeId], references: [typeId])
+  mediumSection MediumSection? @relation(fields: [insiderToId], references: [sectionId])
+  sectionType   SectionType?   @relation(fields: [typeId], references: [typeId])
   microSections MicroSection[]
 
   @@map("small_sections")
@@ -96,13 +96,13 @@ model MicroSection {
   name        String   @db.VarChar(255)
   description String?  @db.Text
   area        Decimal? @db.Decimal(10, 2)
-  typeId      Int
-  insiderToId Int
+  typeId      Int?
+  insiderToId Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
-  smallSection SmallSection  @relation(fields: [insiderToId], references: [sectionId])
-  sectionType  SectionType   @relation(fields: [typeId], references: [typeId])
+  smallSection SmallSection? @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType?  @relation(fields: [typeId], references: [typeId])
   unitSections UnitSection[]
 
   @@map("micro_sections")
@@ -113,13 +113,13 @@ model UnitSection {
   name        String   @db.VarChar(255)
   description String?  @db.Text
   model       String?  @db.VarChar(255)
-  typeId      Int
-  insiderToId Int
+  typeId      Int?
+  insiderToId Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
-  microSection MicroSection @relation(fields: [insiderToId], references: [sectionId])
-  sectionType  SectionType  @relation(fields: [typeId], references: [typeId])
+  microSection MicroSection? @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType?  @relation(fields: [typeId], references: [typeId])
 
   @@map("unit_sections")
 }

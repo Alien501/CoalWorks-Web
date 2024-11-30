@@ -5,6 +5,7 @@ import { AddNewLargeSection } from "@/components/custom/addNewLargeSection"
 import { LargeSectionTable } from "@/components/custom/largeSectionTable"
 import { AddNewSection } from "@/components/custom/addNewSection"
 import { SectionTable } from "@/components/custom/sectionTable"
+import { getSectionData } from "@/utils/getSectionData"
 
 export function Plants() {
 
@@ -22,13 +23,39 @@ export function Plants() {
     const [unitSection, setUnitSection] = useState([])
 
     const getLargeSections = async () => {
-        const res = await fetch('http://localhost:3000/api/v1/section/5');
-        const d = await res.json();
-        setLargeSection(prev => d.data)
+        const data = await getSectionData(5);
+        setLargeSection(prev => data)
+    }
+
+    const getMediumSection = async () => {
+        const data = await getSectionData(4);
+        setMediumSection(prev => data)
+    }
+
+
+    const getSmallSection = async () => {
+        const data = await getSectionData(3);
+        setSmallSection(prev => data)
+    }
+
+    
+    const getMicroSection = async () => {
+        const data = await getSectionData(2);
+        setUnitSection(prev => data)
+    }
+
+    
+    const getUnitSection = async () => {
+        const data = await getSectionData(1);
+        setMediumSection(prev => data)
     }
 
     useEffect(() => {
         getLargeSections();
+        getMediumSection();
+        getSmallSection();
+        getMicroSection();
+        getUnitSection();
     }, [])
 
     const handleSort = (column: string) => {

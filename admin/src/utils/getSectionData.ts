@@ -4,6 +4,7 @@ const getSectionData = async (scaleLevel: number) => {
     }
     const res = await fetch(`/api/data/section/${scaleLevel}`);
     const d = await res.json();
+    console.log(d.data)
     return d.data;
 }
 

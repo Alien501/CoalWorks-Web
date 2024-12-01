@@ -3,7 +3,7 @@ import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuLabel,
 import { Button } from "../ui/button"
 import { MoreHorizontal } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MapView } from "./mapView"
 
 export const LargeSectionTable = ({ sortColumn, sortOrder, handleSort, largeSectionDummyData, deleteSection, sectionType }: {
@@ -16,7 +16,7 @@ export const LargeSectionTable = ({ sortColumn, sortOrder, handleSort, largeSect
 }) => {
 
     const [selectedSection, setSelectedSection] = useState(null)
-
+    console.log(selectedSection)
     return (
         <div className="border rounded-lg overflow-hidden">
             <Table>
@@ -52,7 +52,7 @@ export const LargeSectionTable = ({ sortColumn, sortOrder, handleSort, largeSect
                             <TableCell>{item.description || "N/A"}</TableCell>
                             <TableCell>{item.area ? parseFloat(item.area).toFixed(2) : "N/A"}</TableCell>
                             <TableCell>{item.mine}</TableCell>
-                            <TableCell>{item.type}</TableCell>
+                            <TableCell>{item.typeName}</TableCell>
                             <TableCell>
                                 <Button onClick={() => setSelectedSection(item)}>View Map</Button>
                             </TableCell>

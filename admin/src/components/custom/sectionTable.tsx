@@ -28,6 +28,8 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData, de
     deleteSection: any,
     sectionType: string
 }) => {
+
+    console.log(sectionData)
     const [selectedSection, setSelectedSection] = useState(null)
     return (
         <div className="border rounded-lg overflow-hidden">
@@ -60,7 +62,7 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData, de
                             <TableCell>{item.description || "N/A"}</TableCell>
                             <TableCell>{item.area ? parseFloat(item.area).toFixed(2) : "N/A"}</TableCell>
                             <TableCell>{item.inside}</TableCell>
-                            <TableCell>{item.type}</TableCell>
+                            <TableCell>{item.typeName}</TableCell>
                             <TableCell>
                                 <Button onClick={() => setSelectedSection(item)}>View Map</Button>
                             </TableCell>

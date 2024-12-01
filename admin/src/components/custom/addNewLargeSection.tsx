@@ -1,16 +1,26 @@
+import React, { useEffect, useState } from "react"
 import { TabsContent } from "@/components/ui/tabs"
 import { Search, Plus, MapPin } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogTrigger, DialogDescription, DialogTitle, DialogHeader, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
 import { MapboxAreaPlotter } from "./MapBoxAreaPlotter"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import axios from "axios"
 
 interface Mine {
     mineId: number;
     name: string;
-    location: string
+    location: string;
 }
 
 interface SectionType {
@@ -22,64 +32,101 @@ interface FormData {
     name: string;
     description: string;
     area: number;
-    mine: Mine | " ";
-    type: SectionType | " ";
+    mine: Mine | null;
+    type: SectionType | null;
     coordinates: number[][];
 }
 
+interface LargeSection {
+    itemId: number;
+    itemName: string;
+}
+
 export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, sectionType }: {
-    searchTerm: any,
-    setSearchTerm: any,
-    onSaveClicked: (data: any, type: string) => void,
+    searchTerm: string,
+    setSearchTerm: (term: string) => void,
+    onSaveClicked: (data: FormData, type: string) => void,
     sectionType: string
 }) => {
+    const [largeSections, setLargeSections] = useState<LargeSection[]>([])
     const [formData, setFormData] = useState<FormData>({
         name: '',
         description: '',
         area: 0,
-        mine: " ",
-        type: " ",
+        mine: null,
+        type: null,
         coordinates: []
     })
+
     const [isMapOpen, setIsMapOpen] = useState(false)
 
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
         setFormData(prev => ({
             ...prev,
-            [e.target.name]: e.target.value
+            [name]: name === 'area' ? Number(value) : value
         }))
+    }
+
+    const handleTypeChange = (value: string) => {
+        const selectedSection = largeSections.find((item) => item.itemId.toString() === value)
+        if (selectedSection) {
+            setFormData(prev => ({
+                ...prev,
+                type: { typeId: selectedSection.itemId, typeName: selectedSection.itemName }
+            }))
+        }
     }
 
     const addNewLargeSection = async () => {
         if (formData.name.trim() === '' || formData.description.trim() === '') {
             return
         }
-        const res = await fetch('http://localhost:3000/api/v1/section/create', {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                ...formData,
-                area: parseInt(formData.area),
-                scaleLevel: 5
+        try {
+            const res = await fetch('http://localhost:3000/api/v1/section/create', {
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    ...formData,
+                    area: formData.area,
+                    scaleLevel: 5
+                })
             })
-        })
 
-        if(res.ok) {
-            const d = await res.json();
-            console.log(d)
+            if (res.ok) {
+                const d = await res.json();
+                console.log(d)
+                onSaveClicked(formData, sectionType)
+                setFormData({
+                    name: '',
+                    description: '',
+                    area: 0,
+                    mine: null,
+                    type: null,
+                    coordinates: []
+                })
+            } else {
+                console.error('Failed to save section')
+            }
+        } catch (error) {
+            console.error('Error saving section:', error)
         }
-        onSaveClicked(formData, sectionType)
-        setFormData({
-            name: '',
-            description: '',
-            area: 0,
-            mine: " ",
-            type: " ",
-            coordinates: []
-        })
     }
+
+    useEffect(() => {
+        const getAllLargeSections = async () => {
+            try {
+                const res = await axios.get("http://localhost:3000/api/v1/section/items?scaleLevel=5");
+                const largeSections = res?.data;
+                setLargeSections(largeSections)
+            } catch (error) {
+                console.error('Error fetching large sections:', error)
+            }
+        }
+        getAllLargeSections();
+    }, [])
 
     const handleSaveCoordinates = (coordinates: number[][]) => {
         setFormData(prev => ({
@@ -171,19 +218,29 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                                     <Label htmlFor="type" className="text-right">
                                         Type
                                     </Label>
-                                    <Input
-                                        id="type"
-                                        className="col-span-3"
-                                        name="type"
-                                        onChange={onValueChange}
-                                    />
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="outline">{formData.type ? formData.type.typeName : 'Select Type'}</Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56">
+                                            <DropdownMenuLabel>Set Section Type</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuRadioGroup value={formData.type ? formData.type.typeId.toString() : ''} onValueChange={handleTypeChange}>
+                                                {largeSections.map((item) => (
+                                                    <DropdownMenuRadioItem value={item.itemId.toString()} key={item.itemId}>
+                                                        {item.itemName}
+                                                    </DropdownMenuRadioItem>
+                                                ))}
+                                            </DropdownMenuRadioGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="coordinates" className="text-right">
                                         Plot Area
                                     </Label>
-                                    <Button 
-                                        onClick={() => setIsMapOpen(true)} 
+                                    <Button
+                                        onClick={() => setIsMapOpen(true)}
                                         className="col-span-3"
                                     >
                                         <MapPin className="mr-2 h-4 w-4" />
@@ -198,7 +255,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                     </Dialog>
                 </div>
             </div>
-            
+
             {isMapOpen && (
                 <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
                     <DialogContent className="sm:max-w-[800px] sm:max-h-[600px]">

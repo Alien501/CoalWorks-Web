@@ -291,7 +291,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Alien501\\Projects\\coalworks\\server2\\src\\utils\\generated",
+      "value": "C:\\Users\\prasa\\sih\\CoalWorks-Web\\server2\\src\\utils\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -305,7 +305,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Alien501\\Projects\\coalworks\\server2\\db\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\prasa\\sih\\CoalWorks-Web\\server2\\db\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

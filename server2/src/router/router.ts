@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { createUser } from "../libs/user/createUser";
 import { createRole } from "../libs/role/createRole";
 import { createPosition } from "../libs/position/createPosition";
-import { getSections, insertSectionData, newSection } from "../libs/config/section";
+import { getAllLargeSections, getAllMediumSections, getAllMicroSections, getAllSections, getAllSectionTypes, getAllSmallSections, getAllUnitSections, getSections, insertSectionData, newSection } from "../libs/config/section";
 import { createShifts } from "../libs/shifts/createShifts";
 import { getShifts } from "../libs/shifts/getShifts";
 import { updateShift } from "../libs/shifts/upadteShift";
@@ -32,6 +32,36 @@ router.post('/config/section', asyncHandler(async (req: Request, res: Response, 
 
 
 // Section Routes
+
+router.get('/section', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllSections(req, res, next);
+}))
+
+router.get('/section/items', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllSectionTypes(req, res, next);
+}))
+
+router.get('/section/large', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllLargeSections(req, res, next);
+}))
+
+router.get('/section/medium', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllMediumSections(req, res, next);
+}))
+
+router.get('/section/small', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllSmallSections(req, res, next);
+}))
+
+router.get('/section/unit', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllUnitSections(req, res, next);
+}))
+
+router.get('/section/micro', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getAllMicroSections(req, res, next);
+}))
+
+
 router.get('/section/:scaleLevel', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await getSections(req, res, next);
 }))

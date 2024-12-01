@@ -6,8 +6,28 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { EllipsisIcon, EyeIcon, LayoutList, LinkIcon, LocateIcon, MapIcon, MapPin, PencilIcon, PlusIcon } from "lucide-react";
+import { EllipsisIcon, EyeIcon, LayoutList, LinkIcon, Pencil, FileTextIcon, ImageIcon, CheckCircleIcon, MapPin, PencilIcon, PlusIcon, CircleChevronDown, CircleChevronUp } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useEffect } from "react";
 
 const CreateRound = () => {
     const tablsList = [
@@ -27,13 +47,117 @@ const CreateRound = () => {
             status: false
         }
     ]
+    interface Section {
+        id: number;
+        name: string;
+        tasks: any[];
+        questions: any[];
+    }
 
     const [tabs, setTabs] = useState(tablsList);
+    const [sections, setSections] = useState<Section[]>([]);
+    const [taskName, setTaskName] = useState("")
+    const [taskDescription, setTaskDescription] = useState('')
+    const [responseType, setResponseType] = useState("text")
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [isEditSectionDialogOpen, setIsEditSectionDialogOpen] = useState(false)
+    const [expandedSection, setExpandedSection] = useState<number | null>(null);
+    const [sectionName, setSectionName] = useState("")
+    const [questionName, setQuestionName] = useState("")
+    const [questionResponseType, setQuestionResponseType] = useState("text")
+    const [isQuestionDialogOpen, setIsQuestionDialogOpen] = useState(false)
+    const [workArea, setWorkArea] = useState([])
+    const [selectedWorkArea, setSelectedWorkArea] = useState("Work Area");
+
+
+    useEffect(() => {
+        async function getWorkAreas() {
+            const res = await axios.get("http://localhost:3000/api/v1/section")
+            const workAreas = res.data
+            //@ts-ignore
+            setWorkArea([...workAreas])
+        }
+        getWorkAreas();
+    }, [])
+
+    const toggleSection = (index: number) => {
+        setExpandedSection((prev) => (prev === index ? null : index));
+    };
+
+    const onAddSection = () => {
+        //@ts-ignore
+        setSections((prev) => [...prev, { id: sections.length + 1, name: "Section " + parseInt(sections.length + 1), tasks: [], questions: [] }])
+    }
+
+    const onAddQuestion = (index: number) => {
+        setSections((prevSections) => {
+            const newSections = [...prevSections];
+
+            if (index >= 0 && index < newSections.length) {
+                const section = newSections[index];
+
+                const newQuestion = {
+                    id: section.questions.length + 1,
+                    name: questionName,
+                    responseType,
+                };
+                section.questions = [...section.questions, newQuestion];
+            }
+
+            return newSections;
+        })
+        setIsQuestionDialogOpen(false)
+    };
+
+
+    const onAddTask = (index: number) => {
+        setSections((prevSections) => {
+            const newSections = [...prevSections];
+
+            if (index >= 0 && index < newSections.length) {
+                const section = newSections[index];
+
+                const newTask = {
+                    id: section.tasks.length + 1,
+                    name: taskName,
+                    description: taskDescription,
+                    responseType,
+                };
+                section.tasks = [...section.tasks, newTask];
+            }
+
+            return newSections;
+        });
+
+        setTaskName("");
+        setTaskDescription("");
+        setResponseType("text");
+        setIsDialogOpen(false)
+    };
+
+    const onEditSection = (index: number) => {
+        console.log(index)
+        setSections(prev => prev.map(section => {
+            if (section.id === index + 1) {
+                return {
+                    ...section,
+                    name: sectionName
+                };
+            }
+            return section;
+        }));
+        setSectionName("")
+        setIsEditSectionDialogOpen(false)
+    }
+
+    console.log(sections)
+
+    console.log(workArea)
 
     return (
-        <section id="create-round">
+        <section id="create-round" className="">
             <Tabs defaultValue={tablsList[0].value}>
-                <div id="header" className="h-20 p-1 flex items-center justify-between">
+                <div id="header" className="h-20 p-1 flex items-center justify-between ">
                     <div className="w-full flex items-center justify-center">
                         <TabsList className="h-full rounded-full">
                             {
@@ -50,7 +174,7 @@ const CreateRound = () => {
                                             </span>
                                         </TabsTrigger>
                                         :
-                                        <TabsTrigger className="space-x-2 h-full rounded-full" value={item.value    }>
+                                        <TabsTrigger className="space-x-2 h-full rounded-full" value={item.value}>
                                             <span>
                                                 <Badge className="rounded-full h-6 w-6 font-semibold flex items-center justify-center">
                                                     <span>{index + 1}</span>
@@ -95,26 +219,18 @@ const CreateRound = () => {
                             </div>
                             <div className="flex justify-between space-x-2">
                                 <div className="w-full">
-                                    <Label>Plant</Label>
-                                    <Select>
-                                        <SelectTrigger>Plant</SelectTrigger>
+                                    <Label>Work Area</Label>
+                                    <Select onValueChange={(value) => setSelectedWorkArea(workArea[Number(value) - 1].name)}>
+                                        <SelectTrigger>{selectedWorkArea}</SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="p-1">Plant 1</SelectItem>
-                                            <SelectItem value="p-2">Plant 2</SelectItem>
-                                            <SelectItem value="p-3">Plant 3</SelectItem>
-                                            <SelectItem value="p-4">Plant 4</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div className="w-full">
-                                    <Label>Unit</Label>
-                                    <Select>
-                                        <SelectTrigger>Unit</SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="u-1">Unit 1</SelectItem>
-                                            <SelectItem value="u-2">Unit 2</SelectItem>
-                                            <SelectItem value="u-3">Unit 3</SelectItem>
-                                            <SelectItem value="u-4">Unit 4</SelectItem>
+                                            {workArea
+                                                ?.filter((item) => item.scaleLevel >= 3)
+                                                .map((item, index) => (
+                                                    <SelectItem key={index} value={`${index + 1}`}>
+                                                        {item.name}
+                                                    </SelectItem>
+                                                ))}
+
                                         </SelectContent>
                                     </Select>
                                 </div>
@@ -147,121 +263,280 @@ const CreateRound = () => {
                         </CardContent>
                     </Card>
                 </TabsContent>
-                <TabsContent value="round-and-tasks">
+                <TabsContent value="round-and-tasks" className="p-6 space-y-6 h-full">
                     {/* Header section */}
-                    <div className="flex h-14 justify-between items-center p-1">
-                        <div className="flex items-center space-x-2">
-                            <span><LayoutList /></span>
-                            <div className="grid grid-cols-[80%_20%] place-content-center">
-                                <div className="flex flex-col">
-                                    <span>Round Name</span>
-                                    <span className="text-slate-100/60">Round Description</span>
-                                </div>
-                                <div className="place-content-center">
-                                    <Button variant='ghost' className="place-self-center"><PencilIcon /></Button>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
+                    <div className="flex justify-between items-center bg-card rounded-lg shadow-md p-4">
+                        <div className="flex items-center space-x-4">
+                            <LayoutList className="text-primary h-6 w-6" />
                             <div>
-                                <span className="font-medium">Plant: </span>
-                                <span>SHR_PLANT01</span>
+                                <h2 className="text-xl font-semibold">Round Name</h2>
+                                <p className="text-sm text-muted-foreground">Round Description</p>
                             </div>
+                            <Button variant="ghost" size="sm"><PencilIcon className="h-4 w-4 mr-2" /> Edit</Button>
                         </div>
-                        <div className="h-full flex items-center space-x-2">
-                            <span>All changes saved</span>
-                            <Button variant={'outline'}>
-                                <span><EyeIcon /></span>
-                                <span>Preview</span>
+                        <div className="flex items-center space-x-4">
+                            <div className="text-sm">
+                                <span className="font-medium">Plant: </span>
+                                <span className="text-muted-foreground">SHR_PLANT01</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                                <span>All changes saved</span>
+                            </div>
+                            <Button variant="outline" size="sm">
+                                <EyeIcon className="h-4 w-4 mr-2" />
+                                Preview
                             </Button>
-                            <Button>Next</Button>
+                            <Button size="sm">Next</Button>
                         </div>
                     </div>
-                    {/* Main content goes here */}
-                    <div className="grid grid-cols-[30%_70%] p-2 min-h-[550px]">
-                        <Card className="p-0 shadow-none h-full rounded-none">
+
+                    {/* Main content */}
+                    <div className="grid grid-cols-[30%_70%] gap-6 h-full ">
+                        <Card className="shadow-md">
                             <CardHeader className="flex flex-row justify-between items-center">
-                                <div className="flex items-center space-x-1">
-                                    <span>Loactions/Assets</span>
-                                    <Button variant='ghost' className="w-10 h-10">
-                                        <PlusIcon />
-                                    </Button>
-                                </div>
-                                <div>
-                                    <p>Tasks - {4}</p>
+                                <h3 className="text-lg font-semibold">Locations/Assets</h3>
+                                <div className="flex items-center space-x-2">
+                                    <p className="text-sm text-muted-foreground">Tasks: 4</p>
+                                    <Button variant="ghost" size="sm"><PlusIcon className="h-4 w-4" /></Button>
                                 </div>
                             </CardHeader>
-                            <CardContent className="p-2">
-                                <div>
-                                    <Input
-                                        placeholder="Search by name/description"
-                                    />
-                                </div>
-                                <div>
-                                    <div className="loc-ass-container space-x-2"> 
-                                        <div className="grid grid-cols-[10%_70%_20%] h-14 p-1 place-content-center">
-                                            <span className="place-self-center"><MapPin width={16} height={16} /></span>
-                                            <div className="flex flex-col text-sm">
-                                                <span>SHR_UNIT</span>
-                                                <span className="text-xs">ID: SHR_UNIT</span>
-                                            </div>
-                                            <div className="w-full h-full flex items-center space-x-2">
-                                                <Badge className="w-5 h-5 flex items-center justify-center rounded-full">
-                                                    <span>3</span>
-                                                </Badge>
-                                                <Button className="w-10 h-10" variant={'secondary'}><EllipsisIcon /></Button>
+                            <CardContent>
+                                <Input
+                                    placeholder="Search by name/description"
+                                    className="mb-4"
+                                />
+                                <div className="space-y-2">
+                                    {/* Repeat this block for each location/asset */}
+                                    <div className="flex items-center justify-between p-2 bg-accent rounded-md">
+                                        <div className="flex items-center space-x-3">
+                                            <MapPin className="text-primary h-5 w-5" />
+                                            <div>
+                                                <p className="font-medium">SHR_UNIT</p>
+                                                <p className="text-xs text-muted-foreground">ID: SHR_UNIT</p>
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-[10%_70%_20%] h-14 p-1 place-content-center">
-                                            <span className="place-self-center"><MapPin width={16} height={16} /></span>
-                                            <div className="flex flex-col text-sm">
-                                                <span>SHR_UNIT</span>
-                                                <span className="text-xs">ID: SHR_UNIT</span>
-                                            </div>
-                                            <div className="w-full h-full flex items-center space-x-2">
-                                                <Badge className="w-5 h-5 flex items-center justify-center rounded-full">
-                                                    <span>3</span>
-                                                </Badge>
-                                                <Button className="w-10 h-10" variant={'secondary'}><EllipsisIcon /></Button>
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-[10%_70%_20%] h-14 p-1 place-content-center">
-                                            <span className="place-self-center"><MapPin width={16} height={16} /></span>
-                                            <div className="flex flex-col text-sm">
-                                                <span>SHR_UNIT</span>
-                                                <span className="text-xs">ID: SHR_UNIT</span>
-                                            </div>
-                                            <div className="w-full h-full flex items-center space-x-2">
-                                                <Badge className="w-5 h-5 flex items-center justify-center rounded-full">
-                                                    <span>3</span>
-                                                </Badge>
-                                                <Button className="w-10 h-10" variant={'secondary'}><EllipsisIcon /></Button>
-                                            </div>
-                                        </div>  
-
-                                        <div className="grid grid-cols-[10%_70%_20%] h-14 p-1 place-content-center">
-                                            <span className="place-self-center"><MapPin width={16} height={16} /></span>
-                                            <div className="flex flex-col text-sm">
-                                                <span>SHR_UNIT</span>
-                                                <span className="text-xs">ID: SHR_UNIT</span>
-                                            </div>
-                                            <div className="w-full h-full flex items-center space-x-2">
-                                                <Badge className="w-5 h-5 flex items-center justify-center rounded-full">
-                                                    <span>3</span>
-                                                </Badge>
-                                                <Button className="w-10 h-10" variant={'secondary'}><EllipsisIcon /></Button>
-                                            </div>
+                                        <div className="flex items-center space-x-2">
+                                            <Badge variant="secondary">3</Badge>
+                                            <Button size="sm" variant="ghost"><EllipsisIcon className="h-4 w-4" /></Button>
                                         </div>
                                     </div>
+                                    {/* Repeat ends */}
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card className="p-0 shadow-none h-full rounded-none">
-                            <CardHeader className="">
 
+                        <Card className="shadow-md h-full mr-7">
+                            <CardHeader>
+                                <h3 className="text-lg font-semibold">Sections and Tasks</h3>
                             </CardHeader>
-                            <CardContent className="p-2">
+                            <CardContent>
+                                {sections?.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center h-64">
+                                        <Button variant="outline" onClick={() => onAddSection()}>Add sections</Button>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        {sections?.map((item: any, index: number) => (
+                                            <div key={index} className="border rounded-md p-4">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <div className="text-md font-semibold flex space-x-2 justify-center items-center">
+                                                        <span>{item.name}</span>
+                                                        <Dialog open={isEditSectionDialogOpen} onOpenChange={setIsEditSectionDialogOpen}>
+                                                            <DialogTrigger asChild>
+                                                                <span className="cursor-pointer p-2 hover:bg-secondary rounded-md"><Pencil size={15}></Pencil></span>
+                                                            </DialogTrigger>
+                                                            <DialogContent className="sm:max-w-[425px]">
+                                                                <DialogHeader>
+                                                                    <DialogTitle>Edit Section Name</DialogTitle>
+                                                                    {/* <DialogDescription>
+                                                                        Make changes to your profile here. Click save when you're done.
+                                                                    </DialogDescription> */}
+                                                                </DialogHeader>
+                                                                <div className="grid gap-4 py-4">
+                                                                    <div className="grid grid-cols-4 items-center gap-4">
+                                                                        <Label htmlFor="name" className="text-right text-nowrap">
+                                                                            Section Name
+                                                                        </Label>
+                                                                        <Input
+                                                                            id="name"
+                                                                            className="col-span-3"
+                                                                            onChange={(e) => setSectionName(e.target.value)}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <DialogFooter>
+                                                                    <Button onClick={() => onEditSection(index)}>Save changes</Button>
+                                                                </DialogFooter>
+                                                            </DialogContent>
+                                                        </Dialog>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                                            <DialogTrigger asChild>
+                                                                <Button variant="outline">Add Tasks</Button>
+                                                            </DialogTrigger>
+                                                            <DialogContent className="sm:max-w-[500px]">
+                                                                <DialogHeader>
+                                                                    <DialogTitle>Create a Task</DialogTitle>
+                                                                </DialogHeader>
+                                                                <div className="grid gap-4 py-4">
+                                                                    <div className="grid grid-cols-4 items-center gap-4">
+                                                                        <Label htmlFor="name" className="text-right">Task Name</Label>
+                                                                        <Input
+                                                                            id="name"
+                                                                            className="col-span-3"
+                                                                            onChange={(e) => setTaskName(e.target.value)}
+                                                                        />
+                                                                    </div>
+                                                                    <div className="grid grid-cols-4 items-center gap-4">
+                                                                        <Label htmlFor="description" className="text-right">Task Description</Label>
+                                                                        <Input
+                                                                            id="description"
+                                                                            className="col-span-3"
+                                                                            onChange={(e) => setTaskDescription(e.target.value)}
+                                                                        />
+                                                                    </div>
+                                                                    <div className="grid grid-cols-4 items-center gap-4">
+                                                                        <Label htmlFor="response_type" className="text-right">Response Type</Label>
+                                                                        <DropdownMenu>
+                                                                            <DropdownMenuTrigger asChild>
+                                                                                <Button variant="outline">
+                                                                                    {responseType[0].toUpperCase() + responseType.slice(1)}
+                                                                                </Button>
+                                                                            </DropdownMenuTrigger>
+                                                                            <DropdownMenuContent className="w-56">
+                                                                                <DropdownMenuLabel>Set the response type</DropdownMenuLabel>
+                                                                                <DropdownMenuSeparator />
+                                                                                <DropdownMenuRadioGroup value={responseType} onValueChange={setResponseType}>
+                                                                                    <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
+                                                                                    <DropdownMenuRadioItem value="image">Image</DropdownMenuRadioItem>
+                                                                                </DropdownMenuRadioGroup>
+                                                                            </DropdownMenuContent>
+                                                                        </DropdownMenu>
+                                                                    </div>
+                                                                </div>
+                                                                <DialogFooter>
+                                                                    <Button onClick={() => onAddTask(index)}>Save</Button>
+                                                                </DialogFooter>
+                                                            </DialogContent>
+                                                        </Dialog>
 
+                                                        <Dialog open={isQuestionDialogOpen} onOpenChange={setIsQuestionDialogOpen}>
+                                                            <DialogTrigger asChild>
+                                                                <Button variant="outline">Create Question</Button>
+                                                            </DialogTrigger>
+                                                            <DialogContent className="sm:max-w-[500px]">
+                                                                <DialogHeader>
+                                                                    <DialogTitle>Create a Question</DialogTitle>
+                                                                </DialogHeader>
+                                                                <div className="grid gap-4 py-4">
+                                                                    <div className="grid grid-cols-4 items-center gap-4">
+                                                                        <Label htmlFor="name" className="text-right">Title</Label>
+                                                                        <Input
+                                                                            id="name"
+                                                                            className="col-span-3"
+                                                                            onChange={(e) => setQuestionName(e.target.value)}
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className="grid grid-cols-4 items-center gap-4">
+                                                                        <Label htmlFor="question_response_type" className="text-right text-wrap">Response Type</Label>
+                                                                        <DropdownMenu>
+                                                                            <DropdownMenuTrigger asChild>
+                                                                                <Button variant="outline">
+                                                                                    {responseType[0].toUpperCase() + responseType.slice(1)}
+                                                                                </Button>
+                                                                            </DropdownMenuTrigger>
+                                                                            <DropdownMenuContent className="w-56">
+                                                                                <DropdownMenuLabel>Set the response type</DropdownMenuLabel>
+                                                                                <DropdownMenuSeparator />
+                                                                                <DropdownMenuRadioGroup value={questionResponseType} onValueChange={setQuestionResponseType}>
+                                                                                    <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
+                                                                                    <DropdownMenuRadioItem value="image">Image</DropdownMenuRadioItem>
+                                                                                </DropdownMenuRadioGroup>
+                                                                            </DropdownMenuContent>
+                                                                        </DropdownMenu>
+                                                                    </div>
+                                                                </div>
+                                                                <DialogFooter>
+                                                                    <Button onClick={() => onAddQuestion(index)}>Save</Button>
+                                                                </DialogFooter>
+                                                            </DialogContent>
+                                                        </Dialog>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => toggleSection(index)}
+                                                        >
+                                                            {expandedSection === index ? (
+                                                                <CircleChevronUp className="h-4 w-4" />
+                                                            ) : (
+                                                                <CircleChevronDown className="h-4 w-4" />
+                                                            )}
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                                {expandedSection === index && (
+                                                    <div className="pl-4">
+                                                        <h3 className="font-semibold text-2xl mb-4">
+                                                            Tasks
+                                                        </h3>
+                                                        {item.tasks.length > 0 ? (
+                                                            <ul className="space-y-2">
+                                                                {item.tasks.map((task: any, taskIndex: number) => (
+                                                                    <li key={taskIndex} className="flex items-start space-x-2">
+                                                                        <div className="mt-1">
+                                                                            {task.responseType === 'text' ? (
+                                                                                <FileTextIcon className="h-4 w-4 text-blue-500" />
+                                                                            ) : (
+                                                                                <ImageIcon className="h-4 w-4 text-green-500" />
+                                                                            )}
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className="font-medium">{task.name}</p>
+                                                                            <p className="text-sm text-muted-foreground">{task.description}</p>
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        ) : (
+                                                            <p className="text-sm text-muted-foreground">No tasks available.</p>
+                                                        )}
+
+                                                        <h3 className="font-semibold text-2xl mb-4 mt-4 ">
+                                                            Questions
+                                                        </h3>
+
+                                                        {item.questions.length > 0 ? (
+                                                            <ul className="space-y-2">
+                                                                {item.questions.map((question: any, index: number) => (
+                                                                    <li key={index} className="flex items-start space-x-2">
+                                                                        <div className="mt-1">
+                                                                            {question.responseType === 'text' ? (
+                                                                                <FileTextIcon className="h-4 w-4 text-blue-500" />
+                                                                            ) : (
+                                                                                <ImageIcon className="h-4 w-4 text-green-500" />
+                                                                            )}
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className="font-medium">{question.name}</p>
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        ) : (
+                                                            <p className="text-sm text-muted-foreground">No tasks available.</p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                        <div className="flex justify-center items-center">
+                                            <Button variant={"outline"} onClick={() => onAddSection()}>Add Section</Button>
+                                        </div>
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
                     </div>

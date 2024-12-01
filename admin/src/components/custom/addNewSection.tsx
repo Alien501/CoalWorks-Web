@@ -1,21 +1,16 @@
-import { Check, ChevronsUpDown, Plus, Search, MapPin } from 'lucide-react'
-import { cn } from "@/lib/utils"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DialogFooter } from "@/components/ui/dialog"
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Dialog,
   DialogContent,
@@ -25,9 +20,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { useState, useEffect } from "react"
-import { MapboxAreaPlotter } from "./MapboxAreaPlotter"
-import { getSectionLevel } from '@/utils/getSectionLevel'
+import { MapboxAreaPlotter } from './MapBoxAreaPlotter'
+import axios from 'axios'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Search, Plus, MapPin } from 'lucide-react'
 
 interface SectionType {
   typeId: number;
@@ -38,8 +42,9 @@ interface FormData {
   name: string;
   description: string;
   area: number;
-  inside: string;
-  type: SectionType | string;
+  inside: string | null;
+  insiderToId: string | null;
+  type: SectionType | null;
   coordinates: number[][];
 }
 
@@ -52,8 +57,9 @@ interface AddNewSectionProps {
   setValue: (value: string) => void;
   areaType: string;
   sectionType: string;
-  outerSection: { name: string }[];
+  outerSection: any[];
   onSaveClicked: (data: FormData, type: string) => void;
+  scaleLevel: number;
 }
 
 export const AddNewSection: React.FC<AddNewSectionProps> = ({
@@ -67,58 +73,72 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
   sectionType,
   outerSection,
   onSaveClicked,
+  scaleLevel
 }) => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     description: '',
     area: 0,
-    inside: "",
-    type: "",
+    inside: null,
+    insiderToId: null,
+    type: null,
     coordinates: [],
   })
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [isMapOpen, setIsMapOpen] = useState(false)
+  const [sections, setSections] = useState([])
 
-  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: name === 'area' ? parseFloat(value) || 0 : value
-    }))
-  }
+  useEffect(() => {
+    const getAllSections = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3000/api/v1/section/items?scaleLevel=${scaleLevel}`);
+        const sections = res?.data;
+        setSections(sections)
+      } catch (error) {
+        console.error('Error fetching sections:', error)
+      }
+    }
+    getAllSections();
+  }, [scaleLevel])
 
   const addNewSection = async () => {
     if (formData.name.trim() === '' || formData.description.trim() === '') {
       return
     }
-    const res = await fetch('http://localhost:3000/api/v1/section/create', {
-      headers: {
+    try {
+      const res = await fetch('http://localhost:3000/api/v1/section/create', {
+        headers: {
           'Content-type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({
+        },
+        method: 'POST',
+        body: JSON.stringify({
           ...formData,
-          area: parseInt(formData.area),
-          scaleLevel: getSectionLevel(sectionType)
+          area: formData.area,
+          scaleLevel: scaleLevel
+        })
       })
-  })
 
-  if(res.ok) {
-      const d = await res.json();
-      console.log(d)
-  }
-    onSaveClicked(formData, sectionType)
-    setFormData({
-      name: '',
-      description: '',
-      area: 0,
-      inside: "",
-      type: '',
-      coordinates: [],
-    })
-    setValue("")
-    setDialogOpen(false)
+      if (res.ok) {
+        await res.json();
+        onSaveClicked(formData, sectionType)
+        setFormData({
+          name: '',
+          description: '',
+          area: 0,
+          inside: null,
+          insiderToId: null,
+          type: null,
+          coordinates: []
+        })
+        setValue("")
+        setDialogOpen(false)
+      } else {
+        console.error('Failed to save section')
+      }
+    } catch (error) {
+      console.error('Error saving section:', error)
+    }
   }
 
   const handleSaveCoordinates = (coordinates: number[][]) => {
@@ -129,9 +149,41 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
     setIsMapOpen(false)
   }
 
+  const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'area' ? Number(value) : value
+    }))
+  }
+
+  const handleTypeChange = (value: string) => {
+    const selectedSection = sections.find((item) => item.itemId.toString() === value)
+    if (selectedSection) {
+      setFormData(prev => ({
+        ...prev,
+        type: { typeId: selectedSection.itemId, typeName: selectedSection.itemName }
+      }))
+    }
+  }
+
+  const handleInsideChange = (value: string) => {
+    const [id, name] = value.split('|||')
+    setFormData(prev => ({
+      ...prev,
+      inside: name,
+      insiderToId: parseInt(id) // Convert string ID back to number
+    }))
+    setOpen(false)
+  }
+
   useEffect(() => {
     if (value) {
-      setFormData(prev => ({ ...prev, inside: value }))
+      setFormData(prev => ({
+        ...prev,
+        inside: value,
+        insiderToId: value
+      }))
     }
   }, [value])
 
@@ -203,68 +255,55 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
                 <Label htmlFor="inside" className="text-right">
                   Inside
                 </Label>
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={open}
-                      className="w-[200px] justify-between"
-                    >
-                      {value || "Select Area"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search Area..." />
-                      <CommandList>
-                        <CommandEmpty>No area found.</CommandEmpty>
-                        <CommandGroup>
-                          {outerSection?.map((item) => (
-                            <CommandItem
-                              key={item.name}
-                              value={item?.name}
-                              onSelect={(currentValue) => {
-                                console.log("Current Value " + currentValue)
-                                setValue(currentValue === value ? "" : currentValue)
-                                setFormData(prev => ({ ...prev, inside: currentValue,insiderToId: outerSection.find(item => item.name == currentValue).sectionId }))
-                                setOpen(false)
-                              }}
-                            >
-                              {item.name}
-                              <Check
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  value === item.name ? "opacity-100" : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                <Select
+                  onValueChange={handleInsideChange}
+                  value={formData.inside || undefined}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Inside" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Outer Section</SelectLabel>
+                      {outerSection.map((item: any) => (
+                        <SelectItem
+                          key={item.sectionId}
+                          value={`${item.sectionId}|||${item.name}`} // Combine ID and name
+                        >
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="type" className="text-right">
                   Type
                 </Label>
-                <Input
-                  id="type"
-                  name="type"
-                  className="col-span-3"
-                  value={formData.type}
-                  onChange={onValueChange}
-                />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">{formData.type ? formData.type.typeName : 'Select Type'}</Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Set Section Type</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup value={formData.type ? formData.type.typeId.toString() : ''} onValueChange={handleTypeChange}>
+                      {sections.map((item) => (
+                        <DropdownMenuRadioItem value={item.typeId.toString()} key={item.typeId}>
+                          {item.itemName}
+                        </DropdownMenuRadioItem>
+                      ))}
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="coordinates" className="text-right">
                   Plot Area
                 </Label>
-                <Button 
-                  onClick={() => setIsMapOpen(true)} 
+                <Button
+                  onClick={() => setIsMapOpen(true)}
                   className="col-span-3"
                 >
                   <MapPin className="mr-2 h-4 w-4" />

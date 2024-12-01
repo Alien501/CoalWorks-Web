@@ -221,7 +221,10 @@ const getSections: RequestHandler = async (req: Request, res: Response) => {
                     description: true,
                     area: true,
                     typeId: true,
-                    insiderToId: true
+                    insiderToId: true,
+                    largeSection: true,
+                    smallSections: true,
+                    sectionType: true,
                 }
             })
             data = mediumSections

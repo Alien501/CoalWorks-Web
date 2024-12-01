@@ -76,11 +76,7 @@ export function Plants() {
     }
 
     useEffect(() => {
-        getLargeSections();
-        getMediumSection();
-        getSmallSection();
-        getMicroSection();
-        getUnitSection();
+        getLargeSections().then(() => getMediumSection().then(() => getSmallSection().then(() => getMicroSection().then(() => getUnitSection()))))
     }, [])
 
     const handleSort = (column: string) => {

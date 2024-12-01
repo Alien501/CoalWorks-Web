@@ -1,22 +1,14 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { createUser } from "../libs/user/createUser";
-import { createRole } from "../libs/role/createRole";
-import { createPosition } from "../libs/position/createPosition";
-import { getSections, insertSectionData, newSection } from "../libs/config/section";
-import { createShifts } from "../libs/shifts/createShifts";
-import { getShifts } from "../libs/shifts/getShifts";
-import { updateShift } from "../libs/shifts/upadteShift";
-import { login } from "../libs/auth/login";
-import { getPositions } from "../libs/position/getPositions";
-import { updatePosition } from "../libs/position/updatePosition";
-import { verifyToken } from "../middlewares/auth";
+import { asyncHandler } from "../utils/asyncHandler";
+import { authRouter } from "./authRouter";
+import { configRouter } from "./configRouter";
+import { sectionRouter } from "./sectionRouter";
+import { userRouter } from "./userRouter";
+import { roleRouter } from "./roleRouter";
+import { positionRouter } from "./positionRouter";
+import { shiftRouter } from "./shiftRouter";
 
 const router = Router();
-
-const asyncHandler = (fn: (req: Request, res: Response, next: NextFunction) => Promise<void>) => 
-    (req: Request, res: Response, next: NextFunction) => {
-        Promise.resolve(fn(req, res, next)).catch(next);
-    };
 
 router.get('/', asyncHandler(async (req: Request, res: Response) => {
     res.status(200).send({
@@ -26,64 +18,26 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
     });
 }));
 
-// Auth route
-router.post('/login', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await login(req, res);
-}))
+router.use('/login', authRouter)
 
-router.use(verifyToken);
+// router.use(verifyToken);
+
 // Configuration Routes
-router.post('/config/section', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await insertSectionData(req, res, next);
-}))
-
+router.use('/config', configRouter);
 
 // Section Routes
-router.get('/section/:scaleLevel', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getSections(req, res, next);
-}))
-
-router.post('/section/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await newSection(req, res, next);
-}))
-
+router.use('/section', sectionRouter);
 
 // User Routes
-router.post('/user/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await createUser(req, res, next);
-}))
-
+router.use('/user', userRouter);
 
 // Role Routes
-router.post('/role/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await createRole(req, res, next);
-}))
-
+router.use('/role', roleRouter);
 
 // Position Routes
-router.get('/position', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getPositions(req, res, next);
-}))
-
-router.post('/position/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await createPosition(req, res, next);
-}))
-
-router.patch('/position/:positionId', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await updatePosition(req, res, next);
-}))
+router.use('/position', positionRouter)
 
 // Shift Routes
-router.get('/shift', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getShifts(req, res, next);
-}))
-
-router.post('/shift/create', asyncHandler (async (req: Request, res: Response, next: NextFunction) => {
-    await createShifts(req, res, next);
-}))
-
-router.patch('/shift/:shiftId', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await updateShift(req, res, next);
-}))
+router.use('/shift', shiftRouter);
 
 export { router };

@@ -12,7 +12,7 @@ const LoginSchema = z.object({
     password: z.string().min(8)
 });
 
-const login = async (req: Request, res: Response) => {
+const login: RequestHandler = async (req: Request, res: Response) => {
     try {
         const validatedData = LoginSchema.parse(req.body);
 

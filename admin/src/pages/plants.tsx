@@ -23,31 +23,56 @@ export function Plants() {
     const [unitSection, setUnitSection] = useState([])
 
     const getLargeSections = async () => {
-        const data = await getSectionData(5);
-        setLargeSection(prev => data)
+        try {
+            const data = await getSectionData(5);
+            setLargeSection(prev => data)
+        } catch (error) {
+            console.error(error);
+            setLargeSection([]);
+        }
     }
 
     const getMediumSection = async () => {
-        const data = await getSectionData(4);
-        setMediumSection(prev => data)
+        try {
+            const data = await getSectionData(4);
+            setMediumSection(prev => data)
+        } catch (error) {
+            console.error(error);
+            setMediumSection([]);
+        }
     }
 
 
     const getSmallSection = async () => {
-        const data = await getSectionData(3);
-        setSmallSection(prev => data)
+        try {
+            const data = await getSectionData(3);
+            setSmallSection(prev => data)
+        } catch (error) {
+            console.error(error);
+            setSmallSection([]);
+        }
     }
 
     
     const getMicroSection = async () => {
-        const data = await getSectionData(2);
-        setUnitSection(prev => data)
+        try {
+            const data = await getSectionData(2);
+            setMicroSection(prev => data)
+        } catch (error) {
+            console.error(error);
+            setMicroSection([]);
+        }
     }
 
     
     const getUnitSection = async () => {
-        const data = await getSectionData(1);
-        setMediumSection(prev => data)
+        try {
+            const data = await getSectionData(1);
+            setUnitSection(prev => data)
+        } catch (error) {
+            console.error(error);
+            setUnitSection([])
+        }
     }
 
     useEffect(() => {

@@ -14,6 +14,7 @@ const CreatePositionSchema = z.object({
 })
 
 const createPosition: RequestHandler = async (req: Request, res: Response) => {
+    console.log(req.body)
     const validatedData = CreatePositionSchema.parse(req.body);
  
     // TODO: need to check if role is created by admin

@@ -163,7 +163,6 @@ model Position {
   updatedAt       DateTime    @default(now()) @updatedAt
   responsibilities Json
   Users            User[]
-
 }
 
 model Role {
@@ -204,4 +203,16 @@ model User {
   createdBy           Int?
   Creator             User?     @relation("UserCreation", fields: [createdBy], references: [userId])
   CreatedUsers        User[]    @relation("UserCreation")
+}
+
+
+model Shift {
+  shiftId             Int       @id @default(autoincrement())
+  name                String    @db.VarChar(255)
+  startTime           String
+  endTime             String
+  isActive            Boolean   @default(true)
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }

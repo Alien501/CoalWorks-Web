@@ -259,6 +259,16 @@ exports.Prisma.UserScalarFieldEnum = {
   createdBy: 'createdBy'
 };
 
+exports.Prisma.ShiftScalarFieldEnum = {
+  shiftId: 'shiftId',
+  name: 'name',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -298,7 +308,8 @@ exports.Prisma.ModelName = {
   Position: 'Position',
   Role: 'Role',
   Permission: 'Permission',
-  User: 'User'
+  User: 'User',
+  Shift: 'Shift'
 };
 
 /**

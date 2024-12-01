@@ -55,7 +55,7 @@ const insertSectionData: RequestHandler = async (req: Request, res: Response) =>
     })
 }
 
-const LargeSectionSchema = z.object({
+const NewSectionSchema = z.object({
     name: z.string().min(1, "Name is required"),
     description: z.string().optional(),
     area: z.number().optional(),
@@ -67,7 +67,7 @@ const LargeSectionSchema = z.object({
 
 const newSection: RequestHandler = async (req: Request, res: Response) => {
     console.log(req.body)
-    const validatedData = LargeSectionSchema.parse(req.body);
+    const validatedData = NewSectionSchema.parse(req.body);
 
     const sectionType = await prisma.sectionType.findFirst({
         where: {
@@ -102,7 +102,7 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
                     name: true,
                     typeId: true
                 }
-            });        
+            });
             break;
         case 4:
             newSection = await prisma.mediumSection.create({
@@ -113,7 +113,7 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
                     typeId: sectionType?.typeId,
                     createdAt: new Date(),
                     updatedAt: new Date(),
-                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                    insiderToId: validatedData.insiderToId || undefined
                 }
             })
             break;
@@ -126,7 +126,7 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
                     typeId: sectionType?.typeId,
                     createdAt: new Date(),
                     updatedAt: new Date(),
-                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                    insiderToId: validatedData.insiderToId || undefined
                 }
             })
             break;
@@ -139,7 +139,7 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
                     typeId: sectionType?.typeId,
                     createdAt: new Date(),
                     updatedAt: new Date(),
-                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                    insiderToId: validatedData.insiderToId || undefined,
                 }
             })
             break;
@@ -152,7 +152,7 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
                     typeId: sectionType?.typeId,
                     createdAt: new Date(),
                     updatedAt: new Date(),
-                    ...(validatedData.insiderToId && { insiderToId: validatedData.insiderToId }),
+                    insiderToId: validatedData.insiderToId || undefined,
                 }
             })
             break;
@@ -162,7 +162,7 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
 
 
     res.status(201).json({
-        message: 'Large section created successfully',
+        message: 'Section created successfully',
         data: newSection,
         error: null
     });
@@ -180,9 +180,9 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
 
 //     switch (validatedData.scaleLevel) {
 //         case 4:
-            
+
 //             break;
-    
+
 //         default:
 //             break;
 //     }
@@ -195,7 +195,7 @@ const GetSectionsSchema = z.object({
 const getSections: RequestHandler = async (req: Request, res: Response) => {
     const scaleLevel = Number(req.params.scaleLevel);
 
-    const validatedData = GetSectionsSchema.parse({scaleLevel});
+    const validatedData = GetSectionsSchema.parse({ scaleLevel });
 
     let data: any[] = [];
 
@@ -225,6 +225,45 @@ const getSections: RequestHandler = async (req: Request, res: Response) => {
                 }
             })
             data = mediumSections
+            break;
+        case 3:
+            const smallSections = await prisma.smallSection.findMany({
+                select: {
+                    name: true,
+                    sectionId: true,
+                    description: true,
+                    area: true,
+                    typeId: true,
+                    insiderToId: true
+                }
+            })
+            data = smallSections
+            break;
+        case 2:
+            const microSections = await prisma.microSection.findMany({
+                select: {
+                    name: true,
+                    sectionId: true,
+                    description: true,
+                    area: true,
+                    typeId: true,
+                    insiderToId: true
+                }
+            })
+            data = microSections
+            break;
+        case 1:
+            const unitSections = await prisma.unitSection.findMany({
+                select: {
+                    name: true,
+                    unitId: true,
+                    description: true,
+                    model: true,
+                    typeId: true,
+                    insiderToId: true
+                }
+            })
+            data = unitSections
             break;
         default:
             res.status(404).json({

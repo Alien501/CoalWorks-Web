@@ -19,6 +19,8 @@ import NewMap from './pages/MapTest'
 import Positions from './pages/positions'
 import { Toaster } from 'sonner'
 import RolesAndPermission from './pages/rolesAndPermissions'
+import RoundPlan from './pages/roundePlan'
+import CreateRound from './pages/createRound'
 
 function App() {
 
@@ -38,6 +40,14 @@ function App() {
         {
           path: 'master-data',
           element: <MasterData />
+        },
+        {
+          path: '/rounds',
+          element: <RoundPlan />
+        },
+        {
+          path: '/rounds-create',
+          element: <CreateRound />
         },
         {
           path: 'master-data/shift',

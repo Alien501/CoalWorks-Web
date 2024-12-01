@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -37,46 +37,33 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import Modal from "@/components/own/Modal"
+import { addNewShift } from "@/utils/addNewShifts"
+import { getShifts } from "@/utils/getShifts"
+import { updateShiftData } from "@/utils/updateShift"
+
+const formSchema = z.object({
+  name: z.string().min(5, {
+    message: "Shift name must be at least 5 characters.",
+  }),
+  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: "Please enter a valid time in HH:MM format.",
+  }),
+  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: "Please enter a valid time in HH:MM format.",
+  }),
+})
 
 interface Shift {
-  id: string
+  shiftId: string
   name: string
   startTime: string
   endTime: string
   isActive: boolean
 }
 
-const initialShifts: Shift[] = [
-  {
-    id: "1",
-    name: 'A_India_night',
-    startTime: '19:00',
-    endTime: '06:59',
-    isActive: true,
-  },
-  {
-    id: "2",
-    name: 'B_India_mrng',
-    startTime: '07:00',
-    endTime: '18:59',
-    isActive: false,
-  },
-]
-
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Shift name must be at least 2 characters.",
-  }),
-  startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: "Please enter a valid time in HH:MM format.",
-  }),
-  endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: "Please enter a valid time in HH:MM format.",
-  }),
-})
 
 const MasterShift = () => {
-  const [shifts, setShifts] = useState<Shift[]>(initialShifts)
+  const [shifts, setShifts] = useState<Shift[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [sortColumn, setSortColumn] = useState<keyof Shift | "">("")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
@@ -90,20 +77,46 @@ const MasterShift = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const newShift: Shift = {
-      id: Date.now().toString(),
-      ...values,
-      isActive: true,
+  const fetchAndSetShifts = async () => {
+    const res = await getShifts();
+    if(res) {
+      console.log(res);
+      setShifts(prev => res);
+    }else{
+      setShifts([]);
     }
-    setShifts([...shifts, newShift])
-    form.reset()
+  }
+
+
+  useEffect(() => {
+    fetchAndSetShifts()
+  }, [])
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await addNewShift(values);
+      if(!response) {
+        return;
+      }
+      const newShift: Shift = {
+        ...response,
+        isActive: true
+      }
+      
+      setShifts([...shifts, newShift])
+      form.reset()
+    } catch (error) {
+      console.error('Error creating shift:', error)
+    }
   }
 
   const filteredShifts = shifts.filter((shift) =>
     shift.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  useEffect(() => {
+    
+  }, [shifts])
   const sortedShifts = [...filteredShifts].sort((a, b) => {
     if (!sortColumn) return 0
     const aValue = a[sortColumn]
@@ -122,10 +135,18 @@ const MasterShift = () => {
     }
   }
 
-  const toggleShiftActive = (id: string) => {
-    setShifts(shifts.map(shift => 
-      shift.id === id ? { ...shift, isActive: !shift.isActive } : shift
-    ))
+  const toggleShiftActive = async (shiftId: string) => {
+    const changeStatusRes = await updateShiftData({
+      isActive: !shifts.find(shift => shift.shiftId == shiftId)?.isActive
+    }, shiftId)
+    if(changeStatusRes) {
+      alert('Changed status successfully!')
+      setShifts(shifts.map(shift => 
+        shift.shiftId === shiftId ? { ...shift, isActive: !shift.isActive } : shift
+      ))
+    } else {
+      alert('Something went wrong while updating data!');
+    }
   }
 
   const NewShiftForm = () => {
@@ -222,16 +243,16 @@ const MasterShift = () => {
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {sortedShifts.map((shift) => (
-              <TableRow key={shift.id}>
+          <TableBody key={shifts}>
+            {shifts.map((shift) => (
+              <TableRow key={shift.shiftId}>
                 <TableCell className="font-medium">{shift.name}</TableCell>
                 <TableCell>{shift.startTime}</TableCell>
                 <TableCell>{shift.endTime}</TableCell>
                 <TableCell>
                   <Switch
                     checked={shift.isActive}
-                    onCheckedChange={() => toggleShiftActive(shift.id)}
+                    onCheckedChange={() => toggleShiftActive(shift.shiftId)}
                   />
                 </TableCell>
                 <TableCell className="text-right">
@@ -260,4 +281,4 @@ const MasterShift = () => {
   )
 }
 
-export default MasterShift;
+export default MasterShift

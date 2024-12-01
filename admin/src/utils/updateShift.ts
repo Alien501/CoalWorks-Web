@@ -1,6 +1,6 @@
 const updateShiftData = async (data, shiftId) => {
     try {
-        const res = await fetch(`http://localhost:3000/api/v1/shift/${shiftId}`, {
+        const res = await fetch(`/api/data/shift/${shiftId}`, {
             headers: {
                 'Content-type': "application/json"
             },

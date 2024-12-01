@@ -9,6 +9,7 @@ import { updateShift } from "../libs/shifts/upadteShift";
 import { login } from "../libs/auth/login";
 import { getPositions } from "../libs/position/getPositions";
 import { updatePosition } from "../libs/position/updatePosition";
+import { verifyToken } from "../middlewares/auth";
 
 const router = Router();
 
@@ -25,6 +26,12 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
     });
 }));
 
+// Auth route
+router.post('/login', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await login(req, res);
+}))
+
+router.use(verifyToken);
 // Configuration Routes
 router.post('/config/section', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await insertSectionData(req, res, next);
@@ -77,11 +84,6 @@ router.post('/shift/create', asyncHandler (async (req: Request, res: Response, n
 
 router.patch('/shift/:shiftId', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await updateShift(req, res, next);
-}))
-
-// Auth route
-router.post('/login', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await login(req, res);
 }))
 
 export { router };

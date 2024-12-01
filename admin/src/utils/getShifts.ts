@@ -1,6 +1,6 @@
 const getShifts = async () => {
     try {
-        const res = await fetch('http://localhost:3000/api/v1/shift');
+        const res = await fetch('/api/data/shift');
         if(res.ok) {
             const d = await res.json()
             return d.data

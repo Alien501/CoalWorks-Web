@@ -1,6 +1,6 @@
 const addNewShift = async (data) => {
     try {
-        const res = await fetch('http://localhost:3000/api/v1/shift/create', {
+        const res = await fetch('/api/data/shift/create', {
             headers: {
                 'Content-type': 'application/json'
             },

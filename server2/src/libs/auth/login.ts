@@ -3,6 +3,7 @@ import { Request, RequestHandler, Response } from 'express';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
+import { generateJwtToken } from '../../middlewares/auth';
 
 const prisma = new PrismaClient();
 
@@ -26,13 +27,6 @@ const login = async (req: Request, res: Response) => {
             });
         }
 
-        // if (!user.isActive) {
-        //     return res.status(403).json({ 
-        //         error: 'Account is inactive',
-        //         success: false 
-        //     });
-        // }
-
         const isPasswordValid = await bcrypt.compare(
             validatedData.password, 
             user.passwordHash
@@ -47,16 +41,17 @@ const login = async (req: Request, res: Response) => {
 
         await prisma.user.update({
             where: { userId: user.userId },
-            data: { lastLogin: new Date() }
+            data: { lastLogin: new Date(), isActive: true }
         });
 
         const { passwordHash, salt, createdAt, updatedAt, createdBy, ...userWithoutSensitiveData } = user;
 
-        // const token = generateAuthToken(user);
+        const token = generateJwtToken(userWithoutSensitiveData);
 
         return res.status(200).json({
             success: true,
-            user: userWithoutSensitiveData
+            user: userWithoutSensitiveData,
+            token: token
         });
 
     } catch (error) {

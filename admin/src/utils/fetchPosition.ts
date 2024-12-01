@@ -1,6 +1,6 @@
 const fetchPositions = async () => {
     try {
-        const res = await fetch('http://localhost:3000/api/v1/position')
+        const res = await fetch('/api/data/position')
         if(res.ok) {
             const d = await res.json();
             return d.data;

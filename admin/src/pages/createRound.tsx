@@ -32,6 +32,7 @@ import {
 import { useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { fetchAssets } from "@/utils/fetchAssets";
 
 
 const CreateRound = () => {
@@ -77,8 +78,10 @@ const CreateRound = () => {
     const [roundDescription, setRoundDescription] = useState("Round Description")
     const [isRoundDetailsDialogOpen, setIsRounDetailsDialogOpen] = useState(false)
     const [formDataSubmitted, setFormDataSubmitted] = useState(false)
-    const [locations, setLocations] = useState([])
-    const [checkedLocations, setCheckedLocations] = useState<string[]>([])
+    const [locations, setLocations] = useState([]);
+    const [assets, setAssets] = useState([]);
+    const [checkedLocations, setCheckedLocations] = useState<string[]>([]);
+    const [checkedAssetss, setCheckedAssets] = useState<string[]>([]);
     const [roundDetails, setRoundDetails] = useState<Section[]>([])
     const [planDetails, setPlanDetails] = useState<PlanDetails | null>(null)
 
@@ -97,15 +100,32 @@ const CreateRound = () => {
     }
 
 
-    const handleCheckLocation = (location: Location) => {
-        setCheckedLocations(prev =>
-            prev.some(loc => loc.id === location.sectionId)
-                ? prev.filter(loc => loc.id !== location.sectionId)
-                : [...prev, { id: location.sectionId, name: location.name }]
-        )
+    const handleCheckLocation = (location: {id: string | number, name: string}) => {
+        setCheckedLocations(prev => {
+            const isAlreadyChecked = prev.some(loc => loc.id === location.id);
+            if (isAlreadyChecked) {
+                return prev.filter(loc => loc.id !== location.id);
+            } else {
+                return [...prev, { id: location.id, name: location.name }];
+            }
+        });
+    }
+
+    const handleCheckAssets = (asset: {id: string | number, name: string}) => {
+        setCheckedAssets(prev => {
+            const isAlreadyChecked = prev.some(a => a.id === asset.id);
+            if (isAlreadyChecked) {
+                return prev.filter(a => a.id !== asset.id);
+            } else {
+                return [...prev, { id: asset.id, name: asset.name }];
+            }
+        });
     }
 
     const checkedLocationsText = checkedLocations
+        .map(loc => `${loc.name} (ID: ${loc.id})`)
+        .join(', ')
+    const checkedAssetsText = checkedAssetss
         .map(loc => `${loc.name} (ID: ${loc.id})`)
         .join(', ')
 
@@ -118,18 +138,26 @@ const CreateRound = () => {
         attachments: [] as File[]
     })
 
+    const getWorkAreas = async () => {
+        const res = await fetch("/api/data/section")
+        if (res.ok) {
+            const data = await res.json()
+            setWorkArea(prev => data.data);
+        } else {
+            setWorkArea([])
+        }
+    }
+
+    const getAssets = async () => {
+        const res = await fetchAssets();
+        if (!res) {
+            setAssets([]);
+        }
+        setAssets(prev => res);
+    }
 
     useEffect(() => {
-        async function getWorkAreas() {
-            const res = await fetch("/api/data/section")
-            if(res.ok) {
-                const data = await res.json()
-                setWorkArea(prev => data.data);
-            }else{
-                setWorkArea([])
-            }
-        }
-        getWorkAreas();
+        getWorkAreas().then(async () => getAssets());
     }, [])
 
     useEffect(() => {
@@ -276,7 +304,7 @@ const CreateRound = () => {
                                         <Label>Work Area</Label>
                                         <Select
                                             onValueChange={(value) => {
-                                                console.log(workArea[value-1].name)
+                                                console.log(workArea[value - 1].name)
                                                 setSelectedWorkArea(workArea[Number(value) - 1].name)
                                                 setFormData(prev => ({ ...prev, workArea: workArea[Number(value) - 1].name, workAreaId: workArea[Number(value - 1)].id }))
                                             }}
@@ -417,7 +445,7 @@ const CreateRound = () => {
                                 <div className="space-y-2">
                                     {/* Repeat this block for each location/asset */}
                                     <ScrollArea className="h-[300px] w-full rounded-md border">
-                                        {locations.map((item) => (
+                                        {workArea.map((item) => (
                                             <div key={item.id} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
                                                 <div className="flex items-center space-x-3">
                                                     <Checkbox
@@ -444,9 +472,36 @@ const CreateRound = () => {
                                                 </div>
                                             </div>
                                         ))}
+                                        {assets.map((item) => (
+                                            <div key={item.id} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
+                                                <div className="flex items-center space-x-3">
+                                                    <Checkbox
+                                                        checked={checkedLocations.some(loc => loc.id === item.id)}
+                                                        onCheckedChange={() => handleCheckAssets(item)}
+                                                        id={`asset-${item.id}`}
+                                                    />
+                                                    <label
+                                                        htmlFor={`asset-${item.id}`}
+                                                        className="flex items-center space-x-3 cursor-pointer"
+                                                    >
+                                                        <MapPin className="text-primary h-5 w-5" />
+                                                        <div>
+                                                            <p className="font-medium">{item.name}</p>
+                                                            <p className="text-xs text-muted-foreground">ID: {item.id}</p>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <Button size="sm" variant="ghost">
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                        <span className="sr-only">More options</span>
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </ScrollArea>
                                     <Textarea
-                                        value={checkedLocationsText}
+                                        value={checkedLocationsText + (checkedLocationsText && checkedAssetsText ? ', ' : '') + checkedAssetsText}
                                         readOnly
                                         placeholder="Selected locations will appear here"
                                         className="w-full h-24"

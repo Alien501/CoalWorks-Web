@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { addAsset } from "../libs/asset/addAsset";
+import { getAssets } from "../libs/asset/getAssets";
 
 const assetRouter = Router();
 
 assetRouter.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({
-        hi: "hio"
-    })
+    await getAssets(req, res, next);
 }))
 
 assetRouter.post('/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {

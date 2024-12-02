@@ -151,6 +151,7 @@ const CreateRound = () => {
     const getAssets = async () => {
         const res = await fetchAssets();
         if (!res) {
+            console.log('here')
             setAssets([]);
         }
         setAssets(prev => res);

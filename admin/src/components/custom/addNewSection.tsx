@@ -107,7 +107,7 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
       return
     }
     try {
-      const res = await fetch('/api/data/section/create', {
+      const res = await fetch('/api/create', {
         headers: {
           'Content-type': 'application/json'
         },

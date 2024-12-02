@@ -78,9 +78,7 @@ const CreateRound = () => {
     const [roundDescription, setRoundDescription] = useState("Round Description")
     const [isRoundDetailsDialogOpen, setIsRounDetailsDialogOpen] = useState(false)
     const [formDataSubmitted, setFormDataSubmitted] = useState(false)
-    const [locations, setLocations] = useState([]);
     const [assets, setAssets] = useState([]);
-    const [checkedLocations, setCheckedLocations] = useState<string[]>([]);
     const [checkedAssetss, setCheckedAssets] = useState<string[]>([]);
     const [roundDetails, setRoundDetails] = useState<Section[]>([])
     const [planDetails, setPlanDetails] = useState<PlanDetails | null>(null)
@@ -100,18 +98,7 @@ const CreateRound = () => {
     }
 
 
-    const handleCheckLocation = (location: {id: string | number, name: string}) => {
-        setCheckedLocations(prev => {
-            const isAlreadyChecked = prev.some(loc => loc.id === location.id);
-            if (isAlreadyChecked) {
-                return prev.filter(loc => loc.id !== location.id);
-            } else {
-                return [...prev, { id: location.id, name: location.name }];
-            }
-        });
-    }
-
-    const handleCheckAssets = (asset: {id: string | number, name: string}) => {
+    const handleCheckAssets = (asset: { id: string | number, name: string }) => {
         setCheckedAssets(prev => {
             const isAlreadyChecked = prev.some(a => a.id === asset.id);
             if (isAlreadyChecked) {
@@ -122,58 +109,29 @@ const CreateRound = () => {
         });
     }
 
-    const checkedLocationsText = checkedLocations
-        .map(loc => `${loc.name} (ID: ${loc.id})`)
-        .join(', ')
-    const checkedAssetsText = checkedAssetss
-        .map(loc => `${loc.name} (ID: ${loc.id})`)
-        .join(', ')
-
     const [formData, setFormData] = useState({
         planName: '',
         planDescription: '',
-        workArea: '',
         notes: '',
-        workAreaId: '',
         attachments: [] as File[]
     })
 
-    const getWorkAreas = async () => {
-        const res = await fetch("/api/data/section")
-        if (res.ok) {
-            const data = await res.json()
-            setWorkArea(prev => data.data);
-        } else {
-            setWorkArea([])
-        }
-    }
-
-    const getAssets = async () => {
-        const res = await fetchAssets();
-        if (!res) {
-            setAssets([]);
-        }
-        setAssets(prev => res);
-    }
-
-    useEffect(() => {
-        getWorkAreas().then(async () => getAssets());
-    }, [])
-
-    useEffect(() => {
-        console.log(sections)
-    }, [sections])
-
     useEffect(() => {
         async function getSections() {
-            const planDetail = JSON.parse(localStorage.getItem("planDetail"))
-            if (planDetail && (planDetail.workAreaId > 0)) {
-                const res = await axios.get("http://localhost:3000/api/v1/section/" + planDetail?.workAreaId)
-                setLocations([...res.data.data])
-            }
+            const res = await fetch("api/data/section")
+            const data = res.json();
+            setSections(data)
         }
+
+        async function getAssets() {
+            const res = await axios.get("api/data/asset");
+            const data = res.data;
+            setAssets(data);
+        }
+
+        getAssets();
         getSections();
-    }, [formDataSubmitted])
+    }, [])
 
     useEffect(() => {
         const storedRoundDetails = localStorage.getItem('roundDetail')
@@ -299,27 +257,6 @@ const CreateRound = () => {
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="flex justify-between space-x-2">
-                                    <div className="w-full">
-                                        <Label>Work Area</Label>
-                                        <Select
-                                            onValueChange={(value) => {
-                                                console.log(workArea[value - 1].name)
-                                                setSelectedWorkArea(workArea[Number(value) - 1].name)
-                                                setFormData(prev => ({ ...prev, workArea: workArea[Number(value) - 1].name, workAreaId: workArea[Number(value - 1)].id }))
-                                            }}
-                                        >
-                                            <SelectTrigger>{selectedWorkArea}</SelectTrigger>
-                                            <SelectContent>
-                                                {
-                                                    workArea.map(wa => (
-                                                        <SelectItem value={wa.id}>{wa.name}</SelectItem>
-                                                    ))
-                                                }
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                </div>
                                 <div>
                                     <Label htmlFor="notes">Notes And Attachments</Label>
                                     <Textarea
@@ -432,7 +369,7 @@ const CreateRound = () => {
                     <div className="grid grid-cols-[30%_70%] gap-6 h-full ">
                         <Card className="shadow-md">
                             <CardHeader className="flex flex-row justify-between items-center">
-                                <h3 className="text-lg font-semibold">Locations/Assets</h3>
+                                <h3 className="text-lg font-semibold">Assets</h3>
                                 <div className="flex items-center space-x-2">
                                     <Button variant="ghost" size="sm"><PlusIcon className="h-4 w-4" /></Button>
                                 </div>
@@ -444,66 +381,51 @@ const CreateRound = () => {
                                 />
                                 <div className="space-y-2">
                                     {/* Repeat this block for each location/asset */}
-                                    <ScrollArea className="h-[300px] w-full rounded-md border">
-                                        {workArea.map((item) => (
-                                            <div key={item.id} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
-                                                <div className="flex items-center space-x-3">
-                                                    <Checkbox
-                                                        checked={checkedLocations.some(loc => loc.id === item.id)}
-                                                        onCheckedChange={() => handleCheckLocation(item)}
-                                                        id={`location-${item.id}`}
-                                                    />
-                                                    <label
-                                                        htmlFor={`location-${item.id}`}
-                                                        className="flex items-center space-x-3 cursor-pointer"
-                                                    >
-                                                        <MapPin className="text-primary h-5 w-5" />
-                                                        <div>
-                                                            <p className="font-medium">{item.name}</p>
-                                                            <p className="text-xs text-muted-foreground">ID: {item.id}</p>
-                                                        </div>
-                                                    </label>
+                                    <ScrollArea className="h-[300px] w-full mx-1 rounded-md border px-3">
+                                        {assets?.map((item) => (
+                                            <div key={item.id} className="flex flex-col p-2 bg-accent rounded-md m-2">
+                                                {/* Asset Details */}
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center space-x-3">
+                                                        <Checkbox
+                                                            // checked={checkedLocations.some((loc) => loc.id === item.id)}
+                                                            onCheckedChange={() => handleCheckAssets(item)}
+                                                            id={`asset-${item.id}`}
+                                                        />
+                                                        <label
+                                                            htmlFor={`asset-${item.id}`}
+                                                            className="flex items-center space-x-3 cursor-pointer"
+                                                        >
+                                                            <MapPin className="text-primary h-5 w-5" />
+                                                            <div>
+                                                                <p className="font-medium">{item.name}</p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    Type: {item.type.name}
+                                                                </p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    Section: {item.section.name} (Area: {item.section.area} sqm)
+                                                                </p>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Button size="sm" variant="ghost">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                            <span className="sr-only">More options</span>
+                                                        </Button>
+                                                    </div>
                                                 </div>
-                                                <div className="flex items-center space-x-2">
-                                                    <Button size="sm" variant="ghost">
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        <span className="sr-only">More options</span>
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {assets.map((item) => (
-                                            <div key={item.id} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
-                                                <div className="flex items-center space-x-3">
-                                                    <Checkbox
-                                                        checked={checkedLocations.some(loc => loc.id === item.id)}
-                                                        onCheckedChange={() => handleCheckAssets(item)}
-                                                        id={`asset-${item.id}`}
-                                                    />
-                                                    <label
-                                                        htmlFor={`asset-${item.id}`}
-                                                        className="flex items-center space-x-3 cursor-pointer"
-                                                    >
-                                                        <MapPin className="text-primary h-5 w-5" />
-                                                        <div>
-                                                            <p className="font-medium">{item.name}</p>
-                                                            <p className="text-xs text-muted-foreground">ID: {item.id}</p>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                                <div className="flex items-center space-x-2">
-                                                    <Button size="sm" variant="ghost">
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        <span className="sr-only">More options</span>
-                                                    </Button>
+                                                {/* Asset Description */}
+                                                <div className="mt-2 text-sm text-muted-foreground">
+                                                    {item.description}
                                                 </div>
                                             </div>
                                         ))}
                                     </ScrollArea>
+
                                     <Textarea
-                                        value={checkedLocationsText + (checkedLocationsText && checkedAssetsText ? ', ' : '') + checkedAssetsText}
                                         readOnly
-                                        placeholder="Selected locations will appear here"
+                                        placeholder="Selected assets will appear here"
                                         className="w-full h-24"
                                     />
                                     {/* Repeat ends */}
@@ -521,205 +443,206 @@ const CreateRound = () => {
                                         <Button variant="outline" onClick={() => onAddSection()}>Add sections</Button>
                                     </div>
                                 ) : (
-                                    <div className="space-y-4">
-                                        {sections?.map((item: any, index: number) => (
-                                            <div key={index} className="border rounded-md p-4">
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <div className="text-md font-semibold flex space-x-2 justify-center items-center">
-                                                        <span>{item.name}</span>
-                                                        <Dialog open={isEditSectionDialogOpen} onOpenChange={setIsEditSectionDialogOpen}>
-                                                            <DialogTrigger asChild>
-                                                                <span className="cursor-pointer p-2 hover:bg-secondary rounded-md"><Pencil size={15}></Pencil></span>
-                                                            </DialogTrigger>
-                                                            <DialogContent className="sm:max-w-[425px]">
-                                                                <DialogHeader>
-                                                                    <DialogTitle>Edit Section Name</DialogTitle>
-                                                                    {/* <DialogDescription>
-                                                                        Make changes to your profile here. Click save when you're done.
-                                                                    </DialogDescription> */}
-                                                                </DialogHeader>
-                                                                <div className="grid gap-4 py-4">
-                                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                                        <Label htmlFor="name" className="text-right text-nowrap">
-                                                                            Section Name
-                                                                        </Label>
-                                                                        <Input
-                                                                            id="name"
-                                                                            className="col-span-3"
-                                                                            onChange={(e) => setSectionName(e.target.value)}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-                                                                <DialogFooter>
-                                                                    <Button onClick={() => onEditSection(index)}>Save changes</Button>
-                                                                </DialogFooter>
-                                                            </DialogContent>
-                                                        </Dialog>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                                                            <DialogTrigger asChild>
-                                                                <Button variant="outline">Add Tasks</Button>
-                                                            </DialogTrigger>
-                                                            <DialogContent className="sm:max-w-[500px]">
-                                                                <DialogHeader>
-                                                                    <DialogTitle>Create a Task</DialogTitle>
-                                                                </DialogHeader>
-                                                                <div className="grid gap-4 py-4">
-                                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                                        <Label htmlFor="name" className="text-right">Task Name</Label>
-                                                                        <Input
-                                                                            id="name"
-                                                                            className="col-span-3"
-                                                                            onChange={(e) => setTaskName(e.target.value)}
-                                                                        />
-                                                                    </div>
-                                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                                        <Label htmlFor="description" className="text-right">Task Description</Label>
-                                                                        <Input
-                                                                            id="description"
-                                                                            className="col-span-3"
-                                                                            onChange={(e) => setTaskDescription(e.target.value)}
-                                                                        />
-                                                                    </div>
-                                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                                        <Label htmlFor="response_type" className="text-right">Response Type</Label>
-                                                                        <DropdownMenu>
-                                                                            <DropdownMenuTrigger asChild>
-                                                                                <Button variant="outline">
-                                                                                    {responseType[0].toUpperCase() + responseType.slice(1)}
-                                                                                </Button>
-                                                                            </DropdownMenuTrigger>
-                                                                            <DropdownMenuContent className="w-56">
-                                                                                <DropdownMenuLabel>Set the response type</DropdownMenuLabel>
-                                                                                <DropdownMenuSeparator />
-                                                                                <DropdownMenuRadioGroup value={responseType} onValueChange={setResponseType}>
-                                                                                    <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
-                                                                                    <DropdownMenuRadioItem value="image">Image</DropdownMenuRadioItem>
-                                                                                </DropdownMenuRadioGroup>
-                                                                            </DropdownMenuContent>
-                                                                        </DropdownMenu>
-                                                                    </div>
-                                                                </div>
-                                                                <DialogFooter>
-                                                                    <Button onClick={() => onAddTask(index)}>Save</Button>
-                                                                </DialogFooter>
-                                                            </DialogContent>
-                                                        </Dialog>
+                                    // <div className="space-y-4">
+                                    //     {sections?.map((item: any, index: number) => (
+                                    //         <div key={index} className="border rounded-md p-4">
+                                    //             <div className="flex justify-between items-center mb-2">
+                                    //                 <div className="text-md font-semibold flex space-x-2 justify-center items-center">
+                                    //                     <span>{item.name}</span>
+                                    //                     <Dialog open={isEditSectionDialogOpen} onOpenChange={setIsEditSectionDialogOpen}>
+                                    //                         <DialogTrigger asChild>
+                                    //                             <span className="cursor-pointer p-2 hover:bg-secondary rounded-md"><Pencil size={15}></Pencil></span>
+                                    //                         </DialogTrigger>
+                                    //                         <DialogContent className="sm:max-w-[425px]">
+                                    //                             <DialogHeader>
+                                    //                                 <DialogTitle>Edit Section Name</DialogTitle>
+                                    //                                 {/* <DialogDescription>
+                                    //                                     Make changes to your profile here. Click save when you're done.
+                                    //                                 </DialogDescription> */}
+                                    //                             </DialogHeader>
+                                    //                             <div className="grid gap-4 py-4">
+                                    //                                 <div className="grid grid-cols-4 items-center gap-4">
+                                    //                                     <Label htmlFor="name" className="text-right text-nowrap">
+                                    //                                         Section Name
+                                    //                                     </Label>
+                                    //                                     <Input
+                                    //                                         id="name"
+                                    //                                         className="col-span-3"
+                                    //                                         onChange={(e) => setSectionName(e.target.value)}
+                                    //                                     />
+                                    //                                 </div>
+                                    //                             </div>
+                                    //                             <DialogFooter>
+                                    //                                 <Button onClick={() => onEditSection(index)}>Save changes</Button>
+                                    //                             </DialogFooter>
+                                    //                         </DialogContent>
+                                    //                     </Dialog>
+                                    //                 </div>
+                                    //                 <div className="flex items-center space-x-2">
+                                    //                     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                    //                         <DialogTrigger asChild>
+                                    //                             <Button variant="outline">Add Tasks</Button>
+                                    //                         </DialogTrigger>
+                                    //                         <DialogContent className="sm:max-w-[500px]">
+                                    //                             <DialogHeader>
+                                    //                                 <DialogTitle>Create a Task</DialogTitle>
+                                    //                             </DialogHeader>
+                                    //                             <div className="grid gap-4 py-4">
+                                    //                                 <div className="grid grid-cols-4 items-center gap-4">
+                                    //                                     <Label htmlFor="name" className="text-right">Task Name</Label>
+                                    //                                     <Input
+                                    //                                         id="name"
+                                    //                                         className="col-span-3"
+                                    //                                         onChange={(e) => setTaskName(e.target.value)}
+                                    //                                     />
+                                    //                                 </div>
+                                    //                                 <div className="grid grid-cols-4 items-center gap-4">
+                                    //                                     <Label htmlFor="description" className="text-right">Task Description</Label>
+                                    //                                     <Input
+                                    //                                         id="description"
+                                    //                                         className="col-span-3"
+                                    //                                         onChange={(e) => setTaskDescription(e.target.value)}
+                                    //                                     />
+                                    //                                 </div>
+                                    //                                 <div className="grid grid-cols-4 items-center gap-4">
+                                    //                                     <Label htmlFor="response_type" className="text-right">Response Type</Label>
+                                    //                                     <DropdownMenu>
+                                    //                                         <DropdownMenuTrigger asChild>
+                                    //                                             <Button variant="outline">
+                                    //                                                 {responseType[0].toUpperCase() + responseType.slice(1)}
+                                    //                                             </Button>
+                                    //                                         </DropdownMenuTrigger>
+                                    //                                         <DropdownMenuContent className="w-56">
+                                    //                                             <DropdownMenuLabel>Set the response type</DropdownMenuLabel>
+                                    //                                             <DropdownMenuSeparator />
+                                    //                                             <DropdownMenuRadioGroup value={responseType} onValueChange={setResponseType}>
+                                    //                                                 <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
+                                    //                                                 <DropdownMenuRadioItem value="image">Image</DropdownMenuRadioItem>
+                                    //                                             </DropdownMenuRadioGroup>
+                                    //                                         </DropdownMenuContent>
+                                    //                                     </DropdownMenu>
+                                    //                                 </div>
+                                    //                             </div>
+                                    //                             <DialogFooter>
+                                    //                                 <Button onClick={() => onAddTask(index)}>Save</Button>
+                                    //                             </DialogFooter>
+                                    //                         </DialogContent>
+                                    //                     </Dialog>
 
-                                                        <Dialog open={isQuestionDialogOpen} onOpenChange={setIsQuestionDialogOpen}>
-                                                            <DialogTrigger asChild>
-                                                                <Button variant="outline">Create Question</Button>
-                                                            </DialogTrigger>
-                                                            <DialogContent className="sm:max-w-[500px]">
-                                                                <DialogHeader>
-                                                                    <DialogTitle>Create a Question</DialogTitle>
-                                                                </DialogHeader>
-                                                                <div className="grid gap-4 py-4">
-                                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                                        <Label htmlFor="name" className="text-right">Title</Label>
-                                                                        <Input
-                                                                            id="name"
-                                                                            className="col-span-3"
-                                                                            onChange={(e) => setQuestionName(e.target.value)}
-                                                                        />
-                                                                    </div>
-                                                                    <div className="grid grid-cols-4 items-center gap-4">
-                                                                        <Label htmlFor="question_response_type" className="text-right text-wrap">Response Type</Label>
-                                                                        <DropdownMenu>
-                                                                            <DropdownMenuTrigger asChild>
-                                                                                <Button variant="outline">
-                                                                                    {questionResponseType[0].toUpperCase() + questionResponseType.slice(1)}
-                                                                                </Button>
-                                                                            </DropdownMenuTrigger>
-                                                                            <DropdownMenuContent className="w-56">
-                                                                                <DropdownMenuLabel>Set the response type</DropdownMenuLabel>
-                                                                                <DropdownMenuSeparator />
-                                                                                <DropdownMenuRadioGroup value={questionResponseType} onValueChange={setQuestionResponseType}>
-                                                                                    <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
-                                                                                    <DropdownMenuRadioItem value="image">Image</DropdownMenuRadioItem>
-                                                                                </DropdownMenuRadioGroup>
-                                                                            </DropdownMenuContent>
-                                                                        </DropdownMenu>
-                                                                    </div>
-                                                                </div>
-                                                                <DialogFooter>
-                                                                    <Button onClick={() => onAddQuestion(index)}>Save</Button>
-                                                                </DialogFooter>
-                                                            </DialogContent>
-                                                        </Dialog>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() => toggleSection(index)}
-                                                        >
-                                                            {expandedSection === index ? (
-                                                                <CircleChevronUp className="h-4 w-4" />
-                                                            ) : (
-                                                                <CircleChevronDown className="h-4 w-4" />
-                                                            )}
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                                {expandedSection === index && (
-                                                    <div className="pl-4">
-                                                        <h3 className="font-semibold text-2xl mb-4">
-                                                            Tasks
-                                                        </h3>
-                                                        {item.tasks.length > 0 ? (
-                                                            <ul className="space-y-2">
-                                                                {item.tasks.map((task: any, taskIndex: number) => (
-                                                                    <li key={taskIndex} className="flex items-start space-x-2">
-                                                                        <div className="mt-1">
-                                                                            {task.responseType === 'text' ? (
-                                                                                <FileTextIcon className="h-4 w-4 text-blue-500" />
-                                                                            ) : (
-                                                                                <ImageIcon className="h-4 w-4 text-green-500" />
-                                                                            )}
-                                                                        </div>
-                                                                        <div>
-                                                                            <p className="font-medium">{task.name}</p>
-                                                                            <p className="text-sm text-muted-foreground">{task.description}</p>
-                                                                        </div>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        ) : (
-                                                            <p className="text-sm text-muted-foreground">No tasks available.</p>
-                                                        )}
+                                    //                     <Dialog open={isQuestionDialogOpen} onOpenChange={setIsQuestionDialogOpen}>
+                                    //                         <DialogTrigger asChild>
+                                    //                             <Button variant="outline">Create Question</Button>
+                                    //                         </DialogTrigger>
+                                    //                         <DialogContent className="sm:max-w-[500px]">
+                                    //                             <DialogHeader>
+                                    //                                 <DialogTitle>Create a Question</DialogTitle>
+                                    //                             </DialogHeader>
+                                    //                             <div className="grid gap-4 py-4">
+                                    //                                 <div className="grid grid-cols-4 items-center gap-4">
+                                    //                                     <Label htmlFor="name" className="text-right">Title</Label>
+                                    //                                     <Input
+                                    //                                         id="name"
+                                    //                                         className="col-span-3"
+                                    //                                         onChange={(e) => setQuestionName(e.target.value)}
+                                    //                                     />
+                                    //                                 </div>
+                                    //                                 <div className="grid grid-cols-4 items-center gap-4">
+                                    //                                     <Label htmlFor="question_response_type" className="text-right text-wrap">Response Type</Label>
+                                    //                                     <DropdownMenu>
+                                    //                                         <DropdownMenuTrigger asChild>
+                                    //                                             <Button variant="outline">
+                                    //                                                 {questionResponseType[0].toUpperCase() + questionResponseType.slice(1)}
+                                    //                                             </Button>
+                                    //                                         </DropdownMenuTrigger>
+                                    //                                         <DropdownMenuContent className="w-56">
+                                    //                                             <DropdownMenuLabel>Set the response type</DropdownMenuLabel>
+                                    //                                             <DropdownMenuSeparator />
+                                    //                                             <DropdownMenuRadioGroup value={questionResponseType} onValueChange={setQuestionResponseType}>
+                                    //                                                 <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
+                                    //                                                 <DropdownMenuRadioItem value="image">Image</DropdownMenuRadioItem>
+                                    //                                             </DropdownMenuRadioGroup>
+                                    //                                         </DropdownMenuContent>
+                                    //                                     </DropdownMenu>
+                                    //                                 </div>
+                                    //                             </div>
+                                    //                             <DialogFooter>
+                                    //                                 <Button onClick={() => onAddQuestion(index)}>Save</Button>
+                                    //                             </DialogFooter>
+                                    //                         </DialogContent>
+                                    //                     </Dialog>
+                                    //                     <Button
+                                    //                         variant="ghost"
+                                    //                         size="sm"
+                                    //                         onClick={() => toggleSection(index)}
+                                    //                     >
+                                    //                         {expandedSection === index ? (
+                                    //                             <CircleChevronUp className="h-4 w-4" />
+                                    //                         ) : (
+                                    //                             <CircleChevronDown className="h-4 w-4" />
+                                    //                         )}
+                                    //                     </Button>
+                                    //                 </div>
+                                    //             </div>
+                                    //             {expandedSection === index && (
+                                    //                 <div className="pl-4">
+                                    //                     <h3 className="font-semibold text-2xl mb-4">
+                                    //                         Tasks
+                                    //                     </h3>
+                                    //                     {item.tasks.length > 0 ? (
+                                    //                         <ul className="space-y-2">
+                                    //                             {item.tasks.map((task: any, taskIndex: number) => (
+                                    //                                 <li key={taskIndex} className="flex items-start space-x-2">
+                                    //                                     <div className="mt-1">
+                                    //                                         {task.responseType === 'text' ? (
+                                    //                                             <FileTextIcon className="h-4 w-4 text-blue-500" />
+                                    //                                         ) : (
+                                    //                                             <ImageIcon className="h-4 w-4 text-green-500" />
+                                    //                                         )}
+                                    //                                     </div>
+                                    //                                     <div>
+                                    //                                         <p className="font-medium">{task.name}</p>
+                                    //                                         <p className="text-sm text-muted-foreground">{task.description}</p>
+                                    //                                     </div>
+                                    //                                 </li>
+                                    //                             ))}
+                                    //                         </ul>
+                                    //                     ) : (
+                                    //                         <p className="text-sm text-muted-foreground">No tasks available.</p>
+                                    //                     )}
 
-                                                        <h3 className="font-semibold text-2xl mb-4 mt-4 ">
-                                                            Questions
-                                                        </h3>
+                                    //                     <h3 className="font-semibold text-2xl mb-4 mt-4 ">
+                                    //                         Questions
+                                    //                     </h3>
 
-                                                        {item.questions.length > 0 ? (
-                                                            <ul className="space-y-2">
-                                                                {item.questions.map((question: any, index: number) => (
-                                                                    <li key={index} className="flex items-start space-x-2">
-                                                                        <div className="mt-1">
-                                                                            {question.responseType === 'text' ? (
-                                                                                <FileTextIcon className="h-4 w-4 text-blue-500" />
-                                                                            ) : (
-                                                                                <ImageIcon className="h-4 w-4 text-green-500" />
-                                                                            )}
-                                                                        </div>
-                                                                        <div>
-                                                                            <p className="font-medium">{question.name}</p>
-                                                                        </div>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        ) : (
-                                                            <p className="text-sm text-muted-foreground">No tasks available.</p>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                        <div className="flex justify-center items-center">
-                                            <Button variant={"outline"} onClick={() => onAddSection()}>Add Section</Button>
-                                        </div>
-                                    </div>
+                                    //                     {item.questions.length > 0 ? (
+                                    //                         <ul className="space-y-2">
+                                    //                             {item.questions.map((question: any, index: number) => (
+                                    //                                 <li key={index} className="flex items-start space-x-2">
+                                    //                                     <div className="mt-1">
+                                    //                                         {question.responseType === 'text' ? (
+                                    //                                             <FileTextIcon className="h-4 w-4 text-blue-500" />
+                                    //                                         ) : (
+                                    //                                             <ImageIcon className="h-4 w-4 text-green-500" />
+                                    //                                         )}
+                                    //                                     </div>
+                                    //                                     <div>
+                                    //                                         <p className="font-medium">{question.name}</p>
+                                    //                                     </div>
+                                    //                                 </li>
+                                    //                             ))}
+                                    //                         </ul>
+                                    //                     ) : (
+                                    //                         <p className="text-sm text-muted-foreground">No tasks available.</p>
+                                    //                     )}
+                                    //                 </div>
+                                    //             )}
+                                    //         </div>
+                                    //     ))}
+                                    //     <div className="flex justify-center items-center">
+                                    //         <Button variant={"outline"} onClick={() => onAddSection()}>Add Section</Button>
+                                    //     </div>
+                                    // </div>
+                                    null
                                 )}
                             </CardContent>
                         </Card>

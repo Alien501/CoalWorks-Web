@@ -5,7 +5,7 @@ const submitNewShift = async (data) => {
   console.log(data)
   try{
     const res = await axios.post(
-                  'http://localhost:3000/api/v1/shift/create',
+                  '/api/data/shift/create',
                   data = {
                     ...data
                   });
@@ -30,7 +30,7 @@ const editShift = async (shift_id, date, supervisorId, shiftStatus, startTime, e
       console.log(data);
 
       const res = await axios.put(
-          `http://localhost:3000/api/v1/shift/update/${shift_id}`,
+          `/api/data/shift/update/${shift_id}`,
           data
       );
       console.log(res)

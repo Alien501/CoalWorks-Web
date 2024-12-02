@@ -169,26 +169,6 @@ const newSection: RequestHandler = async (req: Request, res: Response) => {
     error: null,
   });
 };
-// TODO: Merge both function to create a genereic one
-// const NewSectioionSchema = z.object({
-//     scaleLevel: z.number(),
-//     name: z.string(),
-//     description: z.string(),
-//     area: z.number(),
-// })
-
-// const newSection: RequestHandler = async (req: Request, res: Response) => {
-//     const validatedData = NewSectioionSchema.parse(NewSectioionSchema);
-
-//     switch (validatedData.scaleLevel) {
-//         case 4:
-
-//             break;
-
-//         default:
-//             break;
-//     }
-// }
 
 const GetSectionsSchema = z.object({
   scaleLevel: z

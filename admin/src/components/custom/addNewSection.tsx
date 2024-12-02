@@ -92,7 +92,7 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
   useEffect(() => {
     const getAllSections = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/v1/section/items?scaleLevel=${scaleLevel}`);
+        const res = await axios.get(`/api/data/section/items?scaleLevel=${scaleLevel}`);
         const sections = res?.data;
         setSections(sections)
       } catch (error) {
@@ -107,7 +107,7 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
       return
     }
     try {
-      const res = await fetch('http://localhost:3000/api/v1/section/create', {
+      const res = await fetch('/api/data/section/create', {
         headers: {
           'Content-type': 'application/json'
         },

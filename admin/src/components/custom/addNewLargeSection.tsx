@@ -83,7 +83,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
             return
         }
         try {
-            const res = await fetch('http://localhost:3000/api/v1/section/create', {
+            const res = await fetch('/api/data/section/create', {
                 headers: {
                     'Content-type': 'application/json'
                 },
@@ -118,7 +118,7 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
     useEffect(() => {
         const getAllLargeSections = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/api/v1/section/items?scaleLevel=5");
+                const res = await axios.get("/api/data/section/items?scaleLevel=5");
                 const largeSections = res?.data;
                 setLargeSections(largeSections)
             } catch (error) {

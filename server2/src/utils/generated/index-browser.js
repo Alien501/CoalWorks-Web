@@ -269,6 +269,21 @@ exports.Prisma.ShiftScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PlanScalarFieldEnum = {
+  planId: 'planId',
+  planName: 'planName',
+  planDescription: 'planDescription',
+  workArea: 'workArea',
+  notes: 'notes'
+};
+
+exports.Prisma.PlanfilesScalarFieldEnum = {
+  fileId: 'fileId',
+  fileName: 'fileName',
+  type: 'type',
+  planId: 'planId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -309,7 +324,9 @@ exports.Prisma.ModelName = {
   Role: 'Role',
   Permission: 'Permission',
   User: 'User',
-  Shift: 'Shift'
+  Shift: 'Shift',
+  Plan: 'Plan',
+  Planfiles: 'Planfiles'
 };
 
 /**

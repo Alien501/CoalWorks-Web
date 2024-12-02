@@ -215,3 +215,22 @@ model Shift {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Plan {
+  planId          Int     @id @default(autoincrement())
+  planName        String
+  planDescription String?
+  workArea        String?
+  notes           String?
+
+  planFiles Planfiles[]
+}
+
+model Planfiles {
+  fileId   Int    @id @default(autoincrement())
+  fileName String
+  type     String
+  planId   Int
+
+  plan Plan @relation(fields: [planId], references: [planId])
+}

@@ -81,7 +81,7 @@ export default function Positions() {
     }
 
     const onResponsibilityAdd = () => {
-        if(!responsibility || responsibility.trim() == '') {
+        if (!responsibility || responsibility.trim() == '') {
             return;
         }
         setFormData(prev => {
@@ -95,7 +95,7 @@ export default function Positions() {
 
     const addPosition = async () => {
         const res = await addNewPosition(formData)
-        if(!res) {
+        if (!res) {
             toast.success("Something went wrong while creating new user, please try again later!")
             return;
         }
@@ -114,9 +114,9 @@ export default function Positions() {
 
     const initialisePositions = async () => {
         const res = await fetchPositions();
-        if(res) {
+        if (res) {
             setPositions(prev => res);
-        }else {
+        } else {
             setPositions([]);
         }
     }
@@ -126,10 +126,10 @@ export default function Positions() {
             isActive: !positions.find(po => po.positionId === id)?.isActive
         }
         const res = await updatePosition(data, id);
-        if(res) {
+        if (res) {
             toast.success("Updated successfull!");
-            setPositions(positions.map(position => position.positionId === id? {...position, isActive: !position.isActive}: position))
-        }else {
+            setPositions(positions.map(position => position.positionId === id ? { ...position, isActive: !position.isActive } : position))
+        } else {
             toast.error("Something went wrong")
             return;
         }
@@ -138,9 +138,9 @@ export default function Positions() {
     useEffect(() => {
         initialisePositions();
     }, [])
-    
+
     return (
-        <Suspense fallback = {"loading"}>
+        <Suspense fallback={"loading"}>
             <div className="w-full pt-3 px-4">
                 <div className='flex justify-between items-center border-b pb-3'>
                     <Breadcrumb about='skjfdk'>
@@ -270,7 +270,7 @@ export default function Positions() {
                                         <TableCell>{position.description}</TableCell>
                                         <TableCell>
                                             <Switch
-                                                checked={position.isActive} 
+                                                checked={position.isActive}
                                                 onCheckedChange={() => onPositionStatusChanged(position.positionId)}
                                             />
                                         </TableCell>

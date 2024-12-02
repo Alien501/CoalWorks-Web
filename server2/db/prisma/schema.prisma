@@ -191,7 +191,7 @@ model User {
   phone               String?   @db.VarChar(20)
   passwordHash        String    @db.VarChar(255)
   salt                String    @db.VarChar(255)
-  userRoleId          Int       // Scalar field for the foreign key
+  userRoleId          Int
   userRole            Role      @relation(fields: [userRoleId], references: [roleId])
   positionId          Int?
   Position            Position? @relation(fields: [positionId], references: [positionId])
@@ -215,4 +215,39 @@ model Shift {
 
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
+}
+
+enum PlanStatus {
+  Draft
+  Unpublished
+  Published
+}
+
+model Plan {
+  planId          Int      @id @default(autoincrement()) 
+  planName        String
+  planDescription String?
+  workAreaType    String?
+  workAreaId      Int?
+  form            Json 
+  status          PlanStatus    @default(Draft)
+  largeSection    LargeSection?  @relation(fields: [workAreaId], references: [sectionId])
+  mediumSection   MediumSection? @relation(fields: [workAreaId], references: [sectionId])
+  smallSection    SmallSection?  @relation(fields: [workAreaId], references: [sectionId])
+  microSection    MicroSection?  @relation(fields: [workAreaId], references: [sectionId])
+  unitSection     UnitSection?   @relation(fields: [workAreaId], references: [sectionId])
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  notes           String?
+  planFiles       Planfiles[]
+}
+
+model Planfiles {
+  fileId   Int    @id @default(autoincrement()) 
+  fileName String
+  filePath String
+  type     String
+  planId   Int
+  plan     Plan   @relation(fields: [planId], references: [planId])
 }

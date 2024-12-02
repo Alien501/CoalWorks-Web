@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Document, Page, Text, View, StyleSheet, PDFViewer, pdf } from '@react-pdf/renderer'
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -8,133 +6,224 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 const styles = StyleSheet.create({
-  page: { padding: 30 },
-  section: { margin: 10, padding: 10, flexGrow: 1 },
-  title: { fontSize: 24, marginBottom: 10, fontWeight: 'bold' },
-  subtitle: { fontSize: 18, marginBottom: 10, fontWeight: 'bold' },
-  text: { fontSize: 12, marginBottom: 5 },
-  table: { 
-    display: 'table', 
-    width: '100%', 
-    borderStyle: 'solid', 
-    borderWidth: 1, 
-    borderColor: '#000',
+  page: { 
+    padding: 25, 
+    fontFamily: 'Helvetica',
+    backgroundColor: '#F5F5F5'
+  },
+  header: {
+    backgroundColor: '#000',
+    color: '#FFFFFF',
+    padding: 15,
+    marginBottom: 20,
+    textAlign: 'center',
+    borderRadius: 5
+  },
+  companyName: {
+    fontSize: 24, 
+    fontWeight: 'bold',
+    color: '#FFFFFF'
+  },
+  section: { 
+    margin: 10, 
+    padding: 10, 
+    flexGrow: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginBottom: 15
+  },
+  title: { 
+    fontSize: 20, 
+    marginBottom: 10, 
+    fontWeight: 'bold', 
+    color: '#2C3E50' 
+  },
+  subtitle: { 
+    fontSize: 16, 
+    marginBottom: 10, 
+    fontWeight: 'bold', 
+    color: '#34495E' 
+  },
+  text: { 
+    fontSize: 12, 
+    marginBottom: 5,
+    color: '#2C3E50' 
+  },
+  table: {
+    display: 'table',
+    width: '100%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#BDC3C7',
+    borderRadius: 5,
     marginVertical: 10,
   },
-  tableRow: { 
+  tableHeader: {
+    backgroundColor: '#3498DB',
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#000',
-    borderBottomStyle: 'solid',
+    borderBottomColor: '#2980B9',
   },
-  tableCol: { 
-    width: '33.33%', 
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#BDC3C7',
+    borderBottomStyle: 'solid',
+    backgroundColor: '#F8F9FA'
+  },
+  tableCol: {
+    width: '50%',
     borderRightWidth: 1,
-    borderRightColor: '#000',
+    borderRightColor: '#BDC3C7',
     borderRightStyle: 'solid',
     padding: 5,
   },
-  tableCell: { 
+  tableHeaderCell: {
     margin: 5,
     fontSize: 10,
     textAlign: 'center',
+    color: '#FFFFFF',
+    fontWeight: 'bold'
+  },
+  tableCell: {
+    margin: 5,
+    fontSize: 10,
+    textAlign: 'center',
+    color: '#2C3E50'
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 30,
+    left: 30,
+    right: 30,
+    textAlign: 'center',
+    fontSize: 10,
+    color: '#7F8C8D'
   }
 })
 
-const PDFGenerator = () => {
+const PDFGenerator = (
+  {
+    planName,
+    planDescription,
+    notes,
+    tasks,
+    questions
+  }: {
+    planName: string,
+    planDescription: string,
+    notes: string,
+    tasks: any[],
+    questions: any[]
+  }
+) => {
   const [selectedFields, setSelectedFields] = useState({
     planName: true,
     planDescription: true,
-    workArea: true,
     notes: true,
     sections: true,
     companyName: true
   })
   const [companyName, setCompanyName] = useState('Your Company Name')
-  const [planDetail, setPlanDetail] = useState<any>({})
-  const [roundDetail, setRoundDetail] = useState<any[]>([])
 
-  useEffect(() => {
-    const storedPlanDetail = localStorage.getItem('planDetail')
-    const storedRoundDetail = localStorage.getItem('roundDetail')
-    
-    if (storedPlanDetail) {
-      setPlanDetail(JSON.parse(storedPlanDetail))
-    }
-    if (storedRoundDetail) {
-      setRoundDetail(JSON.parse(storedRoundDetail))
-    }
-  }, [])
-
-  const handleCheckboxChange = (field: string) => {
-    setSelectedFields(prev => ({ ...prev, [field]: !prev[field] }))
+  const groupBySection = (items: any[]) => {
+    return items.reduce((acc, item) => {
+      const sectionId = item.sectionId;
+      if (!acc[sectionId]) {
+        acc[sectionId] = [];
+      }
+      acc[sectionId].push(item);
+      return acc;
+    }, {});
   }
+
+  const groupedTasks = groupBySection(tasks);
+  const groupedQuestions = groupBySection(questions);
 
   const PDFDocument = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         {selectedFields.companyName && (
-          <View style={styles.section}>
-            <Text style={styles.title}>{companyName}</Text>
+          <View style={styles.header}>
+            <Text style={styles.companyName}>{companyName}</Text>
           </View>
         )}
+        
         {selectedFields.planName && (
           <View style={styles.section}>
-            <Text style={styles.subtitle}>Plan Name: {planDetail.planName}</Text>
+            <Text style={styles.title}>Plan Name</Text>
+            <Text style={styles.text}>{planName || "Plan Name"}</Text>
           </View>
         )}
+        
         {selectedFields.planDescription && (
           <View style={styles.section}>
-            <Text style={styles.text}>Description: {planDetail.planDescription}</Text>
+            <Text style={styles.subtitle}>Description</Text>
+            <Text style={styles.text}>{planDescription || "Plan Description"}</Text>
           </View>
         )}
-        {selectedFields.workArea && (
-          <View style={styles.section}>
-            <Text style={styles.text}>Work Area: {planDetail.workArea}</Text>
-          </View>
-        )}
+        
         {selectedFields.notes && (
           <View style={styles.section}>
-            <Text style={styles.text}>Notes: {planDetail.notes}</Text>
+            <Text style={styles.subtitle}>Notes</Text>
+            <Text style={styles.text}>{notes || "Notes"}</Text>
           </View>
         )}
+        
         {selectedFields.sections && (
           <View style={styles.section}>
-            <Text style={styles.subtitle}>Sections:</Text>
-            {roundDetail.map((section: any, index: number) => (
-              <View key={index} style={styles.section}>
-                <Text style={styles.text}>Section {index + 1}: {section.name}</Text>
-                <View style={styles.table}>
-                  <View style={styles.tableRow}>
-                    <View style={styles.tableCol}><Text style={styles.tableCell}>Task Name</Text></View>
-                    <View style={styles.tableCol}><Text style={styles.tableCell}>Description</Text></View>
-                    <View style={styles.tableCol}><Text style={styles.tableCell}>Response Type</Text></View>
-                  </View>
-                  {section.tasks.map((task: any, taskIndex: number) => (
-                    <View style={styles.tableRow} key={taskIndex}>
-                      <View style={styles.tableCol}><Text style={styles.tableCell}>{task.name}</Text></View>
-                      <View style={styles.tableCol}><Text style={styles.tableCell}>{task.description}</Text></View>
-                      <View style={styles.tableCol}><Text style={styles.tableCell}>{task.responseType}</Text></View>
+            <Text style={styles.title}>Sections</Text>
+            {Object.keys(groupedTasks).map((sectionId, index) => (
+              <View key={sectionId} style={styles.section}>
+                <Text style={styles.subtitle}>Section {index + 1}</Text>
+                
+                {groupedTasks[sectionId].length > 0 && (
+                  <>
+                    <Text style={styles.text}>Tasks:</Text>
+                    <View style={styles.table}>
+                      <View style={styles.tableHeader}>
+                        <View style={styles.tableCol}><Text style={styles.tableHeaderCell}>Task Name</Text></View>
+                        <View style={styles.tableCol}><Text style={styles.tableHeaderCell}>Response Type</Text></View>
+                      </View>
+                      {groupedTasks[sectionId].map((task: any, taskIndex: number) => (
+                        <View style={styles.tableRow} key={taskIndex}>
+                          <View style={styles.tableCol}><Text style={styles.tableCell}>{task.name}</Text></View>
+                          <View style={styles.tableCol}><Text style={styles.tableCell}>{task.responseType}</Text></View>
+                        </View>
+                      ))}
                     </View>
-                  ))}
-                </View>
-                <Text style={styles.text}>Questions:</Text>
-                <View style={styles.table}>
-                  <View style={styles.tableRow}>
-                    <View style={styles.tableCol}><Text style={styles.tableCell}>Question</Text></View>
-                    <View style={styles.tableCol}><Text style={styles.tableCell}>Response Type</Text></View>
-                  </View>
-                  {section.questions.map((question: any, questionIndex: number) => (
-                    <View style={styles.tableRow} key={questionIndex}>
-                      <View style={styles.tableCol}><Text style={styles.tableCell}>{question.name}</Text></View>
-                      <View style={styles.tableCol}><Text style={styles.tableCell}>{question.responseType}</Text></View>
+                  </>
+                )}
+                
+                {groupedQuestions[sectionId] && groupedQuestions[sectionId].length > 0 && (
+                  <>
+                    <Text style={styles.text}>Questions:</Text>
+                    <View style={styles.table}>
+                      <View style={styles.tableHeader}>
+                        <View style={styles.tableCol}><Text style={styles.tableHeaderCell}>Question</Text></View>
+                        <View style={styles.tableCol}><Text style={styles.tableHeaderCell}>Response Type</Text></View>
+                      </View>
+                      {groupedQuestions[sectionId].map((question: any, questionIndex: number) => (
+                        <View style={styles.tableRow} key={questionIndex}>
+                          <View style={styles.tableCol}><Text style={styles.tableCell}>{question.name}</Text></View>
+                          <View style={styles.tableCol}><Text style={styles.tableCell}>{question.responseType}</Text></View>
+                        </View>
+                      ))}
                     </View>
-                  ))}
-                </View>
+                  </>
+                )}
               </View>
             ))}
           </View>
         )}
+        
+        <Text style={styles.footer} render={({ pageNumber, totalPages }) => (
+          `Page ${pageNumber} of ${totalPages}`
+        )} fixed />
       </Page>
     </Document>
   )
@@ -158,7 +247,7 @@ const PDFGenerator = () => {
             <Checkbox
               id={field}
               checked={isChecked}
-              onCheckedChange={() => handleCheckboxChange(field)}
+              onCheckedChange={() => setSelectedFields(prev => ({ ...prev, [field]: !prev[field] }))}
             />
             <Label htmlFor={field} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -191,4 +280,3 @@ const PDFGenerator = () => {
 }
 
 export default PDFGenerator
-

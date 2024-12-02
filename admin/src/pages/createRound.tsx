@@ -224,7 +224,13 @@ const CreateRound = () => {
           />
         </TabsContent>
         <TabsContent value="pdf-setup">
-          <PDFGenerator />
+          <PDFGenerator
+            planName={planDetails.planName}
+            planDescription={planDetails.planDescription}
+            notes={planDetails.notes}
+            tasks={tasks}
+            questions={questions}
+          />
         </TabsContent>
       </Tabs>
     </section>

@@ -172,7 +172,7 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
     setFormData(prev => ({
       ...prev,
       inside: name,
-      insiderToId: parseInt(id) // Convert string ID back to number
+      insiderToId: parseInt(id) 
     }))
     setOpen(false)
   }

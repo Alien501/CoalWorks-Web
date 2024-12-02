@@ -1,13 +1,1 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { asyncHandler } from "../utils/asyncHandler";
-import { insertSectionData } from "../libs/config/section";
-
-const configRouter = Router();
-
-configRouter.post('/section', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await insertSectionData(req, res, next);
-}))
-
-export {
-    configRouter
-}
+//dont know why you have this router

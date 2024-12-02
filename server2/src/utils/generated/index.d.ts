@@ -59,6 +59,11 @@ export type Plan = $Result.DefaultSelection<Prisma.$PlanPayload>
  */
 export type Planfiles = $Result.DefaultSelection<Prisma.$PlanfilesPayload>
 /**
+ * Model ActivePlans
+ * 
+ */
+export type ActivePlans = $Result.DefaultSelection<Prisma.$ActivePlansPayload>
+/**
  * Model SectionType
  * 
  */
@@ -314,6 +319,16 @@ export class PrismaClient<
     * ```
     */
   get planfiles(): Prisma.PlanfilesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.activePlans`: Exposes CRUD operations for the **ActivePlans** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActivePlans
+    * const activePlans = await prisma.activePlans.findMany()
+    * ```
+    */
+  get activePlans(): Prisma.ActivePlansDelegate<ExtArgs>;
 
   /**
    * `prisma.sectionType`: Exposes CRUD operations for the **SectionType** model.
@@ -814,6 +829,7 @@ export namespace Prisma {
     Shift: 'Shift',
     Plan: 'Plan',
     Planfiles: 'Planfiles',
+    ActivePlans: 'ActivePlans',
     SectionType: 'SectionType',
     Section: 'Section',
     AssetType: 'AssetType',
@@ -834,7 +850,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planfiles" | "sectionType" | "section" | "assetType" | "asset" | "coordinate"
+      modelProps: "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planfiles" | "activePlans" | "sectionType" | "section" | "assetType" | "asset" | "coordinate"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1465,6 +1481,76 @@ export namespace Prisma {
           count: {
             args: Prisma.PlanfilesCountArgs<ExtArgs>
             result: $Utils.Optional<PlanfilesCountAggregateOutputType> | number
+          }
+        }
+      }
+      ActivePlans: {
+        payload: Prisma.$ActivePlansPayload<ExtArgs>
+        fields: Prisma.ActivePlansFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivePlansFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivePlansFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivePlansFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivePlansFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>
+          }
+          findMany: {
+            args: Prisma.ActivePlansFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>[]
+          }
+          create: {
+            args: Prisma.ActivePlansCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>
+          }
+          createMany: {
+            args: Prisma.ActivePlansCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivePlansCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivePlansDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>
+          }
+          update: {
+            args: Prisma.ActivePlansUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivePlansDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivePlansUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ActivePlansUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivePlansPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivePlansAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivePlans>
+          }
+          groupBy: {
+            args: Prisma.ActivePlansGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivePlansGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivePlansCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivePlansCountAggregateOutputType> | number
           }
         }
       }
@@ -2104,10 +2190,12 @@ export namespace Prisma {
 
   export type PlanCountOutputType = {
     planFiles: number
+    activePlans: number
   }
 
   export type PlanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     planFiles?: boolean | PlanCountOutputTypeCountPlanFilesArgs
+    activePlans?: boolean | PlanCountOutputTypeCountActivePlansArgs
   }
 
   // Custom InputTypes
@@ -2126,6 +2214,13 @@ export namespace Prisma {
    */
   export type PlanCountOutputTypeCountPlanFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PlanfilesWhereInput
+  }
+
+  /**
+   * PlanCountOutputType without action
+   */
+  export type PlanCountOutputTypeCountActivePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivePlansWhereInput
   }
 
 
@@ -2167,11 +2262,13 @@ export namespace Prisma {
   export type SectionCountOutputType = {
     assets: number
     coordinates: number
+    activePlans: number
   }
 
   export type SectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | SectionCountOutputTypeCountAssetsArgs
     coordinates?: boolean | SectionCountOutputTypeCountCoordinatesArgs
+    activePlans?: boolean | SectionCountOutputTypeCountActivePlansArgs
   }
 
   // Custom InputTypes
@@ -2197,6 +2294,13 @@ export namespace Prisma {
    */
   export type SectionCountOutputTypeCountCoordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CoordinateWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountActivePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivePlansWhereInput
   }
 
 
@@ -9518,6 +9622,7 @@ export namespace Prisma {
     updatedAt?: boolean
     notes?: boolean
     planFiles?: boolean | Plan$planFilesArgs<ExtArgs>
+    activePlans?: boolean | Plan$activePlansArgs<ExtArgs>
     _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["plan"]>
 
@@ -9549,6 +9654,7 @@ export namespace Prisma {
 
   export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     planFiles?: boolean | Plan$planFilesArgs<ExtArgs>
+    activePlans?: boolean | Plan$activePlansArgs<ExtArgs>
     _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9557,6 +9663,7 @@ export namespace Prisma {
     name: "Plan"
     objects: {
       planFiles: Prisma.$PlanfilesPayload<ExtArgs>[]
+      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       planId: number
@@ -9934,6 +10041,7 @@ export namespace Prisma {
   export interface Prisma__PlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     planFiles<T extends Plan$planFilesArgs<ExtArgs> = {}>(args?: Subset<T, Plan$planFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanfilesPayload<ExtArgs>, T, "findMany"> | Null>
+    activePlans<T extends Plan$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Plan$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10304,6 +10412,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PlanfilesScalarFieldEnum | PlanfilesScalarFieldEnum[]
+  }
+
+  /**
+   * Plan.activePlans
+   */
+  export type Plan$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    where?: ActivePlansWhereInput
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    cursor?: ActivePlansWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
   }
 
   /**
@@ -11289,6 +11417,975 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PlanfilesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ActivePlans
+   */
+
+  export type AggregateActivePlans = {
+    _count: ActivePlansCountAggregateOutputType | null
+    _avg: ActivePlansAvgAggregateOutputType | null
+    _sum: ActivePlansSumAggregateOutputType | null
+    _min: ActivePlansMinAggregateOutputType | null
+    _max: ActivePlansMaxAggregateOutputType | null
+  }
+
+  export type ActivePlansAvgAggregateOutputType = {
+    id: number | null
+    planId: number | null
+    sectionId: number | null
+  }
+
+  export type ActivePlansSumAggregateOutputType = {
+    id: number | null
+    planId: number | null
+    sectionId: number | null
+  }
+
+  export type ActivePlansMinAggregateOutputType = {
+    id: number | null
+    planName: string | null
+    planId: number | null
+    sectionId: number | null
+  }
+
+  export type ActivePlansMaxAggregateOutputType = {
+    id: number | null
+    planName: string | null
+    planId: number | null
+    sectionId: number | null
+  }
+
+  export type ActivePlansCountAggregateOutputType = {
+    id: number
+    planName: number
+    planId: number
+    sectionId: number
+    _all: number
+  }
+
+
+  export type ActivePlansAvgAggregateInputType = {
+    id?: true
+    planId?: true
+    sectionId?: true
+  }
+
+  export type ActivePlansSumAggregateInputType = {
+    id?: true
+    planId?: true
+    sectionId?: true
+  }
+
+  export type ActivePlansMinAggregateInputType = {
+    id?: true
+    planName?: true
+    planId?: true
+    sectionId?: true
+  }
+
+  export type ActivePlansMaxAggregateInputType = {
+    id?: true
+    planName?: true
+    planId?: true
+    sectionId?: true
+  }
+
+  export type ActivePlansCountAggregateInputType = {
+    id?: true
+    planName?: true
+    planId?: true
+    sectionId?: true
+    _all?: true
+  }
+
+  export type ActivePlansAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivePlans to aggregate.
+     */
+    where?: ActivePlansWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivePlans to fetch.
+     */
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivePlansWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivePlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivePlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActivePlans
+    **/
+    _count?: true | ActivePlansCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActivePlansAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActivePlansSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivePlansMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivePlansMaxAggregateInputType
+  }
+
+  export type GetActivePlansAggregateType<T extends ActivePlansAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivePlans]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivePlans[P]>
+      : GetScalarType<T[P], AggregateActivePlans[P]>
+  }
+
+
+
+
+  export type ActivePlansGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivePlansWhereInput
+    orderBy?: ActivePlansOrderByWithAggregationInput | ActivePlansOrderByWithAggregationInput[]
+    by: ActivePlansScalarFieldEnum[] | ActivePlansScalarFieldEnum
+    having?: ActivePlansScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivePlansCountAggregateInputType | true
+    _avg?: ActivePlansAvgAggregateInputType
+    _sum?: ActivePlansSumAggregateInputType
+    _min?: ActivePlansMinAggregateInputType
+    _max?: ActivePlansMaxAggregateInputType
+  }
+
+  export type ActivePlansGroupByOutputType = {
+    id: number
+    planName: string
+    planId: number
+    sectionId: number
+    _count: ActivePlansCountAggregateOutputType | null
+    _avg: ActivePlansAvgAggregateOutputType | null
+    _sum: ActivePlansSumAggregateOutputType | null
+    _min: ActivePlansMinAggregateOutputType | null
+    _max: ActivePlansMaxAggregateOutputType | null
+  }
+
+  type GetActivePlansGroupByPayload<T extends ActivePlansGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivePlansGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivePlansGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivePlansGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivePlansGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivePlansSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    planName?: boolean
+    planId?: boolean
+    sectionId?: boolean
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activePlans"]>
+
+  export type ActivePlansSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    planName?: boolean
+    planId?: boolean
+    sectionId?: boolean
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activePlans"]>
+
+  export type ActivePlansSelectScalar = {
+    id?: boolean
+    planName?: boolean
+    planId?: boolean
+    sectionId?: boolean
+  }
+
+  export type ActivePlansInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+  export type ActivePlansIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+
+  export type $ActivePlansPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActivePlans"
+    objects: {
+      plan: Prisma.$PlanPayload<ExtArgs>
+      section: Prisma.$SectionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      planName: string
+      planId: number
+      sectionId: number
+    }, ExtArgs["result"]["activePlans"]>
+    composites: {}
+  }
+
+  type ActivePlansGetPayload<S extends boolean | null | undefined | ActivePlansDefaultArgs> = $Result.GetResult<Prisma.$ActivePlansPayload, S>
+
+  type ActivePlansCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ActivePlansFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ActivePlansCountAggregateInputType | true
+    }
+
+  export interface ActivePlansDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActivePlans'], meta: { name: 'ActivePlans' } }
+    /**
+     * Find zero or one ActivePlans that matches the filter.
+     * @param {ActivePlansFindUniqueArgs} args - Arguments to find a ActivePlans
+     * @example
+     * // Get one ActivePlans
+     * const activePlans = await prisma.activePlans.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivePlansFindUniqueArgs>(args: SelectSubset<T, ActivePlansFindUniqueArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ActivePlans that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ActivePlansFindUniqueOrThrowArgs} args - Arguments to find a ActivePlans
+     * @example
+     * // Get one ActivePlans
+     * const activePlans = await prisma.activePlans.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivePlansFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivePlansFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ActivePlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansFindFirstArgs} args - Arguments to find a ActivePlans
+     * @example
+     * // Get one ActivePlans
+     * const activePlans = await prisma.activePlans.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivePlansFindFirstArgs>(args?: SelectSubset<T, ActivePlansFindFirstArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ActivePlans that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansFindFirstOrThrowArgs} args - Arguments to find a ActivePlans
+     * @example
+     * // Get one ActivePlans
+     * const activePlans = await prisma.activePlans.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivePlansFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivePlansFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ActivePlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActivePlans
+     * const activePlans = await prisma.activePlans.findMany()
+     * 
+     * // Get first 10 ActivePlans
+     * const activePlans = await prisma.activePlans.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activePlansWithIdOnly = await prisma.activePlans.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivePlansFindManyArgs>(args?: SelectSubset<T, ActivePlansFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ActivePlans.
+     * @param {ActivePlansCreateArgs} args - Arguments to create a ActivePlans.
+     * @example
+     * // Create one ActivePlans
+     * const ActivePlans = await prisma.activePlans.create({
+     *   data: {
+     *     // ... data to create a ActivePlans
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivePlansCreateArgs>(args: SelectSubset<T, ActivePlansCreateArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ActivePlans.
+     * @param {ActivePlansCreateManyArgs} args - Arguments to create many ActivePlans.
+     * @example
+     * // Create many ActivePlans
+     * const activePlans = await prisma.activePlans.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivePlansCreateManyArgs>(args?: SelectSubset<T, ActivePlansCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActivePlans and returns the data saved in the database.
+     * @param {ActivePlansCreateManyAndReturnArgs} args - Arguments to create many ActivePlans.
+     * @example
+     * // Create many ActivePlans
+     * const activePlans = await prisma.activePlans.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActivePlans and only return the `id`
+     * const activePlansWithIdOnly = await prisma.activePlans.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivePlansCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivePlansCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ActivePlans.
+     * @param {ActivePlansDeleteArgs} args - Arguments to delete one ActivePlans.
+     * @example
+     * // Delete one ActivePlans
+     * const ActivePlans = await prisma.activePlans.delete({
+     *   where: {
+     *     // ... filter to delete one ActivePlans
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivePlansDeleteArgs>(args: SelectSubset<T, ActivePlansDeleteArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ActivePlans.
+     * @param {ActivePlansUpdateArgs} args - Arguments to update one ActivePlans.
+     * @example
+     * // Update one ActivePlans
+     * const activePlans = await prisma.activePlans.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivePlansUpdateArgs>(args: SelectSubset<T, ActivePlansUpdateArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ActivePlans.
+     * @param {ActivePlansDeleteManyArgs} args - Arguments to filter ActivePlans to delete.
+     * @example
+     * // Delete a few ActivePlans
+     * const { count } = await prisma.activePlans.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivePlansDeleteManyArgs>(args?: SelectSubset<T, ActivePlansDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActivePlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActivePlans
+     * const activePlans = await prisma.activePlans.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivePlansUpdateManyArgs>(args: SelectSubset<T, ActivePlansUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ActivePlans.
+     * @param {ActivePlansUpsertArgs} args - Arguments to update or create a ActivePlans.
+     * @example
+     * // Update or create a ActivePlans
+     * const activePlans = await prisma.activePlans.upsert({
+     *   create: {
+     *     // ... data to create a ActivePlans
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActivePlans we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivePlansUpsertArgs>(args: SelectSubset<T, ActivePlansUpsertArgs<ExtArgs>>): Prisma__ActivePlansClient<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ActivePlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansCountArgs} args - Arguments to filter ActivePlans to count.
+     * @example
+     * // Count the number of ActivePlans
+     * const count = await prisma.activePlans.count({
+     *   where: {
+     *     // ... the filter for the ActivePlans we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivePlansCountArgs>(
+      args?: Subset<T, ActivePlansCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivePlansCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActivePlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivePlansAggregateArgs>(args: Subset<T, ActivePlansAggregateArgs>): Prisma.PrismaPromise<GetActivePlansAggregateType<T>>
+
+    /**
+     * Group by ActivePlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivePlansGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivePlansGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivePlansGroupByArgs['orderBy'] }
+        : { orderBy?: ActivePlansGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivePlansGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivePlansGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActivePlans model
+   */
+  readonly fields: ActivePlansFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActivePlans.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivePlansClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    plan<T extends PlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlanDefaultArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActivePlans model
+   */ 
+  interface ActivePlansFieldRefs {
+    readonly id: FieldRef<"ActivePlans", 'Int'>
+    readonly planName: FieldRef<"ActivePlans", 'String'>
+    readonly planId: FieldRef<"ActivePlans", 'Int'>
+    readonly sectionId: FieldRef<"ActivePlans", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActivePlans findUnique
+   */
+  export type ActivePlansFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivePlans to fetch.
+     */
+    where: ActivePlansWhereUniqueInput
+  }
+
+  /**
+   * ActivePlans findUniqueOrThrow
+   */
+  export type ActivePlansFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivePlans to fetch.
+     */
+    where: ActivePlansWhereUniqueInput
+  }
+
+  /**
+   * ActivePlans findFirst
+   */
+  export type ActivePlansFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivePlans to fetch.
+     */
+    where?: ActivePlansWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivePlans to fetch.
+     */
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivePlans.
+     */
+    cursor?: ActivePlansWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivePlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivePlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivePlans.
+     */
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
+  }
+
+  /**
+   * ActivePlans findFirstOrThrow
+   */
+  export type ActivePlansFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivePlans to fetch.
+     */
+    where?: ActivePlansWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivePlans to fetch.
+     */
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActivePlans.
+     */
+    cursor?: ActivePlansWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivePlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivePlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActivePlans.
+     */
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
+  }
+
+  /**
+   * ActivePlans findMany
+   */
+  export type ActivePlansFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * Filter, which ActivePlans to fetch.
+     */
+    where?: ActivePlansWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActivePlans to fetch.
+     */
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActivePlans.
+     */
+    cursor?: ActivePlansWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActivePlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActivePlans.
+     */
+    skip?: number
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
+  }
+
+  /**
+   * ActivePlans create
+   */
+  export type ActivePlansCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ActivePlans.
+     */
+    data: XOR<ActivePlansCreateInput, ActivePlansUncheckedCreateInput>
+  }
+
+  /**
+   * ActivePlans createMany
+   */
+  export type ActivePlansCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActivePlans.
+     */
+    data: ActivePlansCreateManyInput | ActivePlansCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActivePlans createManyAndReturn
+   */
+  export type ActivePlansCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ActivePlans.
+     */
+    data: ActivePlansCreateManyInput | ActivePlansCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ActivePlans update
+   */
+  export type ActivePlansUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ActivePlans.
+     */
+    data: XOR<ActivePlansUpdateInput, ActivePlansUncheckedUpdateInput>
+    /**
+     * Choose, which ActivePlans to update.
+     */
+    where: ActivePlansWhereUniqueInput
+  }
+
+  /**
+   * ActivePlans updateMany
+   */
+  export type ActivePlansUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActivePlans.
+     */
+    data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyInput>
+    /**
+     * Filter which ActivePlans to update
+     */
+    where?: ActivePlansWhereInput
+  }
+
+  /**
+   * ActivePlans upsert
+   */
+  export type ActivePlansUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ActivePlans to update in case it exists.
+     */
+    where: ActivePlansWhereUniqueInput
+    /**
+     * In case the ActivePlans found by the `where` argument doesn't exist, create a new ActivePlans with this data.
+     */
+    create: XOR<ActivePlansCreateInput, ActivePlansUncheckedCreateInput>
+    /**
+     * In case the ActivePlans was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivePlansUpdateInput, ActivePlansUncheckedUpdateInput>
+  }
+
+  /**
+   * ActivePlans delete
+   */
+  export type ActivePlansDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    /**
+     * Filter which ActivePlans to delete.
+     */
+    where: ActivePlansWhereUniqueInput
+  }
+
+  /**
+   * ActivePlans deleteMany
+   */
+  export type ActivePlansDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActivePlans to delete
+     */
+    where?: ActivePlansWhereInput
+  }
+
+  /**
+   * ActivePlans without action
+   */
+  export type ActivePlansDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
   }
 
 
@@ -12451,6 +13548,7 @@ export namespace Prisma {
     type?: boolean | SectionTypeDefaultArgs<ExtArgs>
     assets?: boolean | Section$assetsArgs<ExtArgs>
     coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
+    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
     _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["section"]>
 
@@ -12473,6 +13571,7 @@ export namespace Prisma {
     type?: boolean | SectionTypeDefaultArgs<ExtArgs>
     assets?: boolean | Section$assetsArgs<ExtArgs>
     coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
+    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
     _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12485,6 +13584,7 @@ export namespace Prisma {
       type: Prisma.$SectionTypePayload<ExtArgs>
       assets: Prisma.$AssetPayload<ExtArgs>[]
       coordinates: Prisma.$CoordinatePayload<ExtArgs>[]
+      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -12858,6 +13958,7 @@ export namespace Prisma {
     type<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     assets<T extends Section$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Section$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
     coordinates<T extends Section$coordinatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$coordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany"> | Null>
+    activePlans<T extends Section$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Section$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13246,6 +14347,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
+  }
+
+  /**
+   * Section.activePlans
+   */
+  export type Section$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    where?: ActivePlansWhereInput
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    cursor?: ActivePlansWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
   }
 
   /**
@@ -16308,6 +17429,16 @@ export namespace Prisma {
   export type PlanfilesScalarFieldEnum = (typeof PlanfilesScalarFieldEnum)[keyof typeof PlanfilesScalarFieldEnum]
 
 
+  export const ActivePlansScalarFieldEnum: {
+    id: 'id',
+    planName: 'planName',
+    planId: 'planId',
+    sectionId: 'sectionId'
+  };
+
+  export type ActivePlansScalarFieldEnum = (typeof ActivePlansScalarFieldEnum)[keyof typeof ActivePlansScalarFieldEnum]
+
+
   export const SectionTypeScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -17025,6 +18156,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
     notes?: StringNullableFilter<"Plan"> | string | null
     planFiles?: PlanfilesListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
   }
 
   export type PlanOrderByWithRelationInput = {
@@ -17039,6 +18171,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     notes?: SortOrderInput | SortOrder
     planFiles?: PlanfilesOrderByRelationAggregateInput
+    activePlans?: ActivePlansOrderByRelationAggregateInput
   }
 
   export type PlanWhereUniqueInput = Prisma.AtLeast<{
@@ -17056,6 +18189,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
     notes?: StringNullableFilter<"Plan"> | string | null
     planFiles?: PlanfilesListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
   }, "planId">
 
   export type PlanOrderByWithAggregationInput = {
@@ -17149,6 +18283,61 @@ export namespace Prisma {
     planId?: IntWithAggregatesFilter<"Planfiles"> | number
   }
 
+  export type ActivePlansWhereInput = {
+    AND?: ActivePlansWhereInput | ActivePlansWhereInput[]
+    OR?: ActivePlansWhereInput[]
+    NOT?: ActivePlansWhereInput | ActivePlansWhereInput[]
+    id?: IntFilter<"ActivePlans"> | number
+    planName?: StringFilter<"ActivePlans"> | string
+    planId?: IntFilter<"ActivePlans"> | number
+    sectionId?: IntFilter<"ActivePlans"> | number
+    plan?: XOR<PlanRelationFilter, PlanWhereInput>
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }
+
+  export type ActivePlansOrderByWithRelationInput = {
+    id?: SortOrder
+    planName?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
+    plan?: PlanOrderByWithRelationInput
+    section?: SectionOrderByWithRelationInput
+  }
+
+  export type ActivePlansWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ActivePlansWhereInput | ActivePlansWhereInput[]
+    OR?: ActivePlansWhereInput[]
+    NOT?: ActivePlansWhereInput | ActivePlansWhereInput[]
+    planName?: StringFilter<"ActivePlans"> | string
+    planId?: IntFilter<"ActivePlans"> | number
+    sectionId?: IntFilter<"ActivePlans"> | number
+    plan?: XOR<PlanRelationFilter, PlanWhereInput>
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }, "id">
+
+  export type ActivePlansOrderByWithAggregationInput = {
+    id?: SortOrder
+    planName?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
+    _count?: ActivePlansCountOrderByAggregateInput
+    _avg?: ActivePlansAvgOrderByAggregateInput
+    _max?: ActivePlansMaxOrderByAggregateInput
+    _min?: ActivePlansMinOrderByAggregateInput
+    _sum?: ActivePlansSumOrderByAggregateInput
+  }
+
+  export type ActivePlansScalarWhereWithAggregatesInput = {
+    AND?: ActivePlansScalarWhereWithAggregatesInput | ActivePlansScalarWhereWithAggregatesInput[]
+    OR?: ActivePlansScalarWhereWithAggregatesInput[]
+    NOT?: ActivePlansScalarWhereWithAggregatesInput | ActivePlansScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ActivePlans"> | number
+    planName?: StringWithAggregatesFilter<"ActivePlans"> | string
+    planId?: IntWithAggregatesFilter<"ActivePlans"> | number
+    sectionId?: IntWithAggregatesFilter<"ActivePlans"> | number
+  }
+
   export type SectionTypeWhereInput = {
     AND?: SectionTypeWhereInput | SectionTypeWhereInput[]
     OR?: SectionTypeWhereInput[]
@@ -17207,6 +18396,7 @@ export namespace Prisma {
     type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
     assets?: AssetListRelationFilter
     coordinates?: CoordinateListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
   }
 
   export type SectionOrderByWithRelationInput = {
@@ -17217,6 +18407,7 @@ export namespace Prisma {
     type?: SectionTypeOrderByWithRelationInput
     assets?: AssetOrderByRelationAggregateInput
     coordinates?: CoordinateOrderByRelationAggregateInput
+    activePlans?: ActivePlansOrderByRelationAggregateInput
   }
 
   export type SectionWhereUniqueInput = Prisma.AtLeast<{
@@ -17230,6 +18421,7 @@ export namespace Prisma {
     type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
     assets?: AssetListRelationFilter
     coordinates?: CoordinateListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
   }, "id">
 
   export type SectionOrderByWithAggregationInput = {
@@ -17954,6 +19146,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     notes?: string | null
     planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+    activePlans?: ActivePlansCreateNestedManyWithoutPlanInput
   }
 
   export type PlanUncheckedCreateInput = {
@@ -17968,6 +19161,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     notes?: string | null
     planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutPlanInput
   }
 
   export type PlanUpdateInput = {
@@ -17981,6 +19175,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutPlanNestedInput
   }
 
   export type PlanUncheckedUpdateInput = {
@@ -17995,6 +19190,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutPlanNestedInput
   }
 
   export type PlanCreateManyInput = {
@@ -18087,6 +19283,50 @@ export namespace Prisma {
     planId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type ActivePlansCreateInput = {
+    planName: string
+    plan: PlanCreateNestedOneWithoutActivePlansInput
+    section: SectionCreateNestedOneWithoutActivePlansInput
+  }
+
+  export type ActivePlansUncheckedCreateInput = {
+    id?: number
+    planName: string
+    planId: number
+    sectionId: number
+  }
+
+  export type ActivePlansUpdateInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
+    section?: SectionUpdateOneRequiredWithoutActivePlansNestedInput
+  }
+
+  export type ActivePlansUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansCreateManyInput = {
+    id?: number
+    planName: string
+    planId: number
+    sectionId: number
+  }
+
+  export type ActivePlansUpdateManyMutationInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActivePlansUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type SectionTypeCreateInput = {
     name: string
     description: string
@@ -18136,6 +19376,7 @@ export namespace Prisma {
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateInput = {
@@ -18145,6 +19386,7 @@ export namespace Prisma {
     area?: number | null
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUpdateInput = {
@@ -18153,6 +19395,7 @@ export namespace Prisma {
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateInput = {
@@ -18162,6 +19405,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateManyInput = {
@@ -18934,7 +20178,17 @@ export namespace Prisma {
     none?: PlanfilesWhereInput
   }
 
+  export type ActivePlansListRelationFilter = {
+    every?: ActivePlansWhereInput
+    some?: ActivePlansWhereInput
+    none?: ActivePlansWhereInput
+  }
+
   export type PlanfilesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ActivePlansOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19032,6 +20286,44 @@ export namespace Prisma {
   export type PlanfilesSumOrderByAggregateInput = {
     fileId?: SortOrder
     planId?: SortOrder
+  }
+
+  export type SectionRelationFilter = {
+    is?: SectionWhereInput
+    isNot?: SectionWhereInput
+  }
+
+  export type ActivePlansCountOrderByAggregateInput = {
+    id?: SortOrder
+    planName?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type ActivePlansAvgOrderByAggregateInput = {
+    id?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type ActivePlansMaxOrderByAggregateInput = {
+    id?: SortOrder
+    planName?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type ActivePlansMinOrderByAggregateInput = {
+    id?: SortOrder
+    planName?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type ActivePlansSumOrderByAggregateInput = {
+    id?: SortOrder
+    planId?: SortOrder
+    sectionId?: SortOrder
   }
 
   export type SectionListRelationFilter = {
@@ -19157,11 +20449,6 @@ export namespace Prisma {
   export type AssetTypeRelationFilter = {
     is?: AssetTypeWhereInput
     isNot?: AssetTypeWhereInput
-  }
-
-  export type SectionRelationFilter = {
-    is?: SectionWhereInput
-    isNot?: SectionWhereInput
   }
 
   export type AssetCountOrderByAggregateInput = {
@@ -19541,11 +20828,25 @@ export namespace Prisma {
     connect?: PlanfilesWhereUniqueInput | PlanfilesWhereUniqueInput[]
   }
 
+  export type ActivePlansCreateNestedManyWithoutPlanInput = {
+    create?: XOR<ActivePlansCreateWithoutPlanInput, ActivePlansUncheckedCreateWithoutPlanInput> | ActivePlansCreateWithoutPlanInput[] | ActivePlansUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutPlanInput | ActivePlansCreateOrConnectWithoutPlanInput[]
+    createMany?: ActivePlansCreateManyPlanInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+  }
+
   export type PlanfilesUncheckedCreateNestedManyWithoutPlanInput = {
     create?: XOR<PlanfilesCreateWithoutPlanInput, PlanfilesUncheckedCreateWithoutPlanInput> | PlanfilesCreateWithoutPlanInput[] | PlanfilesUncheckedCreateWithoutPlanInput[]
     connectOrCreate?: PlanfilesCreateOrConnectWithoutPlanInput | PlanfilesCreateOrConnectWithoutPlanInput[]
     createMany?: PlanfilesCreateManyPlanInputEnvelope
     connect?: PlanfilesWhereUniqueInput | PlanfilesWhereUniqueInput[]
+  }
+
+  export type ActivePlansUncheckedCreateNestedManyWithoutPlanInput = {
+    create?: XOR<ActivePlansCreateWithoutPlanInput, ActivePlansUncheckedCreateWithoutPlanInput> | ActivePlansCreateWithoutPlanInput[] | ActivePlansUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutPlanInput | ActivePlansCreateOrConnectWithoutPlanInput[]
+    createMany?: ActivePlansCreateManyPlanInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
   }
 
   export type EnumPlanStatusFieldUpdateOperationsInput = {
@@ -19566,6 +20867,20 @@ export namespace Prisma {
     deleteMany?: PlanfilesScalarWhereInput | PlanfilesScalarWhereInput[]
   }
 
+  export type ActivePlansUpdateManyWithoutPlanNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutPlanInput, ActivePlansUncheckedCreateWithoutPlanInput> | ActivePlansCreateWithoutPlanInput[] | ActivePlansUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutPlanInput | ActivePlansCreateOrConnectWithoutPlanInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutPlanInput | ActivePlansUpsertWithWhereUniqueWithoutPlanInput[]
+    createMany?: ActivePlansCreateManyPlanInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutPlanInput | ActivePlansUpdateWithWhereUniqueWithoutPlanInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutPlanInput | ActivePlansUpdateManyWithWhereWithoutPlanInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
   export type PlanfilesUncheckedUpdateManyWithoutPlanNestedInput = {
     create?: XOR<PlanfilesCreateWithoutPlanInput, PlanfilesUncheckedCreateWithoutPlanInput> | PlanfilesCreateWithoutPlanInput[] | PlanfilesUncheckedCreateWithoutPlanInput[]
     connectOrCreate?: PlanfilesCreateOrConnectWithoutPlanInput | PlanfilesCreateOrConnectWithoutPlanInput[]
@@ -19580,6 +20895,20 @@ export namespace Prisma {
     deleteMany?: PlanfilesScalarWhereInput | PlanfilesScalarWhereInput[]
   }
 
+  export type ActivePlansUncheckedUpdateManyWithoutPlanNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutPlanInput, ActivePlansUncheckedCreateWithoutPlanInput> | ActivePlansCreateWithoutPlanInput[] | ActivePlansUncheckedCreateWithoutPlanInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutPlanInput | ActivePlansCreateOrConnectWithoutPlanInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutPlanInput | ActivePlansUpsertWithWhereUniqueWithoutPlanInput[]
+    createMany?: ActivePlansCreateManyPlanInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutPlanInput | ActivePlansUpdateWithWhereUniqueWithoutPlanInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutPlanInput | ActivePlansUpdateManyWithWhereWithoutPlanInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
   export type PlanCreateNestedOneWithoutPlanFilesInput = {
     create?: XOR<PlanCreateWithoutPlanFilesInput, PlanUncheckedCreateWithoutPlanFilesInput>
     connectOrCreate?: PlanCreateOrConnectWithoutPlanFilesInput
@@ -19592,6 +20921,34 @@ export namespace Prisma {
     upsert?: PlanUpsertWithoutPlanFilesInput
     connect?: PlanWhereUniqueInput
     update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutPlanFilesInput, PlanUpdateWithoutPlanFilesInput>, PlanUncheckedUpdateWithoutPlanFilesInput>
+  }
+
+  export type PlanCreateNestedOneWithoutActivePlansInput = {
+    create?: XOR<PlanCreateWithoutActivePlansInput, PlanUncheckedCreateWithoutActivePlansInput>
+    connectOrCreate?: PlanCreateOrConnectWithoutActivePlansInput
+    connect?: PlanWhereUniqueInput
+  }
+
+  export type SectionCreateNestedOneWithoutActivePlansInput = {
+    create?: XOR<SectionCreateWithoutActivePlansInput, SectionUncheckedCreateWithoutActivePlansInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutActivePlansInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type PlanUpdateOneRequiredWithoutActivePlansNestedInput = {
+    create?: XOR<PlanCreateWithoutActivePlansInput, PlanUncheckedCreateWithoutActivePlansInput>
+    connectOrCreate?: PlanCreateOrConnectWithoutActivePlansInput
+    upsert?: PlanUpsertWithoutActivePlansInput
+    connect?: PlanWhereUniqueInput
+    update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutActivePlansInput, PlanUpdateWithoutActivePlansInput>, PlanUncheckedUpdateWithoutActivePlansInput>
+  }
+
+  export type SectionUpdateOneRequiredWithoutActivePlansNestedInput = {
+    create?: XOR<SectionCreateWithoutActivePlansInput, SectionUncheckedCreateWithoutActivePlansInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutActivePlansInput
+    upsert?: SectionUpsertWithoutActivePlansInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutActivePlansInput, SectionUpdateWithoutActivePlansInput>, SectionUncheckedUpdateWithoutActivePlansInput>
   }
 
   export type SectionCreateNestedManyWithoutTypeInput = {
@@ -19656,6 +21013,13 @@ export namespace Prisma {
     connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
   }
 
+  export type ActivePlansCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutSectionInput = {
     create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
@@ -19668,6 +21032,13 @@ export namespace Prisma {
     connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
     createMany?: CoordinateCreateManySectionInputEnvelope
     connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+  }
+
+  export type ActivePlansUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
   }
 
   export type SectionTypeUpdateOneRequiredWithoutSectionsNestedInput = {
@@ -19706,6 +21077,20 @@ export namespace Prisma {
     deleteMany?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
   }
 
+  export type ActivePlansUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutSectionInput | ActivePlansUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutSectionInput | ActivePlansUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutSectionInput | ActivePlansUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutSectionNestedInput = {
     create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
@@ -19732,6 +21117,20 @@ export namespace Prisma {
     update?: CoordinateUpdateWithWhereUniqueWithoutSectionInput | CoordinateUpdateWithWhereUniqueWithoutSectionInput[]
     updateMany?: CoordinateUpdateManyWithWhereWithoutSectionInput | CoordinateUpdateManyWithWhereWithoutSectionInput[]
     deleteMany?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
+  }
+
+  export type ActivePlansUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutSectionInput | ActivePlansUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutSectionInput | ActivePlansUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutSectionInput | ActivePlansUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
   }
 
   export type AssetCreateNestedManyWithoutTypeInput = {
@@ -20633,6 +22032,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivePlansCreateWithoutPlanInput = {
+    planName: string
+    section: SectionCreateNestedOneWithoutActivePlansInput
+  }
+
+  export type ActivePlansUncheckedCreateWithoutPlanInput = {
+    id?: number
+    planName: string
+    sectionId: number
+  }
+
+  export type ActivePlansCreateOrConnectWithoutPlanInput = {
+    where: ActivePlansWhereUniqueInput
+    create: XOR<ActivePlansCreateWithoutPlanInput, ActivePlansUncheckedCreateWithoutPlanInput>
+  }
+
+  export type ActivePlansCreateManyPlanInputEnvelope = {
+    data: ActivePlansCreateManyPlanInput | ActivePlansCreateManyPlanInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PlanfilesUpsertWithWhereUniqueWithoutPlanInput = {
     where: PlanfilesWhereUniqueInput
     update: XOR<PlanfilesUpdateWithoutPlanInput, PlanfilesUncheckedUpdateWithoutPlanInput>
@@ -20660,6 +22080,32 @@ export namespace Prisma {
     planId?: IntFilter<"Planfiles"> | number
   }
 
+  export type ActivePlansUpsertWithWhereUniqueWithoutPlanInput = {
+    where: ActivePlansWhereUniqueInput
+    update: XOR<ActivePlansUpdateWithoutPlanInput, ActivePlansUncheckedUpdateWithoutPlanInput>
+    create: XOR<ActivePlansCreateWithoutPlanInput, ActivePlansUncheckedCreateWithoutPlanInput>
+  }
+
+  export type ActivePlansUpdateWithWhereUniqueWithoutPlanInput = {
+    where: ActivePlansWhereUniqueInput
+    data: XOR<ActivePlansUpdateWithoutPlanInput, ActivePlansUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type ActivePlansUpdateManyWithWhereWithoutPlanInput = {
+    where: ActivePlansScalarWhereInput
+    data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutPlanInput>
+  }
+
+  export type ActivePlansScalarWhereInput = {
+    AND?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+    OR?: ActivePlansScalarWhereInput[]
+    NOT?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+    id?: IntFilter<"ActivePlans"> | number
+    planName?: StringFilter<"ActivePlans"> | string
+    planId?: IntFilter<"ActivePlans"> | number
+    sectionId?: IntFilter<"ActivePlans"> | number
+  }
+
   export type PlanCreateWithoutPlanFilesInput = {
     planName: string
     planDescription?: string | null
@@ -20670,6 +22116,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     notes?: string | null
+    activePlans?: ActivePlansCreateNestedManyWithoutPlanInput
   }
 
   export type PlanUncheckedCreateWithoutPlanFilesInput = {
@@ -20683,6 +22130,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     notes?: string | null
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutPlanInput
   }
 
   export type PlanCreateOrConnectWithoutPlanFilesInput = {
@@ -20711,6 +22159,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    activePlans?: ActivePlansUpdateManyWithoutPlanNestedInput
   }
 
   export type PlanUncheckedUpdateWithoutPlanFilesInput = {
@@ -20724,6 +22173,127 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanCreateWithoutActivePlansInput = {
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    workAreaId?: number | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanUncheckedCreateWithoutActivePlansInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    workAreaId?: number | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanCreateOrConnectWithoutActivePlansInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutActivePlansInput, PlanUncheckedCreateWithoutActivePlansInput>
+  }
+
+  export type SectionCreateWithoutActivePlansInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutActivePlansInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutActivePlansInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutActivePlansInput, SectionUncheckedCreateWithoutActivePlansInput>
+  }
+
+  export type PlanUpsertWithoutActivePlansInput = {
+    update: XOR<PlanUpdateWithoutActivePlansInput, PlanUncheckedUpdateWithoutActivePlansInput>
+    create: XOR<PlanCreateWithoutActivePlansInput, PlanUncheckedCreateWithoutActivePlansInput>
+    where?: PlanWhereInput
+  }
+
+  export type PlanUpdateToOneWithWhereWithoutActivePlansInput = {
+    where?: PlanWhereInput
+    data: XOR<PlanUpdateWithoutActivePlansInput, PlanUncheckedUpdateWithoutActivePlansInput>
+  }
+
+  export type PlanUpdateWithoutActivePlansInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaId?: NullableIntFieldUpdateOperationsInput | number | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateWithoutActivePlansInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaId?: NullableIntFieldUpdateOperationsInput | number | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type SectionUpsertWithoutActivePlansInput = {
+    update: XOR<SectionUpdateWithoutActivePlansInput, SectionUncheckedUpdateWithoutActivePlansInput>
+    create: XOR<SectionCreateWithoutActivePlansInput, SectionUncheckedCreateWithoutActivePlansInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutActivePlansInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutActivePlansInput, SectionUncheckedUpdateWithoutActivePlansInput>
+  }
+
+  export type SectionUpdateWithoutActivePlansInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutActivePlansInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateWithoutTypeInput = {
@@ -20731,6 +22301,7 @@ export namespace Prisma {
     area?: number | null
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutTypeInput = {
@@ -20739,6 +22310,7 @@ export namespace Prisma {
     area?: number | null
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutTypeInput = {
@@ -20837,6 +22409,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivePlansCreateWithoutSectionInput = {
+    planName: string
+    plan: PlanCreateNestedOneWithoutActivePlansInput
+  }
+
+  export type ActivePlansUncheckedCreateWithoutSectionInput = {
+    id?: number
+    planName: string
+    planId: number
+  }
+
+  export type ActivePlansCreateOrConnectWithoutSectionInput = {
+    where: ActivePlansWhereUniqueInput
+    create: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ActivePlansCreateManySectionInputEnvelope = {
+    data: ActivePlansCreateManySectionInput | ActivePlansCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SectionTypeUpsertWithoutSectionsInput = {
     update: XOR<SectionTypeUpdateWithoutSectionsInput, SectionTypeUncheckedUpdateWithoutSectionsInput>
     create: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
@@ -20912,6 +22505,22 @@ export namespace Prisma {
     sectionId?: IntFilter<"Coordinate"> | number
   }
 
+  export type ActivePlansUpsertWithWhereUniqueWithoutSectionInput = {
+    where: ActivePlansWhereUniqueInput
+    update: XOR<ActivePlansUpdateWithoutSectionInput, ActivePlansUncheckedUpdateWithoutSectionInput>
+    create: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ActivePlansUpdateWithWhereUniqueWithoutSectionInput = {
+    where: ActivePlansWhereUniqueInput
+    data: XOR<ActivePlansUpdateWithoutSectionInput, ActivePlansUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type ActivePlansUpdateManyWithWhereWithoutSectionInput = {
+    where: ActivePlansScalarWhereInput
+    data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutSectionInput>
+  }
+
   export type AssetCreateWithoutTypeInput = {
     name: string
     description: string
@@ -20972,6 +22581,7 @@ export namespace Prisma {
     area?: number | null
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutAssetsInput = {
@@ -20980,6 +22590,7 @@ export namespace Prisma {
     sectionType: number
     area?: number | null
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutAssetsInput = {
@@ -21025,6 +22636,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutAssetsInput = {
@@ -21033,6 +22645,7 @@ export namespace Prisma {
     sectionType?: IntFieldUpdateOperationsInput | number
     area?: NullableIntFieldUpdateOperationsInput | number | null
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateWithoutCoordinatesInput = {
@@ -21040,6 +22653,7 @@ export namespace Prisma {
     area?: number | null
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     assets?: AssetCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutCoordinatesInput = {
@@ -21048,6 +22662,7 @@ export namespace Prisma {
     sectionType: number
     area?: number | null
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutCoordinatesInput = {
@@ -21071,6 +22686,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     assets?: AssetUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutCoordinatesInput = {
@@ -21079,6 +22695,7 @@ export namespace Prisma {
     sectionType?: IntFieldUpdateOperationsInput | number
     area?: NullableIntFieldUpdateOperationsInput | number | null
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type MineCreateManyOwnerInput = {
@@ -21334,6 +22951,12 @@ export namespace Prisma {
     type: string
   }
 
+  export type ActivePlansCreateManyPlanInput = {
+    id?: number
+    planName: string
+    sectionId: number
+  }
+
   export type PlanfilesUpdateWithoutPlanInput = {
     fileName?: StringFieldUpdateOperationsInput | string
     filePath?: StringFieldUpdateOperationsInput | string
@@ -21354,6 +22977,23 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ActivePlansUpdateWithoutPlanInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    section?: SectionUpdateOneRequiredWithoutActivePlansNestedInput
+  }
+
+  export type ActivePlansUncheckedUpdateWithoutPlanInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansUncheckedUpdateManyWithoutPlanInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type SectionCreateManyTypeInput = {
     id?: number
     name: string
@@ -21365,6 +23005,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutTypeInput = {
@@ -21373,6 +23014,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateManyWithoutTypeInput = {
@@ -21392,6 +23034,12 @@ export namespace Prisma {
     id?: number
     latitude: number
     longitude: number
+  }
+
+  export type ActivePlansCreateManySectionInput = {
+    id?: number
+    planName: string
+    planId: number
   }
 
   export type AssetUpdateWithoutSectionInput = {
@@ -21429,6 +23077,23 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansUpdateWithoutSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
+  }
+
+  export type ActivePlansUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AssetCreateManyTypeInput = {
@@ -21531,6 +23196,10 @@ export namespace Prisma {
      * @deprecated Use PlanfilesDefaultArgs instead
      */
     export type PlanfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PlanfilesDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ActivePlansDefaultArgs instead
+     */
+    export type ActivePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ActivePlansDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SectionTypeDefaultArgs instead
      */

@@ -13,26 +13,26 @@ const AddAssetScehma = z.object({
 const addAsset: RequestHandler = async (req: Request, res: Response) => {
     const validatedData = AddAssetScehma.parse(req.body);
 
-    const newAsset = await prisma.asset.create({
-        data: {
-            assetName: validatedData.assetName,
-            assetDescription: validatedData.assetDescription,
-            assetModel: validatedData.assetModel,
-            assetLocation: validatedData.assetLocation,
-            assetTypeId: validatedData.assetType
-        }, select: {
-            assetId: true,
-            assetName: true,
-            assetDescription: true,
-            assetModel: true,
-            assetLocation: true,
-            assetType: true,
-        }
-    })
+    // const newAsset = await prisma.asset.create({
+    //     data: {
+    //         assetName: validatedData.assetName,
+    //         assetDescription: validatedData.assetDescription,
+    //         assetModel: validatedData.assetModel,
+    //         assetLocation: validatedData.assetLocation,
+    //         assetTypeId: validatedData.assetType
+    //     }, select: {
+    //         // assetId: true,
+    //         assetName: true,
+    //         assetDescription: true,
+    //         assetModel: true,
+    //         assetLocation: true,
+    //         assetType: true,
+    //     }
+    // })
 
     res.status(201).json({
         message: "Asset has been created successfully!",
-        data: newAsset,
+        data: [],
         error: null
     })
 }

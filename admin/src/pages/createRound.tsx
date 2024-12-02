@@ -121,10 +121,13 @@ const CreateRound = () => {
 
     useEffect(() => {
         async function getWorkAreas() {
-            const res = await axios.get("http://localhost:3000/api/v1/section")
-            const workAreas = res.data
-            //@ts-ignore
-            setWorkArea([...workAreas])
+            const res = await fetch("/api/data/section")
+            if(res.ok) {
+                const data = await res.json()
+                setWorkArea(prev => data.data);
+            }else{
+                setWorkArea([])
+            }
         }
         getWorkAreas();
     }, [])
@@ -273,19 +276,18 @@ const CreateRound = () => {
                                         <Label>Work Area</Label>
                                         <Select
                                             onValueChange={(value) => {
+                                                console.log(workArea[value-1].name)
                                                 setSelectedWorkArea(workArea[Number(value) - 1].name)
-                                                setFormData(prev => ({ ...prev, workArea: workArea[Number(value) - 1].name, workAreaId: workArea[Number(value - 1)].scaleLevel }))
+                                                setFormData(prev => ({ ...prev, workArea: workArea[Number(value) - 1].name, workAreaId: workArea[Number(value - 1)].id }))
                                             }}
                                         >
                                             <SelectTrigger>{selectedWorkArea}</SelectTrigger>
                                             <SelectContent>
-                                                {workArea
-                                                    ?.filter((item) => item.scaleLevel >= 3)
-                                                    .map((item, index) => (
-                                                        <SelectItem key={index} value={`${index + 1}`}>
-                                                            {item.name}
-                                                        </SelectItem>
-                                                    ))}
+                                                {
+                                                    workArea.map(wa => (
+                                                        <SelectItem value={wa.id}>{wa.name}</SelectItem>
+                                                    ))
+                                                }
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -416,21 +418,21 @@ const CreateRound = () => {
                                     {/* Repeat this block for each location/asset */}
                                     <ScrollArea className="h-[300px] w-full rounded-md border">
                                         {locations.map((item) => (
-                                            <div key={item.sectionId} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
+                                            <div key={item.id} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
                                                 <div className="flex items-center space-x-3">
                                                     <Checkbox
-                                                        checked={checkedLocations.some(loc => loc.id === item.sectionId)}
+                                                        checked={checkedLocations.some(loc => loc.id === item.id)}
                                                         onCheckedChange={() => handleCheckLocation(item)}
-                                                        id={`location-${item.sectionId}`}
+                                                        id={`location-${item.id}`}
                                                     />
                                                     <label
-                                                        htmlFor={`location-${item.sectionId}`}
+                                                        htmlFor={`location-${item.id}`}
                                                         className="flex items-center space-x-3 cursor-pointer"
                                                     >
                                                         <MapPin className="text-primary h-5 w-5" />
                                                         <div>
                                                             <p className="font-medium">{item.name}</p>
-                                                            <p className="text-xs text-muted-foreground">ID: {item.sectionId}</p>
+                                                            <p className="text-xs text-muted-foreground">ID: {item.id}</p>
                                                         </div>
                                                     </label>
                                                 </div>

@@ -108,18 +108,18 @@ enum PlanStatus {
 }
 
 model Plan {
-  planId          Int        @id @default(autoincrement())
+  planId          Int           @id @default(autoincrement())
   planName        String
   planDescription String?
   workAreaType    String?
   workAreaId      Int?
   form            Json
-  status          PlanStatus @default(Draft)
-
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  notes     String?
-  planFiles Planfiles[]
+  status          PlanStatus    @default(Draft)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  notes           String?
+  planFiles       Planfiles[]
+  activePlans     ActivePlans[]
 }
 
 model Planfiles {
@@ -129,6 +129,16 @@ model Planfiles {
   type     String
   planId   Int
   plan     Plan   @relation(fields: [planId], references: [planId])
+}
+
+model ActivePlans {
+  id        Int    @id @default(autoincrement())
+  planName  String
+  planId    Int
+  sectionId Int
+
+  plan    Plan    @relation(fields: [planId], references: [planId])
+  section Section @relation(fields: [sectionId], references: [id])
 }
 
 model SectionType {
@@ -144,9 +154,10 @@ model Section {
   sectionType Int
   area        Int?
 
-  type        SectionType  @relation(fields: [sectionType], references: [id])
+  type        SectionType   @relation(fields: [sectionType], references: [id])
   assets      Asset[]
   coordinates Coordinate[]
+  activePlans ActivePlans[]
 }
 
 model AssetType {

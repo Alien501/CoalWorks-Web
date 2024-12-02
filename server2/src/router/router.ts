@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { authRouter } from "./authRouter";
-import { configRouter } from "./configRouter";
+// import { configRouter } from "./configRouter";
 import { sectionRouter } from "./sectionRouter";
 import { userRouter } from "./userRouter";
 import { roleRouter } from "./roleRouter";
@@ -24,7 +24,7 @@ router.use('/login', authRouter)
 // router.use(verifyToken);
 
 // Configuration Routes
-router.use('/config', configRouter);
+// router.use('/config', configRouter);
 
 // Section Routes
 router.use('/section', sectionRouter);

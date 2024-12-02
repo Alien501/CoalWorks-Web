@@ -1,14 +1,16 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { EllipsisIcon, EyeIcon, LayoutList, LinkIcon, Pencil, FileTextIcon, ImageIcon, CheckCircleIcon, MapPin, PencilIcon, PlusIcon, CircleChevronDown, CircleChevronUp } from "lucide-react";
+import { EllipsisIcon, EyeIcon, ChevronRight, LayoutList, LinkIcon, FileText, FileQuestion, X, Pencil, MoreHorizontal, FileTextIcon, ImageIcon, CheckCircleIcon, MapPin, PencilIcon, PlusIcon, CircleChevronDown, CircleChevronUp } from "lucide-react";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox"
 import axios from "axios";
+import { useFieldSelection } from "@/hooks/useFieldSelector";
 import {
     Dialog,
     DialogContent,
@@ -28,6 +30,322 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useEffect } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+
+
+
+export const FieldSelector: React.FC<FieldSelectorProps> = ({
+    planDetails,
+    roundDetails,
+    selectedFields,
+    onFieldSelect,
+}) => {
+    const renderPlanFields = () => (
+        <div className="space-y-2">
+            <h3 className="font-semibold mb-2">Plan Details</h3>
+            {Object.keys(planDetails).map(key => (
+                <div key={key} className="flex items-center space-x-2 py-1">
+                    <Checkbox
+                        id={`plan-${key}`}
+                        checked={selectedFields.includes(`plan-${key}`)}
+                        onCheckedChange={() => onFieldSelect(`plan-${key}`)}
+                    />
+                    <Label
+                        htmlFor={`plan-${key}`}
+                        className="text-sm font-medium cursor-pointer"
+                    >
+                        {key.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
+                    </Label>
+                </div>
+            ))}
+        </div>
+    );
+
+    const renderSectionFields = () => (
+        <div className="space-y-4 mt-4">
+            <h3 className="font-semibold">Sections and Tasks</h3>
+            {roundDetails.map(section => (
+                <div key={section.id} className="pl-2 border-l-2 border-gray-200">
+                    <div className="flex items-center space-x-2 py-1">
+                        <Checkbox
+                            id={`section-${section.id}-name`}
+                            checked={selectedFields.includes(`section-${section.id}-name`)}
+                            onCheckedChange={() => onFieldSelect(`section-${section.id}-name`)}
+                        />
+                        <Label
+                            htmlFor={`section-${section.id}-name`}
+                            className="text-sm font-medium cursor-pointer"
+                        >
+                            {section.name}
+                        </Label>
+                    </div>
+
+                    <div className="pl-4 space-y-2 mt-2">
+                        {section.tasks.map(task => (
+                            <div key={task.id} className="flex items-center space-x-2">
+                                <Checkbox
+                                    id={`task-${section.id}-${task.id}`}
+                                    checked={selectedFields.includes(`task-${section.id}-${task.id}`)}
+                                    onCheckedChange={() => onFieldSelect(`task-${section.id}-${task.id}`)}
+                                />
+                                <Label
+                                    htmlFor={`task-${section.id}-${task.id}`}
+                                    className="text-sm cursor-pointer"
+                                >
+                                    {task.name}
+                                </Label>
+                            </div>
+                        ))}
+
+                        {section.questions.map(question => (
+                            <div key={question.id} className="flex items-center space-x-2">
+                                <Checkbox
+                                    id={`question-${section.id}-${question.id}`}
+                                    checked={selectedFields.includes(`question-${section.id}-${question.id}`)}
+                                    onCheckedChange={() => onFieldSelect(`question-${section.id}-${question.id}`)}
+                                />
+                                <Label
+                                    htmlFor={`question-${section.id}-${question.id}`}
+                                    className="text-sm cursor-pointer"
+                                >
+                                    {question.name}
+                                </Label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+
+    return (
+        <div className="p-4 space-y-4">
+            {renderPlanFields()}
+            {renderSectionFields()}
+        </div>
+    );
+};
+
+
+const getPlanFieldContent = (itemId: string, planDetails: PlanDetails): string => {
+    const fieldMap: Record<string, keyof PlanDetails> = {
+        planName: 'planName',
+        planDescription: 'planDescription',
+        workArea: 'workArea',
+        notes: 'notes'
+    };
+
+    const key = fieldMap[itemId];
+    if (!key) return 'N/A';
+
+    const value = planDetails[key];
+    const label = itemId
+        .replace(/([A-Z])/g, ' $1')
+        .toLowerCase()
+        .replace(/^./, str => str.toUpperCase());
+
+    return `${label}: ${value}`;
+};
+
+const PreviewHeader = () => (
+    <div className="bg-white border-b border-gray-200 p-6">
+        <div className="flex items-center space-x-4">
+            <FileText className="w-8 h-8 text-blue-600" />
+            <div>
+                <h1 className="text-2xl font-bold text-gray-900">Report Preview</h1>
+                <p className="text-sm text-gray-500">Generated on {new Date().toLocaleDateString()}</p>
+            </div>
+        </div>
+    </div>
+);
+
+const PreviewItem: React.FC<PreviewItemProps> = ({
+    itemType,
+    content,
+    textColor,
+    indent = false
+}) => (
+    <div className={`flex flex-col space-y-1 p-4 border-b border-gray-100 last:border-b-0 ${indent ? 'pl-12 bg-white' : ''
+        }`}>
+        <div className="flex items-center space-x-3">
+            <span className={`px-3 py-1 text-xs font-medium rounded-full ${textColor} bg-opacity-10`}>
+                {itemType}
+            </span>
+            <h3 className="text-gray-900 font-medium">{content}</h3>
+        </div>
+    </div>
+);
+
+const PreviewSection: React.FC<PreviewSectionProps> = ({ title, textColor, children }) => (
+    <div className="border-b border-gray-100 last:border-b-0">
+        <div className="flex items-center space-x-3 p-4 bg-gray-50">
+            <ChevronRight className="w-4 h-4 text-gray-400" />
+            <span className={`px-3 py-1 text-xs font-medium rounded-full ${textColor} bg-opacity-10`}>
+                Section
+            </span>
+            <h3 className="text-gray-900 font-medium">{title}</h3>
+        </div>
+        {children && <div className="pl-8">{children}</div>}
+    </div>
+);
+
+const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center h-[400px] bg-gray-50 rounded-lg p-8">
+        <FileQuestion className="w-12 h-12 text-gray-400 mb-4" />
+        <p className="text-gray-600 text-center max-w-sm">
+            No fields selected. Choose fields from the left to see a preview.
+        </p>
+    </div>
+);
+
+export const PreviewContent: React.FC<{
+    selectedFields: string[];
+    planDetails: PlanDetails;
+    roundDetails: any[];
+}> = ({
+    selectedFields,
+    planDetails,
+    roundDetails,
+}) => {
+        if (selectedFields.length === 0) {
+            return <EmptyState />;
+        }
+
+        const groupedFields = selectedFields.reduce((acc, field) => {
+            const [type, sectionId] = field.split('-');
+            const key = type === 'plan' ? 'plan' : sectionId;
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(field);
+            return acc;
+        }, {} as Record<string, string[]>);
+
+        const getFieldContent = (field: string) => {
+            const [type, sectionId, itemId] = field.split('-');
+
+            try {
+                if (type === 'plan') {
+                    return {
+                        content: getPlanFieldContent(itemId, planDetails),
+                        itemType: 'Plan',
+                        textColor: 'text-blue-600'
+                    };
+                }
+
+                const section = roundDetails.find(s => s.id === parseInt(sectionId));
+
+                if (type === 'section') {
+                    return {
+                        content: section?.name || 'Unknown Section',
+                        itemType: 'Section',
+                        textColor: 'text-emerald-600'
+                    };
+                }
+
+                if (type === 'task') {
+                    const task = section?.tasks.find(t => t.id === parseInt(itemId));
+                    return {
+                        content: task?.name || 'Unknown Task',
+                        itemType: 'Task',
+                        textColor: 'text-purple-600'
+                    };
+                }
+
+                if (type === 'question') {
+                    const question = section?.questions.find(q => q.id === parseInt(itemId));
+                    return {
+                        content: question?.name || 'Unknown Question',
+                        itemType: 'Question',
+                        textColor: 'text-orange-600'
+                    };
+                }
+
+                return {
+                    content: 'Unknown Field Type',
+                    itemType: 'Unknown',
+                    textColor: 'text-gray-600'
+                };
+            } catch (error) {
+                console.error('Error processing field:', field, error);
+                return {
+                    content: `Error processing ${field}`,
+                    itemType: 'Error',
+                    textColor: 'text-red-600'
+                };
+            }
+        };
+
+        return (
+            <div className="bg-white rounded-lg shadow-lg">
+                <PreviewHeader />
+
+                <div className="divide-y divide-gray-100">
+                    {/* Plan Details Section */}
+                    {groupedFields['plan']?.length > 0 && (
+                        <div className="bg-gray-50 p-4">
+                            {groupedFields['plan'].map(field => {
+                                const { content, itemType, textColor } = getFieldContent(field);
+                                return (
+                                    <PreviewItem
+                                        key={field}
+                                        itemType={itemType}
+                                        content={content}
+                                        textColor={textColor}
+                                    />
+                                );
+                            })}
+                        </div>
+                    )}
+
+                    {/* Sections with Tasks and Questions */}
+                    {Object.entries(groupedFields)
+                        .filter(([key]) => key !== 'plan')
+                        .map(([sectionId, fields]) => {
+                            const sectionFields = fields.filter(f => f.startsWith('section-'));
+                            const sectionContent = sectionFields[0]
+                                ? getFieldContent(sectionFields[0])
+                                : null;
+
+                            if (!sectionContent) return null;
+
+                            const items = fields
+                                .filter(f => !f.startsWith('section-'))
+                                .map(field => {
+                                    const { content, itemType, textColor } = getFieldContent(field);
+                                    return (
+                                        <PreviewItem
+                                            key={field}
+                                            itemType={itemType}
+                                            content={content}
+                                            textColor={textColor}
+                                            indent
+                                        />
+                                    );
+                                });
+
+                            return (
+                                <PreviewSection
+                                    key={sectionId}
+                                    title={sectionContent.content}
+                                    textColor={sectionContent.textColor}
+                                >
+                                    {items}
+                                </PreviewSection>
+                            );
+                        })}
+                </div>
+
+                <div className="p-4 bg-gray-50 rounded-b-lg border-t border-gray-100">
+                    <p className="text-sm text-gray-600 text-center">
+                        Total {selectedFields.length} field{selectedFields.length !== 1 ? 's' : ''} selected
+                    </p>
+                </div>
+            </div>
+        );
+    };
+
 
 const CreateRound = () => {
     const tablsList = [
@@ -54,6 +372,11 @@ const CreateRound = () => {
         questions: any[];
     }
 
+    interface CheckedLocation {
+        id: string;
+        name: string;
+    }
+
     const [tabs, setTabs] = useState(tablsList);
     const [sections, setSections] = useState<Section[]>([]);
     const [taskName, setTaskName] = useState("")
@@ -68,6 +391,36 @@ const CreateRound = () => {
     const [isQuestionDialogOpen, setIsQuestionDialogOpen] = useState(false)
     const [workArea, setWorkArea] = useState([])
     const [selectedWorkArea, setSelectedWorkArea] = useState("Work Area");
+    const [roundName, setRoundName] = useState("Round Name")
+    const [roundDescription, setRoundDescription] = useState("Round Description")
+    const [isRoundDetailsDialogOpen, setIsRounDetailsDialogOpen] = useState(false)
+    const [formDataSubmitted, setFormDataSubmitted] = useState(false)
+    const [locations, setLocations] = useState([])
+    const [checkedLocations, setCheckedLocations] = useState<string[]>([])
+    const [roundDetails, setRoundDetails] = useState<Section[]>([])
+    const [planDetails, setPlanDetails] = useState<PlanDetails | null>(null)
+    const [selectedFields, setSelectedFields] = useState<string[]>([])
+
+    const handleCheckLocation = (location: Location) => {
+        setCheckedLocations(prev =>
+            prev.some(loc => loc.id === location.sectionId)
+                ? prev.filter(loc => loc.id !== location.sectionId)
+                : [...prev, { id: location.sectionId, name: location.name }]
+        )
+    }
+
+    const checkedLocationsText = checkedLocations
+        .map(loc => `${loc.name} (ID: ${loc.id})`)
+        .join(', ')
+
+    const [formData, setFormData] = useState({
+        planName: '',
+        planDescription: '',
+        workArea: '',
+        notes: '',
+        workAreaId: '',
+        attachments: [] as File[]
+    })
 
 
     useEffect(() => {
@@ -79,6 +432,40 @@ const CreateRound = () => {
         }
         getWorkAreas();
     }, [])
+
+    useEffect(() => {
+        console.log(sections)
+    }, [sections])
+
+    useEffect(() => {
+        async function getSections() {
+            const planDetail = JSON.parse(localStorage.getItem("planDetail"))
+            if (planDetail && (planDetail.workAreaId > 0)) {
+                const res = await axios.get("http://localhost:3000/api/v1/section/" + planDetail?.workAreaId)
+                setLocations([...res.data.data])
+            }
+        }
+        getSections();
+    }, [formDataSubmitted])
+
+    useEffect(() => {
+        const storedRoundDetails = localStorage.getItem('roundDetail')
+        const storedPlanDetails = localStorage.getItem('planDetail')
+
+        if (storedRoundDetails) {
+            setRoundDetails(JSON.parse(storedRoundDetails))
+        }
+        if (storedPlanDetails) {
+            setPlanDetails(JSON.parse(storedPlanDetails))
+        }
+    }, [])
+
+    const handleCheckboxChange = (field: string) => {
+        console.log(field)
+        setSelectedFields(prev =>
+            prev.includes(field) ? prev.filter(f => f !== field) : [...prev, field]
+        )
+    }
 
     const toggleSection = (index: number) => {
         setExpandedSection((prev) => (prev === index ? null : index));
@@ -108,6 +495,10 @@ const CreateRound = () => {
         })
         setIsQuestionDialogOpen(false)
     };
+
+    function onRoundDetailsSubmitted() {
+        localStorage.setItem("roundDetail", JSON.stringify(sections))
+    }
 
 
     const onAddTask = (index: number) => {
@@ -150,9 +541,237 @@ const CreateRound = () => {
         setIsEditSectionDialogOpen(false)
     }
 
-    console.log(sections)
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
+    }
 
-    console.log(workArea)
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFormData(prev => ({
+                ...prev,
+                attachments: [...prev.attachments, ...Array.from(e.target.files)]
+            }))
+        }
+    }
+    const handleRemoveFile = (index: number) => {
+        setFormData(prev => ({
+            ...prev,
+            attachments: prev.attachments.filter((_, i) => i !== index)
+        }))
+    }
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("Form submitted with data:", formData);
+
+        try {
+            const localStorageData: Record<string, any> = {};
+
+            const formDataToSend = new FormData();
+            Object.entries(formData).forEach(async ([key, value]) => {
+                if (key === "attachments") {
+                    const attachmentsBase64 = await Promise.all(
+                        value.map((file: File) => toBase64(file))
+                    );
+                    localStorageData.attachments = attachmentsBase64;
+
+                    value.forEach((file: File) => {
+                        formDataToSend.append("attachments", file);
+                    });
+                } else {
+                    formDataToSend.append(key, value as string);
+                    localStorageData[key] = value;
+                }
+            });
+            localStorage.setItem("planDetail", JSON.stringify(localStorageData));
+            setFormDataSubmitted(!formDataSubmitted)
+
+            console.log("Data saved to localStorage:", localStorageData);
+
+            // Uncomment to send the data to an API
+            // const response = await fetch('/api/create-round', {
+            //     method: 'POST',
+            //     body: formDataToSend,
+            // });
+
+            // if (response.ok) {
+            //     console.log("Round created successfully");
+            // } else {
+            //     console.error("Failed to create round");
+            // }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+    };
+
+    const toBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
+    const EmptyState = () => (
+        <div className="flex flex-col items-center justify-center h-[400px] bg-gray-50 rounded-lg p-8">
+            <FileQuestion className="w-12 h-12 text-gray-400 mb-4" />
+            <p className="text-gray-600 text-center max-w-sm">
+                No fields selected. Choose fields from the left to see a preview.
+            </p>
+        </div>
+    );
+
+    const PreviewSection: React.FC<PreviewSectionProps> = ({ title, textColor, children }) => (
+        <div className="border-b border-gray-100 last:border-b-0">
+            <div className="flex items-center space-x-3 p-4 bg-gray-50">
+                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <span className={`px-3 py-1 text-xs font-medium rounded-full ${textColor} bg-opacity-10`}>
+                    Section
+                </span>
+                <h3 className="text-gray-900 font-medium">{title}</h3>
+            </div>
+            {children && <div className="pl-8">{children}</div>}
+        </div>
+    );
+
+    const PreviewContent: React.FC<PreviewContentProps> = ({
+        selectedFields,
+        planDetails,
+        roundDetails,
+    }) => {
+        if (selectedFields.length === 0) {
+            return <EmptyState />;
+        }
+
+        // Group fields by section
+        const groupedFields = selectedFields.reduce((acc, field) => {
+            const [type, sectionId] = field.split('-');
+            if (!acc[sectionId]) {
+                acc[sectionId] = [];
+            }
+            acc[sectionId].push(field);
+            return acc;
+        }, {} as Record<string, string[]>);
+
+        const getFieldContent = (field: string) => {
+            const [type, sectionId, itemId] = field.split('-');
+            let content = '';
+            let itemType = '';
+            let textColor = '';
+
+            try {
+                if (type === 'plan') {
+                    content = getPlanFieldContent(itemId, planDetails);
+                    itemType = 'Plan';
+                    textColor = 'text-blue-600 bg-blue-100';
+                } else if (type === 'section') {
+                    const section = roundDetails.find(s => s.id === parseInt(sectionId));
+                    content = section?.name || 'Unknown Section';
+                    itemType = 'Section';
+                    textColor = 'text-emerald-600 bg-emerald-100';
+                } else if (type === 'task') {
+                    const section = roundDetails.find(s => s.id === parseInt(sectionId));
+                    const task = section?.tasks.find(t => t.id === parseInt(itemId));
+                    content = task?.name || 'Unknown Task';
+                    itemType = 'Task';
+                    textColor = 'text-purple-600 bg-purple-100';
+                } else if (type === 'question') {
+                    const section = roundDetails.find(s => s.id === parseInt(sectionId));
+                    const question = section?.questions.find(q => q.id === parseInt(itemId));
+                    content = question?.name || 'Unknown Question';
+                    itemType = 'Question';
+                    textColor = 'text-orange-600 bg-orange-100';
+                }
+                return { content, itemType, textColor };
+            } catch (error) {
+                console.error('Error processing field:', field, error);
+                return {
+                    content: `Error processing ${field}`,
+                    itemType: 'Error',
+                    textColor: 'text-red-600 bg-red-100',
+                };
+            }
+        };
+
+        const renderSection = (sectionId: string, fields: string[]) => {
+            const sectionFields = fields.filter(field => field.startsWith('section-'));
+            const sectionContent = sectionFields[0] ? getFieldContent(sectionFields[0]) : null;
+            const otherFields = fields.filter(field => !field.startsWith('section-'));
+
+            if (!sectionContent) {
+                return otherFields.map(field => {
+                    const { content, itemType, textColor } = getFieldContent(field);
+                    return (
+                        <PreviewItem
+                            key={field}
+                            itemType={itemType}
+                            content={content}
+                            textColor={textColor}
+                        />
+                    );
+                });
+            }
+
+            return (
+                <PreviewSection
+                    key={sectionId}
+                    title={sectionContent.content}
+                    textColor={sectionContent.textColor}
+                >
+                    {otherFields.map(field => {
+                        const { content, itemType, textColor } = getFieldContent(field);
+                        return (
+                            <PreviewItem
+                                key={field}
+                                itemType={itemType}
+                                content={content}
+                                textColor={textColor}
+                                indent
+                            />
+                        );
+                    })}
+                </PreviewSection>
+            );
+        };
+
+        return (
+            <div className="bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
+                <PreviewHeader />
+
+                <div className="divide-y divide-gray-100">
+                    {/* Render plan items first */}
+                    {selectedFields
+                        .filter(field => field.startsWith('plan-'))
+                        .map(field => {
+                            const { content, itemType, textColor } = getFieldContent(field);
+                            return (
+                                <PreviewItem
+                                    key={field}
+                                    itemType={itemType}
+                                    content={content}
+                                    textColor={textColor}
+                                />
+                            );
+                        })}
+
+                    {/* Render sections with their nested items */}
+                    {Object.entries(groupedFields)
+                        .filter(([sectionId]) => sectionId !== '0') // Exclude plan items
+                        .map(([sectionId, fields]) => renderSection(sectionId, fields))}
+                </div>
+
+                {selectedFields.length > 0 && (
+                    <div className="p-4 bg-gray-50 rounded-b-lg border-t border-gray-100">
+                        <p className="text-sm text-gray-600 text-center">
+                            Total {selectedFields.length} field{selectedFields.length !== 1 ? 's' : ''} selected
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
+    };
 
     return (
         <section id="create-round" className="">
@@ -160,37 +779,27 @@ const CreateRound = () => {
                 <div id="header" className="h-20 p-1 flex items-center justify-between ">
                     <div className="w-full flex items-center justify-center">
                         <TabsList className="h-full rounded-full">
-                            {
-                                tabs.map((item, index) => (
-                                    item.status ?
-                                        <TabsTrigger className="space-x-2 h-full rounded-full" value={item.value}>
-                                            <span>
-                                                <Badge className="rounded-full h-6 w-6 font-semibold flex items-center justify-center">
-                                                    <span>{index + 1}</span>
-                                                </Badge>
-                                            </span>
-                                            <span>
-                                                {item.name}
-                                            </span>
-                                        </TabsTrigger>
-                                        :
-                                        <TabsTrigger className="space-x-2 h-full rounded-full" value={item.value}>
-                                            <span>
-                                                <Badge className="rounded-full h-6 w-6 font-semibold flex items-center justify-center">
-                                                    <span>{index + 1}</span>
-                                                </Badge>
-                                            </span>
-                                            <span>
-                                                {item.name}
-                                            </span>
-                                        </TabsTrigger>
-                                ))
-                            }
+                            {tabs.map((item, index) => (
+                                <TabsTrigger
+                                    key={item.value}
+                                    className="space-x-2 h-full rounded-full"
+                                    value={item.value}
+                                >
+                                    <span>
+                                        <Badge className="rounded-full h-6 w-6 font-semibold flex items-center justify-center">
+                                            <span>{index + 1}</span>
+                                        </Badge>
+                                    </span>
+                                    <span>
+                                        {item.name}
+                                    </span>
+                                </TabsTrigger>
+                            ))}
                         </TabsList>
                     </div>
                     <div className="flex space-x-2 items-center h-full">
                         <Button variant={'secondary'} className="rounded-full h-9">Cancel</Button>
-                        <Button className="rounded-full h-9">Save & Next</Button>
+                        <Button type="submit" form="plan-details-form" className="rounded-full h-9">Save & Next</Button>
                     </div>
                 </div>
                 <TabsContent value="plan-details">
@@ -198,68 +807,94 @@ const CreateRound = () => {
                         <CardHeader>
                             <p>Plan Details</p>
                         </CardHeader>
-                        <CardContent className="space-y-2">
-                            <div className="flex flex-col justify-start space-y-1">
-                                <Label htmlFor="plan-name">
-                                    Plan Name
-                                </Label>
-                                <Input
-                                    placeholder="Eg: inspection check"
-                                    id="plan-name"
-                                />
-                            </div>
-                            <div className="flex flex-col justify-start space-y-1">
-                                <Label htmlFor="plan-description">
-                                    Plan Name
-                                </Label>
-                                <Input
-                                    placeholder="Enter your description"
-                                    id="plan-description"
-                                />
-                            </div>
-                            <div className="flex justify-between space-x-2">
-                                <div className="w-full">
-                                    <Label>Work Area</Label>
-                                    <Select onValueChange={(value) => setSelectedWorkArea(workArea[Number(value) - 1].name)}>
-                                        <SelectTrigger>{selectedWorkArea}</SelectTrigger>
-                                        <SelectContent>
-                                            {workArea
-                                                ?.filter((item) => item.scaleLevel >= 3)
-                                                .map((item, index) => (
-                                                    <SelectItem key={index} value={`${index + 1}`}>
-                                                        {item.name}
-                                                    </SelectItem>
-                                                ))}
-
-                                        </SelectContent>
-                                    </Select>
+                        <CardContent>
+                            <form id="plan-details-form" onSubmit={handleSubmit} className="space-y-2">
+                                <div className="flex flex-col justify-start space-y-1">
+                                    <Label htmlFor="planName">
+                                        Plan Name
+                                    </Label>
+                                    <Input
+                                        placeholder="Eg: inspection check"
+                                        id="planName"
+                                        name="planName"
+                                        value={formData.planName}
+                                        onChange={handleInputChange}
+                                    />
                                 </div>
-                            </div>
-                            <div>
-                                <Label htmlFor="tags">Tags</Label>
-                                <Input
-                                    id="tags"
-                                    placeholder="Enter tags here seperated by commas"
-                                />
-                            </div>
-                            <div>
-                                <Label>Notes And Attachments</Label>
-                                <Textarea
-                                    placeholder="Enter notes"
-                                />
-                                <br />
-                                <Label htmlFor="round-file" className="flex items-center space-x-1 rounded-sm bg-gray-200/10 p-2 w-max h-9 hover:bg-gray-200/30 hover:cursor-pointer">
-                                    <span><LinkIcon /></span>
-                                    <span>Add Images or PDF</span>
-                                </Label>
-                                <Input
-                                    id="round-file"
-                                    type="file"
-                                    multiple
-                                    accept="image/*,.pdf,.docx"
-                                    className="hidden"
-                                />
-                            </div>
+                                <div className="flex flex-col justify-start space-y-1">
+                                    <Label htmlFor="planDescription">
+                                        Plan Description
+                                    </Label>
+                                    <Input
+                                        placeholder="Enter your description"
+                                        id="planDescription"
+                                        name="planDescription"
+                                        value={formData.planDescription}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="flex justify-between space-x-2">
+                                    <div className="w-full">
+                                        <Label>Work Area</Label>
+                                        <Select
+                                            onValueChange={(value) => {
+                                                setSelectedWorkArea(workArea[Number(value) - 1].name)
+                                                setFormData(prev => ({ ...prev, workArea: workArea[Number(value) - 1].name, workAreaId: workArea[Number(value - 1)].scaleLevel }))
+                                            }}
+                                        >
+                                            <SelectTrigger>{selectedWorkArea}</SelectTrigger>
+                                            <SelectContent>
+                                                {workArea
+                                                    ?.filter((item) => item.scaleLevel >= 3)
+                                                    .map((item, index) => (
+                                                        <SelectItem key={index} value={`${index + 1}`}>
+                                                            {item.name}
+                                                        </SelectItem>
+                                                    ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <Label htmlFor="notes">Notes And Attachments</Label>
+                                    <Textarea
+                                        placeholder="Enter notes"
+                                        id="notes"
+                                        name="notes"
+                                        value={formData.notes}
+                                        onChange={handleInputChange}
+                                    />
+                                    <br />
+                                    <Label htmlFor="round-file" className="flex items-center space-x-1 rounded-sm bg-gray-200/10 p-2 w-max h-9 hover:bg-gray-200/30 hover:cursor-pointer">
+                                        <span><LinkIcon /></span>
+                                        <span>Add Images or PDF</span>
+                                    </Label>
+                                    <Input
+                                        id="round-file"
+                                        name="attachments"
+                                        type="file"
+                                        multiple
+                                        accept="image/*,.pdf,.docx"
+                                        className="hidden"
+                                        onChange={handleFileChange}
+                                    />
+                                    <div className="mt-2 space-y-2">
+                                        {formData.attachments.map((file, index) => (
+                                            <div key={index} className="flex items-center justify-between border p-2 rounded">
+                                                <span>{file.name}</span>
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => handleRemoveFile(index)}
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </form>
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -269,10 +904,47 @@ const CreateRound = () => {
                         <div className="flex items-center space-x-4">
                             <LayoutList className="text-primary h-6 w-6" />
                             <div>
-                                <h2 className="text-xl font-semibold">Round Name</h2>
-                                <p className="text-sm text-muted-foreground">Round Description</p>
+                                <h2 className="text-xl font-semibold">{roundName}</h2>
+                                <p className="text-sm text-muted-foreground">{roundDescription}</p>
                             </div>
-                            <Button variant="ghost" size="sm"><PencilIcon className="h-4 w-4 mr-2" /> Edit</Button>
+                            <Dialog open={isRoundDetailsDialogOpen} onOpenChange={setIsRounDetailsDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline"><PencilIcon className=" mr-2" /> Edit</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Edit Round Details</DialogTitle>
+                                        {/* <DialogDescription>
+                                            Make changes to your profile here. Click save when you're done.
+                                        </DialogDescription> */}
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label htmlFor="round_name" className="text-right">
+                                                Round Name
+                                            </Label>
+                                            <Input
+                                                id="round_name"
+                                                className="col-span-3"
+                                                onChange={(e) => setRoundName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label htmlFor="round_description" className="text-right">
+                                                Round Description
+                                            </Label>
+                                            <Input
+                                                id="description"
+                                                className="col-span-3"
+                                                onChange={(e) => setRoundDescription(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <Button onClick={() => setIsRounDetailsDialogOpen(false)}>Save changes</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="text-sm">
@@ -287,7 +959,7 @@ const CreateRound = () => {
                                 <EyeIcon className="h-4 w-4 mr-2" />
                                 Preview
                             </Button>
-                            <Button size="sm">Next</Button>
+                            <Button size="sm" onClick={() => onRoundDetailsSubmitted()}>Next</Button>
                         </div>
                     </div>
 
@@ -297,7 +969,6 @@ const CreateRound = () => {
                             <CardHeader className="flex flex-row justify-between items-center">
                                 <h3 className="text-lg font-semibold">Locations/Assets</h3>
                                 <div className="flex items-center space-x-2">
-                                    <p className="text-sm text-muted-foreground">Tasks: 4</p>
                                     <Button variant="ghost" size="sm"><PlusIcon className="h-4 w-4" /></Button>
                                 </div>
                             </CardHeader>
@@ -308,19 +979,41 @@ const CreateRound = () => {
                                 />
                                 <div className="space-y-2">
                                     {/* Repeat this block for each location/asset */}
-                                    <div className="flex items-center justify-between p-2 bg-accent rounded-md">
-                                        <div className="flex items-center space-x-3">
-                                            <MapPin className="text-primary h-5 w-5" />
-                                            <div>
-                                                <p className="font-medium">SHR_UNIT</p>
-                                                <p className="text-xs text-muted-foreground">ID: SHR_UNIT</p>
+                                    <ScrollArea className="h-[300px] w-full rounded-md border">
+                                        {locations.map((item) => (
+                                            <div key={item.sectionId} className="flex items-center justify-between p-2 bg-accent rounded-md m-2">
+                                                <div className="flex items-center space-x-3">
+                                                    <Checkbox
+                                                        checked={checkedLocations.some(loc => loc.id === item.sectionId)}
+                                                        onCheckedChange={() => handleCheckLocation(item)}
+                                                        id={`location-${item.sectionId}`}
+                                                    />
+                                                    <label
+                                                        htmlFor={`location-${item.sectionId}`}
+                                                        className="flex items-center space-x-3 cursor-pointer"
+                                                    >
+                                                        <MapPin className="text-primary h-5 w-5" />
+                                                        <div>
+                                                            <p className="font-medium">{item.name}</p>
+                                                            <p className="text-xs text-muted-foreground">ID: {item.sectionId}</p>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <Button size="sm" variant="ghost">
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                        <span className="sr-only">More options</span>
+                                                    </Button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <Badge variant="secondary">3</Badge>
-                                            <Button size="sm" variant="ghost"><EllipsisIcon className="h-4 w-4" /></Button>
-                                        </div>
-                                    </div>
+                                        ))}
+                                    </ScrollArea>
+                                    <Textarea
+                                        value={checkedLocationsText}
+                                        readOnly
+                                        placeholder="Selected locations will appear here"
+                                        className="w-full h-24"
+                                    />
                                     {/* Repeat ends */}
                                 </div>
                             </CardContent>
@@ -439,13 +1132,12 @@ const CreateRound = () => {
                                                                             onChange={(e) => setQuestionName(e.target.value)}
                                                                         />
                                                                     </div>
-
                                                                     <div className="grid grid-cols-4 items-center gap-4">
                                                                         <Label htmlFor="question_response_type" className="text-right text-wrap">Response Type</Label>
                                                                         <DropdownMenu>
                                                                             <DropdownMenuTrigger asChild>
                                                                                 <Button variant="outline">
-                                                                                    {responseType[0].toUpperCase() + responseType.slice(1)}
+                                                                                    {questionResponseType[0].toUpperCase() + questionResponseType.slice(1)}
                                                                                 </Button>
                                                                             </DropdownMenuTrigger>
                                                                             <DropdownMenuContent className="w-56">
@@ -537,6 +1229,119 @@ const CreateRound = () => {
                                         </div>
                                     </div>
                                 )}
+                            </CardContent>
+                        </Card>
+                    </div>
+                </TabsContent>
+                <TabsContent value="pdf-setup" className="p-6 space-y-6 h-full">
+                    <div className="grid grid-cols-2 gap-6 h-full">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Select Fields for PDF Report</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <ScrollArea className="h-[calc(100vh-200px)]">
+                                    <Accordion type="multiple" className="w-full">
+                                        <AccordionItem value="plan-details">
+                                            <AccordionTrigger>Plan Details</AccordionTrigger>
+                                            <AccordionContent>
+                                                {planDetails && Object.entries(planDetails).map(([key, value]) => (
+                                                    <div key={key} className="flex items-center space-x-2 py-2">
+                                                        <Checkbox
+                                                            id={`plan-${key}`}
+                                                            checked={selectedFields.includes(`plan-${key}`)}
+                                                            onCheckedChange={() => handleCheckboxChange(`plan-${key}`)}
+                                                        />
+                                                        <label
+                                                            htmlFor={`plan-${key}`}
+                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        >
+                                                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                        </label>
+                                                    </div>
+                                                ))}
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                        {roundDetails.map((section) => (
+                                            <AccordionItem key={section.id} value={`section-${section.id}`}>
+                                                <AccordionTrigger>{section.name}</AccordionTrigger>
+                                                <AccordionContent>
+                                                    <div className="pl-4">
+                                                        <div className="flex items-center space-x-2 py-2">
+                                                            <Checkbox
+                                                                id={`section-${section.id}-name`}
+                                                                checked={selectedFields.includes(`section-${section.id}-name`)}
+                                                                onCheckedChange={() => handleCheckboxChange(`section-${section.id}-name`)}
+                                                            />
+                                                            <label
+                                                                htmlFor={`section-${section.id}-name`}
+                                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                            >
+                                                                Section Name
+                                                            </label>
+                                                        </div>
+                                                        <Accordion type="multiple" className="w-full">
+                                                            <AccordionItem value={`section-${section.id}-tasks`}>
+                                                                <AccordionTrigger>Tasks</AccordionTrigger>
+                                                                <AccordionContent>
+                                                                    {section.tasks.map((task) => (
+                                                                        <div key={task.id} className="flex items-center space-x-2 py-2 pl-4">
+                                                                            <Checkbox
+                                                                                id={`task-${section.id}-${task.id}`}
+                                                                                checked={selectedFields.includes(`task-${section.id}-${task.id}`)}
+                                                                                onCheckedChange={() => handleCheckboxChange(`task-${section.id}-${task.id}`)}
+                                                                            />
+                                                                            <label
+                                                                                htmlFor={`task-${section.id}-${task.id}`}
+                                                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                                            >
+                                                                                {task.name}
+                                                                            </label>
+                                                                        </div>
+                                                                    ))}
+                                                                </AccordionContent>
+                                                            </AccordionItem>
+                                                            <AccordionItem value={`section-${section.id}-questions`}>
+                                                                <AccordionTrigger>Questions</AccordionTrigger>
+                                                                <AccordionContent>
+                                                                    {section.questions.map((question) => (
+                                                                        <div key={question.id} className="flex items-center space-x-2 py-2 pl-4">
+                                                                            <Checkbox
+                                                                                id={`question-${section.id}-${question.id}`}
+                                                                                checked={selectedFields.includes(`question-${section.id}-${question.id}`)}
+                                                                                onCheckedChange={() => handleCheckboxChange(`question-${section.id}-${question.id}`)}
+                                                                            />
+                                                                            <label
+                                                                                htmlFor={`question-${section.id}-${question.id}`}
+                                                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                                            >
+                                                                                {question.name}
+                                                                            </label>
+                                                                        </div>
+                                                                    ))}
+                                                                </AccordionContent>
+                                                            </AccordionItem>
+                                                        </Accordion>
+                                                    </div>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))}
+                                    </Accordion>
+                                </ScrollArea>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>PDF Report Preview</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <ScrollArea className="h-[calc(100vh-200px)]">
+                                    <PreviewContent
+                                        selectedFields={selectedFields}
+                                        planDetails={planDetails}
+                                        roundDetails={roundDetails}
+                                    />
+                                </ScrollArea>
                             </CardContent>
                         </Card>
                     </div>

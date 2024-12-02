@@ -97,7 +97,6 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
 
             if (res.ok) {
                 const d = await res.json();
-                console.log(d)
                 onSaveClicked(formData, sectionType)
                 setFormData({
                     name: '',

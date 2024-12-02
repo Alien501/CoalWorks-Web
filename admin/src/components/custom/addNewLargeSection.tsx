@@ -1,162 +1,123 @@
-import React, { useEffect, useState } from "react"
-import { TabsContent } from "@/components/ui/tabs"
-import { Search, Plus, MapPin } from 'lucide-react'
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogTrigger, DialogDescription, DialogTitle, DialogHeader, DialogFooter } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { MapboxAreaPlotter } from "./MapBoxAreaPlotter"
+import React, { useEffect, useState } from "react";
+import { Search, Plus, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import axios from "axios"
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import axios from "axios";
+import { useForm, Controller } from "react-hook-form";
+import { MapboxAreaPlotter } from "./MapBoxAreaPlotter";
 
-interface Mine {
-    mineId: number;
-    name: string;
-    location: string;
-}
-
-interface SectionType {
-    typeId: number;
-    typeName: string;
+// TypeScript interfaces
+interface outerMostLevels {
+    id: number,
+    name: string,
+    description?: string
 }
 
 interface FormData {
     name: string;
     description: string;
     area: number;
-    mine: Mine | null;
-    type: SectionType | null;
+    type?: {
+        id: number;
+        name: string;
+    } | null;
     coordinates: number[][];
 }
 
-interface LargeSection {
-    itemId: number;
-    itemName: string;
+interface AddNewSectionProps {
+    searchTerm: string;
+    setSearchTerm: (term: string) => void;
+    onSaveClicked: (data: FormData) => void;
+    outerMostLevels?: { id: number; name: string }[];
 }
 
-export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, sectionType }: {
-    searchTerm: string,
-    setSearchTerm: (term: string) => void,
-    onSaveClicked: (data: FormData, type: string) => void,
-    sectionType: string
+export const AddNewLargeSection: React.FC<AddNewSectionProps> = ({
+    searchTerm,
+    setSearchTerm,
+    onSaveClicked,
+    outerMostLevels = [{ id: 1, name: "district" }, { id: 2, name: "subsidiary" }, { id: 3, name: "area" }],
 }) => {
-    const [largeSections, setLargeSections] = useState<LargeSection[]>([])
-    const [formData, setFormData] = useState<FormData>({
-        name: '',
-        description: '',
-        area: 0,
-        mine: null,
-        type: null,
-        coordinates: []
-    })
+    const [isMapOpen, setIsMapOpen] = useState(false);
 
-    const [isMapOpen, setIsMapOpen] = useState(false)
-
-    const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setFormData(prev => ({
-            ...prev,
-            [name]: name === 'area' ? Number(value) : value
-        }))
-    }
-
-    const handleTypeChange = (value: string) => {
-        const selectedSection = largeSections.find((item) => item.itemId.toString() === value)
-        if (selectedSection) {
-            setFormData(prev => ({
-                ...prev,
-                type: { typeId: selectedSection.itemId, typeName: selectedSection.itemName }
-            }))
+    const {
+        control,
+        register,
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { errors }
+    } = useForm<FormData>({
+        defaultValues: {
+            name: "",
+            description: "",
+            area: 0,
+            coordinates: [],
+            type: null
         }
-    }
-
-    const addNewLargeSection = async () => {
-        if (formData.name.trim() === '' || formData.description.trim() === '') {
-            return
-        }
-        try {
-            const res = await fetch('/api/data/section/create', {
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    ...formData,
-                    area: formData.area,
-                    scaleLevel: 5
-                })
-            })
-
-            if (res.ok) {
-                const d = await res.json();
-                onSaveClicked(formData, sectionType)
-                setFormData({
-                    name: '',
-                    description: '',
-                    area: 0,
-                    mine: null,
-                    type: null,
-                    coordinates: []
-                })
-            } else {
-                console.error('Failed to save section')
-            }
-        } catch (error) {
-            console.error('Error saving section:', error)
-        }
-    }
-
-    useEffect(() => {
-        const getAllLargeSections = async () => {
-            try {
-                const res = await axios.get("/api/data/section/items?scaleLevel=5");
-                const largeSections = res?.data;
-                setLargeSections(largeSections)
-            } catch (error) {
-                console.error('Error fetching large sections:', error)
-            }
-        }
-        getAllLargeSections();
-    }, [])
+    });
 
     const handleSaveCoordinates = (coordinates: number[][]) => {
-        setFormData(prev => ({
-            ...prev,
-            coordinates
-        }))
-        setIsMapOpen(false)
-    }
+        setValue('coordinates', coordinates);
+        setIsMapOpen(false);
+    };
+
+    const onSubmit = async (data: FormData) => {
+        try {
+            //   const res = await fetch("/api/data/section/create", {
+            //     method: "POST",
+            //     headers: {
+            //       "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({
+            //       ...data,
+            //       scaleLevel: 5
+            //     })
+            //   });
+
+            //   if (res.ok) {
+            //     onSaveClicked(data, sectionType);
+            //     reset();
+            //   }
+            onSaveClicked(data)
+            console.log(JSON.stringify(data))
+        } catch (error) {
+            console.error("Error saving section:", error);
+        }
+    };
 
     return (
-        <TabsContent value="section1">
-            <div className="flex justify-between items-center mb-6 p-2">
-                <h1 className="text-3xl font-bold">Large Area</h1>
-                <div className="flex items-center space-x-4">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                        <Input
-                            placeholder="Search Section..."
-                            className="pl-10 w-64"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+        <div className="flex justify-between items-center mb-6 p-2">
+            <h1 className="text-3xl font-bold">Section Details</h1>
+            <div className="flex items-center space-x-4">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <Input
+                        placeholder="Search Section..."
+                        className="pl-10 w-64"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
 
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button>
-                                <Plus className="mr-2 h-4 w-4" /> Add New Section
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button>
+                            <Plus className="mr-2 h-4 w-4" /> Add New Section
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <DialogHeader>
                                 <DialogTitle>Add new section</DialogTitle>
                                 <DialogDescription>
@@ -165,16 +126,13 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                             </DialogHeader>
                             <div className="grid gap-4 py-4">
                                 <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="name" className="text-right">
-                                        Name
-                                    </Label>
+                                    <Label htmlFor="name" className="text-right">Name</Label>
                                     <Input
                                         id="name"
                                         className="col-span-3"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={onValueChange}
+                                        {...register("name", { required: "Name is required" })}
                                     />
+                                    {errors.name && <span className="text-red-500">{errors.name.message}</span>}
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="description" className="text-right">
@@ -183,10 +141,9 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                                     <Input
                                         id="description"
                                         className="col-span-3"
-                                        name="description"
-                                        value={formData.description}
-                                        onChange={onValueChange}
+                                        {...register("description", { required: "Description is required" })}
                                     />
+                                    {errors.description && <span className="text-red-500">{errors.description.message}</span>}
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="area" className="text-right">
@@ -194,80 +151,89 @@ export const AddNewLargeSection = ({ searchTerm, setSearchTerm, onSaveClicked, s
                                     </Label>
                                     <Input
                                         id="area"
-                                        className="col-span-3"
-                                        name="area"
                                         type="number"
-                                        value={formData.area}
-                                        onChange={onValueChange}
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="Mine" className="text-right">
-                                        Mine
-                                    </Label>
-                                    <Input
-                                        id="mine"
                                         className="col-span-3"
-                                        type="text"
-                                        name="mine"
-                                        onChange={onValueChange}
+                                        {...register("area", {
+                                            required: "Area is required",
+                                            min: { value: 0, message: "Area must be positive" }
+                                        })}
                                     />
+                                    {errors.area && <span className="text-red-500">{errors.area.message}</span>}
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="type" className="text-right">
                                         Type
                                     </Label>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="outline">{formData.type ? formData.type.typeName : 'Select Type'}</Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent className="w-56">
-                                            <DropdownMenuLabel>Set Section Type</DropdownMenuLabel>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuRadioGroup value={formData.type ? formData.type.typeId.toString() : ''} onValueChange={handleTypeChange}>
-                                                {largeSections.map((item) => (
-                                                    <DropdownMenuRadioItem value={item.itemId.toString()} key={item.itemId}>
-                                                        {item.itemName}
-                                                    </DropdownMenuRadioItem>
-                                                ))}
-                                            </DropdownMenuRadioGroup>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                                    <Controller
+                                        name="type"
+                                        control={control}
+                                        rules={{ required: "Type is required" }}
+                                        render={({ field }) => (
+                                            <Select
+                                                onValueChange={(value) => {
+                                                    const selectedType = outerMostLevels.find(item => item.id === Number(value));
+                                                    field.onChange(selectedType);
+                                                }}
+                                                value={field.value ? String(field.value.id) : undefined}
+                                            >
+                                                <SelectTrigger className="w-[180px]">
+                                                    <SelectValue placeholder="Select Type" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectLabel>Section Type</SelectLabel>
+                                                        {outerMostLevels.map((item) => (
+                                                            <SelectItem
+                                                                key={item.id}
+                                                                value={String(item.id)}
+                                                            >
+                                                                {item.name}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        )}
+                                    />
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="coordinates" className="text-right">
                                         Plot Area
                                     </Label>
                                     <Button
+                                        type="button"
                                         onClick={() => setIsMapOpen(true)}
                                         className="col-span-3"
                                     >
                                         <MapPin className="mr-2 h-4 w-4" />
-                                        {formData.coordinates.length > 0 ? 'Edit Area' : 'Plot Area on Map'}
+                                        {control._formValues.coordinates && control._formValues.coordinates.length > 0
+                                            ? 'Edit Area'
+                                            : 'Plot Area on Map'}
                                     </Button>
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button onClick={addNewLargeSection} type="submit">Save changes</Button>
+                                <Button type="submit">Save changes</Button>
                             </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </div>
-            </div>
-
-            {isMapOpen && (
-                <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
-                    <DialogContent className="sm:max-w-[800px] sm:max-h-[600px]">
-                        <DialogHeader>
-                            <DialogTitle>Plot Area on Map</DialogTitle>
-                            <DialogDescription>
-                                Click on the map to create a polygon. Double-click to finish.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <MapboxAreaPlotter onSaveCoordinates={handleSaveCoordinates} initialCoordinates={formData.coordinates} />
+                        </form>
                     </DialogContent>
                 </Dialog>
-            )}
-        </TabsContent>
-    )
-}
+            </div>
+
+            <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
+                <DialogContent className="sm:max-w-[800px] sm:max-h-[600px]">
+                    <DialogHeader>
+                        <DialogTitle>Plot Area on Map</DialogTitle>
+                        <DialogDescription>
+                            Click on the map to create a polygon. Double-click to finish.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <MapboxAreaPlotter
+                        onSaveCoordinates={handleSaveCoordinates}
+                        initialCoordinates={control._formValues.coordinates}
+                    />
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
+};

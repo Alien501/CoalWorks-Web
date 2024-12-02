@@ -13,6 +13,7 @@ import MasterShift from './pages/MasterShift'
 import MasterAsset from './pages/MasterAsset'
 import Dashboard from './pages/dashboard'
 import { Plants } from './pages/plants'
+import { NewPlants } from './pages/plants2'
 import MapConfg from './pages/MapConfg'
 import NewMap from './pages/MapTest'
 import Positions from './pages/positions'
@@ -20,6 +21,7 @@ import { Toaster } from 'sonner'
 import RolesAndPermission from './pages/rolesAndPermissions'
 import RoundPlan from './pages/roundePlan'
 import CreateRound from './pages/createRound'
+import { MineInit } from './pages/mapConfgNew'
 
 function App() {
 
@@ -54,7 +56,7 @@ function App() {
         },
         {
           path: 'master-data/plants',
-          element: <Plants />
+          element: <NewPlants/>
         },
         {
           path: 'master-data/locations',
@@ -103,8 +105,8 @@ function App() {
       element: <Dashboard />
     },
     {
-      path: '/map-confg',
-      element: <MapConfg />
+      path: '/mine-init',
+      element: <MineInit />
     },
     {
       path: '/map-test',

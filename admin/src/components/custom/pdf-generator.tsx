@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { Document, Page, Text, View, StyleSheet, PDFViewer, pdf } from '@react-pdf/renderer'
 import { Checkbox } from "@/components/ui/checkbox"
@@ -11,10 +13,32 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, marginBottom: 10, fontWeight: 'bold' },
   subtitle: { fontSize: 18, marginBottom: 10, fontWeight: 'bold' },
   text: { fontSize: 12, marginBottom: 5 },
-  table: { display: 'table', width: 'auto', borderStyle: 'solid', borderWidth: 1, borderRightWidth: 0, borderBottomWidth: 0 },
-  tableRow: { margin: 'auto', flexDirection: 'row' },
-  tableCol: { width: '25%', borderStyle: 'solid', borderWidth: 1, borderLeftWidth: 0, borderTopWidth: 0 },
-  tableCell: { margin: 'auto', marginTop: 5, fontSize: 10 }
+  table: { 
+    display: 'table', 
+    width: '100%', 
+    borderStyle: 'solid', 
+    borderWidth: 1, 
+    borderColor: '#000',
+    marginVertical: 10,
+  },
+  tableRow: { 
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    borderBottomStyle: 'solid',
+  },
+  tableCol: { 
+    width: '33.33%', 
+    borderRightWidth: 1,
+    borderRightColor: '#000',
+    borderRightStyle: 'solid',
+    padding: 5,
+  },
+  tableCell: { 
+    margin: 5,
+    fontSize: 10,
+    textAlign: 'center',
+  }
 })
 
 const PDFGenerator = () => {

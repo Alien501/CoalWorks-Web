@@ -24,6 +24,7 @@ interface Asset {
 interface Section {
     id: string;
     name: string;
+    type: { name: string };
 }
 
 interface Task {
@@ -33,67 +34,75 @@ interface Task {
     responseType: 'text' | 'image';
 }
 
+interface Question {
+    id: string;
+    sectionId: string;
+    name: string;
+    responseType: 'text' | 'image';
+}
+
 interface RoundAndTasksProps {
     sections: Section[];
     assets: Asset[];
+    roundName: string;
+    setRoundName: (name: string) => void;
+    roundDescription: string;
+    setRoundDescription: (description: string) => void;
+    checkedAssets: string[];
+    handleCheckAssets: (asset: Asset) => void;
+    tasks: Task[];
+    setTasks: (tasks: Task[]) => void;
+    questions: Question[];
+    setQuestions: (questions: Question[]) => void;
+    isRoundDetailsDialogOpen: boolean;
+    setIsRoundDetailsDialogOpen: (open: boolean) => void;
+    isAddTaskDialogOpen: boolean;
+    setIsAddTaskDialogOpen: (open: boolean) => void;
+    isAddQuestionDialogOpen: boolean;
+    setIsAddQuestionDialogOpen: (open: boolean) => void;
+    selectedSectionId: string;
+    setSelectedSectionId: (id: string) => void;
+    taskName: string;
+    setTaskName: (name: string) => void;
+    questionName: string;
+    setQuestionName: (name: string) => void;
+    responseType: 'text' | 'image';
+    setResponseType: (type: 'text' | 'image') => void;
+    handleAddTask: () => void;
+    handleAddQuestion: () => void;
+    handleSaveRoundDetails: () => void;
 }
 
-const RoundAndTasks: React.FC<RoundAndTasksProps> = ({ sections, assets }) => {
-    const [roundName, setRoundName] = useState("Round Name")
-    const [roundDescription, setRoundDescription] = useState("Round Description")
-    const [isRoundDetailsDialogOpen, setIsRoundDetailsDialogOpen] = useState(false)
-    const [checkedAssets, setCheckedAssets] = useState<string[]>([])
-    const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false)
-    const [tasks, setTasks] = useState<Task[]>([])
-    const [selectedSectionId, setSelectedSectionId] = useState<string>('')
-    const [taskName, setTaskName] = useState('')
-    const [responseType, setResponseType] = useState<'text' | 'image'>('text')
 
-    const [questionName, setQuestionName] = useState('')
-    const [isAddQuestionDialogOpen, setIsAddQuestionDialogOpen] = useState(false)
-    const [questions, setQuestions] = useState<Question[]>([])
-    console.log("Sections: ",sections);
-    console.log("assets: ", assets)
-    const handleAddQuestion = () => {
-        if (selectedSectionId && questionName) {
-            setQuestions([...questions, {
-                id: `question-${Date.now()}`,
-                sectionId: selectedSectionId,
-                name: questionName,
-                responseType
-            }])
-            setSelectedSectionId('')
-            setQuestionName('')
-            setResponseType('text')
-            setIsAddQuestionDialogOpen(false)
-        }
-    }
-
-    const handleCheckAssets = (asset: Asset) => {
-        setCheckedAssets(prev => {
-            const isAlreadyChecked = prev.includes(asset.id);
-            if (isAlreadyChecked) {
-                return prev.filter(id => id !== asset.id);
-            } else {
-                return [...prev, asset.id];
-            }
-        });
-    }
-
-    const handleAddTask = () => {
-        if (selectedSectionId && taskName) {
-            setTasks([...tasks, {
-                id: `task-${Date.now()}`,
-                sectionId: selectedSectionId,
-                name: taskName,
-                responseType
-            }])
-            setSelectedSectionId('')
-            setTaskName('')
-            setResponseType('text')
-            setIsAddTaskDialogOpen(false)
-        }
-    }
+const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
+    sections, 
+    assets,
+    roundName,
+    setRoundName,
+    roundDescription,
+    setRoundDescription,
+    checkedAssets,
+    handleCheckAssets,
+    tasks,
+    questions,
+    isRoundDetailsDialogOpen,
+    setIsRoundDetailsDialogOpen,
+    isAddTaskDialogOpen,
+    setIsAddTaskDialogOpen,
+    isAddQuestionDialogOpen,
+    setIsAddQuestionDialogOpen,
+    selectedSectionId,
+    setSelectedSectionId,
+    taskName,
+    setTaskName,
+    questionName,
+    setQuestionName,
+    responseType,
+    setResponseType,
+    handleAddTask,
+    handleAddQuestion,
+    handleSaveRoundDetails
+}) => {
 
     return (
         <div className="p-6 space-y-6 h-full">
@@ -208,8 +217,8 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({ sections, assets }) => {
       <div key={section.id} className="mb-6 border bg-secondary p-2 rounded-lg">
         <div>
           <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Section Name:</span> {section.name}</h4>
-          {JSON.stringify(section)}
-          {/* <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Type:</span> {section.type.name}</h4> */}
+          {/* {JSON.stringify(section)} */}
+          <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Type:</span> {section.type.name}</h4>
         </div>
 
         {/* Render tasks for the section */}
@@ -328,7 +337,7 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({ sections, assets }) => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-            hi there
+            hi there - hello there
             <Dialog open={isAddQuestionDialogOpen} onOpenChange={setIsAddQuestionDialogOpen}>
                 <DialogContent>
                     <DialogHeader>

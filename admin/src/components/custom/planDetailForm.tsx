@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,13 +8,16 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { LinkIcon, X } from 'lucide-react'
 
-const PlanDetailsForm = () => {
-  const [formData, setFormData] = useState({
-    planName: '',
-    planDescription: '',
-    notes: '',
-    attachments: [] as File[]
-  })
+const PlanDetailsForm = ({formData, setFormData}: {formData: any, setFormData: (a: any) => void}) => {
+  // const [formData, setFormData] = useState()
+
+  useEffect(() => {
+    setFormData(prev => {
+      return {
+        ...formData
+      }
+    });
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

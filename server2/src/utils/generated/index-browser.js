@@ -203,13 +203,18 @@ exports.Prisma.PlanScalarFieldEnum = {
   planId: 'planId',
   planName: 'planName',
   planDescription: 'planDescription',
-  workAreaType: 'workAreaType',
-  workAreaId: 'workAreaId',
   form: 'form',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   notes: 'notes'
+};
+
+exports.Prisma.PlanAssetsScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  assetId: 'assetId',
+  assetName: 'assetName'
 };
 
 exports.Prisma.PlanfilesScalarFieldEnum = {
@@ -300,6 +305,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Shift: 'Shift',
   Plan: 'Plan',
+  PlanAssets: 'PlanAssets',
   Planfiles: 'Planfiles',
   ActivePlans: 'ActivePlans',
   SectionType: 'SectionType',

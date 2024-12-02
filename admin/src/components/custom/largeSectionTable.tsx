@@ -53,7 +53,7 @@ export const LargeSectionTable: React.FC<LargeSectionTableProps> = ({
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description || "N/A"}</TableCell>
                             <TableCell>{item.area ? parseFloat(item.area.toString()).toFixed(2) : "N/A"}</TableCell>
-                            <TableCell>{item.type.name}</TableCell>
+                            <TableCell>{item.name}</TableCell>
                             <TableCell>
                                 <Button onClick={() => setSelectedSection(item)}>View Map</Button>
                             </TableCell>
@@ -72,7 +72,7 @@ export const LargeSectionTable: React.FC<LargeSectionTableProps> = ({
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem 
                                             className="text-red-600" 
-                                            onClick={() => deleteSection(item.itemName, sectionType)}
+                                            onClick={() => deleteSection(item.name, sectionType)}
                                         >
                                             Delete Section
                                         </DropdownMenuItem>

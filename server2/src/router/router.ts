@@ -8,6 +8,8 @@ import { roleRouter } from "./roleRouter";
 import { positionRouter } from "./positionRouter";
 import { shiftRouter } from "./shiftRouter";
 import { assetRouter } from "./assetRouter";
+import { assetTypeRouter } from "./assetTypeRouter";
+import { sectionTypeRouter } from "./sectionTypeRouter";
 
 const router = Router();
 
@@ -29,6 +31,8 @@ router.use('/login', authRouter)
 // Section Routes
 router.use('/section', sectionRouter);
 
+router.use('/sectiontype', sectionTypeRouter);
+
 // User Routes
 router.use('/user', userRouter);
 
@@ -43,5 +47,7 @@ router.use('/shift', shiftRouter);
 
 // Assets Routes
 router.use('/asset', assetRouter);
+
+router.use('/assetType', assetTypeRouter);
 
 export { router };

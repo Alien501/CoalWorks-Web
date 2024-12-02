@@ -9,39 +9,41 @@ import PDFGenerator from '@/components/custom/pdf-generator'
 import axios from 'axios'
 
 const tabsList = [
-    { name: 'Plan Details', value: 'plan-details', status: true },
-    { name: 'Rounds and Tasks', value: 'round-and-tasks', status: false },
-    { name: 'PDF Setup', value: 'pdf-setup', status: false }
-  ]
-  
-  interface Asset {
-      id: string;
-      name: string;
-      type: { name: string };
-      section: { name: string; area: number };
-      description: string;
-  }
-  
-  interface Section {
-      id: string;
-      name: string;
-      type: { name: string };
-  }
-  
-  interface Task {
-      id: string;
-      sectionId: string;
-      name: string;
-      responseType: 'text' | 'image';
-  }
-  
-  interface Question {
-      id: string;
-      sectionId: string;
-      name: string;
-      responseType: 'text' | 'image';
-  }
-  
+  { name: 'Plan Details', value: 'plan-details', status: true },
+  { name: 'Rounds and Tasks', value: 'round-and-tasks', status: false },
+  { name: 'PDF Setup', value: 'pdf-setup', status: false }
+]
+
+interface Asset {
+  id: string;
+  name: string;
+  type: { name: string };
+  section: { name: string; area: number };
+  description: string;
+}
+
+interface Section {
+  id: string;
+  name: string;
+  type: { name: string };
+}
+
+interface Task {
+  id: string;
+  sectionId: string;
+  name: string;
+  responseType: 'text' | 'image';
+  type: "task"
+}
+
+interface Question {
+  id: string;
+  sectionId: string;
+  name: string;
+  responseType: 'text' | 'image';
+  type: "question"
+}
+
 
 const CreateRound = () => {
   const [tabs, setTabs] = useState(tabsList)
@@ -69,8 +71,21 @@ const CreateRound = () => {
   const [taskName, setTaskName] = useState('')
   const [questionName, setQuestionName] = useState('')
   const [responseType, setResponseType] = useState<'text' | 'image'>('text')
+  const [selectedAssetsData, setSelectedAssetsData] = useState([])
+  console.log(selectedAssetsData)
 
   const handleCheckAssets = (asset: Asset) => {
+    setSelectedAssetsData((prev) => {
+      const isAlreadySelected = prev.some(selectedAsset =>
+        selectedAsset.assetId === asset.id
+      );
+
+      if (isAlreadySelected) {
+        return prev.filter(selectedAsset => selectedAsset.assetId !== asset.id);
+      } else {
+        return [...prev, { assetId: asset.id, assetName: asset.name }];
+      }
+    });
     setCheckedAssets(prev => {
       const isAlreadyChecked = prev.includes(asset.id);
       if (isAlreadyChecked) {
@@ -87,7 +102,8 @@ const CreateRound = () => {
         id: `task-${Date.now()}`,
         sectionId: selectedSectionId,
         name: taskName,
-        responseType
+        responseType,
+        type: "task"
       }])
       resetTaskDialogState()
     }
@@ -99,6 +115,7 @@ const CreateRound = () => {
         id: `question-${Date.now()}`,
         sectionId: selectedSectionId,
         name: questionName,
+        type: "question",
         responseType
       }])
       resetQuestionDialogState()
@@ -173,35 +190,37 @@ const CreateRound = () => {
         </TabsContent>
         <TabsContent value="round-and-tasks">
           <RoundAndTasks
-          sections={sections} 
-          assets={assets}
-          roundName={roundName}
-          setRoundName={setRoundName}
-          roundDescription={roundDescription}
-          setRoundDescription={setRoundDescription}
-          checkedAssets={checkedAssets}
-          handleCheckAssets={handleCheckAssets}
-          tasks={tasks}
-          setTasks={setTasks}
-          questions={questions}
-          setQuestions={setQuestions}
-          isRoundDetailsDialogOpen={isRoundDetailsDialogOpen}
-          setIsRoundDetailsDialogOpen={setIsRoundDetailsDialogOpen}
-          isAddTaskDialogOpen={isAddTaskDialogOpen}
-          setIsAddTaskDialogOpen={setIsAddTaskDialogOpen}
-          isAddQuestionDialogOpen={isAddQuestionDialogOpen}
-          setIsAddQuestionDialogOpen={setIsAddQuestionDialogOpen}
-          selectedSectionId={selectedSectionId}
-          setSelectedSectionId={setSelectedSectionId}
-          taskName={taskName}
-          setTaskName={setTaskName}
-          questionName={questionName}
-          setQuestionName={setQuestionName}
-          responseType={responseType}
-          setResponseType={setResponseType}
-          handleAddTask={handleAddTask}
-          handleAddQuestion={handleAddQuestion}
-          handleSaveRoundDetails={handleSaveRoundDetails}
+            sections={sections}
+            assets={assets}
+            roundName={roundName}
+            setRoundName={setRoundName}
+            roundDescription={roundDescription}
+            setRoundDescription={setRoundDescription}
+            checkedAssets={checkedAssets}
+            handleCheckAssets={handleCheckAssets}
+            tasks={tasks}
+            setTasks={setTasks}
+            questions={questions}
+            setQuestions={setQuestions}
+            isRoundDetailsDialogOpen={isRoundDetailsDialogOpen}
+            setIsRoundDetailsDialogOpen={setIsRoundDetailsDialogOpen}
+            isAddTaskDialogOpen={isAddTaskDialogOpen}
+            setIsAddTaskDialogOpen={setIsAddTaskDialogOpen}
+            isAddQuestionDialogOpen={isAddQuestionDialogOpen}
+            setIsAddQuestionDialogOpen={setIsAddQuestionDialogOpen}
+            selectedSectionId={selectedSectionId}
+            setSelectedSectionId={setSelectedSectionId}
+            taskName={taskName}
+            setTaskName={setTaskName}
+            questionName={questionName}
+            setQuestionName={setQuestionName}
+            responseType={responseType}
+            setResponseType={setResponseType}
+            handleAddTask={handleAddTask}
+            handleAddQuestion={handleAddQuestion}
+            handleSaveRoundDetails={handleSaveRoundDetails}
+            selectedAssetsData={selectedAssetsData}
+            planDetails={planDetails}
           />
         </TabsContent>
         <TabsContent value="pdf-setup">

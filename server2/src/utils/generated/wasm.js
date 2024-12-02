@@ -144,76 +144,6 @@ exports.Prisma.OwnerScalarFieldEnum = {
   contactPhone: 'contactPhone'
 };
 
-exports.Prisma.LargeSectionScalarFieldEnum = {
-  sectionId: 'sectionId',
-  name: 'name',
-  description: 'description',
-  area: 'area',
-  typeId: 'typeId',
-  insiderToId: 'insiderToId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.MediumSectionScalarFieldEnum = {
-  sectionId: 'sectionId',
-  name: 'name',
-  description: 'description',
-  area: 'area',
-  typeId: 'typeId',
-  insiderToId: 'insiderToId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SmallSectionScalarFieldEnum = {
-  sectionId: 'sectionId',
-  name: 'name',
-  description: 'description',
-  area: 'area',
-  typeId: 'typeId',
-  insiderToId: 'insiderToId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.MicroSectionScalarFieldEnum = {
-  sectionId: 'sectionId',
-  name: 'name',
-  description: 'description',
-  area: 'area',
-  typeId: 'typeId',
-  insiderToId: 'insiderToId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.UnitSectionScalarFieldEnum = {
-  unitId: 'unitId',
-  name: 'name',
-  description: 'description',
-  model: 'model',
-  typeId: 'typeId',
-  insiderToId: 'insiderToId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SectionTypeScalarFieldEnum = {
-  typeId: 'typeId',
-  scaleLevel: 'scaleLevel',
-  name: 'name',
-  description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SectionItemScalarFieldEnum = {
-  itemId: 'itemId',
-  typeId: 'typeId',
-  itemName: 'itemName'
-};
-
 exports.Prisma.PositionScalarFieldEnum = {
   positionId: 'positionId',
   positionName: 'positionName',
@@ -290,15 +220,38 @@ exports.Prisma.PlanfilesScalarFieldEnum = {
   planId: 'planId'
 };
 
+exports.Prisma.SectionTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sectionType: 'sectionType',
+  area: 'area'
+};
+
+exports.Prisma.AssetTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description'
+};
+
 exports.Prisma.AssetScalarFieldEnum = {
-  assetId: 'assetId',
-  assetName: 'assetName',
-  assetDescription: 'assetDescription',
-  assetModel: 'assetModel',
-  assetLocation: 'assetLocation',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  assetTypeId: 'assetTypeId'
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  assetType: 'assetType',
+  assetSection: 'assetSection'
+};
+
+exports.Prisma.CoordinateScalarFieldEnum = {
+  id: 'id',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  sectionId: 'sectionId'
 };
 
 exports.Prisma.SortOrder = {
@@ -334,13 +287,6 @@ exports.PlanStatus = exports.$Enums.PlanStatus = {
 exports.Prisma.ModelName = {
   Mine: 'Mine',
   Owner: 'Owner',
-  LargeSection: 'LargeSection',
-  MediumSection: 'MediumSection',
-  SmallSection: 'SmallSection',
-  MicroSection: 'MicroSection',
-  UnitSection: 'UnitSection',
-  SectionType: 'SectionType',
-  SectionItem: 'SectionItem',
   Position: 'Position',
   Role: 'Role',
   Permission: 'Permission',
@@ -348,7 +294,11 @@ exports.Prisma.ModelName = {
   Shift: 'Shift',
   Plan: 'Plan',
   Planfiles: 'Planfiles',
-  Asset: 'Asset'
+  SectionType: 'SectionType',
+  Section: 'Section',
+  AssetType: 'AssetType',
+  Asset: 'Asset',
+  Coordinate: 'Coordinate'
 };
 
 /**

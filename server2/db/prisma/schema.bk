@@ -1,0 +1,143 @@
+model LargeSection {
+  sectionId   Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  area        Decimal? @db.Decimal(10, 2)
+  typeId      Int?
+  insiderToId Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  mine           Mine?           @relation(fields: [insiderToId], references: [mineId])
+  sectionType    SectionType?    @relation(fields: [typeId], references: [typeId])
+  mediumSections MediumSection[]
+  assets         Asset[]         @relation("LargeSectionAssets")
+  Plan           Plan[]
+
+  @@map("large_sections")
+}
+
+model MediumSection {
+  sectionId   Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  area        Decimal? @db.Decimal(10, 2)
+  typeId      Int?
+  insiderToId Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  largeSection  LargeSection?  @relation(fields: [insiderToId], references: [sectionId])
+  sectionType   SectionType?   @relation(fields: [typeId], references: [typeId])
+  smallSections SmallSection[]
+  assets        Asset[]        @relation("MediumSectionAssets")
+  Plan          Plan[]
+
+  @@map("medium_sections")
+}
+
+model SmallSection {
+  sectionId   Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  area        Decimal? @db.Decimal(10, 2)
+  typeId      Int?
+  insiderToId Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  mediumSection MediumSection? @relation(fields: [insiderToId], references: [sectionId])
+  sectionType   SectionType?   @relation(fields: [typeId], references: [typeId])
+  microSections MicroSection[]
+  assets        Asset[]        @relation("SmallSectionAssets")
+  Plan          Plan[]
+
+  @@map("small_sections")
+}
+
+model MicroSection {
+  sectionId   Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  area        Decimal? @db.Decimal(10, 2)
+  typeId      Int?
+  insiderToId Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  smallSection SmallSection? @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType?  @relation(fields: [typeId], references: [typeId])
+  unitSections UnitSection[]
+  assets       Asset[]       @relation("MicroSectionAssets")
+  Plan         Plan[]
+
+  @@map("micro_sections")
+}
+
+model UnitSection {
+  unitId      Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  model       String?  @db.VarChar(255)
+  typeId      Int?
+  insiderToId Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  microSection MicroSection? @relation(fields: [insiderToId], references: [sectionId])
+  sectionType  SectionType?  @relation(fields: [typeId], references: [typeId])
+  assets       Asset[]       @relation("UnitSectionAssets")
+  Plan         Plan[]
+
+  @@map("unit_sections")
+}
+
+model SectionType {
+  typeId      Int      @id @default(autoincrement())
+  scaleLevel  Int      @db.Integer
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  largeSections  LargeSection[]
+  mediumSections MediumSection[]
+  smallSections  SmallSection[]
+  microSections  MicroSection[]
+  unitSections   UnitSection[]
+
+  sectionItems SectionItem[]
+
+  @@unique([scaleLevel, name])
+  @@map("section_types")
+}
+
+model SectionItem {
+  itemId   Int    @id @default(autoincrement())
+  typeId   Int
+  itemName String @db.VarChar(255)
+
+  sectionType SectionType @relation(fields: [typeId], references: [typeId])
+  assets      Asset[]
+
+  @@map("section_items")
+}
+
+
+model Asset {
+  assetId          Int    @id @default(autoincrement())
+  assetName        String @db.VarChar(255)
+  assetDescription String @db.VarChar(255)
+  assetModel       String @db.VarChar(255)
+  assetLocation    Int?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  assetTypeId      Int?
+  assetType        SectionItem? @relation(fields: [assetTypeId], references: [itemId])
+  
+  largeSection     LargeSection?  @relation("LargeSectionAssets", fields: [assetLocation], references: [sectionId], map: "Asset_LargeSection_Location")
+  mediumSection    MediumSection? @relation("MediumSectionAssets", fields: [assetLocation], references: [sectionId], map: "Asset_MediumSection_Location")
+  smallSection     SmallSection?  @relation("SmallSectionAssets", fields: [assetLocation], references: [sectionId], map: "Asset_SmallSection_Location")
+  unitSection      UnitSection?   @relation("UnitSectionAssets", fields: [assetLocation], references: [unitId], map: "Asset_UnitSection_Location")
+  microSection     MicroSection?  @relation("MicroSectionAssets", fields: [assetLocation], references: [sectionId], map: "Asset_MicroSection_Location")
+}

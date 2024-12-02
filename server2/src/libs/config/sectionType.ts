@@ -13,6 +13,7 @@ const SectionTypeUpdateSchema = SectionTypeSchema.partial();
 // Create SectionType
 const createSectionType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
+    console.log("reaches here")
     const validatedData = SectionTypeSchema.parse(req.body);
     const sectionType = await prisma.sectionType.create({
       data: validatedData,

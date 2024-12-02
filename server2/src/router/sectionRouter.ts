@@ -1,48 +1,28 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { getSections } from "../libs/config/section2";
 import { asyncHandler } from "../utils/asyncHandler";
+import { createSection, getSectionById, getSections, updateSection, deleteSection } from "../libs/config/section";
 
 const sectionRouter = Router();
 
-// sectionRouter.post('/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await newSection(req, res, next);
-// }))
+sectionRouter.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await createSection(req, res, next);
+}))
 
 sectionRouter.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await getSections(req, res, next);
 }))
 
-// sectionRouter.get('/:scaleLevel', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getSections(req, res, next);
-// }))
+sectionRouter.get('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await getSectionById(req, res, next);
+}))
 
-// sectionRouter.get('/items', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getAllSectionTypes(req, res, next);
-// }))
+sectionRouter.post('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await updateSection(req, res, next);
+}))
 
-// sectionRouter.get('/large', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getAllLargeSections(req, res, next);
-// }))
-
-// sectionRouter.get('/medium', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getAllMediumSections(req, res, next);
-// }))
-
-// sectionRouter.get('/small', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getAllSmallSections(req, res, next);
-// }))
-
-// sectionRouter.get('/unit', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getAllUnitSections(req, res, next);
-// }))
-
-// sectionRouter.get('/micro', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await getAllMicroSections(req, res, next);
-// }))
-
-// sectionRouter.post('/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     await newSection(req, res, next);
-// }))
+sectionRouter.delete('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await deleteSection(req, res, next);
+}))
 
 export {
     sectionRouter

@@ -5,7 +5,7 @@ import { createAssetType, getAssetTypeById, updateAssetType, deleteAssetType, ge
 const assetTypeRouter = Router();
 
 
-assetTypeRouter.post('/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+assetTypeRouter.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await createAssetType(req, res, next);
 }))
 

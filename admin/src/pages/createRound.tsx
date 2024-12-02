@@ -173,39 +173,45 @@ const CreateRound = () => {
         </TabsContent>
         <TabsContent value="round-and-tasks">
           <RoundAndTasks
-          sections={sections} 
-          assets={assets}
-          roundName={roundName}
-          setRoundName={setRoundName}
-          roundDescription={roundDescription}
-          setRoundDescription={setRoundDescription}
-          checkedAssets={checkedAssets}
-          handleCheckAssets={handleCheckAssets}
-          tasks={tasks}
-          setTasks={setTasks}
-          questions={questions}
-          setQuestions={setQuestions}
-          isRoundDetailsDialogOpen={isRoundDetailsDialogOpen}
-          setIsRoundDetailsDialogOpen={setIsRoundDetailsDialogOpen}
-          isAddTaskDialogOpen={isAddTaskDialogOpen}
-          setIsAddTaskDialogOpen={setIsAddTaskDialogOpen}
-          isAddQuestionDialogOpen={isAddQuestionDialogOpen}
-          setIsAddQuestionDialogOpen={setIsAddQuestionDialogOpen}
-          selectedSectionId={selectedSectionId}
-          setSelectedSectionId={setSelectedSectionId}
-          taskName={taskName}
-          setTaskName={setTaskName}
-          questionName={questionName}
-          setQuestionName={setQuestionName}
-          responseType={responseType}
-          setResponseType={setResponseType}
-          handleAddTask={handleAddTask}
-          handleAddQuestion={handleAddQuestion}
-          handleSaveRoundDetails={handleSaveRoundDetails}
+            sections={sections} 
+            assets={assets}
+            roundName={roundName}
+            setRoundName={setRoundName}
+            roundDescription={roundDescription}
+            setRoundDescription={setRoundDescription}
+            checkedAssets={checkedAssets}
+            handleCheckAssets={handleCheckAssets}
+            tasks={tasks}
+            setTasks={setTasks}
+            questions={questions}
+            setQuestions={setQuestions}
+            isRoundDetailsDialogOpen={isRoundDetailsDialogOpen}
+            setIsRoundDetailsDialogOpen={setIsRoundDetailsDialogOpen}
+            isAddTaskDialogOpen={isAddTaskDialogOpen}
+            setIsAddTaskDialogOpen={setIsAddTaskDialogOpen}
+            isAddQuestionDialogOpen={isAddQuestionDialogOpen}
+            setIsAddQuestionDialogOpen={setIsAddQuestionDialogOpen}
+            selectedSectionId={selectedSectionId}
+            setSelectedSectionId={setSelectedSectionId}
+            taskName={taskName}
+            setTaskName={setTaskName}
+            questionName={questionName}
+            setQuestionName={setQuestionName}
+            responseType={responseType}
+            setResponseType={setResponseType}
+            handleAddTask={handleAddTask}
+            handleAddQuestion={handleAddQuestion}
+            handleSaveRoundDetails={handleSaveRoundDetails}
           />
         </TabsContent>
         <TabsContent value="pdf-setup">
-          <PDFGenerator />
+          <PDFGenerator
+            planName={planDetails.planName}
+            planDescription={planDetails.planDescription}
+            notes={planDetails.notes}
+            tasks={tasks}
+            questions={questions}
+          />
         </TabsContent>
       </Tabs>
     </section>

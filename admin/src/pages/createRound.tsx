@@ -26,7 +26,9 @@ const CreateRound = () => {
           axios.get("/api/data/section"),
           axios.get("/api/data/asset")
         ])
-        setSections(sectionsRes.data)
+        console.log(sectionsRes.data.data);
+        console.log(assetsRes.data)
+        setSections(sectionsRes.data.data)
         setAssets(assetsRes.data)
       } catch (error) {
         console.error("Error fetching data:", error)

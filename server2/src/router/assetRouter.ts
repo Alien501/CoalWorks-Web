@@ -9,9 +9,7 @@ assetRouter.post('/', asyncHandler(async (req: Request, res: Response, next: Nex
 }))
 
 assetRouter.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json({
-        hi: "hio"
-    })
+    await getAssets(req, res, next)
 }))
 
 assetRouter.post('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {

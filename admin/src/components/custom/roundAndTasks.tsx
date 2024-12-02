@@ -52,7 +52,8 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({ sections, assets }) => {
     const [questionName, setQuestionName] = useState('')
     const [isAddQuestionDialogOpen, setIsAddQuestionDialogOpen] = useState(false)
     const [questions, setQuestions] = useState<Question[]>([])
-
+    console.log("Sections: ",sections);
+    console.log("assets: ", assets)
     const handleAddQuestion = () => {
         if (selectedSectionId && questionName) {
             setQuestions([...questions, {
@@ -207,7 +208,8 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({ sections, assets }) => {
       <div key={section.id} className="mb-6 border bg-secondary p-2 rounded-lg">
         <div>
           <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Section Name:</span> {section.name}</h4>
-          <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Type:</span> {section.type.name}</h4>
+          {JSON.stringify(section)}
+          {/* <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Type:</span> {section.type.name}</h4> */}
         </div>
 
         {/* Render tasks for the section */}

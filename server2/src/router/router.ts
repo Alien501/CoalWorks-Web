@@ -10,6 +10,7 @@ import { shiftRouter } from "./shiftRouter";
 import { assetRouter } from "./assetRouter";
 import { assetTypeRouter } from "./assetTypeRouter";
 import { sectionTypeRouter } from "./sectionTypeRouter";
+import { roundsRouter } from "./roundsRouter";
 
 const router = Router();
 
@@ -51,5 +52,5 @@ router.use('/assetType', assetTypeRouter);
 
 
 // Plans
-router.use('/rounds', )
+router.use('/rounds', roundsRouter)
 export { router };

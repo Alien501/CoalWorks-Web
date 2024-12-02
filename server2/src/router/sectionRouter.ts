@@ -12,6 +12,10 @@ sectionRouter.get('/', asyncHandler(async (req: Request, res: Response, next: Ne
     await getAllSections(req, res, next);
 }))
 
+// sectionRouter.get('/:scaleLevel', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+//     await getSections(req, res, next);
+// }))
+
 sectionRouter.get('/items', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await getAllSectionTypes(req, res, next);
 }))
@@ -34,11 +38,6 @@ sectionRouter.get('/unit', asyncHandler(async (req: Request, res: Response, next
 
 sectionRouter.get('/micro', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await getAllMicroSections(req, res, next);
-}))
-
-
-sectionRouter.get('/:scaleLevel', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getSections(req, res, next);
 }))
 
 sectionRouter.post('/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {

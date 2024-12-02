@@ -7,6 +7,7 @@ import { userRouter } from "./userRouter";
 import { roleRouter } from "./roleRouter";
 import { positionRouter } from "./positionRouter";
 import { shiftRouter } from "./shiftRouter";
+import { assetRouter } from "./assetRouter";
 
 const router = Router();
 
@@ -39,5 +40,8 @@ router.use('/position', positionRouter)
 
 // Shift Routes
 router.use('/shift', shiftRouter);
+
+// Assets Routes
+router.use('/asset', assetRouter);
 
 export { router };

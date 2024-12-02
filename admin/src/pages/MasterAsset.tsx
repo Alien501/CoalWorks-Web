@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -21,6 +21,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { toast } from "sonner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { fetchSections } from "@/utils/fetchSections"
+import { fetchSectionTypes } from "@/utils/fetchSectionTypes"
+import { addNewAsset } from "@/utils/addNewAsset"
 
 interface Assets {
     id: string
@@ -91,13 +95,49 @@ export default function MasterAsset() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [model, setModel] = useState("");
-    const [type, setType] = useState("");
-    const [location, setLocation] = useState("");
+    const [type, setType] = useState(0);
+    const [location, setLocation] = useState(0);
+    const [locations, setLocations] = useState([]);
+    const [sectionType, setSectionType] = useState([]);
 
-    const onSaveAsset = ()=> {
-        setAssets((prev: any) => [...prev, {name: name, description: description, model: model, type: type, location: location}])
-        toast.success("Asset Created Successfully")
-        setIsDialogOpen(false)
+    const getAndSetLocation = async () => {
+        const d = await fetchSections();
+        if(!d) {
+            setLocation([]);
+        }else{
+            console.log(d);
+            setLocations(d);
+        }
+    }
+
+    const onLocationChoosed = async (scaleLevel: string) => {
+        setLocation(prev => parseInt(scaleLevel));
+        const res = await fetchSectionTypes(parseInt(scaleLevel));
+        if(!res) {
+            setSectionType([]);
+            return;
+        }
+        setSectionType(res)
+    };
+
+    const onTypeChoosed = async (itemId: string) => {
+        setType(parseInt(itemId));
+    }
+
+    useEffect(() => {
+        getAndSetLocation()
+    }, [])
+    const onSaveAsset = async ()=> {
+        const data = {assetName: name, assetDescription: description, assetModel: model, assetType: type, assetLocation: location};
+        const res = await addNewAsset(data);
+        if(!res) {
+            toast.error('Something went wrong! try again later!')
+            return;
+        }else{
+            setAssets((prev: any) => [...prev, data])
+            toast.success("Asset Created Successfully")
+            setIsDialogOpen(false)
+        }
     }
     return (
         <div className="container mx-auto py-10">
@@ -156,24 +196,42 @@ export default function MasterAsset() {
                                     />
                                 </div>
                                 <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="type" className="text-right">
-                                        Type
-                                    </Label>
-                                    <Input
-                                        id="type"
-                                        className="col-span-3"
-                                        onChange={(e) => setType(e.target.value)}
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="location" className="text-right">
                                         Location
                                     </Label>
-                                    <Input
-                                        id="location"
-                                        className="col-span-3"
-                                        onChange={(e) => setLocation(e.target.value)}
-                                    />
+                                    <Select onValueChange={onLocationChoosed}>
+                                        <SelectTrigger id="location">
+                                            <SelectValue placeholder="Location" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {
+                                                locations && (
+                                                    locations.map(location => (
+                                                        <SelectItem value={location.scaleLevel}>{location.name}</SelectItem>
+                                                    ))
+                                                )
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="type" className="text-right">
+                                        Location
+                                    </Label>
+                                    <Select onValueChange={onTypeChoosed}>
+                                        <SelectTrigger id="type">
+                                            <SelectValue placeholder="Item Type" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {
+                                                sectionType && (
+                                                    sectionType.map(section => (
+                                                        <SelectItem value={section.itemId}>{section.itemName}</SelectItem>
+                                                    ))
+                                                )
+                                            }
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                             </div>
                             <DialogFooter>

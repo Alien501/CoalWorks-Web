@@ -273,15 +273,32 @@ exports.Prisma.PlanScalarFieldEnum = {
   planId: 'planId',
   planName: 'planName',
   planDescription: 'planDescription',
-  workArea: 'workArea',
+  workAreaType: 'workAreaType',
+  workAreaId: 'workAreaId',
+  form: 'form',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   notes: 'notes'
 };
 
 exports.Prisma.PlanfilesScalarFieldEnum = {
   fileId: 'fileId',
   fileName: 'fileName',
+  filePath: 'filePath',
   type: 'type',
   planId: 'planId'
+};
+
+exports.Prisma.AssetScalarFieldEnum = {
+  assetId: 'assetId',
+  assetName: 'assetName',
+  assetDescription: 'assetDescription',
+  assetModel: 'assetModel',
+  assetLocation: 'assetLocation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  assetTypeId: 'assetTypeId'
 };
 
 exports.Prisma.SortOrder = {
@@ -308,7 +325,11 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
+exports.PlanStatus = exports.$Enums.PlanStatus = {
+  Draft: 'Draft',
+  Unpublished: 'Unpublished',
+  Published: 'Published'
+};
 
 exports.Prisma.ModelName = {
   Mine: 'Mine',
@@ -326,7 +347,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Shift: 'Shift',
   Plan: 'Plan',
-  Planfiles: 'Planfiles'
+  Planfiles: 'Planfiles',
+  Asset: 'Asset'
 };
 
 /**

@@ -1,5 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { z } from "zod";
+import { date, z } from "zod";
 import { prisma } from "../../utils/prisma";
 import { error } from "console";
 
@@ -192,13 +192,14 @@ const getSections: RequestHandler = async (req: Request, res: Response) => {
           name: true,
           description: true,
           area: true,
+          insiderToId: true,
           mine: true,
           typeId: true,
-          sectionType: {
-            select: {
-              typeId: true,
-            },
-          },
+          // sectionType: {
+          //   select: {
+          //     typeId: true,
+          //   },
+          // },
         },
       });
 
@@ -358,7 +359,11 @@ const getAllSectionTypes = async (
     },
   });
 
-  return res.json(sectionItems);
+  return res.status(200).json({
+    message: "Data fetched successfully!",
+    data: sectionItems,
+    error: null
+  });
 };
 
 const getAllLargeSections = async (

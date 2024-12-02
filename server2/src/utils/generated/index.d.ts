@@ -93,6 +93,29 @@ export type Plan = $Result.DefaultSelection<Prisma.$PlanPayload>
  * 
  */
 export type Planfiles = $Result.DefaultSelection<Prisma.$PlanfilesPayload>
+/**
+ * Model Asset
+ * 
+ */
+export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const PlanStatus: {
+  Draft: 'Draft',
+  Unpublished: 'Unpublished',
+  Published: 'Published'
+};
+
+export type PlanStatus = (typeof PlanStatus)[keyof typeof PlanStatus]
+
+}
+
+export type PlanStatus = $Enums.PlanStatus
+
+export const PlanStatus: typeof $Enums.PlanStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -376,6 +399,16 @@ export class PrismaClient<
     * ```
     */
   get planfiles(): Prisma.PlanfilesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.asset`: Exposes CRUD operations for the **Asset** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Assets
+    * const assets = await prisma.asset.findMany()
+    * ```
+    */
+  get asset(): Prisma.AssetDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -832,7 +865,8 @@ export namespace Prisma {
     User: 'User',
     Shift: 'Shift',
     Plan: 'Plan',
-    Planfiles: 'Planfiles'
+    Planfiles: 'Planfiles',
+    Asset: 'Asset'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -848,7 +882,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "mine" | "owner" | "largeSection" | "mediumSection" | "smallSection" | "microSection" | "unitSection" | "sectionType" | "sectionItem" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planfiles"
+      modelProps: "mine" | "owner" | "largeSection" | "mediumSection" | "smallSection" | "microSection" | "unitSection" | "sectionType" | "sectionItem" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planfiles" | "asset"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1972,6 +2006,76 @@ export namespace Prisma {
           }
         }
       }
+      Asset: {
+        payload: Prisma.$AssetPayload<ExtArgs>
+        fields: Prisma.AssetFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssetFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssetFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>
+          }
+          findFirst: {
+            args: Prisma.AssetFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssetFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>
+          }
+          findMany: {
+            args: Prisma.AssetFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>[]
+          }
+          create: {
+            args: Prisma.AssetCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>
+          }
+          createMany: {
+            args: Prisma.AssetCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssetCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>[]
+          }
+          delete: {
+            args: Prisma.AssetDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>
+          }
+          update: {
+            args: Prisma.AssetUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssetDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssetUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AssetUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssetPayload>
+          }
+          aggregate: {
+            args: Prisma.AssetAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAsset>
+          }
+          groupBy: {
+            args: Prisma.AssetGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssetGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssetCountArgs<ExtArgs>
+            result: $Utils.Optional<AssetCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2196,10 +2300,14 @@ export namespace Prisma {
 
   export type LargeSectionCountOutputType = {
     mediumSections: number
+    assets: number
+    Plan: number
   }
 
   export type LargeSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mediumSections?: boolean | LargeSectionCountOutputTypeCountMediumSectionsArgs
+    assets?: boolean | LargeSectionCountOutputTypeCountAssetsArgs
+    Plan?: boolean | LargeSectionCountOutputTypeCountPlanArgs
   }
 
   // Custom InputTypes
@@ -2220,6 +2328,20 @@ export namespace Prisma {
     where?: MediumSectionWhereInput
   }
 
+  /**
+   * LargeSectionCountOutputType without action
+   */
+  export type LargeSectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+  /**
+   * LargeSectionCountOutputType without action
+   */
+  export type LargeSectionCountOutputTypeCountPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
+  }
+
 
   /**
    * Count Type MediumSectionCountOutputType
@@ -2227,10 +2349,14 @@ export namespace Prisma {
 
   export type MediumSectionCountOutputType = {
     smallSections: number
+    assets: number
+    Plan: number
   }
 
   export type MediumSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     smallSections?: boolean | MediumSectionCountOutputTypeCountSmallSectionsArgs
+    assets?: boolean | MediumSectionCountOutputTypeCountAssetsArgs
+    Plan?: boolean | MediumSectionCountOutputTypeCountPlanArgs
   }
 
   // Custom InputTypes
@@ -2251,6 +2377,20 @@ export namespace Prisma {
     where?: SmallSectionWhereInput
   }
 
+  /**
+   * MediumSectionCountOutputType without action
+   */
+  export type MediumSectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+  /**
+   * MediumSectionCountOutputType without action
+   */
+  export type MediumSectionCountOutputTypeCountPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
+  }
+
 
   /**
    * Count Type SmallSectionCountOutputType
@@ -2258,10 +2398,14 @@ export namespace Prisma {
 
   export type SmallSectionCountOutputType = {
     microSections: number
+    assets: number
+    Plan: number
   }
 
   export type SmallSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     microSections?: boolean | SmallSectionCountOutputTypeCountMicroSectionsArgs
+    assets?: boolean | SmallSectionCountOutputTypeCountAssetsArgs
+    Plan?: boolean | SmallSectionCountOutputTypeCountPlanArgs
   }
 
   // Custom InputTypes
@@ -2282,6 +2426,20 @@ export namespace Prisma {
     where?: MicroSectionWhereInput
   }
 
+  /**
+   * SmallSectionCountOutputType without action
+   */
+  export type SmallSectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+  /**
+   * SmallSectionCountOutputType without action
+   */
+  export type SmallSectionCountOutputTypeCountPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
+  }
+
 
   /**
    * Count Type MicroSectionCountOutputType
@@ -2289,10 +2447,14 @@ export namespace Prisma {
 
   export type MicroSectionCountOutputType = {
     unitSections: number
+    assets: number
+    Plan: number
   }
 
   export type MicroSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     unitSections?: boolean | MicroSectionCountOutputTypeCountUnitSectionsArgs
+    assets?: boolean | MicroSectionCountOutputTypeCountAssetsArgs
+    Plan?: boolean | MicroSectionCountOutputTypeCountPlanArgs
   }
 
   // Custom InputTypes
@@ -2311,6 +2473,60 @@ export namespace Prisma {
    */
   export type MicroSectionCountOutputTypeCountUnitSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UnitSectionWhereInput
+  }
+
+  /**
+   * MicroSectionCountOutputType without action
+   */
+  export type MicroSectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+  /**
+   * MicroSectionCountOutputType without action
+   */
+  export type MicroSectionCountOutputTypeCountPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
+  }
+
+
+  /**
+   * Count Type UnitSectionCountOutputType
+   */
+
+  export type UnitSectionCountOutputType = {
+    assets: number
+    Plan: number
+  }
+
+  export type UnitSectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assets?: boolean | UnitSectionCountOutputTypeCountAssetsArgs
+    Plan?: boolean | UnitSectionCountOutputTypeCountPlanArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UnitSectionCountOutputType without action
+   */
+  export type UnitSectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnitSectionCountOutputType
+     */
+    select?: UnitSectionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UnitSectionCountOutputType without action
+   */
+  export type UnitSectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+  /**
+   * UnitSectionCountOutputType without action
+   */
+  export type UnitSectionCountOutputTypeCountPlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
   }
 
 
@@ -2387,6 +2603,37 @@ export namespace Prisma {
    */
   export type SectionTypeCountOutputTypeCountSectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SectionItemWhereInput
+  }
+
+
+  /**
+   * Count Type SectionItemCountOutputType
+   */
+
+  export type SectionItemCountOutputType = {
+    assets: number
+  }
+
+  export type SectionItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assets?: boolean | SectionItemCountOutputTypeCountAssetsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SectionItemCountOutputType without action
+   */
+  export type SectionItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionItemCountOutputType
+     */
+    select?: SectionItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SectionItemCountOutputType without action
+   */
+  export type SectionItemCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
   }
 
 
@@ -4818,6 +5065,8 @@ export namespace Prisma {
     mine?: boolean | LargeSection$mineArgs<ExtArgs>
     sectionType?: boolean | LargeSection$sectionTypeArgs<ExtArgs>
     mediumSections?: boolean | LargeSection$mediumSectionsArgs<ExtArgs>
+    assets?: boolean | LargeSection$assetsArgs<ExtArgs>
+    Plan?: boolean | LargeSection$PlanArgs<ExtArgs>
     _count?: boolean | LargeSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["largeSection"]>
 
@@ -4849,6 +5098,8 @@ export namespace Prisma {
     mine?: boolean | LargeSection$mineArgs<ExtArgs>
     sectionType?: boolean | LargeSection$sectionTypeArgs<ExtArgs>
     mediumSections?: boolean | LargeSection$mediumSectionsArgs<ExtArgs>
+    assets?: boolean | LargeSection$assetsArgs<ExtArgs>
+    Plan?: boolean | LargeSection$PlanArgs<ExtArgs>
     _count?: boolean | LargeSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LargeSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4862,6 +5113,8 @@ export namespace Prisma {
       mine: Prisma.$MinePayload<ExtArgs> | null
       sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       mediumSections: Prisma.$MediumSectionPayload<ExtArgs>[]
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      Plan: Prisma.$PlanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       sectionId: number
@@ -5239,6 +5492,8 @@ export namespace Prisma {
     mine<T extends LargeSection$mineArgs<ExtArgs> = {}>(args?: Subset<T, LargeSection$mineArgs<ExtArgs>>): Prisma__MineClient<$Result.GetResult<Prisma.$MinePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sectionType<T extends LargeSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, LargeSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     mediumSections<T extends LargeSection$mediumSectionsArgs<ExtArgs> = {}>(args?: Subset<T, LargeSection$mediumSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediumSectionPayload<ExtArgs>, T, "findMany"> | Null>
+    assets<T extends LargeSection$assetsArgs<ExtArgs> = {}>(args?: Subset<T, LargeSection$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    Plan<T extends LargeSection$PlanArgs<ExtArgs> = {}>(args?: Subset<T, LargeSection$PlanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5644,6 +5899,46 @@ export namespace Prisma {
   }
 
   /**
+   * LargeSection.assets
+   */
+  export type LargeSection$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * LargeSection.Plan
+   */
+  export type LargeSection$PlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    cursor?: PlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
    * LargeSection without action
    */
   export type LargeSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5895,6 +6190,8 @@ export namespace Prisma {
     largeSection?: boolean | MediumSection$largeSectionArgs<ExtArgs>
     sectionType?: boolean | MediumSection$sectionTypeArgs<ExtArgs>
     smallSections?: boolean | MediumSection$smallSectionsArgs<ExtArgs>
+    assets?: boolean | MediumSection$assetsArgs<ExtArgs>
+    Plan?: boolean | MediumSection$PlanArgs<ExtArgs>
     _count?: boolean | MediumSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mediumSection"]>
 
@@ -5926,6 +6223,8 @@ export namespace Prisma {
     largeSection?: boolean | MediumSection$largeSectionArgs<ExtArgs>
     sectionType?: boolean | MediumSection$sectionTypeArgs<ExtArgs>
     smallSections?: boolean | MediumSection$smallSectionsArgs<ExtArgs>
+    assets?: boolean | MediumSection$assetsArgs<ExtArgs>
+    Plan?: boolean | MediumSection$PlanArgs<ExtArgs>
     _count?: boolean | MediumSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MediumSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5939,6 +6238,8 @@ export namespace Prisma {
       largeSection: Prisma.$LargeSectionPayload<ExtArgs> | null
       sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       smallSections: Prisma.$SmallSectionPayload<ExtArgs>[]
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      Plan: Prisma.$PlanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       sectionId: number
@@ -6316,6 +6617,8 @@ export namespace Prisma {
     largeSection<T extends MediumSection$largeSectionArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$largeSectionArgs<ExtArgs>>): Prisma__LargeSectionClient<$Result.GetResult<Prisma.$LargeSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sectionType<T extends MediumSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     smallSections<T extends MediumSection$smallSectionsArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$smallSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findMany"> | Null>
+    assets<T extends MediumSection$assetsArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    Plan<T extends MediumSection$PlanArgs<ExtArgs> = {}>(args?: Subset<T, MediumSection$PlanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6721,6 +7024,46 @@ export namespace Prisma {
   }
 
   /**
+   * MediumSection.assets
+   */
+  export type MediumSection$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * MediumSection.Plan
+   */
+  export type MediumSection$PlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    cursor?: PlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
    * MediumSection without action
    */
   export type MediumSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6972,6 +7315,8 @@ export namespace Prisma {
     mediumSection?: boolean | SmallSection$mediumSectionArgs<ExtArgs>
     sectionType?: boolean | SmallSection$sectionTypeArgs<ExtArgs>
     microSections?: boolean | SmallSection$microSectionsArgs<ExtArgs>
+    assets?: boolean | SmallSection$assetsArgs<ExtArgs>
+    Plan?: boolean | SmallSection$PlanArgs<ExtArgs>
     _count?: boolean | SmallSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["smallSection"]>
 
@@ -7003,6 +7348,8 @@ export namespace Prisma {
     mediumSection?: boolean | SmallSection$mediumSectionArgs<ExtArgs>
     sectionType?: boolean | SmallSection$sectionTypeArgs<ExtArgs>
     microSections?: boolean | SmallSection$microSectionsArgs<ExtArgs>
+    assets?: boolean | SmallSection$assetsArgs<ExtArgs>
+    Plan?: boolean | SmallSection$PlanArgs<ExtArgs>
     _count?: boolean | SmallSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SmallSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7016,6 +7363,8 @@ export namespace Prisma {
       mediumSection: Prisma.$MediumSectionPayload<ExtArgs> | null
       sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       microSections: Prisma.$MicroSectionPayload<ExtArgs>[]
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      Plan: Prisma.$PlanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       sectionId: number
@@ -7393,6 +7742,8 @@ export namespace Prisma {
     mediumSection<T extends SmallSection$mediumSectionArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$mediumSectionArgs<ExtArgs>>): Prisma__MediumSectionClient<$Result.GetResult<Prisma.$MediumSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sectionType<T extends SmallSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     microSections<T extends SmallSection$microSectionsArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$microSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findMany"> | Null>
+    assets<T extends SmallSection$assetsArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    Plan<T extends SmallSection$PlanArgs<ExtArgs> = {}>(args?: Subset<T, SmallSection$PlanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7798,6 +8149,46 @@ export namespace Prisma {
   }
 
   /**
+   * SmallSection.assets
+   */
+  export type SmallSection$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * SmallSection.Plan
+   */
+  export type SmallSection$PlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    cursor?: PlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
    * SmallSection without action
    */
   export type SmallSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8049,6 +8440,8 @@ export namespace Prisma {
     smallSection?: boolean | MicroSection$smallSectionArgs<ExtArgs>
     sectionType?: boolean | MicroSection$sectionTypeArgs<ExtArgs>
     unitSections?: boolean | MicroSection$unitSectionsArgs<ExtArgs>
+    assets?: boolean | MicroSection$assetsArgs<ExtArgs>
+    Plan?: boolean | MicroSection$PlanArgs<ExtArgs>
     _count?: boolean | MicroSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["microSection"]>
 
@@ -8080,6 +8473,8 @@ export namespace Prisma {
     smallSection?: boolean | MicroSection$smallSectionArgs<ExtArgs>
     sectionType?: boolean | MicroSection$sectionTypeArgs<ExtArgs>
     unitSections?: boolean | MicroSection$unitSectionsArgs<ExtArgs>
+    assets?: boolean | MicroSection$assetsArgs<ExtArgs>
+    Plan?: boolean | MicroSection$PlanArgs<ExtArgs>
     _count?: boolean | MicroSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MicroSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8093,6 +8488,8 @@ export namespace Prisma {
       smallSection: Prisma.$SmallSectionPayload<ExtArgs> | null
       sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
       unitSections: Prisma.$UnitSectionPayload<ExtArgs>[]
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      Plan: Prisma.$PlanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       sectionId: number
@@ -8470,6 +8867,8 @@ export namespace Prisma {
     smallSection<T extends MicroSection$smallSectionArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$smallSectionArgs<ExtArgs>>): Prisma__SmallSectionClient<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sectionType<T extends MicroSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     unitSections<T extends MicroSection$unitSectionsArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$unitSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitSectionPayload<ExtArgs>, T, "findMany"> | Null>
+    assets<T extends MicroSection$assetsArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    Plan<T extends MicroSection$PlanArgs<ExtArgs> = {}>(args?: Subset<T, MicroSection$PlanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8875,6 +9274,46 @@ export namespace Prisma {
   }
 
   /**
+   * MicroSection.assets
+   */
+  export type MicroSection$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * MicroSection.Plan
+   */
+  export type MicroSection$PlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    cursor?: PlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
+  }
+
+  /**
    * MicroSection without action
    */
   export type MicroSectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9121,6 +9560,9 @@ export namespace Prisma {
     updatedAt?: boolean
     microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
     sectionType?: boolean | UnitSection$sectionTypeArgs<ExtArgs>
+    assets?: boolean | UnitSection$assetsArgs<ExtArgs>
+    Plan?: boolean | UnitSection$PlanArgs<ExtArgs>
+    _count?: boolean | UnitSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["unitSection"]>
 
   export type UnitSectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9150,6 +9592,9 @@ export namespace Prisma {
   export type UnitSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
     sectionType?: boolean | UnitSection$sectionTypeArgs<ExtArgs>
+    assets?: boolean | UnitSection$assetsArgs<ExtArgs>
+    Plan?: boolean | UnitSection$PlanArgs<ExtArgs>
+    _count?: boolean | UnitSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UnitSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     microSection?: boolean | UnitSection$microSectionArgs<ExtArgs>
@@ -9161,6 +9606,8 @@ export namespace Prisma {
     objects: {
       microSection: Prisma.$MicroSectionPayload<ExtArgs> | null
       sectionType: Prisma.$SectionTypePayload<ExtArgs> | null
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      Plan: Prisma.$PlanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       unitId: number
@@ -9537,6 +9984,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     microSection<T extends UnitSection$microSectionArgs<ExtArgs> = {}>(args?: Subset<T, UnitSection$microSectionArgs<ExtArgs>>): Prisma__MicroSectionClient<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     sectionType<T extends UnitSection$sectionTypeArgs<ExtArgs> = {}>(args?: Subset<T, UnitSection$sectionTypeArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    assets<T extends UnitSection$assetsArgs<ExtArgs> = {}>(args?: Subset<T, UnitSection$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    Plan<T extends UnitSection$PlanArgs<ExtArgs> = {}>(args?: Subset<T, UnitSection$PlanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9919,6 +10368,46 @@ export namespace Prisma {
      */
     include?: SectionTypeInclude<ExtArgs> | null
     where?: SectionTypeWhereInput
+  }
+
+  /**
+   * UnitSection.assets
+   */
+  export type UnitSection$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * UnitSection.Plan
+   */
+  export type UnitSection$PlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    cursor?: PlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
   }
 
   /**
@@ -11241,6 +11730,8 @@ export namespace Prisma {
     typeId?: boolean
     itemName?: boolean
     sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    assets?: boolean | SectionItem$assetsArgs<ExtArgs>
+    _count?: boolean | SectionItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sectionItem"]>
 
   export type SectionItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11258,6 +11749,8 @@ export namespace Prisma {
 
   export type SectionItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    assets?: boolean | SectionItem$assetsArgs<ExtArgs>
+    _count?: boolean | SectionItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SectionItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
@@ -11267,6 +11760,7 @@ export namespace Prisma {
     name: "SectionItem"
     objects: {
       sectionType: Prisma.$SectionTypePayload<ExtArgs>
+      assets: Prisma.$AssetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       itemId: number
@@ -11637,6 +12131,7 @@ export namespace Prisma {
   export interface Prisma__SectionItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assets<T extends SectionItem$assetsArgs<ExtArgs> = {}>(args?: Subset<T, SectionItem$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11984,6 +12479,26 @@ export namespace Prisma {
      * Filter which SectionItems to delete
      */
     where?: SectionItemWhereInput
+  }
+
+  /**
+   * SectionItem.assets
+   */
+  export type SectionItem$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
   }
 
   /**
@@ -17022,17 +17537,23 @@ export namespace Prisma {
 
   export type PlanAvgAggregateOutputType = {
     planId: number | null
+    workAreaId: number | null
   }
 
   export type PlanSumAggregateOutputType = {
     planId: number | null
+    workAreaId: number | null
   }
 
   export type PlanMinAggregateOutputType = {
     planId: number | null
     planName: string | null
     planDescription: string | null
-    workArea: string | null
+    workAreaType: string | null
+    workAreaId: number | null
+    status: $Enums.PlanStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
     notes: string | null
   }
 
@@ -17040,7 +17561,11 @@ export namespace Prisma {
     planId: number | null
     planName: string | null
     planDescription: string | null
-    workArea: string | null
+    workAreaType: string | null
+    workAreaId: number | null
+    status: $Enums.PlanStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
     notes: string | null
   }
 
@@ -17048,7 +17573,12 @@ export namespace Prisma {
     planId: number
     planName: number
     planDescription: number
-    workArea: number
+    workAreaType: number
+    workAreaId: number
+    form: number
+    status: number
+    createdAt: number
+    updatedAt: number
     notes: number
     _all: number
   }
@@ -17056,17 +17586,23 @@ export namespace Prisma {
 
   export type PlanAvgAggregateInputType = {
     planId?: true
+    workAreaId?: true
   }
 
   export type PlanSumAggregateInputType = {
     planId?: true
+    workAreaId?: true
   }
 
   export type PlanMinAggregateInputType = {
     planId?: true
     planName?: true
     planDescription?: true
-    workArea?: true
+    workAreaType?: true
+    workAreaId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
     notes?: true
   }
 
@@ -17074,7 +17610,11 @@ export namespace Prisma {
     planId?: true
     planName?: true
     planDescription?: true
-    workArea?: true
+    workAreaType?: true
+    workAreaId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
     notes?: true
   }
 
@@ -17082,7 +17622,12 @@ export namespace Prisma {
     planId?: true
     planName?: true
     planDescription?: true
-    workArea?: true
+    workAreaType?: true
+    workAreaId?: true
+    form?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
     notes?: true
     _all?: true
   }
@@ -17177,7 +17722,12 @@ export namespace Prisma {
     planId: number
     planName: string
     planDescription: string | null
-    workArea: string | null
+    workAreaType: string | null
+    workAreaId: number | null
+    form: JsonValue
+    status: $Enums.PlanStatus
+    createdAt: Date
+    updatedAt: Date
     notes: string | null
     _count: PlanCountAggregateOutputType | null
     _avg: PlanAvgAggregateOutputType | null
@@ -17204,8 +17754,18 @@ export namespace Prisma {
     planId?: boolean
     planName?: boolean
     planDescription?: boolean
-    workArea?: boolean
+    workAreaType?: boolean
+    workAreaId?: boolean
+    form?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     notes?: boolean
+    largeSection?: boolean | Plan$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Plan$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Plan$smallSectionArgs<ExtArgs>
+    microSection?: boolean | Plan$microSectionArgs<ExtArgs>
+    unitSection?: boolean | Plan$unitSectionArgs<ExtArgs>
     planFiles?: boolean | Plan$planFilesArgs<ExtArgs>
     _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["plan"]>
@@ -17214,34 +17774,70 @@ export namespace Prisma {
     planId?: boolean
     planName?: boolean
     planDescription?: boolean
-    workArea?: boolean
+    workAreaType?: boolean
+    workAreaId?: boolean
+    form?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     notes?: boolean
+    largeSection?: boolean | Plan$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Plan$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Plan$smallSectionArgs<ExtArgs>
+    microSection?: boolean | Plan$microSectionArgs<ExtArgs>
+    unitSection?: boolean | Plan$unitSectionArgs<ExtArgs>
   }, ExtArgs["result"]["plan"]>
 
   export type PlanSelectScalar = {
     planId?: boolean
     planName?: boolean
     planDescription?: boolean
-    workArea?: boolean
+    workAreaType?: boolean
+    workAreaId?: boolean
+    form?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     notes?: boolean
   }
 
   export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    largeSection?: boolean | Plan$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Plan$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Plan$smallSectionArgs<ExtArgs>
+    microSection?: boolean | Plan$microSectionArgs<ExtArgs>
+    unitSection?: boolean | Plan$unitSectionArgs<ExtArgs>
     planFiles?: boolean | Plan$planFilesArgs<ExtArgs>
     _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type PlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PlanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    largeSection?: boolean | Plan$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Plan$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Plan$smallSectionArgs<ExtArgs>
+    microSection?: boolean | Plan$microSectionArgs<ExtArgs>
+    unitSection?: boolean | Plan$unitSectionArgs<ExtArgs>
+  }
 
   export type $PlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Plan"
     objects: {
+      largeSection: Prisma.$LargeSectionPayload<ExtArgs> | null
+      mediumSection: Prisma.$MediumSectionPayload<ExtArgs> | null
+      smallSection: Prisma.$SmallSectionPayload<ExtArgs> | null
+      microSection: Prisma.$MicroSectionPayload<ExtArgs> | null
+      unitSection: Prisma.$UnitSectionPayload<ExtArgs> | null
       planFiles: Prisma.$PlanfilesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       planId: number
       planName: string
       planDescription: string | null
-      workArea: string | null
+      workAreaType: string | null
+      workAreaId: number | null
+      form: Prisma.JsonValue
+      status: $Enums.PlanStatus
+      createdAt: Date
+      updatedAt: Date
       notes: string | null
     }, ExtArgs["result"]["plan"]>
     composites: {}
@@ -17607,6 +18203,11 @@ export namespace Prisma {
    */
   export interface Prisma__PlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    largeSection<T extends Plan$largeSectionArgs<ExtArgs> = {}>(args?: Subset<T, Plan$largeSectionArgs<ExtArgs>>): Prisma__LargeSectionClient<$Result.GetResult<Prisma.$LargeSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    mediumSection<T extends Plan$mediumSectionArgs<ExtArgs> = {}>(args?: Subset<T, Plan$mediumSectionArgs<ExtArgs>>): Prisma__MediumSectionClient<$Result.GetResult<Prisma.$MediumSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    smallSection<T extends Plan$smallSectionArgs<ExtArgs> = {}>(args?: Subset<T, Plan$smallSectionArgs<ExtArgs>>): Prisma__SmallSectionClient<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    microSection<T extends Plan$microSectionArgs<ExtArgs> = {}>(args?: Subset<T, Plan$microSectionArgs<ExtArgs>>): Prisma__MicroSectionClient<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    unitSection<T extends Plan$unitSectionArgs<ExtArgs> = {}>(args?: Subset<T, Plan$unitSectionArgs<ExtArgs>>): Prisma__UnitSectionClient<$Result.GetResult<Prisma.$UnitSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     planFiles<T extends Plan$planFilesArgs<ExtArgs> = {}>(args?: Subset<T, Plan$planFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanfilesPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -17640,7 +18241,12 @@ export namespace Prisma {
     readonly planId: FieldRef<"Plan", 'Int'>
     readonly planName: FieldRef<"Plan", 'String'>
     readonly planDescription: FieldRef<"Plan", 'String'>
-    readonly workArea: FieldRef<"Plan", 'String'>
+    readonly workAreaType: FieldRef<"Plan", 'String'>
+    readonly workAreaId: FieldRef<"Plan", 'Int'>
+    readonly form: FieldRef<"Plan", 'Json'>
+    readonly status: FieldRef<"Plan", 'PlanStatus'>
+    readonly createdAt: FieldRef<"Plan", 'DateTime'>
+    readonly updatedAt: FieldRef<"Plan", 'DateTime'>
     readonly notes: FieldRef<"Plan", 'String'>
   }
     
@@ -17863,6 +18469,10 @@ export namespace Prisma {
      */
     data: PlanCreateManyInput | PlanCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -17956,6 +18566,81 @@ export namespace Prisma {
   }
 
   /**
+   * Plan.largeSection
+   */
+  export type Plan$largeSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LargeSection
+     */
+    select?: LargeSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LargeSectionInclude<ExtArgs> | null
+    where?: LargeSectionWhereInput
+  }
+
+  /**
+   * Plan.mediumSection
+   */
+  export type Plan$mediumSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediumSection
+     */
+    select?: MediumSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MediumSectionInclude<ExtArgs> | null
+    where?: MediumSectionWhereInput
+  }
+
+  /**
+   * Plan.smallSection
+   */
+  export type Plan$smallSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SmallSection
+     */
+    select?: SmallSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SmallSectionInclude<ExtArgs> | null
+    where?: SmallSectionWhereInput
+  }
+
+  /**
+   * Plan.microSection
+   */
+  export type Plan$microSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MicroSection
+     */
+    select?: MicroSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MicroSectionInclude<ExtArgs> | null
+    where?: MicroSectionWhereInput
+  }
+
+  /**
+   * Plan.unitSection
+   */
+  export type Plan$unitSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnitSection
+     */
+    select?: UnitSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnitSectionInclude<ExtArgs> | null
+    where?: UnitSectionWhereInput
+  }
+
+  /**
    * Plan.planFiles
    */
   export type Plan$planFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18015,6 +18700,7 @@ export namespace Prisma {
   export type PlanfilesMinAggregateOutputType = {
     fileId: number | null
     fileName: string | null
+    filePath: string | null
     type: string | null
     planId: number | null
   }
@@ -18022,6 +18708,7 @@ export namespace Prisma {
   export type PlanfilesMaxAggregateOutputType = {
     fileId: number | null
     fileName: string | null
+    filePath: string | null
     type: string | null
     planId: number | null
   }
@@ -18029,6 +18716,7 @@ export namespace Prisma {
   export type PlanfilesCountAggregateOutputType = {
     fileId: number
     fileName: number
+    filePath: number
     type: number
     planId: number
     _all: number
@@ -18048,6 +18736,7 @@ export namespace Prisma {
   export type PlanfilesMinAggregateInputType = {
     fileId?: true
     fileName?: true
+    filePath?: true
     type?: true
     planId?: true
   }
@@ -18055,6 +18744,7 @@ export namespace Prisma {
   export type PlanfilesMaxAggregateInputType = {
     fileId?: true
     fileName?: true
+    filePath?: true
     type?: true
     planId?: true
   }
@@ -18062,6 +18752,7 @@ export namespace Prisma {
   export type PlanfilesCountAggregateInputType = {
     fileId?: true
     fileName?: true
+    filePath?: true
     type?: true
     planId?: true
     _all?: true
@@ -18156,6 +18847,7 @@ export namespace Prisma {
   export type PlanfilesGroupByOutputType = {
     fileId: number
     fileName: string
+    filePath: string
     type: string
     planId: number
     _count: PlanfilesCountAggregateOutputType | null
@@ -18182,6 +18874,7 @@ export namespace Prisma {
   export type PlanfilesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     fileId?: boolean
     fileName?: boolean
+    filePath?: boolean
     type?: boolean
     planId?: boolean
     plan?: boolean | PlanDefaultArgs<ExtArgs>
@@ -18190,6 +18883,7 @@ export namespace Prisma {
   export type PlanfilesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     fileId?: boolean
     fileName?: boolean
+    filePath?: boolean
     type?: boolean
     planId?: boolean
     plan?: boolean | PlanDefaultArgs<ExtArgs>
@@ -18198,6 +18892,7 @@ export namespace Prisma {
   export type PlanfilesSelectScalar = {
     fileId?: boolean
     fileName?: boolean
+    filePath?: boolean
     type?: boolean
     planId?: boolean
   }
@@ -18217,6 +18912,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       fileId: number
       fileName: string
+      filePath: string
       type: string
       planId: number
     }, ExtArgs["result"]["planfiles"]>
@@ -18615,6 +19311,7 @@ export namespace Prisma {
   interface PlanfilesFieldRefs {
     readonly fileId: FieldRef<"Planfiles", 'Int'>
     readonly fileName: FieldRef<"Planfiles", 'String'>
+    readonly filePath: FieldRef<"Planfiles", 'String'>
     readonly type: FieldRef<"Planfiles", 'String'>
     readonly planId: FieldRef<"Planfiles", 'Int'>
   }
@@ -18950,6 +19647,1137 @@ export namespace Prisma {
 
 
   /**
+   * Model Asset
+   */
+
+  export type AggregateAsset = {
+    _count: AssetCountAggregateOutputType | null
+    _avg: AssetAvgAggregateOutputType | null
+    _sum: AssetSumAggregateOutputType | null
+    _min: AssetMinAggregateOutputType | null
+    _max: AssetMaxAggregateOutputType | null
+  }
+
+  export type AssetAvgAggregateOutputType = {
+    assetId: number | null
+    assetLocation: number | null
+    assetTypeId: number | null
+  }
+
+  export type AssetSumAggregateOutputType = {
+    assetId: number | null
+    assetLocation: number | null
+    assetTypeId: number | null
+  }
+
+  export type AssetMinAggregateOutputType = {
+    assetId: number | null
+    assetName: string | null
+    assetDescription: string | null
+    assetModel: string | null
+    assetLocation: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    assetTypeId: number | null
+  }
+
+  export type AssetMaxAggregateOutputType = {
+    assetId: number | null
+    assetName: string | null
+    assetDescription: string | null
+    assetModel: string | null
+    assetLocation: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    assetTypeId: number | null
+  }
+
+  export type AssetCountAggregateOutputType = {
+    assetId: number
+    assetName: number
+    assetDescription: number
+    assetModel: number
+    assetLocation: number
+    createdAt: number
+    updatedAt: number
+    assetTypeId: number
+    _all: number
+  }
+
+
+  export type AssetAvgAggregateInputType = {
+    assetId?: true
+    assetLocation?: true
+    assetTypeId?: true
+  }
+
+  export type AssetSumAggregateInputType = {
+    assetId?: true
+    assetLocation?: true
+    assetTypeId?: true
+  }
+
+  export type AssetMinAggregateInputType = {
+    assetId?: true
+    assetName?: true
+    assetDescription?: true
+    assetModel?: true
+    assetLocation?: true
+    createdAt?: true
+    updatedAt?: true
+    assetTypeId?: true
+  }
+
+  export type AssetMaxAggregateInputType = {
+    assetId?: true
+    assetName?: true
+    assetDescription?: true
+    assetModel?: true
+    assetLocation?: true
+    createdAt?: true
+    updatedAt?: true
+    assetTypeId?: true
+  }
+
+  export type AssetCountAggregateInputType = {
+    assetId?: true
+    assetName?: true
+    assetDescription?: true
+    assetModel?: true
+    assetLocation?: true
+    createdAt?: true
+    updatedAt?: true
+    assetTypeId?: true
+    _all?: true
+  }
+
+  export type AssetAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Asset to aggregate.
+     */
+    where?: AssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assets to fetch.
+     */
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Assets
+    **/
+    _count?: true | AssetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssetAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssetSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssetMaxAggregateInputType
+  }
+
+  export type GetAssetAggregateType<T extends AssetAggregateArgs> = {
+        [P in keyof T & keyof AggregateAsset]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAsset[P]>
+      : GetScalarType<T[P], AggregateAsset[P]>
+  }
+
+
+
+
+  export type AssetGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithAggregationInput | AssetOrderByWithAggregationInput[]
+    by: AssetScalarFieldEnum[] | AssetScalarFieldEnum
+    having?: AssetScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssetCountAggregateInputType | true
+    _avg?: AssetAvgAggregateInputType
+    _sum?: AssetSumAggregateInputType
+    _min?: AssetMinAggregateInputType
+    _max?: AssetMaxAggregateInputType
+  }
+
+  export type AssetGroupByOutputType = {
+    assetId: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    assetLocation: number | null
+    createdAt: Date
+    updatedAt: Date
+    assetTypeId: number | null
+    _count: AssetCountAggregateOutputType | null
+    _avg: AssetAvgAggregateOutputType | null
+    _sum: AssetSumAggregateOutputType | null
+    _min: AssetMinAggregateOutputType | null
+    _max: AssetMaxAggregateOutputType | null
+  }
+
+  type GetAssetGroupByPayload<T extends AssetGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssetGroupByOutputType[P]>
+            : GetScalarType<T[P], AssetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    assetId?: boolean
+    assetName?: boolean
+    assetDescription?: boolean
+    assetModel?: boolean
+    assetLocation?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assetTypeId?: boolean
+    assetType?: boolean | Asset$assetTypeArgs<ExtArgs>
+    largeSection?: boolean | Asset$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Asset$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Asset$smallSectionArgs<ExtArgs>
+    unitSection?: boolean | Asset$unitSectionArgs<ExtArgs>
+    microSection?: boolean | Asset$microSectionArgs<ExtArgs>
+  }, ExtArgs["result"]["asset"]>
+
+  export type AssetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    assetId?: boolean
+    assetName?: boolean
+    assetDescription?: boolean
+    assetModel?: boolean
+    assetLocation?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assetTypeId?: boolean
+    assetType?: boolean | Asset$assetTypeArgs<ExtArgs>
+    largeSection?: boolean | Asset$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Asset$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Asset$smallSectionArgs<ExtArgs>
+    unitSection?: boolean | Asset$unitSectionArgs<ExtArgs>
+    microSection?: boolean | Asset$microSectionArgs<ExtArgs>
+  }, ExtArgs["result"]["asset"]>
+
+  export type AssetSelectScalar = {
+    assetId?: boolean
+    assetName?: boolean
+    assetDescription?: boolean
+    assetModel?: boolean
+    assetLocation?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    assetTypeId?: boolean
+  }
+
+  export type AssetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assetType?: boolean | Asset$assetTypeArgs<ExtArgs>
+    largeSection?: boolean | Asset$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Asset$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Asset$smallSectionArgs<ExtArgs>
+    unitSection?: boolean | Asset$unitSectionArgs<ExtArgs>
+    microSection?: boolean | Asset$microSectionArgs<ExtArgs>
+  }
+  export type AssetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assetType?: boolean | Asset$assetTypeArgs<ExtArgs>
+    largeSection?: boolean | Asset$largeSectionArgs<ExtArgs>
+    mediumSection?: boolean | Asset$mediumSectionArgs<ExtArgs>
+    smallSection?: boolean | Asset$smallSectionArgs<ExtArgs>
+    unitSection?: boolean | Asset$unitSectionArgs<ExtArgs>
+    microSection?: boolean | Asset$microSectionArgs<ExtArgs>
+  }
+
+  export type $AssetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Asset"
+    objects: {
+      assetType: Prisma.$SectionItemPayload<ExtArgs> | null
+      largeSection: Prisma.$LargeSectionPayload<ExtArgs> | null
+      mediumSection: Prisma.$MediumSectionPayload<ExtArgs> | null
+      smallSection: Prisma.$SmallSectionPayload<ExtArgs> | null
+      unitSection: Prisma.$UnitSectionPayload<ExtArgs> | null
+      microSection: Prisma.$MicroSectionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      assetId: number
+      assetName: string
+      assetDescription: string
+      assetModel: string
+      assetLocation: number | null
+      createdAt: Date
+      updatedAt: Date
+      assetTypeId: number | null
+    }, ExtArgs["result"]["asset"]>
+    composites: {}
+  }
+
+  type AssetGetPayload<S extends boolean | null | undefined | AssetDefaultArgs> = $Result.GetResult<Prisma.$AssetPayload, S>
+
+  type AssetCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AssetFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AssetCountAggregateInputType | true
+    }
+
+  export interface AssetDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Asset'], meta: { name: 'Asset' } }
+    /**
+     * Find zero or one Asset that matches the filter.
+     * @param {AssetFindUniqueArgs} args - Arguments to find a Asset
+     * @example
+     * // Get one Asset
+     * const asset = await prisma.asset.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssetFindUniqueArgs>(args: SelectSubset<T, AssetFindUniqueArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Asset that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AssetFindUniqueOrThrowArgs} args - Arguments to find a Asset
+     * @example
+     * // Get one Asset
+     * const asset = await prisma.asset.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssetFindUniqueOrThrowArgs>(args: SelectSubset<T, AssetFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Asset that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetFindFirstArgs} args - Arguments to find a Asset
+     * @example
+     * // Get one Asset
+     * const asset = await prisma.asset.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssetFindFirstArgs>(args?: SelectSubset<T, AssetFindFirstArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Asset that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetFindFirstOrThrowArgs} args - Arguments to find a Asset
+     * @example
+     * // Get one Asset
+     * const asset = await prisma.asset.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssetFindFirstOrThrowArgs>(args?: SelectSubset<T, AssetFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Assets
+     * const assets = await prisma.asset.findMany()
+     * 
+     * // Get first 10 Assets
+     * const assets = await prisma.asset.findMany({ take: 10 })
+     * 
+     * // Only select the `assetId`
+     * const assetWithAssetIdOnly = await prisma.asset.findMany({ select: { assetId: true } })
+     * 
+     */
+    findMany<T extends AssetFindManyArgs>(args?: SelectSubset<T, AssetFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Asset.
+     * @param {AssetCreateArgs} args - Arguments to create a Asset.
+     * @example
+     * // Create one Asset
+     * const Asset = await prisma.asset.create({
+     *   data: {
+     *     // ... data to create a Asset
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssetCreateArgs>(args: SelectSubset<T, AssetCreateArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Assets.
+     * @param {AssetCreateManyArgs} args - Arguments to create many Assets.
+     * @example
+     * // Create many Assets
+     * const asset = await prisma.asset.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssetCreateManyArgs>(args?: SelectSubset<T, AssetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Assets and returns the data saved in the database.
+     * @param {AssetCreateManyAndReturnArgs} args - Arguments to create many Assets.
+     * @example
+     * // Create many Assets
+     * const asset = await prisma.asset.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Assets and only return the `assetId`
+     * const assetWithAssetIdOnly = await prisma.asset.createManyAndReturn({ 
+     *   select: { assetId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssetCreateManyAndReturnArgs>(args?: SelectSubset<T, AssetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Asset.
+     * @param {AssetDeleteArgs} args - Arguments to delete one Asset.
+     * @example
+     * // Delete one Asset
+     * const Asset = await prisma.asset.delete({
+     *   where: {
+     *     // ... filter to delete one Asset
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssetDeleteArgs>(args: SelectSubset<T, AssetDeleteArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Asset.
+     * @param {AssetUpdateArgs} args - Arguments to update one Asset.
+     * @example
+     * // Update one Asset
+     * const asset = await prisma.asset.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssetUpdateArgs>(args: SelectSubset<T, AssetUpdateArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Assets.
+     * @param {AssetDeleteManyArgs} args - Arguments to filter Assets to delete.
+     * @example
+     * // Delete a few Assets
+     * const { count } = await prisma.asset.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssetDeleteManyArgs>(args?: SelectSubset<T, AssetDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Assets
+     * const asset = await prisma.asset.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssetUpdateManyArgs>(args: SelectSubset<T, AssetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Asset.
+     * @param {AssetUpsertArgs} args - Arguments to update or create a Asset.
+     * @example
+     * // Update or create a Asset
+     * const asset = await prisma.asset.upsert({
+     *   create: {
+     *     // ... data to create a Asset
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Asset we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssetUpsertArgs>(args: SelectSubset<T, AssetUpsertArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetCountArgs} args - Arguments to filter Assets to count.
+     * @example
+     * // Count the number of Assets
+     * const count = await prisma.asset.count({
+     *   where: {
+     *     // ... the filter for the Assets we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssetCountArgs>(
+      args?: Subset<T, AssetCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Asset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssetAggregateArgs>(args: Subset<T, AssetAggregateArgs>): Prisma.PrismaPromise<GetAssetAggregateType<T>>
+
+    /**
+     * Group by Asset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssetGroupByArgs['orderBy'] }
+        : { orderBy?: AssetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Asset model
+   */
+  readonly fields: AssetFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Asset.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    assetType<T extends Asset$assetTypeArgs<ExtArgs> = {}>(args?: Subset<T, Asset$assetTypeArgs<ExtArgs>>): Prisma__SectionItemClient<$Result.GetResult<Prisma.$SectionItemPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    largeSection<T extends Asset$largeSectionArgs<ExtArgs> = {}>(args?: Subset<T, Asset$largeSectionArgs<ExtArgs>>): Prisma__LargeSectionClient<$Result.GetResult<Prisma.$LargeSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    mediumSection<T extends Asset$mediumSectionArgs<ExtArgs> = {}>(args?: Subset<T, Asset$mediumSectionArgs<ExtArgs>>): Prisma__MediumSectionClient<$Result.GetResult<Prisma.$MediumSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    smallSection<T extends Asset$smallSectionArgs<ExtArgs> = {}>(args?: Subset<T, Asset$smallSectionArgs<ExtArgs>>): Prisma__SmallSectionClient<$Result.GetResult<Prisma.$SmallSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    unitSection<T extends Asset$unitSectionArgs<ExtArgs> = {}>(args?: Subset<T, Asset$unitSectionArgs<ExtArgs>>): Prisma__UnitSectionClient<$Result.GetResult<Prisma.$UnitSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    microSection<T extends Asset$microSectionArgs<ExtArgs> = {}>(args?: Subset<T, Asset$microSectionArgs<ExtArgs>>): Prisma__MicroSectionClient<$Result.GetResult<Prisma.$MicroSectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Asset model
+   */ 
+  interface AssetFieldRefs {
+    readonly assetId: FieldRef<"Asset", 'Int'>
+    readonly assetName: FieldRef<"Asset", 'String'>
+    readonly assetDescription: FieldRef<"Asset", 'String'>
+    readonly assetModel: FieldRef<"Asset", 'String'>
+    readonly assetLocation: FieldRef<"Asset", 'Int'>
+    readonly createdAt: FieldRef<"Asset", 'DateTime'>
+    readonly updatedAt: FieldRef<"Asset", 'DateTime'>
+    readonly assetTypeId: FieldRef<"Asset", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Asset findUnique
+   */
+  export type AssetFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * Filter, which Asset to fetch.
+     */
+    where: AssetWhereUniqueInput
+  }
+
+  /**
+   * Asset findUniqueOrThrow
+   */
+  export type AssetFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * Filter, which Asset to fetch.
+     */
+    where: AssetWhereUniqueInput
+  }
+
+  /**
+   * Asset findFirst
+   */
+  export type AssetFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * Filter, which Asset to fetch.
+     */
+    where?: AssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assets to fetch.
+     */
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assets.
+     */
+    cursor?: AssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assets.
+     */
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Asset findFirstOrThrow
+   */
+  export type AssetFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * Filter, which Asset to fetch.
+     */
+    where?: AssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assets to fetch.
+     */
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Assets.
+     */
+    cursor?: AssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Assets.
+     */
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Asset findMany
+   */
+  export type AssetFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * Filter, which Assets to fetch.
+     */
+    where?: AssetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Assets to fetch.
+     */
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Assets.
+     */
+    cursor?: AssetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Assets.
+     */
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Asset create
+   */
+  export type AssetCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Asset.
+     */
+    data: XOR<AssetCreateInput, AssetUncheckedCreateInput>
+  }
+
+  /**
+   * Asset createMany
+   */
+  export type AssetCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Assets.
+     */
+    data: AssetCreateManyInput | AssetCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Asset createManyAndReturn
+   */
+  export type AssetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Assets.
+     */
+    data: AssetCreateManyInput | AssetCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Asset update
+   */
+  export type AssetUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Asset.
+     */
+    data: XOR<AssetUpdateInput, AssetUncheckedUpdateInput>
+    /**
+     * Choose, which Asset to update.
+     */
+    where: AssetWhereUniqueInput
+  }
+
+  /**
+   * Asset updateMany
+   */
+  export type AssetUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Assets.
+     */
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyInput>
+    /**
+     * Filter which Assets to update
+     */
+    where?: AssetWhereInput
+  }
+
+  /**
+   * Asset upsert
+   */
+  export type AssetUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Asset to update in case it exists.
+     */
+    where: AssetWhereUniqueInput
+    /**
+     * In case the Asset found by the `where` argument doesn't exist, create a new Asset with this data.
+     */
+    create: XOR<AssetCreateInput, AssetUncheckedCreateInput>
+    /**
+     * In case the Asset was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssetUpdateInput, AssetUncheckedUpdateInput>
+  }
+
+  /**
+   * Asset delete
+   */
+  export type AssetDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    /**
+     * Filter which Asset to delete.
+     */
+    where: AssetWhereUniqueInput
+  }
+
+  /**
+   * Asset deleteMany
+   */
+  export type AssetDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Assets to delete
+     */
+    where?: AssetWhereInput
+  }
+
+  /**
+   * Asset.assetType
+   */
+  export type Asset$assetTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionItem
+     */
+    select?: SectionItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionItemInclude<ExtArgs> | null
+    where?: SectionItemWhereInput
+  }
+
+  /**
+   * Asset.largeSection
+   */
+  export type Asset$largeSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LargeSection
+     */
+    select?: LargeSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LargeSectionInclude<ExtArgs> | null
+    where?: LargeSectionWhereInput
+  }
+
+  /**
+   * Asset.mediumSection
+   */
+  export type Asset$mediumSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediumSection
+     */
+    select?: MediumSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MediumSectionInclude<ExtArgs> | null
+    where?: MediumSectionWhereInput
+  }
+
+  /**
+   * Asset.smallSection
+   */
+  export type Asset$smallSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SmallSection
+     */
+    select?: SmallSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SmallSectionInclude<ExtArgs> | null
+    where?: SmallSectionWhereInput
+  }
+
+  /**
+   * Asset.unitSection
+   */
+  export type Asset$unitSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnitSection
+     */
+    select?: UnitSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnitSectionInclude<ExtArgs> | null
+    where?: UnitSectionWhereInput
+  }
+
+  /**
+   * Asset.microSection
+   */
+  export type Asset$microSectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MicroSection
+     */
+    select?: MicroSectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MicroSectionInclude<ExtArgs> | null
+    where?: MicroSectionWhereInput
+  }
+
+  /**
+   * Asset without action
+   */
+  export type AssetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19156,7 +20984,12 @@ export namespace Prisma {
     planId: 'planId',
     planName: 'planName',
     planDescription: 'planDescription',
-    workArea: 'workArea',
+    workAreaType: 'workAreaType',
+    workAreaId: 'workAreaId',
+    form: 'form',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     notes: 'notes'
   };
 
@@ -19166,11 +20999,26 @@ export namespace Prisma {
   export const PlanfilesScalarFieldEnum: {
     fileId: 'fileId',
     fileName: 'fileName',
+    filePath: 'filePath',
     type: 'type',
     planId: 'planId'
   };
 
   export type PlanfilesScalarFieldEnum = (typeof PlanfilesScalarFieldEnum)[keyof typeof PlanfilesScalarFieldEnum]
+
+
+  export const AssetScalarFieldEnum: {
+    assetId: 'assetId',
+    assetName: 'assetName',
+    assetDescription: 'assetDescription',
+    assetModel: 'assetModel',
+    assetLocation: 'assetLocation',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    assetTypeId: 'assetTypeId'
+  };
+
+  export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -19285,6 +21133,20 @@ export namespace Prisma {
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'PlanStatus'
+   */
+  export type EnumPlanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PlanStatus[]'
+   */
+  export type ListEnumPlanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanStatus[]'>
     
 
 
@@ -19467,6 +21329,8 @@ export namespace Prisma {
     mine?: XOR<MineNullableRelationFilter, MineWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     mediumSections?: MediumSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }
 
   export type LargeSectionOrderByWithRelationInput = {
@@ -19481,6 +21345,8 @@ export namespace Prisma {
     mine?: MineOrderByWithRelationInput
     sectionType?: SectionTypeOrderByWithRelationInput
     mediumSections?: MediumSectionOrderByRelationAggregateInput
+    assets?: AssetOrderByRelationAggregateInput
+    Plan?: PlanOrderByRelationAggregateInput
   }
 
   export type LargeSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -19498,6 +21364,8 @@ export namespace Prisma {
     mine?: XOR<MineNullableRelationFilter, MineWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     mediumSections?: MediumSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }, "sectionId">
 
   export type LargeSectionOrderByWithAggregationInput = {
@@ -19545,6 +21413,8 @@ export namespace Prisma {
     largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     smallSections?: SmallSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }
 
   export type MediumSectionOrderByWithRelationInput = {
@@ -19559,6 +21429,8 @@ export namespace Prisma {
     largeSection?: LargeSectionOrderByWithRelationInput
     sectionType?: SectionTypeOrderByWithRelationInput
     smallSections?: SmallSectionOrderByRelationAggregateInput
+    assets?: AssetOrderByRelationAggregateInput
+    Plan?: PlanOrderByRelationAggregateInput
   }
 
   export type MediumSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -19576,6 +21448,8 @@ export namespace Prisma {
     largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     smallSections?: SmallSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }, "sectionId">
 
   export type MediumSectionOrderByWithAggregationInput = {
@@ -19623,6 +21497,8 @@ export namespace Prisma {
     mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     microSections?: MicroSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }
 
   export type SmallSectionOrderByWithRelationInput = {
@@ -19637,6 +21513,8 @@ export namespace Prisma {
     mediumSection?: MediumSectionOrderByWithRelationInput
     sectionType?: SectionTypeOrderByWithRelationInput
     microSections?: MicroSectionOrderByRelationAggregateInput
+    assets?: AssetOrderByRelationAggregateInput
+    Plan?: PlanOrderByRelationAggregateInput
   }
 
   export type SmallSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -19654,6 +21532,8 @@ export namespace Prisma {
     mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     microSections?: MicroSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }, "sectionId">
 
   export type SmallSectionOrderByWithAggregationInput = {
@@ -19701,6 +21581,8 @@ export namespace Prisma {
     smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     unitSections?: UnitSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }
 
   export type MicroSectionOrderByWithRelationInput = {
@@ -19715,6 +21597,8 @@ export namespace Prisma {
     smallSection?: SmallSectionOrderByWithRelationInput
     sectionType?: SectionTypeOrderByWithRelationInput
     unitSections?: UnitSectionOrderByRelationAggregateInput
+    assets?: AssetOrderByRelationAggregateInput
+    Plan?: PlanOrderByRelationAggregateInput
   }
 
   export type MicroSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -19732,6 +21616,8 @@ export namespace Prisma {
     smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
     unitSections?: UnitSectionListRelationFilter
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }, "sectionId">
 
   export type MicroSectionOrderByWithAggregationInput = {
@@ -19778,6 +21664,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UnitSection"> | Date | string
     microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }
 
   export type UnitSectionOrderByWithRelationInput = {
@@ -19791,6 +21679,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     microSection?: MicroSectionOrderByWithRelationInput
     sectionType?: SectionTypeOrderByWithRelationInput
+    assets?: AssetOrderByRelationAggregateInput
+    Plan?: PlanOrderByRelationAggregateInput
   }
 
   export type UnitSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -19807,6 +21697,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UnitSection"> | Date | string
     microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
     sectionType?: XOR<SectionTypeNullableRelationFilter, SectionTypeWhereInput> | null
+    assets?: AssetListRelationFilter
+    Plan?: PlanListRelationFilter
   }, "unitId">
 
   export type UnitSectionOrderByWithAggregationInput = {
@@ -19925,6 +21817,7 @@ export namespace Prisma {
     typeId?: IntFilter<"SectionItem"> | number
     itemName?: StringFilter<"SectionItem"> | string
     sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    assets?: AssetListRelationFilter
   }
 
   export type SectionItemOrderByWithRelationInput = {
@@ -19932,6 +21825,7 @@ export namespace Prisma {
     typeId?: SortOrder
     itemName?: SortOrder
     sectionType?: SectionTypeOrderByWithRelationInput
+    assets?: AssetOrderByRelationAggregateInput
   }
 
   export type SectionItemWhereUniqueInput = Prisma.AtLeast<{
@@ -19942,6 +21836,7 @@ export namespace Prisma {
     typeId?: IntFilter<"SectionItem"> | number
     itemName?: StringFilter<"SectionItem"> | string
     sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    assets?: AssetListRelationFilter
   }, "itemId">
 
   export type SectionItemOrderByWithAggregationInput = {
@@ -20334,8 +22229,18 @@ export namespace Prisma {
     planId?: IntFilter<"Plan"> | number
     planName?: StringFilter<"Plan"> | string
     planDescription?: StringNullableFilter<"Plan"> | string | null
-    workArea?: StringNullableFilter<"Plan"> | string | null
+    workAreaType?: StringNullableFilter<"Plan"> | string | null
+    workAreaId?: IntNullableFilter<"Plan"> | number | null
+    form?: JsonFilter<"Plan">
+    status?: EnumPlanStatusFilter<"Plan"> | $Enums.PlanStatus
+    createdAt?: DateTimeFilter<"Plan"> | Date | string
+    updatedAt?: DateTimeFilter<"Plan"> | Date | string
     notes?: StringNullableFilter<"Plan"> | string | null
+    largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
+    mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
+    smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
+    microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
+    unitSection?: XOR<UnitSectionNullableRelationFilter, UnitSectionWhereInput> | null
     planFiles?: PlanfilesListRelationFilter
   }
 
@@ -20343,8 +22248,18 @@ export namespace Prisma {
     planId?: SortOrder
     planName?: SortOrder
     planDescription?: SortOrderInput | SortOrder
-    workArea?: SortOrderInput | SortOrder
+    workAreaType?: SortOrderInput | SortOrder
+    workAreaId?: SortOrderInput | SortOrder
+    form?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     notes?: SortOrderInput | SortOrder
+    largeSection?: LargeSectionOrderByWithRelationInput
+    mediumSection?: MediumSectionOrderByWithRelationInput
+    smallSection?: SmallSectionOrderByWithRelationInput
+    microSection?: MicroSectionOrderByWithRelationInput
+    unitSection?: UnitSectionOrderByWithRelationInput
     planFiles?: PlanfilesOrderByRelationAggregateInput
   }
 
@@ -20355,8 +22270,18 @@ export namespace Prisma {
     NOT?: PlanWhereInput | PlanWhereInput[]
     planName?: StringFilter<"Plan"> | string
     planDescription?: StringNullableFilter<"Plan"> | string | null
-    workArea?: StringNullableFilter<"Plan"> | string | null
+    workAreaType?: StringNullableFilter<"Plan"> | string | null
+    workAreaId?: IntNullableFilter<"Plan"> | number | null
+    form?: JsonFilter<"Plan">
+    status?: EnumPlanStatusFilter<"Plan"> | $Enums.PlanStatus
+    createdAt?: DateTimeFilter<"Plan"> | Date | string
+    updatedAt?: DateTimeFilter<"Plan"> | Date | string
     notes?: StringNullableFilter<"Plan"> | string | null
+    largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
+    mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
+    smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
+    microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
+    unitSection?: XOR<UnitSectionNullableRelationFilter, UnitSectionWhereInput> | null
     planFiles?: PlanfilesListRelationFilter
   }, "planId">
 
@@ -20364,7 +22289,12 @@ export namespace Prisma {
     planId?: SortOrder
     planName?: SortOrder
     planDescription?: SortOrderInput | SortOrder
-    workArea?: SortOrderInput | SortOrder
+    workAreaType?: SortOrderInput | SortOrder
+    workAreaId?: SortOrderInput | SortOrder
+    form?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     notes?: SortOrderInput | SortOrder
     _count?: PlanCountOrderByAggregateInput
     _avg?: PlanAvgOrderByAggregateInput
@@ -20380,7 +22310,12 @@ export namespace Prisma {
     planId?: IntWithAggregatesFilter<"Plan"> | number
     planName?: StringWithAggregatesFilter<"Plan"> | string
     planDescription?: StringNullableWithAggregatesFilter<"Plan"> | string | null
-    workArea?: StringNullableWithAggregatesFilter<"Plan"> | string | null
+    workAreaType?: StringNullableWithAggregatesFilter<"Plan"> | string | null
+    workAreaId?: IntNullableWithAggregatesFilter<"Plan"> | number | null
+    form?: JsonWithAggregatesFilter<"Plan">
+    status?: EnumPlanStatusWithAggregatesFilter<"Plan"> | $Enums.PlanStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
     notes?: StringNullableWithAggregatesFilter<"Plan"> | string | null
   }
 
@@ -20390,6 +22325,7 @@ export namespace Prisma {
     NOT?: PlanfilesWhereInput | PlanfilesWhereInput[]
     fileId?: IntFilter<"Planfiles"> | number
     fileName?: StringFilter<"Planfiles"> | string
+    filePath?: StringFilter<"Planfiles"> | string
     type?: StringFilter<"Planfiles"> | string
     planId?: IntFilter<"Planfiles"> | number
     plan?: XOR<PlanRelationFilter, PlanWhereInput>
@@ -20398,6 +22334,7 @@ export namespace Prisma {
   export type PlanfilesOrderByWithRelationInput = {
     fileId?: SortOrder
     fileName?: SortOrder
+    filePath?: SortOrder
     type?: SortOrder
     planId?: SortOrder
     plan?: PlanOrderByWithRelationInput
@@ -20409,6 +22346,7 @@ export namespace Prisma {
     OR?: PlanfilesWhereInput[]
     NOT?: PlanfilesWhereInput | PlanfilesWhereInput[]
     fileName?: StringFilter<"Planfiles"> | string
+    filePath?: StringFilter<"Planfiles"> | string
     type?: StringFilter<"Planfiles"> | string
     planId?: IntFilter<"Planfiles"> | number
     plan?: XOR<PlanRelationFilter, PlanWhereInput>
@@ -20417,6 +22355,7 @@ export namespace Prisma {
   export type PlanfilesOrderByWithAggregationInput = {
     fileId?: SortOrder
     fileName?: SortOrder
+    filePath?: SortOrder
     type?: SortOrder
     planId?: SortOrder
     _count?: PlanfilesCountOrderByAggregateInput
@@ -20432,8 +22371,96 @@ export namespace Prisma {
     NOT?: PlanfilesScalarWhereWithAggregatesInput | PlanfilesScalarWhereWithAggregatesInput[]
     fileId?: IntWithAggregatesFilter<"Planfiles"> | number
     fileName?: StringWithAggregatesFilter<"Planfiles"> | string
+    filePath?: StringWithAggregatesFilter<"Planfiles"> | string
     type?: StringWithAggregatesFilter<"Planfiles"> | string
     planId?: IntWithAggregatesFilter<"Planfiles"> | number
+  }
+
+  export type AssetWhereInput = {
+    AND?: AssetWhereInput | AssetWhereInput[]
+    OR?: AssetWhereInput[]
+    NOT?: AssetWhereInput | AssetWhereInput[]
+    assetId?: IntFilter<"Asset"> | number
+    assetName?: StringFilter<"Asset"> | string
+    assetDescription?: StringFilter<"Asset"> | string
+    assetModel?: StringFilter<"Asset"> | string
+    assetLocation?: IntNullableFilter<"Asset"> | number | null
+    createdAt?: DateTimeFilter<"Asset"> | Date | string
+    updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    assetTypeId?: IntNullableFilter<"Asset"> | number | null
+    assetType?: XOR<SectionItemNullableRelationFilter, SectionItemWhereInput> | null
+    largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
+    mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
+    smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
+    unitSection?: XOR<UnitSectionNullableRelationFilter, UnitSectionWhereInput> | null
+    microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
+  }
+
+  export type AssetOrderByWithRelationInput = {
+    assetId?: SortOrder
+    assetName?: SortOrder
+    assetDescription?: SortOrder
+    assetModel?: SortOrder
+    assetLocation?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assetTypeId?: SortOrderInput | SortOrder
+    assetType?: SectionItemOrderByWithRelationInput
+    largeSection?: LargeSectionOrderByWithRelationInput
+    mediumSection?: MediumSectionOrderByWithRelationInput
+    smallSection?: SmallSectionOrderByWithRelationInput
+    unitSection?: UnitSectionOrderByWithRelationInput
+    microSection?: MicroSectionOrderByWithRelationInput
+  }
+
+  export type AssetWhereUniqueInput = Prisma.AtLeast<{
+    assetId?: number
+    AND?: AssetWhereInput | AssetWhereInput[]
+    OR?: AssetWhereInput[]
+    NOT?: AssetWhereInput | AssetWhereInput[]
+    assetName?: StringFilter<"Asset"> | string
+    assetDescription?: StringFilter<"Asset"> | string
+    assetModel?: StringFilter<"Asset"> | string
+    assetLocation?: IntNullableFilter<"Asset"> | number | null
+    createdAt?: DateTimeFilter<"Asset"> | Date | string
+    updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    assetTypeId?: IntNullableFilter<"Asset"> | number | null
+    assetType?: XOR<SectionItemNullableRelationFilter, SectionItemWhereInput> | null
+    largeSection?: XOR<LargeSectionNullableRelationFilter, LargeSectionWhereInput> | null
+    mediumSection?: XOR<MediumSectionNullableRelationFilter, MediumSectionWhereInput> | null
+    smallSection?: XOR<SmallSectionNullableRelationFilter, SmallSectionWhereInput> | null
+    unitSection?: XOR<UnitSectionNullableRelationFilter, UnitSectionWhereInput> | null
+    microSection?: XOR<MicroSectionNullableRelationFilter, MicroSectionWhereInput> | null
+  }, "assetId">
+
+  export type AssetOrderByWithAggregationInput = {
+    assetId?: SortOrder
+    assetName?: SortOrder
+    assetDescription?: SortOrder
+    assetModel?: SortOrder
+    assetLocation?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assetTypeId?: SortOrderInput | SortOrder
+    _count?: AssetCountOrderByAggregateInput
+    _avg?: AssetAvgOrderByAggregateInput
+    _max?: AssetMaxOrderByAggregateInput
+    _min?: AssetMinOrderByAggregateInput
+    _sum?: AssetSumOrderByAggregateInput
+  }
+
+  export type AssetScalarWhereWithAggregatesInput = {
+    AND?: AssetScalarWhereWithAggregatesInput | AssetScalarWhereWithAggregatesInput[]
+    OR?: AssetScalarWhereWithAggregatesInput[]
+    NOT?: AssetScalarWhereWithAggregatesInput | AssetScalarWhereWithAggregatesInput[]
+    assetId?: IntWithAggregatesFilter<"Asset"> | number
+    assetName?: StringWithAggregatesFilter<"Asset"> | string
+    assetDescription?: StringWithAggregatesFilter<"Asset"> | string
+    assetModel?: StringWithAggregatesFilter<"Asset"> | string
+    assetLocation?: IntNullableWithAggregatesFilter<"Asset"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
+    assetTypeId?: IntNullableWithAggregatesFilter<"Asset"> | number | null
   }
 
   export type MineCreateInput = {
@@ -20600,6 +22627,8 @@ export namespace Prisma {
     mine?: MineCreateNestedOneWithoutLargeSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutLargeSectionsInput
     mediumSections?: MediumSectionCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionUncheckedCreateInput = {
@@ -20612,6 +22641,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mediumSections?: MediumSectionUncheckedCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionUpdateInput = {
@@ -20623,6 +22654,8 @@ export namespace Prisma {
     mine?: MineUpdateOneWithoutLargeSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutLargeSectionsNestedInput
     mediumSections?: MediumSectionUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionUncheckedUpdateInput = {
@@ -20635,6 +22668,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mediumSections?: MediumSectionUncheckedUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionCreateManyInput = {
@@ -20676,6 +22711,8 @@ export namespace Prisma {
     largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
     smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionUncheckedCreateInput = {
@@ -20688,6 +22725,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionUpdateInput = {
@@ -20699,6 +22738,8 @@ export namespace Prisma {
     largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
     smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionUncheckedUpdateInput = {
@@ -20711,6 +22752,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionCreateManyInput = {
@@ -20752,6 +22795,8 @@ export namespace Prisma {
     mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
     microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionUncheckedCreateInput = {
@@ -20764,6 +22809,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionUpdateInput = {
@@ -20775,6 +22822,8 @@ export namespace Prisma {
     mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
     microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionUncheckedUpdateInput = {
@@ -20787,6 +22836,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionCreateManyInput = {
@@ -20828,6 +22879,8 @@ export namespace Prisma {
     smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
     unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionUncheckedCreateInput = {
@@ -20840,6 +22893,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionUpdateInput = {
@@ -20851,6 +22906,8 @@ export namespace Prisma {
     smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
     unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionUncheckedUpdateInput = {
@@ -20863,6 +22920,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionCreateManyInput = {
@@ -20903,6 +22962,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     microSection?: MicroSectionCreateNestedOneWithoutUnitSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutUnitSectionsInput
+    assets?: AssetCreateNestedManyWithoutUnitSectionInput
+    Plan?: PlanCreateNestedManyWithoutUnitSectionInput
   }
 
   export type UnitSectionUncheckedCreateInput = {
@@ -20914,6 +22975,8 @@ export namespace Prisma {
     insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutUnitSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutUnitSectionInput
   }
 
   export type UnitSectionUpdateInput = {
@@ -20924,6 +22987,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSection?: MicroSectionUpdateOneWithoutUnitSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutUnitSectionsNestedInput
+    assets?: AssetUpdateManyWithoutUnitSectionNestedInput
+    Plan?: PlanUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type UnitSectionUncheckedUpdateInput = {
@@ -20935,6 +23000,8 @@ export namespace Prisma {
     insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutUnitSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type UnitSectionCreateManyInput = {
@@ -21054,23 +23121,27 @@ export namespace Prisma {
   export type SectionItemCreateInput = {
     itemName: string
     sectionType: SectionTypeCreateNestedOneWithoutSectionItemsInput
+    assets?: AssetCreateNestedManyWithoutAssetTypeInput
   }
 
   export type SectionItemUncheckedCreateInput = {
     itemId?: number
     typeId: number
     itemName: string
+    assets?: AssetUncheckedCreateNestedManyWithoutAssetTypeInput
   }
 
   export type SectionItemUpdateInput = {
     itemName?: StringFieldUpdateOperationsInput | string
     sectionType?: SectionTypeUpdateOneRequiredWithoutSectionItemsNestedInput
+    assets?: AssetUpdateManyWithoutAssetTypeNestedInput
   }
 
   export type SectionItemUncheckedUpdateInput = {
     itemId?: IntFieldUpdateOperationsInput | number
     typeId?: IntFieldUpdateOperationsInput | number
     itemName?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUncheckedUpdateManyWithoutAssetTypeNestedInput
   }
 
   export type SectionItemCreateManyInput = {
@@ -21471,8 +23542,17 @@ export namespace Prisma {
   export type PlanCreateInput = {
     planName: string
     planDescription?: string | null
-    workArea?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notes?: string | null
+    largeSection?: LargeSectionCreateNestedOneWithoutPlanInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutPlanInput
+    smallSection?: SmallSectionCreateNestedOneWithoutPlanInput
+    microSection?: MicroSectionCreateNestedOneWithoutPlanInput
+    unitSection?: UnitSectionCreateNestedOneWithoutPlanInput
     planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
   }
 
@@ -21480,7 +23560,12 @@ export namespace Prisma {
     planId?: number
     planName: string
     planDescription?: string | null
-    workArea?: string | null
+    workAreaType?: string | null
+    workAreaId?: number | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notes?: string | null
     planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
   }
@@ -21488,8 +23573,17 @@ export namespace Prisma {
   export type PlanUpdateInput = {
     planName?: StringFieldUpdateOperationsInput | string
     planDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    workArea?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    largeSection?: LargeSectionUpdateOneWithoutPlanNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutPlanNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutPlanNestedInput
+    microSection?: MicroSectionUpdateOneWithoutPlanNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutPlanNestedInput
     planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
   }
 
@@ -21497,7 +23591,12 @@ export namespace Prisma {
     planId?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     planDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    workArea?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaId?: NullableIntFieldUpdateOperationsInput | number | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
   }
@@ -21506,14 +23605,23 @@ export namespace Prisma {
     planId?: number
     planName: string
     planDescription?: string | null
-    workArea?: string | null
+    workAreaType?: string | null
+    workAreaId?: number | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notes?: string | null
   }
 
   export type PlanUpdateManyMutationInput = {
     planName?: StringFieldUpdateOperationsInput | string
     planDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    workArea?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -21521,12 +23629,18 @@ export namespace Prisma {
     planId?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     planDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    workArea?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaId?: NullableIntFieldUpdateOperationsInput | number | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PlanfilesCreateInput = {
     fileName: string
+    filePath: string
     type: string
     plan: PlanCreateNestedOneWithoutPlanFilesInput
   }
@@ -21534,12 +23648,14 @@ export namespace Prisma {
   export type PlanfilesUncheckedCreateInput = {
     fileId?: number
     fileName: string
+    filePath: string
     type: string
     planId: number
   }
 
   export type PlanfilesUpdateInput = {
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     plan?: PlanUpdateOneRequiredWithoutPlanFilesNestedInput
   }
@@ -21547,6 +23663,7 @@ export namespace Prisma {
   export type PlanfilesUncheckedUpdateInput = {
     fileId?: IntFieldUpdateOperationsInput | number
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     planId?: IntFieldUpdateOperationsInput | number
   }
@@ -21554,20 +23671,103 @@ export namespace Prisma {
   export type PlanfilesCreateManyInput = {
     fileId?: number
     fileName: string
+    filePath: string
     type: string
     planId: number
   }
 
   export type PlanfilesUpdateManyMutationInput = {
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
   }
 
   export type PlanfilesUncheckedUpdateManyInput = {
     fileId?: IntFieldUpdateOperationsInput | number
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     planId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AssetCreateInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetType?: SectionItemCreateNestedOneWithoutAssetsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutAssetsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutAssetsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutAssetsInput
+    unitSection?: UnitSectionCreateNestedOneWithoutAssetsInput
+    microSection?: MicroSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    assetLocation?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetUpdateInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetType?: SectionItemUpdateOneWithoutAssetsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutAssetsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutAssetsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutAssetsNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutAssetsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    assetLocation?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AssetCreateManyInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    assetLocation?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetUpdateManyMutationInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetUncheckedUpdateManyInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    assetLocation?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -21880,7 +24080,27 @@ export namespace Prisma {
     none?: MediumSectionWhereInput
   }
 
+  export type AssetListRelationFilter = {
+    every?: AssetWhereInput
+    some?: AssetWhereInput
+    none?: AssetWhereInput
+  }
+
+  export type PlanListRelationFilter = {
+    every?: PlanWhereInput
+    some?: PlanWhereInput
+    none?: PlanWhereInput
+  }
+
   export type MediumSectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlanOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22594,6 +24814,18 @@ export namespace Prisma {
     shiftId?: SortOrder
   }
 
+  export type EnumPlanStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanStatus | EnumPlanStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlanStatusFilter<$PrismaModel> | $Enums.PlanStatus
+  }
+
+  export type UnitSectionNullableRelationFilter = {
+    is?: UnitSectionWhereInput | null
+    isNot?: UnitSectionWhereInput | null
+  }
+
   export type PlanfilesListRelationFilter = {
     every?: PlanfilesWhereInput
     some?: PlanfilesWhereInput
@@ -22608,19 +24840,29 @@ export namespace Prisma {
     planId?: SortOrder
     planName?: SortOrder
     planDescription?: SortOrder
-    workArea?: SortOrder
+    workAreaType?: SortOrder
+    workAreaId?: SortOrder
+    form?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     notes?: SortOrder
   }
 
   export type PlanAvgOrderByAggregateInput = {
     planId?: SortOrder
+    workAreaId?: SortOrder
   }
 
   export type PlanMaxOrderByAggregateInput = {
     planId?: SortOrder
     planName?: SortOrder
     planDescription?: SortOrder
-    workArea?: SortOrder
+    workAreaType?: SortOrder
+    workAreaId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     notes?: SortOrder
   }
 
@@ -22628,12 +24870,27 @@ export namespace Prisma {
     planId?: SortOrder
     planName?: SortOrder
     planDescription?: SortOrder
-    workArea?: SortOrder
+    workAreaType?: SortOrder
+    workAreaId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     notes?: SortOrder
   }
 
   export type PlanSumOrderByAggregateInput = {
     planId?: SortOrder
+    workAreaId?: SortOrder
+  }
+
+  export type EnumPlanStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanStatus | EnumPlanStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlanStatusWithAggregatesFilter<$PrismaModel> | $Enums.PlanStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlanStatusFilter<$PrismaModel>
+    _max?: NestedEnumPlanStatusFilter<$PrismaModel>
   }
 
   export type PlanRelationFilter = {
@@ -22644,6 +24901,7 @@ export namespace Prisma {
   export type PlanfilesCountOrderByAggregateInput = {
     fileId?: SortOrder
     fileName?: SortOrder
+    filePath?: SortOrder
     type?: SortOrder
     planId?: SortOrder
   }
@@ -22656,6 +24914,7 @@ export namespace Prisma {
   export type PlanfilesMaxOrderByAggregateInput = {
     fileId?: SortOrder
     fileName?: SortOrder
+    filePath?: SortOrder
     type?: SortOrder
     planId?: SortOrder
   }
@@ -22663,6 +24922,7 @@ export namespace Prisma {
   export type PlanfilesMinOrderByAggregateInput = {
     fileId?: SortOrder
     fileName?: SortOrder
+    filePath?: SortOrder
     type?: SortOrder
     planId?: SortOrder
   }
@@ -22670,6 +24930,56 @@ export namespace Prisma {
   export type PlanfilesSumOrderByAggregateInput = {
     fileId?: SortOrder
     planId?: SortOrder
+  }
+
+  export type SectionItemNullableRelationFilter = {
+    is?: SectionItemWhereInput | null
+    isNot?: SectionItemWhereInput | null
+  }
+
+  export type AssetCountOrderByAggregateInput = {
+    assetId?: SortOrder
+    assetName?: SortOrder
+    assetDescription?: SortOrder
+    assetModel?: SortOrder
+    assetLocation?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assetTypeId?: SortOrder
+  }
+
+  export type AssetAvgOrderByAggregateInput = {
+    assetId?: SortOrder
+    assetLocation?: SortOrder
+    assetTypeId?: SortOrder
+  }
+
+  export type AssetMaxOrderByAggregateInput = {
+    assetId?: SortOrder
+    assetName?: SortOrder
+    assetDescription?: SortOrder
+    assetModel?: SortOrder
+    assetLocation?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assetTypeId?: SortOrder
+  }
+
+  export type AssetMinOrderByAggregateInput = {
+    assetId?: SortOrder
+    assetName?: SortOrder
+    assetDescription?: SortOrder
+    assetModel?: SortOrder
+    assetLocation?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    assetTypeId?: SortOrder
+  }
+
+  export type AssetSumOrderByAggregateInput = {
+    assetId?: SortOrder
+    assetLocation?: SortOrder
+    assetTypeId?: SortOrder
   }
 
   export type OwnerCreateNestedOneWithoutMinesInput = {
@@ -22817,11 +25127,39 @@ export namespace Prisma {
     connect?: MediumSectionWhereUniqueInput | MediumSectionWhereUniqueInput[]
   }
 
+  export type AssetCreateNestedManyWithoutLargeSectionInput = {
+    create?: XOR<AssetCreateWithoutLargeSectionInput, AssetUncheckedCreateWithoutLargeSectionInput> | AssetCreateWithoutLargeSectionInput[] | AssetUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutLargeSectionInput | AssetCreateOrConnectWithoutLargeSectionInput[]
+    createMany?: AssetCreateManyLargeSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanCreateNestedManyWithoutLargeSectionInput = {
+    create?: XOR<PlanCreateWithoutLargeSectionInput, PlanUncheckedCreateWithoutLargeSectionInput> | PlanCreateWithoutLargeSectionInput[] | PlanUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutLargeSectionInput | PlanCreateOrConnectWithoutLargeSectionInput[]
+    createMany?: PlanCreateManyLargeSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+  }
+
   export type MediumSectionUncheckedCreateNestedManyWithoutLargeSectionInput = {
     create?: XOR<MediumSectionCreateWithoutLargeSectionInput, MediumSectionUncheckedCreateWithoutLargeSectionInput> | MediumSectionCreateWithoutLargeSectionInput[] | MediumSectionUncheckedCreateWithoutLargeSectionInput[]
     connectOrCreate?: MediumSectionCreateOrConnectWithoutLargeSectionInput | MediumSectionCreateOrConnectWithoutLargeSectionInput[]
     createMany?: MediumSectionCreateManyLargeSectionInputEnvelope
     connect?: MediumSectionWhereUniqueInput | MediumSectionWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutLargeSectionInput = {
+    create?: XOR<AssetCreateWithoutLargeSectionInput, AssetUncheckedCreateWithoutLargeSectionInput> | AssetCreateWithoutLargeSectionInput[] | AssetUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutLargeSectionInput | AssetCreateOrConnectWithoutLargeSectionInput[]
+    createMany?: AssetCreateManyLargeSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanUncheckedCreateNestedManyWithoutLargeSectionInput = {
+    create?: XOR<PlanCreateWithoutLargeSectionInput, PlanUncheckedCreateWithoutLargeSectionInput> | PlanCreateWithoutLargeSectionInput[] | PlanUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutLargeSectionInput | PlanCreateOrConnectWithoutLargeSectionInput[]
+    createMany?: PlanCreateManyLargeSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -22870,6 +25208,34 @@ export namespace Prisma {
     deleteMany?: MediumSectionScalarWhereInput | MediumSectionScalarWhereInput[]
   }
 
+  export type AssetUpdateManyWithoutLargeSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutLargeSectionInput, AssetUncheckedCreateWithoutLargeSectionInput> | AssetCreateWithoutLargeSectionInput[] | AssetUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutLargeSectionInput | AssetCreateOrConnectWithoutLargeSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutLargeSectionInput | AssetUpsertWithWhereUniqueWithoutLargeSectionInput[]
+    createMany?: AssetCreateManyLargeSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutLargeSectionInput | AssetUpdateWithWhereUniqueWithoutLargeSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutLargeSectionInput | AssetUpdateManyWithWhereWithoutLargeSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUpdateManyWithoutLargeSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutLargeSectionInput, PlanUncheckedCreateWithoutLargeSectionInput> | PlanCreateWithoutLargeSectionInput[] | PlanUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutLargeSectionInput | PlanCreateOrConnectWithoutLargeSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutLargeSectionInput | PlanUpsertWithWhereUniqueWithoutLargeSectionInput[]
+    createMany?: PlanCreateManyLargeSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutLargeSectionInput | PlanUpdateWithWhereUniqueWithoutLargeSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutLargeSectionInput | PlanUpdateManyWithWhereWithoutLargeSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -22892,6 +25258,34 @@ export namespace Prisma {
     deleteMany?: MediumSectionScalarWhereInput | MediumSectionScalarWhereInput[]
   }
 
+  export type AssetUncheckedUpdateManyWithoutLargeSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutLargeSectionInput, AssetUncheckedCreateWithoutLargeSectionInput> | AssetCreateWithoutLargeSectionInput[] | AssetUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutLargeSectionInput | AssetCreateOrConnectWithoutLargeSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutLargeSectionInput | AssetUpsertWithWhereUniqueWithoutLargeSectionInput[]
+    createMany?: AssetCreateManyLargeSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutLargeSectionInput | AssetUpdateWithWhereUniqueWithoutLargeSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutLargeSectionInput | AssetUpdateManyWithWhereWithoutLargeSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUncheckedUpdateManyWithoutLargeSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutLargeSectionInput, PlanUncheckedCreateWithoutLargeSectionInput> | PlanCreateWithoutLargeSectionInput[] | PlanUncheckedCreateWithoutLargeSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutLargeSectionInput | PlanCreateOrConnectWithoutLargeSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutLargeSectionInput | PlanUpsertWithWhereUniqueWithoutLargeSectionInput[]
+    createMany?: PlanCreateManyLargeSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutLargeSectionInput | PlanUpdateWithWhereUniqueWithoutLargeSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutLargeSectionInput | PlanUpdateManyWithWhereWithoutLargeSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
   export type LargeSectionCreateNestedOneWithoutMediumSectionsInput = {
     create?: XOR<LargeSectionCreateWithoutMediumSectionsInput, LargeSectionUncheckedCreateWithoutMediumSectionsInput>
     connectOrCreate?: LargeSectionCreateOrConnectWithoutMediumSectionsInput
@@ -22911,11 +25305,39 @@ export namespace Prisma {
     connect?: SmallSectionWhereUniqueInput | SmallSectionWhereUniqueInput[]
   }
 
+  export type AssetCreateNestedManyWithoutMediumSectionInput = {
+    create?: XOR<AssetCreateWithoutMediumSectionInput, AssetUncheckedCreateWithoutMediumSectionInput> | AssetCreateWithoutMediumSectionInput[] | AssetUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMediumSectionInput | AssetCreateOrConnectWithoutMediumSectionInput[]
+    createMany?: AssetCreateManyMediumSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanCreateNestedManyWithoutMediumSectionInput = {
+    create?: XOR<PlanCreateWithoutMediumSectionInput, PlanUncheckedCreateWithoutMediumSectionInput> | PlanCreateWithoutMediumSectionInput[] | PlanUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMediumSectionInput | PlanCreateOrConnectWithoutMediumSectionInput[]
+    createMany?: PlanCreateManyMediumSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+  }
+
   export type SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput = {
     create?: XOR<SmallSectionCreateWithoutMediumSectionInput, SmallSectionUncheckedCreateWithoutMediumSectionInput> | SmallSectionCreateWithoutMediumSectionInput[] | SmallSectionUncheckedCreateWithoutMediumSectionInput[]
     connectOrCreate?: SmallSectionCreateOrConnectWithoutMediumSectionInput | SmallSectionCreateOrConnectWithoutMediumSectionInput[]
     createMany?: SmallSectionCreateManyMediumSectionInputEnvelope
     connect?: SmallSectionWhereUniqueInput | SmallSectionWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutMediumSectionInput = {
+    create?: XOR<AssetCreateWithoutMediumSectionInput, AssetUncheckedCreateWithoutMediumSectionInput> | AssetCreateWithoutMediumSectionInput[] | AssetUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMediumSectionInput | AssetCreateOrConnectWithoutMediumSectionInput[]
+    createMany?: AssetCreateManyMediumSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanUncheckedCreateNestedManyWithoutMediumSectionInput = {
+    create?: XOR<PlanCreateWithoutMediumSectionInput, PlanUncheckedCreateWithoutMediumSectionInput> | PlanCreateWithoutMediumSectionInput[] | PlanUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMediumSectionInput | PlanCreateOrConnectWithoutMediumSectionInput[]
+    createMany?: PlanCreateManyMediumSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
   export type LargeSectionUpdateOneWithoutMediumSectionsNestedInput = {
@@ -22952,6 +25374,34 @@ export namespace Prisma {
     deleteMany?: SmallSectionScalarWhereInput | SmallSectionScalarWhereInput[]
   }
 
+  export type AssetUpdateManyWithoutMediumSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutMediumSectionInput, AssetUncheckedCreateWithoutMediumSectionInput> | AssetCreateWithoutMediumSectionInput[] | AssetUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMediumSectionInput | AssetCreateOrConnectWithoutMediumSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutMediumSectionInput | AssetUpsertWithWhereUniqueWithoutMediumSectionInput[]
+    createMany?: AssetCreateManyMediumSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutMediumSectionInput | AssetUpdateWithWhereUniqueWithoutMediumSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutMediumSectionInput | AssetUpdateManyWithWhereWithoutMediumSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUpdateManyWithoutMediumSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutMediumSectionInput, PlanUncheckedCreateWithoutMediumSectionInput> | PlanCreateWithoutMediumSectionInput[] | PlanUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMediumSectionInput | PlanCreateOrConnectWithoutMediumSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutMediumSectionInput | PlanUpsertWithWhereUniqueWithoutMediumSectionInput[]
+    createMany?: PlanCreateManyMediumSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutMediumSectionInput | PlanUpdateWithWhereUniqueWithoutMediumSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutMediumSectionInput | PlanUpdateManyWithWhereWithoutMediumSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
   export type SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput = {
     create?: XOR<SmallSectionCreateWithoutMediumSectionInput, SmallSectionUncheckedCreateWithoutMediumSectionInput> | SmallSectionCreateWithoutMediumSectionInput[] | SmallSectionUncheckedCreateWithoutMediumSectionInput[]
     connectOrCreate?: SmallSectionCreateOrConnectWithoutMediumSectionInput | SmallSectionCreateOrConnectWithoutMediumSectionInput[]
@@ -22964,6 +25414,34 @@ export namespace Prisma {
     update?: SmallSectionUpdateWithWhereUniqueWithoutMediumSectionInput | SmallSectionUpdateWithWhereUniqueWithoutMediumSectionInput[]
     updateMany?: SmallSectionUpdateManyWithWhereWithoutMediumSectionInput | SmallSectionUpdateManyWithWhereWithoutMediumSectionInput[]
     deleteMany?: SmallSectionScalarWhereInput | SmallSectionScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutMediumSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutMediumSectionInput, AssetUncheckedCreateWithoutMediumSectionInput> | AssetCreateWithoutMediumSectionInput[] | AssetUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMediumSectionInput | AssetCreateOrConnectWithoutMediumSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutMediumSectionInput | AssetUpsertWithWhereUniqueWithoutMediumSectionInput[]
+    createMany?: AssetCreateManyMediumSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutMediumSectionInput | AssetUpdateWithWhereUniqueWithoutMediumSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutMediumSectionInput | AssetUpdateManyWithWhereWithoutMediumSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUncheckedUpdateManyWithoutMediumSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutMediumSectionInput, PlanUncheckedCreateWithoutMediumSectionInput> | PlanCreateWithoutMediumSectionInput[] | PlanUncheckedCreateWithoutMediumSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMediumSectionInput | PlanCreateOrConnectWithoutMediumSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutMediumSectionInput | PlanUpsertWithWhereUniqueWithoutMediumSectionInput[]
+    createMany?: PlanCreateManyMediumSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutMediumSectionInput | PlanUpdateWithWhereUniqueWithoutMediumSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutMediumSectionInput | PlanUpdateManyWithWhereWithoutMediumSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
   }
 
   export type MediumSectionCreateNestedOneWithoutSmallSectionsInput = {
@@ -22985,11 +25463,39 @@ export namespace Prisma {
     connect?: MicroSectionWhereUniqueInput | MicroSectionWhereUniqueInput[]
   }
 
+  export type AssetCreateNestedManyWithoutSmallSectionInput = {
+    create?: XOR<AssetCreateWithoutSmallSectionInput, AssetUncheckedCreateWithoutSmallSectionInput> | AssetCreateWithoutSmallSectionInput[] | AssetUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSmallSectionInput | AssetCreateOrConnectWithoutSmallSectionInput[]
+    createMany?: AssetCreateManySmallSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanCreateNestedManyWithoutSmallSectionInput = {
+    create?: XOR<PlanCreateWithoutSmallSectionInput, PlanUncheckedCreateWithoutSmallSectionInput> | PlanCreateWithoutSmallSectionInput[] | PlanUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutSmallSectionInput | PlanCreateOrConnectWithoutSmallSectionInput[]
+    createMany?: PlanCreateManySmallSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+  }
+
   export type MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput = {
     create?: XOR<MicroSectionCreateWithoutSmallSectionInput, MicroSectionUncheckedCreateWithoutSmallSectionInput> | MicroSectionCreateWithoutSmallSectionInput[] | MicroSectionUncheckedCreateWithoutSmallSectionInput[]
     connectOrCreate?: MicroSectionCreateOrConnectWithoutSmallSectionInput | MicroSectionCreateOrConnectWithoutSmallSectionInput[]
     createMany?: MicroSectionCreateManySmallSectionInputEnvelope
     connect?: MicroSectionWhereUniqueInput | MicroSectionWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutSmallSectionInput = {
+    create?: XOR<AssetCreateWithoutSmallSectionInput, AssetUncheckedCreateWithoutSmallSectionInput> | AssetCreateWithoutSmallSectionInput[] | AssetUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSmallSectionInput | AssetCreateOrConnectWithoutSmallSectionInput[]
+    createMany?: AssetCreateManySmallSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanUncheckedCreateNestedManyWithoutSmallSectionInput = {
+    create?: XOR<PlanCreateWithoutSmallSectionInput, PlanUncheckedCreateWithoutSmallSectionInput> | PlanCreateWithoutSmallSectionInput[] | PlanUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutSmallSectionInput | PlanCreateOrConnectWithoutSmallSectionInput[]
+    createMany?: PlanCreateManySmallSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
   export type MediumSectionUpdateOneWithoutSmallSectionsNestedInput = {
@@ -23026,6 +25532,34 @@ export namespace Prisma {
     deleteMany?: MicroSectionScalarWhereInput | MicroSectionScalarWhereInput[]
   }
 
+  export type AssetUpdateManyWithoutSmallSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutSmallSectionInput, AssetUncheckedCreateWithoutSmallSectionInput> | AssetCreateWithoutSmallSectionInput[] | AssetUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSmallSectionInput | AssetCreateOrConnectWithoutSmallSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutSmallSectionInput | AssetUpsertWithWhereUniqueWithoutSmallSectionInput[]
+    createMany?: AssetCreateManySmallSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutSmallSectionInput | AssetUpdateWithWhereUniqueWithoutSmallSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutSmallSectionInput | AssetUpdateManyWithWhereWithoutSmallSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUpdateManyWithoutSmallSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutSmallSectionInput, PlanUncheckedCreateWithoutSmallSectionInput> | PlanCreateWithoutSmallSectionInput[] | PlanUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutSmallSectionInput | PlanCreateOrConnectWithoutSmallSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutSmallSectionInput | PlanUpsertWithWhereUniqueWithoutSmallSectionInput[]
+    createMany?: PlanCreateManySmallSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutSmallSectionInput | PlanUpdateWithWhereUniqueWithoutSmallSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutSmallSectionInput | PlanUpdateManyWithWhereWithoutSmallSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
   export type MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput = {
     create?: XOR<MicroSectionCreateWithoutSmallSectionInput, MicroSectionUncheckedCreateWithoutSmallSectionInput> | MicroSectionCreateWithoutSmallSectionInput[] | MicroSectionUncheckedCreateWithoutSmallSectionInput[]
     connectOrCreate?: MicroSectionCreateOrConnectWithoutSmallSectionInput | MicroSectionCreateOrConnectWithoutSmallSectionInput[]
@@ -23038,6 +25572,34 @@ export namespace Prisma {
     update?: MicroSectionUpdateWithWhereUniqueWithoutSmallSectionInput | MicroSectionUpdateWithWhereUniqueWithoutSmallSectionInput[]
     updateMany?: MicroSectionUpdateManyWithWhereWithoutSmallSectionInput | MicroSectionUpdateManyWithWhereWithoutSmallSectionInput[]
     deleteMany?: MicroSectionScalarWhereInput | MicroSectionScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutSmallSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutSmallSectionInput, AssetUncheckedCreateWithoutSmallSectionInput> | AssetCreateWithoutSmallSectionInput[] | AssetUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSmallSectionInput | AssetCreateOrConnectWithoutSmallSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutSmallSectionInput | AssetUpsertWithWhereUniqueWithoutSmallSectionInput[]
+    createMany?: AssetCreateManySmallSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutSmallSectionInput | AssetUpdateWithWhereUniqueWithoutSmallSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutSmallSectionInput | AssetUpdateManyWithWhereWithoutSmallSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUncheckedUpdateManyWithoutSmallSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutSmallSectionInput, PlanUncheckedCreateWithoutSmallSectionInput> | PlanCreateWithoutSmallSectionInput[] | PlanUncheckedCreateWithoutSmallSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutSmallSectionInput | PlanCreateOrConnectWithoutSmallSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutSmallSectionInput | PlanUpsertWithWhereUniqueWithoutSmallSectionInput[]
+    createMany?: PlanCreateManySmallSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutSmallSectionInput | PlanUpdateWithWhereUniqueWithoutSmallSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutSmallSectionInput | PlanUpdateManyWithWhereWithoutSmallSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
   }
 
   export type SmallSectionCreateNestedOneWithoutMicroSectionsInput = {
@@ -23059,11 +25621,39 @@ export namespace Prisma {
     connect?: UnitSectionWhereUniqueInput | UnitSectionWhereUniqueInput[]
   }
 
+  export type AssetCreateNestedManyWithoutMicroSectionInput = {
+    create?: XOR<AssetCreateWithoutMicroSectionInput, AssetUncheckedCreateWithoutMicroSectionInput> | AssetCreateWithoutMicroSectionInput[] | AssetUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMicroSectionInput | AssetCreateOrConnectWithoutMicroSectionInput[]
+    createMany?: AssetCreateManyMicroSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanCreateNestedManyWithoutMicroSectionInput = {
+    create?: XOR<PlanCreateWithoutMicroSectionInput, PlanUncheckedCreateWithoutMicroSectionInput> | PlanCreateWithoutMicroSectionInput[] | PlanUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMicroSectionInput | PlanCreateOrConnectWithoutMicroSectionInput[]
+    createMany?: PlanCreateManyMicroSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+  }
+
   export type UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput = {
     create?: XOR<UnitSectionCreateWithoutMicroSectionInput, UnitSectionUncheckedCreateWithoutMicroSectionInput> | UnitSectionCreateWithoutMicroSectionInput[] | UnitSectionUncheckedCreateWithoutMicroSectionInput[]
     connectOrCreate?: UnitSectionCreateOrConnectWithoutMicroSectionInput | UnitSectionCreateOrConnectWithoutMicroSectionInput[]
     createMany?: UnitSectionCreateManyMicroSectionInputEnvelope
     connect?: UnitSectionWhereUniqueInput | UnitSectionWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutMicroSectionInput = {
+    create?: XOR<AssetCreateWithoutMicroSectionInput, AssetUncheckedCreateWithoutMicroSectionInput> | AssetCreateWithoutMicroSectionInput[] | AssetUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMicroSectionInput | AssetCreateOrConnectWithoutMicroSectionInput[]
+    createMany?: AssetCreateManyMicroSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanUncheckedCreateNestedManyWithoutMicroSectionInput = {
+    create?: XOR<PlanCreateWithoutMicroSectionInput, PlanUncheckedCreateWithoutMicroSectionInput> | PlanCreateWithoutMicroSectionInput[] | PlanUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMicroSectionInput | PlanCreateOrConnectWithoutMicroSectionInput[]
+    createMany?: PlanCreateManyMicroSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
   export type SmallSectionUpdateOneWithoutMicroSectionsNestedInput = {
@@ -23100,6 +25690,34 @@ export namespace Prisma {
     deleteMany?: UnitSectionScalarWhereInput | UnitSectionScalarWhereInput[]
   }
 
+  export type AssetUpdateManyWithoutMicroSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutMicroSectionInput, AssetUncheckedCreateWithoutMicroSectionInput> | AssetCreateWithoutMicroSectionInput[] | AssetUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMicroSectionInput | AssetCreateOrConnectWithoutMicroSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutMicroSectionInput | AssetUpsertWithWhereUniqueWithoutMicroSectionInput[]
+    createMany?: AssetCreateManyMicroSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutMicroSectionInput | AssetUpdateWithWhereUniqueWithoutMicroSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutMicroSectionInput | AssetUpdateManyWithWhereWithoutMicroSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUpdateManyWithoutMicroSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutMicroSectionInput, PlanUncheckedCreateWithoutMicroSectionInput> | PlanCreateWithoutMicroSectionInput[] | PlanUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMicroSectionInput | PlanCreateOrConnectWithoutMicroSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutMicroSectionInput | PlanUpsertWithWhereUniqueWithoutMicroSectionInput[]
+    createMany?: PlanCreateManyMicroSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutMicroSectionInput | PlanUpdateWithWhereUniqueWithoutMicroSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutMicroSectionInput | PlanUpdateManyWithWhereWithoutMicroSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
   export type UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput = {
     create?: XOR<UnitSectionCreateWithoutMicroSectionInput, UnitSectionUncheckedCreateWithoutMicroSectionInput> | UnitSectionCreateWithoutMicroSectionInput[] | UnitSectionUncheckedCreateWithoutMicroSectionInput[]
     connectOrCreate?: UnitSectionCreateOrConnectWithoutMicroSectionInput | UnitSectionCreateOrConnectWithoutMicroSectionInput[]
@@ -23114,6 +25732,34 @@ export namespace Prisma {
     deleteMany?: UnitSectionScalarWhereInput | UnitSectionScalarWhereInput[]
   }
 
+  export type AssetUncheckedUpdateManyWithoutMicroSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutMicroSectionInput, AssetUncheckedCreateWithoutMicroSectionInput> | AssetCreateWithoutMicroSectionInput[] | AssetUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutMicroSectionInput | AssetCreateOrConnectWithoutMicroSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutMicroSectionInput | AssetUpsertWithWhereUniqueWithoutMicroSectionInput[]
+    createMany?: AssetCreateManyMicroSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutMicroSectionInput | AssetUpdateWithWhereUniqueWithoutMicroSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutMicroSectionInput | AssetUpdateManyWithWhereWithoutMicroSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUncheckedUpdateManyWithoutMicroSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutMicroSectionInput, PlanUncheckedCreateWithoutMicroSectionInput> | PlanCreateWithoutMicroSectionInput[] | PlanUncheckedCreateWithoutMicroSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutMicroSectionInput | PlanCreateOrConnectWithoutMicroSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutMicroSectionInput | PlanUpsertWithWhereUniqueWithoutMicroSectionInput[]
+    createMany?: PlanCreateManyMicroSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutMicroSectionInput | PlanUpdateWithWhereUniqueWithoutMicroSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutMicroSectionInput | PlanUpdateManyWithWhereWithoutMicroSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
   export type MicroSectionCreateNestedOneWithoutUnitSectionsInput = {
     create?: XOR<MicroSectionCreateWithoutUnitSectionsInput, MicroSectionUncheckedCreateWithoutUnitSectionsInput>
     connectOrCreate?: MicroSectionCreateOrConnectWithoutUnitSectionsInput
@@ -23124,6 +25770,34 @@ export namespace Prisma {
     create?: XOR<SectionTypeCreateWithoutUnitSectionsInput, SectionTypeUncheckedCreateWithoutUnitSectionsInput>
     connectOrCreate?: SectionTypeCreateOrConnectWithoutUnitSectionsInput
     connect?: SectionTypeWhereUniqueInput
+  }
+
+  export type AssetCreateNestedManyWithoutUnitSectionInput = {
+    create?: XOR<AssetCreateWithoutUnitSectionInput, AssetUncheckedCreateWithoutUnitSectionInput> | AssetCreateWithoutUnitSectionInput[] | AssetUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutUnitSectionInput | AssetCreateOrConnectWithoutUnitSectionInput[]
+    createMany?: AssetCreateManyUnitSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanCreateNestedManyWithoutUnitSectionInput = {
+    create?: XOR<PlanCreateWithoutUnitSectionInput, PlanUncheckedCreateWithoutUnitSectionInput> | PlanCreateWithoutUnitSectionInput[] | PlanUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutUnitSectionInput | PlanCreateOrConnectWithoutUnitSectionInput[]
+    createMany?: PlanCreateManyUnitSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutUnitSectionInput = {
+    create?: XOR<AssetCreateWithoutUnitSectionInput, AssetUncheckedCreateWithoutUnitSectionInput> | AssetCreateWithoutUnitSectionInput[] | AssetUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutUnitSectionInput | AssetCreateOrConnectWithoutUnitSectionInput[]
+    createMany?: AssetCreateManyUnitSectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type PlanUncheckedCreateNestedManyWithoutUnitSectionInput = {
+    create?: XOR<PlanCreateWithoutUnitSectionInput, PlanUncheckedCreateWithoutUnitSectionInput> | PlanCreateWithoutUnitSectionInput[] | PlanUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutUnitSectionInput | PlanCreateOrConnectWithoutUnitSectionInput[]
+    createMany?: PlanCreateManyUnitSectionInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
   export type MicroSectionUpdateOneWithoutUnitSectionsNestedInput = {
@@ -23144,6 +25818,62 @@ export namespace Prisma {
     delete?: SectionTypeWhereInput | boolean
     connect?: SectionTypeWhereUniqueInput
     update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutUnitSectionsInput, SectionTypeUpdateWithoutUnitSectionsInput>, SectionTypeUncheckedUpdateWithoutUnitSectionsInput>
+  }
+
+  export type AssetUpdateManyWithoutUnitSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutUnitSectionInput, AssetUncheckedCreateWithoutUnitSectionInput> | AssetCreateWithoutUnitSectionInput[] | AssetUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutUnitSectionInput | AssetCreateOrConnectWithoutUnitSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutUnitSectionInput | AssetUpsertWithWhereUniqueWithoutUnitSectionInput[]
+    createMany?: AssetCreateManyUnitSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutUnitSectionInput | AssetUpdateWithWhereUniqueWithoutUnitSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutUnitSectionInput | AssetUpdateManyWithWhereWithoutUnitSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUpdateManyWithoutUnitSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutUnitSectionInput, PlanUncheckedCreateWithoutUnitSectionInput> | PlanCreateWithoutUnitSectionInput[] | PlanUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutUnitSectionInput | PlanCreateOrConnectWithoutUnitSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutUnitSectionInput | PlanUpsertWithWhereUniqueWithoutUnitSectionInput[]
+    createMany?: PlanCreateManyUnitSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutUnitSectionInput | PlanUpdateWithWhereUniqueWithoutUnitSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutUnitSectionInput | PlanUpdateManyWithWhereWithoutUnitSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutUnitSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutUnitSectionInput, AssetUncheckedCreateWithoutUnitSectionInput> | AssetCreateWithoutUnitSectionInput[] | AssetUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutUnitSectionInput | AssetCreateOrConnectWithoutUnitSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutUnitSectionInput | AssetUpsertWithWhereUniqueWithoutUnitSectionInput[]
+    createMany?: AssetCreateManyUnitSectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutUnitSectionInput | AssetUpdateWithWhereUniqueWithoutUnitSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutUnitSectionInput | AssetUpdateManyWithWhereWithoutUnitSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type PlanUncheckedUpdateManyWithoutUnitSectionNestedInput = {
+    create?: XOR<PlanCreateWithoutUnitSectionInput, PlanUncheckedCreateWithoutUnitSectionInput> | PlanCreateWithoutUnitSectionInput[] | PlanUncheckedCreateWithoutUnitSectionInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutUnitSectionInput | PlanCreateOrConnectWithoutUnitSectionInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutUnitSectionInput | PlanUpsertWithWhereUniqueWithoutUnitSectionInput[]
+    createMany?: PlanCreateManyUnitSectionInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutUnitSectionInput | PlanUpdateWithWhereUniqueWithoutUnitSectionInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutUnitSectionInput | PlanUpdateManyWithWhereWithoutUnitSectionInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
   }
 
   export type LargeSectionCreateNestedManyWithoutSectionTypeInput = {
@@ -23404,12 +26134,54 @@ export namespace Prisma {
     connect?: SectionTypeWhereUniqueInput
   }
 
+  export type AssetCreateNestedManyWithoutAssetTypeInput = {
+    create?: XOR<AssetCreateWithoutAssetTypeInput, AssetUncheckedCreateWithoutAssetTypeInput> | AssetCreateWithoutAssetTypeInput[] | AssetUncheckedCreateWithoutAssetTypeInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutAssetTypeInput | AssetCreateOrConnectWithoutAssetTypeInput[]
+    createMany?: AssetCreateManyAssetTypeInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutAssetTypeInput = {
+    create?: XOR<AssetCreateWithoutAssetTypeInput, AssetUncheckedCreateWithoutAssetTypeInput> | AssetCreateWithoutAssetTypeInput[] | AssetUncheckedCreateWithoutAssetTypeInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutAssetTypeInput | AssetCreateOrConnectWithoutAssetTypeInput[]
+    createMany?: AssetCreateManyAssetTypeInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
   export type SectionTypeUpdateOneRequiredWithoutSectionItemsNestedInput = {
     create?: XOR<SectionTypeCreateWithoutSectionItemsInput, SectionTypeUncheckedCreateWithoutSectionItemsInput>
     connectOrCreate?: SectionTypeCreateOrConnectWithoutSectionItemsInput
     upsert?: SectionTypeUpsertWithoutSectionItemsInput
     connect?: SectionTypeWhereUniqueInput
     update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutSectionItemsInput, SectionTypeUpdateWithoutSectionItemsInput>, SectionTypeUncheckedUpdateWithoutSectionItemsInput>
+  }
+
+  export type AssetUpdateManyWithoutAssetTypeNestedInput = {
+    create?: XOR<AssetCreateWithoutAssetTypeInput, AssetUncheckedCreateWithoutAssetTypeInput> | AssetCreateWithoutAssetTypeInput[] | AssetUncheckedCreateWithoutAssetTypeInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutAssetTypeInput | AssetCreateOrConnectWithoutAssetTypeInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutAssetTypeInput | AssetUpsertWithWhereUniqueWithoutAssetTypeInput[]
+    createMany?: AssetCreateManyAssetTypeInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutAssetTypeInput | AssetUpdateWithWhereUniqueWithoutAssetTypeInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutAssetTypeInput | AssetUpdateManyWithWhereWithoutAssetTypeInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutAssetTypeNestedInput = {
+    create?: XOR<AssetCreateWithoutAssetTypeInput, AssetUncheckedCreateWithoutAssetTypeInput> | AssetCreateWithoutAssetTypeInput[] | AssetUncheckedCreateWithoutAssetTypeInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutAssetTypeInput | AssetCreateOrConnectWithoutAssetTypeInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutAssetTypeInput | AssetUpsertWithWhereUniqueWithoutAssetTypeInput[]
+    createMany?: AssetCreateManyAssetTypeInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutAssetTypeInput | AssetUpdateWithWhereUniqueWithoutAssetTypeInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutAssetTypeInput | AssetUpdateManyWithWhereWithoutAssetTypeInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
   }
 
   export type UserCreateNestedManyWithoutPositionInput = {
@@ -23588,6 +26360,36 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type LargeSectionCreateNestedOneWithoutPlanInput = {
+    create?: XOR<LargeSectionCreateWithoutPlanInput, LargeSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: LargeSectionCreateOrConnectWithoutPlanInput
+    connect?: LargeSectionWhereUniqueInput
+  }
+
+  export type MediumSectionCreateNestedOneWithoutPlanInput = {
+    create?: XOR<MediumSectionCreateWithoutPlanInput, MediumSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: MediumSectionCreateOrConnectWithoutPlanInput
+    connect?: MediumSectionWhereUniqueInput
+  }
+
+  export type SmallSectionCreateNestedOneWithoutPlanInput = {
+    create?: XOR<SmallSectionCreateWithoutPlanInput, SmallSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: SmallSectionCreateOrConnectWithoutPlanInput
+    connect?: SmallSectionWhereUniqueInput
+  }
+
+  export type MicroSectionCreateNestedOneWithoutPlanInput = {
+    create?: XOR<MicroSectionCreateWithoutPlanInput, MicroSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: MicroSectionCreateOrConnectWithoutPlanInput
+    connect?: MicroSectionWhereUniqueInput
+  }
+
+  export type UnitSectionCreateNestedOneWithoutPlanInput = {
+    create?: XOR<UnitSectionCreateWithoutPlanInput, UnitSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: UnitSectionCreateOrConnectWithoutPlanInput
+    connect?: UnitSectionWhereUniqueInput
+  }
+
   export type PlanfilesCreateNestedManyWithoutPlanInput = {
     create?: XOR<PlanfilesCreateWithoutPlanInput, PlanfilesUncheckedCreateWithoutPlanInput> | PlanfilesCreateWithoutPlanInput[] | PlanfilesUncheckedCreateWithoutPlanInput[]
     connectOrCreate?: PlanfilesCreateOrConnectWithoutPlanInput | PlanfilesCreateOrConnectWithoutPlanInput[]
@@ -23600,6 +26402,60 @@ export namespace Prisma {
     connectOrCreate?: PlanfilesCreateOrConnectWithoutPlanInput | PlanfilesCreateOrConnectWithoutPlanInput[]
     createMany?: PlanfilesCreateManyPlanInputEnvelope
     connect?: PlanfilesWhereUniqueInput | PlanfilesWhereUniqueInput[]
+  }
+
+  export type EnumPlanStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PlanStatus
+  }
+
+  export type LargeSectionUpdateOneWithoutPlanNestedInput = {
+    create?: XOR<LargeSectionCreateWithoutPlanInput, LargeSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: LargeSectionCreateOrConnectWithoutPlanInput
+    upsert?: LargeSectionUpsertWithoutPlanInput
+    disconnect?: LargeSectionWhereInput | boolean
+    delete?: LargeSectionWhereInput | boolean
+    connect?: LargeSectionWhereUniqueInput
+    update?: XOR<XOR<LargeSectionUpdateToOneWithWhereWithoutPlanInput, LargeSectionUpdateWithoutPlanInput>, LargeSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type MediumSectionUpdateOneWithoutPlanNestedInput = {
+    create?: XOR<MediumSectionCreateWithoutPlanInput, MediumSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: MediumSectionCreateOrConnectWithoutPlanInput
+    upsert?: MediumSectionUpsertWithoutPlanInput
+    disconnect?: MediumSectionWhereInput | boolean
+    delete?: MediumSectionWhereInput | boolean
+    connect?: MediumSectionWhereUniqueInput
+    update?: XOR<XOR<MediumSectionUpdateToOneWithWhereWithoutPlanInput, MediumSectionUpdateWithoutPlanInput>, MediumSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type SmallSectionUpdateOneWithoutPlanNestedInput = {
+    create?: XOR<SmallSectionCreateWithoutPlanInput, SmallSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: SmallSectionCreateOrConnectWithoutPlanInput
+    upsert?: SmallSectionUpsertWithoutPlanInput
+    disconnect?: SmallSectionWhereInput | boolean
+    delete?: SmallSectionWhereInput | boolean
+    connect?: SmallSectionWhereUniqueInput
+    update?: XOR<XOR<SmallSectionUpdateToOneWithWhereWithoutPlanInput, SmallSectionUpdateWithoutPlanInput>, SmallSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type MicroSectionUpdateOneWithoutPlanNestedInput = {
+    create?: XOR<MicroSectionCreateWithoutPlanInput, MicroSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: MicroSectionCreateOrConnectWithoutPlanInput
+    upsert?: MicroSectionUpsertWithoutPlanInput
+    disconnect?: MicroSectionWhereInput | boolean
+    delete?: MicroSectionWhereInput | boolean
+    connect?: MicroSectionWhereUniqueInput
+    update?: XOR<XOR<MicroSectionUpdateToOneWithWhereWithoutPlanInput, MicroSectionUpdateWithoutPlanInput>, MicroSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type UnitSectionUpdateOneWithoutPlanNestedInput = {
+    create?: XOR<UnitSectionCreateWithoutPlanInput, UnitSectionUncheckedCreateWithoutPlanInput>
+    connectOrCreate?: UnitSectionCreateOrConnectWithoutPlanInput
+    upsert?: UnitSectionUpsertWithoutPlanInput
+    disconnect?: UnitSectionWhereInput | boolean
+    delete?: UnitSectionWhereInput | boolean
+    connect?: UnitSectionWhereUniqueInput
+    update?: XOR<XOR<UnitSectionUpdateToOneWithWhereWithoutPlanInput, UnitSectionUpdateWithoutPlanInput>, UnitSectionUncheckedUpdateWithoutPlanInput>
   }
 
   export type PlanfilesUpdateManyWithoutPlanNestedInput = {
@@ -23642,6 +26498,102 @@ export namespace Prisma {
     upsert?: PlanUpsertWithoutPlanFilesInput
     connect?: PlanWhereUniqueInput
     update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutPlanFilesInput, PlanUpdateWithoutPlanFilesInput>, PlanUncheckedUpdateWithoutPlanFilesInput>
+  }
+
+  export type SectionItemCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<SectionItemCreateWithoutAssetsInput, SectionItemUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: SectionItemCreateOrConnectWithoutAssetsInput
+    connect?: SectionItemWhereUniqueInput
+  }
+
+  export type LargeSectionCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<LargeSectionCreateWithoutAssetsInput, LargeSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: LargeSectionCreateOrConnectWithoutAssetsInput
+    connect?: LargeSectionWhereUniqueInput
+  }
+
+  export type MediumSectionCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<MediumSectionCreateWithoutAssetsInput, MediumSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: MediumSectionCreateOrConnectWithoutAssetsInput
+    connect?: MediumSectionWhereUniqueInput
+  }
+
+  export type SmallSectionCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<SmallSectionCreateWithoutAssetsInput, SmallSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: SmallSectionCreateOrConnectWithoutAssetsInput
+    connect?: SmallSectionWhereUniqueInput
+  }
+
+  export type UnitSectionCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<UnitSectionCreateWithoutAssetsInput, UnitSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: UnitSectionCreateOrConnectWithoutAssetsInput
+    connect?: UnitSectionWhereUniqueInput
+  }
+
+  export type MicroSectionCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<MicroSectionCreateWithoutAssetsInput, MicroSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: MicroSectionCreateOrConnectWithoutAssetsInput
+    connect?: MicroSectionWhereUniqueInput
+  }
+
+  export type SectionItemUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<SectionItemCreateWithoutAssetsInput, SectionItemUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: SectionItemCreateOrConnectWithoutAssetsInput
+    upsert?: SectionItemUpsertWithoutAssetsInput
+    disconnect?: SectionItemWhereInput | boolean
+    delete?: SectionItemWhereInput | boolean
+    connect?: SectionItemWhereUniqueInput
+    update?: XOR<XOR<SectionItemUpdateToOneWithWhereWithoutAssetsInput, SectionItemUpdateWithoutAssetsInput>, SectionItemUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type LargeSectionUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<LargeSectionCreateWithoutAssetsInput, LargeSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: LargeSectionCreateOrConnectWithoutAssetsInput
+    upsert?: LargeSectionUpsertWithoutAssetsInput
+    disconnect?: LargeSectionWhereInput | boolean
+    delete?: LargeSectionWhereInput | boolean
+    connect?: LargeSectionWhereUniqueInput
+    update?: XOR<XOR<LargeSectionUpdateToOneWithWhereWithoutAssetsInput, LargeSectionUpdateWithoutAssetsInput>, LargeSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type MediumSectionUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<MediumSectionCreateWithoutAssetsInput, MediumSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: MediumSectionCreateOrConnectWithoutAssetsInput
+    upsert?: MediumSectionUpsertWithoutAssetsInput
+    disconnect?: MediumSectionWhereInput | boolean
+    delete?: MediumSectionWhereInput | boolean
+    connect?: MediumSectionWhereUniqueInput
+    update?: XOR<XOR<MediumSectionUpdateToOneWithWhereWithoutAssetsInput, MediumSectionUpdateWithoutAssetsInput>, MediumSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type SmallSectionUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<SmallSectionCreateWithoutAssetsInput, SmallSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: SmallSectionCreateOrConnectWithoutAssetsInput
+    upsert?: SmallSectionUpsertWithoutAssetsInput
+    disconnect?: SmallSectionWhereInput | boolean
+    delete?: SmallSectionWhereInput | boolean
+    connect?: SmallSectionWhereUniqueInput
+    update?: XOR<XOR<SmallSectionUpdateToOneWithWhereWithoutAssetsInput, SmallSectionUpdateWithoutAssetsInput>, SmallSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type UnitSectionUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<UnitSectionCreateWithoutAssetsInput, UnitSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: UnitSectionCreateOrConnectWithoutAssetsInput
+    upsert?: UnitSectionUpsertWithoutAssetsInput
+    disconnect?: UnitSectionWhereInput | boolean
+    delete?: UnitSectionWhereInput | boolean
+    connect?: UnitSectionWhereUniqueInput
+    update?: XOR<XOR<UnitSectionUpdateToOneWithWhereWithoutAssetsInput, UnitSectionUpdateWithoutAssetsInput>, UnitSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type MicroSectionUpdateOneWithoutAssetsNestedInput = {
+    create?: XOR<MicroSectionCreateWithoutAssetsInput, MicroSectionUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: MicroSectionCreateOrConnectWithoutAssetsInput
+    upsert?: MicroSectionUpsertWithoutAssetsInput
+    disconnect?: MicroSectionWhereInput | boolean
+    delete?: MicroSectionWhereInput | boolean
+    connect?: MicroSectionWhereUniqueInput
+    update?: XOR<XOR<MicroSectionUpdateToOneWithWhereWithoutAssetsInput, MicroSectionUpdateWithoutAssetsInput>, MicroSectionUncheckedUpdateWithoutAssetsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -23921,6 +26873,23 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumPlanStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanStatus | EnumPlanStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlanStatusFilter<$PrismaModel> | $Enums.PlanStatus
+  }
+
+  export type NestedEnumPlanStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlanStatus | EnumPlanStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlanStatusWithAggregatesFilter<$PrismaModel> | $Enums.PlanStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlanStatusFilter<$PrismaModel>
+    _max?: NestedEnumPlanStatusFilter<$PrismaModel>
+  }
+
   export type OwnerCreateWithoutMinesInput = {
     ownerName: string
     contactName: string
@@ -23949,6 +26918,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     sectionType?: SectionTypeCreateNestedOneWithoutLargeSectionsInput
     mediumSections?: MediumSectionCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionUncheckedCreateWithoutMineInput = {
@@ -23960,6 +26931,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mediumSections?: MediumSectionUncheckedCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionCreateOrConnectWithoutMineInput = {
@@ -24170,6 +27143,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
     smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionUncheckedCreateWithoutLargeSectionInput = {
@@ -24181,6 +27156,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionCreateOrConnectWithoutLargeSectionInput = {
@@ -24190,6 +27167,78 @@ export namespace Prisma {
 
   export type MediumSectionCreateManyLargeSectionInputEnvelope = {
     data: MediumSectionCreateManyLargeSectionInput | MediumSectionCreateManyLargeSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssetCreateWithoutLargeSectionInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetType?: SectionItemCreateNestedOneWithoutAssetsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutAssetsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutAssetsInput
+    unitSection?: UnitSectionCreateNestedOneWithoutAssetsInput
+    microSection?: MicroSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutLargeSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetCreateOrConnectWithoutLargeSectionInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutLargeSectionInput, AssetUncheckedCreateWithoutLargeSectionInput>
+  }
+
+  export type AssetCreateManyLargeSectionInputEnvelope = {
+    data: AssetCreateManyLargeSectionInput | AssetCreateManyLargeSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlanCreateWithoutLargeSectionInput = {
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    mediumSection?: MediumSectionCreateNestedOneWithoutPlanInput
+    smallSection?: SmallSectionCreateNestedOneWithoutPlanInput
+    microSection?: MicroSectionCreateNestedOneWithoutPlanInput
+    unitSection?: UnitSectionCreateNestedOneWithoutPlanInput
+    planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanUncheckedCreateWithoutLargeSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanCreateOrConnectWithoutLargeSectionInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutLargeSectionInput, PlanUncheckedCreateWithoutLargeSectionInput>
+  }
+
+  export type PlanCreateManyLargeSectionInputEnvelope = {
+    data: PlanCreateManyLargeSectionInput | PlanCreateManyLargeSectionInput[]
     skipDuplicates?: boolean
   }
 
@@ -24299,6 +27348,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MediumSection"> | Date | string
   }
 
+  export type AssetUpsertWithWhereUniqueWithoutLargeSectionInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutLargeSectionInput, AssetUncheckedUpdateWithoutLargeSectionInput>
+    create: XOR<AssetCreateWithoutLargeSectionInput, AssetUncheckedCreateWithoutLargeSectionInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutLargeSectionInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutLargeSectionInput, AssetUncheckedUpdateWithoutLargeSectionInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutLargeSectionInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutLargeSectionInput>
+  }
+
+  export type AssetScalarWhereInput = {
+    AND?: AssetScalarWhereInput | AssetScalarWhereInput[]
+    OR?: AssetScalarWhereInput[]
+    NOT?: AssetScalarWhereInput | AssetScalarWhereInput[]
+    assetId?: IntFilter<"Asset"> | number
+    assetName?: StringFilter<"Asset"> | string
+    assetDescription?: StringFilter<"Asset"> | string
+    assetModel?: StringFilter<"Asset"> | string
+    assetLocation?: IntNullableFilter<"Asset"> | number | null
+    createdAt?: DateTimeFilter<"Asset"> | Date | string
+    updatedAt?: DateTimeFilter<"Asset"> | Date | string
+    assetTypeId?: IntNullableFilter<"Asset"> | number | null
+  }
+
+  export type PlanUpsertWithWhereUniqueWithoutLargeSectionInput = {
+    where: PlanWhereUniqueInput
+    update: XOR<PlanUpdateWithoutLargeSectionInput, PlanUncheckedUpdateWithoutLargeSectionInput>
+    create: XOR<PlanCreateWithoutLargeSectionInput, PlanUncheckedCreateWithoutLargeSectionInput>
+  }
+
+  export type PlanUpdateWithWhereUniqueWithoutLargeSectionInput = {
+    where: PlanWhereUniqueInput
+    data: XOR<PlanUpdateWithoutLargeSectionInput, PlanUncheckedUpdateWithoutLargeSectionInput>
+  }
+
+  export type PlanUpdateManyWithWhereWithoutLargeSectionInput = {
+    where: PlanScalarWhereInput
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyWithoutLargeSectionInput>
+  }
+
+  export type PlanScalarWhereInput = {
+    AND?: PlanScalarWhereInput | PlanScalarWhereInput[]
+    OR?: PlanScalarWhereInput[]
+    NOT?: PlanScalarWhereInput | PlanScalarWhereInput[]
+    planId?: IntFilter<"Plan"> | number
+    planName?: StringFilter<"Plan"> | string
+    planDescription?: StringNullableFilter<"Plan"> | string | null
+    workAreaType?: StringNullableFilter<"Plan"> | string | null
+    workAreaId?: IntNullableFilter<"Plan"> | number | null
+    form?: JsonFilter<"Plan">
+    status?: EnumPlanStatusFilter<"Plan"> | $Enums.PlanStatus
+    createdAt?: DateTimeFilter<"Plan"> | Date | string
+    updatedAt?: DateTimeFilter<"Plan"> | Date | string
+    notes?: StringNullableFilter<"Plan"> | string | null
+  }
+
   export type LargeSectionCreateWithoutMediumSectionsInput = {
     name: string
     description?: string | null
@@ -24307,6 +27418,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mine?: MineCreateNestedOneWithoutLargeSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutLargeSectionsInput
+    assets?: AssetCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionUncheckedCreateWithoutMediumSectionsInput = {
@@ -24318,6 +27431,8 @@ export namespace Prisma {
     insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionCreateOrConnectWithoutMediumSectionsInput = {
@@ -24365,6 +27480,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
     microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionUncheckedCreateWithoutMediumSectionInput = {
@@ -24376,6 +27493,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionCreateOrConnectWithoutMediumSectionInput = {
@@ -24385,6 +27504,78 @@ export namespace Prisma {
 
   export type SmallSectionCreateManyMediumSectionInputEnvelope = {
     data: SmallSectionCreateManyMediumSectionInput | SmallSectionCreateManyMediumSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssetCreateWithoutMediumSectionInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetType?: SectionItemCreateNestedOneWithoutAssetsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutAssetsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutAssetsInput
+    unitSection?: UnitSectionCreateNestedOneWithoutAssetsInput
+    microSection?: MicroSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutMediumSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetCreateOrConnectWithoutMediumSectionInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutMediumSectionInput, AssetUncheckedCreateWithoutMediumSectionInput>
+  }
+
+  export type AssetCreateManyMediumSectionInputEnvelope = {
+    data: AssetCreateManyMediumSectionInput | AssetCreateManyMediumSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlanCreateWithoutMediumSectionInput = {
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    largeSection?: LargeSectionCreateNestedOneWithoutPlanInput
+    smallSection?: SmallSectionCreateNestedOneWithoutPlanInput
+    microSection?: MicroSectionCreateNestedOneWithoutPlanInput
+    unitSection?: UnitSectionCreateNestedOneWithoutPlanInput
+    planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanUncheckedCreateWithoutMediumSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanCreateOrConnectWithoutMediumSectionInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutMediumSectionInput, PlanUncheckedCreateWithoutMediumSectionInput>
+  }
+
+  export type PlanCreateManyMediumSectionInputEnvelope = {
+    data: PlanCreateManyMediumSectionInput | PlanCreateManyMediumSectionInput[]
     skipDuplicates?: boolean
   }
 
@@ -24407,6 +27598,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mine?: MineUpdateOneWithoutLargeSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutLargeSectionsNestedInput
+    assets?: AssetUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionUncheckedUpdateWithoutMediumSectionsInput = {
@@ -24418,6 +27611,8 @@ export namespace Prisma {
     insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type SectionTypeUpsertWithoutMediumSectionsInput = {
@@ -24488,6 +27683,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"SmallSection"> | Date | string
   }
 
+  export type AssetUpsertWithWhereUniqueWithoutMediumSectionInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutMediumSectionInput, AssetUncheckedUpdateWithoutMediumSectionInput>
+    create: XOR<AssetCreateWithoutMediumSectionInput, AssetUncheckedCreateWithoutMediumSectionInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutMediumSectionInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutMediumSectionInput, AssetUncheckedUpdateWithoutMediumSectionInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutMediumSectionInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutMediumSectionInput>
+  }
+
+  export type PlanUpsertWithWhereUniqueWithoutMediumSectionInput = {
+    where: PlanWhereUniqueInput
+    update: XOR<PlanUpdateWithoutMediumSectionInput, PlanUncheckedUpdateWithoutMediumSectionInput>
+    create: XOR<PlanCreateWithoutMediumSectionInput, PlanUncheckedCreateWithoutMediumSectionInput>
+  }
+
+  export type PlanUpdateWithWhereUniqueWithoutMediumSectionInput = {
+    where: PlanWhereUniqueInput
+    data: XOR<PlanUpdateWithoutMediumSectionInput, PlanUncheckedUpdateWithoutMediumSectionInput>
+  }
+
+  export type PlanUpdateManyWithWhereWithoutMediumSectionInput = {
+    where: PlanScalarWhereInput
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyWithoutMediumSectionInput>
+  }
+
   export type MediumSectionCreateWithoutSmallSectionsInput = {
     name: string
     description?: string | null
@@ -24496,6 +27723,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
+    assets?: AssetCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionUncheckedCreateWithoutSmallSectionsInput = {
@@ -24507,6 +27736,8 @@ export namespace Prisma {
     insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionCreateOrConnectWithoutSmallSectionsInput = {
@@ -24554,6 +27785,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
     unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionUncheckedCreateWithoutSmallSectionInput = {
@@ -24565,6 +27798,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionCreateOrConnectWithoutSmallSectionInput = {
@@ -24574,6 +27809,78 @@ export namespace Prisma {
 
   export type MicroSectionCreateManySmallSectionInputEnvelope = {
     data: MicroSectionCreateManySmallSectionInput | MicroSectionCreateManySmallSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssetCreateWithoutSmallSectionInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetType?: SectionItemCreateNestedOneWithoutAssetsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutAssetsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutAssetsInput
+    unitSection?: UnitSectionCreateNestedOneWithoutAssetsInput
+    microSection?: MicroSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutSmallSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetCreateOrConnectWithoutSmallSectionInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutSmallSectionInput, AssetUncheckedCreateWithoutSmallSectionInput>
+  }
+
+  export type AssetCreateManySmallSectionInputEnvelope = {
+    data: AssetCreateManySmallSectionInput | AssetCreateManySmallSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlanCreateWithoutSmallSectionInput = {
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    largeSection?: LargeSectionCreateNestedOneWithoutPlanInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutPlanInput
+    microSection?: MicroSectionCreateNestedOneWithoutPlanInput
+    unitSection?: UnitSectionCreateNestedOneWithoutPlanInput
+    planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanUncheckedCreateWithoutSmallSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanCreateOrConnectWithoutSmallSectionInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutSmallSectionInput, PlanUncheckedCreateWithoutSmallSectionInput>
+  }
+
+  export type PlanCreateManySmallSectionInputEnvelope = {
+    data: PlanCreateManySmallSectionInput | PlanCreateManySmallSectionInput[]
     skipDuplicates?: boolean
   }
 
@@ -24596,6 +27903,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
+    assets?: AssetUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionUncheckedUpdateWithoutSmallSectionsInput = {
@@ -24607,6 +27916,8 @@ export namespace Prisma {
     insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type SectionTypeUpsertWithoutSmallSectionsInput = {
@@ -24677,6 +27988,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MicroSection"> | Date | string
   }
 
+  export type AssetUpsertWithWhereUniqueWithoutSmallSectionInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutSmallSectionInput, AssetUncheckedUpdateWithoutSmallSectionInput>
+    create: XOR<AssetCreateWithoutSmallSectionInput, AssetUncheckedCreateWithoutSmallSectionInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutSmallSectionInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutSmallSectionInput, AssetUncheckedUpdateWithoutSmallSectionInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutSmallSectionInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutSmallSectionInput>
+  }
+
+  export type PlanUpsertWithWhereUniqueWithoutSmallSectionInput = {
+    where: PlanWhereUniqueInput
+    update: XOR<PlanUpdateWithoutSmallSectionInput, PlanUncheckedUpdateWithoutSmallSectionInput>
+    create: XOR<PlanCreateWithoutSmallSectionInput, PlanUncheckedCreateWithoutSmallSectionInput>
+  }
+
+  export type PlanUpdateWithWhereUniqueWithoutSmallSectionInput = {
+    where: PlanWhereUniqueInput
+    data: XOR<PlanUpdateWithoutSmallSectionInput, PlanUncheckedUpdateWithoutSmallSectionInput>
+  }
+
+  export type PlanUpdateManyWithWhereWithoutSmallSectionInput = {
+    where: PlanScalarWhereInput
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyWithoutSmallSectionInput>
+  }
+
   export type SmallSectionCreateWithoutMicroSectionsInput = {
     name: string
     description?: string | null
@@ -24685,6 +28028,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
+    assets?: AssetCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionUncheckedCreateWithoutMicroSectionsInput = {
@@ -24696,6 +28041,8 @@ export namespace Prisma {
     insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionCreateOrConnectWithoutMicroSectionsInput = {
@@ -24742,6 +28089,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sectionType?: SectionTypeCreateNestedOneWithoutUnitSectionsInput
+    assets?: AssetCreateNestedManyWithoutUnitSectionInput
+    Plan?: PlanCreateNestedManyWithoutUnitSectionInput
   }
 
   export type UnitSectionUncheckedCreateWithoutMicroSectionInput = {
@@ -24752,6 +28101,8 @@ export namespace Prisma {
     typeId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutUnitSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutUnitSectionInput
   }
 
   export type UnitSectionCreateOrConnectWithoutMicroSectionInput = {
@@ -24761,6 +28112,78 @@ export namespace Prisma {
 
   export type UnitSectionCreateManyMicroSectionInputEnvelope = {
     data: UnitSectionCreateManyMicroSectionInput | UnitSectionCreateManyMicroSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AssetCreateWithoutMicroSectionInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetType?: SectionItemCreateNestedOneWithoutAssetsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutAssetsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutAssetsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutAssetsInput
+    unitSection?: UnitSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutMicroSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetCreateOrConnectWithoutMicroSectionInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutMicroSectionInput, AssetUncheckedCreateWithoutMicroSectionInput>
+  }
+
+  export type AssetCreateManyMicroSectionInputEnvelope = {
+    data: AssetCreateManyMicroSectionInput | AssetCreateManyMicroSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlanCreateWithoutMicroSectionInput = {
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    largeSection?: LargeSectionCreateNestedOneWithoutPlanInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutPlanInput
+    smallSection?: SmallSectionCreateNestedOneWithoutPlanInput
+    unitSection?: UnitSectionCreateNestedOneWithoutPlanInput
+    planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanUncheckedCreateWithoutMicroSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanCreateOrConnectWithoutMicroSectionInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutMicroSectionInput, PlanUncheckedCreateWithoutMicroSectionInput>
+  }
+
+  export type PlanCreateManyMicroSectionInputEnvelope = {
+    data: PlanCreateManyMicroSectionInput | PlanCreateManyMicroSectionInput[]
     skipDuplicates?: boolean
   }
 
@@ -24783,6 +28206,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionUncheckedUpdateWithoutMicroSectionsInput = {
@@ -24794,6 +28219,8 @@ export namespace Prisma {
     insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SectionTypeUpsertWithoutMicroSectionsInput = {
@@ -24864,6 +28291,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UnitSection"> | Date | string
   }
 
+  export type AssetUpsertWithWhereUniqueWithoutMicroSectionInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutMicroSectionInput, AssetUncheckedUpdateWithoutMicroSectionInput>
+    create: XOR<AssetCreateWithoutMicroSectionInput, AssetUncheckedCreateWithoutMicroSectionInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutMicroSectionInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutMicroSectionInput, AssetUncheckedUpdateWithoutMicroSectionInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutMicroSectionInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutMicroSectionInput>
+  }
+
+  export type PlanUpsertWithWhereUniqueWithoutMicroSectionInput = {
+    where: PlanWhereUniqueInput
+    update: XOR<PlanUpdateWithoutMicroSectionInput, PlanUncheckedUpdateWithoutMicroSectionInput>
+    create: XOR<PlanCreateWithoutMicroSectionInput, PlanUncheckedCreateWithoutMicroSectionInput>
+  }
+
+  export type PlanUpdateWithWhereUniqueWithoutMicroSectionInput = {
+    where: PlanWhereUniqueInput
+    data: XOR<PlanUpdateWithoutMicroSectionInput, PlanUncheckedUpdateWithoutMicroSectionInput>
+  }
+
+  export type PlanUpdateManyWithWhereWithoutMicroSectionInput = {
+    where: PlanScalarWhereInput
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyWithoutMicroSectionInput>
+  }
+
   export type MicroSectionCreateWithoutUnitSectionsInput = {
     name: string
     description?: string | null
@@ -24872,6 +28331,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
     sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
+    assets?: AssetCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionUncheckedCreateWithoutUnitSectionsInput = {
@@ -24883,6 +28344,8 @@ export namespace Prisma {
     insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionCreateOrConnectWithoutUnitSectionsInput = {
@@ -24922,6 +28385,78 @@ export namespace Prisma {
     create: XOR<SectionTypeCreateWithoutUnitSectionsInput, SectionTypeUncheckedCreateWithoutUnitSectionsInput>
   }
 
+  export type AssetCreateWithoutUnitSectionInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetType?: SectionItemCreateNestedOneWithoutAssetsInput
+    largeSection?: LargeSectionCreateNestedOneWithoutAssetsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutAssetsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutAssetsInput
+    microSection?: MicroSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutUnitSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type AssetCreateOrConnectWithoutUnitSectionInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutUnitSectionInput, AssetUncheckedCreateWithoutUnitSectionInput>
+  }
+
+  export type AssetCreateManyUnitSectionInputEnvelope = {
+    data: AssetCreateManyUnitSectionInput | AssetCreateManyUnitSectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlanCreateWithoutUnitSectionInput = {
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    largeSection?: LargeSectionCreateNestedOneWithoutPlanInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutPlanInput
+    smallSection?: SmallSectionCreateNestedOneWithoutPlanInput
+    microSection?: MicroSectionCreateNestedOneWithoutPlanInput
+    planFiles?: PlanfilesCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanUncheckedCreateWithoutUnitSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+    planFiles?: PlanfilesUncheckedCreateNestedManyWithoutPlanInput
+  }
+
+  export type PlanCreateOrConnectWithoutUnitSectionInput = {
+    where: PlanWhereUniqueInput
+    create: XOR<PlanCreateWithoutUnitSectionInput, PlanUncheckedCreateWithoutUnitSectionInput>
+  }
+
+  export type PlanCreateManyUnitSectionInputEnvelope = {
+    data: PlanCreateManyUnitSectionInput | PlanCreateManyUnitSectionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MicroSectionUpsertWithoutUnitSectionsInput = {
     update: XOR<MicroSectionUpdateWithoutUnitSectionsInput, MicroSectionUncheckedUpdateWithoutUnitSectionsInput>
     create: XOR<MicroSectionCreateWithoutUnitSectionsInput, MicroSectionUncheckedCreateWithoutUnitSectionsInput>
@@ -24941,6 +28476,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
     sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
+    assets?: AssetUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionUncheckedUpdateWithoutUnitSectionsInput = {
@@ -24952,6 +28489,8 @@ export namespace Prisma {
     insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type SectionTypeUpsertWithoutUnitSectionsInput = {
@@ -24992,6 +28531,38 @@ export namespace Prisma {
     sectionItems?: SectionItemUncheckedUpdateManyWithoutSectionTypeNestedInput
   }
 
+  export type AssetUpsertWithWhereUniqueWithoutUnitSectionInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutUnitSectionInput, AssetUncheckedUpdateWithoutUnitSectionInput>
+    create: XOR<AssetCreateWithoutUnitSectionInput, AssetUncheckedCreateWithoutUnitSectionInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutUnitSectionInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutUnitSectionInput, AssetUncheckedUpdateWithoutUnitSectionInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutUnitSectionInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutUnitSectionInput>
+  }
+
+  export type PlanUpsertWithWhereUniqueWithoutUnitSectionInput = {
+    where: PlanWhereUniqueInput
+    update: XOR<PlanUpdateWithoutUnitSectionInput, PlanUncheckedUpdateWithoutUnitSectionInput>
+    create: XOR<PlanCreateWithoutUnitSectionInput, PlanUncheckedCreateWithoutUnitSectionInput>
+  }
+
+  export type PlanUpdateWithWhereUniqueWithoutUnitSectionInput = {
+    where: PlanWhereUniqueInput
+    data: XOR<PlanUpdateWithoutUnitSectionInput, PlanUncheckedUpdateWithoutUnitSectionInput>
+  }
+
+  export type PlanUpdateManyWithWhereWithoutUnitSectionInput = {
+    where: PlanScalarWhereInput
+    data: XOR<PlanUpdateManyMutationInput, PlanUncheckedUpdateManyWithoutUnitSectionInput>
+  }
+
   export type LargeSectionCreateWithoutSectionTypeInput = {
     name: string
     description?: string | null
@@ -25000,6 +28571,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mine?: MineCreateNestedOneWithoutLargeSectionsInput
     mediumSections?: MediumSectionCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionUncheckedCreateWithoutSectionTypeInput = {
@@ -25011,6 +28584,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mediumSections?: MediumSectionUncheckedCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutLargeSectionInput
   }
 
   export type LargeSectionCreateOrConnectWithoutSectionTypeInput = {
@@ -25031,6 +28606,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
     smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionUncheckedCreateWithoutSectionTypeInput = {
@@ -25042,6 +28619,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMediumSectionInput
   }
 
   export type MediumSectionCreateOrConnectWithoutSectionTypeInput = {
@@ -25062,6 +28641,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
     microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionUncheckedCreateWithoutSectionTypeInput = {
@@ -25073,6 +28654,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutSmallSectionInput
   }
 
   export type SmallSectionCreateOrConnectWithoutSectionTypeInput = {
@@ -25093,6 +28676,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
     unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionUncheckedCreateWithoutSectionTypeInput = {
@@ -25104,6 +28689,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMicroSectionInput
   }
 
   export type MicroSectionCreateOrConnectWithoutSectionTypeInput = {
@@ -25123,6 +28710,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     microSection?: MicroSectionCreateNestedOneWithoutUnitSectionsInput
+    assets?: AssetCreateNestedManyWithoutUnitSectionInput
+    Plan?: PlanCreateNestedManyWithoutUnitSectionInput
   }
 
   export type UnitSectionUncheckedCreateWithoutSectionTypeInput = {
@@ -25133,6 +28722,8 @@ export namespace Prisma {
     insiderToId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutUnitSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutUnitSectionInput
   }
 
   export type UnitSectionCreateOrConnectWithoutSectionTypeInput = {
@@ -25147,11 +28738,13 @@ export namespace Prisma {
 
   export type SectionItemCreateWithoutSectionTypeInput = {
     itemName: string
+    assets?: AssetCreateNestedManyWithoutAssetTypeInput
   }
 
   export type SectionItemUncheckedCreateWithoutSectionTypeInput = {
     itemId?: number
     itemName: string
+    assets?: AssetUncheckedCreateNestedManyWithoutAssetTypeInput
   }
 
   export type SectionItemCreateOrConnectWithoutSectionTypeInput = {
@@ -25301,6 +28894,39 @@ export namespace Prisma {
     create: XOR<SectionTypeCreateWithoutSectionItemsInput, SectionTypeUncheckedCreateWithoutSectionItemsInput>
   }
 
+  export type AssetCreateWithoutAssetTypeInput = {
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    largeSection?: LargeSectionCreateNestedOneWithoutAssetsInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutAssetsInput
+    smallSection?: SmallSectionCreateNestedOneWithoutAssetsInput
+    unitSection?: UnitSectionCreateNestedOneWithoutAssetsInput
+    microSection?: MicroSectionCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutAssetTypeInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    assetLocation?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssetCreateOrConnectWithoutAssetTypeInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutAssetTypeInput, AssetUncheckedCreateWithoutAssetTypeInput>
+  }
+
+  export type AssetCreateManyAssetTypeInputEnvelope = {
+    data: AssetCreateManyAssetTypeInput | AssetCreateManyAssetTypeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SectionTypeUpsertWithoutSectionItemsInput = {
     update: XOR<SectionTypeUpdateWithoutSectionItemsInput, SectionTypeUncheckedUpdateWithoutSectionItemsInput>
     create: XOR<SectionTypeCreateWithoutSectionItemsInput, SectionTypeUncheckedCreateWithoutSectionItemsInput>
@@ -25337,6 +28963,22 @@ export namespace Prisma {
     smallSections?: SmallSectionUncheckedUpdateManyWithoutSectionTypeNestedInput
     microSections?: MicroSectionUncheckedUpdateManyWithoutSectionTypeNestedInput
     unitSections?: UnitSectionUncheckedUpdateManyWithoutSectionTypeNestedInput
+  }
+
+  export type AssetUpsertWithWhereUniqueWithoutAssetTypeInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutAssetTypeInput, AssetUncheckedUpdateWithoutAssetTypeInput>
+    create: XOR<AssetCreateWithoutAssetTypeInput, AssetUncheckedCreateWithoutAssetTypeInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutAssetTypeInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutAssetTypeInput, AssetUncheckedUpdateWithoutAssetTypeInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutAssetTypeInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutAssetTypeInput>
   }
 
   export type UserCreateWithoutPositionInput = {
@@ -25726,14 +29368,164 @@ export namespace Prisma {
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutCreatorInput>
   }
 
+  export type LargeSectionCreateWithoutPlanInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mine?: MineCreateNestedOneWithoutLargeSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutLargeSectionsInput
+    mediumSections?: MediumSectionCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetCreateNestedManyWithoutLargeSectionInput
+  }
+
+  export type LargeSectionUncheckedCreateWithoutPlanInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mediumSections?: MediumSectionUncheckedCreateNestedManyWithoutLargeSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutLargeSectionInput
+  }
+
+  export type LargeSectionCreateOrConnectWithoutPlanInput = {
+    where: LargeSectionWhereUniqueInput
+    create: XOR<LargeSectionCreateWithoutPlanInput, LargeSectionUncheckedCreateWithoutPlanInput>
+  }
+
+  export type MediumSectionCreateWithoutPlanInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
+    smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetCreateNestedManyWithoutMediumSectionInput
+  }
+
+  export type MediumSectionUncheckedCreateWithoutPlanInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMediumSectionInput
+  }
+
+  export type MediumSectionCreateOrConnectWithoutPlanInput = {
+    where: MediumSectionWhereUniqueInput
+    create: XOR<MediumSectionCreateWithoutPlanInput, MediumSectionUncheckedCreateWithoutPlanInput>
+  }
+
+  export type SmallSectionCreateWithoutPlanInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
+    microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetCreateNestedManyWithoutSmallSectionInput
+  }
+
+  export type SmallSectionUncheckedCreateWithoutPlanInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutSmallSectionInput
+  }
+
+  export type SmallSectionCreateOrConnectWithoutPlanInput = {
+    where: SmallSectionWhereUniqueInput
+    create: XOR<SmallSectionCreateWithoutPlanInput, SmallSectionUncheckedCreateWithoutPlanInput>
+  }
+
+  export type MicroSectionCreateWithoutPlanInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
+    unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetCreateNestedManyWithoutMicroSectionInput
+  }
+
+  export type MicroSectionUncheckedCreateWithoutPlanInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
+    assets?: AssetUncheckedCreateNestedManyWithoutMicroSectionInput
+  }
+
+  export type MicroSectionCreateOrConnectWithoutPlanInput = {
+    where: MicroSectionWhereUniqueInput
+    create: XOR<MicroSectionCreateWithoutPlanInput, MicroSectionUncheckedCreateWithoutPlanInput>
+  }
+
+  export type UnitSectionCreateWithoutPlanInput = {
+    name: string
+    description?: string | null
+    model?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    microSection?: MicroSectionCreateNestedOneWithoutUnitSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutUnitSectionsInput
+    assets?: AssetCreateNestedManyWithoutUnitSectionInput
+  }
+
+  export type UnitSectionUncheckedCreateWithoutPlanInput = {
+    unitId?: number
+    name: string
+    description?: string | null
+    model?: string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutUnitSectionInput
+  }
+
+  export type UnitSectionCreateOrConnectWithoutPlanInput = {
+    where: UnitSectionWhereUniqueInput
+    create: XOR<UnitSectionCreateWithoutPlanInput, UnitSectionUncheckedCreateWithoutPlanInput>
+  }
+
   export type PlanfilesCreateWithoutPlanInput = {
     fileName: string
+    filePath: string
     type: string
   }
 
   export type PlanfilesUncheckedCreateWithoutPlanInput = {
     fileId?: number
     fileName: string
+    filePath: string
     type: string
   }
 
@@ -25745,6 +29537,184 @@ export namespace Prisma {
   export type PlanfilesCreateManyPlanInputEnvelope = {
     data: PlanfilesCreateManyPlanInput | PlanfilesCreateManyPlanInput[]
     skipDuplicates?: boolean
+  }
+
+  export type LargeSectionUpsertWithoutPlanInput = {
+    update: XOR<LargeSectionUpdateWithoutPlanInput, LargeSectionUncheckedUpdateWithoutPlanInput>
+    create: XOR<LargeSectionCreateWithoutPlanInput, LargeSectionUncheckedCreateWithoutPlanInput>
+    where?: LargeSectionWhereInput
+  }
+
+  export type LargeSectionUpdateToOneWithWhereWithoutPlanInput = {
+    where?: LargeSectionWhereInput
+    data: XOR<LargeSectionUpdateWithoutPlanInput, LargeSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type LargeSectionUpdateWithoutPlanInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mine?: MineUpdateOneWithoutLargeSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutLargeSectionsNestedInput
+    mediumSections?: MediumSectionUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUpdateManyWithoutLargeSectionNestedInput
+  }
+
+  export type LargeSectionUncheckedUpdateWithoutPlanInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediumSections?: MediumSectionUncheckedUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutLargeSectionNestedInput
+  }
+
+  export type MediumSectionUpsertWithoutPlanInput = {
+    update: XOR<MediumSectionUpdateWithoutPlanInput, MediumSectionUncheckedUpdateWithoutPlanInput>
+    create: XOR<MediumSectionCreateWithoutPlanInput, MediumSectionUncheckedCreateWithoutPlanInput>
+    where?: MediumSectionWhereInput
+  }
+
+  export type MediumSectionUpdateToOneWithWhereWithoutPlanInput = {
+    where?: MediumSectionWhereInput
+    data: XOR<MediumSectionUpdateWithoutPlanInput, MediumSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type MediumSectionUpdateWithoutPlanInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
+    smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUpdateManyWithoutMediumSectionNestedInput
+  }
+
+  export type MediumSectionUncheckedUpdateWithoutPlanInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMediumSectionNestedInput
+  }
+
+  export type SmallSectionUpsertWithoutPlanInput = {
+    update: XOR<SmallSectionUpdateWithoutPlanInput, SmallSectionUncheckedUpdateWithoutPlanInput>
+    create: XOR<SmallSectionCreateWithoutPlanInput, SmallSectionUncheckedCreateWithoutPlanInput>
+    where?: SmallSectionWhereInput
+  }
+
+  export type SmallSectionUpdateToOneWithWhereWithoutPlanInput = {
+    where?: SmallSectionWhereInput
+    data: XOR<SmallSectionUpdateWithoutPlanInput, SmallSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type SmallSectionUpdateWithoutPlanInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
+    microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUpdateManyWithoutSmallSectionNestedInput
+  }
+
+  export type SmallSectionUncheckedUpdateWithoutPlanInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutSmallSectionNestedInput
+  }
+
+  export type MicroSectionUpsertWithoutPlanInput = {
+    update: XOR<MicroSectionUpdateWithoutPlanInput, MicroSectionUncheckedUpdateWithoutPlanInput>
+    create: XOR<MicroSectionCreateWithoutPlanInput, MicroSectionUncheckedCreateWithoutPlanInput>
+    where?: MicroSectionWhereInput
+  }
+
+  export type MicroSectionUpdateToOneWithWhereWithoutPlanInput = {
+    where?: MicroSectionWhereInput
+    data: XOR<MicroSectionUpdateWithoutPlanInput, MicroSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type MicroSectionUpdateWithoutPlanInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
+    unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUpdateManyWithoutMicroSectionNestedInput
+  }
+
+  export type MicroSectionUncheckedUpdateWithoutPlanInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMicroSectionNestedInput
+  }
+
+  export type UnitSectionUpsertWithoutPlanInput = {
+    update: XOR<UnitSectionUpdateWithoutPlanInput, UnitSectionUncheckedUpdateWithoutPlanInput>
+    create: XOR<UnitSectionCreateWithoutPlanInput, UnitSectionUncheckedCreateWithoutPlanInput>
+    where?: UnitSectionWhereInput
+  }
+
+  export type UnitSectionUpdateToOneWithWhereWithoutPlanInput = {
+    where?: UnitSectionWhereInput
+    data: XOR<UnitSectionUpdateWithoutPlanInput, UnitSectionUncheckedUpdateWithoutPlanInput>
+  }
+
+  export type UnitSectionUpdateWithoutPlanInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    microSection?: MicroSectionUpdateOneWithoutUnitSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutUnitSectionsNestedInput
+    assets?: AssetUpdateManyWithoutUnitSectionNestedInput
+  }
+
+  export type UnitSectionUncheckedUpdateWithoutPlanInput = {
+    unitId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type PlanfilesUpsertWithWhereUniqueWithoutPlanInput = {
@@ -25769,6 +29739,7 @@ export namespace Prisma {
     NOT?: PlanfilesScalarWhereInput | PlanfilesScalarWhereInput[]
     fileId?: IntFilter<"Planfiles"> | number
     fileName?: StringFilter<"Planfiles"> | string
+    filePath?: StringFilter<"Planfiles"> | string
     type?: StringFilter<"Planfiles"> | string
     planId?: IntFilter<"Planfiles"> | number
   }
@@ -25776,15 +29747,29 @@ export namespace Prisma {
   export type PlanCreateWithoutPlanFilesInput = {
     planName: string
     planDescription?: string | null
-    workArea?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notes?: string | null
+    largeSection?: LargeSectionCreateNestedOneWithoutPlanInput
+    mediumSection?: MediumSectionCreateNestedOneWithoutPlanInput
+    smallSection?: SmallSectionCreateNestedOneWithoutPlanInput
+    microSection?: MicroSectionCreateNestedOneWithoutPlanInput
+    unitSection?: UnitSectionCreateNestedOneWithoutPlanInput
   }
 
   export type PlanUncheckedCreateWithoutPlanFilesInput = {
     planId?: number
     planName: string
     planDescription?: string | null
-    workArea?: string | null
+    workAreaType?: string | null
+    workAreaId?: number | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notes?: string | null
   }
 
@@ -25807,16 +29792,394 @@ export namespace Prisma {
   export type PlanUpdateWithoutPlanFilesInput = {
     planName?: StringFieldUpdateOperationsInput | string
     planDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    workArea?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    largeSection?: LargeSectionUpdateOneWithoutPlanNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutPlanNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutPlanNestedInput
+    microSection?: MicroSectionUpdateOneWithoutPlanNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutPlanNestedInput
   }
 
   export type PlanUncheckedUpdateWithoutPlanFilesInput = {
     planId?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     planDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    workArea?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaId?: NullableIntFieldUpdateOperationsInput | number | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SectionItemCreateWithoutAssetsInput = {
+    itemName: string
+    sectionType: SectionTypeCreateNestedOneWithoutSectionItemsInput
+  }
+
+  export type SectionItemUncheckedCreateWithoutAssetsInput = {
+    itemId?: number
+    typeId: number
+    itemName: string
+  }
+
+  export type SectionItemCreateOrConnectWithoutAssetsInput = {
+    where: SectionItemWhereUniqueInput
+    create: XOR<SectionItemCreateWithoutAssetsInput, SectionItemUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type LargeSectionCreateWithoutAssetsInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mine?: MineCreateNestedOneWithoutLargeSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutLargeSectionsInput
+    mediumSections?: MediumSectionCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanCreateNestedManyWithoutLargeSectionInput
+  }
+
+  export type LargeSectionUncheckedCreateWithoutAssetsInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mediumSections?: MediumSectionUncheckedCreateNestedManyWithoutLargeSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutLargeSectionInput
+  }
+
+  export type LargeSectionCreateOrConnectWithoutAssetsInput = {
+    where: LargeSectionWhereUniqueInput
+    create: XOR<LargeSectionCreateWithoutAssetsInput, LargeSectionUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type MediumSectionCreateWithoutAssetsInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    largeSection?: LargeSectionCreateNestedOneWithoutMediumSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMediumSectionsInput
+    smallSections?: SmallSectionCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanCreateNestedManyWithoutMediumSectionInput
+  }
+
+  export type MediumSectionUncheckedCreateWithoutAssetsInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    smallSections?: SmallSectionUncheckedCreateNestedManyWithoutMediumSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMediumSectionInput
+  }
+
+  export type MediumSectionCreateOrConnectWithoutAssetsInput = {
+    where: MediumSectionWhereUniqueInput
+    create: XOR<MediumSectionCreateWithoutAssetsInput, MediumSectionUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type SmallSectionCreateWithoutAssetsInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mediumSection?: MediumSectionCreateNestedOneWithoutSmallSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutSmallSectionsInput
+    microSections?: MicroSectionCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanCreateNestedManyWithoutSmallSectionInput
+  }
+
+  export type SmallSectionUncheckedCreateWithoutAssetsInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    microSections?: MicroSectionUncheckedCreateNestedManyWithoutSmallSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutSmallSectionInput
+  }
+
+  export type SmallSectionCreateOrConnectWithoutAssetsInput = {
+    where: SmallSectionWhereUniqueInput
+    create: XOR<SmallSectionCreateWithoutAssetsInput, SmallSectionUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type UnitSectionCreateWithoutAssetsInput = {
+    name: string
+    description?: string | null
+    model?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    microSection?: MicroSectionCreateNestedOneWithoutUnitSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutUnitSectionsInput
+    Plan?: PlanCreateNestedManyWithoutUnitSectionInput
+  }
+
+  export type UnitSectionUncheckedCreateWithoutAssetsInput = {
+    unitId?: number
+    name: string
+    description?: string | null
+    model?: string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Plan?: PlanUncheckedCreateNestedManyWithoutUnitSectionInput
+  }
+
+  export type UnitSectionCreateOrConnectWithoutAssetsInput = {
+    where: UnitSectionWhereUniqueInput
+    create: XOR<UnitSectionCreateWithoutAssetsInput, UnitSectionUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type MicroSectionCreateWithoutAssetsInput = {
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    smallSection?: SmallSectionCreateNestedOneWithoutMicroSectionsInput
+    sectionType?: SectionTypeCreateNestedOneWithoutMicroSectionsInput
+    unitSections?: UnitSectionCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanCreateNestedManyWithoutMicroSectionInput
+  }
+
+  export type MicroSectionUncheckedCreateWithoutAssetsInput = {
+    sectionId?: number
+    name: string
+    description?: string | null
+    area?: Decimal | DecimalJsLike | number | string | null
+    typeId?: number | null
+    insiderToId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    unitSections?: UnitSectionUncheckedCreateNestedManyWithoutMicroSectionInput
+    Plan?: PlanUncheckedCreateNestedManyWithoutMicroSectionInput
+  }
+
+  export type MicroSectionCreateOrConnectWithoutAssetsInput = {
+    where: MicroSectionWhereUniqueInput
+    create: XOR<MicroSectionCreateWithoutAssetsInput, MicroSectionUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type SectionItemUpsertWithoutAssetsInput = {
+    update: XOR<SectionItemUpdateWithoutAssetsInput, SectionItemUncheckedUpdateWithoutAssetsInput>
+    create: XOR<SectionItemCreateWithoutAssetsInput, SectionItemUncheckedCreateWithoutAssetsInput>
+    where?: SectionItemWhereInput
+  }
+
+  export type SectionItemUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: SectionItemWhereInput
+    data: XOR<SectionItemUpdateWithoutAssetsInput, SectionItemUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type SectionItemUpdateWithoutAssetsInput = {
+    itemName?: StringFieldUpdateOperationsInput | string
+    sectionType?: SectionTypeUpdateOneRequiredWithoutSectionItemsNestedInput
+  }
+
+  export type SectionItemUncheckedUpdateWithoutAssetsInput = {
+    itemId?: IntFieldUpdateOperationsInput | number
+    typeId?: IntFieldUpdateOperationsInput | number
+    itemName?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type LargeSectionUpsertWithoutAssetsInput = {
+    update: XOR<LargeSectionUpdateWithoutAssetsInput, LargeSectionUncheckedUpdateWithoutAssetsInput>
+    create: XOR<LargeSectionCreateWithoutAssetsInput, LargeSectionUncheckedCreateWithoutAssetsInput>
+    where?: LargeSectionWhereInput
+  }
+
+  export type LargeSectionUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: LargeSectionWhereInput
+    data: XOR<LargeSectionUpdateWithoutAssetsInput, LargeSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type LargeSectionUpdateWithoutAssetsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mine?: MineUpdateOneWithoutLargeSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutLargeSectionsNestedInput
+    mediumSections?: MediumSectionUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUpdateManyWithoutLargeSectionNestedInput
+  }
+
+  export type LargeSectionUncheckedUpdateWithoutAssetsInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediumSections?: MediumSectionUncheckedUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutLargeSectionNestedInput
+  }
+
+  export type MediumSectionUpsertWithoutAssetsInput = {
+    update: XOR<MediumSectionUpdateWithoutAssetsInput, MediumSectionUncheckedUpdateWithoutAssetsInput>
+    create: XOR<MediumSectionCreateWithoutAssetsInput, MediumSectionUncheckedCreateWithoutAssetsInput>
+    where?: MediumSectionWhereInput
+  }
+
+  export type MediumSectionUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: MediumSectionWhereInput
+    data: XOR<MediumSectionUpdateWithoutAssetsInput, MediumSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type MediumSectionUpdateWithoutAssetsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
+    smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMediumSectionNestedInput
+  }
+
+  export type MediumSectionUncheckedUpdateWithoutAssetsInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMediumSectionNestedInput
+  }
+
+  export type SmallSectionUpsertWithoutAssetsInput = {
+    update: XOR<SmallSectionUpdateWithoutAssetsInput, SmallSectionUncheckedUpdateWithoutAssetsInput>
+    create: XOR<SmallSectionCreateWithoutAssetsInput, SmallSectionUncheckedCreateWithoutAssetsInput>
+    where?: SmallSectionWhereInput
+  }
+
+  export type SmallSectionUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: SmallSectionWhereInput
+    data: XOR<SmallSectionUpdateWithoutAssetsInput, SmallSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type SmallSectionUpdateWithoutAssetsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
+    microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUpdateManyWithoutSmallSectionNestedInput
+  }
+
+  export type SmallSectionUncheckedUpdateWithoutAssetsInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutSmallSectionNestedInput
+  }
+
+  export type UnitSectionUpsertWithoutAssetsInput = {
+    update: XOR<UnitSectionUpdateWithoutAssetsInput, UnitSectionUncheckedUpdateWithoutAssetsInput>
+    create: XOR<UnitSectionCreateWithoutAssetsInput, UnitSectionUncheckedCreateWithoutAssetsInput>
+    where?: UnitSectionWhereInput
+  }
+
+  export type UnitSectionUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: UnitSectionWhereInput
+    data: XOR<UnitSectionUpdateWithoutAssetsInput, UnitSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type UnitSectionUpdateWithoutAssetsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    microSection?: MicroSectionUpdateOneWithoutUnitSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutUnitSectionsNestedInput
+    Plan?: PlanUpdateManyWithoutUnitSectionNestedInput
+  }
+
+  export type UnitSectionUncheckedUpdateWithoutAssetsInput = {
+    unitId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: NullableStringFieldUpdateOperationsInput | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Plan?: PlanUncheckedUpdateManyWithoutUnitSectionNestedInput
+  }
+
+  export type MicroSectionUpsertWithoutAssetsInput = {
+    update: XOR<MicroSectionUpdateWithoutAssetsInput, MicroSectionUncheckedUpdateWithoutAssetsInput>
+    create: XOR<MicroSectionCreateWithoutAssetsInput, MicroSectionUncheckedCreateWithoutAssetsInput>
+    where?: MicroSectionWhereInput
+  }
+
+  export type MicroSectionUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: MicroSectionWhereInput
+    data: XOR<MicroSectionUpdateWithoutAssetsInput, MicroSectionUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type MicroSectionUpdateWithoutAssetsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
+    sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
+    unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMicroSectionNestedInput
+  }
+
+  export type MicroSectionUncheckedUpdateWithoutAssetsInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    typeId?: NullableIntFieldUpdateOperationsInput | number | null
+    insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type LargeSectionCreateManyMineInput = {
@@ -25837,6 +30200,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionType?: SectionTypeUpdateOneWithoutLargeSectionsNestedInput
     mediumSections?: MediumSectionUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionUncheckedUpdateWithoutMineInput = {
@@ -25848,6 +30213,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mediumSections?: MediumSectionUncheckedUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionUncheckedUpdateManyWithoutMineInput = {
@@ -25923,6 +30290,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AssetCreateManyLargeSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type PlanCreateManyLargeSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+  }
+
   export type MediumSectionUpdateWithoutLargeSectionInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25931,6 +30320,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionType?: SectionTypeUpdateOneWithoutMediumSectionsNestedInput
     smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionUncheckedUpdateWithoutLargeSectionInput = {
@@ -25942,6 +30333,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionUncheckedUpdateManyWithoutLargeSectionInput = {
@@ -25954,6 +30347,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssetUpdateWithoutLargeSectionInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetType?: SectionItemUpdateOneWithoutAssetsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutAssetsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutAssetsNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutAssetsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutLargeSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AssetUncheckedUpdateManyWithoutLargeSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PlanUpdateWithoutLargeSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    mediumSection?: MediumSectionUpdateOneWithoutPlanNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutPlanNestedInput
+    microSection?: MicroSectionUpdateOneWithoutPlanNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutPlanNestedInput
+    planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateWithoutLargeSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateManyWithoutLargeSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type SmallSectionCreateManyMediumSectionInput = {
     sectionId?: number
     name: string
@@ -25964,6 +30431,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AssetCreateManyMediumSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type PlanCreateManyMediumSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+  }
+
   export type SmallSectionUpdateWithoutMediumSectionInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25972,6 +30461,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionType?: SectionTypeUpdateOneWithoutSmallSectionsNestedInput
     microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionUncheckedUpdateWithoutMediumSectionInput = {
@@ -25983,6 +30474,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionUncheckedUpdateManyWithoutMediumSectionInput = {
@@ -25995,6 +30488,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssetUpdateWithoutMediumSectionInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetType?: SectionItemUpdateOneWithoutAssetsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutAssetsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutAssetsNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutAssetsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutMediumSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AssetUncheckedUpdateManyWithoutMediumSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PlanUpdateWithoutMediumSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    largeSection?: LargeSectionUpdateOneWithoutPlanNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutPlanNestedInput
+    microSection?: MicroSectionUpdateOneWithoutPlanNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutPlanNestedInput
+    planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateWithoutMediumSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateManyWithoutMediumSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type MicroSectionCreateManySmallSectionInput = {
     sectionId?: number
     name: string
@@ -26005,6 +30572,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AssetCreateManySmallSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type PlanCreateManySmallSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+  }
+
   export type MicroSectionUpdateWithoutSmallSectionInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26013,6 +30602,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionType?: SectionTypeUpdateOneWithoutMicroSectionsNestedInput
     unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionUncheckedUpdateWithoutSmallSectionInput = {
@@ -26024,6 +30615,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionUncheckedUpdateManyWithoutSmallSectionInput = {
@@ -26036,6 +30629,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AssetUpdateWithoutSmallSectionInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetType?: SectionItemUpdateOneWithoutAssetsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutAssetsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutAssetsNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutAssetsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutSmallSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AssetUncheckedUpdateManyWithoutSmallSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PlanUpdateWithoutSmallSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    largeSection?: LargeSectionUpdateOneWithoutPlanNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutPlanNestedInput
+    microSection?: MicroSectionUpdateOneWithoutPlanNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutPlanNestedInput
+    planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateWithoutSmallSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateManyWithoutSmallSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type UnitSectionCreateManyMicroSectionInput = {
     unitId?: number
     name: string
@@ -26046,6 +30713,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type AssetCreateManyMicroSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type PlanCreateManyMicroSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+  }
+
   export type UnitSectionUpdateWithoutMicroSectionInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26053,6 +30742,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionType?: SectionTypeUpdateOneWithoutUnitSectionsNestedInput
+    assets?: AssetUpdateManyWithoutUnitSectionNestedInput
+    Plan?: PlanUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type UnitSectionUncheckedUpdateWithoutMicroSectionInput = {
@@ -26063,6 +30754,8 @@ export namespace Prisma {
     typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutUnitSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type UnitSectionUncheckedUpdateManyWithoutMicroSectionInput = {
@@ -26073,6 +30766,176 @@ export namespace Prisma {
     typeId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetUpdateWithoutMicroSectionInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetType?: SectionItemUpdateOneWithoutAssetsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutAssetsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutAssetsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutAssetsNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutMicroSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AssetUncheckedUpdateManyWithoutMicroSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PlanUpdateWithoutMicroSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    largeSection?: LargeSectionUpdateOneWithoutPlanNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutPlanNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutPlanNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutPlanNestedInput
+    planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateWithoutMicroSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateManyWithoutMicroSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AssetCreateManyUnitSectionInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assetTypeId?: number | null
+  }
+
+  export type PlanCreateManyUnitSectionInput = {
+    planId?: number
+    planName: string
+    planDescription?: string | null
+    workAreaType?: string | null
+    form: JsonNullValueInput | InputJsonValue
+    status?: $Enums.PlanStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notes?: string | null
+  }
+
+  export type AssetUpdateWithoutUnitSectionInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetType?: SectionItemUpdateOneWithoutAssetsNestedInput
+    largeSection?: LargeSectionUpdateOneWithoutAssetsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutAssetsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutAssetsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutUnitSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AssetUncheckedUpdateManyWithoutUnitSectionInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assetTypeId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PlanUpdateWithoutUnitSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    largeSection?: LargeSectionUpdateOneWithoutPlanNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutPlanNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutPlanNestedInput
+    microSection?: MicroSectionUpdateOneWithoutPlanNestedInput
+    planFiles?: PlanfilesUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateWithoutUnitSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    planFiles?: PlanfilesUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type PlanUncheckedUpdateManyWithoutUnitSectionInput = {
+    planId?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    workAreaType?: NullableStringFieldUpdateOperationsInput | string | null
+    form?: JsonNullValueInput | InputJsonValue
+    status?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LargeSectionCreateManySectionTypeInput = {
@@ -26138,6 +31001,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mine?: MineUpdateOneWithoutLargeSectionsNestedInput
     mediumSections?: MediumSectionUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionUncheckedUpdateWithoutSectionTypeInput = {
@@ -26149,6 +31014,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mediumSections?: MediumSectionUncheckedUpdateManyWithoutLargeSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutLargeSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutLargeSectionNestedInput
   }
 
   export type LargeSectionUncheckedUpdateManyWithoutSectionTypeInput = {
@@ -26169,6 +31036,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     largeSection?: LargeSectionUpdateOneWithoutMediumSectionsNestedInput
     smallSections?: SmallSectionUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionUncheckedUpdateWithoutSectionTypeInput = {
@@ -26180,6 +31049,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSections?: SmallSectionUncheckedUpdateManyWithoutMediumSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMediumSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMediumSectionNestedInput
   }
 
   export type MediumSectionUncheckedUpdateManyWithoutSectionTypeInput = {
@@ -26200,6 +31071,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mediumSection?: MediumSectionUpdateOneWithoutSmallSectionsNestedInput
     microSections?: MicroSectionUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionUncheckedUpdateWithoutSectionTypeInput = {
@@ -26211,6 +31084,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSections?: MicroSectionUncheckedUpdateManyWithoutSmallSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutSmallSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutSmallSectionNestedInput
   }
 
   export type SmallSectionUncheckedUpdateManyWithoutSectionTypeInput = {
@@ -26231,6 +31106,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     smallSection?: SmallSectionUpdateOneWithoutMicroSectionsNestedInput
     unitSections?: UnitSectionUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionUncheckedUpdateWithoutSectionTypeInput = {
@@ -26242,6 +31119,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unitSections?: UnitSectionUncheckedUpdateManyWithoutMicroSectionNestedInput
+    assets?: AssetUncheckedUpdateManyWithoutMicroSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutMicroSectionNestedInput
   }
 
   export type MicroSectionUncheckedUpdateManyWithoutSectionTypeInput = {
@@ -26261,6 +31140,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     microSection?: MicroSectionUpdateOneWithoutUnitSectionsNestedInput
+    assets?: AssetUpdateManyWithoutUnitSectionNestedInput
+    Plan?: PlanUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type UnitSectionUncheckedUpdateWithoutSectionTypeInput = {
@@ -26271,6 +31152,8 @@ export namespace Prisma {
     insiderToId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutUnitSectionNestedInput
+    Plan?: PlanUncheckedUpdateManyWithoutUnitSectionNestedInput
   }
 
   export type UnitSectionUncheckedUpdateManyWithoutSectionTypeInput = {
@@ -26285,16 +31168,61 @@ export namespace Prisma {
 
   export type SectionItemUpdateWithoutSectionTypeInput = {
     itemName?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUpdateManyWithoutAssetTypeNestedInput
   }
 
   export type SectionItemUncheckedUpdateWithoutSectionTypeInput = {
     itemId?: IntFieldUpdateOperationsInput | number
     itemName?: StringFieldUpdateOperationsInput | string
+    assets?: AssetUncheckedUpdateManyWithoutAssetTypeNestedInput
   }
 
   export type SectionItemUncheckedUpdateManyWithoutSectionTypeInput = {
     itemId?: IntFieldUpdateOperationsInput | number
     itemName?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssetCreateManyAssetTypeInput = {
+    assetId?: number
+    assetName: string
+    assetDescription: string
+    assetModel: string
+    assetLocation?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AssetUpdateWithoutAssetTypeInput = {
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    largeSection?: LargeSectionUpdateOneWithoutAssetsNestedInput
+    mediumSection?: MediumSectionUpdateOneWithoutAssetsNestedInput
+    smallSection?: SmallSectionUpdateOneWithoutAssetsNestedInput
+    unitSection?: UnitSectionUpdateOneWithoutAssetsNestedInput
+    microSection?: MicroSectionUpdateOneWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutAssetTypeInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    assetLocation?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetUncheckedUpdateManyWithoutAssetTypeInput = {
+    assetId?: IntFieldUpdateOperationsInput | number
+    assetName?: StringFieldUpdateOperationsInput | string
+    assetDescription?: StringFieldUpdateOperationsInput | string
+    assetModel?: StringFieldUpdateOperationsInput | string
+    assetLocation?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyPositionInput = {
@@ -26495,23 +31423,27 @@ export namespace Prisma {
   export type PlanfilesCreateManyPlanInput = {
     fileId?: number
     fileName: string
+    filePath: string
     type: string
   }
 
   export type PlanfilesUpdateWithoutPlanInput = {
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
   }
 
   export type PlanfilesUncheckedUpdateWithoutPlanInput = {
     fileId?: IntFieldUpdateOperationsInput | number
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
   }
 
   export type PlanfilesUncheckedUpdateManyWithoutPlanInput = {
     fileId?: IntFieldUpdateOperationsInput | number
     fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
   }
 
@@ -26545,9 +31477,17 @@ export namespace Prisma {
      */
     export type MicroSectionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MicroSectionCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use UnitSectionCountOutputTypeDefaultArgs instead
+     */
+    export type UnitSectionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UnitSectionCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use SectionTypeCountOutputTypeDefaultArgs instead
      */
     export type SectionTypeCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionTypeCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SectionItemCountOutputTypeDefaultArgs instead
+     */
+    export type SectionItemCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionItemCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use PositionCountOutputTypeDefaultArgs instead
      */
@@ -26628,6 +31568,10 @@ export namespace Prisma {
      * @deprecated Use PlanfilesDefaultArgs instead
      */
     export type PlanfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PlanfilesDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AssetDefaultArgs instead
+     */
+    export type AssetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

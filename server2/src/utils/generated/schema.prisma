@@ -111,8 +111,6 @@ model Plan {
   planId          Int           @id @default(autoincrement())
   planName        String
   planDescription String?
-  workAreaType    String?
-  workAreaId      Int?
   form            Json
   status          PlanStatus    @default(Draft)
   createdAt       DateTime      @default(now())
@@ -120,6 +118,17 @@ model Plan {
   notes           String?
   planFiles       Planfiles[]
   activePlans     ActivePlans[]
+  planAssets      PlanAssets[]
+}
+
+model PlanAssets {
+  id        Int    @id @default(autoincrement())
+  planId    Int
+  assetId   Int
+  assetName String
+
+  plan  Plan  @relation(fields: [planId], references: [planId])
+  asset Asset @relation(fields: [assetId], references: [id])
 }
 
 model Planfiles {
@@ -168,14 +177,14 @@ model AssetType {
 }
 
 model Asset {
-  id           Int    @id @default(autoincrement())
-  name         String @db.VarChar(255)
-  description  String @db.VarChar(255)
+  id           Int          @id @default(autoincrement())
+  name         String       @db.VarChar(255)
+  description  String       @db.VarChar(255)
   assetType    Int
   assetSection Int
-
-  type    AssetType @relation(fields: [assetType], references: [id])
-  section Section   @relation(fields: [assetSection], references: [id])
+  planAssets   PlanAssets[]
+  type         AssetType    @relation(fields: [assetType], references: [id])
+  section      Section      @relation(fields: [assetSection], references: [id])
 }
 
 model Coordinate {

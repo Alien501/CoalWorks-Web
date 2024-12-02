@@ -12,6 +12,7 @@ import { LayoutList, PencilIcon, EyeIcon, CheckCircleIcon, MapPin, PlusIcon, Mor
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import axios from 'axios'
 
 interface Asset {
     id: string;
@@ -71,11 +72,13 @@ interface RoundAndTasksProps {
     handleAddTask: () => void;
     handleAddQuestion: () => void;
     handleSaveRoundDetails: () => void;
+    selectedAssetsData: any,
+    planDetails: any
 }
 
 
 const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
-    sections, 
+    sections,
     assets,
     roundName,
     setRoundName,
@@ -101,8 +104,43 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
     setResponseType,
     handleAddTask,
     handleAddQuestion,
-    handleSaveRoundDetails
+    selectedAssetsData,
+    handleSaveRoundDetails,
+    planDetails
 }) => {
+
+    async function onclickingNext() {
+        console.log(selectedAssetsData)
+        console.log(tasks)
+        console.log(questions)
+        console.log(planDetails)
+
+        const tasksAndQuestions = [...tasks, ...questions]
+
+        const formData = new FormData();
+
+        formData.append('planName', planDetails.planName);
+        formData.append('planDescription', planDetails.planDescription);
+        formData.append('notes', planDetails.notes || '');
+
+        //@ts-ignore
+        formData.append('form', tasksAndQuestions);
+
+        formData.append('assets', selectedAssetsData);
+
+        if (planDetails.attachments && planDetails.attachments.length > 0) {
+            planDetails.attachments.forEach((file, index) => {
+                formData.append(`files`, file);
+            });
+        }
+
+        const res = await axios.post("api/data/rounds/create", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+    }
 
     return (
         <div className="p-6 space-y-6 h-full">
@@ -127,11 +165,11 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
                         <CheckCircleIcon className="h-4 w-4 text-green-500" />
                         <span>All changes saved</span>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => onclickingNext()}>
                         <EyeIcon className="h-4 w-4 mr-2" />
                         Preview
                     </Button>
-                    <Button size="sm">Next</Button>
+                    <Button size="sm" onClick={onclickingNext}>Next</Button>
                 </div>
             </div>
 
@@ -208,44 +246,44 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
                         </div>
                     </CardHeader>
                     <CardContent>
-  {sections
-    .filter(section =>
-      tasks.some(task => task.sectionId === section.id) ||
-      questions.some(question => question.sectionId === section.id)
-    )
-    .map(section => (
-      <div key={section.id} className="mb-6 border bg-secondary p-2 rounded-lg">
-        <div>
-          <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Section Name:</span> {section.name}</h4>
-          {/* {JSON.stringify(section)} */}
-          <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Type:</span> {section.type.name}</h4>
-        </div>
+                        {sections
+                            .filter(section =>
+                                tasks.some(task => task.sectionId === section.id) ||
+                                questions.some(question => question.sectionId === section.id)
+                            )
+                            .map(section => (
+                                <div key={section.id} className="mb-6 border bg-secondary p-2 rounded-lg">
+                                    <div>
+                                        <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Section Name:</span> {section.name}</h4>
+                                        {/* {JSON.stringify(section)} */}
+                                        <h4 className="text-md font-semibold mb-2"><span className='font-semibold'>Type:</span> {section.type.name}</h4>
+                                    </div>
 
-        {/* Render tasks for the section */}
-        {tasks
-          .filter(task => task.sectionId === section.id)
-          .map(task => (
-            <div key={task.id} className="bg-background p-2 rounded-md mb-2">
-              <p className="font-medium">Task: {task.name}</p>
-              <p className="text-xs text-muted-foreground">Response type: {task.responseType}</p>
-            </div>
-          ))
-        }
+                                    {/* Render tasks for the section */}
+                                    {tasks
+                                        .filter(task => task.sectionId === section.id)
+                                        .map(task => (
+                                            <div key={task.id} className="bg-background p-2 rounded-md mb-2">
+                                                <p className="font-medium">Task: {task.name}</p>
+                                                <p className="text-xs text-muted-foreground">Response type: {task.responseType}</p>
+                                            </div>
+                                        ))
+                                    }
 
-        {/* Render questions for the section */}
-        {questions
-          .filter(question => question.sectionId === section.id)
-          .map(question => (
-            <div key={question.id} className="bg-background p-2 rounded-md mb-2">
-              <p className="font-medium">Question: {question.name}</p>
-              <p className="text-xs text-muted-foreground">Response type: {question.responseType}</p>
-            </div>
-          ))
-        }
-      </div>
-    ))
-  }
-</CardContent>
+                                    {/* Render questions for the section */}
+                                    {questions
+                                        .filter(question => question.sectionId === section.id)
+                                        .map(question => (
+                                            <div key={question.id} className="bg-background p-2 rounded-md mb-2">
+                                                <p className="font-medium">Question: {question.name}</p>
+                                                <p className="text-xs text-muted-foreground">Response type: {question.responseType}</p>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            ))
+                        }
+                    </CardContent>
 
                 </Card>
             </div>

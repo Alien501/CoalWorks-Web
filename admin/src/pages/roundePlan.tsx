@@ -1,10 +1,30 @@
 import RoundPlansTable from "@/components/custom/roundPlansTable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { fetchRounds } from "@/utils/fetchRounds";
 import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const RoundPlan = () => {
+    const [plans, setPlans] = useState([]);
+    const getRounds = async () => {
+        const res = await fetchRounds();
+        if(!res) {
+            setPlans([]);
+            toast.success("No plans found!")
+            return;
+        }
+        console.log(res)
+        setPlans(prev => res);
+    }
+
+    useEffect(() => {
+        getRounds();
+    }, []);
+
+
     return (
         <section id="round-plan">
             <div id="ShiftHandover-wrapper" className=" font-poppins">
@@ -26,7 +46,7 @@ const RoundPlan = () => {
                     </div>
                 </div>
                 <div>
-                    <RoundPlansTable />
+                    <RoundPlansTable plans={plans} />
                 </div>
             </div>
         </section>

@@ -110,36 +110,41 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
 }) => {
 
     async function onclickingNext() {
-        console.log(selectedAssetsData)
-        console.log(tasks)
-        console.log(questions)
-        console.log(planDetails)
-
-        const tasksAndQuestions = [...tasks, ...questions]
-
+        const tasksAndQuestions = [...tasks, ...questions];
+    
+        const requestBody = {
+            planName: planDetails.planName,
+            planDescription: planDetails.planDescription,
+            notes: planDetails.notes || '',
+            form: tasksAndQuestions,
+            assets: selectedAssetsData
+        };
+    
         const formData = new FormData();
-
-        formData.append('planName', planDetails.planName);
-        formData.append('planDescription', planDetails.planDescription);
-        formData.append('notes', planDetails.notes || '');
-
-        //@ts-ignore
-        formData.append('form', tasksAndQuestions);
-
-        formData.append('assets', selectedAssetsData);
-
         if (planDetails.attachments && planDetails.attachments.length > 0) {
+            console.log(planDetails.attachments)
             planDetails.attachments.forEach((file, index) => {
                 formData.append(`files`, file);
             });
         }
 
-        const res = await axios.post("api/data/rounds/create", formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
+        console.log(formData)
+    
+        try {
+            const res = await axios.post("api/data/rounds/create", 
+                {
+                    ...requestBody,
+                    files: formData
+                }, 
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+        } catch (error) {
+            console.error('Error creating round:', error);
+        }
     }
 
     return (

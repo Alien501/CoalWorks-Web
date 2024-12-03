@@ -76,7 +76,7 @@ const plans = [
     }
 ]
 
-export default function RoundPlansTable() {
+export default function RoundPlansTable({plans}: {plans: any}) {
     return (
         <Table>
             <TableHeader className="bg-black/[0.05]">
@@ -85,19 +85,19 @@ export default function RoundPlansTable() {
                     <TableHead>Status</TableHead>
                     <TableHead>Plant</TableHead>
                     <TableHead>Last Published By</TableHead>
-                    <TableHead>Last Published</TableHead>
+                    <TableHead>Last Edited</TableHead>
                     <TableHead>Created By</TableHead>
                     <TableHead>Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {plans.map((plan, index) => (
-                    <TableRow key={index}>
-                        <TableCell className="font-medium">{plan["Plan Name"]}</TableCell>
-                        <TableCell><Badge variant={'secondary'}>{plan.Status}</Badge></TableCell>
-                        <TableCell>{plan.Plant}</TableCell>
-                        <TableCell>{plan["Last Published By"]}</TableCell>
-                        <TableCell>{plan["Last Published"]}</TableCell>
+                    <TableRow key={plan.planId}>
+                        <TableCell className="font-medium">{plan.planName}</TableCell>
+                        <TableCell><Badge variant={'secondary'}>{plan.status}</Badge></TableCell>
+                        <TableCell>{plan.plantId}</TableCell>
+                        <TableCell>{plan["Last Published By"] || 'NA'}</TableCell>
+                        <TableCell>{plan.updatedAt}</TableCell>
                         <TableCell>{plan["Created By"]}</TableCell>
                         <TableCell className=""><span className="hover:cursor-pointer flex space-x-2"><Star></Star><Ellipsis className="w-10 rounded-full bg-black/[0.05]"></Ellipsis></span></TableCell>
                     </TableRow>

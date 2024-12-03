@@ -13,6 +13,7 @@ app.use(cors({
     credentials: true
 }))
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 app.use(morgan('tiny'));
 app.use('/api/v1', router);

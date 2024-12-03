@@ -17,16 +17,30 @@ function checkFileType(file: File) {
 
 // Dummy
 const RoundSections = z.object({
-    sectionName: z.string(),
-    sectionType: z.string(),
+    id: z.string(),
+    sectionId: z.number(),
+    name: z.string(),
+    responseType: z.string(),
+    type: z.string()
 })
+
+
+let a = {
+    "planName": "New Plan",
+    "planDescription": "New Plan Description",
+    "notes": "bfdsfhfdh",
+    "form": [{ "id": "task-1733170442932", "sectionId": 3, "name": "afef", "responseType": "text", "type": "task" }],
+    "assets": [],
+    "files": { } }
 
 const RoundPlanSchema = z.object({
     planName: z.string().min(3, 'Plan Name must be atleast 3 characters long'),
     planDescription: z.string().min(3, "Plan description must be atleast 5 charatcers long"),
     form: z.array(RoundSections),
     notes: z.string().optional(),
-    files: z.any().refine((file) => checkFileType(file), "Only .jpg, .png, .webp, .jpeg, .bitmap, .docx, .pdf is supported"),
+    // files: z.any().refine((file) => {
+    //     checkFileType(file)
+    // }, "Only .jpg, .png, .webp, .jpeg, .bitmap, .docx, .pdf is supported").optional(),
     assets: z.array(z.object({
         assetId: z.number(),
         assetName: z.string()
@@ -55,6 +69,8 @@ const RoundPlanSchema = z.object({
 }
 */
 const createRounds: RequestHandler = async (req: Request, res: Response) => {
+    console.log("BODY:")
+    console.log(req.body)
     const validatedData = RoundPlanSchema.parse(req.body);
 
     const timestamp = Date.now();
@@ -70,10 +86,10 @@ const createRounds: RequestHandler = async (req: Request, res: Response) => {
         });
 
         const uploadDir = path.join(process.cwd(), 'uploads', 'plans', createPlan.planId.toString());
-        await fs.mkdir(uploadDir, {recursive: true});
+        await fs.mkdir(uploadDir, { recursive: true });
         let fileRecords;
-        if(req.files) {
-            fileRecords = await Promise.all(req.files.map(async(file, index) => {
+        if (req.files) {
+            fileRecords = await Promise.all(req.files.map(async (file, index) => {
                 const fileExtension = path.extname(file.originalName);
                 const fileName = `${validatedData.planName}-${timestamp}-${index}${fileExtension}`;
                 const filePath = path.join(uploadDir, fileName);

@@ -15,7 +15,15 @@ import { UtilityCard } from "@/components/custom/utilityCard";
 import { SafetyCardContent } from "@/components/custom/safetyCard";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { DialogModel } from "@/components/custom/dialogModel";
+import {
+    Factory,
+    TrendingUp,
+    Clock,
+    ShieldCheck,
+    AlertTriangle
+} from 'lucide-react';
 import Map from "./map";
+import PredictionCard from "@/components/custom/predictionCard";
 const NewDashboard = () => {
     const [date, setDate] = useState();
     const [graphType, setGraphType] = useState<string>('bar')
@@ -36,6 +44,36 @@ const NewDashboard = () => {
         console.log(value)
         setGraphType(value)
     }
+
+
+    const predictions = [
+        {
+            title: "Equipment Breakdown Likely in Zone B",
+            type: "Breakdown" as const,
+            severity: "Critical" as const,
+            probability: 87,
+            timeframe: "Next 2-4 hours",
+            recommendation: "Dispatch maintenance team to Zone B for immediate inspection of conveyor belt system."
+        },
+        // {
+        //     title: "Potential Safety Risk in Shaft 3",
+        //     type: "Safety" as const,
+        //     severity: "Moderate" as const,
+        //     probability: 75,
+        //     timeframe: "Next 6 hours",
+        //     recommendation: "Conduct emergency ventilation check and adjust air flow parameters."
+        // },
+        // {
+        //     title: "Production Delay Risk in Section C",
+        //     type: "Delay" as const,
+        //     severity: "Moderate" as const,
+        //     probability: 82,
+        //     timeframe: "Next shift",
+        //     recommendation: "Reallocate resources to prevent bottleneck in coal extraction process."
+        // }
+    ];
+
+
     return (
         <section id="dashboad" className="p-2 bg-slate-100 dark:bg-zinc-950 dark:text-foreground">
             {/* Header Section */}
@@ -82,18 +120,18 @@ const NewDashboard = () => {
                         <StatsCard
                             icon={
                                 <DialogModel dialogTrigger={
-                                <span>
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <HardHat className="h-7 w-7 hover:stroke-azure-radiance-500" />
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>View More</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </span>
+                                    <span>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HardHat className="h-7 w-7 hover:stroke-azure-radiance-500" />
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>View More</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </span>
                                 } />
 
                             }
@@ -152,16 +190,50 @@ const NewDashboard = () => {
                 <div className="p-2 grid grid-cols-2 gap-4">
                     <div className="h-max">
                         <UtilityCard
-                            title="Analytic View"
+                            title="Operational Trends"
                             subTitle="Total shipping revenue overview"
-                            bodyContent={<SpiderGraph />}
+                            bodyContent={
+                                <div className="flex flex-col space-y-3">
+                                    <div>
+                                        <SpiderGraph />
+                                    </div>
+                                    <div className="rounded-lg border h-[120px] p-2 w-full ">
+                                        <div className="flex items-center justify-center">
+                                            <h3 className="text-lg font-semibold text-nowrap ">
+                                                Operational Performance Metrics
+                                            </h3>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3 mt-3 justify-center items-center ml-4">
+                                            <div className="flex space-x-3 items-center">
+                                                <span className="p-2 rounded-full border">
+                                                    <Clock size={30}></Clock>
+                                                </span>
+                                                <span>
+                                                    Operational Efficiency
+                                                </span>
+                                                <span className="text-2xl text-green-500 flex justify-center items-center space-x-3">
+                                                    <span>
+                                                        96%
+                                                    </span>
+                                                    <span>
+                                                        <TrendingUp></TrendingUp>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         />
                     </div>
                     <div className="">
                         <UtilityCard
-                            title="Delivery vehicles"
-                            subTitle="vehicles operating on the road"
-                            bodyContent={<h1 className="font-bold text-3xl">@Rakhul, What to display here</h1>}
+                            title=""
+                            subTitle=""
+                            bodyContent={<div>{predictions.map((prediction, index) => (
+                                <PredictionCard key={index} prediction={prediction} />
+                            ))}</div>}
+                            visible={false}
                         />
                     </div>
                     <div className="col-span-2">

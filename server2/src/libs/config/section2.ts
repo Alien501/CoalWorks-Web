@@ -1,12 +1,19 @@
+// @ts-nocheck
+
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 
+const CoordinateSchema = z.array(
+  z.tuple([z.number(), z.number()])
+).min(1, "At least one coordinate is required");
+
 const sectionSchema = z.object({
   name: z.string().min(1, "Section name is required"),
   sectionType: z.number().int("Section type must be an integer"),
   area: z.number().int("Area must be an integer").optional(),
+  coordinates: z.any().optional()
 });
 
 /**
@@ -15,12 +22,38 @@ const sectionSchema = z.object({
 export const createSection = async (req: Request, res: Response) => {
   try {
     const data = sectionSchema.parse(req.body);
-    const section = await prisma.section.create({ data });
-    res.status(201).json(section);
+    const result = await prisma.$transaction(async (prismaClient) => {
+      const section = await prismaClient.section.create({
+        data: {
+          name: data.name,
+          sectionType: data.sectionType,
+          area: data.area
+        }
+      });
+
+      if (data.coordinates && data.coordinates.length > 0) {
+        const coordinateData = data.coordinates[0].flatMap(coordSet => 
+          coordSet.map(coord => ({
+            sectionId: section.id,
+            latitude: coord[1],
+            longitude: coord[0]
+          }))
+        );
+        console.log(coordinateData)
+        await prismaClient.coordinate.createMany({
+          data: coordinateData
+        });
+      }
+
+      return section;
+    });
+
+    res.status(201).json(result);
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ errors: error.errors });
     } else {
+      console.error(error);
       res.status(500).json({ error: "Failed to create section" });
     }
   }
@@ -78,7 +111,9 @@ export const updateSection = async (req: Request, res: Response) => {
     const data = sectionSchema.parse(req.body);
     const section = await prisma.section.update({
       where: { id },
-      data,
+      data: {
+        ...data
+      },
     });
     res.status(200).json(section);
   } catch (error) {

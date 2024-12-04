@@ -4,10 +4,9 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
-// Replace with your actual Mapbox token
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJhc2FudGhzNyIsImEiOiJjbHp1NzZ2bzEwbTJvMmlzNWt1ZTd5bGRvIn0.p7mHf2jaHG7UZ6Z0y2zpOA';
 
-const MapPolygonDrawer = () => {
+const MapPolygonDrawer = ({setCoordinate}) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
@@ -16,11 +15,11 @@ const MapPolygonDrawer = () => {
   const [drawnPolygons, setDrawnPolygons] = useState([]);
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
+    if (map.current) return;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
+      style: 'mapbox://styles/mapbox/satellite-v9',
       center: [lng, lat],
       zoom: zoom
     });
@@ -46,6 +45,16 @@ const MapPolygonDrawer = () => {
       );
       
       setDrawnPolygons(polygons);
+      setCoordinate(prev => {
+        const newPolygon = polygons[polygons.length - 1];
+        const newCoordinates = [...prev.coordinates, newPolygon.geometry.coordinates];
+        
+        return {
+          ...prev,
+          coordinates: newCoordinates
+        };
+      });
+      
       console.log('Drawn Polygons:', polygons);
     }
 
@@ -58,18 +67,6 @@ const MapPolygonDrawer = () => {
         ref={mapContainer} 
         className="h-full inset-0" 
       />
-      {drawnPolygons.length > 0 && (
-        <div className="absolute top-2 right-2 bg-white p-2 rounded shadow">
-          <h3 className="font-bold">Drawn Polygons</h3>
-          <ul>
-            {drawnPolygons.map((polygon, index) => (
-              <li key={index}>
-                Polygon {index + 1}: {polygon.geometry.coordinates.length} points
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

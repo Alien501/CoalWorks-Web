@@ -31,6 +31,7 @@ import { Label } from "@/components/ui/label"
 import { fetchSectionTypes } from '@/utils/fetchSectionTypes'
 import { toast } from 'sonner';
 import { fetchSections } from '@/utils/fetchSections';
+import MapPolygonDrawer from '@/components/custom/drawingMap';
 // import { toast } from "@/components/ui/use-toast" // Assuming you're using shadcn/ui toast
 
 export default function SectionsPage() {
@@ -281,6 +282,9 @@ export default function SectionsPage() {
                         })}
                         className="col-span-3" 
                       />
+                    </div>
+                    <div className='h-[400px]'>
+                      <MapPolygonDrawer />
                     </div>
                     <Button onClick={handleAddSection}>
                       Create Section

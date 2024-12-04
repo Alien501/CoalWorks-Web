@@ -169,7 +169,7 @@ model SectionType {
   name        String         @db.VarChar(255)
   description String         @db.VarChar(255)
   sections    Section[]
-  color       SectionColor[]
+  color       String         @default("#fffff")
 }
 
 model Section {
@@ -182,13 +182,6 @@ model Section {
   assets      Asset[]
   coordinates Coordinate[]
   activePlans ActivePlans[]
-}
-
-model SectionColor {
-  id          Int         @id @default(autoincrement())
-  hex         String
-  sectionId   Int
-  sectionType SectionType @relation(fields: [sectionId], references: [id])
 }
 
 model Coordinate {

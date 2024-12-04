@@ -89,6 +89,11 @@ export type SectionType = $Result.DefaultSelection<Prisma.$SectionTypePayload>
  */
 export type Section = $Result.DefaultSelection<Prisma.$SectionPayload>
 /**
+ * Model Coordinate
+ * 
+ */
+export type Coordinate = $Result.DefaultSelection<Prisma.$CoordinatePayload>
+/**
  * Model AssetType
  * 
  */
@@ -98,16 +103,6 @@ export type AssetType = $Result.DefaultSelection<Prisma.$AssetTypePayload>
  * 
  */
 export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
-/**
- * Model Coordinate
- * 
- */
-export type Coordinate = $Result.DefaultSelection<Prisma.$CoordinatePayload>
-/**
- * Model SectionColor
- * 
- */
-export type SectionColor = $Result.DefaultSelection<Prisma.$SectionColorPayload>
 
 /**
  * Enums
@@ -401,6 +396,16 @@ export class PrismaClient<
   get section(): Prisma.SectionDelegate<ExtArgs>;
 
   /**
+   * `prisma.coordinate`: Exposes CRUD operations for the **Coordinate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Coordinates
+    * const coordinates = await prisma.coordinate.findMany()
+    * ```
+    */
+  get coordinate(): Prisma.CoordinateDelegate<ExtArgs>;
+
+  /**
    * `prisma.assetType`: Exposes CRUD operations for the **AssetType** model.
     * Example usage:
     * ```ts
@@ -419,26 +424,6 @@ export class PrismaClient<
     * ```
     */
   get asset(): Prisma.AssetDelegate<ExtArgs>;
-
-  /**
-   * `prisma.coordinate`: Exposes CRUD operations for the **Coordinate** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Coordinates
-    * const coordinates = await prisma.coordinate.findMany()
-    * ```
-    */
-  get coordinate(): Prisma.CoordinateDelegate<ExtArgs>;
-
-  /**
-   * `prisma.sectionColor`: Exposes CRUD operations for the **SectionColor** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more SectionColors
-    * const sectionColors = await prisma.sectionColor.findMany()
-    * ```
-    */
-  get sectionColor(): Prisma.SectionColorDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -895,10 +880,9 @@ export namespace Prisma {
     ActivePlans: 'ActivePlans',
     SectionType: 'SectionType',
     Section: 'Section',
-    AssetType: 'AssetType',
-    Asset: 'Asset',
     Coordinate: 'Coordinate',
-    SectionColor: 'SectionColor'
+    AssetType: 'AssetType',
+    Asset: 'Asset'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -914,7 +898,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "section" | "assetType" | "asset" | "coordinate" | "sectionColor"
+      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "section" | "coordinate" | "assetType" | "asset"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1968,6 +1952,76 @@ export namespace Prisma {
           }
         }
       }
+      Coordinate: {
+        payload: Prisma.$CoordinatePayload<ExtArgs>
+        fields: Prisma.CoordinateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CoordinateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CoordinateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
+          }
+          findFirst: {
+            args: Prisma.CoordinateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CoordinateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
+          }
+          findMany: {
+            args: Prisma.CoordinateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>[]
+          }
+          create: {
+            args: Prisma.CoordinateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
+          }
+          createMany: {
+            args: Prisma.CoordinateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CoordinateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>[]
+          }
+          delete: {
+            args: Prisma.CoordinateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
+          }
+          update: {
+            args: Prisma.CoordinateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
+          }
+          deleteMany: {
+            args: Prisma.CoordinateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CoordinateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CoordinateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
+          }
+          aggregate: {
+            args: Prisma.CoordinateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCoordinate>
+          }
+          groupBy: {
+            args: Prisma.CoordinateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CoordinateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CoordinateCountArgs<ExtArgs>
+            result: $Utils.Optional<CoordinateCountAggregateOutputType> | number
+          }
+        }
+      }
       AssetType: {
         payload: Prisma.$AssetTypePayload<ExtArgs>
         fields: Prisma.AssetTypeFieldRefs
@@ -2105,146 +2159,6 @@ export namespace Prisma {
           count: {
             args: Prisma.AssetCountArgs<ExtArgs>
             result: $Utils.Optional<AssetCountAggregateOutputType> | number
-          }
-        }
-      }
-      Coordinate: {
-        payload: Prisma.$CoordinatePayload<ExtArgs>
-        fields: Prisma.CoordinateFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.CoordinateFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.CoordinateFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
-          }
-          findFirst: {
-            args: Prisma.CoordinateFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.CoordinateFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
-          }
-          findMany: {
-            args: Prisma.CoordinateFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>[]
-          }
-          create: {
-            args: Prisma.CoordinateCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
-          }
-          createMany: {
-            args: Prisma.CoordinateCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.CoordinateCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>[]
-          }
-          delete: {
-            args: Prisma.CoordinateDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
-          }
-          update: {
-            args: Prisma.CoordinateUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
-          }
-          deleteMany: {
-            args: Prisma.CoordinateDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.CoordinateUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.CoordinateUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CoordinatePayload>
-          }
-          aggregate: {
-            args: Prisma.CoordinateAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCoordinate>
-          }
-          groupBy: {
-            args: Prisma.CoordinateGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CoordinateGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.CoordinateCountArgs<ExtArgs>
-            result: $Utils.Optional<CoordinateCountAggregateOutputType> | number
-          }
-        }
-      }
-      SectionColor: {
-        payload: Prisma.$SectionColorPayload<ExtArgs>
-        fields: Prisma.SectionColorFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.SectionColorFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.SectionColorFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
-          }
-          findFirst: {
-            args: Prisma.SectionColorFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.SectionColorFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
-          }
-          findMany: {
-            args: Prisma.SectionColorFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>[]
-          }
-          create: {
-            args: Prisma.SectionColorCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
-          }
-          createMany: {
-            args: Prisma.SectionColorCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.SectionColorCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>[]
-          }
-          delete: {
-            args: Prisma.SectionColorDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
-          }
-          update: {
-            args: Prisma.SectionColorUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
-          }
-          deleteMany: {
-            args: Prisma.SectionColorDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.SectionColorUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.SectionColorUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
-          }
-          aggregate: {
-            args: Prisma.SectionColorAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSectionColor>
-          }
-          groupBy: {
-            args: Prisma.SectionColorGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SectionColorGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.SectionColorCountArgs<ExtArgs>
-            result: $Utils.Optional<SectionColorCountAggregateOutputType> | number
           }
         }
       }
@@ -2583,12 +2497,10 @@ export namespace Prisma {
 
   export type SectionTypeCountOutputType = {
     sections: number
-    color: number
   }
 
   export type SectionTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sections?: boolean | SectionTypeCountOutputTypeCountSectionsArgs
-    color?: boolean | SectionTypeCountOutputTypeCountColorArgs
   }
 
   // Custom InputTypes
@@ -2607,13 +2519,6 @@ export namespace Prisma {
    */
   export type SectionTypeCountOutputTypeCountSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SectionWhereInput
-  }
-
-  /**
-   * SectionTypeCountOutputType without action
-   */
-  export type SectionTypeCountOutputTypeCountColorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SectionColorWhereInput
   }
 
 
@@ -15586,18 +15491,21 @@ export namespace Prisma {
     id: number | null
     name: string | null
     description: string | null
+    color: string | null
   }
 
   export type SectionTypeMaxAggregateOutputType = {
     id: number | null
     name: string | null
     description: string | null
+    color: string | null
   }
 
   export type SectionTypeCountAggregateOutputType = {
     id: number
     name: number
     description: number
+    color: number
     _all: number
   }
 
@@ -15614,18 +15522,21 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    color?: true
   }
 
   export type SectionTypeMaxAggregateInputType = {
     id?: true
     name?: true
     description?: true
+    color?: true
   }
 
   export type SectionTypeCountAggregateInputType = {
     id?: true
     name?: true
     description?: true
+    color?: true
     _all?: true
   }
 
@@ -15719,6 +15630,7 @@ export namespace Prisma {
     id: number
     name: string
     description: string
+    color: string
     _count: SectionTypeCountAggregateOutputType | null
     _avg: SectionTypeAvgAggregateOutputType | null
     _sum: SectionTypeSumAggregateOutputType | null
@@ -15744,8 +15656,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    color?: boolean
     sections?: boolean | SectionType$sectionsArgs<ExtArgs>
-    color?: boolean | SectionType$colorArgs<ExtArgs>
     _count?: boolean | SectionTypeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sectionType"]>
 
@@ -15753,17 +15665,18 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    color?: boolean
   }, ExtArgs["result"]["sectionType"]>
 
   export type SectionTypeSelectScalar = {
     id?: boolean
     name?: boolean
     description?: boolean
+    color?: boolean
   }
 
   export type SectionTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sections?: boolean | SectionType$sectionsArgs<ExtArgs>
-    color?: boolean | SectionType$colorArgs<ExtArgs>
     _count?: boolean | SectionTypeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SectionTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -15772,12 +15685,12 @@ export namespace Prisma {
     name: "SectionType"
     objects: {
       sections: Prisma.$SectionPayload<ExtArgs>[]
-      color: Prisma.$SectionColorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
       description: string
+      color: string
     }, ExtArgs["result"]["sectionType"]>
     composites: {}
   }
@@ -16143,7 +16056,6 @@ export namespace Prisma {
   export interface Prisma__SectionTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sections<T extends SectionType$sectionsArgs<ExtArgs> = {}>(args?: Subset<T, SectionType$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany"> | Null>
-    color<T extends SectionType$colorArgs<ExtArgs> = {}>(args?: Subset<T, SectionType$colorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16176,6 +16088,7 @@ export namespace Prisma {
     readonly id: FieldRef<"SectionType", 'Int'>
     readonly name: FieldRef<"SectionType", 'String'>
     readonly description: FieldRef<"SectionType", 'String'>
+    readonly color: FieldRef<"SectionType", 'String'>
   }
     
 
@@ -16507,26 +16420,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
-  }
-
-  /**
-   * SectionType.color
-   */
-  export type SectionType$colorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    where?: SectionColorWhereInput
-    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
-    cursor?: SectionColorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
   }
 
   /**
@@ -17578,6 +17471,973 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SectionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Coordinate
+   */
+
+  export type AggregateCoordinate = {
+    _count: CoordinateCountAggregateOutputType | null
+    _avg: CoordinateAvgAggregateOutputType | null
+    _sum: CoordinateSumAggregateOutputType | null
+    _min: CoordinateMinAggregateOutputType | null
+    _max: CoordinateMaxAggregateOutputType | null
+  }
+
+  export type CoordinateAvgAggregateOutputType = {
+    id: number | null
+    latitude: number | null
+    longitude: number | null
+    sectionId: number | null
+  }
+
+  export type CoordinateSumAggregateOutputType = {
+    id: number | null
+    latitude: number | null
+    longitude: number | null
+    sectionId: number | null
+  }
+
+  export type CoordinateMinAggregateOutputType = {
+    id: number | null
+    latitude: number | null
+    longitude: number | null
+    sectionId: number | null
+  }
+
+  export type CoordinateMaxAggregateOutputType = {
+    id: number | null
+    latitude: number | null
+    longitude: number | null
+    sectionId: number | null
+  }
+
+  export type CoordinateCountAggregateOutputType = {
+    id: number
+    latitude: number
+    longitude: number
+    sectionId: number
+    _all: number
+  }
+
+
+  export type CoordinateAvgAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+    sectionId?: true
+  }
+
+  export type CoordinateSumAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+    sectionId?: true
+  }
+
+  export type CoordinateMinAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+    sectionId?: true
+  }
+
+  export type CoordinateMaxAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+    sectionId?: true
+  }
+
+  export type CoordinateCountAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+    sectionId?: true
+    _all?: true
+  }
+
+  export type CoordinateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Coordinate to aggregate.
+     */
+    where?: CoordinateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Coordinates to fetch.
+     */
+    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CoordinateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Coordinates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Coordinates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Coordinates
+    **/
+    _count?: true | CoordinateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CoordinateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CoordinateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CoordinateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CoordinateMaxAggregateInputType
+  }
+
+  export type GetCoordinateAggregateType<T extends CoordinateAggregateArgs> = {
+        [P in keyof T & keyof AggregateCoordinate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCoordinate[P]>
+      : GetScalarType<T[P], AggregateCoordinate[P]>
+  }
+
+
+
+
+  export type CoordinateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CoordinateWhereInput
+    orderBy?: CoordinateOrderByWithAggregationInput | CoordinateOrderByWithAggregationInput[]
+    by: CoordinateScalarFieldEnum[] | CoordinateScalarFieldEnum
+    having?: CoordinateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CoordinateCountAggregateInputType | true
+    _avg?: CoordinateAvgAggregateInputType
+    _sum?: CoordinateSumAggregateInputType
+    _min?: CoordinateMinAggregateInputType
+    _max?: CoordinateMaxAggregateInputType
+  }
+
+  export type CoordinateGroupByOutputType = {
+    id: number
+    latitude: number
+    longitude: number
+    sectionId: number
+    _count: CoordinateCountAggregateOutputType | null
+    _avg: CoordinateAvgAggregateOutputType | null
+    _sum: CoordinateSumAggregateOutputType | null
+    _min: CoordinateMinAggregateOutputType | null
+    _max: CoordinateMaxAggregateOutputType | null
+  }
+
+  type GetCoordinateGroupByPayload<T extends CoordinateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CoordinateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CoordinateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CoordinateGroupByOutputType[P]>
+            : GetScalarType<T[P], CoordinateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CoordinateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    sectionId?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coordinate"]>
+
+  export type CoordinateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    sectionId?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coordinate"]>
+
+  export type CoordinateSelectScalar = {
+    id?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    sectionId?: boolean
+  }
+
+  export type CoordinateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+  export type CoordinateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+
+  export type $CoordinatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Coordinate"
+    objects: {
+      section: Prisma.$SectionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      latitude: number
+      longitude: number
+      sectionId: number
+    }, ExtArgs["result"]["coordinate"]>
+    composites: {}
+  }
+
+  type CoordinateGetPayload<S extends boolean | null | undefined | CoordinateDefaultArgs> = $Result.GetResult<Prisma.$CoordinatePayload, S>
+
+  type CoordinateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CoordinateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CoordinateCountAggregateInputType | true
+    }
+
+  export interface CoordinateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Coordinate'], meta: { name: 'Coordinate' } }
+    /**
+     * Find zero or one Coordinate that matches the filter.
+     * @param {CoordinateFindUniqueArgs} args - Arguments to find a Coordinate
+     * @example
+     * // Get one Coordinate
+     * const coordinate = await prisma.coordinate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CoordinateFindUniqueArgs>(args: SelectSubset<T, CoordinateFindUniqueArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Coordinate that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CoordinateFindUniqueOrThrowArgs} args - Arguments to find a Coordinate
+     * @example
+     * // Get one Coordinate
+     * const coordinate = await prisma.coordinate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CoordinateFindUniqueOrThrowArgs>(args: SelectSubset<T, CoordinateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Coordinate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateFindFirstArgs} args - Arguments to find a Coordinate
+     * @example
+     * // Get one Coordinate
+     * const coordinate = await prisma.coordinate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CoordinateFindFirstArgs>(args?: SelectSubset<T, CoordinateFindFirstArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Coordinate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateFindFirstOrThrowArgs} args - Arguments to find a Coordinate
+     * @example
+     * // Get one Coordinate
+     * const coordinate = await prisma.coordinate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CoordinateFindFirstOrThrowArgs>(args?: SelectSubset<T, CoordinateFindFirstOrThrowArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Coordinates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Coordinates
+     * const coordinates = await prisma.coordinate.findMany()
+     * 
+     * // Get first 10 Coordinates
+     * const coordinates = await prisma.coordinate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const coordinateWithIdOnly = await prisma.coordinate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CoordinateFindManyArgs>(args?: SelectSubset<T, CoordinateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Coordinate.
+     * @param {CoordinateCreateArgs} args - Arguments to create a Coordinate.
+     * @example
+     * // Create one Coordinate
+     * const Coordinate = await prisma.coordinate.create({
+     *   data: {
+     *     // ... data to create a Coordinate
+     *   }
+     * })
+     * 
+     */
+    create<T extends CoordinateCreateArgs>(args: SelectSubset<T, CoordinateCreateArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Coordinates.
+     * @param {CoordinateCreateManyArgs} args - Arguments to create many Coordinates.
+     * @example
+     * // Create many Coordinates
+     * const coordinate = await prisma.coordinate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CoordinateCreateManyArgs>(args?: SelectSubset<T, CoordinateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Coordinates and returns the data saved in the database.
+     * @param {CoordinateCreateManyAndReturnArgs} args - Arguments to create many Coordinates.
+     * @example
+     * // Create many Coordinates
+     * const coordinate = await prisma.coordinate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Coordinates and only return the `id`
+     * const coordinateWithIdOnly = await prisma.coordinate.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CoordinateCreateManyAndReturnArgs>(args?: SelectSubset<T, CoordinateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Coordinate.
+     * @param {CoordinateDeleteArgs} args - Arguments to delete one Coordinate.
+     * @example
+     * // Delete one Coordinate
+     * const Coordinate = await prisma.coordinate.delete({
+     *   where: {
+     *     // ... filter to delete one Coordinate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CoordinateDeleteArgs>(args: SelectSubset<T, CoordinateDeleteArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Coordinate.
+     * @param {CoordinateUpdateArgs} args - Arguments to update one Coordinate.
+     * @example
+     * // Update one Coordinate
+     * const coordinate = await prisma.coordinate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CoordinateUpdateArgs>(args: SelectSubset<T, CoordinateUpdateArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Coordinates.
+     * @param {CoordinateDeleteManyArgs} args - Arguments to filter Coordinates to delete.
+     * @example
+     * // Delete a few Coordinates
+     * const { count } = await prisma.coordinate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CoordinateDeleteManyArgs>(args?: SelectSubset<T, CoordinateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Coordinates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Coordinates
+     * const coordinate = await prisma.coordinate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CoordinateUpdateManyArgs>(args: SelectSubset<T, CoordinateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Coordinate.
+     * @param {CoordinateUpsertArgs} args - Arguments to update or create a Coordinate.
+     * @example
+     * // Update or create a Coordinate
+     * const coordinate = await prisma.coordinate.upsert({
+     *   create: {
+     *     // ... data to create a Coordinate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Coordinate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CoordinateUpsertArgs>(args: SelectSubset<T, CoordinateUpsertArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Coordinates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateCountArgs} args - Arguments to filter Coordinates to count.
+     * @example
+     * // Count the number of Coordinates
+     * const count = await prisma.coordinate.count({
+     *   where: {
+     *     // ... the filter for the Coordinates we want to count
+     *   }
+     * })
+    **/
+    count<T extends CoordinateCountArgs>(
+      args?: Subset<T, CoordinateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CoordinateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Coordinate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CoordinateAggregateArgs>(args: Subset<T, CoordinateAggregateArgs>): Prisma.PrismaPromise<GetCoordinateAggregateType<T>>
+
+    /**
+     * Group by Coordinate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CoordinateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CoordinateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CoordinateGroupByArgs['orderBy'] }
+        : { orderBy?: CoordinateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CoordinateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCoordinateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Coordinate model
+   */
+  readonly fields: CoordinateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Coordinate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CoordinateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Coordinate model
+   */ 
+  interface CoordinateFieldRefs {
+    readonly id: FieldRef<"Coordinate", 'Int'>
+    readonly latitude: FieldRef<"Coordinate", 'Float'>
+    readonly longitude: FieldRef<"Coordinate", 'Float'>
+    readonly sectionId: FieldRef<"Coordinate", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Coordinate findUnique
+   */
+  export type CoordinateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * Filter, which Coordinate to fetch.
+     */
+    where: CoordinateWhereUniqueInput
+  }
+
+  /**
+   * Coordinate findUniqueOrThrow
+   */
+  export type CoordinateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * Filter, which Coordinate to fetch.
+     */
+    where: CoordinateWhereUniqueInput
+  }
+
+  /**
+   * Coordinate findFirst
+   */
+  export type CoordinateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * Filter, which Coordinate to fetch.
+     */
+    where?: CoordinateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Coordinates to fetch.
+     */
+    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Coordinates.
+     */
+    cursor?: CoordinateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Coordinates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Coordinates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Coordinates.
+     */
+    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
+  }
+
+  /**
+   * Coordinate findFirstOrThrow
+   */
+  export type CoordinateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * Filter, which Coordinate to fetch.
+     */
+    where?: CoordinateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Coordinates to fetch.
+     */
+    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Coordinates.
+     */
+    cursor?: CoordinateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Coordinates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Coordinates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Coordinates.
+     */
+    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
+  }
+
+  /**
+   * Coordinate findMany
+   */
+  export type CoordinateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * Filter, which Coordinates to fetch.
+     */
+    where?: CoordinateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Coordinates to fetch.
+     */
+    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Coordinates.
+     */
+    cursor?: CoordinateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Coordinates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Coordinates.
+     */
+    skip?: number
+    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
+  }
+
+  /**
+   * Coordinate create
+   */
+  export type CoordinateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Coordinate.
+     */
+    data: XOR<CoordinateCreateInput, CoordinateUncheckedCreateInput>
+  }
+
+  /**
+   * Coordinate createMany
+   */
+  export type CoordinateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Coordinates.
+     */
+    data: CoordinateCreateManyInput | CoordinateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Coordinate createManyAndReturn
+   */
+  export type CoordinateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Coordinates.
+     */
+    data: CoordinateCreateManyInput | CoordinateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Coordinate update
+   */
+  export type CoordinateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Coordinate.
+     */
+    data: XOR<CoordinateUpdateInput, CoordinateUncheckedUpdateInput>
+    /**
+     * Choose, which Coordinate to update.
+     */
+    where: CoordinateWhereUniqueInput
+  }
+
+  /**
+   * Coordinate updateMany
+   */
+  export type CoordinateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Coordinates.
+     */
+    data: XOR<CoordinateUpdateManyMutationInput, CoordinateUncheckedUpdateManyInput>
+    /**
+     * Filter which Coordinates to update
+     */
+    where?: CoordinateWhereInput
+  }
+
+  /**
+   * Coordinate upsert
+   */
+  export type CoordinateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Coordinate to update in case it exists.
+     */
+    where: CoordinateWhereUniqueInput
+    /**
+     * In case the Coordinate found by the `where` argument doesn't exist, create a new Coordinate with this data.
+     */
+    create: XOR<CoordinateCreateInput, CoordinateUncheckedCreateInput>
+    /**
+     * In case the Coordinate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CoordinateUpdateInput, CoordinateUncheckedUpdateInput>
+  }
+
+  /**
+   * Coordinate delete
+   */
+  export type CoordinateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    /**
+     * Filter which Coordinate to delete.
+     */
+    where: CoordinateWhereUniqueInput
+  }
+
+  /**
+   * Coordinate deleteMany
+   */
+  export type CoordinateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Coordinates to delete
+     */
+    where?: CoordinateWhereInput
+  }
+
+  /**
+   * Coordinate without action
+   */
+  export type CoordinateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
   }
 
 
@@ -19547,1920 +20407,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Coordinate
-   */
-
-  export type AggregateCoordinate = {
-    _count: CoordinateCountAggregateOutputType | null
-    _avg: CoordinateAvgAggregateOutputType | null
-    _sum: CoordinateSumAggregateOutputType | null
-    _min: CoordinateMinAggregateOutputType | null
-    _max: CoordinateMaxAggregateOutputType | null
-  }
-
-  export type CoordinateAvgAggregateOutputType = {
-    id: number | null
-    latitude: number | null
-    longitude: number | null
-    sectionId: number | null
-  }
-
-  export type CoordinateSumAggregateOutputType = {
-    id: number | null
-    latitude: number | null
-    longitude: number | null
-    sectionId: number | null
-  }
-
-  export type CoordinateMinAggregateOutputType = {
-    id: number | null
-    latitude: number | null
-    longitude: number | null
-    sectionId: number | null
-  }
-
-  export type CoordinateMaxAggregateOutputType = {
-    id: number | null
-    latitude: number | null
-    longitude: number | null
-    sectionId: number | null
-  }
-
-  export type CoordinateCountAggregateOutputType = {
-    id: number
-    latitude: number
-    longitude: number
-    sectionId: number
-    _all: number
-  }
-
-
-  export type CoordinateAvgAggregateInputType = {
-    id?: true
-    latitude?: true
-    longitude?: true
-    sectionId?: true
-  }
-
-  export type CoordinateSumAggregateInputType = {
-    id?: true
-    latitude?: true
-    longitude?: true
-    sectionId?: true
-  }
-
-  export type CoordinateMinAggregateInputType = {
-    id?: true
-    latitude?: true
-    longitude?: true
-    sectionId?: true
-  }
-
-  export type CoordinateMaxAggregateInputType = {
-    id?: true
-    latitude?: true
-    longitude?: true
-    sectionId?: true
-  }
-
-  export type CoordinateCountAggregateInputType = {
-    id?: true
-    latitude?: true
-    longitude?: true
-    sectionId?: true
-    _all?: true
-  }
-
-  export type CoordinateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Coordinate to aggregate.
-     */
-    where?: CoordinateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Coordinates to fetch.
-     */
-    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: CoordinateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Coordinates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Coordinates.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Coordinates
-    **/
-    _count?: true | CoordinateCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: CoordinateAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: CoordinateSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CoordinateMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CoordinateMaxAggregateInputType
-  }
-
-  export type GetCoordinateAggregateType<T extends CoordinateAggregateArgs> = {
-        [P in keyof T & keyof AggregateCoordinate]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCoordinate[P]>
-      : GetScalarType<T[P], AggregateCoordinate[P]>
-  }
-
-
-
-
-  export type CoordinateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CoordinateWhereInput
-    orderBy?: CoordinateOrderByWithAggregationInput | CoordinateOrderByWithAggregationInput[]
-    by: CoordinateScalarFieldEnum[] | CoordinateScalarFieldEnum
-    having?: CoordinateScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CoordinateCountAggregateInputType | true
-    _avg?: CoordinateAvgAggregateInputType
-    _sum?: CoordinateSumAggregateInputType
-    _min?: CoordinateMinAggregateInputType
-    _max?: CoordinateMaxAggregateInputType
-  }
-
-  export type CoordinateGroupByOutputType = {
-    id: number
-    latitude: number
-    longitude: number
-    sectionId: number
-    _count: CoordinateCountAggregateOutputType | null
-    _avg: CoordinateAvgAggregateOutputType | null
-    _sum: CoordinateSumAggregateOutputType | null
-    _min: CoordinateMinAggregateOutputType | null
-    _max: CoordinateMaxAggregateOutputType | null
-  }
-
-  type GetCoordinateGroupByPayload<T extends CoordinateGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<CoordinateGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CoordinateGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CoordinateGroupByOutputType[P]>
-            : GetScalarType<T[P], CoordinateGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type CoordinateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    latitude?: boolean
-    longitude?: boolean
-    sectionId?: boolean
-    section?: boolean | SectionDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["coordinate"]>
-
-  export type CoordinateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    latitude?: boolean
-    longitude?: boolean
-    sectionId?: boolean
-    section?: boolean | SectionDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["coordinate"]>
-
-  export type CoordinateSelectScalar = {
-    id?: boolean
-    latitude?: boolean
-    longitude?: boolean
-    sectionId?: boolean
-  }
-
-  export type CoordinateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    section?: boolean | SectionDefaultArgs<ExtArgs>
-  }
-  export type CoordinateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    section?: boolean | SectionDefaultArgs<ExtArgs>
-  }
-
-  export type $CoordinatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Coordinate"
-    objects: {
-      section: Prisma.$SectionPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      latitude: number
-      longitude: number
-      sectionId: number
-    }, ExtArgs["result"]["coordinate"]>
-    composites: {}
-  }
-
-  type CoordinateGetPayload<S extends boolean | null | undefined | CoordinateDefaultArgs> = $Result.GetResult<Prisma.$CoordinatePayload, S>
-
-  type CoordinateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<CoordinateFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: CoordinateCountAggregateInputType | true
-    }
-
-  export interface CoordinateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Coordinate'], meta: { name: 'Coordinate' } }
-    /**
-     * Find zero or one Coordinate that matches the filter.
-     * @param {CoordinateFindUniqueArgs} args - Arguments to find a Coordinate
-     * @example
-     * // Get one Coordinate
-     * const coordinate = await prisma.coordinate.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends CoordinateFindUniqueArgs>(args: SelectSubset<T, CoordinateFindUniqueArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one Coordinate that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {CoordinateFindUniqueOrThrowArgs} args - Arguments to find a Coordinate
-     * @example
-     * // Get one Coordinate
-     * const coordinate = await prisma.coordinate.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends CoordinateFindUniqueOrThrowArgs>(args: SelectSubset<T, CoordinateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first Coordinate that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateFindFirstArgs} args - Arguments to find a Coordinate
-     * @example
-     * // Get one Coordinate
-     * const coordinate = await prisma.coordinate.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends CoordinateFindFirstArgs>(args?: SelectSubset<T, CoordinateFindFirstArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first Coordinate that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateFindFirstOrThrowArgs} args - Arguments to find a Coordinate
-     * @example
-     * // Get one Coordinate
-     * const coordinate = await prisma.coordinate.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends CoordinateFindFirstOrThrowArgs>(args?: SelectSubset<T, CoordinateFindFirstOrThrowArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more Coordinates that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Coordinates
-     * const coordinates = await prisma.coordinate.findMany()
-     * 
-     * // Get first 10 Coordinates
-     * const coordinates = await prisma.coordinate.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const coordinateWithIdOnly = await prisma.coordinate.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends CoordinateFindManyArgs>(args?: SelectSubset<T, CoordinateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a Coordinate.
-     * @param {CoordinateCreateArgs} args - Arguments to create a Coordinate.
-     * @example
-     * // Create one Coordinate
-     * const Coordinate = await prisma.coordinate.create({
-     *   data: {
-     *     // ... data to create a Coordinate
-     *   }
-     * })
-     * 
-     */
-    create<T extends CoordinateCreateArgs>(args: SelectSubset<T, CoordinateCreateArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many Coordinates.
-     * @param {CoordinateCreateManyArgs} args - Arguments to create many Coordinates.
-     * @example
-     * // Create many Coordinates
-     * const coordinate = await prisma.coordinate.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends CoordinateCreateManyArgs>(args?: SelectSubset<T, CoordinateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Coordinates and returns the data saved in the database.
-     * @param {CoordinateCreateManyAndReturnArgs} args - Arguments to create many Coordinates.
-     * @example
-     * // Create many Coordinates
-     * const coordinate = await prisma.coordinate.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Coordinates and only return the `id`
-     * const coordinateWithIdOnly = await prisma.coordinate.createManyAndReturn({ 
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends CoordinateCreateManyAndReturnArgs>(args?: SelectSubset<T, CoordinateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "createManyAndReturn">>
-
-    /**
-     * Delete a Coordinate.
-     * @param {CoordinateDeleteArgs} args - Arguments to delete one Coordinate.
-     * @example
-     * // Delete one Coordinate
-     * const Coordinate = await prisma.coordinate.delete({
-     *   where: {
-     *     // ... filter to delete one Coordinate
-     *   }
-     * })
-     * 
-     */
-    delete<T extends CoordinateDeleteArgs>(args: SelectSubset<T, CoordinateDeleteArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one Coordinate.
-     * @param {CoordinateUpdateArgs} args - Arguments to update one Coordinate.
-     * @example
-     * // Update one Coordinate
-     * const coordinate = await prisma.coordinate.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends CoordinateUpdateArgs>(args: SelectSubset<T, CoordinateUpdateArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more Coordinates.
-     * @param {CoordinateDeleteManyArgs} args - Arguments to filter Coordinates to delete.
-     * @example
-     * // Delete a few Coordinates
-     * const { count } = await prisma.coordinate.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends CoordinateDeleteManyArgs>(args?: SelectSubset<T, CoordinateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Coordinates.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Coordinates
-     * const coordinate = await prisma.coordinate.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends CoordinateUpdateManyArgs>(args: SelectSubset<T, CoordinateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Coordinate.
-     * @param {CoordinateUpsertArgs} args - Arguments to update or create a Coordinate.
-     * @example
-     * // Update or create a Coordinate
-     * const coordinate = await prisma.coordinate.upsert({
-     *   create: {
-     *     // ... data to create a Coordinate
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Coordinate we want to update
-     *   }
-     * })
-     */
-    upsert<T extends CoordinateUpsertArgs>(args: SelectSubset<T, CoordinateUpsertArgs<ExtArgs>>): Prisma__CoordinateClient<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of Coordinates.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateCountArgs} args - Arguments to filter Coordinates to count.
-     * @example
-     * // Count the number of Coordinates
-     * const count = await prisma.coordinate.count({
-     *   where: {
-     *     // ... the filter for the Coordinates we want to count
-     *   }
-     * })
-    **/
-    count<T extends CoordinateCountArgs>(
-      args?: Subset<T, CoordinateCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CoordinateCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Coordinate.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CoordinateAggregateArgs>(args: Subset<T, CoordinateAggregateArgs>): Prisma.PrismaPromise<GetCoordinateAggregateType<T>>
-
-    /**
-     * Group by Coordinate.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CoordinateGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends CoordinateGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CoordinateGroupByArgs['orderBy'] }
-        : { orderBy?: CoordinateGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, CoordinateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCoordinateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Coordinate model
-   */
-  readonly fields: CoordinateFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Coordinate.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__CoordinateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Coordinate model
-   */ 
-  interface CoordinateFieldRefs {
-    readonly id: FieldRef<"Coordinate", 'Int'>
-    readonly latitude: FieldRef<"Coordinate", 'Float'>
-    readonly longitude: FieldRef<"Coordinate", 'Float'>
-    readonly sectionId: FieldRef<"Coordinate", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Coordinate findUnique
-   */
-  export type CoordinateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * Filter, which Coordinate to fetch.
-     */
-    where: CoordinateWhereUniqueInput
-  }
-
-  /**
-   * Coordinate findUniqueOrThrow
-   */
-  export type CoordinateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * Filter, which Coordinate to fetch.
-     */
-    where: CoordinateWhereUniqueInput
-  }
-
-  /**
-   * Coordinate findFirst
-   */
-  export type CoordinateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * Filter, which Coordinate to fetch.
-     */
-    where?: CoordinateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Coordinates to fetch.
-     */
-    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Coordinates.
-     */
-    cursor?: CoordinateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Coordinates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Coordinates.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Coordinates.
-     */
-    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
-  }
-
-  /**
-   * Coordinate findFirstOrThrow
-   */
-  export type CoordinateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * Filter, which Coordinate to fetch.
-     */
-    where?: CoordinateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Coordinates to fetch.
-     */
-    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Coordinates.
-     */
-    cursor?: CoordinateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Coordinates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Coordinates.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Coordinates.
-     */
-    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
-  }
-
-  /**
-   * Coordinate findMany
-   */
-  export type CoordinateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * Filter, which Coordinates to fetch.
-     */
-    where?: CoordinateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Coordinates to fetch.
-     */
-    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Coordinates.
-     */
-    cursor?: CoordinateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Coordinates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Coordinates.
-     */
-    skip?: number
-    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
-  }
-
-  /**
-   * Coordinate create
-   */
-  export type CoordinateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Coordinate.
-     */
-    data: XOR<CoordinateCreateInput, CoordinateUncheckedCreateInput>
-  }
-
-  /**
-   * Coordinate createMany
-   */
-  export type CoordinateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Coordinates.
-     */
-    data: CoordinateCreateManyInput | CoordinateCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Coordinate createManyAndReturn
-   */
-  export type CoordinateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * The data used to create many Coordinates.
-     */
-    data: CoordinateCreateManyInput | CoordinateCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Coordinate update
-   */
-  export type CoordinateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Coordinate.
-     */
-    data: XOR<CoordinateUpdateInput, CoordinateUncheckedUpdateInput>
-    /**
-     * Choose, which Coordinate to update.
-     */
-    where: CoordinateWhereUniqueInput
-  }
-
-  /**
-   * Coordinate updateMany
-   */
-  export type CoordinateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Coordinates.
-     */
-    data: XOR<CoordinateUpdateManyMutationInput, CoordinateUncheckedUpdateManyInput>
-    /**
-     * Filter which Coordinates to update
-     */
-    where?: CoordinateWhereInput
-  }
-
-  /**
-   * Coordinate upsert
-   */
-  export type CoordinateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Coordinate to update in case it exists.
-     */
-    where: CoordinateWhereUniqueInput
-    /**
-     * In case the Coordinate found by the `where` argument doesn't exist, create a new Coordinate with this data.
-     */
-    create: XOR<CoordinateCreateInput, CoordinateUncheckedCreateInput>
-    /**
-     * In case the Coordinate was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<CoordinateUpdateInput, CoordinateUncheckedUpdateInput>
-  }
-
-  /**
-   * Coordinate delete
-   */
-  export type CoordinateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    /**
-     * Filter which Coordinate to delete.
-     */
-    where: CoordinateWhereUniqueInput
-  }
-
-  /**
-   * Coordinate deleteMany
-   */
-  export type CoordinateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Coordinates to delete
-     */
-    where?: CoordinateWhereInput
-  }
-
-  /**
-   * Coordinate without action
-   */
-  export type CoordinateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model SectionColor
-   */
-
-  export type AggregateSectionColor = {
-    _count: SectionColorCountAggregateOutputType | null
-    _avg: SectionColorAvgAggregateOutputType | null
-    _sum: SectionColorSumAggregateOutputType | null
-    _min: SectionColorMinAggregateOutputType | null
-    _max: SectionColorMaxAggregateOutputType | null
-  }
-
-  export type SectionColorAvgAggregateOutputType = {
-    id: number | null
-    sectionId: number | null
-  }
-
-  export type SectionColorSumAggregateOutputType = {
-    id: number | null
-    sectionId: number | null
-  }
-
-  export type SectionColorMinAggregateOutputType = {
-    id: number | null
-    hex: string | null
-    sectionId: number | null
-  }
-
-  export type SectionColorMaxAggregateOutputType = {
-    id: number | null
-    hex: string | null
-    sectionId: number | null
-  }
-
-  export type SectionColorCountAggregateOutputType = {
-    id: number
-    hex: number
-    sectionId: number
-    _all: number
-  }
-
-
-  export type SectionColorAvgAggregateInputType = {
-    id?: true
-    sectionId?: true
-  }
-
-  export type SectionColorSumAggregateInputType = {
-    id?: true
-    sectionId?: true
-  }
-
-  export type SectionColorMinAggregateInputType = {
-    id?: true
-    hex?: true
-    sectionId?: true
-  }
-
-  export type SectionColorMaxAggregateInputType = {
-    id?: true
-    hex?: true
-    sectionId?: true
-  }
-
-  export type SectionColorCountAggregateInputType = {
-    id?: true
-    hex?: true
-    sectionId?: true
-    _all?: true
-  }
-
-  export type SectionColorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which SectionColor to aggregate.
-     */
-    where?: SectionColorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SectionColors to fetch.
-     */
-    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: SectionColorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SectionColors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SectionColors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned SectionColors
-    **/
-    _count?: true | SectionColorCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: SectionColorAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: SectionColorSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: SectionColorMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: SectionColorMaxAggregateInputType
-  }
-
-  export type GetSectionColorAggregateType<T extends SectionColorAggregateArgs> = {
-        [P in keyof T & keyof AggregateSectionColor]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateSectionColor[P]>
-      : GetScalarType<T[P], AggregateSectionColor[P]>
-  }
-
-
-
-
-  export type SectionColorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SectionColorWhereInput
-    orderBy?: SectionColorOrderByWithAggregationInput | SectionColorOrderByWithAggregationInput[]
-    by: SectionColorScalarFieldEnum[] | SectionColorScalarFieldEnum
-    having?: SectionColorScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: SectionColorCountAggregateInputType | true
-    _avg?: SectionColorAvgAggregateInputType
-    _sum?: SectionColorSumAggregateInputType
-    _min?: SectionColorMinAggregateInputType
-    _max?: SectionColorMaxAggregateInputType
-  }
-
-  export type SectionColorGroupByOutputType = {
-    id: number
-    hex: string
-    sectionId: number
-    _count: SectionColorCountAggregateOutputType | null
-    _avg: SectionColorAvgAggregateOutputType | null
-    _sum: SectionColorSumAggregateOutputType | null
-    _min: SectionColorMinAggregateOutputType | null
-    _max: SectionColorMaxAggregateOutputType | null
-  }
-
-  type GetSectionColorGroupByPayload<T extends SectionColorGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<SectionColorGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SectionColorGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SectionColorGroupByOutputType[P]>
-            : GetScalarType<T[P], SectionColorGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type SectionColorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    hex?: boolean
-    sectionId?: boolean
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["sectionColor"]>
-
-  export type SectionColorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    hex?: boolean
-    sectionId?: boolean
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["sectionColor"]>
-
-  export type SectionColorSelectScalar = {
-    id?: boolean
-    hex?: boolean
-    sectionId?: boolean
-  }
-
-  export type SectionColorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }
-  export type SectionColorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $SectionColorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "SectionColor"
-    objects: {
-      sectionType: Prisma.$SectionTypePayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      hex: string
-      sectionId: number
-    }, ExtArgs["result"]["sectionColor"]>
-    composites: {}
-  }
-
-  type SectionColorGetPayload<S extends boolean | null | undefined | SectionColorDefaultArgs> = $Result.GetResult<Prisma.$SectionColorPayload, S>
-
-  type SectionColorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<SectionColorFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: SectionColorCountAggregateInputType | true
-    }
-
-  export interface SectionColorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SectionColor'], meta: { name: 'SectionColor' } }
-    /**
-     * Find zero or one SectionColor that matches the filter.
-     * @param {SectionColorFindUniqueArgs} args - Arguments to find a SectionColor
-     * @example
-     * // Get one SectionColor
-     * const sectionColor = await prisma.sectionColor.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends SectionColorFindUniqueArgs>(args: SelectSubset<T, SectionColorFindUniqueArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one SectionColor that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {SectionColorFindUniqueOrThrowArgs} args - Arguments to find a SectionColor
-     * @example
-     * // Get one SectionColor
-     * const sectionColor = await prisma.sectionColor.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends SectionColorFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionColorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first SectionColor that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorFindFirstArgs} args - Arguments to find a SectionColor
-     * @example
-     * // Get one SectionColor
-     * const sectionColor = await prisma.sectionColor.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends SectionColorFindFirstArgs>(args?: SelectSubset<T, SectionColorFindFirstArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first SectionColor that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorFindFirstOrThrowArgs} args - Arguments to find a SectionColor
-     * @example
-     * // Get one SectionColor
-     * const sectionColor = await prisma.sectionColor.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends SectionColorFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionColorFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more SectionColors that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all SectionColors
-     * const sectionColors = await prisma.sectionColor.findMany()
-     * 
-     * // Get first 10 SectionColors
-     * const sectionColors = await prisma.sectionColor.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const sectionColorWithIdOnly = await prisma.sectionColor.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends SectionColorFindManyArgs>(args?: SelectSubset<T, SectionColorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a SectionColor.
-     * @param {SectionColorCreateArgs} args - Arguments to create a SectionColor.
-     * @example
-     * // Create one SectionColor
-     * const SectionColor = await prisma.sectionColor.create({
-     *   data: {
-     *     // ... data to create a SectionColor
-     *   }
-     * })
-     * 
-     */
-    create<T extends SectionColorCreateArgs>(args: SelectSubset<T, SectionColorCreateArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many SectionColors.
-     * @param {SectionColorCreateManyArgs} args - Arguments to create many SectionColors.
-     * @example
-     * // Create many SectionColors
-     * const sectionColor = await prisma.sectionColor.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends SectionColorCreateManyArgs>(args?: SelectSubset<T, SectionColorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many SectionColors and returns the data saved in the database.
-     * @param {SectionColorCreateManyAndReturnArgs} args - Arguments to create many SectionColors.
-     * @example
-     * // Create many SectionColors
-     * const sectionColor = await prisma.sectionColor.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many SectionColors and only return the `id`
-     * const sectionColorWithIdOnly = await prisma.sectionColor.createManyAndReturn({ 
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends SectionColorCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionColorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "createManyAndReturn">>
-
-    /**
-     * Delete a SectionColor.
-     * @param {SectionColorDeleteArgs} args - Arguments to delete one SectionColor.
-     * @example
-     * // Delete one SectionColor
-     * const SectionColor = await prisma.sectionColor.delete({
-     *   where: {
-     *     // ... filter to delete one SectionColor
-     *   }
-     * })
-     * 
-     */
-    delete<T extends SectionColorDeleteArgs>(args: SelectSubset<T, SectionColorDeleteArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one SectionColor.
-     * @param {SectionColorUpdateArgs} args - Arguments to update one SectionColor.
-     * @example
-     * // Update one SectionColor
-     * const sectionColor = await prisma.sectionColor.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends SectionColorUpdateArgs>(args: SelectSubset<T, SectionColorUpdateArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more SectionColors.
-     * @param {SectionColorDeleteManyArgs} args - Arguments to filter SectionColors to delete.
-     * @example
-     * // Delete a few SectionColors
-     * const { count } = await prisma.sectionColor.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends SectionColorDeleteManyArgs>(args?: SelectSubset<T, SectionColorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more SectionColors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many SectionColors
-     * const sectionColor = await prisma.sectionColor.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends SectionColorUpdateManyArgs>(args: SelectSubset<T, SectionColorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one SectionColor.
-     * @param {SectionColorUpsertArgs} args - Arguments to update or create a SectionColor.
-     * @example
-     * // Update or create a SectionColor
-     * const sectionColor = await prisma.sectionColor.upsert({
-     *   create: {
-     *     // ... data to create a SectionColor
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the SectionColor we want to update
-     *   }
-     * })
-     */
-    upsert<T extends SectionColorUpsertArgs>(args: SelectSubset<T, SectionColorUpsertArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of SectionColors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorCountArgs} args - Arguments to filter SectionColors to count.
-     * @example
-     * // Count the number of SectionColors
-     * const count = await prisma.sectionColor.count({
-     *   where: {
-     *     // ... the filter for the SectionColors we want to count
-     *   }
-     * })
-    **/
-    count<T extends SectionColorCountArgs>(
-      args?: Subset<T, SectionColorCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], SectionColorCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a SectionColor.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends SectionColorAggregateArgs>(args: Subset<T, SectionColorAggregateArgs>): Prisma.PrismaPromise<GetSectionColorAggregateType<T>>
-
-    /**
-     * Group by SectionColor.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionColorGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends SectionColorGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SectionColorGroupByArgs['orderBy'] }
-        : { orderBy?: SectionColorGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, SectionColorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionColorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the SectionColor model
-   */
-  readonly fields: SectionColorFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for SectionColor.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__SectionColorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the SectionColor model
-   */ 
-  interface SectionColorFieldRefs {
-    readonly id: FieldRef<"SectionColor", 'Int'>
-    readonly hex: FieldRef<"SectionColor", 'String'>
-    readonly sectionId: FieldRef<"SectionColor", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * SectionColor findUnique
-   */
-  export type SectionColorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * Filter, which SectionColor to fetch.
-     */
-    where: SectionColorWhereUniqueInput
-  }
-
-  /**
-   * SectionColor findUniqueOrThrow
-   */
-  export type SectionColorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * Filter, which SectionColor to fetch.
-     */
-    where: SectionColorWhereUniqueInput
-  }
-
-  /**
-   * SectionColor findFirst
-   */
-  export type SectionColorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * Filter, which SectionColor to fetch.
-     */
-    where?: SectionColorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SectionColors to fetch.
-     */
-    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SectionColors.
-     */
-    cursor?: SectionColorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SectionColors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SectionColors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SectionColors.
-     */
-    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
-  }
-
-  /**
-   * SectionColor findFirstOrThrow
-   */
-  export type SectionColorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * Filter, which SectionColor to fetch.
-     */
-    where?: SectionColorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SectionColors to fetch.
-     */
-    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SectionColors.
-     */
-    cursor?: SectionColorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SectionColors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SectionColors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SectionColors.
-     */
-    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
-  }
-
-  /**
-   * SectionColor findMany
-   */
-  export type SectionColorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * Filter, which SectionColors to fetch.
-     */
-    where?: SectionColorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SectionColors to fetch.
-     */
-    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing SectionColors.
-     */
-    cursor?: SectionColorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SectionColors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SectionColors.
-     */
-    skip?: number
-    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
-  }
-
-  /**
-   * SectionColor create
-   */
-  export type SectionColorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * The data needed to create a SectionColor.
-     */
-    data: XOR<SectionColorCreateInput, SectionColorUncheckedCreateInput>
-  }
-
-  /**
-   * SectionColor createMany
-   */
-  export type SectionColorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many SectionColors.
-     */
-    data: SectionColorCreateManyInput | SectionColorCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * SectionColor createManyAndReturn
-   */
-  export type SectionColorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * The data used to create many SectionColors.
-     */
-    data: SectionColorCreateManyInput | SectionColorCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * SectionColor update
-   */
-  export type SectionColorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * The data needed to update a SectionColor.
-     */
-    data: XOR<SectionColorUpdateInput, SectionColorUncheckedUpdateInput>
-    /**
-     * Choose, which SectionColor to update.
-     */
-    where: SectionColorWhereUniqueInput
-  }
-
-  /**
-   * SectionColor updateMany
-   */
-  export type SectionColorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update SectionColors.
-     */
-    data: XOR<SectionColorUpdateManyMutationInput, SectionColorUncheckedUpdateManyInput>
-    /**
-     * Filter which SectionColors to update
-     */
-    where?: SectionColorWhereInput
-  }
-
-  /**
-   * SectionColor upsert
-   */
-  export type SectionColorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * The filter to search for the SectionColor to update in case it exists.
-     */
-    where: SectionColorWhereUniqueInput
-    /**
-     * In case the SectionColor found by the `where` argument doesn't exist, create a new SectionColor with this data.
-     */
-    create: XOR<SectionColorCreateInput, SectionColorUncheckedCreateInput>
-    /**
-     * In case the SectionColor was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<SectionColorUpdateInput, SectionColorUncheckedUpdateInput>
-  }
-
-  /**
-   * SectionColor delete
-   */
-  export type SectionColorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-    /**
-     * Filter which SectionColor to delete.
-     */
-    where: SectionColorWhereUniqueInput
-  }
-
-  /**
-   * SectionColor deleteMany
-   */
-  export type SectionColorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which SectionColors to delete
-     */
-    where?: SectionColorWhereInput
-  }
-
-  /**
-   * SectionColor without action
-   */
-  export type SectionColorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionColor
-     */
-    select?: SectionColorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionColorInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Enums
    */
 
@@ -21640,7 +20586,8 @@ export namespace Prisma {
   export const SectionTypeScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    description: 'description'
+    description: 'description',
+    color: 'color'
   };
 
   export type SectionTypeScalarFieldEnum = (typeof SectionTypeScalarFieldEnum)[keyof typeof SectionTypeScalarFieldEnum]
@@ -21654,6 +20601,16 @@ export namespace Prisma {
   };
 
   export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
+
+
+  export const CoordinateScalarFieldEnum: {
+    id: 'id',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    sectionId: 'sectionId'
+  };
+
+  export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof typeof CoordinateScalarFieldEnum]
 
 
   export const AssetTypeScalarFieldEnum: {
@@ -21674,25 +20631,6 @@ export namespace Prisma {
   };
 
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
-
-
-  export const CoordinateScalarFieldEnum: {
-    id: 'id',
-    latitude: 'latitude',
-    longitude: 'longitude',
-    sectionId: 'sectionId'
-  };
-
-  export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof typeof CoordinateScalarFieldEnum]
-
-
-  export const SectionColorScalarFieldEnum: {
-    id: 'id',
-    hex: 'hex',
-    sectionId: 'sectionId'
-  };
-
-  export type SectionColorScalarFieldEnum = (typeof SectionColorScalarFieldEnum)[keyof typeof SectionColorScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -22698,16 +21636,16 @@ export namespace Prisma {
     id?: IntFilter<"SectionType"> | number
     name?: StringFilter<"SectionType"> | string
     description?: StringFilter<"SectionType"> | string
+    color?: StringFilter<"SectionType"> | string
     sections?: SectionListRelationFilter
-    color?: SectionColorListRelationFilter
   }
 
   export type SectionTypeOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    color?: SortOrder
     sections?: SectionOrderByRelationAggregateInput
-    color?: SectionColorOrderByRelationAggregateInput
   }
 
   export type SectionTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -22717,14 +21655,15 @@ export namespace Prisma {
     NOT?: SectionTypeWhereInput | SectionTypeWhereInput[]
     name?: StringFilter<"SectionType"> | string
     description?: StringFilter<"SectionType"> | string
+    color?: StringFilter<"SectionType"> | string
     sections?: SectionListRelationFilter
-    color?: SectionColorListRelationFilter
   }, "id">
 
   export type SectionTypeOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    color?: SortOrder
     _count?: SectionTypeCountOrderByAggregateInput
     _avg?: SectionTypeAvgOrderByAggregateInput
     _max?: SectionTypeMaxOrderByAggregateInput
@@ -22739,6 +21678,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"SectionType"> | number
     name?: StringWithAggregatesFilter<"SectionType"> | string
     description?: StringWithAggregatesFilter<"SectionType"> | string
+    color?: StringWithAggregatesFilter<"SectionType"> | string
   }
 
   export type SectionWhereInput = {
@@ -22800,6 +21740,58 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Section"> | string
     sectionType?: IntWithAggregatesFilter<"Section"> | number
     area?: IntNullableWithAggregatesFilter<"Section"> | number | null
+  }
+
+  export type CoordinateWhereInput = {
+    AND?: CoordinateWhereInput | CoordinateWhereInput[]
+    OR?: CoordinateWhereInput[]
+    NOT?: CoordinateWhereInput | CoordinateWhereInput[]
+    id?: IntFilter<"Coordinate"> | number
+    latitude?: FloatFilter<"Coordinate"> | number
+    longitude?: FloatFilter<"Coordinate"> | number
+    sectionId?: IntFilter<"Coordinate"> | number
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }
+
+  export type CoordinateOrderByWithRelationInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
+    section?: SectionOrderByWithRelationInput
+  }
+
+  export type CoordinateWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: CoordinateWhereInput | CoordinateWhereInput[]
+    OR?: CoordinateWhereInput[]
+    NOT?: CoordinateWhereInput | CoordinateWhereInput[]
+    latitude?: FloatFilter<"Coordinate"> | number
+    longitude?: FloatFilter<"Coordinate"> | number
+    sectionId?: IntFilter<"Coordinate"> | number
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }, "id">
+
+  export type CoordinateOrderByWithAggregationInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
+    _count?: CoordinateCountOrderByAggregateInput
+    _avg?: CoordinateAvgOrderByAggregateInput
+    _max?: CoordinateMaxOrderByAggregateInput
+    _min?: CoordinateMinOrderByAggregateInput
+    _sum?: CoordinateSumOrderByAggregateInput
+  }
+
+  export type CoordinateScalarWhereWithAggregatesInput = {
+    AND?: CoordinateScalarWhereWithAggregatesInput | CoordinateScalarWhereWithAggregatesInput[]
+    OR?: CoordinateScalarWhereWithAggregatesInput[]
+    NOT?: CoordinateScalarWhereWithAggregatesInput | CoordinateScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Coordinate"> | number
+    latitude?: FloatWithAggregatesFilter<"Coordinate"> | number
+    longitude?: FloatWithAggregatesFilter<"Coordinate"> | number
+    sectionId?: IntWithAggregatesFilter<"Coordinate"> | number
   }
 
   export type AssetTypeWhereInput = {
@@ -22910,105 +21902,6 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Asset"> | string
     assetType?: IntWithAggregatesFilter<"Asset"> | number
     assetSection?: IntWithAggregatesFilter<"Asset"> | number
-  }
-
-  export type CoordinateWhereInput = {
-    AND?: CoordinateWhereInput | CoordinateWhereInput[]
-    OR?: CoordinateWhereInput[]
-    NOT?: CoordinateWhereInput | CoordinateWhereInput[]
-    id?: IntFilter<"Coordinate"> | number
-    latitude?: FloatFilter<"Coordinate"> | number
-    longitude?: FloatFilter<"Coordinate"> | number
-    sectionId?: IntFilter<"Coordinate"> | number
-    section?: XOR<SectionRelationFilter, SectionWhereInput>
-  }
-
-  export type CoordinateOrderByWithRelationInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-    section?: SectionOrderByWithRelationInput
-  }
-
-  export type CoordinateWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: CoordinateWhereInput | CoordinateWhereInput[]
-    OR?: CoordinateWhereInput[]
-    NOT?: CoordinateWhereInput | CoordinateWhereInput[]
-    latitude?: FloatFilter<"Coordinate"> | number
-    longitude?: FloatFilter<"Coordinate"> | number
-    sectionId?: IntFilter<"Coordinate"> | number
-    section?: XOR<SectionRelationFilter, SectionWhereInput>
-  }, "id">
-
-  export type CoordinateOrderByWithAggregationInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-    _count?: CoordinateCountOrderByAggregateInput
-    _avg?: CoordinateAvgOrderByAggregateInput
-    _max?: CoordinateMaxOrderByAggregateInput
-    _min?: CoordinateMinOrderByAggregateInput
-    _sum?: CoordinateSumOrderByAggregateInput
-  }
-
-  export type CoordinateScalarWhereWithAggregatesInput = {
-    AND?: CoordinateScalarWhereWithAggregatesInput | CoordinateScalarWhereWithAggregatesInput[]
-    OR?: CoordinateScalarWhereWithAggregatesInput[]
-    NOT?: CoordinateScalarWhereWithAggregatesInput | CoordinateScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Coordinate"> | number
-    latitude?: FloatWithAggregatesFilter<"Coordinate"> | number
-    longitude?: FloatWithAggregatesFilter<"Coordinate"> | number
-    sectionId?: IntWithAggregatesFilter<"Coordinate"> | number
-  }
-
-  export type SectionColorWhereInput = {
-    AND?: SectionColorWhereInput | SectionColorWhereInput[]
-    OR?: SectionColorWhereInput[]
-    NOT?: SectionColorWhereInput | SectionColorWhereInput[]
-    id?: IntFilter<"SectionColor"> | number
-    hex?: StringFilter<"SectionColor"> | string
-    sectionId?: IntFilter<"SectionColor"> | number
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
-  }
-
-  export type SectionColorOrderByWithRelationInput = {
-    id?: SortOrder
-    hex?: SortOrder
-    sectionId?: SortOrder
-    sectionType?: SectionTypeOrderByWithRelationInput
-  }
-
-  export type SectionColorWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: SectionColorWhereInput | SectionColorWhereInput[]
-    OR?: SectionColorWhereInput[]
-    NOT?: SectionColorWhereInput | SectionColorWhereInput[]
-    hex?: StringFilter<"SectionColor"> | string
-    sectionId?: IntFilter<"SectionColor"> | number
-    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
-  }, "id">
-
-  export type SectionColorOrderByWithAggregationInput = {
-    id?: SortOrder
-    hex?: SortOrder
-    sectionId?: SortOrder
-    _count?: SectionColorCountOrderByAggregateInput
-    _avg?: SectionColorAvgOrderByAggregateInput
-    _max?: SectionColorMaxOrderByAggregateInput
-    _min?: SectionColorMinOrderByAggregateInput
-    _sum?: SectionColorSumOrderByAggregateInput
-  }
-
-  export type SectionColorScalarWhereWithAggregatesInput = {
-    AND?: SectionColorScalarWhereWithAggregatesInput | SectionColorScalarWhereWithAggregatesInput[]
-    OR?: SectionColorScalarWhereWithAggregatesInput[]
-    NOT?: SectionColorScalarWhereWithAggregatesInput | SectionColorScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"SectionColor"> | number
-    hex?: StringWithAggregatesFilter<"SectionColor"> | string
-    sectionId?: IntWithAggregatesFilter<"SectionColor"> | number
   }
 
   export type InitStatusCreateInput = {
@@ -23862,48 +22755,51 @@ export namespace Prisma {
   export type SectionTypeCreateInput = {
     name: string
     description: string
+    color?: string
     sections?: SectionCreateNestedManyWithoutTypeInput
-    color?: SectionColorCreateNestedManyWithoutSectionTypeInput
   }
 
   export type SectionTypeUncheckedCreateInput = {
     id?: number
     name: string
     description: string
+    color?: string
     sections?: SectionUncheckedCreateNestedManyWithoutTypeInput
-    color?: SectionColorUncheckedCreateNestedManyWithoutSectionTypeInput
   }
 
   export type SectionTypeUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
     sections?: SectionUpdateManyWithoutTypeNestedInput
-    color?: SectionColorUpdateManyWithoutSectionTypeNestedInput
   }
 
   export type SectionTypeUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
     sections?: SectionUncheckedUpdateManyWithoutTypeNestedInput
-    color?: SectionColorUncheckedUpdateManyWithoutSectionTypeNestedInput
   }
 
   export type SectionTypeCreateManyInput = {
     id?: number
     name: string
     description: string
+    color?: string
   }
 
   export type SectionTypeUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type SectionTypeUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type SectionCreateInput = {
@@ -23961,6 +22857,51 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sectionType?: IntFieldUpdateOperationsInput | number
     area?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type CoordinateCreateInput = {
+    latitude: number
+    longitude: number
+    section: SectionCreateNestedOneWithoutCoordinatesInput
+  }
+
+  export type CoordinateUncheckedCreateInput = {
+    id?: number
+    latitude: number
+    longitude: number
+    sectionId: number
+  }
+
+  export type CoordinateUpdateInput = {
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    section?: SectionUpdateOneRequiredWithoutCoordinatesNestedInput
+  }
+
+  export type CoordinateUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CoordinateCreateManyInput = {
+    id?: number
+    latitude: number
+    longitude: number
+    sectionId: number
+  }
+
+  export type CoordinateUpdateManyMutationInput = {
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type CoordinateUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AssetTypeCreateInput = {
@@ -24059,89 +23000,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     assetType?: IntFieldUpdateOperationsInput | number
     assetSection?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type CoordinateCreateInput = {
-    latitude: number
-    longitude: number
-    section: SectionCreateNestedOneWithoutCoordinatesInput
-  }
-
-  export type CoordinateUncheckedCreateInput = {
-    id?: number
-    latitude: number
-    longitude: number
-    sectionId: number
-  }
-
-  export type CoordinateUpdateInput = {
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    section?: SectionUpdateOneRequiredWithoutCoordinatesNestedInput
-  }
-
-  export type CoordinateUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    sectionId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type CoordinateCreateManyInput = {
-    id?: number
-    latitude: number
-    longitude: number
-    sectionId: number
-  }
-
-  export type CoordinateUpdateManyMutationInput = {
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type CoordinateUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    sectionId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type SectionColorCreateInput = {
-    hex: string
-    sectionType: SectionTypeCreateNestedOneWithoutColorInput
-  }
-
-  export type SectionColorUncheckedCreateInput = {
-    id?: number
-    hex: string
-    sectionId: number
-  }
-
-  export type SectionColorUpdateInput = {
-    hex?: StringFieldUpdateOperationsInput | string
-    sectionType?: SectionTypeUpdateOneRequiredWithoutColorNestedInput
-  }
-
-  export type SectionColorUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    hex?: StringFieldUpdateOperationsInput | string
-    sectionId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type SectionColorCreateManyInput = {
-    id?: number
-    hex: string
-    sectionId: number
-  }
-
-  export type SectionColorUpdateManyMutationInput = {
-    hex?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionColorUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    hex?: StringFieldUpdateOperationsInput | string
-    sectionId?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -25035,17 +23893,7 @@ export namespace Prisma {
     none?: SectionWhereInput
   }
 
-  export type SectionColorListRelationFilter = {
-    every?: SectionColorWhereInput
-    some?: SectionColorWhereInput
-    none?: SectionColorWhereInput
-  }
-
   export type SectionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SectionColorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25053,6 +23901,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    color?: SortOrder
   }
 
   export type SectionTypeAvgOrderByAggregateInput = {
@@ -25063,12 +23912,14 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    color?: SortOrder
   }
 
   export type SectionTypeMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    color?: SortOrder
   }
 
   export type SectionTypeSumOrderByAggregateInput = {
@@ -25131,6 +23982,41 @@ export namespace Prisma {
     id?: SortOrder
     sectionType?: SortOrder
     area?: SortOrder
+  }
+
+  export type CoordinateCountOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type CoordinateAvgOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type CoordinateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type CoordinateMinOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type CoordinateSumOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    sectionId?: SortOrder
   }
 
   export type AssetTypeCountOrderByAggregateInput = {
@@ -25198,69 +24084,6 @@ export namespace Prisma {
     id?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
-  }
-
-  export type CoordinateCountOrderByAggregateInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type CoordinateAvgOrderByAggregateInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type CoordinateMaxOrderByAggregateInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type CoordinateMinOrderByAggregateInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type CoordinateSumOrderByAggregateInput = {
-    id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type SectionColorCountOrderByAggregateInput = {
-    id?: SortOrder
-    hex?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type SectionColorAvgOrderByAggregateInput = {
-    id?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type SectionColorMaxOrderByAggregateInput = {
-    id?: SortOrder
-    hex?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type SectionColorMinOrderByAggregateInput = {
-    id?: SortOrder
-    hex?: SortOrder
-    sectionId?: SortOrder
-  }
-
-  export type SectionColorSumOrderByAggregateInput = {
-    id?: SortOrder
-    sectionId?: SortOrder
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -25752,25 +24575,11 @@ export namespace Prisma {
     connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
   }
 
-  export type SectionColorCreateNestedManyWithoutSectionTypeInput = {
-    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
-    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
-    createMany?: SectionColorCreateManySectionTypeInputEnvelope
-    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-  }
-
   export type SectionUncheckedCreateNestedManyWithoutTypeInput = {
     create?: XOR<SectionCreateWithoutTypeInput, SectionUncheckedCreateWithoutTypeInput> | SectionCreateWithoutTypeInput[] | SectionUncheckedCreateWithoutTypeInput[]
     connectOrCreate?: SectionCreateOrConnectWithoutTypeInput | SectionCreateOrConnectWithoutTypeInput[]
     createMany?: SectionCreateManyTypeInputEnvelope
     connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
-  }
-
-  export type SectionColorUncheckedCreateNestedManyWithoutSectionTypeInput = {
-    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
-    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
-    createMany?: SectionColorCreateManySectionTypeInputEnvelope
-    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
   }
 
   export type SectionUpdateManyWithoutTypeNestedInput = {
@@ -25787,20 +24596,6 @@ export namespace Prisma {
     deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
   }
 
-  export type SectionColorUpdateManyWithoutSectionTypeNestedInput = {
-    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
-    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
-    upsert?: SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput | SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput[]
-    createMany?: SectionColorCreateManySectionTypeInputEnvelope
-    set?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    disconnect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    delete?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    update?: SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput | SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput[]
-    updateMany?: SectionColorUpdateManyWithWhereWithoutSectionTypeInput | SectionColorUpdateManyWithWhereWithoutSectionTypeInput[]
-    deleteMany?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
-  }
-
   export type SectionUncheckedUpdateManyWithoutTypeNestedInput = {
     create?: XOR<SectionCreateWithoutTypeInput, SectionUncheckedCreateWithoutTypeInput> | SectionCreateWithoutTypeInput[] | SectionUncheckedCreateWithoutTypeInput[]
     connectOrCreate?: SectionCreateOrConnectWithoutTypeInput | SectionCreateOrConnectWithoutTypeInput[]
@@ -25813,20 +24608,6 @@ export namespace Prisma {
     update?: SectionUpdateWithWhereUniqueWithoutTypeInput | SectionUpdateWithWhereUniqueWithoutTypeInput[]
     updateMany?: SectionUpdateManyWithWhereWithoutTypeInput | SectionUpdateManyWithWhereWithoutTypeInput[]
     deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
-  }
-
-  export type SectionColorUncheckedUpdateManyWithoutSectionTypeNestedInput = {
-    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
-    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
-    upsert?: SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput | SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput[]
-    createMany?: SectionColorCreateManySectionTypeInputEnvelope
-    set?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    disconnect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    delete?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
-    update?: SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput | SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput[]
-    updateMany?: SectionColorUpdateManyWithWhereWithoutSectionTypeInput | SectionColorUpdateManyWithWhereWithoutSectionTypeInput[]
-    deleteMany?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
   }
 
   export type SectionTypeCreateNestedOneWithoutSectionsInput = {
@@ -25969,6 +24750,20 @@ export namespace Prisma {
     deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
   }
 
+  export type SectionCreateNestedOneWithoutCoordinatesInput = {
+    create?: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutCoordinatesInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type SectionUpdateOneRequiredWithoutCoordinatesNestedInput = {
+    create?: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutCoordinatesInput
+    upsert?: SectionUpsertWithoutCoordinatesInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutCoordinatesInput, SectionUpdateWithoutCoordinatesInput>, SectionUncheckedUpdateWithoutCoordinatesInput>
+  }
+
   export type AssetCreateNestedManyWithoutTypeInput = {
     create?: XOR<AssetCreateWithoutTypeInput, AssetUncheckedCreateWithoutTypeInput> | AssetCreateWithoutTypeInput[] | AssetUncheckedCreateWithoutTypeInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutTypeInput | AssetCreateOrConnectWithoutTypeInput[]
@@ -26079,34 +24874,6 @@ export namespace Prisma {
     update?: PlanAssetsUpdateWithWhereUniqueWithoutAssetInput | PlanAssetsUpdateWithWhereUniqueWithoutAssetInput[]
     updateMany?: PlanAssetsUpdateManyWithWhereWithoutAssetInput | PlanAssetsUpdateManyWithWhereWithoutAssetInput[]
     deleteMany?: PlanAssetsScalarWhereInput | PlanAssetsScalarWhereInput[]
-  }
-
-  export type SectionCreateNestedOneWithoutCoordinatesInput = {
-    create?: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
-    connectOrCreate?: SectionCreateOrConnectWithoutCoordinatesInput
-    connect?: SectionWhereUniqueInput
-  }
-
-  export type SectionUpdateOneRequiredWithoutCoordinatesNestedInput = {
-    create?: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
-    connectOrCreate?: SectionCreateOrConnectWithoutCoordinatesInput
-    upsert?: SectionUpsertWithoutCoordinatesInput
-    connect?: SectionWhereUniqueInput
-    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutCoordinatesInput, SectionUpdateWithoutCoordinatesInput>, SectionUncheckedUpdateWithoutCoordinatesInput>
-  }
-
-  export type SectionTypeCreateNestedOneWithoutColorInput = {
-    create?: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
-    connectOrCreate?: SectionTypeCreateOrConnectWithoutColorInput
-    connect?: SectionTypeWhereUniqueInput
-  }
-
-  export type SectionTypeUpdateOneRequiredWithoutColorNestedInput = {
-    create?: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
-    connectOrCreate?: SectionTypeCreateOrConnectWithoutColorInput
-    upsert?: SectionTypeUpsertWithoutColorInput
-    connect?: SectionTypeWhereUniqueInput
-    update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutColorInput, SectionTypeUpdateWithoutColorInput>, SectionTypeUncheckedUpdateWithoutColorInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -27358,25 +26125,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SectionColorCreateWithoutSectionTypeInput = {
-    hex: string
-  }
-
-  export type SectionColorUncheckedCreateWithoutSectionTypeInput = {
-    id?: number
-    hex: string
-  }
-
-  export type SectionColorCreateOrConnectWithoutSectionTypeInput = {
-    where: SectionColorWhereUniqueInput
-    create: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput>
-  }
-
-  export type SectionColorCreateManySectionTypeInputEnvelope = {
-    data: SectionColorCreateManySectionTypeInput | SectionColorCreateManySectionTypeInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SectionUpsertWithWhereUniqueWithoutTypeInput = {
     where: SectionWhereUniqueInput
     update: XOR<SectionUpdateWithoutTypeInput, SectionUncheckedUpdateWithoutTypeInput>
@@ -27403,42 +26151,17 @@ export namespace Prisma {
     area?: IntNullableFilter<"Section"> | number | null
   }
 
-  export type SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput = {
-    where: SectionColorWhereUniqueInput
-    update: XOR<SectionColorUpdateWithoutSectionTypeInput, SectionColorUncheckedUpdateWithoutSectionTypeInput>
-    create: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput>
-  }
-
-  export type SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput = {
-    where: SectionColorWhereUniqueInput
-    data: XOR<SectionColorUpdateWithoutSectionTypeInput, SectionColorUncheckedUpdateWithoutSectionTypeInput>
-  }
-
-  export type SectionColorUpdateManyWithWhereWithoutSectionTypeInput = {
-    where: SectionColorScalarWhereInput
-    data: XOR<SectionColorUpdateManyMutationInput, SectionColorUncheckedUpdateManyWithoutSectionTypeInput>
-  }
-
-  export type SectionColorScalarWhereInput = {
-    AND?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
-    OR?: SectionColorScalarWhereInput[]
-    NOT?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
-    id?: IntFilter<"SectionColor"> | number
-    hex?: StringFilter<"SectionColor"> | string
-    sectionId?: IntFilter<"SectionColor"> | number
-  }
-
   export type SectionTypeCreateWithoutSectionsInput = {
     name: string
     description: string
-    color?: SectionColorCreateNestedManyWithoutSectionTypeInput
+    color?: string
   }
 
   export type SectionTypeUncheckedCreateWithoutSectionsInput = {
     id?: number
     name: string
     description: string
-    color?: SectionColorUncheckedCreateNestedManyWithoutSectionTypeInput
+    color?: string
   }
 
   export type SectionTypeCreateOrConnectWithoutSectionsInput = {
@@ -27527,14 +26250,14 @@ export namespace Prisma {
   export type SectionTypeUpdateWithoutSectionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    color?: SectionColorUpdateManyWithoutSectionTypeNestedInput
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type SectionTypeUncheckedUpdateWithoutSectionsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    color?: SectionColorUncheckedUpdateManyWithoutSectionTypeNestedInput
+    color?: StringFieldUpdateOperationsInput | string
   }
 
   export type AssetUpsertWithWhereUniqueWithoutSectionInput = {
@@ -27604,6 +26327,56 @@ export namespace Prisma {
   export type ActivePlansUpdateManyWithWhereWithoutSectionInput = {
     where: ActivePlansScalarWhereInput
     data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type SectionCreateWithoutCoordinatesInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutCoordinatesInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutCoordinatesInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
+  }
+
+  export type SectionUpsertWithoutCoordinatesInput = {
+    update: XOR<SectionUpdateWithoutCoordinatesInput, SectionUncheckedUpdateWithoutCoordinatesInput>
+    create: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutCoordinatesInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutCoordinatesInput, SectionUncheckedUpdateWithoutCoordinatesInput>
+  }
+
+  export type SectionUpdateWithoutCoordinatesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutCoordinatesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type AssetCreateWithoutTypeInput = {
@@ -27770,98 +26543,6 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
-  }
-
-  export type SectionCreateWithoutCoordinatesInput = {
-    name: string
-    area?: number | null
-    type: SectionTypeCreateNestedOneWithoutSectionsInput
-    assets?: AssetCreateNestedManyWithoutSectionInput
-    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
-  }
-
-  export type SectionUncheckedCreateWithoutCoordinatesInput = {
-    id?: number
-    name: string
-    sectionType: number
-    area?: number | null
-    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
-    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
-  }
-
-  export type SectionCreateOrConnectWithoutCoordinatesInput = {
-    where: SectionWhereUniqueInput
-    create: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
-  }
-
-  export type SectionUpsertWithoutCoordinatesInput = {
-    update: XOR<SectionUpdateWithoutCoordinatesInput, SectionUncheckedUpdateWithoutCoordinatesInput>
-    create: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
-    where?: SectionWhereInput
-  }
-
-  export type SectionUpdateToOneWithWhereWithoutCoordinatesInput = {
-    where?: SectionWhereInput
-    data: XOR<SectionUpdateWithoutCoordinatesInput, SectionUncheckedUpdateWithoutCoordinatesInput>
-  }
-
-  export type SectionUpdateWithoutCoordinatesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
-    assets?: AssetUpdateManyWithoutSectionNestedInput
-    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
-  }
-
-  export type SectionUncheckedUpdateWithoutCoordinatesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    sectionType?: IntFieldUpdateOperationsInput | number
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
-    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
-  }
-
-  export type SectionTypeCreateWithoutColorInput = {
-    name: string
-    description: string
-    sections?: SectionCreateNestedManyWithoutTypeInput
-  }
-
-  export type SectionTypeUncheckedCreateWithoutColorInput = {
-    id?: number
-    name: string
-    description: string
-    sections?: SectionUncheckedCreateNestedManyWithoutTypeInput
-  }
-
-  export type SectionTypeCreateOrConnectWithoutColorInput = {
-    where: SectionTypeWhereUniqueInput
-    create: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
-  }
-
-  export type SectionTypeUpsertWithoutColorInput = {
-    update: XOR<SectionTypeUpdateWithoutColorInput, SectionTypeUncheckedUpdateWithoutColorInput>
-    create: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
-    where?: SectionTypeWhereInput
-  }
-
-  export type SectionTypeUpdateToOneWithWhereWithoutColorInput = {
-    where?: SectionTypeWhereInput
-    data: XOR<SectionTypeUpdateWithoutColorInput, SectionTypeUncheckedUpdateWithoutColorInput>
-  }
-
-  export type SectionTypeUpdateWithoutColorInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    sections?: SectionUpdateManyWithoutTypeNestedInput
-  }
-
-  export type SectionTypeUncheckedUpdateWithoutColorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    sections?: SectionUncheckedUpdateManyWithoutTypeNestedInput
   }
 
   export type MineCreateManyOwnerInput = {
@@ -28189,11 +26870,6 @@ export namespace Prisma {
     area?: number | null
   }
 
-  export type SectionColorCreateManySectionTypeInput = {
-    id?: number
-    hex: string
-  }
-
   export type SectionUpdateWithoutTypeInput = {
     name?: StringFieldUpdateOperationsInput | string
     area?: NullableIntFieldUpdateOperationsInput | number | null
@@ -28215,20 +26891,6 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     area?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type SectionColorUpdateWithoutSectionTypeInput = {
-    hex?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionColorUncheckedUpdateWithoutSectionTypeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    hex?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionColorUncheckedUpdateManyWithoutSectionTypeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    hex?: StringFieldUpdateOperationsInput | string
   }
 
   export type AssetCreateManySectionInput = {
@@ -28460,6 +27122,10 @@ export namespace Prisma {
      */
     export type SectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use CoordinateDefaultArgs instead
+     */
+    export type CoordinateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CoordinateDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use AssetTypeDefaultArgs instead
      */
     export type AssetTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetTypeDefaultArgs<ExtArgs>
@@ -28467,14 +27133,6 @@ export namespace Prisma {
      * @deprecated Use AssetDefaultArgs instead
      */
     export type AssetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use CoordinateDefaultArgs instead
-     */
-    export type CoordinateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CoordinateDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use SectionColorDefaultArgs instead
-     */
-    export type SectionColorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionColorDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

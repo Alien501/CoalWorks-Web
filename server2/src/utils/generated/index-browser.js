@@ -249,7 +249,8 @@ exports.Prisma.ActivePlansScalarFieldEnum = {
 exports.Prisma.SectionTypeScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description'
+  description: 'description',
+  color: 'color'
 };
 
 exports.Prisma.SectionScalarFieldEnum = {
@@ -257,6 +258,13 @@ exports.Prisma.SectionScalarFieldEnum = {
   name: 'name',
   sectionType: 'sectionType',
   area: 'area'
+};
+
+exports.Prisma.CoordinateScalarFieldEnum = {
+  id: 'id',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  sectionId: 'sectionId'
 };
 
 exports.Prisma.AssetTypeScalarFieldEnum = {
@@ -271,19 +279,6 @@ exports.Prisma.AssetScalarFieldEnum = {
   description: 'description',
   assetType: 'assetType',
   assetSection: 'assetSection'
-};
-
-exports.Prisma.CoordinateScalarFieldEnum = {
-  id: 'id',
-  latitude: 'latitude',
-  longitude: 'longitude',
-  sectionId: 'sectionId'
-};
-
-exports.Prisma.SectionColorScalarFieldEnum = {
-  id: 'id',
-  hex: 'hex',
-  sectionId: 'sectionId'
 };
 
 exports.Prisma.SortOrder = {
@@ -332,10 +327,9 @@ exports.Prisma.ModelName = {
   ActivePlans: 'ActivePlans',
   SectionType: 'SectionType',
   Section: 'Section',
-  AssetType: 'AssetType',
-  Asset: 'Asset',
   Coordinate: 'Coordinate',
-  SectionColor: 'SectionColor'
+  AssetType: 'AssetType',
+  Asset: 'Asset'
 };
 
 /**

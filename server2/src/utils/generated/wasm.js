@@ -122,6 +122,20 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.InitStatusScalarFieldEnum = {
+  id: 'id',
+  isInit: 'isInit',
+  initData: 'initData'
+};
+
+exports.Prisma.SuperAdminScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  salt: 'salt'
+};
+
 exports.Prisma.MineScalarFieldEnum = {
   mineId: 'mineId',
   mineName: 'mineName',
@@ -266,6 +280,12 @@ exports.Prisma.CoordinateScalarFieldEnum = {
   sectionId: 'sectionId'
 };
 
+exports.Prisma.SectionColorScalarFieldEnum = {
+  id: 'id',
+  hex: 'hex',
+  sectionId: 'sectionId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -297,6 +317,8 @@ exports.PlanStatus = exports.$Enums.PlanStatus = {
 };
 
 exports.Prisma.ModelName = {
+  InitStatus: 'InitStatus',
+  SuperAdmin: 'SuperAdmin',
   Mine: 'Mine',
   Owner: 'Owner',
   Position: 'Position',
@@ -312,7 +334,8 @@ exports.Prisma.ModelName = {
   Section: 'Section',
   AssetType: 'AssetType',
   Asset: 'Asset',
-  Coordinate: 'Coordinate'
+  Coordinate: 'Coordinate',
+  SectionColor: 'SectionColor'
 };
 
 /**

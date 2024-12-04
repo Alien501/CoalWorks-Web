@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import Map from "./map";
 import PredictionCard from "@/components/custom/predictionCard";
+import MiningMap from "./map";
 const NewDashboard = () => {
     const [date, setDate] = useState();
     const [graphType, setGraphType] = useState<string>('bar')
@@ -176,7 +177,7 @@ const NewDashboard = () => {
                     <div className="h-full">
                         <Card className="h-[83%]">
                             <CardContent className="h-full p-4">
-                                <Map isEditable={false} />
+                                <MiningMap />
                             </CardContent>
                         </Card>
                         {/* <UtilityCard

@@ -14,6 +14,16 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model InitStatus
+ * 
+ */
+export type InitStatus = $Result.DefaultSelection<Prisma.$InitStatusPayload>
+/**
+ * Model SuperAdmin
+ * 
+ */
+export type SuperAdmin = $Result.DefaultSelection<Prisma.$SuperAdminPayload>
+/**
  * Model Mine
  * 
  */
@@ -93,6 +103,11 @@ export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
  * 
  */
 export type Coordinate = $Result.DefaultSelection<Prisma.$CoordinatePayload>
+/**
+ * Model SectionColor
+ * 
+ */
+export type SectionColor = $Result.DefaultSelection<Prisma.$SectionColorPayload>
 
 /**
  * Enums
@@ -119,8 +134,8 @@ export const PlanStatus: typeof $Enums.PlanStatus
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Mines
- * const mines = await prisma.mine.findMany()
+ * // Fetch zero or more InitStatuses
+ * const initStatuses = await prisma.initStatus.findMany()
  * ```
  *
  * 
@@ -140,8 +155,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Mines
-   * const mines = await prisma.mine.findMany()
+   * // Fetch zero or more InitStatuses
+   * const initStatuses = await prisma.initStatus.findMany()
    * ```
    *
    * 
@@ -236,6 +251,26 @@ export class PrismaClient<
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb, ExtArgs>
 
       /**
+   * `prisma.initStatus`: Exposes CRUD operations for the **InitStatus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InitStatuses
+    * const initStatuses = await prisma.initStatus.findMany()
+    * ```
+    */
+  get initStatus(): Prisma.InitStatusDelegate<ExtArgs>;
+
+  /**
+   * `prisma.superAdmin`: Exposes CRUD operations for the **SuperAdmin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SuperAdmins
+    * const superAdmins = await prisma.superAdmin.findMany()
+    * ```
+    */
+  get superAdmin(): Prisma.SuperAdminDelegate<ExtArgs>;
+
+  /**
    * `prisma.mine`: Exposes CRUD operations for the **Mine** model.
     * Example usage:
     * ```ts
@@ -394,6 +429,16 @@ export class PrismaClient<
     * ```
     */
   get coordinate(): Prisma.CoordinateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.sectionColor`: Exposes CRUD operations for the **SectionColor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SectionColors
+    * const sectionColors = await prisma.sectionColor.findMany()
+    * ```
+    */
+  get sectionColor(): Prisma.SectionColorDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -835,6 +880,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    InitStatus: 'InitStatus',
+    SuperAdmin: 'SuperAdmin',
     Mine: 'Mine',
     Owner: 'Owner',
     Position: 'Position',
@@ -850,7 +897,8 @@ export namespace Prisma {
     Section: 'Section',
     AssetType: 'AssetType',
     Asset: 'Asset',
-    Coordinate: 'Coordinate'
+    Coordinate: 'Coordinate',
+    SectionColor: 'SectionColor'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -866,10 +914,150 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "section" | "assetType" | "asset" | "coordinate"
+      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "section" | "assetType" | "asset" | "coordinate" | "sectionColor"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      InitStatus: {
+        payload: Prisma.$InitStatusPayload<ExtArgs>
+        fields: Prisma.InitStatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InitStatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InitStatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>
+          }
+          findFirst: {
+            args: Prisma.InitStatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InitStatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>
+          }
+          findMany: {
+            args: Prisma.InitStatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>[]
+          }
+          create: {
+            args: Prisma.InitStatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>
+          }
+          createMany: {
+            args: Prisma.InitStatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InitStatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>[]
+          }
+          delete: {
+            args: Prisma.InitStatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>
+          }
+          update: {
+            args: Prisma.InitStatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.InitStatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InitStatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InitStatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InitStatusPayload>
+          }
+          aggregate: {
+            args: Prisma.InitStatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInitStatus>
+          }
+          groupBy: {
+            args: Prisma.InitStatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InitStatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InitStatusCountArgs<ExtArgs>
+            result: $Utils.Optional<InitStatusCountAggregateOutputType> | number
+          }
+        }
+      }
+      SuperAdmin: {
+        payload: Prisma.$SuperAdminPayload<ExtArgs>
+        fields: Prisma.SuperAdminFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SuperAdminFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SuperAdminFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>
+          }
+          findFirst: {
+            args: Prisma.SuperAdminFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SuperAdminFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>
+          }
+          findMany: {
+            args: Prisma.SuperAdminFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>[]
+          }
+          create: {
+            args: Prisma.SuperAdminCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>
+          }
+          createMany: {
+            args: Prisma.SuperAdminCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SuperAdminCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>[]
+          }
+          delete: {
+            args: Prisma.SuperAdminDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>
+          }
+          update: {
+            args: Prisma.SuperAdminUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>
+          }
+          deleteMany: {
+            args: Prisma.SuperAdminDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SuperAdminUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SuperAdminUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SuperAdminPayload>
+          }
+          aggregate: {
+            args: Prisma.SuperAdminAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSuperAdmin>
+          }
+          groupBy: {
+            args: Prisma.SuperAdminGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SuperAdminGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SuperAdminCountArgs<ExtArgs>
+            result: $Utils.Optional<SuperAdminCountAggregateOutputType> | number
+          }
+        }
+      }
       Mine: {
         payload: Prisma.$MinePayload<ExtArgs>
         fields: Prisma.MineFieldRefs
@@ -1990,6 +2178,76 @@ export namespace Prisma {
           }
         }
       }
+      SectionColor: {
+        payload: Prisma.$SectionColorPayload<ExtArgs>
+        fields: Prisma.SectionColorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SectionColorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SectionColorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
+          }
+          findFirst: {
+            args: Prisma.SectionColorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SectionColorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
+          }
+          findMany: {
+            args: Prisma.SectionColorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>[]
+          }
+          create: {
+            args: Prisma.SectionColorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
+          }
+          createMany: {
+            args: Prisma.SectionColorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SectionColorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>[]
+          }
+          delete: {
+            args: Prisma.SectionColorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
+          }
+          update: {
+            args: Prisma.SectionColorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
+          }
+          deleteMany: {
+            args: Prisma.SectionColorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SectionColorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SectionColorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionColorPayload>
+          }
+          aggregate: {
+            args: Prisma.SectionColorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSectionColor>
+          }
+          groupBy: {
+            args: Prisma.SectionColorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SectionColorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SectionColorCountArgs<ExtArgs>
+            result: $Utils.Optional<SectionColorCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2325,10 +2583,12 @@ export namespace Prisma {
 
   export type SectionTypeCountOutputType = {
     sections: number
+    color: number
   }
 
   export type SectionTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sections?: boolean | SectionTypeCountOutputTypeCountSectionsArgs
+    color?: boolean | SectionTypeCountOutputTypeCountColorArgs
   }
 
   // Custom InputTypes
@@ -2347,6 +2607,13 @@ export namespace Prisma {
    */
   export type SectionTypeCountOutputTypeCountSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SectionWhereInput
+  }
+
+  /**
+   * SectionTypeCountOutputType without action
+   */
+  export type SectionTypeCountOutputTypeCountColorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionColorWhereInput
   }
 
 
@@ -2466,6 +2733,1806 @@ export namespace Prisma {
    */
 
   /**
+   * Model InitStatus
+   */
+
+  export type AggregateInitStatus = {
+    _count: InitStatusCountAggregateOutputType | null
+    _avg: InitStatusAvgAggregateOutputType | null
+    _sum: InitStatusSumAggregateOutputType | null
+    _min: InitStatusMinAggregateOutputType | null
+    _max: InitStatusMaxAggregateOutputType | null
+  }
+
+  export type InitStatusAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type InitStatusSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type InitStatusMinAggregateOutputType = {
+    id: number | null
+    isInit: boolean | null
+    initData: Date | null
+  }
+
+  export type InitStatusMaxAggregateOutputType = {
+    id: number | null
+    isInit: boolean | null
+    initData: Date | null
+  }
+
+  export type InitStatusCountAggregateOutputType = {
+    id: number
+    isInit: number
+    initData: number
+    _all: number
+  }
+
+
+  export type InitStatusAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type InitStatusSumAggregateInputType = {
+    id?: true
+  }
+
+  export type InitStatusMinAggregateInputType = {
+    id?: true
+    isInit?: true
+    initData?: true
+  }
+
+  export type InitStatusMaxAggregateInputType = {
+    id?: true
+    isInit?: true
+    initData?: true
+  }
+
+  export type InitStatusCountAggregateInputType = {
+    id?: true
+    isInit?: true
+    initData?: true
+    _all?: true
+  }
+
+  export type InitStatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InitStatus to aggregate.
+     */
+    where?: InitStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InitStatuses to fetch.
+     */
+    orderBy?: InitStatusOrderByWithRelationInput | InitStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InitStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InitStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InitStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InitStatuses
+    **/
+    _count?: true | InitStatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InitStatusAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InitStatusSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InitStatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InitStatusMaxAggregateInputType
+  }
+
+  export type GetInitStatusAggregateType<T extends InitStatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateInitStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInitStatus[P]>
+      : GetScalarType<T[P], AggregateInitStatus[P]>
+  }
+
+
+
+
+  export type InitStatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InitStatusWhereInput
+    orderBy?: InitStatusOrderByWithAggregationInput | InitStatusOrderByWithAggregationInput[]
+    by: InitStatusScalarFieldEnum[] | InitStatusScalarFieldEnum
+    having?: InitStatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InitStatusCountAggregateInputType | true
+    _avg?: InitStatusAvgAggregateInputType
+    _sum?: InitStatusSumAggregateInputType
+    _min?: InitStatusMinAggregateInputType
+    _max?: InitStatusMaxAggregateInputType
+  }
+
+  export type InitStatusGroupByOutputType = {
+    id: number
+    isInit: boolean
+    initData: Date
+    _count: InitStatusCountAggregateOutputType | null
+    _avg: InitStatusAvgAggregateOutputType | null
+    _sum: InitStatusSumAggregateOutputType | null
+    _min: InitStatusMinAggregateOutputType | null
+    _max: InitStatusMaxAggregateOutputType | null
+  }
+
+  type GetInitStatusGroupByPayload<T extends InitStatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InitStatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InitStatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InitStatusGroupByOutputType[P]>
+            : GetScalarType<T[P], InitStatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InitStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    isInit?: boolean
+    initData?: boolean
+  }, ExtArgs["result"]["initStatus"]>
+
+  export type InitStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    isInit?: boolean
+    initData?: boolean
+  }, ExtArgs["result"]["initStatus"]>
+
+  export type InitStatusSelectScalar = {
+    id?: boolean
+    isInit?: boolean
+    initData?: boolean
+  }
+
+
+  export type $InitStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InitStatus"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      isInit: boolean
+      initData: Date
+    }, ExtArgs["result"]["initStatus"]>
+    composites: {}
+  }
+
+  type InitStatusGetPayload<S extends boolean | null | undefined | InitStatusDefaultArgs> = $Result.GetResult<Prisma.$InitStatusPayload, S>
+
+  type InitStatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InitStatusFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InitStatusCountAggregateInputType | true
+    }
+
+  export interface InitStatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InitStatus'], meta: { name: 'InitStatus' } }
+    /**
+     * Find zero or one InitStatus that matches the filter.
+     * @param {InitStatusFindUniqueArgs} args - Arguments to find a InitStatus
+     * @example
+     * // Get one InitStatus
+     * const initStatus = await prisma.initStatus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InitStatusFindUniqueArgs>(args: SelectSubset<T, InitStatusFindUniqueArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InitStatus that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InitStatusFindUniqueOrThrowArgs} args - Arguments to find a InitStatus
+     * @example
+     * // Get one InitStatus
+     * const initStatus = await prisma.initStatus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InitStatusFindUniqueOrThrowArgs>(args: SelectSubset<T, InitStatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InitStatus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusFindFirstArgs} args - Arguments to find a InitStatus
+     * @example
+     * // Get one InitStatus
+     * const initStatus = await prisma.initStatus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InitStatusFindFirstArgs>(args?: SelectSubset<T, InitStatusFindFirstArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InitStatus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusFindFirstOrThrowArgs} args - Arguments to find a InitStatus
+     * @example
+     * // Get one InitStatus
+     * const initStatus = await prisma.initStatus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InitStatusFindFirstOrThrowArgs>(args?: SelectSubset<T, InitStatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InitStatuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InitStatuses
+     * const initStatuses = await prisma.initStatus.findMany()
+     * 
+     * // Get first 10 InitStatuses
+     * const initStatuses = await prisma.initStatus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const initStatusWithIdOnly = await prisma.initStatus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InitStatusFindManyArgs>(args?: SelectSubset<T, InitStatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InitStatus.
+     * @param {InitStatusCreateArgs} args - Arguments to create a InitStatus.
+     * @example
+     * // Create one InitStatus
+     * const InitStatus = await prisma.initStatus.create({
+     *   data: {
+     *     // ... data to create a InitStatus
+     *   }
+     * })
+     * 
+     */
+    create<T extends InitStatusCreateArgs>(args: SelectSubset<T, InitStatusCreateArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InitStatuses.
+     * @param {InitStatusCreateManyArgs} args - Arguments to create many InitStatuses.
+     * @example
+     * // Create many InitStatuses
+     * const initStatus = await prisma.initStatus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InitStatusCreateManyArgs>(args?: SelectSubset<T, InitStatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InitStatuses and returns the data saved in the database.
+     * @param {InitStatusCreateManyAndReturnArgs} args - Arguments to create many InitStatuses.
+     * @example
+     * // Create many InitStatuses
+     * const initStatus = await prisma.initStatus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InitStatuses and only return the `id`
+     * const initStatusWithIdOnly = await prisma.initStatus.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InitStatusCreateManyAndReturnArgs>(args?: SelectSubset<T, InitStatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InitStatus.
+     * @param {InitStatusDeleteArgs} args - Arguments to delete one InitStatus.
+     * @example
+     * // Delete one InitStatus
+     * const InitStatus = await prisma.initStatus.delete({
+     *   where: {
+     *     // ... filter to delete one InitStatus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InitStatusDeleteArgs>(args: SelectSubset<T, InitStatusDeleteArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InitStatus.
+     * @param {InitStatusUpdateArgs} args - Arguments to update one InitStatus.
+     * @example
+     * // Update one InitStatus
+     * const initStatus = await prisma.initStatus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InitStatusUpdateArgs>(args: SelectSubset<T, InitStatusUpdateArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InitStatuses.
+     * @param {InitStatusDeleteManyArgs} args - Arguments to filter InitStatuses to delete.
+     * @example
+     * // Delete a few InitStatuses
+     * const { count } = await prisma.initStatus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InitStatusDeleteManyArgs>(args?: SelectSubset<T, InitStatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InitStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InitStatuses
+     * const initStatus = await prisma.initStatus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InitStatusUpdateManyArgs>(args: SelectSubset<T, InitStatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InitStatus.
+     * @param {InitStatusUpsertArgs} args - Arguments to update or create a InitStatus.
+     * @example
+     * // Update or create a InitStatus
+     * const initStatus = await prisma.initStatus.upsert({
+     *   create: {
+     *     // ... data to create a InitStatus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InitStatus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InitStatusUpsertArgs>(args: SelectSubset<T, InitStatusUpsertArgs<ExtArgs>>): Prisma__InitStatusClient<$Result.GetResult<Prisma.$InitStatusPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InitStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusCountArgs} args - Arguments to filter InitStatuses to count.
+     * @example
+     * // Count the number of InitStatuses
+     * const count = await prisma.initStatus.count({
+     *   where: {
+     *     // ... the filter for the InitStatuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends InitStatusCountArgs>(
+      args?: Subset<T, InitStatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InitStatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InitStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InitStatusAggregateArgs>(args: Subset<T, InitStatusAggregateArgs>): Prisma.PrismaPromise<GetInitStatusAggregateType<T>>
+
+    /**
+     * Group by InitStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InitStatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InitStatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InitStatusGroupByArgs['orderBy'] }
+        : { orderBy?: InitStatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InitStatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInitStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InitStatus model
+   */
+  readonly fields: InitStatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InitStatus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InitStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InitStatus model
+   */ 
+  interface InitStatusFieldRefs {
+    readonly id: FieldRef<"InitStatus", 'Int'>
+    readonly isInit: FieldRef<"InitStatus", 'Boolean'>
+    readonly initData: FieldRef<"InitStatus", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InitStatus findUnique
+   */
+  export type InitStatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * Filter, which InitStatus to fetch.
+     */
+    where: InitStatusWhereUniqueInput
+  }
+
+  /**
+   * InitStatus findUniqueOrThrow
+   */
+  export type InitStatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * Filter, which InitStatus to fetch.
+     */
+    where: InitStatusWhereUniqueInput
+  }
+
+  /**
+   * InitStatus findFirst
+   */
+  export type InitStatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * Filter, which InitStatus to fetch.
+     */
+    where?: InitStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InitStatuses to fetch.
+     */
+    orderBy?: InitStatusOrderByWithRelationInput | InitStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InitStatuses.
+     */
+    cursor?: InitStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InitStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InitStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InitStatuses.
+     */
+    distinct?: InitStatusScalarFieldEnum | InitStatusScalarFieldEnum[]
+  }
+
+  /**
+   * InitStatus findFirstOrThrow
+   */
+  export type InitStatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * Filter, which InitStatus to fetch.
+     */
+    where?: InitStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InitStatuses to fetch.
+     */
+    orderBy?: InitStatusOrderByWithRelationInput | InitStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InitStatuses.
+     */
+    cursor?: InitStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InitStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InitStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InitStatuses.
+     */
+    distinct?: InitStatusScalarFieldEnum | InitStatusScalarFieldEnum[]
+  }
+
+  /**
+   * InitStatus findMany
+   */
+  export type InitStatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * Filter, which InitStatuses to fetch.
+     */
+    where?: InitStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InitStatuses to fetch.
+     */
+    orderBy?: InitStatusOrderByWithRelationInput | InitStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InitStatuses.
+     */
+    cursor?: InitStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InitStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InitStatuses.
+     */
+    skip?: number
+    distinct?: InitStatusScalarFieldEnum | InitStatusScalarFieldEnum[]
+  }
+
+  /**
+   * InitStatus create
+   */
+  export type InitStatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * The data needed to create a InitStatus.
+     */
+    data?: XOR<InitStatusCreateInput, InitStatusUncheckedCreateInput>
+  }
+
+  /**
+   * InitStatus createMany
+   */
+  export type InitStatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InitStatuses.
+     */
+    data: InitStatusCreateManyInput | InitStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InitStatus createManyAndReturn
+   */
+  export type InitStatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InitStatuses.
+     */
+    data: InitStatusCreateManyInput | InitStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InitStatus update
+   */
+  export type InitStatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * The data needed to update a InitStatus.
+     */
+    data: XOR<InitStatusUpdateInput, InitStatusUncheckedUpdateInput>
+    /**
+     * Choose, which InitStatus to update.
+     */
+    where: InitStatusWhereUniqueInput
+  }
+
+  /**
+   * InitStatus updateMany
+   */
+  export type InitStatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InitStatuses.
+     */
+    data: XOR<InitStatusUpdateManyMutationInput, InitStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which InitStatuses to update
+     */
+    where?: InitStatusWhereInput
+  }
+
+  /**
+   * InitStatus upsert
+   */
+  export type InitStatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * The filter to search for the InitStatus to update in case it exists.
+     */
+    where: InitStatusWhereUniqueInput
+    /**
+     * In case the InitStatus found by the `where` argument doesn't exist, create a new InitStatus with this data.
+     */
+    create: XOR<InitStatusCreateInput, InitStatusUncheckedCreateInput>
+    /**
+     * In case the InitStatus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InitStatusUpdateInput, InitStatusUncheckedUpdateInput>
+  }
+
+  /**
+   * InitStatus delete
+   */
+  export type InitStatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+    /**
+     * Filter which InitStatus to delete.
+     */
+    where: InitStatusWhereUniqueInput
+  }
+
+  /**
+   * InitStatus deleteMany
+   */
+  export type InitStatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InitStatuses to delete
+     */
+    where?: InitStatusWhereInput
+  }
+
+  /**
+   * InitStatus without action
+   */
+  export type InitStatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InitStatus
+     */
+    select?: InitStatusSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SuperAdmin
+   */
+
+  export type AggregateSuperAdmin = {
+    _count: SuperAdminCountAggregateOutputType | null
+    _avg: SuperAdminAvgAggregateOutputType | null
+    _sum: SuperAdminSumAggregateOutputType | null
+    _min: SuperAdminMinAggregateOutputType | null
+    _max: SuperAdminMaxAggregateOutputType | null
+  }
+
+  export type SuperAdminAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SuperAdminSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SuperAdminMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    email: string | null
+    passwordHash: string | null
+    salt: string | null
+  }
+
+  export type SuperAdminMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    email: string | null
+    passwordHash: string | null
+    salt: string | null
+  }
+
+  export type SuperAdminCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    passwordHash: number
+    salt: number
+    _all: number
+  }
+
+
+  export type SuperAdminAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type SuperAdminSumAggregateInputType = {
+    id?: true
+  }
+
+  export type SuperAdminMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    passwordHash?: true
+    salt?: true
+  }
+
+  export type SuperAdminMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    passwordHash?: true
+    salt?: true
+  }
+
+  export type SuperAdminCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    passwordHash?: true
+    salt?: true
+    _all?: true
+  }
+
+  export type SuperAdminAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SuperAdmin to aggregate.
+     */
+    where?: SuperAdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SuperAdmins to fetch.
+     */
+    orderBy?: SuperAdminOrderByWithRelationInput | SuperAdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SuperAdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SuperAdmins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SuperAdmins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SuperAdmins
+    **/
+    _count?: true | SuperAdminCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SuperAdminAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SuperAdminSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SuperAdminMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SuperAdminMaxAggregateInputType
+  }
+
+  export type GetSuperAdminAggregateType<T extends SuperAdminAggregateArgs> = {
+        [P in keyof T & keyof AggregateSuperAdmin]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSuperAdmin[P]>
+      : GetScalarType<T[P], AggregateSuperAdmin[P]>
+  }
+
+
+
+
+  export type SuperAdminGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SuperAdminWhereInput
+    orderBy?: SuperAdminOrderByWithAggregationInput | SuperAdminOrderByWithAggregationInput[]
+    by: SuperAdminScalarFieldEnum[] | SuperAdminScalarFieldEnum
+    having?: SuperAdminScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SuperAdminCountAggregateInputType | true
+    _avg?: SuperAdminAvgAggregateInputType
+    _sum?: SuperAdminSumAggregateInputType
+    _min?: SuperAdminMinAggregateInputType
+    _max?: SuperAdminMaxAggregateInputType
+  }
+
+  export type SuperAdminGroupByOutputType = {
+    id: number
+    name: string
+    email: string
+    passwordHash: string
+    salt: string
+    _count: SuperAdminCountAggregateOutputType | null
+    _avg: SuperAdminAvgAggregateOutputType | null
+    _sum: SuperAdminSumAggregateOutputType | null
+    _min: SuperAdminMinAggregateOutputType | null
+    _max: SuperAdminMaxAggregateOutputType | null
+  }
+
+  type GetSuperAdminGroupByPayload<T extends SuperAdminGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SuperAdminGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SuperAdminGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SuperAdminGroupByOutputType[P]>
+            : GetScalarType<T[P], SuperAdminGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SuperAdminSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    salt?: boolean
+  }, ExtArgs["result"]["superAdmin"]>
+
+  export type SuperAdminSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    salt?: boolean
+  }, ExtArgs["result"]["superAdmin"]>
+
+  export type SuperAdminSelectScalar = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    passwordHash?: boolean
+    salt?: boolean
+  }
+
+
+  export type $SuperAdminPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SuperAdmin"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      email: string
+      passwordHash: string
+      salt: string
+    }, ExtArgs["result"]["superAdmin"]>
+    composites: {}
+  }
+
+  type SuperAdminGetPayload<S extends boolean | null | undefined | SuperAdminDefaultArgs> = $Result.GetResult<Prisma.$SuperAdminPayload, S>
+
+  type SuperAdminCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SuperAdminFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SuperAdminCountAggregateInputType | true
+    }
+
+  export interface SuperAdminDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SuperAdmin'], meta: { name: 'SuperAdmin' } }
+    /**
+     * Find zero or one SuperAdmin that matches the filter.
+     * @param {SuperAdminFindUniqueArgs} args - Arguments to find a SuperAdmin
+     * @example
+     * // Get one SuperAdmin
+     * const superAdmin = await prisma.superAdmin.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SuperAdminFindUniqueArgs>(args: SelectSubset<T, SuperAdminFindUniqueArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SuperAdmin that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SuperAdminFindUniqueOrThrowArgs} args - Arguments to find a SuperAdmin
+     * @example
+     * // Get one SuperAdmin
+     * const superAdmin = await prisma.superAdmin.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SuperAdminFindUniqueOrThrowArgs>(args: SelectSubset<T, SuperAdminFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SuperAdmin that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminFindFirstArgs} args - Arguments to find a SuperAdmin
+     * @example
+     * // Get one SuperAdmin
+     * const superAdmin = await prisma.superAdmin.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SuperAdminFindFirstArgs>(args?: SelectSubset<T, SuperAdminFindFirstArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SuperAdmin that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminFindFirstOrThrowArgs} args - Arguments to find a SuperAdmin
+     * @example
+     * // Get one SuperAdmin
+     * const superAdmin = await prisma.superAdmin.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SuperAdminFindFirstOrThrowArgs>(args?: SelectSubset<T, SuperAdminFindFirstOrThrowArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SuperAdmins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SuperAdmins
+     * const superAdmins = await prisma.superAdmin.findMany()
+     * 
+     * // Get first 10 SuperAdmins
+     * const superAdmins = await prisma.superAdmin.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const superAdminWithIdOnly = await prisma.superAdmin.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SuperAdminFindManyArgs>(args?: SelectSubset<T, SuperAdminFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SuperAdmin.
+     * @param {SuperAdminCreateArgs} args - Arguments to create a SuperAdmin.
+     * @example
+     * // Create one SuperAdmin
+     * const SuperAdmin = await prisma.superAdmin.create({
+     *   data: {
+     *     // ... data to create a SuperAdmin
+     *   }
+     * })
+     * 
+     */
+    create<T extends SuperAdminCreateArgs>(args: SelectSubset<T, SuperAdminCreateArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SuperAdmins.
+     * @param {SuperAdminCreateManyArgs} args - Arguments to create many SuperAdmins.
+     * @example
+     * // Create many SuperAdmins
+     * const superAdmin = await prisma.superAdmin.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SuperAdminCreateManyArgs>(args?: SelectSubset<T, SuperAdminCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SuperAdmins and returns the data saved in the database.
+     * @param {SuperAdminCreateManyAndReturnArgs} args - Arguments to create many SuperAdmins.
+     * @example
+     * // Create many SuperAdmins
+     * const superAdmin = await prisma.superAdmin.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SuperAdmins and only return the `id`
+     * const superAdminWithIdOnly = await prisma.superAdmin.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SuperAdminCreateManyAndReturnArgs>(args?: SelectSubset<T, SuperAdminCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SuperAdmin.
+     * @param {SuperAdminDeleteArgs} args - Arguments to delete one SuperAdmin.
+     * @example
+     * // Delete one SuperAdmin
+     * const SuperAdmin = await prisma.superAdmin.delete({
+     *   where: {
+     *     // ... filter to delete one SuperAdmin
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SuperAdminDeleteArgs>(args: SelectSubset<T, SuperAdminDeleteArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SuperAdmin.
+     * @param {SuperAdminUpdateArgs} args - Arguments to update one SuperAdmin.
+     * @example
+     * // Update one SuperAdmin
+     * const superAdmin = await prisma.superAdmin.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SuperAdminUpdateArgs>(args: SelectSubset<T, SuperAdminUpdateArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SuperAdmins.
+     * @param {SuperAdminDeleteManyArgs} args - Arguments to filter SuperAdmins to delete.
+     * @example
+     * // Delete a few SuperAdmins
+     * const { count } = await prisma.superAdmin.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SuperAdminDeleteManyArgs>(args?: SelectSubset<T, SuperAdminDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SuperAdmins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SuperAdmins
+     * const superAdmin = await prisma.superAdmin.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SuperAdminUpdateManyArgs>(args: SelectSubset<T, SuperAdminUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SuperAdmin.
+     * @param {SuperAdminUpsertArgs} args - Arguments to update or create a SuperAdmin.
+     * @example
+     * // Update or create a SuperAdmin
+     * const superAdmin = await prisma.superAdmin.upsert({
+     *   create: {
+     *     // ... data to create a SuperAdmin
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SuperAdmin we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SuperAdminUpsertArgs>(args: SelectSubset<T, SuperAdminUpsertArgs<ExtArgs>>): Prisma__SuperAdminClient<$Result.GetResult<Prisma.$SuperAdminPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SuperAdmins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminCountArgs} args - Arguments to filter SuperAdmins to count.
+     * @example
+     * // Count the number of SuperAdmins
+     * const count = await prisma.superAdmin.count({
+     *   where: {
+     *     // ... the filter for the SuperAdmins we want to count
+     *   }
+     * })
+    **/
+    count<T extends SuperAdminCountArgs>(
+      args?: Subset<T, SuperAdminCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SuperAdminCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SuperAdmin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SuperAdminAggregateArgs>(args: Subset<T, SuperAdminAggregateArgs>): Prisma.PrismaPromise<GetSuperAdminAggregateType<T>>
+
+    /**
+     * Group by SuperAdmin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SuperAdminGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SuperAdminGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SuperAdminGroupByArgs['orderBy'] }
+        : { orderBy?: SuperAdminGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SuperAdminGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSuperAdminGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SuperAdmin model
+   */
+  readonly fields: SuperAdminFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SuperAdmin.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SuperAdminClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SuperAdmin model
+   */ 
+  interface SuperAdminFieldRefs {
+    readonly id: FieldRef<"SuperAdmin", 'Int'>
+    readonly name: FieldRef<"SuperAdmin", 'String'>
+    readonly email: FieldRef<"SuperAdmin", 'String'>
+    readonly passwordHash: FieldRef<"SuperAdmin", 'String'>
+    readonly salt: FieldRef<"SuperAdmin", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SuperAdmin findUnique
+   */
+  export type SuperAdminFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * Filter, which SuperAdmin to fetch.
+     */
+    where: SuperAdminWhereUniqueInput
+  }
+
+  /**
+   * SuperAdmin findUniqueOrThrow
+   */
+  export type SuperAdminFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * Filter, which SuperAdmin to fetch.
+     */
+    where: SuperAdminWhereUniqueInput
+  }
+
+  /**
+   * SuperAdmin findFirst
+   */
+  export type SuperAdminFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * Filter, which SuperAdmin to fetch.
+     */
+    where?: SuperAdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SuperAdmins to fetch.
+     */
+    orderBy?: SuperAdminOrderByWithRelationInput | SuperAdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SuperAdmins.
+     */
+    cursor?: SuperAdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SuperAdmins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SuperAdmins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SuperAdmins.
+     */
+    distinct?: SuperAdminScalarFieldEnum | SuperAdminScalarFieldEnum[]
+  }
+
+  /**
+   * SuperAdmin findFirstOrThrow
+   */
+  export type SuperAdminFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * Filter, which SuperAdmin to fetch.
+     */
+    where?: SuperAdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SuperAdmins to fetch.
+     */
+    orderBy?: SuperAdminOrderByWithRelationInput | SuperAdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SuperAdmins.
+     */
+    cursor?: SuperAdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SuperAdmins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SuperAdmins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SuperAdmins.
+     */
+    distinct?: SuperAdminScalarFieldEnum | SuperAdminScalarFieldEnum[]
+  }
+
+  /**
+   * SuperAdmin findMany
+   */
+  export type SuperAdminFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * Filter, which SuperAdmins to fetch.
+     */
+    where?: SuperAdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SuperAdmins to fetch.
+     */
+    orderBy?: SuperAdminOrderByWithRelationInput | SuperAdminOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SuperAdmins.
+     */
+    cursor?: SuperAdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SuperAdmins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SuperAdmins.
+     */
+    skip?: number
+    distinct?: SuperAdminScalarFieldEnum | SuperAdminScalarFieldEnum[]
+  }
+
+  /**
+   * SuperAdmin create
+   */
+  export type SuperAdminCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * The data needed to create a SuperAdmin.
+     */
+    data: XOR<SuperAdminCreateInput, SuperAdminUncheckedCreateInput>
+  }
+
+  /**
+   * SuperAdmin createMany
+   */
+  export type SuperAdminCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SuperAdmins.
+     */
+    data: SuperAdminCreateManyInput | SuperAdminCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SuperAdmin createManyAndReturn
+   */
+  export type SuperAdminCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SuperAdmins.
+     */
+    data: SuperAdminCreateManyInput | SuperAdminCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SuperAdmin update
+   */
+  export type SuperAdminUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * The data needed to update a SuperAdmin.
+     */
+    data: XOR<SuperAdminUpdateInput, SuperAdminUncheckedUpdateInput>
+    /**
+     * Choose, which SuperAdmin to update.
+     */
+    where: SuperAdminWhereUniqueInput
+  }
+
+  /**
+   * SuperAdmin updateMany
+   */
+  export type SuperAdminUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SuperAdmins.
+     */
+    data: XOR<SuperAdminUpdateManyMutationInput, SuperAdminUncheckedUpdateManyInput>
+    /**
+     * Filter which SuperAdmins to update
+     */
+    where?: SuperAdminWhereInput
+  }
+
+  /**
+   * SuperAdmin upsert
+   */
+  export type SuperAdminUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * The filter to search for the SuperAdmin to update in case it exists.
+     */
+    where: SuperAdminWhereUniqueInput
+    /**
+     * In case the SuperAdmin found by the `where` argument doesn't exist, create a new SuperAdmin with this data.
+     */
+    create: XOR<SuperAdminCreateInput, SuperAdminUncheckedCreateInput>
+    /**
+     * In case the SuperAdmin was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SuperAdminUpdateInput, SuperAdminUncheckedUpdateInput>
+  }
+
+  /**
+   * SuperAdmin delete
+   */
+  export type SuperAdminDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+    /**
+     * Filter which SuperAdmin to delete.
+     */
+    where: SuperAdminWhereUniqueInput
+  }
+
+  /**
+   * SuperAdmin deleteMany
+   */
+  export type SuperAdminDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SuperAdmins to delete
+     */
+    where?: SuperAdminWhereInput
+  }
+
+  /**
+   * SuperAdmin without action
+   */
+  export type SuperAdminDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuperAdmin
+     */
+    select?: SuperAdminSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Model Mine
    */
 
@@ -2479,16 +4546,16 @@ export namespace Prisma {
 
   export type MineAvgAggregateOutputType = {
     mineId: number | null
-    locationLatitude: Decimal | null
-    locationLongitude: Decimal | null
+    locationLatitude: number | null
+    locationLongitude: number | null
     ownerId: number | null
     productionCapacity: Decimal | null
   }
 
   export type MineSumAggregateOutputType = {
     mineId: number | null
-    locationLatitude: Decimal | null
-    locationLongitude: Decimal | null
+    locationLatitude: number | null
+    locationLongitude: number | null
     ownerId: number | null
     productionCapacity: Decimal | null
   }
@@ -2496,13 +4563,13 @@ export namespace Prisma {
   export type MineMinAggregateOutputType = {
     mineId: number | null
     mineName: string | null
-    locationLatitude: Decimal | null
-    locationLongitude: Decimal | null
+    locationLatitude: number | null
+    locationLongitude: number | null
     address: string | null
     ownerId: number | null
     mineType: string | null
     productionCapacity: Decimal | null
-    operationalStatus: string | null
+    operationalStatus: boolean | null
     startDate: Date | null
     endDate: Date | null
   }
@@ -2510,13 +4577,13 @@ export namespace Prisma {
   export type MineMaxAggregateOutputType = {
     mineId: number | null
     mineName: string | null
-    locationLatitude: Decimal | null
-    locationLongitude: Decimal | null
+    locationLatitude: number | null
+    locationLongitude: number | null
     address: string | null
     ownerId: number | null
     mineType: string | null
     productionCapacity: Decimal | null
-    operationalStatus: string | null
+    operationalStatus: boolean | null
     startDate: Date | null
     endDate: Date | null
   }
@@ -2685,13 +4752,13 @@ export namespace Prisma {
   export type MineGroupByOutputType = {
     mineId: number
     mineName: string
-    locationLatitude: Decimal
-    locationLongitude: Decimal
+    locationLatitude: number
+    locationLongitude: number
     address: string
-    ownerId: number
+    ownerId: number | null
     mineType: string
     productionCapacity: Decimal
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date
     endDate: Date | null
     _count: MineCountAggregateOutputType | null
@@ -2727,7 +4794,7 @@ export namespace Prisma {
     operationalStatus?: boolean
     startDate?: boolean
     endDate?: boolean
-    owner?: boolean | OwnerDefaultArgs<ExtArgs>
+    owner?: boolean | Mine$ownerArgs<ExtArgs>
   }, ExtArgs["result"]["mine"]>
 
   export type MineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2742,7 +4809,7 @@ export namespace Prisma {
     operationalStatus?: boolean
     startDate?: boolean
     endDate?: boolean
-    owner?: boolean | OwnerDefaultArgs<ExtArgs>
+    owner?: boolean | Mine$ownerArgs<ExtArgs>
   }, ExtArgs["result"]["mine"]>
 
   export type MineSelectScalar = {
@@ -2760,27 +4827,27 @@ export namespace Prisma {
   }
 
   export type MineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | OwnerDefaultArgs<ExtArgs>
+    owner?: boolean | Mine$ownerArgs<ExtArgs>
   }
   export type MineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | OwnerDefaultArgs<ExtArgs>
+    owner?: boolean | Mine$ownerArgs<ExtArgs>
   }
 
   export type $MinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Mine"
     objects: {
-      owner: Prisma.$OwnerPayload<ExtArgs>
+      owner: Prisma.$OwnerPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       mineId: number
       mineName: string
-      locationLatitude: Prisma.Decimal
-      locationLongitude: Prisma.Decimal
+      locationLatitude: number
+      locationLongitude: number
       address: string
-      ownerId: number
+      ownerId: number | null
       mineType: string
       productionCapacity: Prisma.Decimal
-      operationalStatus: string
+      operationalStatus: boolean
       startDate: Date
       endDate: Date | null
     }, ExtArgs["result"]["mine"]>
@@ -3147,7 +5214,7 @@ export namespace Prisma {
    */
   export interface Prisma__MineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    owner<T extends OwnerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OwnerDefaultArgs<ExtArgs>>): Prisma__OwnerClient<$Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    owner<T extends Mine$ownerArgs<ExtArgs> = {}>(args?: Subset<T, Mine$ownerArgs<ExtArgs>>): Prisma__OwnerClient<$Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3179,13 +5246,13 @@ export namespace Prisma {
   interface MineFieldRefs {
     readonly mineId: FieldRef<"Mine", 'Int'>
     readonly mineName: FieldRef<"Mine", 'String'>
-    readonly locationLatitude: FieldRef<"Mine", 'Decimal'>
-    readonly locationLongitude: FieldRef<"Mine", 'Decimal'>
+    readonly locationLatitude: FieldRef<"Mine", 'Float'>
+    readonly locationLongitude: FieldRef<"Mine", 'Float'>
     readonly address: FieldRef<"Mine", 'String'>
     readonly ownerId: FieldRef<"Mine", 'Int'>
     readonly mineType: FieldRef<"Mine", 'String'>
     readonly productionCapacity: FieldRef<"Mine", 'Decimal'>
-    readonly operationalStatus: FieldRef<"Mine", 'String'>
+    readonly operationalStatus: FieldRef<"Mine", 'Boolean'>
     readonly startDate: FieldRef<"Mine", 'DateTime'>
     readonly endDate: FieldRef<"Mine", 'DateTime'>
   }
@@ -3503,6 +5570,21 @@ export namespace Prisma {
      * Filter which Mines to delete
      */
     where?: MineWhereInput
+  }
+
+  /**
+   * Mine.owner
+   */
+  export type Mine$ownerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Owner
+     */
+    select?: OwnerSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OwnerInclude<ExtArgs> | null
+    where?: OwnerWhereInput
   }
 
   /**
@@ -13663,6 +15745,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     sections?: boolean | SectionType$sectionsArgs<ExtArgs>
+    color?: boolean | SectionType$colorArgs<ExtArgs>
     _count?: boolean | SectionTypeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sectionType"]>
 
@@ -13680,6 +15763,7 @@ export namespace Prisma {
 
   export type SectionTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sections?: boolean | SectionType$sectionsArgs<ExtArgs>
+    color?: boolean | SectionType$colorArgs<ExtArgs>
     _count?: boolean | SectionTypeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SectionTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -13688,6 +15772,7 @@ export namespace Prisma {
     name: "SectionType"
     objects: {
       sections: Prisma.$SectionPayload<ExtArgs>[]
+      color: Prisma.$SectionColorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -14058,6 +16143,7 @@ export namespace Prisma {
   export interface Prisma__SectionTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sections<T extends SectionType$sectionsArgs<ExtArgs> = {}>(args?: Subset<T, SectionType$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany"> | Null>
+    color<T extends SectionType$colorArgs<ExtArgs> = {}>(args?: Subset<T, SectionType$colorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14421,6 +16507,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * SectionType.color
+   */
+  export type SectionType$colorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    where?: SectionColorWhereInput
+    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
+    cursor?: SectionColorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
   }
 
   /**
@@ -18408,6 +20514,953 @@ export namespace Prisma {
 
 
   /**
+   * Model SectionColor
+   */
+
+  export type AggregateSectionColor = {
+    _count: SectionColorCountAggregateOutputType | null
+    _avg: SectionColorAvgAggregateOutputType | null
+    _sum: SectionColorSumAggregateOutputType | null
+    _min: SectionColorMinAggregateOutputType | null
+    _max: SectionColorMaxAggregateOutputType | null
+  }
+
+  export type SectionColorAvgAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+  }
+
+  export type SectionColorSumAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+  }
+
+  export type SectionColorMinAggregateOutputType = {
+    id: number | null
+    hex: string | null
+    sectionId: number | null
+  }
+
+  export type SectionColorMaxAggregateOutputType = {
+    id: number | null
+    hex: string | null
+    sectionId: number | null
+  }
+
+  export type SectionColorCountAggregateOutputType = {
+    id: number
+    hex: number
+    sectionId: number
+    _all: number
+  }
+
+
+  export type SectionColorAvgAggregateInputType = {
+    id?: true
+    sectionId?: true
+  }
+
+  export type SectionColorSumAggregateInputType = {
+    id?: true
+    sectionId?: true
+  }
+
+  export type SectionColorMinAggregateInputType = {
+    id?: true
+    hex?: true
+    sectionId?: true
+  }
+
+  export type SectionColorMaxAggregateInputType = {
+    id?: true
+    hex?: true
+    sectionId?: true
+  }
+
+  export type SectionColorCountAggregateInputType = {
+    id?: true
+    hex?: true
+    sectionId?: true
+    _all?: true
+  }
+
+  export type SectionColorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SectionColor to aggregate.
+     */
+    where?: SectionColorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SectionColors to fetch.
+     */
+    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SectionColorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SectionColors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SectionColors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SectionColors
+    **/
+    _count?: true | SectionColorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SectionColorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SectionColorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SectionColorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SectionColorMaxAggregateInputType
+  }
+
+  export type GetSectionColorAggregateType<T extends SectionColorAggregateArgs> = {
+        [P in keyof T & keyof AggregateSectionColor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSectionColor[P]>
+      : GetScalarType<T[P], AggregateSectionColor[P]>
+  }
+
+
+
+
+  export type SectionColorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionColorWhereInput
+    orderBy?: SectionColorOrderByWithAggregationInput | SectionColorOrderByWithAggregationInput[]
+    by: SectionColorScalarFieldEnum[] | SectionColorScalarFieldEnum
+    having?: SectionColorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SectionColorCountAggregateInputType | true
+    _avg?: SectionColorAvgAggregateInputType
+    _sum?: SectionColorSumAggregateInputType
+    _min?: SectionColorMinAggregateInputType
+    _max?: SectionColorMaxAggregateInputType
+  }
+
+  export type SectionColorGroupByOutputType = {
+    id: number
+    hex: string
+    sectionId: number
+    _count: SectionColorCountAggregateOutputType | null
+    _avg: SectionColorAvgAggregateOutputType | null
+    _sum: SectionColorSumAggregateOutputType | null
+    _min: SectionColorMinAggregateOutputType | null
+    _max: SectionColorMaxAggregateOutputType | null
+  }
+
+  type GetSectionColorGroupByPayload<T extends SectionColorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SectionColorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SectionColorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SectionColorGroupByOutputType[P]>
+            : GetScalarType<T[P], SectionColorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SectionColorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hex?: boolean
+    sectionId?: boolean
+    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sectionColor"]>
+
+  export type SectionColorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    hex?: boolean
+    sectionId?: boolean
+    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sectionColor"]>
+
+  export type SectionColorSelectScalar = {
+    id?: boolean
+    hex?: boolean
+    sectionId?: boolean
+  }
+
+  export type SectionColorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }
+  export type SectionColorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sectionType?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $SectionColorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SectionColor"
+    objects: {
+      sectionType: Prisma.$SectionTypePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      hex: string
+      sectionId: number
+    }, ExtArgs["result"]["sectionColor"]>
+    composites: {}
+  }
+
+  type SectionColorGetPayload<S extends boolean | null | undefined | SectionColorDefaultArgs> = $Result.GetResult<Prisma.$SectionColorPayload, S>
+
+  type SectionColorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SectionColorFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SectionColorCountAggregateInputType | true
+    }
+
+  export interface SectionColorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SectionColor'], meta: { name: 'SectionColor' } }
+    /**
+     * Find zero or one SectionColor that matches the filter.
+     * @param {SectionColorFindUniqueArgs} args - Arguments to find a SectionColor
+     * @example
+     * // Get one SectionColor
+     * const sectionColor = await prisma.sectionColor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SectionColorFindUniqueArgs>(args: SelectSubset<T, SectionColorFindUniqueArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SectionColor that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SectionColorFindUniqueOrThrowArgs} args - Arguments to find a SectionColor
+     * @example
+     * // Get one SectionColor
+     * const sectionColor = await prisma.sectionColor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SectionColorFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionColorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SectionColor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorFindFirstArgs} args - Arguments to find a SectionColor
+     * @example
+     * // Get one SectionColor
+     * const sectionColor = await prisma.sectionColor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SectionColorFindFirstArgs>(args?: SelectSubset<T, SectionColorFindFirstArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SectionColor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorFindFirstOrThrowArgs} args - Arguments to find a SectionColor
+     * @example
+     * // Get one SectionColor
+     * const sectionColor = await prisma.sectionColor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SectionColorFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionColorFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SectionColors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SectionColors
+     * const sectionColors = await prisma.sectionColor.findMany()
+     * 
+     * // Get first 10 SectionColors
+     * const sectionColors = await prisma.sectionColor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sectionColorWithIdOnly = await prisma.sectionColor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SectionColorFindManyArgs>(args?: SelectSubset<T, SectionColorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SectionColor.
+     * @param {SectionColorCreateArgs} args - Arguments to create a SectionColor.
+     * @example
+     * // Create one SectionColor
+     * const SectionColor = await prisma.sectionColor.create({
+     *   data: {
+     *     // ... data to create a SectionColor
+     *   }
+     * })
+     * 
+     */
+    create<T extends SectionColorCreateArgs>(args: SelectSubset<T, SectionColorCreateArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SectionColors.
+     * @param {SectionColorCreateManyArgs} args - Arguments to create many SectionColors.
+     * @example
+     * // Create many SectionColors
+     * const sectionColor = await prisma.sectionColor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SectionColorCreateManyArgs>(args?: SelectSubset<T, SectionColorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SectionColors and returns the data saved in the database.
+     * @param {SectionColorCreateManyAndReturnArgs} args - Arguments to create many SectionColors.
+     * @example
+     * // Create many SectionColors
+     * const sectionColor = await prisma.sectionColor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SectionColors and only return the `id`
+     * const sectionColorWithIdOnly = await prisma.sectionColor.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SectionColorCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionColorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SectionColor.
+     * @param {SectionColorDeleteArgs} args - Arguments to delete one SectionColor.
+     * @example
+     * // Delete one SectionColor
+     * const SectionColor = await prisma.sectionColor.delete({
+     *   where: {
+     *     // ... filter to delete one SectionColor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SectionColorDeleteArgs>(args: SelectSubset<T, SectionColorDeleteArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SectionColor.
+     * @param {SectionColorUpdateArgs} args - Arguments to update one SectionColor.
+     * @example
+     * // Update one SectionColor
+     * const sectionColor = await prisma.sectionColor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SectionColorUpdateArgs>(args: SelectSubset<T, SectionColorUpdateArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SectionColors.
+     * @param {SectionColorDeleteManyArgs} args - Arguments to filter SectionColors to delete.
+     * @example
+     * // Delete a few SectionColors
+     * const { count } = await prisma.sectionColor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SectionColorDeleteManyArgs>(args?: SelectSubset<T, SectionColorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SectionColors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SectionColors
+     * const sectionColor = await prisma.sectionColor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SectionColorUpdateManyArgs>(args: SelectSubset<T, SectionColorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SectionColor.
+     * @param {SectionColorUpsertArgs} args - Arguments to update or create a SectionColor.
+     * @example
+     * // Update or create a SectionColor
+     * const sectionColor = await prisma.sectionColor.upsert({
+     *   create: {
+     *     // ... data to create a SectionColor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SectionColor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SectionColorUpsertArgs>(args: SelectSubset<T, SectionColorUpsertArgs<ExtArgs>>): Prisma__SectionColorClient<$Result.GetResult<Prisma.$SectionColorPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SectionColors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorCountArgs} args - Arguments to filter SectionColors to count.
+     * @example
+     * // Count the number of SectionColors
+     * const count = await prisma.sectionColor.count({
+     *   where: {
+     *     // ... the filter for the SectionColors we want to count
+     *   }
+     * })
+    **/
+    count<T extends SectionColorCountArgs>(
+      args?: Subset<T, SectionColorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SectionColorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SectionColor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SectionColorAggregateArgs>(args: Subset<T, SectionColorAggregateArgs>): Prisma.PrismaPromise<GetSectionColorAggregateType<T>>
+
+    /**
+     * Group by SectionColor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionColorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SectionColorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SectionColorGroupByArgs['orderBy'] }
+        : { orderBy?: SectionColorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SectionColorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionColorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SectionColor model
+   */
+  readonly fields: SectionColorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SectionColor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SectionColorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    sectionType<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SectionColor model
+   */ 
+  interface SectionColorFieldRefs {
+    readonly id: FieldRef<"SectionColor", 'Int'>
+    readonly hex: FieldRef<"SectionColor", 'String'>
+    readonly sectionId: FieldRef<"SectionColor", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SectionColor findUnique
+   */
+  export type SectionColorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * Filter, which SectionColor to fetch.
+     */
+    where: SectionColorWhereUniqueInput
+  }
+
+  /**
+   * SectionColor findUniqueOrThrow
+   */
+  export type SectionColorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * Filter, which SectionColor to fetch.
+     */
+    where: SectionColorWhereUniqueInput
+  }
+
+  /**
+   * SectionColor findFirst
+   */
+  export type SectionColorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * Filter, which SectionColor to fetch.
+     */
+    where?: SectionColorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SectionColors to fetch.
+     */
+    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SectionColors.
+     */
+    cursor?: SectionColorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SectionColors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SectionColors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SectionColors.
+     */
+    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
+  }
+
+  /**
+   * SectionColor findFirstOrThrow
+   */
+  export type SectionColorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * Filter, which SectionColor to fetch.
+     */
+    where?: SectionColorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SectionColors to fetch.
+     */
+    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SectionColors.
+     */
+    cursor?: SectionColorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SectionColors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SectionColors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SectionColors.
+     */
+    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
+  }
+
+  /**
+   * SectionColor findMany
+   */
+  export type SectionColorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * Filter, which SectionColors to fetch.
+     */
+    where?: SectionColorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SectionColors to fetch.
+     */
+    orderBy?: SectionColorOrderByWithRelationInput | SectionColorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SectionColors.
+     */
+    cursor?: SectionColorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SectionColors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SectionColors.
+     */
+    skip?: number
+    distinct?: SectionColorScalarFieldEnum | SectionColorScalarFieldEnum[]
+  }
+
+  /**
+   * SectionColor create
+   */
+  export type SectionColorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SectionColor.
+     */
+    data: XOR<SectionColorCreateInput, SectionColorUncheckedCreateInput>
+  }
+
+  /**
+   * SectionColor createMany
+   */
+  export type SectionColorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SectionColors.
+     */
+    data: SectionColorCreateManyInput | SectionColorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SectionColor createManyAndReturn
+   */
+  export type SectionColorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SectionColors.
+     */
+    data: SectionColorCreateManyInput | SectionColorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SectionColor update
+   */
+  export type SectionColorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SectionColor.
+     */
+    data: XOR<SectionColorUpdateInput, SectionColorUncheckedUpdateInput>
+    /**
+     * Choose, which SectionColor to update.
+     */
+    where: SectionColorWhereUniqueInput
+  }
+
+  /**
+   * SectionColor updateMany
+   */
+  export type SectionColorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SectionColors.
+     */
+    data: XOR<SectionColorUpdateManyMutationInput, SectionColorUncheckedUpdateManyInput>
+    /**
+     * Filter which SectionColors to update
+     */
+    where?: SectionColorWhereInput
+  }
+
+  /**
+   * SectionColor upsert
+   */
+  export type SectionColorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SectionColor to update in case it exists.
+     */
+    where: SectionColorWhereUniqueInput
+    /**
+     * In case the SectionColor found by the `where` argument doesn't exist, create a new SectionColor with this data.
+     */
+    create: XOR<SectionColorCreateInput, SectionColorUncheckedCreateInput>
+    /**
+     * In case the SectionColor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SectionColorUpdateInput, SectionColorUncheckedUpdateInput>
+  }
+
+  /**
+   * SectionColor delete
+   */
+  export type SectionColorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+    /**
+     * Filter which SectionColor to delete.
+     */
+    where: SectionColorWhereUniqueInput
+  }
+
+  /**
+   * SectionColor deleteMany
+   */
+  export type SectionColorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SectionColors to delete
+     */
+    where?: SectionColorWhereInput
+  }
+
+  /**
+   * SectionColor without action
+   */
+  export type SectionColorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionColor
+     */
+    select?: SectionColorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionColorInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -18419,6 +21472,26 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const InitStatusScalarFieldEnum: {
+    id: 'id',
+    isInit: 'isInit',
+    initData: 'initData'
+  };
+
+  export type InitStatusScalarFieldEnum = (typeof InitStatusScalarFieldEnum)[keyof typeof InitStatusScalarFieldEnum]
+
+
+  export const SuperAdminScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    passwordHash: 'passwordHash',
+    salt: 'salt'
+  };
+
+  export type SuperAdminScalarFieldEnum = (typeof SuperAdminScalarFieldEnum)[keyof typeof SuperAdminScalarFieldEnum]
 
 
   export const MineScalarFieldEnum: {
@@ -18613,6 +21686,15 @@ export namespace Prisma {
   export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof typeof CoordinateScalarFieldEnum]
 
 
+  export const SectionColorScalarFieldEnum: {
+    id: 'id',
+    hex: 'hex',
+    sectionId: 'sectionId'
+  };
+
+  export type SectionColorScalarFieldEnum = (typeof SectionColorScalarFieldEnum)[keyof typeof SectionColorScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -18673,30 +21755,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'String'
+   * Reference to a field of type 'Boolean'
    */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
-
-
-  /**
-   * Reference to a field of type 'String[]'
-   */
-  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Decimal'
-   */
-  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-  /**
-   * Reference to a field of type 'Decimal[]'
-   */
-  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -18715,9 +21776,44 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'String'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+  /**
+   * Reference to a field of type 'String[]'
+   */
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -18740,24 +21836,108 @@ export namespace Prisma {
    */
   export type ListEnumPlanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanStatus[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
 
+
+  export type InitStatusWhereInput = {
+    AND?: InitStatusWhereInput | InitStatusWhereInput[]
+    OR?: InitStatusWhereInput[]
+    NOT?: InitStatusWhereInput | InitStatusWhereInput[]
+    id?: IntFilter<"InitStatus"> | number
+    isInit?: BoolFilter<"InitStatus"> | boolean
+    initData?: DateTimeFilter<"InitStatus"> | Date | string
+  }
+
+  export type InitStatusOrderByWithRelationInput = {
+    id?: SortOrder
+    isInit?: SortOrder
+    initData?: SortOrder
+  }
+
+  export type InitStatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: InitStatusWhereInput | InitStatusWhereInput[]
+    OR?: InitStatusWhereInput[]
+    NOT?: InitStatusWhereInput | InitStatusWhereInput[]
+    isInit?: BoolFilter<"InitStatus"> | boolean
+    initData?: DateTimeFilter<"InitStatus"> | Date | string
+  }, "id">
+
+  export type InitStatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    isInit?: SortOrder
+    initData?: SortOrder
+    _count?: InitStatusCountOrderByAggregateInput
+    _avg?: InitStatusAvgOrderByAggregateInput
+    _max?: InitStatusMaxOrderByAggregateInput
+    _min?: InitStatusMinOrderByAggregateInput
+    _sum?: InitStatusSumOrderByAggregateInput
+  }
+
+  export type InitStatusScalarWhereWithAggregatesInput = {
+    AND?: InitStatusScalarWhereWithAggregatesInput | InitStatusScalarWhereWithAggregatesInput[]
+    OR?: InitStatusScalarWhereWithAggregatesInput[]
+    NOT?: InitStatusScalarWhereWithAggregatesInput | InitStatusScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"InitStatus"> | number
+    isInit?: BoolWithAggregatesFilter<"InitStatus"> | boolean
+    initData?: DateTimeWithAggregatesFilter<"InitStatus"> | Date | string
+  }
+
+  export type SuperAdminWhereInput = {
+    AND?: SuperAdminWhereInput | SuperAdminWhereInput[]
+    OR?: SuperAdminWhereInput[]
+    NOT?: SuperAdminWhereInput | SuperAdminWhereInput[]
+    id?: IntFilter<"SuperAdmin"> | number
+    name?: StringFilter<"SuperAdmin"> | string
+    email?: StringFilter<"SuperAdmin"> | string
+    passwordHash?: StringFilter<"SuperAdmin"> | string
+    salt?: StringFilter<"SuperAdmin"> | string
+  }
+
+  export type SuperAdminOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    salt?: SortOrder
+  }
+
+  export type SuperAdminWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SuperAdminWhereInput | SuperAdminWhereInput[]
+    OR?: SuperAdminWhereInput[]
+    NOT?: SuperAdminWhereInput | SuperAdminWhereInput[]
+    name?: StringFilter<"SuperAdmin"> | string
+    email?: StringFilter<"SuperAdmin"> | string
+    passwordHash?: StringFilter<"SuperAdmin"> | string
+    salt?: StringFilter<"SuperAdmin"> | string
+  }, "id">
+
+  export type SuperAdminOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    salt?: SortOrder
+    _count?: SuperAdminCountOrderByAggregateInput
+    _avg?: SuperAdminAvgOrderByAggregateInput
+    _max?: SuperAdminMaxOrderByAggregateInput
+    _min?: SuperAdminMinOrderByAggregateInput
+    _sum?: SuperAdminSumOrderByAggregateInput
+  }
+
+  export type SuperAdminScalarWhereWithAggregatesInput = {
+    AND?: SuperAdminScalarWhereWithAggregatesInput | SuperAdminScalarWhereWithAggregatesInput[]
+    OR?: SuperAdminScalarWhereWithAggregatesInput[]
+    NOT?: SuperAdminScalarWhereWithAggregatesInput | SuperAdminScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"SuperAdmin"> | number
+    name?: StringWithAggregatesFilter<"SuperAdmin"> | string
+    email?: StringWithAggregatesFilter<"SuperAdmin"> | string
+    passwordHash?: StringWithAggregatesFilter<"SuperAdmin"> | string
+    salt?: StringWithAggregatesFilter<"SuperAdmin"> | string
+  }
 
   export type MineWhereInput = {
     AND?: MineWhereInput | MineWhereInput[]
@@ -18765,16 +21945,16 @@ export namespace Prisma {
     NOT?: MineWhereInput | MineWhereInput[]
     mineId?: IntFilter<"Mine"> | number
     mineName?: StringFilter<"Mine"> | string
-    locationLatitude?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFilter<"Mine"> | number
+    locationLongitude?: FloatFilter<"Mine"> | number
     address?: StringFilter<"Mine"> | string
-    ownerId?: IntFilter<"Mine"> | number
+    ownerId?: IntNullableFilter<"Mine"> | number | null
     mineType?: StringFilter<"Mine"> | string
     productionCapacity?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFilter<"Mine"> | string
+    operationalStatus?: BoolFilter<"Mine"> | boolean
     startDate?: DateTimeFilter<"Mine"> | Date | string
     endDate?: DateTimeNullableFilter<"Mine"> | Date | string | null
-    owner?: XOR<OwnerRelationFilter, OwnerWhereInput>
+    owner?: XOR<OwnerNullableRelationFilter, OwnerWhereInput> | null
   }
 
   export type MineOrderByWithRelationInput = {
@@ -18783,7 +21963,7 @@ export namespace Prisma {
     locationLatitude?: SortOrder
     locationLongitude?: SortOrder
     address?: SortOrder
-    ownerId?: SortOrder
+    ownerId?: SortOrderInput | SortOrder
     mineType?: SortOrder
     productionCapacity?: SortOrder
     operationalStatus?: SortOrder
@@ -18798,16 +21978,16 @@ export namespace Prisma {
     OR?: MineWhereInput[]
     NOT?: MineWhereInput | MineWhereInput[]
     mineName?: StringFilter<"Mine"> | string
-    locationLatitude?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFilter<"Mine"> | number
+    locationLongitude?: FloatFilter<"Mine"> | number
     address?: StringFilter<"Mine"> | string
-    ownerId?: IntFilter<"Mine"> | number
+    ownerId?: IntNullableFilter<"Mine"> | number | null
     mineType?: StringFilter<"Mine"> | string
     productionCapacity?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFilter<"Mine"> | string
+    operationalStatus?: BoolFilter<"Mine"> | boolean
     startDate?: DateTimeFilter<"Mine"> | Date | string
     endDate?: DateTimeNullableFilter<"Mine"> | Date | string | null
-    owner?: XOR<OwnerRelationFilter, OwnerWhereInput>
+    owner?: XOR<OwnerNullableRelationFilter, OwnerWhereInput> | null
   }, "mineId">
 
   export type MineOrderByWithAggregationInput = {
@@ -18816,7 +21996,7 @@ export namespace Prisma {
     locationLatitude?: SortOrder
     locationLongitude?: SortOrder
     address?: SortOrder
-    ownerId?: SortOrder
+    ownerId?: SortOrderInput | SortOrder
     mineType?: SortOrder
     productionCapacity?: SortOrder
     operationalStatus?: SortOrder
@@ -18835,13 +22015,13 @@ export namespace Prisma {
     NOT?: MineScalarWhereWithAggregatesInput | MineScalarWhereWithAggregatesInput[]
     mineId?: IntWithAggregatesFilter<"Mine"> | number
     mineName?: StringWithAggregatesFilter<"Mine"> | string
-    locationLatitude?: DecimalWithAggregatesFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalWithAggregatesFilter<"Mine"> | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatWithAggregatesFilter<"Mine"> | number
+    locationLongitude?: FloatWithAggregatesFilter<"Mine"> | number
     address?: StringWithAggregatesFilter<"Mine"> | string
-    ownerId?: IntWithAggregatesFilter<"Mine"> | number
+    ownerId?: IntNullableWithAggregatesFilter<"Mine"> | number | null
     mineType?: StringWithAggregatesFilter<"Mine"> | string
     productionCapacity?: DecimalWithAggregatesFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringWithAggregatesFilter<"Mine"> | string
+    operationalStatus?: BoolWithAggregatesFilter<"Mine"> | boolean
     startDate?: DateTimeWithAggregatesFilter<"Mine"> | Date | string
     endDate?: DateTimeNullableWithAggregatesFilter<"Mine"> | Date | string | null
   }
@@ -19519,6 +22699,7 @@ export namespace Prisma {
     name?: StringFilter<"SectionType"> | string
     description?: StringFilter<"SectionType"> | string
     sections?: SectionListRelationFilter
+    color?: SectionColorListRelationFilter
   }
 
   export type SectionTypeOrderByWithRelationInput = {
@@ -19526,6 +22707,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     sections?: SectionOrderByRelationAggregateInput
+    color?: SectionColorOrderByRelationAggregateInput
   }
 
   export type SectionTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -19536,6 +22718,7 @@ export namespace Prisma {
     name?: StringFilter<"SectionType"> | string
     description?: StringFilter<"SectionType"> | string
     sections?: SectionListRelationFilter
+    color?: SectionColorListRelationFilter
   }, "id">
 
   export type SectionTypeOrderByWithAggregationInput = {
@@ -19781,56 +22964,195 @@ export namespace Prisma {
     sectionId?: IntWithAggregatesFilter<"Coordinate"> | number
   }
 
+  export type SectionColorWhereInput = {
+    AND?: SectionColorWhereInput | SectionColorWhereInput[]
+    OR?: SectionColorWhereInput[]
+    NOT?: SectionColorWhereInput | SectionColorWhereInput[]
+    id?: IntFilter<"SectionColor"> | number
+    hex?: StringFilter<"SectionColor"> | string
+    sectionId?: IntFilter<"SectionColor"> | number
+    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+  }
+
+  export type SectionColorOrderByWithRelationInput = {
+    id?: SortOrder
+    hex?: SortOrder
+    sectionId?: SortOrder
+    sectionType?: SectionTypeOrderByWithRelationInput
+  }
+
+  export type SectionColorWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SectionColorWhereInput | SectionColorWhereInput[]
+    OR?: SectionColorWhereInput[]
+    NOT?: SectionColorWhereInput | SectionColorWhereInput[]
+    hex?: StringFilter<"SectionColor"> | string
+    sectionId?: IntFilter<"SectionColor"> | number
+    sectionType?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+  }, "id">
+
+  export type SectionColorOrderByWithAggregationInput = {
+    id?: SortOrder
+    hex?: SortOrder
+    sectionId?: SortOrder
+    _count?: SectionColorCountOrderByAggregateInput
+    _avg?: SectionColorAvgOrderByAggregateInput
+    _max?: SectionColorMaxOrderByAggregateInput
+    _min?: SectionColorMinOrderByAggregateInput
+    _sum?: SectionColorSumOrderByAggregateInput
+  }
+
+  export type SectionColorScalarWhereWithAggregatesInput = {
+    AND?: SectionColorScalarWhereWithAggregatesInput | SectionColorScalarWhereWithAggregatesInput[]
+    OR?: SectionColorScalarWhereWithAggregatesInput[]
+    NOT?: SectionColorScalarWhereWithAggregatesInput | SectionColorScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"SectionColor"> | number
+    hex?: StringWithAggregatesFilter<"SectionColor"> | string
+    sectionId?: IntWithAggregatesFilter<"SectionColor"> | number
+  }
+
+  export type InitStatusCreateInput = {
+    isInit?: boolean
+    initData?: Date | string
+  }
+
+  export type InitStatusUncheckedCreateInput = {
+    id?: number
+    isInit?: boolean
+    initData?: Date | string
+  }
+
+  export type InitStatusUpdateInput = {
+    isInit?: BoolFieldUpdateOperationsInput | boolean
+    initData?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InitStatusUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    isInit?: BoolFieldUpdateOperationsInput | boolean
+    initData?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InitStatusCreateManyInput = {
+    id?: number
+    isInit?: boolean
+    initData?: Date | string
+  }
+
+  export type InitStatusUpdateManyMutationInput = {
+    isInit?: BoolFieldUpdateOperationsInput | boolean
+    initData?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InitStatusUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    isInit?: BoolFieldUpdateOperationsInput | boolean
+    initData?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SuperAdminCreateInput = {
+    name: string
+    email: string
+    passwordHash: string
+    salt: string
+  }
+
+  export type SuperAdminUncheckedCreateInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    salt: string
+  }
+
+  export type SuperAdminUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SuperAdminUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SuperAdminCreateManyInput = {
+    id?: number
+    name: string
+    email: string
+    passwordHash: string
+    salt: string
+  }
+
+  export type SuperAdminUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SuperAdminUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+  }
+
   export type MineCreateInput = {
     mineName: string
-    locationLatitude: Decimal | DecimalJsLike | number | string
-    locationLongitude: Decimal | DecimalJsLike | number | string
+    locationLatitude: number
+    locationLongitude: number
     address: string
     mineType: string
     productionCapacity: Decimal | DecimalJsLike | number | string
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date | string
     endDate?: Date | string | null
-    owner: OwnerCreateNestedOneWithoutMinesInput
+    owner?: OwnerCreateNestedOneWithoutMinesInput
   }
 
   export type MineUncheckedCreateInput = {
     mineId?: number
     mineName: string
-    locationLatitude: Decimal | DecimalJsLike | number | string
-    locationLongitude: Decimal | DecimalJsLike | number | string
+    locationLatitude: number
+    locationLongitude: number
     address: string
-    ownerId: number
+    ownerId?: number | null
     mineType: string
     productionCapacity: Decimal | DecimalJsLike | number | string
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date | string
     endDate?: Date | string | null
   }
 
   export type MineUpdateInput = {
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    owner?: OwnerUpdateOneRequiredWithoutMinesNestedInput
+    owner?: OwnerUpdateOneWithoutMinesNestedInput
   }
 
   export type MineUncheckedUpdateInput = {
     mineId?: IntFieldUpdateOperationsInput | number
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
-    ownerId?: IntFieldUpdateOperationsInput | number
+    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -19838,25 +23160,25 @@ export namespace Prisma {
   export type MineCreateManyInput = {
     mineId?: number
     mineName: string
-    locationLatitude: Decimal | DecimalJsLike | number | string
-    locationLongitude: Decimal | DecimalJsLike | number | string
+    locationLatitude: number
+    locationLongitude: number
     address: string
-    ownerId: number
+    ownerId?: number | null
     mineType: string
     productionCapacity: Decimal | DecimalJsLike | number | string
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date | string
     endDate?: Date | string | null
   }
 
   export type MineUpdateManyMutationInput = {
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -19864,13 +23186,13 @@ export namespace Prisma {
   export type MineUncheckedUpdateManyInput = {
     mineId?: IntFieldUpdateOperationsInput | number
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
-    ownerId?: IntFieldUpdateOperationsInput | number
+    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -20541,6 +23863,7 @@ export namespace Prisma {
     name: string
     description: string
     sections?: SectionCreateNestedManyWithoutTypeInput
+    color?: SectionColorCreateNestedManyWithoutSectionTypeInput
   }
 
   export type SectionTypeUncheckedCreateInput = {
@@ -20548,12 +23871,14 @@ export namespace Prisma {
     name: string
     description: string
     sections?: SectionUncheckedCreateNestedManyWithoutTypeInput
+    color?: SectionColorUncheckedCreateNestedManyWithoutSectionTypeInput
   }
 
   export type SectionTypeUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     sections?: SectionUpdateManyWithoutTypeNestedInput
+    color?: SectionColorUpdateManyWithoutSectionTypeNestedInput
   }
 
   export type SectionTypeUncheckedUpdateInput = {
@@ -20561,6 +23886,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     sections?: SectionUncheckedUpdateManyWithoutTypeNestedInput
+    color?: SectionColorUncheckedUpdateManyWithoutSectionTypeNestedInput
   }
 
   export type SectionTypeCreateManyInput = {
@@ -20780,6 +24106,44 @@ export namespace Prisma {
     sectionId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type SectionColorCreateInput = {
+    hex: string
+    sectionType: SectionTypeCreateNestedOneWithoutColorInput
+  }
+
+  export type SectionColorUncheckedCreateInput = {
+    id?: number
+    hex: string
+    sectionId: number
+  }
+
+  export type SectionColorUpdateInput = {
+    hex?: StringFieldUpdateOperationsInput | string
+    sectionType?: SectionTypeUpdateOneRequiredWithoutColorNestedInput
+  }
+
+  export type SectionColorUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    hex?: StringFieldUpdateOperationsInput | string
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionColorCreateManyInput = {
+    id?: number
+    hex: string
+    sectionId: number
+  }
+
+  export type SectionColorUpdateManyMutationInput = {
+    hex?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SectionColorUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    hex?: StringFieldUpdateOperationsInput | string
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -20789,6 +24153,86 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type InitStatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    isInit?: SortOrder
+    initData?: SortOrder
+  }
+
+  export type InitStatusAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type InitStatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    isInit?: SortOrder
+    initData?: SortOrder
+  }
+
+  export type InitStatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    isInit?: SortOrder
+    initData?: SortOrder
+  }
+
+  export type InitStatusSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -20806,6 +24250,78 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type SuperAdminCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    salt?: SortOrder
+  }
+
+  export type SuperAdminAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type SuperAdminMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    salt?: SortOrder
+  }
+
+  export type SuperAdminMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    passwordHash?: SortOrder
+    salt?: SortOrder
+  }
+
+  export type SuperAdminSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -20815,17 +24331,6 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -20839,9 +24344,9 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type OwnerRelationFilter = {
-    is?: OwnerWhereInput
-    isNot?: OwnerWhereInput
+  export type OwnerNullableRelationFilter = {
+    is?: OwnerWhereInput | null
+    isNot?: OwnerWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -20907,38 +24412,36 @@ export namespace Prisma {
     productionCapacity?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -20955,20 +24458,6 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -21025,11 +24514,6 @@ export namespace Prisma {
 
   export type OwnerSumOrderByAggregateInput = {
     ownerId?: SortOrder
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
   export type JsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -21098,14 +24582,6 @@ export namespace Prisma {
 
   export type PositionSumOrderByAggregateInput = {
     positionId?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -21234,17 +24710,6 @@ export namespace Prisma {
     permissionId?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type RoleRelationFilter = {
     is?: RoleWhereInput
     isNot?: RoleWhereInput
@@ -21323,22 +24788,6 @@ export namespace Prisma {
     userRoleId?: SortOrder
     positionId?: SortOrder
     createdBy?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ShiftCountOrderByAggregateInput = {
@@ -21586,7 +25035,17 @@ export namespace Prisma {
     none?: SectionWhereInput
   }
 
+  export type SectionColorListRelationFilter = {
+    every?: SectionColorWhereInput
+    some?: SectionColorWhereInput
+    none?: SectionColorWhereInput
+  }
+
   export type SectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SectionColorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21741,17 +25200,6 @@ export namespace Prisma {
     assetSection?: SortOrder
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type CoordinateCountOrderByAggregateInput = {
     id?: SortOrder
     latitude?: SortOrder
@@ -21787,20 +25235,52 @@ export namespace Prisma {
     sectionId?: SortOrder
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+  export type SectionColorCountOrderByAggregateInput = {
+    id?: SortOrder
+    hex?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type SectionColorAvgOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type SectionColorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    hex?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type SectionColorMinOrderByAggregateInput = {
+    id?: SortOrder
+    hex?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type SectionColorSumOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
   }
 
   export type OwnerCreateNestedOneWithoutMinesInput = {
@@ -21809,8 +25289,12 @@ export namespace Prisma {
     connect?: OwnerWhereUniqueInput
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -21821,24 +25305,22 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
 
-  export type OwnerUpdateOneRequiredWithoutMinesNestedInput = {
+  export type OwnerUpdateOneWithoutMinesNestedInput = {
     create?: XOR<OwnerCreateWithoutMinesInput, OwnerUncheckedCreateWithoutMinesInput>
     connectOrCreate?: OwnerCreateOrConnectWithoutMinesInput
     upsert?: OwnerUpsertWithoutMinesInput
+    disconnect?: OwnerWhereInput | boolean
+    delete?: OwnerWhereInput | boolean
     connect?: OwnerWhereUniqueInput
     update?: XOR<XOR<OwnerUpdateToOneWithWhereWithoutMinesInput, OwnerUpdateWithoutMinesInput>, OwnerUncheckedUpdateWithoutMinesInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -21899,10 +25381,6 @@ export namespace Prisma {
     connectOrCreate?: UserCreateOrConnectWithoutPositionInput | UserCreateOrConnectWithoutPositionInput[]
     createMany?: UserCreateManyPositionInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type UserUpdateManyWithoutPositionNestedInput = {
@@ -22051,14 +25529,6 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCreatorInput | UserUpdateWithWhereUniqueWithoutCreatorInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCreatorInput | UserUpdateManyWithWhereWithoutCreatorInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUncheckedUpdateManyWithoutCreatorNestedInput = {
@@ -22282,11 +25752,25 @@ export namespace Prisma {
     connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
   }
 
+  export type SectionColorCreateNestedManyWithoutSectionTypeInput = {
+    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
+    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
+    createMany?: SectionColorCreateManySectionTypeInputEnvelope
+    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+  }
+
   export type SectionUncheckedCreateNestedManyWithoutTypeInput = {
     create?: XOR<SectionCreateWithoutTypeInput, SectionUncheckedCreateWithoutTypeInput> | SectionCreateWithoutTypeInput[] | SectionUncheckedCreateWithoutTypeInput[]
     connectOrCreate?: SectionCreateOrConnectWithoutTypeInput | SectionCreateOrConnectWithoutTypeInput[]
     createMany?: SectionCreateManyTypeInputEnvelope
     connect?: SectionWhereUniqueInput | SectionWhereUniqueInput[]
+  }
+
+  export type SectionColorUncheckedCreateNestedManyWithoutSectionTypeInput = {
+    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
+    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
+    createMany?: SectionColorCreateManySectionTypeInputEnvelope
+    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
   }
 
   export type SectionUpdateManyWithoutTypeNestedInput = {
@@ -22303,6 +25787,20 @@ export namespace Prisma {
     deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
   }
 
+  export type SectionColorUpdateManyWithoutSectionTypeNestedInput = {
+    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
+    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
+    upsert?: SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput | SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput[]
+    createMany?: SectionColorCreateManySectionTypeInputEnvelope
+    set?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    disconnect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    delete?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    update?: SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput | SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput[]
+    updateMany?: SectionColorUpdateManyWithWhereWithoutSectionTypeInput | SectionColorUpdateManyWithWhereWithoutSectionTypeInput[]
+    deleteMany?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
+  }
+
   export type SectionUncheckedUpdateManyWithoutTypeNestedInput = {
     create?: XOR<SectionCreateWithoutTypeInput, SectionUncheckedCreateWithoutTypeInput> | SectionCreateWithoutTypeInput[] | SectionUncheckedCreateWithoutTypeInput[]
     connectOrCreate?: SectionCreateOrConnectWithoutTypeInput | SectionCreateOrConnectWithoutTypeInput[]
@@ -22315,6 +25813,20 @@ export namespace Prisma {
     update?: SectionUpdateWithWhereUniqueWithoutTypeInput | SectionUpdateWithWhereUniqueWithoutTypeInput[]
     updateMany?: SectionUpdateManyWithWhereWithoutTypeInput | SectionUpdateManyWithWhereWithoutTypeInput[]
     deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
+  }
+
+  export type SectionColorUncheckedUpdateManyWithoutSectionTypeNestedInput = {
+    create?: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput> | SectionColorCreateWithoutSectionTypeInput[] | SectionColorUncheckedCreateWithoutSectionTypeInput[]
+    connectOrCreate?: SectionColorCreateOrConnectWithoutSectionTypeInput | SectionColorCreateOrConnectWithoutSectionTypeInput[]
+    upsert?: SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput | SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput[]
+    createMany?: SectionColorCreateManySectionTypeInputEnvelope
+    set?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    disconnect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    delete?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    connect?: SectionColorWhereUniqueInput | SectionColorWhereUniqueInput[]
+    update?: SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput | SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput[]
+    updateMany?: SectionColorUpdateManyWithWhereWithoutSectionTypeInput | SectionColorUpdateManyWithWhereWithoutSectionTypeInput[]
+    deleteMany?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
   }
 
   export type SectionTypeCreateNestedOneWithoutSectionsInput = {
@@ -22575,20 +26087,26 @@ export namespace Prisma {
     connect?: SectionWhereUniqueInput
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type SectionUpdateOneRequiredWithoutCoordinatesNestedInput = {
     create?: XOR<SectionCreateWithoutCoordinatesInput, SectionUncheckedCreateWithoutCoordinatesInput>
     connectOrCreate?: SectionCreateOrConnectWithoutCoordinatesInput
     upsert?: SectionUpsertWithoutCoordinatesInput
     connect?: SectionWhereUniqueInput
     update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutCoordinatesInput, SectionUpdateWithoutCoordinatesInput>, SectionUncheckedUpdateWithoutCoordinatesInput>
+  }
+
+  export type SectionTypeCreateNestedOneWithoutColorInput = {
+    create?: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
+    connectOrCreate?: SectionTypeCreateOrConnectWithoutColorInput
+    connect?: SectionTypeWhereUniqueInput
+  }
+
+  export type SectionTypeUpdateOneRequiredWithoutColorNestedInput = {
+    create?: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
+    connectOrCreate?: SectionTypeCreateOrConnectWithoutColorInput
+    upsert?: SectionTypeUpsertWithoutColorInput
+    connect?: SectionTypeWhereUniqueInput
+    update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutColorInput, SectionTypeUpdateWithoutColorInput>, SectionTypeUncheckedUpdateWithoutColorInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -22602,29 +26120,9 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedStringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -22636,17 +26134,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -22676,6 +26163,42 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22691,6 +26214,82 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -22709,20 +26308,6 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -22735,30 +26320,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -22814,33 +26375,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumPlanStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PlanStatus | EnumPlanStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PlanStatus[] | ListEnumPlanStatusFieldRefInput<$PrismaModel>
@@ -22856,22 +26390,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlanStatusFilter<$PrismaModel>
     _max?: NestedEnumPlanStatusFilter<$PrismaModel>
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type OwnerCreateWithoutMinesInput = {
@@ -22922,12 +26440,12 @@ export namespace Prisma {
 
   export type MineCreateWithoutOwnerInput = {
     mineName: string
-    locationLatitude: Decimal | DecimalJsLike | number | string
-    locationLongitude: Decimal | DecimalJsLike | number | string
+    locationLatitude: number
+    locationLongitude: number
     address: string
     mineType: string
     productionCapacity: Decimal | DecimalJsLike | number | string
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date | string
     endDate?: Date | string | null
   }
@@ -22935,12 +26453,12 @@ export namespace Prisma {
   export type MineUncheckedCreateWithoutOwnerInput = {
     mineId?: number
     mineName: string
-    locationLatitude: Decimal | DecimalJsLike | number | string
-    locationLongitude: Decimal | DecimalJsLike | number | string
+    locationLatitude: number
+    locationLongitude: number
     address: string
     mineType: string
     productionCapacity: Decimal | DecimalJsLike | number | string
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date | string
     endDate?: Date | string | null
   }
@@ -22977,13 +26495,13 @@ export namespace Prisma {
     NOT?: MineScalarWhereInput | MineScalarWhereInput[]
     mineId?: IntFilter<"Mine"> | number
     mineName?: StringFilter<"Mine"> | string
-    locationLatitude?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFilter<"Mine"> | number
+    locationLongitude?: FloatFilter<"Mine"> | number
     address?: StringFilter<"Mine"> | string
-    ownerId?: IntFilter<"Mine"> | number
+    ownerId?: IntNullableFilter<"Mine"> | number | null
     mineType?: StringFilter<"Mine"> | string
     productionCapacity?: DecimalFilter<"Mine"> | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFilter<"Mine"> | string
+    operationalStatus?: BoolFilter<"Mine"> | boolean
     startDate?: DateTimeFilter<"Mine"> | Date | string
     endDate?: DateTimeNullableFilter<"Mine"> | Date | string | null
   }
@@ -23840,6 +27358,25 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SectionColorCreateWithoutSectionTypeInput = {
+    hex: string
+  }
+
+  export type SectionColorUncheckedCreateWithoutSectionTypeInput = {
+    id?: number
+    hex: string
+  }
+
+  export type SectionColorCreateOrConnectWithoutSectionTypeInput = {
+    where: SectionColorWhereUniqueInput
+    create: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput>
+  }
+
+  export type SectionColorCreateManySectionTypeInputEnvelope = {
+    data: SectionColorCreateManySectionTypeInput | SectionColorCreateManySectionTypeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SectionUpsertWithWhereUniqueWithoutTypeInput = {
     where: SectionWhereUniqueInput
     update: XOR<SectionUpdateWithoutTypeInput, SectionUncheckedUpdateWithoutTypeInput>
@@ -23866,15 +27403,42 @@ export namespace Prisma {
     area?: IntNullableFilter<"Section"> | number | null
   }
 
+  export type SectionColorUpsertWithWhereUniqueWithoutSectionTypeInput = {
+    where: SectionColorWhereUniqueInput
+    update: XOR<SectionColorUpdateWithoutSectionTypeInput, SectionColorUncheckedUpdateWithoutSectionTypeInput>
+    create: XOR<SectionColorCreateWithoutSectionTypeInput, SectionColorUncheckedCreateWithoutSectionTypeInput>
+  }
+
+  export type SectionColorUpdateWithWhereUniqueWithoutSectionTypeInput = {
+    where: SectionColorWhereUniqueInput
+    data: XOR<SectionColorUpdateWithoutSectionTypeInput, SectionColorUncheckedUpdateWithoutSectionTypeInput>
+  }
+
+  export type SectionColorUpdateManyWithWhereWithoutSectionTypeInput = {
+    where: SectionColorScalarWhereInput
+    data: XOR<SectionColorUpdateManyMutationInput, SectionColorUncheckedUpdateManyWithoutSectionTypeInput>
+  }
+
+  export type SectionColorScalarWhereInput = {
+    AND?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
+    OR?: SectionColorScalarWhereInput[]
+    NOT?: SectionColorScalarWhereInput | SectionColorScalarWhereInput[]
+    id?: IntFilter<"SectionColor"> | number
+    hex?: StringFilter<"SectionColor"> | string
+    sectionId?: IntFilter<"SectionColor"> | number
+  }
+
   export type SectionTypeCreateWithoutSectionsInput = {
     name: string
     description: string
+    color?: SectionColorCreateNestedManyWithoutSectionTypeInput
   }
 
   export type SectionTypeUncheckedCreateWithoutSectionsInput = {
     id?: number
     name: string
     description: string
+    color?: SectionColorUncheckedCreateNestedManyWithoutSectionTypeInput
   }
 
   export type SectionTypeCreateOrConnectWithoutSectionsInput = {
@@ -23963,12 +27527,14 @@ export namespace Prisma {
   export type SectionTypeUpdateWithoutSectionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    color?: SectionColorUpdateManyWithoutSectionTypeNestedInput
   }
 
   export type SectionTypeUncheckedUpdateWithoutSectionsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    color?: SectionColorUncheckedUpdateManyWithoutSectionTypeNestedInput
   }
 
   export type AssetUpsertWithWhereUniqueWithoutSectionInput = {
@@ -24256,27 +27822,69 @@ export namespace Prisma {
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
   }
 
+  export type SectionTypeCreateWithoutColorInput = {
+    name: string
+    description: string
+    sections?: SectionCreateNestedManyWithoutTypeInput
+  }
+
+  export type SectionTypeUncheckedCreateWithoutColorInput = {
+    id?: number
+    name: string
+    description: string
+    sections?: SectionUncheckedCreateNestedManyWithoutTypeInput
+  }
+
+  export type SectionTypeCreateOrConnectWithoutColorInput = {
+    where: SectionTypeWhereUniqueInput
+    create: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
+  }
+
+  export type SectionTypeUpsertWithoutColorInput = {
+    update: XOR<SectionTypeUpdateWithoutColorInput, SectionTypeUncheckedUpdateWithoutColorInput>
+    create: XOR<SectionTypeCreateWithoutColorInput, SectionTypeUncheckedCreateWithoutColorInput>
+    where?: SectionTypeWhereInput
+  }
+
+  export type SectionTypeUpdateToOneWithWhereWithoutColorInput = {
+    where?: SectionTypeWhereInput
+    data: XOR<SectionTypeUpdateWithoutColorInput, SectionTypeUncheckedUpdateWithoutColorInput>
+  }
+
+  export type SectionTypeUpdateWithoutColorInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    sections?: SectionUpdateManyWithoutTypeNestedInput
+  }
+
+  export type SectionTypeUncheckedUpdateWithoutColorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    sections?: SectionUncheckedUpdateManyWithoutTypeNestedInput
+  }
+
   export type MineCreateManyOwnerInput = {
     mineId?: number
     mineName: string
-    locationLatitude: Decimal | DecimalJsLike | number | string
-    locationLongitude: Decimal | DecimalJsLike | number | string
+    locationLatitude: number
+    locationLongitude: number
     address: string
     mineType: string
     productionCapacity: Decimal | DecimalJsLike | number | string
-    operationalStatus: string
+    operationalStatus: boolean
     startDate: Date | string
     endDate?: Date | string | null
   }
 
   export type MineUpdateWithoutOwnerInput = {
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -24284,12 +27892,12 @@ export namespace Prisma {
   export type MineUncheckedUpdateWithoutOwnerInput = {
     mineId?: IntFieldUpdateOperationsInput | number
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -24297,12 +27905,12 @@ export namespace Prisma {
   export type MineUncheckedUpdateManyWithoutOwnerInput = {
     mineId?: IntFieldUpdateOperationsInput | number
     mineName?: StringFieldUpdateOperationsInput | string
-    locationLatitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    locationLongitude?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    locationLatitude?: FloatFieldUpdateOperationsInput | number
+    locationLongitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     mineType?: StringFieldUpdateOperationsInput | string
     productionCapacity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    operationalStatus?: StringFieldUpdateOperationsInput | string
+    operationalStatus?: BoolFieldUpdateOperationsInput | boolean
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -24581,6 +28189,11 @@ export namespace Prisma {
     area?: number | null
   }
 
+  export type SectionColorCreateManySectionTypeInput = {
+    id?: number
+    hex: string
+  }
+
   export type SectionUpdateWithoutTypeInput = {
     name?: StringFieldUpdateOperationsInput | string
     area?: NullableIntFieldUpdateOperationsInput | number | null
@@ -24602,6 +28215,20 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     area?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type SectionColorUpdateWithoutSectionTypeInput = {
+    hex?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SectionColorUncheckedUpdateWithoutSectionTypeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    hex?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SectionColorUncheckedUpdateManyWithoutSectionTypeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    hex?: StringFieldUpdateOperationsInput | string
   }
 
   export type AssetCreateManySectionInput = {
@@ -24773,6 +28400,14 @@ export namespace Prisma {
      */
     export type AssetCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use InitStatusDefaultArgs instead
+     */
+    export type InitStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InitStatusDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SuperAdminDefaultArgs instead
+     */
+    export type SuperAdminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SuperAdminDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use MineDefaultArgs instead
      */
     export type MineArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MineDefaultArgs<ExtArgs>
@@ -24836,6 +28471,10 @@ export namespace Prisma {
      * @deprecated Use CoordinateDefaultArgs instead
      */
     export type CoordinateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CoordinateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SectionColorDefaultArgs instead
+     */
+    export type SectionColorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionColorDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

@@ -10,20 +10,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model InitStatus {
+  id       Int      @id @default(autoincrement())
+  isInit   Boolean  @default(false)
+  initData DateTime @default(now())
+}
+
+model SuperAdmin {
+  id           Int    @id @default(autoincrement())
+  name         String @db.VarChar(255)
+  email        String @db.VarChar(255)
+  passwordHash String @db.VarChar(255)
+  salt         String @db.VarChar(255)
+}
+
 model Mine {
   mineId             Int       @id @default(autoincrement())
   mineName           String    @db.VarChar(100)
-  locationLatitude   Decimal   @db.Decimal(9, 6)
-  locationLongitude  Decimal   @db.Decimal(9, 6)
+  locationLatitude   Float
+  locationLongitude  Float
   address            String    @db.VarChar(255)
-  ownerId            Int
+  ownerId            Int?
   mineType           String    @db.VarChar(50)
   productionCapacity Decimal   @db.Decimal(10, 2)
-  operationalStatus  String    @db.VarChar(50)
+  operationalStatus  Boolean   @db.Boolean
   startDate          DateTime  @db.Date
   endDate            DateTime? @db.Date
 
-  owner         Owner          @relation(fields: [ownerId], references: [ownerId])
+  owner Owner? @relation(fields: [ownerId], references: [ownerId])
 
   @@map("mines")
 }
@@ -108,13 +122,13 @@ enum PlanStatus {
 }
 
 model Plan {
-  planId          Int        @id @default(autoincrement())
+  planId          Int           @id @default(autoincrement())
   planName        String
   planDescription String?
   form            Json
-  status          PlanStatus @default(Draft)
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  status          PlanStatus    @default(Draft)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
   notes           String?
   planFiles       Planfiles[]
   activePlans     ActivePlans[]
@@ -122,13 +136,13 @@ model Plan {
 }
 
 model PlanAssets {
-  id Int @id @default(autoincrement())
-  planId  Int
-  assetId Int
+  id        Int    @id @default(autoincrement())
+  planId    Int
+  assetId   Int
   assetName String
-  
-  plan  Plan    @relation(fields:[planId], references:[planId])
-  asset Asset   @relation(fields:[assetId], references:[id])
+
+  plan  Plan  @relation(fields: [planId], references: [planId])
+  asset Asset @relation(fields: [assetId], references: [id])
 }
 
 model Planfiles {
@@ -141,20 +155,21 @@ model Planfiles {
 }
 
 model ActivePlans {
-  id        Int     @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   planName  String
   planId    Int
   sectionId Int
 
-  plan      Plan    @relation(fields: [planId], references: [planId])
-  section   Section @relation(fields: [sectionId], references: [id])
+  plan    Plan    @relation(fields: [planId], references: [planId])
+  section Section @relation(fields: [sectionId], references: [id])
 }
 
 model SectionType {
-  id          Int       @id @default(autoincrement())
-  name        String    @db.VarChar(255)
-  description String    @db.VarChar(255)
+  id          Int            @id @default(autoincrement())
+  name        String         @db.VarChar(255)
+  description String         @db.VarChar(255)
   sections    Section[]
+  color       SectionColor[]
 }
 
 model Section {
@@ -163,35 +178,42 @@ model Section {
   sectionType Int
   area        Int?
 
-  type        SectionType  @relation(fields: [sectionType], references: [id])
+  type        SectionType   @relation(fields: [sectionType], references: [id])
   assets      Asset[]
   coordinates Coordinate[]
   activePlans ActivePlans[]
 }
 
-model AssetType {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(255)
-  description String   @db.VarChar(255)
-  assets      Asset[]
-}
-
-model Asset {
-  id          Int       @id @default(autoincrement())
-  name        String    @db.VarChar(255)
-  description String    @db.VarChar(255)
-  assetType   Int
-  assetSection Int
-  planAssets      PlanAssets[]
-  type        AssetType  @relation(fields: [assetType], references: [id])
-  section     Section    @relation(fields: [assetSection], references: [id])
+model SectionColor {
+  id          Int         @id @default(autoincrement())
+  hex         String
+  sectionId   Int
+  sectionType SectionType @relation(fields: [sectionId], references: [id])
 }
 
 model Coordinate {
-  id        Int      @id @default(autoincrement())
+  id        Int   @id @default(autoincrement())
   latitude  Float
   longitude Float
   sectionId Int
 
-  section   Section  @relation(fields: [sectionId], references: [id])
+  section Section @relation(fields: [sectionId], references: [id])
+}
+
+model AssetType {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String  @db.VarChar(255)
+  assets      Asset[]
+}
+
+model Asset {
+  id           Int          @id @default(autoincrement())
+  name         String       @db.VarChar(255)
+  description  String       @db.VarChar(255)
+  assetType    Int
+  assetSection Int
+  planAssets   PlanAssets[]
+  type         AssetType    @relation(fields: [assetType], references: [id])
+  section      Section      @relation(fields: [assetSection], references: [id])
 }

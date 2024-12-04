@@ -11,6 +11,9 @@ import { assetRouter } from "./assetRouter";
 import { assetTypeRouter } from "./assetTypeRouter";
 import { sectionTypeRouter } from "./sectionTypeRouter";
 import { roundsRouter } from "./roundsRouter";
+import { initRouter } from "./initRouter";
+import { adminRouter } from "./adminRouter";
+import { mineRouter } from "./mineRouter";
 
 const router = Router();
 
@@ -22,7 +25,11 @@ router.get('/', asyncHandler(async (req: Request, res: Response) => {
     });
 }));
 
-router.use('/login', authRouter)
+router.use('/auth', authRouter);
+router.use('/admin/init', initRouter);
+router.use('/admin/op', adminRouter);
+
+router.use('/mine', mineRouter)
 
 // router.use(verifyToken);
 

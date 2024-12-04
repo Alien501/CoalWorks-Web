@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -13,17 +13,62 @@ import MasterShift from './pages/MasterShift'
 import MasterAsset from './pages/MasterAsset'
 import Dashboard from './pages/dashboard'
 import { Plants } from './pages/plants'
-import { NewPlants } from './pages/plants2'
+import SectionsPage, { NewPlants } from './pages/plants2'
 import MapConfg from './pages/MapConfg'
 import NewMap from './pages/MapTest'
 import Positions from './pages/positions'
-import { Toaster } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import RolesAndPermission from './pages/rolesAndPermissions'
 import RoundPlan from './pages/roundePlan'
 import CreateRound from './pages/createRound'
 import { MineInit } from './pages/mapConfgNew'
+import InitPage from './pages/initPage'
+import { useEffect, useState } from 'react'
+import { fetchInitStatus } from './utils/fetchInitStatus'
+import { ProtectedRoute } from './components/custom/ProtectedRoutes'
+import MinesPage from './pages/MasterMine'
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [initStatus, setInitStatus] = useState<{
+    status: boolean | null, 
+    checked: boolean
+  }>({
+    status: null,
+    checked: false
+  });
+
+  useEffect(() => {
+    const checkInitializationStatus = async () => {
+      try {
+        const storedInitStatus = localStorage.getItem('isInit');
+        
+        if (storedInitStatus === 'true') {
+          setInitStatus({ status: true, checked: true });
+          setIsLoading(false);
+          return;
+        }
+
+        const res = await fetchInitStatus();
+        console.log(res)
+        if (res.status) {
+          localStorage.setItem('isInit', 'true');
+          setInitStatus({ status: true, checked: true });
+        } else {
+          localStorage.setItem('isInit', 'false');
+          setInitStatus({ status: false, checked: true });
+        }
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Initialization check failed:', error);
+        setInitStatus({ status: false, checked: true });
+        setIsLoading(false);
+      }
+    };
+
+    checkInitializationStatus();
+  }, []);
 
   const router = createBrowserRouter([
     {
@@ -32,53 +77,59 @@ function App() {
       children: [
         {
           index: true,
-          element: <HomePage />
+          element: isLoading? null: (
+            initStatus.status? <ProtectedRoute><HomePage /></ProtectedRoute>: <Navigate to='/init' />
+          )
         },
         {
           path: 'home',
-          element: <HomePage />
+          element: <ProtectedRoute><HomePage /></ProtectedRoute>
         },
         {
           path: 'master-data',
-          element: <MasterData />
+          element: <ProtectedRoute><MasterData /></ProtectedRoute>
         },
         {
           path: '/rounds',
-          element: <RoundPlan />
+          element: <ProtectedRoute><RoundPlan /></ProtectedRoute>
         },
         {
           path: '/rounds-create',
-          element: <CreateRound />
+          element: <ProtectedRoute><CreateRound /></ProtectedRoute>
         },
         {
           path: 'master-data/shift',
-          element: <MasterShift />
+          element: <ProtectedRoute><MasterShift /></ProtectedRoute>
         },
         {
           path: 'master-data/plants',
-          element: <NewPlants/>
+          element: <ProtectedRoute><SectionsPage /></ProtectedRoute>
         },
         {
           path: 'master-data/locations',
-          element: <Locations />
+          element: <ProtectedRoute><Locations /></ProtectedRoute>
         },
         {
           path: 'master-data/assets',
-          element: <MasterAsset />
+          element: <ProtectedRoute><MasterAsset /></ProtectedRoute>
         },
         {
           path: '/master-data/positions',
-          element: <Positions />
+          element: <ProtectedRoute><Positions /></ProtectedRoute>
         },
         {
           path: '/master-data/permissions',
-          element: <RolesAndPermission />
+          element: <ProtectedRoute><RolesAndPermission /></ProtectedRoute>
+        },
+        {
+          path: '/master-data/mine',
+          element: <ProtectedRoute><MinesPage /></ProtectedRoute>
         }
       ]
     },
     {
       path: '/login',
-      element: <Login />
+      element: <Login />,
     },
     {
       path: "/register",
@@ -101,10 +152,6 @@ function App() {
     //   element: <Map></Map>
     // },
     {
-      path: '/dashboard',
-      element: <Dashboard />
-    },
-    {
       path: '/mine-init',
       element: <MineInit />
     },
@@ -112,6 +159,10 @@ function App() {
       path: '/map-test',
       element: <NewMap />
     },
+    {
+      path: '/init',
+      element: <InitPage />
+    }
   ])
 
   return (

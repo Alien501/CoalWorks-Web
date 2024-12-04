@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/drawer"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Boxes, CalendarCheck, Crown, FactoryIcon, MapIcon, Info } from "lucide-react";
+import { Boxes, CalendarCheck, Crown, FactoryIcon, MapIcon, Info, Pickaxe } from "lucide-react";
 import { Link } from "react-router-dom";
 import MasterConfigDrawer from "@/components/own/masterConfigDrawer";
 
@@ -26,6 +26,21 @@ const MasterData = () => {
                 </h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <Link to={'/master-data/mine'} className="block">
+                        <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <CardHeader>
+                                <CardTitle className="flex items-center justify-between">
+                                    Mine Configuration
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex items-center justify-center h-40">
+                                <div className="text-center">
+                                    <Pickaxe className="mx-auto mb-4" size={70} strokeWidth={1.5} />
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Mines</p>
+                                </div>
+                        </CardContent>
+                        </Card>
+                    </Link>
                     <Link to={'/master-data/plants'} className="block">
                         <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
                             <CardHeader>

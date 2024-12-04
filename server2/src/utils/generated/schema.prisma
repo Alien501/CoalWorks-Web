@@ -10,20 +10,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model InitStatus {
+  id       Int      @id @default(autoincrement())
+  isInit   Boolean  @default(false)
+  initData DateTime @default(now())
+}
+
+model SuperAdmin {
+  id           Int    @id @default(autoincrement())
+  name         String @db.VarChar(255)
+  email        String @db.VarChar(255)
+  passwordHash String @db.VarChar(255)
+  salt         String @db.VarChar(255)
+}
+
 model Mine {
   mineId             Int       @id @default(autoincrement())
   mineName           String    @db.VarChar(100)
-  locationLatitude   Decimal   @db.Decimal(9, 6)
-  locationLongitude  Decimal   @db.Decimal(9, 6)
+  locationLatitude   Float
+  locationLongitude  Float
   address            String    @db.VarChar(255)
-  ownerId            Int
+  ownerId            Int?
   mineType           String    @db.VarChar(50)
   productionCapacity Decimal   @db.Decimal(10, 2)
-  operationalStatus  String    @db.VarChar(50)
+  operationalStatus  Boolean   @db.Boolean
   startDate          DateTime  @db.Date
   endDate            DateTime? @db.Date
 
-  owner Owner @relation(fields: [ownerId], references: [ownerId])
+  owner Owner? @relation(fields: [ownerId], references: [ownerId])
 
   @@map("mines")
 }

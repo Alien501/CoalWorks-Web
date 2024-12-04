@@ -1,6 +1,6 @@
-const fetchSectionTypes = async (scaleLevel: number) => {
+const fetchSectionTypes = async () => {
     try {
-        const res = await fetch(`/api/data/section/items?scaleLevel=${scaleLevel}`)
+        const res = await fetch(`/api/data/sectiontype`)
         if(res.ok) {
             const d = await res.json();
             return d.data;

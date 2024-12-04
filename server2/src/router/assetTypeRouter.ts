@@ -1,28 +1,28 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
-import { createAssetType, getAssetTypeById, updateAssetType, deleteAssetType, getAssetTypes } from "../libs/config/assetType";
+import { createAssetType, getAssetTypeById, updateAssetType, deleteAssetType, getAllAssetTypes } from "../libs/config/assetType";
 
 const assetTypeRouter = Router();
 
 
 assetTypeRouter.post('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await createAssetType(req, res, next);
+    await createAssetType(req, res);
 }))
 
 assetTypeRouter.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getAssetTypes(req, res, next);
+    await getAllAssetTypes(req, res);
 }))
 
 assetTypeRouter.post('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await updateAssetType(req, res, next);
+    await updateAssetType(req, res)
 }))
 
 assetTypeRouter.get('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getAssetTypeById(req, res, next);
+    await getAssetTypeById(req, res);
 }))
 
 assetTypeRouter.delete('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await deleteAssetType(req, res, next);
+    await deleteAssetType(req, res);
 }))
 
 export {

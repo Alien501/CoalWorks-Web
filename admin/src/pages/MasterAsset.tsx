@@ -1,288 +1,421 @@
-import { useEffect, useState } from "react"
+import React, { useState, useMemo, useEffect } from 'react'
+import axios from 'axios'; // Make sure to install axios
+import { Plus, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { MoreHorizontal, Search } from 'lucide-react'
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
 } from "@/components/ui/dialog"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { toast } from "sonner"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { fetchSections } from "@/utils/fetchSections"
-import { fetchSectionTypes } from "@/utils/fetchSectionTypes"
-import { addNewAsset } from "@/utils/addNewAsset"
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select"
+import { Label } from "@/components/ui/label"
+import { toast } from 'sonner';
+import { fetchAssetType } from '@/utils/fetchAssetTypes';
+import { fetchAssets } from '@/utils/fetchAssets';
+import { fetchSections } from '@/utils/fetchSections';
 
-interface Assets {
-    id: string
-    name: string
-    description: string
-    model: string
-    type: string
-    createdAt: string
-    updatedAt: string
-    location: string
-}
-
-const sampleAssets: Assets[] = [
-    {
-        id: "1",
-        name: "Excavator X-500",
-        description: "Heavy-duty excavator for digging and earth-moving tasks.",
-        model: "X-500",
-        type: "Excavator",
-        createdAt: "2024-01-15T08:30:00Z",
-        updatedAt: "2024-11-01T10:00:00Z",
-        location: "Plant A - Zone 1"
-    },
-    {
-        id: "2",
-        name: "Dump Truck DT-3000",
-        description: "Large dump truck for transporting coal from mining sites.",
-        model: "DT-3000",
-        type: "Truck",
-        createdAt: "2023-05-22T09:00:00Z",
-        updatedAt: "2024-10-18T14:30:00Z",
-        location: "Plant A - Zone 2"
-    },
-    {
-        id: "3",
-        name: "Coal Crusher C-200",
-        description: "Crusher for breaking down large chunks of coal into smaller sizes.",
-        model: "C-200",
-        type: "Crusher",
-        createdAt: "2023-09-05T07:45:00Z",
-        updatedAt: "2024-11-12T11:20:00Z",
-        location: "Plant B - Crushing Section"
-    },
-    {
-        id: "4",
-        name: "Belt Conveyor BC-400",
-        description: "Conveyor belt system for transporting coal across the plant.",
-        model: "BC-400",
-        type: "Conveyor",
-        createdAt: "2022-12-10T16:30:00Z",
-        updatedAt: "2024-07-29T13:15:00Z",
-        location: "Plant C - Conveyor Line"
-    },
-    {
-        id: "5",
-        name: "Drill Rig DR-1200",
-        description: "Drill rig used for drilling boreholes in mining operations.",
-        model: "DR-1200",
-        type: "Drill",
-        createdAt: "2024-02-20T10:45:00Z",
-        updatedAt: "2024-09-30T15:00:00Z",
-        location: "Mine Site 4 - Borehole Area"
-    }
-];
 export default function MasterAsset() {
-    const [assets, setAssets] = useState(sampleAssets)
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [model, setModel] = useState("");
-    const [type, setType] = useState(0);
-    const [location, setLocation] = useState(0);
-    const [locations, setLocations] = useState([]);
-    const [sectionType, setSectionType] = useState([]);
+  const [activeTab, setActiveTab] = useState("types");
+  const [assetTypes, setAssetTypes] = useState([]);
+  const [assets, setAssets] = useState([]);
+  const [sections, setSections] = useState([]);
+  
+  const [typeSearch, setTypeSearch] = useState("");
+  const [assetSearch, setAssetSearch] = useState("");
+  const [assetTypeFilter, setAssetTypeFilter] = useState("");
+  const [sectionFilter, setSectionFilter] = useState("");
 
-    const getAndSetLocation = async () => {
-        const d = await fetchSections();
-        if(!d) {
-            setLocation([]);
-        }else{
-            console.log(d);
-            setLocations(d);
-        }
+  const [newAssetType, setNewAssetType] = useState({
+    name: "",
+    description: ""
+  });
+
+  const [newAsset, setNewAsset] = useState({
+    name: "",
+    description: "",
+    assetType: "",
+    assetSection: ""
+  });
+
+  const filteredAssetTypes = useMemo(() => {
+    return assetTypes.filter(type => 
+      type.name.toLowerCase().includes(typeSearch.toLowerCase()) ||
+      type.description.toLowerCase().includes(typeSearch.toLowerCase())
+    );
+  }, [assetTypes, typeSearch]);
+
+  const filteredAssets = useMemo(() => {
+    console.log(assets)
+    return assets.filter(asset => 
+      (asset.name.toLowerCase().includes(assetSearch.toLowerCase()) ||
+       asset.description.toLowerCase().includes(assetSearch.toLowerCase())) &&
+      (!assetTypeFilter || asset.assetType === parseInt(assetTypeFilter)) &&
+      (!sectionFilter || asset.assetSection === parseInt(sectionFilter))
+    );
+  }, [assets, assetSearch, assetTypeFilter, sectionFilter]);
+
+  const handleAddAssetType = async () => {
+    try {
+      if (!newAssetType.name || !newAssetType.description) {
+        toast.error("Name and description are required")
+        return;
+      }
+
+      const response = await axios.post('/api/data/assettype', {
+        name: newAssetType.name,
+        description: newAssetType.description
+      });
+
+      setAssetTypes([...assetTypes, response.data]);
+
+      setNewAssetType({ name: "", description: "" });
+      
+      toast.success("Asset Type created successfully")
+    } catch (error) {
+      console.error("Error creating asset type:", error);
+      toast.error("Failed to create asset type")
+    }
+  };
+
+  const handleAddAsset = async () => {
+    try {
+      if (!newAsset.name || !newAsset.description || !newAsset.assetType || !newAsset.assetSection) {
+        toast.error("All fields are required")
+        return;
+      }
+
+      const response = await axios.post('/api/data/asset', {
+        name: newAsset.name,
+        description: newAsset.description,
+        assetType: parseInt(newAsset.assetType),
+        assetSection: parseInt(newAsset.assetSection)
+      });
+
+      setAssets([...assets, response.data]);
+
+      setNewAsset({ name: "", description: "", assetType: "", assetSection: "" });
+      
+      toast.success("Asset created successfully")
+    } catch (error) {
+      console.error("Error creating asset:", error);
+      toast.error("Failed to create asset")
+    }
+  };
+
+  useEffect(() => {
+    const getAndSetData = async () => {
+      try {
+        const [assetTypesRes, assetsRes, sectionsRes] = await Promise.all([
+          fetchAssetType(),
+          fetchAssets(),
+          fetchSections()
+        ]);
+
+        setAssetTypes(assetTypesRes);
+        setAssets(assetsRes);
+        setSections(sectionsRes);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch data")
+      }
     }
 
-    const onLocationChoosed = async (scaleLevel: string) => {
-        setLocation(prev => parseInt(scaleLevel));
-        const res = await fetchSectionTypes(parseInt(scaleLevel));
-        if(!res) {
-            setSectionType([]);
-            return;
-        }
-        setSectionType(res)
-    };
+    getAndSetData();
+  }, [])
 
-    const onTypeChoosed = async (itemId: string) => {
-        setType(parseInt(itemId));
-    }
-
-    useEffect(() => {
-        getAndSetLocation()
-    }, [])
-    const onSaveAsset = async ()=> {
-        const data = {assetName: name, assetDescription: description, assetModel: model, assetType: type, assetLocation: location};
-        const res = await addNewAsset(data);
-        if(!res) {
-            toast.error('Something went wrong! try again later!')
-            return;
-        }else{
-            setAssets((prev: any) => [...prev, data])
-            toast.success("Asset Created Successfully")
-            setIsDialogOpen(false)
-        }
-    }
-    return (
-        <div className="container mx-auto py-10">
-            <div className="flex justify-between items-center p-2 mb-6">
-                <h1 className="text-3xl font-bold">Assets</h1>
-                <div className="flex items-center space-x-4">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                        <Input
-                            placeholder="Search Assets..."
-                            className="pl-10 w-64"
-                        //   value={searchTerm}
-                        //   onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+  return (
+    <div className="container mx-auto py-10 space-y-4">
+      <Tabs defaultValue="types">
+        <div className="flex items-center justify-between">
+          <TabsList>
+            <TabsTrigger 
+              value="types" 
+              onClick={() => setActiveTab("types")}
+            >
+              Asset Types
+            </TabsTrigger>
+            <TabsTrigger 
+              value="assets" 
+              onClick={() => setActiveTab("assets")}
+            >
+              Assets
+            </TabsTrigger>
+          </TabsList>
+          
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add {activeTab === "assets" ? "Asset" : "Asset Type"}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              {activeTab === "types" ? (
+                <>
+                  <DialogHeader>
+                    <DialogTitle>Create New Asset Type</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4 text-left">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="name" className="text-right">
+                        Name
+                      </Label>
+                      <Input 
+                        id="name" 
+                        value={newAssetType.name}
+                        onChange={(e) => setNewAssetType({
+                          ...newAssetType, 
+                          name: e.target.value
+                        })}
+                        className="col-span-3" 
+                      />
                     </div>
-                    <Dialog open = {isDialogOpen} onOpenChange={setIsDialogOpen}>
-                        <DialogTrigger asChild>
-                            <Button onClick={() => setIsDialogOpen(true)}>Create New Asset</Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Create new Asset</DialogTitle>
-                                {/* <DialogDescription>
-                                    Make changes to your profile here. Click save when you're done.
-                                </DialogDescription> */}
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="name" className="text-right">
-                                        Name
-                                    </Label>
-                                    <Input
-                                        id="name"
-                                        className="col-span-3"
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="model" className="text-right">
-                                        Model
-                                    </Label>
-                                    <Input
-                                        id="model"
-                                        className="col-span-3"
-                                        onChange={(e) => setModel(e.target.value)}
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="description" className="text-right">
-                                        Description
-                                    </Label>
-                                    <Input
-                                        id="description"
-                                        className="col-span-3"
-                                        onChange={(e) => setDescription(e.target.value)}
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="location" className="text-right">
-                                        Location
-                                    </Label>
-                                    <Select onValueChange={onLocationChoosed}>
-                                        <SelectTrigger id="location">
-                                            <SelectValue placeholder="Location" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {
-                                                locations && (
-                                                    locations.map(location => (
-                                                        <SelectItem value={location.scaleLevel}>{location.name}</SelectItem>
-                                                    ))
-                                                )
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="type" className="text-right">
-                                        Location
-                                    </Label>
-                                    <Select onValueChange={onTypeChoosed}>
-                                        <SelectTrigger id="type">
-                                            <SelectValue placeholder="Item Type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {
-                                                sectionType && (
-                                                    sectionType.map(section => (
-                                                        <SelectItem value={section.itemId}>{section.itemName}</SelectItem>
-                                                    ))
-                                                )
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </div>
-                            <DialogFooter>
-                                <Button onClick = {onSaveAsset}>Save changes</Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </div>
-            </div>
-            <div className="border rounded-lg overflow-hidden">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Model</TableHead>
-                            <TableHead>Description</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Location</TableHead>
-                            <TableHead>Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {assets.map((asset) => (
-                            <TableRow key={asset.id}>
-                                <TableCell className="font-medium">{asset.name}</TableCell>
-                                <TableCell>{asset.model}</TableCell>
-                                <TableCell>{asset.description}</TableCell>
-                                <TableCell>{asset.type}</TableCell>
-                                <TableCell>{asset.location}</TableCell>
-                                <TableCell className="text-right">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                                <span className="sr-only">Open menu</span>
-                                                <MoreHorizontal className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem>Edit Asset</DropdownMenuItem>
-                                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem className="text-red-600">Delete Asset</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="description" className="text-right">
+                        Description
+                      </Label>
+                      <Input 
+                        id="description" 
+                        value={newAssetType.description}
+                        onChange={(e) => setNewAssetType({
+                          ...newAssetType, 
+                          description: e.target.value
+                        })}
+                        className="col-span-3" 
+                      />
+                    </div>
+                    <Button onClick={handleAddAssetType}>
+                      Create Asset Type
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <DialogHeader>
+                    <DialogTitle>Create New Asset</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="asset-name" className="text-right">
+                        Name
+                      </Label>
+                      <Input 
+                        id="asset-name" 
+                        value={newAsset.name}
+                        onChange={(e) => setNewAsset({
+                          ...newAsset, 
+                          name: e.target.value
+                        })}
+                        className="col-span-3" 
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="asset-description" className="text-right">
+                        Description
+                      </Label>
+                      <Input 
+                        id="asset-description" 
+                        value={newAsset.description}
+                        onChange={(e) => setNewAsset({
+                          ...newAsset, 
+                          description: e.target.value
+                        })}
+                        className="col-span-3" 
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="asset-type" className="text-right">
+                        Asset Type
+                      </Label>
+                      <Select 
+                        value={newAsset.assetType}
+                        onValueChange={(value) => setNewAsset({
+                          ...newAsset, 
+                          assetType: value
+                        })}
+                      >
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue placeholder="Select Asset Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {assetTypes.map(type => (
+                            <SelectItem 
+                              key={type.id} 
+                              value={type.id.toString()}
+                            >
+                              {type.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="asset-section" className="text-right">
+                        Section
+                      </Label>
+                      <Select 
+                        value={newAsset.assetSection}
+                        onValueChange={(value) => setNewAsset({
+                          ...newAsset, 
+                          assetSection: value
+                        })}
+                      >
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue placeholder="Select Section" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {sections.map(section => (
+                            <SelectItem 
+                              key={section.id} 
+                              value={section.id.toString()}
+                            >
+                              {section.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button onClick={handleAddAsset}>
+                      Create Asset
+                    </Button>
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
-    )
+
+        {/* Search and Filter Section */}
+        <div className="flex items-center space-x-2 mb-4">
+          <div className="flex items-center border rounded-md px-3 py-1 flex-1">
+            <Search className="mr-2 h-4 w-4 text-muted-foreground" />
+            <Input 
+              placeholder={`Search ${activeTab === 'types' ? 'Asset Types' : 'Assets'}`}
+              value={activeTab === 'types' ? typeSearch : assetSearch}
+              onChange={(e) => 
+                activeTab === 'types' 
+                  ? setTypeSearch(e.target.value) 
+                  : setAssetSearch(e.target.value)
+              }
+              className="border-none focus-visible:ring-0"
+            />
+          </div>
+          {activeTab === 'assets' && (
+            <>
+              <Select 
+                value={assetTypeFilter}
+                onValueChange={setAssetTypeFilter}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter by Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {assetTypes.map(type => (
+                    <SelectItem 
+                      key={type.id} 
+                      value={type.id.toString()}
+                    >
+                      {type.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select 
+                value={sectionFilter}
+                onValueChange={setSectionFilter}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter by Section" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sections.map(section => (
+                    <SelectItem 
+                      key={section.id} 
+                      value={section.id.toString()}
+                    >
+                      {section.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </>
+          )}
+        </div>
+
+        {/* Asset Types Table */}
+        <TabsContent value="types" className="space-y-4">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Id</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredAssetTypes.map(type => (
+                <TableRow key={type.id}>
+                  <TableCell>{type.id}</TableCell>
+                  <TableCell>{type.name}</TableCell>
+                  <TableCell>{type.description}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TabsContent>
+
+        {/* Assets Table */}
+        <TabsContent value="assets" className="space-y-4">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Id</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Section</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredAssets.map(asset => {
+                const assetType = assetTypes.find(
+                  type => type.id === asset.assetType
+                );
+                const section = sections.find(
+                  sec => sec.id === asset.assetSection
+                );
+                return (
+                  <TableRow key={asset.id}>
+                    <TableCell>{asset.id}</TableCell>
+                    <TableCell>{asset.name}</TableCell>
+                    <TableCell>{asset.description}</TableCell>
+                    <TableCell>{assetType?.name || 'Unknown'}</TableCell>
+                    <TableCell>{section?.name || 'Unknown'}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
 }

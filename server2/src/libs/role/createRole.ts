@@ -23,7 +23,7 @@ const createRole: RequestHandler = async (req: Request, res: Response) => {
     const validatedData = CreateRoleSchema.parse(req.body);
 
     // TODO: need to check if role is created by admin
-
+7
     const newRole = await prisma.role.create({
         data: {
             roleName: validatedData.roleName,

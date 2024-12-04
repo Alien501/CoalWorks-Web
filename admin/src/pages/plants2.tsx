@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import axios from 'axios'; // Make sure to install axios
 import { Plus, Search, Filter } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,7 +17,8 @@ import {
   DialogContent, 
   DialogHeader, 
   DialogTitle, 
-  DialogTrigger 
+  DialogTrigger,
+  DialogClose 
 } from "@/components/ui/dialog"
 import { 
   Select, 
@@ -26,6 +28,10 @@ import {
   SelectValue 
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import { fetchSectionTypes } from '@/utils/fetchSectionTypes'
+import { toast } from 'sonner';
+import { fetchSections } from '@/utils/fetchSections';
+// import { toast } from "@/components/ui/use-toast" // Assuming you're using shadcn/ui toast
 
 export default function SectionsPage() {
   const [activeTab, setActiveTab] = useState("sections");
@@ -38,7 +44,8 @@ export default function SectionsPage() {
 
   const [newSectionType, setNewSectionType] = useState({
     name: "",
-    description: ""
+    description: "",
+    color: ''
   });
 
   const [newSection, setNewSection] = useState({
@@ -61,28 +68,81 @@ export default function SectionsPage() {
     );
   }, [sections, sectionSearch, sectionTypeFilter]);
 
-  const handleAddSectionType = () => {
-    const newType = {
-      id: sectionTypes.length + 1,
-      ...newSectionType
-    };
-    setSectionTypes([...sectionTypes, newType]);
-    setNewSectionType({ name: "", description: "" });
+  const handleAddSectionType = async () => {
+    try {
+      if (!newSectionType.name || !newSectionType.description) {
+        toast.success("Name and description are required")
+        return;
+      }
+
+      const response = await axios.post('/api/data/sectiontype', {
+        name: newSectionType.name,
+        description: newSectionType.description,
+        color: newSectionType.color
+      });
+
+      setSectionTypes([...sectionTypes, response.data]);
+
+      setNewSectionType({ name: "", description: "", color: '' });
+      
+      toast.success("Section Type created successfully")
+    } catch (error) {
+      console.error("Error creating section type:", error);
+      toast.error("Failed to create section type")
+    }
   };
 
-  const handleAddSection = () => {
-    const newSectionEntry = {
-      id: sections.length + 1,
-      ...newSection,
-      sectionType: parseInt(newSection.sectionType)
-    };
-    setSections([...sections, newSectionEntry]);
-    setNewSection({ name: "", sectionType: "", area: "" });
+  const handleAddSection = async () => {
+    try {
+      if (!newSection.name || !newSection.sectionType || !newSection.area) {
+        toast.error("All fields are required")
+        return;
+      }
+
+      const response = await axios.post('/api/data/section', {
+        name: newSection.name,
+        sectionType: parseInt(newSection.sectionType),
+        area: parseFloat(newSection.area)
+      });
+
+      setSections([...sections, response.data]);
+
+      setNewSection({ name: "", sectionType: "", area: "" });
+      
+      toast.success("Section created successfully")
+    } catch (error) {
+      console.error("Error creating section:", error);
+      toast.error("Failed to create section")
+    }
   };
+
+  useEffect(() => {
+    const getAndSetSectiontype = async () => {
+      try {
+        const res = await fetchSectionTypes();
+        setSectionTypes(res);
+      } catch (error) {
+        console.error("Error fetching section types:", error);
+      }
+    }
+
+    const getAndSetSection = async () => {
+      try {
+        const res = await fetchSections();
+        setSections(res);
+        console.log(res)
+      } catch (error) {
+        console.error("Error fetching section types:", error);
+      }
+    }
+
+    getAndSetSectiontype();
+    getAndSetSection();
+  }, [])
 
   return (
     <div className="container mx-auto py-10 space-y-4">
-      <Tabs defaultValue="sections">
+      <Tabs defaultValue="types">
         <div className="flex items-center justify-between">
           <TabsList>
             <TabsTrigger 
@@ -112,7 +172,7 @@ export default function SectionsPage() {
                   <DialogHeader>
                     <DialogTitle>Create New Section Type</DialogTitle>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4">
+                  <div className="grid gap-4 py-4 text-left">
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="name" className="text-right">
                         Name
@@ -138,6 +198,21 @@ export default function SectionsPage() {
                           ...newSectionType, 
                           description: e.target.value
                         })}
+                        className="col-span-3" 
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="description" className="text-right">
+                        Color
+                      </Label>
+                      <Input 
+                        id="color" 
+                        value={newSectionType.color}
+                        onChange={(e) => setNewSectionType({
+                          ...newSectionType, 
+                          color: e.target.value
+                        })}
+                        type='color'
                         className="col-span-3" 
                       />
                     </div>

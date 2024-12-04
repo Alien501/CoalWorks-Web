@@ -1,97 +1,148 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { z } from "zod";
+import { Request, Response } from "express";
 import { prisma } from "../../utils/prisma";
-import z from "zod";
 
-// Validation schemas
-const SectionTypeSchema = z.object({
-  name: z.string().min(1, "Name is required").max(255),
-  description: z.string().min(1, "Description is required").max(255),
+const sectionTypeSchema = z.object({
+  name: z.string().max(255, "Name must be 255 characters or less"),
+  description: z.string().max(255, "Description must be 255 characters or less"),
 });
 
-const SectionTypeUpdateSchema = SectionTypeSchema.partial();
+const sectionTypeUpdateSchema = z.object({
+  name: z.string().max(255, "Name must be 255 characters or less").optional(),
+  description: z.string().max(255, "Description must be 255 characters or less").optional(),
+});
 
-// Create SectionType
-const createSectionType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+const sectionColorSchema = z.object({
+  hex: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, "Invalid hex color"),
+  sectionId: z.number(),
+});
+
+
+export const createSectionType = async (req: Request, res: Response) => {
   try {
-    console.log("reaches here")
-    const validatedData = SectionTypeSchema.parse(req.body);
-    const sectionType = await prisma.sectionType.create({
-      data: validatedData,
-    });
+    const data = sectionTypeSchema.parse(req.body);
+    const sectionType = await prisma.sectionType.create({ data });
     res.status(201).json(sectionType);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    res.status(400).json({ error: error });
   }
 };
 
-// Get all SectionTypes
-const getSectionTypes: RequestHandler = async (_req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getAllSectionTypes = async (_req: Request, res: Response) => {
   try {
     const sectionTypes = await prisma.sectionType.findMany({
-      include: { sections: true },
+      include: { sections: true, color: true },
     });
-    res.status(200).json(sectionTypes);
-  } catch (error: any) {
-    next(error);
+    res.status(200).json({
+      message: "Done!",
+      data: sectionTypes
+    });
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 };
 
-// Get SectionType by ID
-const getSectionTypeById: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
+export const getSectionTypeById = async (req: Request, res: Response) => {
   try {
+    const { id } = req.params;
     const sectionType = await prisma.sectionType.findUnique({
-      where: { id },
-      include: { sections: true },
+      where: { id: Number(id) },
+      include: { sections: true, color: true },
     });
-
-    if (!sectionType) return res.status(404).json({ error: "SectionType not found" });
+    if (!sectionType) {
+      return res.status(404).json({ error: "SectionType not found" });
+    }
     res.status(200).json(sectionType);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 };
 
-// Update SectionType
-const updateSectionType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
+export const updateSectionType = async (req: Request, res: Response) => {
   try {
-    const validatedData = SectionTypeUpdateSchema.parse(req.body);
-
+    const { id } = req.params;
+    const data = sectionTypeUpdateSchema.parse(req.body);
     const sectionType = await prisma.sectionType.update({
-      where: { id },
-      data: validatedData,
+      where: { id: Number(id) },
+      data,
     });
-
     res.status(200).json(sectionType);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    res.status(400).json({ error: error });
   }
 };
 
-// Delete SectionType
-const deleteSectionType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
+export const deleteSectionType = async (req: Request, res: Response) => {
   try {
+    const { id } = req.params;
     await prisma.sectionType.delete({
-      where: { id },
+      where: { id: Number(id) },
     });
     res.status(204).send();
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 };
 
-export{
-    createSectionType,
-    getSectionTypes,
-    getSectionTypeById,
-    updateSectionType,
-    deleteSectionType
-}
+export const createSectionColor = async (req: Request, res: Response) => {
+  try {
+    const data = sectionColorSchema.parse(req.body);
+    const sectionColor = await prisma.sectionColor.create({ data });
+    res.status(201).json(sectionColor);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+};
+
+export const getAllSectionColors = async (_req: Request, res: Response) => {
+  try {
+    const sectionColors = await prisma.sectionColor.findMany({
+      include: { sectionType: true },
+    });
+    res.status(200).json(sectionColors);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
+export const getSectionColorById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const sectionColor = await prisma.sectionColor.findUnique({
+      where: { id: Number(id) },
+      include: { sectionType: true },
+    });
+    if (!sectionColor) {
+      return res.status(404).json({ error: "SectionColor not found" });
+    }
+    res.status(200).json(sectionColor);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
+export const updateSectionColor = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const data = sectionColorSchema.partial().parse(req.body);
+    const sectionColor = await prisma.sectionColor.update({
+      where: { id: Number(id) },
+      data,
+    });
+    res.status(200).json(sectionColor);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+};
+
+export const deleteSectionColor = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.sectionColor.delete({
+      where: { id: Number(id) },
+    });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};

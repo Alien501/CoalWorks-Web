@@ -3,10 +3,10 @@ const fetchAssets = async () => {
         const res = await fetch('/api/data/asset');
         if(res.ok) {
             const data = await res.json();
-            return data.data;
+            return data;
         }
     } catch (error) {
-        console.error(errorl.message);   
+        console.error(error.message);   
     }
     return false;
 }

@@ -55,7 +55,7 @@ router.use('/shift', shiftRouter);
 
 // Assets Routes
 router.use('/asset', assetRouter);
-router.use('/assetType', assetTypeRouter);
+router.use('/assettype', assetTypeRouter);
 
 
 // Plans

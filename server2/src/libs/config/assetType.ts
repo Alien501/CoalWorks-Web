@@ -1,90 +1,92 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 import { prisma } from "../../utils/prisma";
-import z from "zod";
 
-const AssetTypeSchema = z.object({
-  name: z.string().min(1, "Name is required").max(255),
-  description: z.string().min(1, "Description is required").max(255),
+// Validation Schema for AssetType
+const assetTypeSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
 });
 
-const AssetTypeUpdateSchema = AssetTypeSchema.partial();
-
-const createAssetType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+// Create AssetType
+export const createAssetType = async (req: Request, res: Response) => {
   try {
-    const validatedData = AssetTypeSchema.parse(req.body);
-    const assetType = await prisma.assetType.create({
-      data: validatedData,
-    });
+    const data = assetTypeSchema.parse(req.body);
+    const assetType = await prisma.assetType.create({ data });
     res.status(201).json(assetType);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ errors: error.errors });
+    } else {
+      res.status(500).json({ error: "Failed to create asset type" });
+    }
   }
 };
 
-const getAssetTypes: RequestHandler = async (_req: Request, res: Response, next: NextFunction): Promise<any> => {
+// Get All AssetTypes
+export const getAllAssetTypes = async (req: Request, res: Response) => {
   try {
     const assetTypes = await prisma.assetType.findMany({
       include: { assets: true },
     });
     res.status(200).json(assetTypes);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch asset types" });
   }
 };
 
-const getAssetTypeById: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
+// Get AssetType by ID
+export const getAssetTypeById = async (req: Request, res: Response) => {
   try {
+    const id = parseInt(req.params.id);
     const assetType = await prisma.assetType.findUnique({
       where: { id },
       include: { assets: true },
     });
-
-    if (!assetType) return res.status(404).json({ error: "AssetType not found" });
+    if (!assetType) {
+      return res.status(404).json({ error: "Asset type not found" });
+    }
     res.status(200).json(assetType);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch asset type" });
   }
 };
 
-const updateAssetType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
+// Update AssetType
+export const updateAssetType = async (req: Request, res: Response) => {
   try {
-    const validatedData = AssetTypeUpdateSchema.parse(req.body);
-
+    const id = parseInt(req.params.id);
+    const data = assetTypeSchema.parse(req.body);
     const assetType = await prisma.assetType.update({
       where: { id },
-      data: validatedData,
+      data,
     });
-
     res.status(200).json(assetType);
-  } catch (error: any) {
-    next(error);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ errors: error.errors });
+    // } else if (error.code === "P2025") {
+    //   res.status(404).json({ error: "Asset type not found" });
+    } else {
+      res.status(500).json({ error: "Failed to update asset type" });
+    }
   }
 };
 
-const deleteAssetType: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
+// Delete AssetType
+export const deleteAssetType = async (req: Request, res: Response) => {
   try {
+    const id = parseInt(req.params.id);
     await prisma.assetType.delete({
       where: { id },
     });
-    res.status(204).send();
-  } catch (error: any) {
-    next(error);
+    res.status(200).json({ message: "Asset type deleted successfully" });
+  } catch (error) {
+    // if (error.code === "P2025") {
+    //   res.status(404).json({ error: "Asset type not found" });
+    // } else {
+      res.status(500).json({ error: "Failed to delete asset type" });
+    // }
   }
 };
-
-export {
-    getAssetTypeById,
-    getAssetTypes,
-    createAssetType,
-    updateAssetType,
-    deleteAssetType
-}

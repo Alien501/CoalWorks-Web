@@ -92,7 +92,8 @@ export default function SectionsPage() {
   const [newSection, setNewSection] = useState({
     name: "",
     sectionType: "",
-    area: ""
+    area: "",
+    coordinates: []
   });
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -256,7 +257,7 @@ export default function SectionsPage() {
 
   const handleAddSection = async () => {
     try {
-      if (!newSection.name || !newSection.sectionType || !newSection.area) {
+      if (!newSection.name || !newSection.sectionType || !newSection.area || newSection.coordinates.length == 0) {
         toast.error("All fields are required")
         return;
       }
@@ -264,13 +265,15 @@ export default function SectionsPage() {
       const response = await axios.post('/api/data/section', {
         name: newSection.name,
         sectionType: parseInt(newSection.sectionType),
-        area: parseFloat(newSection.area)
+        area: parseFloat(newSection.area),
+        coordinates: newSection.coordinates
       });
 
       setSections([...sections, response.data]);
 
-      setNewSection({ name: "", sectionType: "", area: "" });
-
+      setNewSection({ name: "", sectionType: "", area: "", coordinates: [] });
+      console.log(newSection)
+      
       toast.success("Section created successfully")
     } catch (error) {
       console.error("Error creating section:", error);
@@ -445,7 +448,9 @@ export default function SectionsPage() {
                       />
                     </div>
                     <div className='h-[400px]'>
-                      <MapPolygonDrawer />
+                      <MapPolygonDrawer
+                        setCoordinate={setNewSection}
+                      />
                     </div>
                     <Button onClick={handleAddSection}>
                       Create Section

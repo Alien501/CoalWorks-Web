@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
+import { Prisma } from "@prisma/client";
 
 // Validation Schema for AssetType
 const assetTypeSchema = z.object({
@@ -66,8 +66,8 @@ export const updateAssetType = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ errors: error.errors });
-    // } else if (error.code === "P2025") {
-    //   res.status(404).json({ error: "Asset type not found" });
+      // } else if (error.code === "P2025") {
+      //   res.status(404).json({ error: "Asset type not found" });
     } else {
       res.status(500).json({ error: "Failed to update asset type" });
     }
@@ -82,11 +82,12 @@ export const deleteAssetType = async (req: Request, res: Response) => {
       where: { id },
     });
     res.status(200).json({ message: "Asset type deleted successfully" });
-  } catch (error) {
-    // if (error.code === "P2025") {
-    //   res.status(404).json({ error: "Asset type not found" });
-    // } else {
-      res.status(500).json({ error: "Failed to delete asset type" });
-    // }
+  } catch (error: any) {
+    if (error.code === "P2003") {
+      return res.status(409).json({
+        msg: "AssetType can't be deleted due to foreign key constraint",
+      });
+    }
+    return res.status(500).json({ error: "Failed to delete asset type" });
   }
 };

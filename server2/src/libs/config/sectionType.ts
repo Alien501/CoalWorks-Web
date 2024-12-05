@@ -78,7 +78,12 @@ export const deleteSectionType = async (req: Request, res: Response) => {
       where: { id: Number(id) },
     });
     res.status(204).send();
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "P2003") {
+      return res.status(409).json({
+        msg: "Section type can't be deleted due to foreign key constraint",
+      });
+    }
     res.status(500).json({ error: error });
   }
 };

@@ -16,7 +16,7 @@ sectionTypeRouter.get('/:id', asyncHandler(async (req: Request, res: Response, n
     await getSectionTypeById(req, res);
 }))
 
-sectionTypeRouter.put('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+sectionTypeRouter.post('/:id', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await updateSectionType(req, res);
 }))
 

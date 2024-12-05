@@ -84,11 +84,11 @@ export const deleteAsset = async (req: Request, res: Response) => {
       where: { id },
     });
     res.status(200).json({ message: "Asset deleted successfully" });
-  } catch (error) {
-    // if (error.code === "P2025") {
-    //   res.status(404).json({ error: "Asset not found" });
-    // } else {
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      res.status(409).json({ error: "Asset not found" });
+    } else {
       res.status(500).json({ error: "Failed to delete asset" });
-    // }
+    }
   }
 };

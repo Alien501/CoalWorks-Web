@@ -45,13 +45,13 @@ const MasterData = () => {
                         <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
                             <CardHeader>
                                 <CardTitle className="flex items-center justify-between">
-                                    Plant Configuration
+                                    Section Configuration
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="flex items-center justify-center h-40">
                                 <div className="text-center">
                                     <FactoryIcon className="mx-auto mb-4" size={70} strokeWidth={1.5} />
-                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Plants</p>
+                                    <p className="text-xl font-semibold text-gray-700 dark:text-slate-500">Manage Sections</p>
                                 </div>
                             </CardContent>
                         </Card>

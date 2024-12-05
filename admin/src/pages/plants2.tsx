@@ -4,41 +4,81 @@ import { Plus, Search, Filter } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
-  DialogClose 
+  DialogClose,
+  DialogFooter,
+  DialogDescription
 } from "@/components/ui/dialog"
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+  SelectLabel
 } from "@/components/ui/select"
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 import { Label } from "@/components/ui/label"
 import { fetchSectionTypes } from '@/utils/fetchSectionTypes'
 import { toast } from 'sonner';
 import { fetchSections } from '@/utils/fetchSections';
 import MapPolygonDrawer from '@/components/custom/drawingMap';
+import { MoreHorizontal } from 'lucide-react';
+import { Description } from '@radix-ui/react-dialog';
 // import { toast } from "@/components/ui/use-toast" // Assuming you're using shadcn/ui toast
 
+interface SectionType {
+  id: number
+  name: string
+  description: string
+}
+
+interface Section {
+  id: number,
+  name: string,
+  sectionType: number,
+  area: number
+}
+
 export default function SectionsPage() {
-  const [activeTab, setActiveTab] = useState("sections");
+  const [activeTab, setActiveTab] = useState("types");
   const [sectionTypes, setSectionTypes] = useState([]);
   const [sections, setSections] = useState([]);
-  
+
   const [typeSearch, setTypeSearch] = useState("");
   const [sectionSearch, setSectionSearch] = useState("");
   const [sectionTypeFilter, setSectionTypeFilter] = useState("");
@@ -55,15 +95,136 @@ export default function SectionsPage() {
     area: ""
   });
 
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isEditDialogOpen2, setIsEditDialogOpen2] = useState(false)
+  const [editingSectionType, setEditingSectionType] = useState<SectionType | null>(null)
+  const [editingSection, setEditingSection] = useState<Section | null>(null)
+
+
+  const handleEditClick = (section: SectionType) => {
+    setEditingSectionType(section)
+    setIsEditDialogOpen(true)
+  }
+
+  const handleEditClick2 = (section: Section) => {
+    setEditingSection(section)
+    setIsEditDialogOpen2(true)
+  }
+
+  const handleSaveChanges2 = () => {
+    if (editingSection) {
+      onEditSection(editingSection.id, editingSection)
+      setIsEditDialogOpen(false)
+      setEditingSection(null)
+    }
+  }
+
+  const handleSaveChanges = () => {
+    if (editingSectionType) {
+      onEditSectionType(editingSectionType.id)
+      setIsEditDialogOpen(false)
+      setEditingSectionType(null)
+    }
+  }
+
+  const onEditSection = (id: number, section: any) => {
+    if (editingSection) {
+      console.log(JSON.stringify(section))
+      onEditSectionHandler(editingSection.id)
+      setIsEditDialogOpen(false)
+      setEditingSection(null)
+    }
+  }
+
+  async function onDeleteSectionType(id: number) {
+    try {
+      const res = await axios.delete(`/api/data/sectiontype/${id}`);
+      if (res.status === 200) {
+        toast.success("Section Type deleted successfully")
+        setSectionTypes(await fetchSectionTypes())
+      }
+      else {
+        toast.error("Section type can't be deleted due to some errors")
+      }
+    }
+    catch (error: any) {
+      if (error.status === 409) {
+        toast.error("Section Type cant be deleted since you have sections with this type.")
+      }
+      else{
+        toast.error("Section type can't be deleted due to some errors. Please try again later")
+      }
+    }
+  }
+
+  async function onEditSectionType(id: number) {
+    try {
+      const res = await axios.post(`/api/data/sectiontype/${id}`, {
+        name: editingSectionType?.name,
+        description: editingSectionType?.description
+      });
+      if (res.status === 200) {
+        toast.success("Section type edited successfully")
+        setSectionTypes(await fetchSectionTypes())
+      }
+      else {
+        toast.error("Section type can't be edited due to some errors. Please try again later")
+      }
+    }
+    catch (error) {
+      toast.error("Section Type can't be edited due to some errors")
+    }
+  }
+
+  async function onDeleteSection(id: number) {
+    try {
+      const res = await axios.delete(`/api/data/section/${id}`);
+      if (res.status === 200) {
+        toast.success("Section deleted successfully")
+        setSections(await fetchSectionTypes())
+      }
+      else {
+        toast.error("Error while deleting the section")
+      }
+    }
+    catch (error: any) {
+      if (error.status === 409)
+        toast.error("Error while deleting the section")
+    }
+    finally {
+      setSections(await fetchSections())
+    }
+  }
+
+  const onEditSectionHandler = async (id: number) => {
+    try {
+      const res = await axios.post(`/api/data/section/${id}`, {
+        name: editingSection?.name,
+        area: editingSection?.area,
+        sectionType: editingSection?.sectionType
+      });
+      if (res.status === 200) {
+        toast.success("Section edited succssfully")
+        setSections(await fetchSections())
+      }
+      else {
+        toast.error("Section can't be edited due to some errors")
+      }
+    }
+    catch (error) {
+      toast.error("Section can't be edited due to some errors")
+    }
+  }
+
   const filteredSectionTypes = useMemo(() => {
-    return sectionTypes.filter(type => 
+    return sectionTypes.filter(type =>
       type.name.toLowerCase().includes(typeSearch.toLowerCase()) ||
       type.description.toLowerCase().includes(typeSearch.toLowerCase())
     );
   }, [sectionTypes, typeSearch]);
 
   const filteredSections = useMemo(() => {
-    return sections.filter(section => 
+    return sections.filter(section =>
       (section.name.toLowerCase().includes(sectionSearch.toLowerCase())) &&
       (!sectionTypeFilter || section.sectionType === parseInt(sectionTypeFilter))
     );
@@ -85,7 +246,7 @@ export default function SectionsPage() {
       setSectionTypes([...sectionTypes, response.data]);
 
       setNewSectionType({ name: "", description: "", color: '' });
-      
+
       toast.success("Section Type created successfully")
     } catch (error) {
       console.error("Error creating section type:", error);
@@ -109,7 +270,7 @@ export default function SectionsPage() {
       setSections([...sections, response.data]);
 
       setNewSection({ name: "", sectionType: "", area: "" });
-      
+
       toast.success("Section created successfully")
     } catch (error) {
       console.error("Error creating section:", error);
@@ -146,20 +307,20 @@ export default function SectionsPage() {
       <Tabs defaultValue="types">
         <div className="flex items-center justify-between">
           <TabsList>
-            <TabsTrigger 
-              value="types" 
+            <TabsTrigger
+              value="types"
               onClick={() => setActiveTab("types")}
             >
               Section Types
             </TabsTrigger>
-            <TabsTrigger 
-              value="sections" 
+            <TabsTrigger
+              value="sections"
               onClick={() => setActiveTab("sections")}
             >
               Sections
             </TabsTrigger>
           </TabsList>
-          
+
           <Dialog>
             <DialogTrigger asChild>
               <Button>
@@ -178,43 +339,43 @@ export default function SectionsPage() {
                       <Label htmlFor="name" className="text-right">
                         Name
                       </Label>
-                      <Input 
-                        id="name" 
+                      <Input
+                        id="name"
                         value={newSectionType.name}
                         onChange={(e) => setNewSectionType({
-                          ...newSectionType, 
+                          ...newSectionType,
                           name: e.target.value
                         })}
-                        className="col-span-3" 
+                        className="col-span-3"
                       />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="description" className="text-right">
                         Description
                       </Label>
-                      <Input 
-                        id="description" 
+                      <Input
+                        id="description"
                         value={newSectionType.description}
                         onChange={(e) => setNewSectionType({
-                          ...newSectionType, 
+                          ...newSectionType,
                           description: e.target.value
                         })}
-                        className="col-span-3" 
+                        className="col-span-3"
                       />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="description" className="text-right">
                         Color
                       </Label>
-                      <Input 
-                        id="color" 
+                      <Input
+                        id="color"
                         value={newSectionType.color}
                         onChange={(e) => setNewSectionType({
-                          ...newSectionType, 
+                          ...newSectionType,
                           color: e.target.value
                         })}
                         type='color'
-                        className="col-span-3" 
+                        className="col-span-3"
                       />
                     </div>
                     <Button onClick={handleAddSectionType}>
@@ -232,24 +393,24 @@ export default function SectionsPage() {
                       <Label htmlFor="section-name" className="text-right">
                         Name
                       </Label>
-                      <Input 
-                        id="section-name" 
+                      <Input
+                        id="section-name"
                         value={newSection.name}
                         onChange={(e) => setNewSection({
-                          ...newSection, 
+                          ...newSection,
                           name: e.target.value
                         })}
-                        className="col-span-3" 
+                        className="col-span-3"
                       />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="section-type" className="text-right">
                         Section Type
                       </Label>
-                      <Select 
+                      <Select
                         value={newSection.sectionType}
                         onValueChange={(value) => setNewSection({
-                          ...newSection, 
+                          ...newSection,
                           sectionType: value
                         })}
                       >
@@ -258,8 +419,8 @@ export default function SectionsPage() {
                         </SelectTrigger>
                         <SelectContent>
                           {sectionTypes.map(type => (
-                            <SelectItem 
-                              key={type.id} 
+                            <SelectItem
+                              key={type.id}
                               value={type.id.toString()}
                             >
                               {type.name}
@@ -272,15 +433,15 @@ export default function SectionsPage() {
                       <Label htmlFor="section-area" className="text-right">
                         Area
                       </Label>
-                      <Input 
-                        id="section-area" 
+                      <Input
+                        id="section-area"
                         type="number"
                         value={newSection.area}
                         onChange={(e) => setNewSection({
-                          ...newSection, 
+                          ...newSection,
                           area: e.target.value
                         })}
-                        className="col-span-3" 
+                        className="col-span-3"
                       />
                     </div>
                     <div className='h-[400px]'>
@@ -297,22 +458,22 @@ export default function SectionsPage() {
         </div>
 
         {/* Search and Filter Section */}
-        <div className="flex items-center space-x-2 mb-4">
+        <div className="flex items-center space-x-2 mb-4 mt-4">
           <div className="flex items-center border rounded-md px-3 py-1 flex-1">
             <Search className="mr-2 h-4 w-4 text-muted-foreground" />
-            <Input 
+            <Input
               placeholder={`Search ${activeTab === 'types' ? 'Section Types' : 'Sections'}`}
               value={activeTab === 'types' ? typeSearch : sectionSearch}
-              onChange={(e) => 
-                activeTab === 'types' 
-                  ? setTypeSearch(e.target.value) 
+              onChange={(e) =>
+                activeTab === 'types'
+                  ? setTypeSearch(e.target.value)
                   : setSectionSearch(e.target.value)
               }
               className="border-none focus-visible:ring-0"
             />
           </div>
           {activeTab === 'sections' && (
-            <Select 
+            <Select
               value={sectionTypeFilter}
               onValueChange={setSectionTypeFilter}
             >
@@ -321,8 +482,8 @@ export default function SectionsPage() {
               </SelectTrigger>
               <SelectContent>
                 {sectionTypes.map(type => (
-                  <SelectItem 
-                    key={type.id} 
+                  <SelectItem
+                    key={type.id}
                     value={type.id.toString()}
                   >
                     {type.name}
@@ -334,21 +495,93 @@ export default function SectionsPage() {
         </div>
 
         {/* Section Types Table */}
-        <TabsContent value="types" className="space-y-4">
+        <TabsContent value="types" className="space-y-4 border rounded-lg">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Id</TableHead>
+                <TableHead className='py-4'>Id</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
+                <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredSectionTypes.map(type => (
                 <TableRow key={type.id}>
-                  <TableCell>{type.id}</TableCell>
+                  <TableCell className='py-4'>{type.id}</TableCell>
                   <TableCell>{type.name}</TableCell>
                   <TableCell>{type.description}</TableCell>
+                  <TableCell className="text-right">
+                    <AlertDialog>
+                      <Dialog open={isEditDialogOpen && editingSectionType?.id === type.id} onOpenChange={setIsEditDialogOpen}>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Open menu</span>
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel >Actions</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => handleEditClick(type)}>
+                              Edit Section Type
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="text-red-600">
+                              <AlertDialogTrigger>Delete Section Type</AlertDialogTrigger>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Edit Section Type</DialogTitle>
+                            <DialogDescription>
+                              Make changes to your section type here. Click save when you're done.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="name" className="text-right">
+                                Name
+                              </Label>
+                              <Input
+                                id="name"
+                                className="col-span-3"
+                                value={editingSectionType?.name || ''}
+                                onChange={(e) => setEditingSectionType(prev => prev ? { ...prev, name: e.target.value } : null)}
+                              />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="description" className="text-right">
+                                Description
+                              </Label>
+                              <Input
+                                id="description"
+                                className="col-span-3"
+                                value={editingSectionType?.description || ''}
+                                onChange={(e) => setEditingSectionType(prev => prev ? { ...prev, description: e.target.value } : null)}
+                              />
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button onClick={handleSaveChanges}>Save changes</Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the section type and remove it from the server.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => onDeleteSectionType(type.id)}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -356,29 +589,125 @@ export default function SectionsPage() {
         </TabsContent>
 
         {/* Sections Table */}
-        <TabsContent value="sections" className="space-y-4">
+        <TabsContent value="sections" className="space-y-4 border rounded-lg">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Id</TableHead>
+                <TableHead className='py-4'>Id</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Area</TableHead>
+                <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredSections.map(section => {
                 const sectionType = sectionTypes.find(
                   type => type.id === section.sectionType
-                );
+                )
                 return (
                   <TableRow key={section.id}>
-                    <TableCell>{section.id}</TableCell>
+                    <TableCell className="py-4">{section.id}</TableCell>
                     <TableCell>{section.name}</TableCell>
                     <TableCell>{sectionType?.name || 'Unknown'}</TableCell>
                     <TableCell>{section.area || 'N/A'}</TableCell>
+                    <TableCell className="text-right">
+                      <AlertDialog>
+                        <Dialog open={isEditDialogOpen2 && editingSection?.id === section.id} onOpenChange={setIsEditDialogOpen2}>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuItem onSelect={() => handleEditClick2(section)}>
+                                Edit Section
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-red-600">
+                                <AlertDialogTrigger>Delete Section</AlertDialogTrigger>
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                          <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                              <DialogTitle>Edit Section</DialogTitle>
+                              <DialogDescription>
+                                Make changes to your section here. Click save when you're done.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right">
+                                  Name
+                                </Label>
+                                <Input
+                                  id="name"
+                                  className="col-span-3"
+                                  value={editingSection?.name || ''}
+                                  onChange={(e) => setEditingSection(prev => prev ? { ...prev, name: e.target.value } : null)}
+                                />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="sectionType" className="text-right">
+                                  Section Type
+                                </Label>
+                                <Select
+                                  value={editingSection?.sectionType.toString()}
+                                  onValueChange={(value: string) => setEditingSection(prev => prev ? { ...prev, sectionType: parseInt(value) } : null)}
+                                >
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Select a Section Type" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      <SelectLabel>Section Types</SelectLabel>
+                                      {sectionTypes?.map((sectionType) => (
+                                        <SelectItem key={sectionType.id} value={sectionType.id.toString()}>
+                                          {sectionType.name}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="area" className="text-right">
+                                  Area
+                                </Label>
+                                <Input
+                                  id="area"
+                                  type="number"
+                                  className="col-span-3"
+                                  value={editingSection?.area || 0}
+                                  onChange={(e) => setEditingSection(prev => prev ? { ...prev, area: parseFloat(e.target.value) } : null)}
+                                />
+                              </div>
+                            </div>
+                            <DialogFooter>
+                              <Button onClick={handleSaveChanges2}>Save changes</Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will permanently delete the section and remove it from the server.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => onDeleteSection(section.id)}>Continue</AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </TableCell>
                   </TableRow>
-                );
+                )
               })}
             </TableBody>
           </Table>

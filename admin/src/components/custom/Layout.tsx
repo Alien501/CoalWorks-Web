@@ -19,7 +19,7 @@ const pageTitles: PageTitle[] = [
     { url: '/master-data', title: 'Master Config' },
     { url: '/shift-handover', title: 'Shift Handover' },
     { url: '/pdf-generator', title: 'Generate PDF' },
-    { url: '/master-data/plants', title: 'Manage Plants'},
+    { url: '/master-data/plants', title: 'Manage Sections'},
     { url: '/master-data/shift', title: 'Manage Shifts'},
     { url: '/master-data/locations', title: 'Manage Locations'},
     { url: '/master-data/assets', title: 'Manage Assets'},

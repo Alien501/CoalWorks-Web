@@ -27,12 +27,12 @@ const RoundPlan = () => {
 
     return (
         <section id="round-plan">
-            <div id="ShiftHandover-wrapper" className=" font-poppins">
-                <div className="mt-2 border-b pb-2 flex justify-between items-center px-2 h-12">
-                    <span className="font-semibold">RoundPlans</span>
+            <div id="ShiftHandover-wrapper " className=" font-poppins px-[100px]">
+                <div className="mt-24 pb-2 flex justify-between items-center px-2 h-12 ">
+                    <span className="font-semibold text-2xl">RoundPlans</span>
                     <div className="flex items-center">
                         <span className='pr-4'>
-                            <div className="flex items-center border rounded w-60 p-1">
+                            <div className="flex items-center border rounded w-60 p-1 ">
                                 <Search className="text-gray-400 mr-2" size={20} />
                                 <Input
                                     placeholder="Search Round Plans"
@@ -45,7 +45,7 @@ const RoundPlan = () => {
                         </Link>
                     </div>
                 </div>
-                <div>
+                <div className="border mt-3 rounded-lg">
                     <RoundPlansTable plans={plans} />
                 </div>
             </div>

@@ -372,6 +372,14 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
                                     <RadioGroupItem value="image" id="image" />
                                     <Label htmlFor="image">Image</Label>
                                 </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="checkbox" id="checkbox" />
+                                    <Label htmlFor="checkbox">Checkboxes</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="date" id="date" />
+                                    <Label htmlFor="date">Date and Time</Label>
+                                </div>
                             </RadioGroup>
                         </div>
                     </div>
@@ -421,6 +429,14 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="image" id="image" />
                                     <Label htmlFor="image">Image</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="checkbox" id="checkbox" />
+                                    <Label htmlFor="checkbox">Checkboxes</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="date" id="date" />
+                                    <Label htmlFor="date">Date and Time</Label>
                                 </div>
                             </RadioGroup>
                         </div>

@@ -12,7 +12,7 @@ const ProtectedRoute = ({children}: {children: any}) => {
                     'Authorization': `Bearer ${token}`
                 },
             })
-            if(res.ok) {
+            if(res.status == 200) {
                 return true;
             }
             else {
@@ -21,6 +21,7 @@ const ProtectedRoute = ({children}: {children: any}) => {
         }
         
         const ud = localStorage.getItem('userData');
+        console.log(ud)
         if(!ud) {
             navigate('/login');
         }else {

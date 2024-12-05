@@ -206,6 +206,8 @@ model Asset {
   description  String       @db.VarChar(255)
   assetType    Int
   assetSection Int
+  latitude     Float?
+  longitude    Float?
   planAssets   PlanAssets[]
   type         AssetType    @relation(fields: [assetType], references: [id])
   section      Section      @relation(fields: [assetSection], references: [id])

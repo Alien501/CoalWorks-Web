@@ -278,7 +278,9 @@ exports.Prisma.AssetScalarFieldEnum = {
   name: 'name',
   description: 'description',
   assetType: 'assetType',
-  assetSection: 'assetSection'
+  assetSection: 'assetSection',
+  latitude: 'latitude',
+  longitude: 'longitude'
 };
 
 exports.Prisma.SortOrder = {

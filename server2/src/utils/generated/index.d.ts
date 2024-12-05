@@ -19415,12 +19415,16 @@ export namespace Prisma {
     id: number | null
     assetType: number | null
     assetSection: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type AssetSumAggregateOutputType = {
     id: number | null
     assetType: number | null
     assetSection: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type AssetMinAggregateOutputType = {
@@ -19429,6 +19433,8 @@ export namespace Prisma {
     description: string | null
     assetType: number | null
     assetSection: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type AssetMaxAggregateOutputType = {
@@ -19437,6 +19443,8 @@ export namespace Prisma {
     description: string | null
     assetType: number | null
     assetSection: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type AssetCountAggregateOutputType = {
@@ -19445,6 +19453,8 @@ export namespace Prisma {
     description: number
     assetType: number
     assetSection: number
+    latitude: number
+    longitude: number
     _all: number
   }
 
@@ -19453,12 +19463,16 @@ export namespace Prisma {
     id?: true
     assetType?: true
     assetSection?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type AssetSumAggregateInputType = {
     id?: true
     assetType?: true
     assetSection?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type AssetMinAggregateInputType = {
@@ -19467,6 +19481,8 @@ export namespace Prisma {
     description?: true
     assetType?: true
     assetSection?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type AssetMaxAggregateInputType = {
@@ -19475,6 +19491,8 @@ export namespace Prisma {
     description?: true
     assetType?: true
     assetSection?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type AssetCountAggregateInputType = {
@@ -19483,6 +19501,8 @@ export namespace Prisma {
     description?: true
     assetType?: true
     assetSection?: true
+    latitude?: true
+    longitude?: true
     _all?: true
   }
 
@@ -19578,6 +19598,8 @@ export namespace Prisma {
     description: string
     assetType: number
     assetSection: number
+    latitude: number | null
+    longitude: number | null
     _count: AssetCountAggregateOutputType | null
     _avg: AssetAvgAggregateOutputType | null
     _sum: AssetSumAggregateOutputType | null
@@ -19605,6 +19627,8 @@ export namespace Prisma {
     description?: boolean
     assetType?: boolean
     assetSection?: boolean
+    latitude?: boolean
+    longitude?: boolean
     planAssets?: boolean | Asset$planAssetsArgs<ExtArgs>
     type?: boolean | AssetTypeDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
@@ -19617,6 +19641,8 @@ export namespace Prisma {
     description?: boolean
     assetType?: boolean
     assetSection?: boolean
+    latitude?: boolean
+    longitude?: boolean
     type?: boolean | AssetTypeDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
@@ -19627,6 +19653,8 @@ export namespace Prisma {
     description?: boolean
     assetType?: boolean
     assetSection?: boolean
+    latitude?: boolean
+    longitude?: boolean
   }
 
   export type AssetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19653,6 +19681,8 @@ export namespace Prisma {
       description: string
       assetType: number
       assetSection: number
+      latitude: number | null
+      longitude: number | null
     }, ExtArgs["result"]["asset"]>
     composites: {}
   }
@@ -20054,6 +20084,8 @@ export namespace Prisma {
     readonly description: FieldRef<"Asset", 'String'>
     readonly assetType: FieldRef<"Asset", 'Int'>
     readonly assetSection: FieldRef<"Asset", 'Int'>
+    readonly latitude: FieldRef<"Asset", 'Float'>
+    readonly longitude: FieldRef<"Asset", 'Float'>
   }
     
 
@@ -20627,7 +20659,9 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     assetType: 'assetType',
-    assetSection: 'assetSection'
+    assetSection: 'assetSection',
+    latitude: 'latitude',
+    longitude: 'longitude'
   };
 
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
@@ -21850,6 +21884,8 @@ export namespace Prisma {
     description?: StringFilter<"Asset"> | string
     assetType?: IntFilter<"Asset"> | number
     assetSection?: IntFilter<"Asset"> | number
+    latitude?: FloatNullableFilter<"Asset"> | number | null
+    longitude?: FloatNullableFilter<"Asset"> | number | null
     planAssets?: PlanAssetsListRelationFilter
     type?: XOR<AssetTypeRelationFilter, AssetTypeWhereInput>
     section?: XOR<SectionRelationFilter, SectionWhereInput>
@@ -21861,6 +21897,8 @@ export namespace Prisma {
     description?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
     planAssets?: PlanAssetsOrderByRelationAggregateInput
     type?: AssetTypeOrderByWithRelationInput
     section?: SectionOrderByWithRelationInput
@@ -21875,6 +21913,8 @@ export namespace Prisma {
     description?: StringFilter<"Asset"> | string
     assetType?: IntFilter<"Asset"> | number
     assetSection?: IntFilter<"Asset"> | number
+    latitude?: FloatNullableFilter<"Asset"> | number | null
+    longitude?: FloatNullableFilter<"Asset"> | number | null
     planAssets?: PlanAssetsListRelationFilter
     type?: XOR<AssetTypeRelationFilter, AssetTypeWhereInput>
     section?: XOR<SectionRelationFilter, SectionWhereInput>
@@ -21886,6 +21926,8 @@ export namespace Prisma {
     description?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
     _count?: AssetCountOrderByAggregateInput
     _avg?: AssetAvgOrderByAggregateInput
     _max?: AssetMaxOrderByAggregateInput
@@ -21902,6 +21944,8 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Asset"> | string
     assetType?: IntWithAggregatesFilter<"Asset"> | number
     assetSection?: IntWithAggregatesFilter<"Asset"> | number
+    latitude?: FloatNullableWithAggregatesFilter<"Asset"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"Asset"> | number | null
   }
 
   export type InitStatusCreateInput = {
@@ -22950,6 +22994,8 @@ export namespace Prisma {
   export type AssetCreateInput = {
     name: string
     description: string
+    latitude?: number | null
+    longitude?: number | null
     planAssets?: PlanAssetsCreateNestedManyWithoutAssetInput
     type: AssetTypeCreateNestedOneWithoutAssetsInput
     section: SectionCreateNestedOneWithoutAssetsInput
@@ -22961,12 +23007,16 @@ export namespace Prisma {
     description: string
     assetType: number
     assetSection: number
+    latitude?: number | null
+    longitude?: number | null
     planAssets?: PlanAssetsUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type AssetUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     planAssets?: PlanAssetsUpdateManyWithoutAssetNestedInput
     type?: AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
     section?: SectionUpdateOneRequiredWithoutAssetsNestedInput
@@ -22978,6 +23028,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     assetType?: IntFieldUpdateOperationsInput | number
     assetSection?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     planAssets?: PlanAssetsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
@@ -22987,11 +23039,15 @@ export namespace Prisma {
     description: string
     assetType: number
     assetSection: number
+    latitude?: number | null
+    longitude?: number | null
   }
 
   export type AssetUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type AssetUncheckedUpdateManyInput = {
@@ -23000,6 +23056,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     assetType?: IntFieldUpdateOperationsInput | number
     assetSection?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -24045,6 +24103,17 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type AssetTypeRelationFilter = {
     is?: AssetTypeWhereInput
     isNot?: AssetTypeWhereInput
@@ -24056,12 +24125,16 @@ export namespace Prisma {
     description?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type AssetAvgOrderByAggregateInput = {
     id?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type AssetMaxOrderByAggregateInput = {
@@ -24070,6 +24143,8 @@ export namespace Prisma {
     description?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type AssetMinOrderByAggregateInput = {
@@ -24078,12 +24153,32 @@ export namespace Prisma {
     description?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type AssetSumOrderByAggregateInput = {
     id?: SortOrder
     assetType?: SortOrder
     assetSection?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -24832,6 +24927,14 @@ export namespace Prisma {
     connect?: PlanAssetsWhereUniqueInput | PlanAssetsWhereUniqueInput[]
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type PlanAssetsUpdateManyWithoutAssetNestedInput = {
     create?: XOR<PlanAssetsCreateWithoutAssetInput, PlanAssetsUncheckedCreateWithoutAssetInput> | PlanAssetsCreateWithoutAssetInput[] | PlanAssetsUncheckedCreateWithoutAssetInput[]
     connectOrCreate?: PlanAssetsCreateOrConnectWithoutAssetInput | PlanAssetsCreateOrConnectWithoutAssetInput[]
@@ -25157,6 +25260,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlanStatusFilter<$PrismaModel>
     _max?: NestedEnumPlanStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type OwnerCreateWithoutMinesInput = {
@@ -25837,6 +25956,8 @@ export namespace Prisma {
   export type AssetCreateWithoutPlanAssetsInput = {
     name: string
     description: string
+    latitude?: number | null
+    longitude?: number | null
     type: AssetTypeCreateNestedOneWithoutAssetsInput
     section: SectionCreateNestedOneWithoutAssetsInput
   }
@@ -25847,6 +25968,8 @@ export namespace Prisma {
     description: string
     assetType: number
     assetSection: number
+    latitude?: number | null
+    longitude?: number | null
   }
 
   export type AssetCreateOrConnectWithoutPlanAssetsInput = {
@@ -25904,6 +26027,8 @@ export namespace Prisma {
   export type AssetUpdateWithoutPlanAssetsInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     type?: AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
     section?: SectionUpdateOneRequiredWithoutAssetsNestedInput
   }
@@ -25914,6 +26039,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     assetType?: IntFieldUpdateOperationsInput | number
     assetSection?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type PlanCreateWithoutPlanFilesInput = {
@@ -26172,6 +26299,8 @@ export namespace Prisma {
   export type AssetCreateWithoutSectionInput = {
     name: string
     description: string
+    latitude?: number | null
+    longitude?: number | null
     planAssets?: PlanAssetsCreateNestedManyWithoutAssetInput
     type: AssetTypeCreateNestedOneWithoutAssetsInput
   }
@@ -26181,6 +26310,8 @@ export namespace Prisma {
     name: string
     description: string
     assetType: number
+    latitude?: number | null
+    longitude?: number | null
     planAssets?: PlanAssetsUncheckedCreateNestedManyWithoutAssetInput
   }
 
@@ -26285,6 +26416,8 @@ export namespace Prisma {
     description?: StringFilter<"Asset"> | string
     assetType?: IntFilter<"Asset"> | number
     assetSection?: IntFilter<"Asset"> | number
+    latitude?: FloatNullableFilter<"Asset"> | number | null
+    longitude?: FloatNullableFilter<"Asset"> | number | null
   }
 
   export type CoordinateUpsertWithWhereUniqueWithoutSectionInput = {
@@ -26382,6 +26515,8 @@ export namespace Prisma {
   export type AssetCreateWithoutTypeInput = {
     name: string
     description: string
+    latitude?: number | null
+    longitude?: number | null
     planAssets?: PlanAssetsCreateNestedManyWithoutAssetInput
     section: SectionCreateNestedOneWithoutAssetsInput
   }
@@ -26391,6 +26526,8 @@ export namespace Prisma {
     name: string
     description: string
     assetSection: number
+    latitude?: number | null
+    longitude?: number | null
     planAssets?: PlanAssetsUncheckedCreateNestedManyWithoutAssetInput
   }
 
@@ -26898,6 +27035,8 @@ export namespace Prisma {
     name: string
     description: string
     assetType: number
+    latitude?: number | null
+    longitude?: number | null
   }
 
   export type CoordinateCreateManySectionInput = {
@@ -26915,6 +27054,8 @@ export namespace Prisma {
   export type AssetUpdateWithoutSectionInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     planAssets?: PlanAssetsUpdateManyWithoutAssetNestedInput
     type?: AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
   }
@@ -26924,6 +27065,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     assetType?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     planAssets?: PlanAssetsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
@@ -26932,6 +27075,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     assetType?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type CoordinateUpdateWithoutSectionInput = {
@@ -26973,11 +27118,15 @@ export namespace Prisma {
     name: string
     description: string
     assetSection: number
+    latitude?: number | null
+    longitude?: number | null
   }
 
   export type AssetUpdateWithoutTypeInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     planAssets?: PlanAssetsUpdateManyWithoutAssetNestedInput
     section?: SectionUpdateOneRequiredWithoutAssetsNestedInput
   }
@@ -26987,6 +27136,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     assetSection?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     planAssets?: PlanAssetsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
@@ -26995,6 +27146,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     assetSection?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type PlanAssetsCreateManyAssetInput = {

@@ -117,7 +117,7 @@ const NewDashboard = () => {
             </div>
             <div id="dashboard-section-container" className="grid gap-1 grid-cols-2 mt-4">
                 <div>
-                    <div className="flex space-x-2 justify-between group">
+                    <div className="flex h-[100px] space-x-2 justify-between group">
                         <StatsCard
                             icon={
                                 <DialogModel dialogTrigger={
@@ -175,8 +175,8 @@ const NewDashboard = () => {
                         />
                     </div>
                     <div className="h-full">
-                        <Card className="h-[83%]">
-                            <CardContent className="h-full p-4">
+                        <Card className="h-[90%]">
+                            <CardContent className="h-[100%] p-4">
                                 <MiningMap />
                             </CardContent>
                         </Card>

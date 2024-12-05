@@ -105,7 +105,9 @@ export default function MasterAsset() {
     name: "",
     description: "",
     assetType: "",
-    assetSection: ""
+    assetSection: "",
+    latitude: 0.0,
+    longitude: 0.0
   });
 
   async function onDeleteAssetType(id: number) {
@@ -224,7 +226,9 @@ export default function MasterAsset() {
         name: newAsset.name,
         description: newAsset.description,
         assetType: parseInt(newAsset.assetType),
-        assetSection: parseInt(newAsset.assetSection)
+        assetSection: parseInt(newAsset.assetSection),
+        latitude: parseFloat(newAsset.latitude),
+        longitude: parseFloat(newAsset.longitude),
       });
 
       setAssets([...assets, response.data]);
@@ -429,6 +433,34 @@ export default function MasterAsset() {
                           ))}
                         </SelectContent>
                       </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="asset-latitude" className="text-right">
+                        Latitude
+                      </Label>
+                      <Input
+                        id="asset-latitude"
+                        value={newAsset.latitude}
+                        onChange={(e) => setNewAsset({
+                          ...newAsset,
+                          latitude: e.target.value
+                        })}
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="asset-longitude" className="text-right">
+                        Longitude
+                      </Label>
+                      <Input
+                        id="asset-longitude"
+                        value={newAsset.longitude}
+                        onChange={(e) => setNewAsset({
+                          ...newAsset,
+                          longitude: e.target.value
+                        })}
+                        className="col-span-3"
+                      />
                     </div>
                     <Button onClick={handleAddAsset}>
                       Create Asset

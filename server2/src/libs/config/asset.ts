@@ -9,6 +9,8 @@ const assetSchema = z.object({
   description: z.string().min(1, "Description is required"),
   assetType: z.number().int("AssetType must be an integer"),
   assetSection: z.number().int("AssetSection must be an integer"),
+  latitude: z.number().optional(),
+  longitude: z.number().optional()
 });
 
 // Create Asset

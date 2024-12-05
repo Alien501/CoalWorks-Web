@@ -53,7 +53,7 @@ const MapPolygonDrawer = ({setCoordinate}) => {
           ...prev,
           coordinates: newCoordinates
         };
-      });
+      });cd
       
       console.log('Drawn Polygons:', polygons);
     }

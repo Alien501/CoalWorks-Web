@@ -5,15 +5,15 @@ import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 
-const CoordinateSchema = z.array(
-  z.tuple([z.number(), z.number()])
-).min(1, "At least one coordinate is required");
+const CoordinateSchema = z
+  .array(z.tuple([z.number(), z.number()]))
+  .min(1, "At least one coordinate is required");
 
 const sectionSchema = z.object({
   name: z.string().min(1, "Section name is required"),
   sectionType: z.number().int("Section type must be an integer"),
   area: z.number().int("Area must be an integer").optional(),
-  coordinates: z.any().optional()
+  coordinates: z.any().optional(),
 });
 
 /**
@@ -27,21 +27,21 @@ export const createSection = async (req: Request, res: Response) => {
         data: {
           name: data.name,
           sectionType: data.sectionType,
-          area: data.area
-        }
+          area: data.area,
+        },
       });
 
       if (data.coordinates && data.coordinates.length > 0) {
-        const coordinateData = data.coordinates[0].flatMap(coordSet => 
-          coordSet.map(coord => ({
+        const coordinateData = data.coordinates[0].flatMap((coordSet) =>
+          coordSet.map((coord) => ({
             sectionId: section.id,
             latitude: coord[1],
-            longitude: coord[0]
+            longitude: coord[0],
           }))
         );
-        console.log(coordinateData)
+        console.log(coordinateData);
         await prismaClient.coordinate.createMany({
-          data: coordinateData
+          data: coordinateData,
         });
       }
 
@@ -112,15 +112,15 @@ export const updateSection = async (req: Request, res: Response) => {
     const section = await prisma.section.update({
       where: { id },
       data: {
-        ...data
+        ...data,
       },
     });
     res.status(200).json(section);
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ errors: error.errors });
-    // } else if (error.code === "P2025") {
-    //   res.status(404).json({ error: "Section not found" });
+      // } else if (error.code === "P2025") {
+      //   res.status(404).json({ error: "Section not found" });
     } else {
       res.status(500).json({ error: "Failed to update section" });
     }
@@ -133,11 +133,38 @@ export const updateSection = async (req: Request, res: Response) => {
 export const deleteSection = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    await prisma.section.delete({
+
+    // Check if the section has related assets or coordinates
+    const sectionWithRelations = await prisma.section.findUnique({
       where: { id },
+      include: {
+        assets: true,       // Assuming assets relation exists
+        coordinates: true,  // Assuming coordinates relation exists
+      },
     });
-    res.status(200).json({ message: "Section deleted successfully" });
-  } catch (error) {
-      res.status(500).json({ error: "Failed to delete section" });
+
+    if (!sectionWithRelations) {
+      return res.status(404).json({ msg: "Section not found" });
+    }
+
+    const hasAssets = sectionWithRelations.assets.length > 0;
+    const hasCoordinates = sectionWithRelations.coordinates.length > 0;
+
+    if (hasAssets) {
+      return res.status(409).json({
+        msg: "Section cannot be deleted as it has related assets",
+      });
+    } else if (hasCoordinates || (!hasAssets && !hasCoordinates)) {
+      await prisma.section.delete({ where: { id } });
+      return res.status(200).json({ message: "Section deleted successfully" });
+    }
+  } catch (error: any) {
+    if (error.code === "P2003") {
+      return res.status(409).json({
+        msg: "Section cannot be deleted due to foreign key constraint",
+      });
+    }
+    return res.status(500).json({ error: "Failed to delete section" });
   }
 };
+

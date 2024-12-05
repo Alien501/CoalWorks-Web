@@ -190,7 +190,7 @@ model Coordinate {
   longitude Float
   sectionId Int
 
-  section Section @relation(fields: [sectionId], references: [id])
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 }
 
 model AssetType {

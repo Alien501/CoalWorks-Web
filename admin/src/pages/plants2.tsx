@@ -180,22 +180,28 @@ export default function SectionsPage() {
   async function onDeleteSection(id: number) {
     try {
       const res = await axios.delete(`/api/data/section/${id}`);
+      
+      // Check response status
       if (res.status === 200) {
-        toast.success("Section deleted successfully")
-        setSections(await fetchSectionTypes())
+        toast.success(res.data.message || "Section deleted successfully");
+      } else {
+        toast.error("Error while deleting the section");
       }
-      else {
-        toast.error("Error while deleting the section")
+    } catch (error: any) {
+      const serverMessage = error.response?.data?.msg || "An unexpected error occurred.";
+      
+      if (error.response?.status === 409) {
+        toast.error(serverMessage); 
+      } else {
+        toast.error(serverMessage); 
       }
-    }
-    catch (error: any) {
-      if (error.status === 409)
-        toast.error("Error while deleting the section")
-    }
-    finally {
-      setSections(await fetchSections())
+      console.error(error); 
+    } finally {
+      const updatedSections = await fetchSections();
+      setSections(updatedSections);
     }
   }
+  
 
   const onEditSectionHandler = async (id: number) => {
     try {

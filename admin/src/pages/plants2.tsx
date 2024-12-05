@@ -145,6 +145,7 @@ export default function SectionsPage() {
         setSectionTypes(await fetchSectionTypes())
       }
       else {
+        console.log(res.status)
         toast.error("Section type can't be deleted due to some errors")
       }
     }
@@ -224,7 +225,7 @@ export default function SectionsPage() {
   }
 
   const filteredSectionTypes = useMemo(() => {
-    return sectionTypes.filter(type =>
+    return sectionTypes?.filter(type =>
       type.name.toLowerCase().includes(typeSearch.toLowerCase()) ||
       type.description.toLowerCase().includes(typeSearch.toLowerCase())
     );

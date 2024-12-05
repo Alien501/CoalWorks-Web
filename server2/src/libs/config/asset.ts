@@ -23,6 +23,7 @@ export const createAsset = async (req: Request, res: Response) => {
     if (error instanceof z.ZodError) {
       res.status(400).json({ errors: error.errors });
     } else {
+      console.log(error)
       res.status(500).json({ error: "Failed to create asset" });
     }
   }

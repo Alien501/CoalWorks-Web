@@ -9,6 +9,11 @@ import { ExpandIcon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { fetchAssets } from '@/utils/fetchAssets';
+import { MapPin } from 'lucide-react';
+import AssetCard from '@/components/custom/assetCard';
+import ReactDOMServer from 'react-dom/server';
+import SectionCard from '@/components/custom/sectionCard';
+import MineCard from '@/components/custom/mineCard';
 
 interface Mine {
   mineName: string;
@@ -189,11 +194,20 @@ export default function MapPoints() {
           }
         });
 
+        const popup = new mapboxgl.Popup({
+          offset: 25,
+          closeButton: true,
+          closeOnClick: true
+        });
+
         mapRef.current?.on('mouseenter', `point-${index}`, () => {
-          new mapboxgl.Popup()
-            .setLngLat(mine.coordinates)
-            .setHTML(`<h3 class="text-black">${mine.mineName}</h3>`)
+          popup.setLngLat(mine.coordinates)
+            .setHTML(ReactDOMServer.renderToString(<MineCard mine={mine} />))
             .addTo(mapRef.current!);
+        });
+
+        mapRef.current?.on('mouseleave', `point-${index}`, () => {
+          popup.remove();
         });
       });
 
@@ -213,7 +227,7 @@ export default function MapPoints() {
         });
 
         const centroid = calculateCentroid(section.coordinates);
-        
+
         mapRef.current?.addLayer({
           id: `section-fill-${index}`,
           type: 'fill',
@@ -265,64 +279,61 @@ export default function MapPoints() {
             'text-halo-width': 1
           }
         });
+        const popup = new mapboxgl.Popup({
+          offset: 25,
+          closeButton: false,
+          closeOnClick: false
+        });
+
+        mapRef.current?.on('mouseenter', `section-fill-${index}`, () => {
+          const centroid = calculateCentroid(section.coordinates);
+          popup.setLngLat(centroid)
+            .setHTML(ReactDOMServer.renderToString(<SectionCard section={section} />))
+            .addTo(mapRef.current!);
+        });
+
+        mapRef.current?.on('mouseleave', `section-fill-${index}`, () => {
+          popup.remove();
+        });
       });
     }
 
     if (mode === 'assets') {
       assets.forEach((asset, index) => {
-        mapRef.current?.addSource(`asset-${index}`, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: asset.coordinates
-            },
-            properties: {
-              title: asset.name
-            }
-          }
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.innerHTML = ReactDOMServer.renderToString(
+          <MapPin size={24} color="#FF4444" fill="#FF4444" />
+        );
+
+        const marker = new mapboxgl.Marker(el)
+          .setLngLat(asset.coordinates)
+          .addTo(mapRef.current!);
+
+        const popup = new mapboxgl.Popup({
+          offset: 25,
+          closeButton: false,
+          closeOnClick: false
         });
 
-        mapRef.current?.addLayer({
-          id: `asset-glow-${index}`,
-          type: 'circle',
-          source: `asset-${index}`,
-          paint: {
-            'circle-radius': 30,
-            'circle-color': '#aeaeae',
-            'circle-opacity': 0.5,
-            'circle-blur': 1
-          }
-        });
-
-        mapRef.current?.addLayer({
-          id: `asset-${index}`,
-          type: 'circle',
-          source: `asset-${index}`,
-          paint: {
-            'circle-radius': 8,
-            'circle-color': '#FF4444',
-            'circle-stroke-color': 'transparent',
-            'circle-stroke-width': 1
-          }
-        });
-
-        mapRef.current?.on('mouseenter', `asset-${index}`, () => {
-          new mapboxgl.Popup()
-            .setLngLat(asset.coordinates)
-            .setHTML(`<h3 class="text-black">${asset.name}</h3>`)
+        el.addEventListener('mouseenter', () => {
+          popup.setLngLat(asset.coordinates)
+            .setHTML(ReactDOMServer.renderToString(<AssetCard asset={asset} />))
             .addTo(mapRef.current!);
+        });
+
+        el.addEventListener('mouseleave', () => {
+          popup.remove();
         });
       });
     }
-    
-    const allCoordinates = mode === 'assets' 
-      ? assets.map(asset => asset.coordinates) 
+
+    const allCoordinates = mode === 'assets'
+      ? assets.map(asset => asset.coordinates)
       : [
-          ...mines.map(mine => mine.coordinates),
-          ...sections.flatMap(section => section.coordinates)
-        ];
+        ...mines.map(mine => mine.coordinates),
+        ...sections.flatMap(section => section.coordinates)
+      ];
 
     if (allCoordinates.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
@@ -341,7 +352,7 @@ export default function MapPoints() {
           <div>
             <Select defaultValue={mode} onValueChange={(v) => setMode(v)}>
               <SelectTrigger>
-                <SelectValue placeholder="Mode"/>
+                <SelectValue placeholder="Mode" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='navigation'>Navigation</SelectItem>
@@ -366,10 +377,10 @@ export default function MapPoints() {
         </div>
       </CardHeader>
       <CardContent className='p-1 h-full'>
-        <div 
-          ref={mapContainerRef} 
-          className="map-container h-full w-full rounded-e-xl" 
-          style={{ minHeight: '400px' }} 
+        <div
+          ref={mapContainerRef}
+          className="map-container h-full w-full rounded-e-xl"
+          style={{ minHeight: '400px' }}
         />
       </CardContent>
     </Card>

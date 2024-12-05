@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Ellipsis, Star } from "lucide-react";
+import { Ellipsis, Star } from 'lucide-react';
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
@@ -24,73 +24,87 @@ import { fetchSections } from "@/utils/fetchSections";
 import { toast } from "sonner";
 import { ScrollArea } from "../ui/scroll-area";
 import { Checkbox } from "../ui/checkbox";
-
-interface Section {
-    id: number;
-    name: string;
-    sectionType: number;
-    area: number;
-    activePlans: { plantId: number }[];
-}
+import axios from "axios";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Plan {
     planId: number;
     planName: string;
     status: string;
     plantId: string;
+    lastPublishedBy: string | null;
     updatedAt: string;
     createdBy: string;
-    lastPublishedBy: string;
+}
+
+interface Section {
+    id: number;
+    name: string;
+    sectionType: number;
+    area: number;
+    activePlans: { planId: number; planName: string }[];
 }
 
 export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
     const [sections, setSections] = useState<Section[]>([]);
-    const [activeSections, setActiveSections] = useState<{ sectionId: number; activeSections: number[] }[]>([]);
-    const [selectedSection, setSelectedSection] = useState<number | null>(null);
+    const [selectedSections, setSelectedSections] = useState<{ [key: number]: boolean }>({});
 
     useEffect(() => {
         const fetchSectionsHandler = async () => {
             const res = await fetchSections();
             if (res) {
-                const shapedActiveSections = res.map((section: Section) => ({
-                    sectionId: section.id,
-                    activeSections: section.activePlans.map((ap) => ap.plantId),
-                }));
                 setSections(res);
-                setActiveSections(shapedActiveSections);
             }
         };
         fetchSectionsHandler();
     }, []);
 
     const handleCheckboxChange = (sectionId: number, checked: boolean) => {
-        setActiveSections((prev) =>
-            prev.map((item) =>
-                item.sectionId === sectionId
-                    ? {
-                          ...item,
-                          activeSections: checked
-                              ? [...item.activeSections, sectionId]
-                              : item.activeSections.filter((id) => id !== sectionId),
-                      }
-                    : item
-            )
-        );
+        setSelectedSections(prev => ({
+            ...prev,
+            [sectionId]: checked
+        }));
     };
 
-    const onScheduleRoundHandler = (id: number) => {
-        toast.success(`Round/PlanId ${id} scheduled for section ${selectedSection}`);
+    const onScheduleRoundHandler = async (id: number, planName: string) => {
+        try {
+            const sectionIds = Object.entries(selectedSections)
+                .filter(([_, isSelected]) => isSelected)
+                .map(([sectionId, _]) => parseInt(sectionId));
+
+            const res = await axios.post("/api/data/rounds/active-plan", {
+                planId: id,
+                planName: planName,
+                sectionIds: sectionIds
+            });
+
+            if (res.status === 201) {
+                toast.success("Plan scheduled successfully");
+            } else {
+                toast.error("Problem with scheduling the plan");
+            }
+        } catch (error) {
+            toast.error("Error while scheduling the plan");
+        } finally {
+            setSelectedSections({});
+        }
     };
 
     return (
         <Table>
             <TableHeader className="bg-black/[0.05]">
                 <TableRow>
-                    <TableHead className="w-[300px] py-4">Plan Name</TableHead>
+                    <TableHead className=" py-4">Plan Name</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Plant</TableHead>
-                    <TableHead>Last Published By</TableHead>
-                    <TableHead>Last Edited</TableHead>
+                    <TableHead>Scheduled Sections</TableHead>
+                    <TableHead>Created On</TableHead>
                     <TableHead>Schedule Round</TableHead>
                     <TableHead>Created By</TableHead>
                     <TableHead>Actions</TableHead>
@@ -103,8 +117,21 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                         <TableCell>
                             <Badge variant="secondary">{plan.status}</Badge>
                         </TableCell>
-                        <TableCell>{plan.plantId}</TableCell>
-                        <TableCell>{plan.lastPublishedBy || "NA"}</TableCell>
+                        <TableCell className="pl-7">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger><Button>Open</Button></DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>Scheduled Sections</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    {sections
+                                        .filter(section => section.activePlans.some(ap => ap.planId === plan.planId))
+                                        .map(section => (
+                                            <DropdownMenuItem key={section.id}>{section.name}</DropdownMenuItem>
+                                        ))
+                                    }
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </TableCell>
                         <TableCell>{plan.updatedAt}</TableCell>
                         <TableCell>
                             <Dialog>
@@ -122,11 +149,7 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                                                 <div className="flex items-center space-x-2 mt-2" key={section.id}>
                                                     <Checkbox
                                                         id={`section-${section.id}`}
-                                                        checked={activeSections.some(
-                                                            (item) =>
-                                                                item.sectionId === section.id &&
-                                                                item.activeSections.includes(section.id)
-                                                        )}
+                                                        checked={selectedSections[section.id] || false}
                                                         onCheckedChange={(checked) =>
                                                             handleCheckboxChange(section.id, !!checked)
                                                         }
@@ -139,7 +162,7 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                                     <DialogFooter>
                                         <Button
                                             type="submit"
-                                            onClick={() => onScheduleRoundHandler(plan.planId)}
+                                            onClick={() => onScheduleRoundHandler(plan.planId, plan.planName)}
                                         >
                                             Save changes
                                         </Button>
@@ -147,7 +170,7 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                                 </DialogContent>
                             </Dialog>
                         </TableCell>
-                        <TableCell>{plan.createdBy}</TableCell>
+                        <TableCell>Me</TableCell>
                         <TableCell>
                             <span className="hover:cursor-pointer flex space-x-2">
                                 <Star />
@@ -160,3 +183,4 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
         </Table>
     );
 }
+

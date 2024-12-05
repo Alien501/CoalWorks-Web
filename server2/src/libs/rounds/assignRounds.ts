@@ -30,6 +30,8 @@ export const createOrUpdateActivePlans = async (req: Request, res: Response) => 
       return activePlans;
     });
 
+    console.log(result)
+
     res.status(201).json(result);
   } catch (error) {
     if (error instanceof z.ZodError) {

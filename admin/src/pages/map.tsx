@@ -15,11 +15,41 @@ import ReactDOMServer from 'react-dom/server';
 import SectionCard from '@/components/custom/sectionCard';
 import MineCard from '@/components/custom/mineCard';
 
+// Mock heat map data for mines in Tamil Nadu
+const mockHeatMapData = [
+  { 
+    mineName: 'Kattaparai Mine', 
+    locationLatitude: 11.1271, 
+    locationLongitude: 79.3845, 
+    production: 500000, 
+    workforce: 250, 
+    color: '#FF4444' 
+  },
+  { 
+    mineName: 'Neyveli Lignite Mine', 
+    locationLatitude: 11.2265, 
+    locationLongitude: 79.4696, 
+    production: 750000, 
+    workforce: 400, 
+    color: '#FF6666' 
+  },
+  { 
+    mineName: 'Ariyalur Limestone Mine', 
+    locationLatitude: 11.1537, 
+    locationLongitude: 79.1389, 
+    production: 250000, 
+    workforce: 150, 
+    color: '#FF2222' 
+  }
+];
+
 interface Mine {
   mineName: string;
   locationLatitude: number;
   locationLongitude: number;
   color?: string;
+  production?: number;
+  workforce?: number;
 }
 
 interface Section {
@@ -49,11 +79,12 @@ const calculateCentroid = (coordinates: [number, number][]): [number, number] =>
 export default function MapPoints() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const [mines, setMines] = useState<Mine[]>([]);
+  const [mines, setMines] = useState<Mine[]>(mockHeatMapData);
   const [sections, setSections] = useState<Section[]>([]);
   const [assets, setAssets] = useState<Asset[]>([]);
   const [mode, setMode] = useState('navigation');
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
+  const [heatmapMetric, setHeatmapMetric] = useState('production');
 
   useEffect(() => {
     const getMineData = async () => {
@@ -109,8 +140,8 @@ export default function MapPoints() {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: 'mapbox://styles/mapbox/dark-v11',
-        center: [82.545748, 22.336312],
-        zoom: 10,
+        center: [79.3845, 11.1271],
+        zoom: 7,
       });
 
       mapRef.current.on('style.load', () => {
@@ -154,6 +185,7 @@ export default function MapPoints() {
         mapRef.current.removeSource(`asset-${index}`);
       }
     });
+
     if (mode === 'navigation' || mode === 'heat') {
       mines.forEach((mine, index) => {
         mapRef.current?.addSource(`point-${index}`, {
@@ -162,25 +194,48 @@ export default function MapPoints() {
             type: 'Feature',
             geometry: {
               type: 'Point',
-              coordinates: mine.coordinates
+              coordinates: [mine.locationLongitude, mine.locationLatitude]
             },
             properties: {
-              title: mine.mineName
+              title: mine.mineName,
+              ...(mode === 'heat' && { 
+                metric: mine[heatmapMetric as keyof Mine] || 0 
+              })
             }
           }
         });
 
-        mapRef.current?.addLayer({
-          id: `point-glow-${index}`,
-          type: 'circle',
-          source: `point-${index}`,
-          paint: {
-            'circle-radius': 30,
-            'circle-color': mine.color || '#FF4444',
-            'circle-opacity': 0.5,
-            'circle-blur': 1
-          }
-        });
+        if (mode === 'heat') {
+          const metric = mine[heatmapMetric as keyof Mine] || 0;
+          const maxMetric = Math.max(...mines.map(m => m[heatmapMetric as keyof Mine] || 0));
+          const intensity = (metric / maxMetric) * 1;
+
+          mapRef.current?.addLayer({
+            id: `point-glow-${index}`,
+            type: 'circle',
+            source: `point-${index}`,
+            paint: {
+              'circle-radius': 30 * intensity,
+              'circle-color': mode === 'heat' 
+                ? `rgba(255, 0, 0, ${intensity * 0.7})` 
+                : (mine.color || '#FF4444'),
+              'circle-opacity': intensity * 0.7,
+              'circle-blur': 1
+            }
+          });
+        } else {
+          mapRef.current?.addLayer({
+            id: `point-glow-${index}`,
+            type: 'circle',
+            source: `point-${index}`,
+            paint: {
+              'circle-radius': 30,
+              'circle-color': mine.color || '#FF4444',
+              'circle-opacity': 0.5,
+              'circle-blur': 1
+            }
+          });
+        }
 
         mapRef.current?.addLayer({
           id: `point-${index}`,
@@ -200,8 +255,8 @@ export default function MapPoints() {
           closeOnClick: true
         });
 
-        mapRef.current?.on('mouseenter', `point-${index}`, () => {
-          popup.setLngLat(mine.coordinates)
+        mapRef.current?.on('click', `point-${index}`, () => {
+          popup.setLngLat([mine.locationLongitude, mine.locationLatitude])
             .setHTML(ReactDOMServer.renderToString(<MineCard mine={mine} />))
             .addTo(mapRef.current!);
         });
@@ -279,13 +334,14 @@ export default function MapPoints() {
             'text-halo-width': 1
           }
         });
+
         const popup = new mapboxgl.Popup({
           offset: 25,
           closeButton: false,
           closeOnClick: false
         });
 
-        mapRef.current?.on('mouseenter', `section-fill-${index}`, () => {
+        mapRef.current?.on('click', `section-fill-${index}`, () => {
           const centroid = calculateCentroid(section.coordinates);
           popup.setLngLat(centroid)
             .setHTML(ReactDOMServer.renderToString(<SectionCard section={section} />))
@@ -328,10 +384,11 @@ export default function MapPoints() {
       });
     }
 
+    // Adjust map bounds
     const allCoordinates = mode === 'assets'
       ? assets.map(asset => asset.coordinates)
       : [
-        ...mines.map(mine => mine.coordinates),
+        ...mines.map(mine => [mine.locationLongitude, mine.locationLatitude]),
         ...sections.flatMap(section => section.coordinates)
       ];
 
@@ -340,7 +397,7 @@ export default function MapPoints() {
       allCoordinates.forEach(coord => bounds.extend(coord));
       mapRef.current.fitBounds(bounds, { padding: 50 });
     }
-  }, [mines, sections, assets, mode, isStyleLoaded]);
+  }, [mines, sections, assets, mode, isStyleLoaded, heatmapMetric]);
 
   return (
     <Card className='h-full shadow-none border-0 rounded-sm overflow-hidden'>

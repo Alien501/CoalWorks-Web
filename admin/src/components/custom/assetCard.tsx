@@ -14,7 +14,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg font-semibold text-gray-900">{asset.name}</h3>
         <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-          Active
+          {JSON.stringify(asset)}
         </span>
       </div>
       

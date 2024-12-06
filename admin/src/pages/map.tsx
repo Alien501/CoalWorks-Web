@@ -7,39 +7,40 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ExpandIcon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription,DialogFooter, DialogHeader } from '@/components/ui/dialog';
 import { fetchAssets } from '@/utils/fetchAssets';
-import { MapPin } from 'lucide-react';
+import { MapPin, MapIcon } from 'lucide-react';
 import AssetCard from '@/components/custom/assetCard';
 import ReactDOMServer from 'react-dom/server';
 import SectionCard from '@/components/custom/sectionCard';
 import MineCard from '@/components/custom/mineCard';
+import StylizedIndustrialNightScene from "@/assets/img/StylizedIndustrialNightScene.jpeg"
 
 // Mock heat map data for mines in Tamil Nadu
 const mockHeatMapData = [
-  { 
-    mineName: 'Kattaparai Mine', 
-    locationLatitude: 11.1271, 
-    locationLongitude: 79.3845, 
-    production: 500000, 
-    workforce: 250, 
-    color: '#FF4444' 
+  {
+    mineName: 'Kattaparai Mine',
+    locationLatitude: 11.1271,
+    locationLongitude: 79.3845,
+    production: 500000,
+    workforce: 250,
+    color: '#FF4444'
   },
-  { 
-    mineName: 'Neyveli Lignite Mine', 
-    locationLatitude: 11.2265, 
-    locationLongitude: 79.4696, 
-    production: 750000, 
-    workforce: 400, 
-    color: '#FF6666' 
+  {
+    mineName: 'Neyveli Lignite Mine',
+    locationLatitude: 11.2265,
+    locationLongitude: 79.4696,
+    production: 750000,
+    workforce: 400,
+    color: '#FF6666'
   },
-  { 
-    mineName: 'Ariyalur Limestone Mine', 
-    locationLatitude: 11.1537, 
-    locationLongitude: 79.1389, 
-    production: 250000, 
-    workforce: 150, 
-    color: '#FF2222' 
+  {
+    mineName: 'Ariyalur Limestone Mine',
+    locationLatitude: 11.1537,
+    locationLongitude: 79.1389,
+    production: 250000,
+    workforce: 150,
+    color: '#FF2222'
   }
 ];
 
@@ -86,6 +87,8 @@ export default function MapPoints() {
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const [heatmapMetric, setHeatmapMetric] = useState('production');
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [selectedSection, setSelectedSection] = useState<Section | null>(null);
+  const [selectedItem, setSelectedItem] = useState(null)
 
   useEffect(() => {
     const getMineData = async () => {
@@ -99,6 +102,81 @@ export default function MapPoints() {
         setMines(shapedMineData);
       } catch (error) {
         console.error('Failed to fetch mines:', error);
+      }
+    };
+
+    const renderDialogContent = () => {
+      if (!selectedItem) return null;
+    
+      if ('coordinates' in selectedItem && Array.isArray(selectedItem.coordinates[0])) {
+        // It's a section
+        const section = selectedItem as Section;
+        return (
+          <>
+            <DialogHeader>
+              <DialogTitle className="flex items-center justify-between">
+                <span>{section.name}</span>
+                <MapIcon size={20} style={{ color: section.color }} />
+              </DialogTitle>
+              <DialogDescription>
+                Details about the selected section.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <img
+                src="/placeholder.svg?height=150&width=300"
+                alt={`${section.name} section`}
+                className="rounded-md object-cover w-full h-[150px]"
+              />
+              <div className="grid grid-cols-4 items-center gap-4">
+                <span className="text-sm font-medium col-span-1">Type:</span>
+                <span className="col-span-3">Section</span>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <span className="text-sm font-medium col-span-1">Color:</span>
+                <div className="col-span-3 flex items-center">
+                  <div className="w-6 h-6 rounded-full mr-2" style={{ backgroundColor: section.color }}></div>
+                  <span>{section.color}</span>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      } else {
+        // It's an asset
+        const asset = selectedItem as Asset;
+        return (
+          <>
+            <DialogHeader>
+              <DialogTitle className="flex items-center justify-between">
+                <span>{JSON.stringify(asset)}</span>
+                <MapPin size={20} color="#FF4444" />
+              </DialogTitle>
+              <DialogDescription>
+                Details about the selected asset.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <img
+                src={StylizedIndustrialNightScene}
+                // alt={`${asset.name} asset`}
+                className="rounded-md object-cover w-full h-[150px]"
+              />
+              <div className="grid grid-cols-4 items-center gap-4">
+                <span className="text-sm font-medium col-span-1">Type:</span>
+                {/* <span className="col-span-3">{asset.type}</span> */}
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <span className="text-sm font-medium col-span-1">Status:</span>
+                {/* <span className="col-span-3">{asset.status}</span> */}
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <span className="text-sm font-medium col-span-1">Coordinates:</span>
+                {/* <span className="col-span-3">{asset.coordinates.join(', ')}</span> */}
+              </div>
+            </div>
+          </>
+        );
       }
     };
 
@@ -199,8 +277,8 @@ export default function MapPoints() {
             },
             properties: {
               title: mine.mineName,
-              ...(mode === 'heat' && { 
-                metric: mine[heatmapMetric as keyof Mine] || 0 
+              ...(mode === 'heat' && {
+                metric: mine[heatmapMetric as keyof Mine] || 0
               })
             }
           }
@@ -217,8 +295,8 @@ export default function MapPoints() {
             source: `point-${index}`,
             paint: {
               'circle-radius': 30 * intensity,
-              'circle-color': mode === 'heat' 
-                ? `rgba(255, 0, 0, ${intensity * 0.7})` 
+              'circle-color': mode === 'heat'
+                ? `rgba(255, 0, 0, ${intensity * 0.7})`
                 : (mine.color || '#FF4444'),
               'circle-opacity': intensity * 0.7,
               'circle-blur': 1
@@ -337,22 +415,10 @@ export default function MapPoints() {
           }
         });
 
-        const popup = new mapboxgl.Popup({
-          offset: 25,
-          closeButton: false,
-          closeOnClick: false
-        });
-
         mapRef.current?.on('click', `section-fill-${index}`, () => {
-          const centroid = calculateCentroid(section.coordinates);
-          popup.setLngLat(centroid)
-            .setHTML(ReactDOMServer.renderToString(<SectionCard section={section} />))
-            .addTo(mapRef.current!);
-        });
-
-        mapRef.current?.on('mouseleave', `section-fill-${index}`, () => {
-          popup.remove();
-        });
+          setSelectedSection(section);
+          setDialogOpen(prev => !prev);
+        })
       });
     }
 
@@ -360,28 +426,15 @@ export default function MapPoints() {
       assets.forEach((asset, index) => {
         const el = document.createElement('div');
         el.className = 'marker';
-        el.innerHTML = ReactDOMServer.renderToString(
-          <MapPin size={24} color="#FF4444" fill="#FF4444" />
-        );
+        el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#FF4444" stroke="#FF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
 
         const marker = new mapboxgl.Marker(el)
           .setLngLat(asset.coordinates)
           .addTo(mapRef.current!);
 
-        const popup = new mapboxgl.Popup({
-          offset: 25,
-          closeButton: false,
-          closeOnClick: false
-        });
-
-        el.addEventListener('mouseenter', () => {
-          popup.setLngLat(asset.coordinates)
-            .setHTML(ReactDOMServer.renderToString(<AssetCard asset={asset} />))
-            .addTo(mapRef.current!);
-        });
-
-        el.addEventListener('mouseleave', () => {
-          popup.remove();
+        el.addEventListener('click', () => {
+          setSelectedItem(asset);
+          setDialogOpen(true);
         });
       });
     }
@@ -424,7 +477,7 @@ export default function MapPoints() {
             <div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant={'secondary'} className='rounded-full h-10 w-10'>
+                  <Button variant={'secondary'} className='rounded-full w-10 h-10'>
                     <ExpandIcon />
                   </Button>
                 </DialogTrigger>
@@ -443,11 +496,46 @@ export default function MapPoints() {
           />
         </CardContent>
       </Card>
-      <Dialog modal open={isDialogOpen} onOpenChange={() => setDialogOpen(prev => !prev)}>
-        <DialogContent>
-          <h1>Hello</h1>
+      <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          {selectedSection && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center justify-between">
+                  <span>{selectedSection.name}</span>
+                  <MapIcon size={20} style={{ color: selectedSection.color }} />
+                </DialogTitle>
+                <DialogDescription>
+                  Details about the selected section.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <img
+                  src={StylizedIndustrialNightScene}
+                  alt={`${selectedSection.name} section`}
+                  className="rounded-md object-cover w-full h-[150px]"
+                />
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <span className="text-sm font-medium col-span-1">Type:</span>
+                  <span className="col-span-3">Section</span>
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <span className="text-sm font-medium col-span-1">Color:</span>
+                  <div className="col-span-3 flex items-center">
+                    <div className="w-6 h-6 rounded-full mr-2" style={{ backgroundColor: selectedSection.color }}></div>
+                    <span>{selectedSection.color}</span>
+                  </div>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button onClick={() => setDialogOpen(false)}>Close</Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>
   );
 }
+
+

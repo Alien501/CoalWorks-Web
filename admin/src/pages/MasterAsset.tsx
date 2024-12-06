@@ -55,6 +55,7 @@ import { toast } from 'sonner';
 import { fetchAssetType } from '@/utils/fetchAssetTypes';
 import { fetchAssets } from '@/utils/fetchAssets';
 import { fetchSections } from '@/utils/fetchSections';
+import MapPointDrawer from '@/components/custom/drawingMapPoint';
 
 interface Asset {
   id: number
@@ -434,7 +435,10 @@ export default function MasterAsset() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    <div className='h-[300px] w-full'>
+                      <MapPointDrawer setCoordinate={setNewAsset} />
+                    </div>
+                    {/* <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="asset-latitude" className="text-right">
                         Latitude
                       </Label>
@@ -461,7 +465,7 @@ export default function MasterAsset() {
                         })}
                         className="col-span-3"
                       />
-                    </div>
+                    </div> */}
                     <Button onClick={handleAddAsset}>
                       Create Asset
                     </Button>

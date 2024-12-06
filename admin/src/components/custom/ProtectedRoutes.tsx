@@ -1,46 +1,59 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
-const ProtectedRoute = ({children}: {children: any}) => {
+const ProtectedRoute = ({children}: {children: React.ReactNode}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const verfiytoken = async (token) => {
-            const res = await fetch('/api/data/admin/op/verify', {
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            })
-            if(res.status == 200) {
-                return true;
-            }
-            else {
+        const verifyToken = async (token: string) => {
+            try {
+                const res = await fetch('/api/data/admin/op/verify', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                return res.status === 200;
+            } catch (error) {
+                console.error('Token verification failed:', error);
                 return false;
             }
         }
         
-        const ud = localStorage.getItem('userData');
-        console.log(ud)
-        if(!ud) {
-            navigate('/login');
-        }else {
-            const token = JSON.parse(ud).token;
-            const isValid = verfiytoken(token);
-            if(!isValid) {
-                navigate('/login')
+        const checkAuth = async () => {
+            const ud = localStorage.getItem('userData');
+            
+            if (!ud) {
+                navigate('/login');
+                return;
             }
-        }
 
-    }, []);
+            try {
+                const userData = JSON.parse(ud);
+                const token = userData.token;
 
-    return(
-        <>
-            {children}
-        </>
-    )
+                if (!token) {
+                    navigate('/login');
+                    return;
+                }
+
+                const isValid = await verifyToken(token);
+                
+                if (!isValid) {
+                    localStorage.removeItem('userData');
+                    navigate('/login');
+                }
+            } catch (error) {
+                console.error('Authentication check failed:', error);
+                navigate('/login');
+            }
+        };
+
+        checkAuth();
+    }, [navigate]);
+
+    return <>{children}</>;
 }
 
-export {
-    ProtectedRoute
-}
+export { ProtectedRoute }

@@ -85,6 +85,7 @@ export default function MapPoints() {
   const [mode, setMode] = useState('navigation');
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const [heatmapMetric, setHeatmapMetric] = useState('production');
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const getMineData = async () => {
@@ -256,9 +257,10 @@ export default function MapPoints() {
         });
 
         mapRef.current?.on('click', `point-${index}`, () => {
-          popup.setLngLat([mine.locationLongitude, mine.locationLatitude])
-            .setHTML(ReactDOMServer.renderToString(<MineCard mine={mine} />))
-            .addTo(mapRef.current!);
+          setDialogOpen(prev => !prev)
+          // popup.setLngLat([mine.locationLongitude, mine.locationLatitude])
+          //   .setHTML(ReactDOMServer.renderToString(<MineCard mine={mine} />))
+          //   .addTo(mapRef.current!);
         });
 
         mapRef.current?.on('mouseleave', `point-${index}`, () => {
@@ -384,7 +386,6 @@ export default function MapPoints() {
       });
     }
 
-    // Adjust map bounds
     const allCoordinates = mode === 'assets'
       ? assets.map(asset => asset.coordinates)
       : [
@@ -400,46 +401,53 @@ export default function MapPoints() {
   }, [mines, sections, assets, mode, isStyleLoaded, heatmapMetric]);
 
   return (
-    <Card className='h-full shadow-none border-0 rounded-sm overflow-hidden'>
-      <CardHeader className='flex flex-row justify-between p-1'>
-        <div className='flex items-center'>
-          <p className='text-balance font-medium'>Overview</p>
-        </div>
-        <div className='flex space-x-2 items-center'>
-          <div>
-            <Select defaultValue={mode} onValueChange={(v) => setMode(v)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Mode" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='navigation'>Navigation</SelectItem>
-                <SelectItem value='assets'>Assets</SelectItem>
-                <SelectItem value='workers'>Workers</SelectItem>
-                <SelectItem value='heat'>Heat Map</SelectItem>
-              </SelectContent>
-            </Select>
+    <>
+      <Card className='h-full shadow-none border-0 rounded-sm overflow-hidden'>
+        <CardHeader className='flex flex-row justify-between p-1'>
+          <div className='flex items-center'>
+            <p className='text-balance font-medium'>Overview</p>
           </div>
-          <div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={'secondary'} className='rounded-full h-10 w-10'>
-                  <ExpandIcon />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className='h-[90%] max-w-[90%]'>
-                <MapPoints />
-              </DialogContent>
-            </Dialog>
+          <div className='flex space-x-2 items-center'>
+            <div>
+              <Select defaultValue={mode} onValueChange={(v) => setMode(v)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='navigation'>Navigation</SelectItem>
+                  <SelectItem value='assets'>Assets</SelectItem>
+                  <SelectItem value='workers'>Workers</SelectItem>
+                  <SelectItem value='heat'>Heat Map</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant={'secondary'} className='rounded-full h-10 w-10'>
+                    <ExpandIcon />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className='h-[90%] max-w-[90%]'>
+                  <MapPoints />
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className='p-1 h-full'>
-        <div
-          ref={mapContainerRef}
-          className="map-container h-full w-full rounded-e-xl"
-          style={{ minHeight: '400px' }}
-        />
-      </CardContent>
-    </Card>
+        </CardHeader>
+        <CardContent className='p-1 h-full'>
+          <div
+            ref={mapContainerRef}
+            className="map-container h-full w-full rounded-e-xl"
+            style={{ minHeight: '400px' }}
+          />
+        </CardContent>
+      </Card>
+      <Dialog modal open={isDialogOpen} onOpenChange={() => setDialogOpen(prev => !prev)}>
+        <DialogContent>
+          <h1>Hello</h1>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

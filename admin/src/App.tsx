@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, isRouteErrorResponse, Navigate, RouterProvider, useRouteError } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -27,6 +27,52 @@ import { useEffect, useState } from 'react'
 import { fetchInitStatus } from './utils/fetchInitStatus'
 import { ProtectedRoute } from './components/custom/ProtectedRoutes'
 import MinesPage from './pages/MasterMine'
+import ErrorBoundary from './components/custom/errorHandler'
+import { Card, CardTitle, CardDescription, CardHeader, CardContent, CardFooter } from './components/ui/card'
+import { Alert, AlertTitle, AlertDescription } from './components/ui/alert'
+import { AlertCircle, ArrowLeft } from 'lucide-react'
+import { Button } from './components/ui/button'
+interface ErrorPageProps {
+  error: Error & { digest?: string }
+  reset: () => void
+}
+
+const ErrorPage = ({ error, reset }: ErrorPageProps) => {
+
+  useEffect(() => {
+    console.error('Unhandled error:', error)
+  }, [error])
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-red-600">Oops! Something went wrong</CardTitle>
+          <CardDescription>We apologize for the inconvenience</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              {error || 'An unexpected error occurred'}
+            </AlertDescription>
+          </Alert>
+          {error.digest && (
+            <p className="mt-2 text-sm text-gray-500">Error ID: {error.digest}</p>
+          )}
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <Button variant="outline" onClick={() => window.location.pathname = '/'}>
+            <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
+          </Button>
+          <Button onClick={() => reset()}>Try Again</Button>
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,6 +120,7 @@ function App() {
     {
       path: '/',
       element: <Layout />,
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
@@ -168,7 +215,9 @@ function App() {
   return (
     <>
       <Toaster></Toaster>
-      <RouterProvider router={router} />
+      <ErrorBoundary>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
     </>
   )
 }

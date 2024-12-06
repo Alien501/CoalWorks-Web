@@ -3,6 +3,9 @@ import { Outlet, useLocation } from "react-router-dom"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar"
 import { SideNavbar, TopNavbar } from "./Navbars"
 import { ThemeProvider } from "./theme";
+import { MessageCircle } from "lucide-react";
+import ChatBot from "./ChatBot";
+import { Button } from "../ui/button";
 
 interface PageTitle {
     url: string;
@@ -30,6 +33,7 @@ const pageTitles: PageTitle[] = [
 const Layout = () => {
     const [pageTitle, setPageTitle] = useState('');
     const location = useLocation();
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         const currentPage = pageTitles.find(page => page.url === location.pathname);
@@ -47,6 +51,13 @@ const Layout = () => {
                     </div>
                     <main>
                         <Outlet />
+                        <Button
+                            className="fixed bottom-4 right-4 rounded-full p-3 shadow-lg"
+                            onClick={() => setIsChatOpen(!isChatOpen)}
+                        >
+                            <MessageCircle className="h-6 w-6" />
+                        </Button>
+                        <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
                     </main>
                 </SidebarInset>
             </SidebarProvider>

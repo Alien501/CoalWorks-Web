@@ -5,6 +5,7 @@ import { useState } from "react"
 
 export const CreateShiftHandover = () => {
     const [selectedPositions, setSelectedPositions] = useState([])
+    const [shiftName, setShiftName] = useState("")
   return (
     <div className="flex justify-center min-h-screen p-4">
       <div className="w-full max-w-4xl">
@@ -16,7 +17,7 @@ export const CreateShiftHandover = () => {
             </TabsList>
           </div>
           <TabsContent value="basic-details" className="flex justify-center">
-            <ShiftTemplateBasicDetails selectedPositions={selectedPositions} setSelectedPositions={setSelectedPositions}/>
+            <ShiftTemplateBasicDetails selectedPositions={selectedPositions} setSelectedPositions={setSelectedPositions} setShiftName = {setShiftName} shiftName= {shiftName}/>
           </TabsContent>
           <TabsContent value="template" className="flex justify-center">
             <ShiftTemplateCard />

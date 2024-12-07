@@ -54,6 +54,16 @@ export type Permission = $Result.DefaultSelection<Prisma.$PermissionPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Supervisor
+ * 
+ */
+export type Supervisor = $Result.DefaultSelection<Prisma.$SupervisorPayload>
+/**
+ * Model Section
+ * 
+ */
+export type Section = $Result.DefaultSelection<Prisma.$SectionPayload>
+/**
  * Model Shift
  * 
  */
@@ -83,11 +93,6 @@ export type ActivePlans = $Result.DefaultSelection<Prisma.$ActivePlansPayload>
  * 
  */
 export type SectionType = $Result.DefaultSelection<Prisma.$SectionTypePayload>
-/**
- * Model Section
- * 
- */
-export type Section = $Result.DefaultSelection<Prisma.$SectionPayload>
 /**
  * Model Coordinate
  * 
@@ -326,6 +331,26 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs>;
 
   /**
+   * `prisma.supervisor`: Exposes CRUD operations for the **Supervisor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Supervisors
+    * const supervisors = await prisma.supervisor.findMany()
+    * ```
+    */
+  get supervisor(): Prisma.SupervisorDelegate<ExtArgs>;
+
+  /**
+   * `prisma.section`: Exposes CRUD operations for the **Section** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Sections
+    * const sections = await prisma.section.findMany()
+    * ```
+    */
+  get section(): Prisma.SectionDelegate<ExtArgs>;
+
+  /**
    * `prisma.shift`: Exposes CRUD operations for the **Shift** model.
     * Example usage:
     * ```ts
@@ -384,16 +409,6 @@ export class PrismaClient<
     * ```
     */
   get sectionType(): Prisma.SectionTypeDelegate<ExtArgs>;
-
-  /**
-   * `prisma.section`: Exposes CRUD operations for the **Section** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Sections
-    * const sections = await prisma.section.findMany()
-    * ```
-    */
-  get section(): Prisma.SectionDelegate<ExtArgs>;
 
   /**
    * `prisma.coordinate`: Exposes CRUD operations for the **Coordinate** model.
@@ -873,13 +888,14 @@ export namespace Prisma {
     Role: 'Role',
     Permission: 'Permission',
     User: 'User',
+    Supervisor: 'Supervisor',
+    Section: 'Section',
     Shift: 'Shift',
     Plan: 'Plan',
     PlanAssets: 'PlanAssets',
     Planfiles: 'Planfiles',
     ActivePlans: 'ActivePlans',
     SectionType: 'SectionType',
-    Section: 'Section',
     Coordinate: 'Coordinate',
     AssetType: 'AssetType',
     Asset: 'Asset'
@@ -898,7 +914,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "section" | "coordinate" | "assetType" | "asset"
+      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "supervisor" | "section" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "coordinate" | "assetType" | "asset"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1462,6 +1478,146 @@ export namespace Prisma {
           }
         }
       }
+      Supervisor: {
+        payload: Prisma.$SupervisorPayload<ExtArgs>
+        fields: Prisma.SupervisorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupervisorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupervisorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          findFirst: {
+            args: Prisma.SupervisorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupervisorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          findMany: {
+            args: Prisma.SupervisorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>[]
+          }
+          create: {
+            args: Prisma.SupervisorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          createMany: {
+            args: Prisma.SupervisorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SupervisorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>[]
+          }
+          delete: {
+            args: Prisma.SupervisorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          update: {
+            args: Prisma.SupervisorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          deleteMany: {
+            args: Prisma.SupervisorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupervisorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SupervisorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          aggregate: {
+            args: Prisma.SupervisorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupervisor>
+          }
+          groupBy: {
+            args: Prisma.SupervisorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupervisorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupervisorCountArgs<ExtArgs>
+            result: $Utils.Optional<SupervisorCountAggregateOutputType> | number
+          }
+        }
+      }
+      Section: {
+        payload: Prisma.$SectionPayload<ExtArgs>
+        fields: Prisma.SectionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
+          }
+          findFirst: {
+            args: Prisma.SectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
+          }
+          findMany: {
+            args: Prisma.SectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>[]
+          }
+          create: {
+            args: Prisma.SectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
+          }
+          createMany: {
+            args: Prisma.SectionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>[]
+          }
+          delete: {
+            args: Prisma.SectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
+          }
+          update: {
+            args: Prisma.SectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
+          }
+          deleteMany: {
+            args: Prisma.SectionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SectionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
+          }
+          aggregate: {
+            args: Prisma.SectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSection>
+          }
+          groupBy: {
+            args: Prisma.SectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SectionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SectionCountArgs<ExtArgs>
+            result: $Utils.Optional<SectionCountAggregateOutputType> | number
+          }
+        }
+      }
       Shift: {
         payload: Prisma.$ShiftPayload<ExtArgs>
         fields: Prisma.ShiftFieldRefs
@@ -1879,76 +2035,6 @@ export namespace Prisma {
           count: {
             args: Prisma.SectionTypeCountArgs<ExtArgs>
             result: $Utils.Optional<SectionTypeCountAggregateOutputType> | number
-          }
-        }
-      }
-      Section: {
-        payload: Prisma.$SectionPayload<ExtArgs>
-        fields: Prisma.SectionFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.SectionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.SectionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
-          }
-          findFirst: {
-            args: Prisma.SectionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.SectionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
-          }
-          findMany: {
-            args: Prisma.SectionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>[]
-          }
-          create: {
-            args: Prisma.SectionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
-          }
-          createMany: {
-            args: Prisma.SectionCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.SectionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>[]
-          }
-          delete: {
-            args: Prisma.SectionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
-          }
-          update: {
-            args: Prisma.SectionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
-          }
-          deleteMany: {
-            args: Prisma.SectionDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.SectionUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.SectionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SectionPayload>
-          }
-          aggregate: {
-            args: Prisma.SectionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSection>
-          }
-          groupBy: {
-            args: Prisma.SectionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SectionGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.SectionCountArgs<ExtArgs>
-            result: $Utils.Optional<SectionCountAggregateOutputType> | number
           }
         }
       }
@@ -2443,6 +2529,64 @@ export namespace Prisma {
 
 
   /**
+   * Count Type SectionCountOutputType
+   */
+
+  export type SectionCountOutputType = {
+    assets: number
+    coordinates: number
+    activePlans: number
+    supervisors: number
+  }
+
+  export type SectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assets?: boolean | SectionCountOutputTypeCountAssetsArgs
+    coordinates?: boolean | SectionCountOutputTypeCountCoordinatesArgs
+    activePlans?: boolean | SectionCountOutputTypeCountActivePlansArgs
+    supervisors?: boolean | SectionCountOutputTypeCountSupervisorsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionCountOutputType
+     */
+    select?: SectionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssetWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountCoordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CoordinateWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountActivePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivePlansWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountSupervisorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupervisorWhereInput
+  }
+
+
+  /**
    * Count Type PlanCountOutputType
    */
 
@@ -2519,55 +2663,6 @@ export namespace Prisma {
    */
   export type SectionTypeCountOutputTypeCountSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SectionWhereInput
-  }
-
-
-  /**
-   * Count Type SectionCountOutputType
-   */
-
-  export type SectionCountOutputType = {
-    assets: number
-    coordinates: number
-    activePlans: number
-  }
-
-  export type SectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assets?: boolean | SectionCountOutputTypeCountAssetsArgs
-    coordinates?: boolean | SectionCountOutputTypeCountCoordinatesArgs
-    activePlans?: boolean | SectionCountOutputTypeCountActivePlansArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * SectionCountOutputType without action
-   */
-  export type SectionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SectionCountOutputType
-     */
-    select?: SectionCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * SectionCountOutputType without action
-   */
-  export type SectionCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AssetWhereInput
-  }
-
-  /**
-   * SectionCountOutputType without action
-   */
-  export type SectionCountOutputTypeCountCoordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CoordinateWhereInput
-  }
-
-  /**
-   * SectionCountOutputType without action
-   */
-  export type SectionCountOutputTypeCountActivePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ActivePlansWhereInput
   }
 
 
@@ -9691,6 +9786,7 @@ export namespace Prisma {
     Position?: boolean | User$PositionArgs<ExtArgs>
     Creator?: boolean | User$CreatorArgs<ExtArgs>
     CreatedUsers?: boolean | User$CreatedUsersArgs<ExtArgs>
+    supervisor?: boolean | User$supervisorArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -9736,6 +9832,7 @@ export namespace Prisma {
     Position?: boolean | User$PositionArgs<ExtArgs>
     Creator?: boolean | User$CreatorArgs<ExtArgs>
     CreatedUsers?: boolean | User$CreatedUsersArgs<ExtArgs>
+    supervisor?: boolean | User$supervisorArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9751,6 +9848,7 @@ export namespace Prisma {
       Position: Prisma.$PositionPayload<ExtArgs> | null
       Creator: Prisma.$UserPayload<ExtArgs> | null
       CreatedUsers: Prisma.$UserPayload<ExtArgs>[]
+      supervisor: Prisma.$SupervisorPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: number
@@ -10135,6 +10233,7 @@ export namespace Prisma {
     Position<T extends User$PositionArgs<ExtArgs> = {}>(args?: Subset<T, User$PositionArgs<ExtArgs>>): Prisma__PositionClient<$Result.GetResult<Prisma.$PositionPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     Creator<T extends User$CreatorArgs<ExtArgs> = {}>(args?: Subset<T, User$CreatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     CreatedUsers<T extends User$CreatedUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$CreatedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
+    supervisor<T extends User$supervisorArgs<ExtArgs> = {}>(args?: Subset<T, User$supervisorArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10546,6 +10645,21 @@ export namespace Prisma {
   }
 
   /**
+   * User.supervisor
+   */
+  export type User$supervisorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    where?: SupervisorWhereInput
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10557,6 +10671,2024 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Supervisor
+   */
+
+  export type AggregateSupervisor = {
+    _count: SupervisorCountAggregateOutputType | null
+    _avg: SupervisorAvgAggregateOutputType | null
+    _sum: SupervisorSumAggregateOutputType | null
+    _min: SupervisorMinAggregateOutputType | null
+    _max: SupervisorMaxAggregateOutputType | null
+  }
+
+  export type SupervisorAvgAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    userId: number | null
+  }
+
+  export type SupervisorSumAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    userId: number | null
+  }
+
+  export type SupervisorMinAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    userId: number | null
+  }
+
+  export type SupervisorMaxAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    userId: number | null
+  }
+
+  export type SupervisorCountAggregateOutputType = {
+    id: number
+    sectionId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type SupervisorAvgAggregateInputType = {
+    id?: true
+    sectionId?: true
+    userId?: true
+  }
+
+  export type SupervisorSumAggregateInputType = {
+    id?: true
+    sectionId?: true
+    userId?: true
+  }
+
+  export type SupervisorMinAggregateInputType = {
+    id?: true
+    sectionId?: true
+    userId?: true
+  }
+
+  export type SupervisorMaxAggregateInputType = {
+    id?: true
+    sectionId?: true
+    userId?: true
+  }
+
+  export type SupervisorCountAggregateInputType = {
+    id?: true
+    sectionId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type SupervisorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Supervisor to aggregate.
+     */
+    where?: SupervisorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Supervisors to fetch.
+     */
+    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SupervisorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Supervisors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Supervisors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Supervisors
+    **/
+    _count?: true | SupervisorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SupervisorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SupervisorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SupervisorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SupervisorMaxAggregateInputType
+  }
+
+  export type GetSupervisorAggregateType<T extends SupervisorAggregateArgs> = {
+        [P in keyof T & keyof AggregateSupervisor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSupervisor[P]>
+      : GetScalarType<T[P], AggregateSupervisor[P]>
+  }
+
+
+
+
+  export type SupervisorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupervisorWhereInput
+    orderBy?: SupervisorOrderByWithAggregationInput | SupervisorOrderByWithAggregationInput[]
+    by: SupervisorScalarFieldEnum[] | SupervisorScalarFieldEnum
+    having?: SupervisorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SupervisorCountAggregateInputType | true
+    _avg?: SupervisorAvgAggregateInputType
+    _sum?: SupervisorSumAggregateInputType
+    _min?: SupervisorMinAggregateInputType
+    _max?: SupervisorMaxAggregateInputType
+  }
+
+  export type SupervisorGroupByOutputType = {
+    id: number
+    sectionId: number
+    userId: number
+    _count: SupervisorCountAggregateOutputType | null
+    _avg: SupervisorAvgAggregateOutputType | null
+    _sum: SupervisorSumAggregateOutputType | null
+    _min: SupervisorMinAggregateOutputType | null
+    _max: SupervisorMaxAggregateOutputType | null
+  }
+
+  type GetSupervisorGroupByPayload<T extends SupervisorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SupervisorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SupervisorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SupervisorGroupByOutputType[P]>
+            : GetScalarType<T[P], SupervisorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SupervisorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    userId?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supervisor"]>
+
+  export type SupervisorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    userId?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["supervisor"]>
+
+  export type SupervisorSelectScalar = {
+    id?: boolean
+    sectionId?: boolean
+    userId?: boolean
+  }
+
+  export type SupervisorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SupervisorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SupervisorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Supervisor"
+    objects: {
+      section: Prisma.$SectionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      sectionId: number
+      userId: number
+    }, ExtArgs["result"]["supervisor"]>
+    composites: {}
+  }
+
+  type SupervisorGetPayload<S extends boolean | null | undefined | SupervisorDefaultArgs> = $Result.GetResult<Prisma.$SupervisorPayload, S>
+
+  type SupervisorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SupervisorFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SupervisorCountAggregateInputType | true
+    }
+
+  export interface SupervisorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Supervisor'], meta: { name: 'Supervisor' } }
+    /**
+     * Find zero or one Supervisor that matches the filter.
+     * @param {SupervisorFindUniqueArgs} args - Arguments to find a Supervisor
+     * @example
+     * // Get one Supervisor
+     * const supervisor = await prisma.supervisor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SupervisorFindUniqueArgs>(args: SelectSubset<T, SupervisorFindUniqueArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Supervisor that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SupervisorFindUniqueOrThrowArgs} args - Arguments to find a Supervisor
+     * @example
+     * // Get one Supervisor
+     * const supervisor = await prisma.supervisor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SupervisorFindUniqueOrThrowArgs>(args: SelectSubset<T, SupervisorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Supervisor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorFindFirstArgs} args - Arguments to find a Supervisor
+     * @example
+     * // Get one Supervisor
+     * const supervisor = await prisma.supervisor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SupervisorFindFirstArgs>(args?: SelectSubset<T, SupervisorFindFirstArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Supervisor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorFindFirstOrThrowArgs} args - Arguments to find a Supervisor
+     * @example
+     * // Get one Supervisor
+     * const supervisor = await prisma.supervisor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SupervisorFindFirstOrThrowArgs>(args?: SelectSubset<T, SupervisorFindFirstOrThrowArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Supervisors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Supervisors
+     * const supervisors = await prisma.supervisor.findMany()
+     * 
+     * // Get first 10 Supervisors
+     * const supervisors = await prisma.supervisor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const supervisorWithIdOnly = await prisma.supervisor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SupervisorFindManyArgs>(args?: SelectSubset<T, SupervisorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Supervisor.
+     * @param {SupervisorCreateArgs} args - Arguments to create a Supervisor.
+     * @example
+     * // Create one Supervisor
+     * const Supervisor = await prisma.supervisor.create({
+     *   data: {
+     *     // ... data to create a Supervisor
+     *   }
+     * })
+     * 
+     */
+    create<T extends SupervisorCreateArgs>(args: SelectSubset<T, SupervisorCreateArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Supervisors.
+     * @param {SupervisorCreateManyArgs} args - Arguments to create many Supervisors.
+     * @example
+     * // Create many Supervisors
+     * const supervisor = await prisma.supervisor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SupervisorCreateManyArgs>(args?: SelectSubset<T, SupervisorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Supervisors and returns the data saved in the database.
+     * @param {SupervisorCreateManyAndReturnArgs} args - Arguments to create many Supervisors.
+     * @example
+     * // Create many Supervisors
+     * const supervisor = await prisma.supervisor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Supervisors and only return the `id`
+     * const supervisorWithIdOnly = await prisma.supervisor.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SupervisorCreateManyAndReturnArgs>(args?: SelectSubset<T, SupervisorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Supervisor.
+     * @param {SupervisorDeleteArgs} args - Arguments to delete one Supervisor.
+     * @example
+     * // Delete one Supervisor
+     * const Supervisor = await prisma.supervisor.delete({
+     *   where: {
+     *     // ... filter to delete one Supervisor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SupervisorDeleteArgs>(args: SelectSubset<T, SupervisorDeleteArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Supervisor.
+     * @param {SupervisorUpdateArgs} args - Arguments to update one Supervisor.
+     * @example
+     * // Update one Supervisor
+     * const supervisor = await prisma.supervisor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SupervisorUpdateArgs>(args: SelectSubset<T, SupervisorUpdateArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Supervisors.
+     * @param {SupervisorDeleteManyArgs} args - Arguments to filter Supervisors to delete.
+     * @example
+     * // Delete a few Supervisors
+     * const { count } = await prisma.supervisor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SupervisorDeleteManyArgs>(args?: SelectSubset<T, SupervisorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Supervisors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Supervisors
+     * const supervisor = await prisma.supervisor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SupervisorUpdateManyArgs>(args: SelectSubset<T, SupervisorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Supervisor.
+     * @param {SupervisorUpsertArgs} args - Arguments to update or create a Supervisor.
+     * @example
+     * // Update or create a Supervisor
+     * const supervisor = await prisma.supervisor.upsert({
+     *   create: {
+     *     // ... data to create a Supervisor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Supervisor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SupervisorUpsertArgs>(args: SelectSubset<T, SupervisorUpsertArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Supervisors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorCountArgs} args - Arguments to filter Supervisors to count.
+     * @example
+     * // Count the number of Supervisors
+     * const count = await prisma.supervisor.count({
+     *   where: {
+     *     // ... the filter for the Supervisors we want to count
+     *   }
+     * })
+    **/
+    count<T extends SupervisorCountArgs>(
+      args?: Subset<T, SupervisorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SupervisorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Supervisor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SupervisorAggregateArgs>(args: Subset<T, SupervisorAggregateArgs>): Prisma.PrismaPromise<GetSupervisorAggregateType<T>>
+
+    /**
+     * Group by Supervisor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupervisorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SupervisorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SupervisorGroupByArgs['orderBy'] }
+        : { orderBy?: SupervisorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SupervisorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSupervisorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Supervisor model
+   */
+  readonly fields: SupervisorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Supervisor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SupervisorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Supervisor model
+   */ 
+  interface SupervisorFieldRefs {
+    readonly id: FieldRef<"Supervisor", 'Int'>
+    readonly sectionId: FieldRef<"Supervisor", 'Int'>
+    readonly userId: FieldRef<"Supervisor", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Supervisor findUnique
+   */
+  export type SupervisorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * Filter, which Supervisor to fetch.
+     */
+    where: SupervisorWhereUniqueInput
+  }
+
+  /**
+   * Supervisor findUniqueOrThrow
+   */
+  export type SupervisorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * Filter, which Supervisor to fetch.
+     */
+    where: SupervisorWhereUniqueInput
+  }
+
+  /**
+   * Supervisor findFirst
+   */
+  export type SupervisorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * Filter, which Supervisor to fetch.
+     */
+    where?: SupervisorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Supervisors to fetch.
+     */
+    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Supervisors.
+     */
+    cursor?: SupervisorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Supervisors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Supervisors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Supervisors.
+     */
+    distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
+  }
+
+  /**
+   * Supervisor findFirstOrThrow
+   */
+  export type SupervisorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * Filter, which Supervisor to fetch.
+     */
+    where?: SupervisorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Supervisors to fetch.
+     */
+    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Supervisors.
+     */
+    cursor?: SupervisorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Supervisors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Supervisors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Supervisors.
+     */
+    distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
+  }
+
+  /**
+   * Supervisor findMany
+   */
+  export type SupervisorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * Filter, which Supervisors to fetch.
+     */
+    where?: SupervisorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Supervisors to fetch.
+     */
+    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Supervisors.
+     */
+    cursor?: SupervisorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Supervisors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Supervisors.
+     */
+    skip?: number
+    distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
+  }
+
+  /**
+   * Supervisor create
+   */
+  export type SupervisorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Supervisor.
+     */
+    data: XOR<SupervisorCreateInput, SupervisorUncheckedCreateInput>
+  }
+
+  /**
+   * Supervisor createMany
+   */
+  export type SupervisorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Supervisors.
+     */
+    data: SupervisorCreateManyInput | SupervisorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Supervisor createManyAndReturn
+   */
+  export type SupervisorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Supervisors.
+     */
+    data: SupervisorCreateManyInput | SupervisorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Supervisor update
+   */
+  export type SupervisorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Supervisor.
+     */
+    data: XOR<SupervisorUpdateInput, SupervisorUncheckedUpdateInput>
+    /**
+     * Choose, which Supervisor to update.
+     */
+    where: SupervisorWhereUniqueInput
+  }
+
+  /**
+   * Supervisor updateMany
+   */
+  export type SupervisorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Supervisors.
+     */
+    data: XOR<SupervisorUpdateManyMutationInput, SupervisorUncheckedUpdateManyInput>
+    /**
+     * Filter which Supervisors to update
+     */
+    where?: SupervisorWhereInput
+  }
+
+  /**
+   * Supervisor upsert
+   */
+  export type SupervisorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Supervisor to update in case it exists.
+     */
+    where: SupervisorWhereUniqueInput
+    /**
+     * In case the Supervisor found by the `where` argument doesn't exist, create a new Supervisor with this data.
+     */
+    create: XOR<SupervisorCreateInput, SupervisorUncheckedCreateInput>
+    /**
+     * In case the Supervisor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SupervisorUpdateInput, SupervisorUncheckedUpdateInput>
+  }
+
+  /**
+   * Supervisor delete
+   */
+  export type SupervisorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    /**
+     * Filter which Supervisor to delete.
+     */
+    where: SupervisorWhereUniqueInput
+  }
+
+  /**
+   * Supervisor deleteMany
+   */
+  export type SupervisorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Supervisors to delete
+     */
+    where?: SupervisorWhereInput
+  }
+
+  /**
+   * Supervisor without action
+   */
+  export type SupervisorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Section
+   */
+
+  export type AggregateSection = {
+    _count: SectionCountAggregateOutputType | null
+    _avg: SectionAvgAggregateOutputType | null
+    _sum: SectionSumAggregateOutputType | null
+    _min: SectionMinAggregateOutputType | null
+    _max: SectionMaxAggregateOutputType | null
+  }
+
+  export type SectionAvgAggregateOutputType = {
+    id: number | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionSumAggregateOutputType = {
+    id: number | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionCountAggregateOutputType = {
+    id: number
+    name: number
+    sectionType: number
+    area: number
+    _all: number
+  }
+
+
+  export type SectionAvgAggregateInputType = {
+    id?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionSumAggregateInputType = {
+    id?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionMinAggregateInputType = {
+    id?: true
+    name?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionMaxAggregateInputType = {
+    id?: true
+    name?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionCountAggregateInputType = {
+    id?: true
+    name?: true
+    sectionType?: true
+    area?: true
+    _all?: true
+  }
+
+  export type SectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Section to aggregate.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Sections
+    **/
+    _count?: true | SectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SectionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SectionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SectionMaxAggregateInputType
+  }
+
+  export type GetSectionAggregateType<T extends SectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSection[P]>
+      : GetScalarType<T[P], AggregateSection[P]>
+  }
+
+
+
+
+  export type SectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionWhereInput
+    orderBy?: SectionOrderByWithAggregationInput | SectionOrderByWithAggregationInput[]
+    by: SectionScalarFieldEnum[] | SectionScalarFieldEnum
+    having?: SectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SectionCountAggregateInputType | true
+    _avg?: SectionAvgAggregateInputType
+    _sum?: SectionSumAggregateInputType
+    _min?: SectionMinAggregateInputType
+    _max?: SectionMaxAggregateInputType
+  }
+
+  export type SectionGroupByOutputType = {
+    id: number
+    name: string
+    sectionType: number
+    area: number | null
+    _count: SectionCountAggregateOutputType | null
+    _avg: SectionAvgAggregateOutputType | null
+    _sum: SectionSumAggregateOutputType | null
+    _min: SectionMinAggregateOutputType | null
+    _max: SectionMaxAggregateOutputType | null
+  }
+
+  type GetSectionGroupByPayload<T extends SectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SectionGroupByOutputType[P]>
+            : GetScalarType<T[P], SectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionType?: boolean
+    area?: boolean
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    assets?: boolean | Section$assetsArgs<ExtArgs>
+    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
+    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
+    supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
+    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["section"]>
+
+  export type SectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionType?: boolean
+    area?: boolean
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["section"]>
+
+  export type SectionSelectScalar = {
+    id?: boolean
+    name?: boolean
+    sectionType?: boolean
+    area?: boolean
+  }
+
+  export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    assets?: boolean | Section$assetsArgs<ExtArgs>
+    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
+    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
+    supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
+    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $SectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Section"
+    objects: {
+      type: Prisma.$SectionTypePayload<ExtArgs>
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      coordinates: Prisma.$CoordinatePayload<ExtArgs>[]
+      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
+      supervisors: Prisma.$SupervisorPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      sectionType: number
+      area: number | null
+    }, ExtArgs["result"]["section"]>
+    composites: {}
+  }
+
+  type SectionGetPayload<S extends boolean | null | undefined | SectionDefaultArgs> = $Result.GetResult<Prisma.$SectionPayload, S>
+
+  type SectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SectionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SectionCountAggregateInputType | true
+    }
+
+  export interface SectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Section'], meta: { name: 'Section' } }
+    /**
+     * Find zero or one Section that matches the filter.
+     * @param {SectionFindUniqueArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SectionFindUniqueArgs>(args: SelectSubset<T, SectionFindUniqueArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Section that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SectionFindUniqueOrThrowArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SectionFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Section that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionFindFirstArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SectionFindFirstArgs>(args?: SelectSubset<T, SectionFindFirstArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Section that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionFindFirstOrThrowArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SectionFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Sections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Sections
+     * const sections = await prisma.section.findMany()
+     * 
+     * // Get first 10 Sections
+     * const sections = await prisma.section.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sectionWithIdOnly = await prisma.section.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SectionFindManyArgs>(args?: SelectSubset<T, SectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Section.
+     * @param {SectionCreateArgs} args - Arguments to create a Section.
+     * @example
+     * // Create one Section
+     * const Section = await prisma.section.create({
+     *   data: {
+     *     // ... data to create a Section
+     *   }
+     * })
+     * 
+     */
+    create<T extends SectionCreateArgs>(args: SelectSubset<T, SectionCreateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Sections.
+     * @param {SectionCreateManyArgs} args - Arguments to create many Sections.
+     * @example
+     * // Create many Sections
+     * const section = await prisma.section.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SectionCreateManyArgs>(args?: SelectSubset<T, SectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Sections and returns the data saved in the database.
+     * @param {SectionCreateManyAndReturnArgs} args - Arguments to create many Sections.
+     * @example
+     * // Create many Sections
+     * const section = await prisma.section.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Sections and only return the `id`
+     * const sectionWithIdOnly = await prisma.section.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SectionCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Section.
+     * @param {SectionDeleteArgs} args - Arguments to delete one Section.
+     * @example
+     * // Delete one Section
+     * const Section = await prisma.section.delete({
+     *   where: {
+     *     // ... filter to delete one Section
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SectionDeleteArgs>(args: SelectSubset<T, SectionDeleteArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Section.
+     * @param {SectionUpdateArgs} args - Arguments to update one Section.
+     * @example
+     * // Update one Section
+     * const section = await prisma.section.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SectionUpdateArgs>(args: SelectSubset<T, SectionUpdateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Sections.
+     * @param {SectionDeleteManyArgs} args - Arguments to filter Sections to delete.
+     * @example
+     * // Delete a few Sections
+     * const { count } = await prisma.section.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SectionDeleteManyArgs>(args?: SelectSubset<T, SectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Sections
+     * const section = await prisma.section.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SectionUpdateManyArgs>(args: SelectSubset<T, SectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Section.
+     * @param {SectionUpsertArgs} args - Arguments to update or create a Section.
+     * @example
+     * // Update or create a Section
+     * const section = await prisma.section.upsert({
+     *   create: {
+     *     // ... data to create a Section
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Section we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SectionUpsertArgs>(args: SelectSubset<T, SectionUpsertArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Sections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionCountArgs} args - Arguments to filter Sections to count.
+     * @example
+     * // Count the number of Sections
+     * const count = await prisma.section.count({
+     *   where: {
+     *     // ... the filter for the Sections we want to count
+     *   }
+     * })
+    **/
+    count<T extends SectionCountArgs>(
+      args?: Subset<T, SectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Section.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SectionAggregateArgs>(args: Subset<T, SectionAggregateArgs>): Prisma.PrismaPromise<GetSectionAggregateType<T>>
+
+    /**
+     * Group by Section.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SectionGroupByArgs['orderBy'] }
+        : { orderBy?: SectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Section model
+   */
+  readonly fields: SectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Section.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    type<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assets<T extends Section$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Section$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    coordinates<T extends Section$coordinatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$coordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany"> | Null>
+    activePlans<T extends Section$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Section$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
+    supervisors<T extends Section$supervisorsArgs<ExtArgs> = {}>(args?: Subset<T, Section$supervisorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Section model
+   */ 
+  interface SectionFieldRefs {
+    readonly id: FieldRef<"Section", 'Int'>
+    readonly name: FieldRef<"Section", 'String'>
+    readonly sectionType: FieldRef<"Section", 'Int'>
+    readonly area: FieldRef<"Section", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Section findUnique
+   */
+  export type SectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section findUniqueOrThrow
+   */
+  export type SectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section findFirst
+   */
+  export type SectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sections.
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sections.
+     */
+    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * Section findFirstOrThrow
+   */
+  export type SectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sections.
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sections.
+     */
+    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * Section findMany
+   */
+  export type SectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Sections to fetch.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Sections.
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * Section create
+   */
+  export type SectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Section.
+     */
+    data: XOR<SectionCreateInput, SectionUncheckedCreateInput>
+  }
+
+  /**
+   * Section createMany
+   */
+  export type SectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Sections.
+     */
+    data: SectionCreateManyInput | SectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Section createManyAndReturn
+   */
+  export type SectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Sections.
+     */
+    data: SectionCreateManyInput | SectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Section update
+   */
+  export type SectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Section.
+     */
+    data: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
+    /**
+     * Choose, which Section to update.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section updateMany
+   */
+  export type SectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Sections.
+     */
+    data: XOR<SectionUpdateManyMutationInput, SectionUncheckedUpdateManyInput>
+    /**
+     * Filter which Sections to update
+     */
+    where?: SectionWhereInput
+  }
+
+  /**
+   * Section upsert
+   */
+  export type SectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Section to update in case it exists.
+     */
+    where: SectionWhereUniqueInput
+    /**
+     * In case the Section found by the `where` argument doesn't exist, create a new Section with this data.
+     */
+    create: XOR<SectionCreateInput, SectionUncheckedCreateInput>
+    /**
+     * In case the Section was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
+  }
+
+  /**
+   * Section delete
+   */
+  export type SectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter which Section to delete.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section deleteMany
+   */
+  export type SectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Sections to delete
+     */
+    where?: SectionWhereInput
+  }
+
+  /**
+   * Section.assets
+   */
+  export type Section$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Section.coordinates
+   */
+  export type Section$coordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    where?: CoordinateWhereInput
+    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
+    cursor?: CoordinateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
+  }
+
+  /**
+   * Section.activePlans
+   */
+  export type Section$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    where?: ActivePlansWhereInput
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    cursor?: ActivePlansWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
+  }
+
+  /**
+   * Section.supervisors
+   */
+  export type Section$supervisorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    where?: SupervisorWhereInput
+    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
+    cursor?: SupervisorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
+  }
+
+  /**
+   * Section without action
+   */
+  export type SectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
   }
 
 
@@ -16438,1043 +18570,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Section
-   */
-
-  export type AggregateSection = {
-    _count: SectionCountAggregateOutputType | null
-    _avg: SectionAvgAggregateOutputType | null
-    _sum: SectionSumAggregateOutputType | null
-    _min: SectionMinAggregateOutputType | null
-    _max: SectionMaxAggregateOutputType | null
-  }
-
-  export type SectionAvgAggregateOutputType = {
-    id: number | null
-    sectionType: number | null
-    area: number | null
-  }
-
-  export type SectionSumAggregateOutputType = {
-    id: number | null
-    sectionType: number | null
-    area: number | null
-  }
-
-  export type SectionMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    sectionType: number | null
-    area: number | null
-  }
-
-  export type SectionMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    sectionType: number | null
-    area: number | null
-  }
-
-  export type SectionCountAggregateOutputType = {
-    id: number
-    name: number
-    sectionType: number
-    area: number
-    _all: number
-  }
-
-
-  export type SectionAvgAggregateInputType = {
-    id?: true
-    sectionType?: true
-    area?: true
-  }
-
-  export type SectionSumAggregateInputType = {
-    id?: true
-    sectionType?: true
-    area?: true
-  }
-
-  export type SectionMinAggregateInputType = {
-    id?: true
-    name?: true
-    sectionType?: true
-    area?: true
-  }
-
-  export type SectionMaxAggregateInputType = {
-    id?: true
-    name?: true
-    sectionType?: true
-    area?: true
-  }
-
-  export type SectionCountAggregateInputType = {
-    id?: true
-    name?: true
-    sectionType?: true
-    area?: true
-    _all?: true
-  }
-
-  export type SectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Section to aggregate.
-     */
-    where?: SectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Sections to fetch.
-     */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: SectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Sections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Sections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Sections
-    **/
-    _count?: true | SectionCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: SectionAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: SectionSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: SectionMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: SectionMaxAggregateInputType
-  }
-
-  export type GetSectionAggregateType<T extends SectionAggregateArgs> = {
-        [P in keyof T & keyof AggregateSection]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateSection[P]>
-      : GetScalarType<T[P], AggregateSection[P]>
-  }
-
-
-
-
-  export type SectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SectionWhereInput
-    orderBy?: SectionOrderByWithAggregationInput | SectionOrderByWithAggregationInput[]
-    by: SectionScalarFieldEnum[] | SectionScalarFieldEnum
-    having?: SectionScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: SectionCountAggregateInputType | true
-    _avg?: SectionAvgAggregateInputType
-    _sum?: SectionSumAggregateInputType
-    _min?: SectionMinAggregateInputType
-    _max?: SectionMaxAggregateInputType
-  }
-
-  export type SectionGroupByOutputType = {
-    id: number
-    name: string
-    sectionType: number
-    area: number | null
-    _count: SectionCountAggregateOutputType | null
-    _avg: SectionAvgAggregateOutputType | null
-    _sum: SectionSumAggregateOutputType | null
-    _min: SectionMinAggregateOutputType | null
-    _max: SectionMaxAggregateOutputType | null
-  }
-
-  type GetSectionGroupByPayload<T extends SectionGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<SectionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SectionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SectionGroupByOutputType[P]>
-            : GetScalarType<T[P], SectionGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type SectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    sectionType?: boolean
-    area?: boolean
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-    assets?: boolean | Section$assetsArgs<ExtArgs>
-    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
-    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
-    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["section"]>
-
-  export type SectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    sectionType?: boolean
-    area?: boolean
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["section"]>
-
-  export type SectionSelectScalar = {
-    id?: boolean
-    name?: boolean
-    sectionType?: boolean
-    area?: boolean
-  }
-
-  export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-    assets?: boolean | Section$assetsArgs<ExtArgs>
-    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
-    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
-    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $SectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Section"
-    objects: {
-      type: Prisma.$SectionTypePayload<ExtArgs>
-      assets: Prisma.$AssetPayload<ExtArgs>[]
-      coordinates: Prisma.$CoordinatePayload<ExtArgs>[]
-      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      sectionType: number
-      area: number | null
-    }, ExtArgs["result"]["section"]>
-    composites: {}
-  }
-
-  type SectionGetPayload<S extends boolean | null | undefined | SectionDefaultArgs> = $Result.GetResult<Prisma.$SectionPayload, S>
-
-  type SectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<SectionFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: SectionCountAggregateInputType | true
-    }
-
-  export interface SectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Section'], meta: { name: 'Section' } }
-    /**
-     * Find zero or one Section that matches the filter.
-     * @param {SectionFindUniqueArgs} args - Arguments to find a Section
-     * @example
-     * // Get one Section
-     * const section = await prisma.section.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends SectionFindUniqueArgs>(args: SelectSubset<T, SectionFindUniqueArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one Section that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {SectionFindUniqueOrThrowArgs} args - Arguments to find a Section
-     * @example
-     * // Get one Section
-     * const section = await prisma.section.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends SectionFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first Section that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionFindFirstArgs} args - Arguments to find a Section
-     * @example
-     * // Get one Section
-     * const section = await prisma.section.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends SectionFindFirstArgs>(args?: SelectSubset<T, SectionFindFirstArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first Section that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionFindFirstOrThrowArgs} args - Arguments to find a Section
-     * @example
-     * // Get one Section
-     * const section = await prisma.section.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends SectionFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more Sections that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Sections
-     * const sections = await prisma.section.findMany()
-     * 
-     * // Get first 10 Sections
-     * const sections = await prisma.section.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const sectionWithIdOnly = await prisma.section.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends SectionFindManyArgs>(args?: SelectSubset<T, SectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a Section.
-     * @param {SectionCreateArgs} args - Arguments to create a Section.
-     * @example
-     * // Create one Section
-     * const Section = await prisma.section.create({
-     *   data: {
-     *     // ... data to create a Section
-     *   }
-     * })
-     * 
-     */
-    create<T extends SectionCreateArgs>(args: SelectSubset<T, SectionCreateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many Sections.
-     * @param {SectionCreateManyArgs} args - Arguments to create many Sections.
-     * @example
-     * // Create many Sections
-     * const section = await prisma.section.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends SectionCreateManyArgs>(args?: SelectSubset<T, SectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Sections and returns the data saved in the database.
-     * @param {SectionCreateManyAndReturnArgs} args - Arguments to create many Sections.
-     * @example
-     * // Create many Sections
-     * const section = await prisma.section.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Sections and only return the `id`
-     * const sectionWithIdOnly = await prisma.section.createManyAndReturn({ 
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends SectionCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "createManyAndReturn">>
-
-    /**
-     * Delete a Section.
-     * @param {SectionDeleteArgs} args - Arguments to delete one Section.
-     * @example
-     * // Delete one Section
-     * const Section = await prisma.section.delete({
-     *   where: {
-     *     // ... filter to delete one Section
-     *   }
-     * })
-     * 
-     */
-    delete<T extends SectionDeleteArgs>(args: SelectSubset<T, SectionDeleteArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one Section.
-     * @param {SectionUpdateArgs} args - Arguments to update one Section.
-     * @example
-     * // Update one Section
-     * const section = await prisma.section.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends SectionUpdateArgs>(args: SelectSubset<T, SectionUpdateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more Sections.
-     * @param {SectionDeleteManyArgs} args - Arguments to filter Sections to delete.
-     * @example
-     * // Delete a few Sections
-     * const { count } = await prisma.section.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends SectionDeleteManyArgs>(args?: SelectSubset<T, SectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Sections.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Sections
-     * const section = await prisma.section.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends SectionUpdateManyArgs>(args: SelectSubset<T, SectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Section.
-     * @param {SectionUpsertArgs} args - Arguments to update or create a Section.
-     * @example
-     * // Update or create a Section
-     * const section = await prisma.section.upsert({
-     *   create: {
-     *     // ... data to create a Section
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Section we want to update
-     *   }
-     * })
-     */
-    upsert<T extends SectionUpsertArgs>(args: SelectSubset<T, SectionUpsertArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of Sections.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionCountArgs} args - Arguments to filter Sections to count.
-     * @example
-     * // Count the number of Sections
-     * const count = await prisma.section.count({
-     *   where: {
-     *     // ... the filter for the Sections we want to count
-     *   }
-     * })
-    **/
-    count<T extends SectionCountArgs>(
-      args?: Subset<T, SectionCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], SectionCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Section.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends SectionAggregateArgs>(args: Subset<T, SectionAggregateArgs>): Prisma.PrismaPromise<GetSectionAggregateType<T>>
-
-    /**
-     * Group by Section.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends SectionGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SectionGroupByArgs['orderBy'] }
-        : { orderBy?: SectionGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, SectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Section model
-   */
-  readonly fields: SectionFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Section.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__SectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    type<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    assets<T extends Section$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Section$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
-    coordinates<T extends Section$coordinatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$coordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany"> | Null>
-    activePlans<T extends Section$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Section$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Section model
-   */ 
-  interface SectionFieldRefs {
-    readonly id: FieldRef<"Section", 'Int'>
-    readonly name: FieldRef<"Section", 'String'>
-    readonly sectionType: FieldRef<"Section", 'Int'>
-    readonly area: FieldRef<"Section", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Section findUnique
-   */
-  export type SectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * Filter, which Section to fetch.
-     */
-    where: SectionWhereUniqueInput
-  }
-
-  /**
-   * Section findUniqueOrThrow
-   */
-  export type SectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * Filter, which Section to fetch.
-     */
-    where: SectionWhereUniqueInput
-  }
-
-  /**
-   * Section findFirst
-   */
-  export type SectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * Filter, which Section to fetch.
-     */
-    where?: SectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Sections to fetch.
-     */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Sections.
-     */
-    cursor?: SectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Sections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Sections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Sections.
-     */
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
-  }
-
-  /**
-   * Section findFirstOrThrow
-   */
-  export type SectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * Filter, which Section to fetch.
-     */
-    where?: SectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Sections to fetch.
-     */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Sections.
-     */
-    cursor?: SectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Sections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Sections.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Sections.
-     */
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
-  }
-
-  /**
-   * Section findMany
-   */
-  export type SectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * Filter, which Sections to fetch.
-     */
-    where?: SectionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Sections to fetch.
-     */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Sections.
-     */
-    cursor?: SectionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Sections from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Sections.
-     */
-    skip?: number
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
-  }
-
-  /**
-   * Section create
-   */
-  export type SectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Section.
-     */
-    data: XOR<SectionCreateInput, SectionUncheckedCreateInput>
-  }
-
-  /**
-   * Section createMany
-   */
-  export type SectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Sections.
-     */
-    data: SectionCreateManyInput | SectionCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Section createManyAndReturn
-   */
-  export type SectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * The data used to create many Sections.
-     */
-    data: SectionCreateManyInput | SectionCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Section update
-   */
-  export type SectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Section.
-     */
-    data: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
-    /**
-     * Choose, which Section to update.
-     */
-    where: SectionWhereUniqueInput
-  }
-
-  /**
-   * Section updateMany
-   */
-  export type SectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Sections.
-     */
-    data: XOR<SectionUpdateManyMutationInput, SectionUncheckedUpdateManyInput>
-    /**
-     * Filter which Sections to update
-     */
-    where?: SectionWhereInput
-  }
-
-  /**
-   * Section upsert
-   */
-  export type SectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Section to update in case it exists.
-     */
-    where: SectionWhereUniqueInput
-    /**
-     * In case the Section found by the `where` argument doesn't exist, create a new Section with this data.
-     */
-    create: XOR<SectionCreateInput, SectionUncheckedCreateInput>
-    /**
-     * In case the Section was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
-  }
-
-  /**
-   * Section delete
-   */
-  export type SectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-    /**
-     * Filter which Section to delete.
-     */
-    where: SectionWhereUniqueInput
-  }
-
-  /**
-   * Section deleteMany
-   */
-  export type SectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Sections to delete
-     */
-    where?: SectionWhereInput
-  }
-
-  /**
-   * Section.assets
-   */
-  export type Section$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Asset
-     */
-    select?: AssetSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssetInclude<ExtArgs> | null
-    where?: AssetWhereInput
-    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
-    cursor?: AssetWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
-  }
-
-  /**
-   * Section.coordinates
-   */
-  export type Section$coordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    where?: CoordinateWhereInput
-    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
-    cursor?: CoordinateWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
-  }
-
-  /**
-   * Section.activePlans
-   */
-  export type Section$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ActivePlans
-     */
-    select?: ActivePlansSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ActivePlansInclude<ExtArgs> | null
-    where?: ActivePlansWhereInput
-    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
-    cursor?: ActivePlansWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
-  }
-
-  /**
-   * Section without action
-   */
-  export type SectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Coordinate
    */
 
@@ -20557,6 +21652,25 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const SupervisorScalarFieldEnum: {
+    id: 'id',
+    sectionId: 'sectionId',
+    userId: 'userId'
+  };
+
+  export type SupervisorScalarFieldEnum = (typeof SupervisorScalarFieldEnum)[keyof typeof SupervisorScalarFieldEnum]
+
+
+  export const SectionScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    sectionType: 'sectionType',
+    area: 'area'
+  };
+
+  export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
+
+
   export const ShiftScalarFieldEnum: {
     shiftId: 'shiftId',
     name: 'name',
@@ -20623,16 +21737,6 @@ export namespace Prisma {
   };
 
   export type SectionTypeScalarFieldEnum = (typeof SectionTypeScalarFieldEnum)[keyof typeof SectionTypeScalarFieldEnum]
-
-
-  export const SectionScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    sectionType: 'sectionType',
-    area: 'area'
-  };
-
-  export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
 
 
   export const CoordinateScalarFieldEnum: {
@@ -21265,6 +22369,7 @@ export namespace Prisma {
     Position?: XOR<PositionNullableRelationFilter, PositionWhereInput> | null
     Creator?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     CreatedUsers?: UserListRelationFilter
+    supervisor?: XOR<SupervisorNullableRelationFilter, SupervisorWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -21286,6 +22391,7 @@ export namespace Prisma {
     Position?: PositionOrderByWithRelationInput
     Creator?: UserOrderByWithRelationInput
     CreatedUsers?: UserOrderByRelationAggregateInput
+    supervisor?: SupervisorOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -21310,6 +22416,7 @@ export namespace Prisma {
     Position?: XOR<PositionNullableRelationFilter, PositionWhereInput> | null
     Creator?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     CreatedUsers?: UserListRelationFilter
+    supervisor?: XOR<SupervisorNullableRelationFilter, SupervisorWhereInput> | null
   }, "userId" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -21352,6 +22459,120 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     createdBy?: IntNullableWithAggregatesFilter<"User"> | number | null
+  }
+
+  export type SupervisorWhereInput = {
+    AND?: SupervisorWhereInput | SupervisorWhereInput[]
+    OR?: SupervisorWhereInput[]
+    NOT?: SupervisorWhereInput | SupervisorWhereInput[]
+    id?: IntFilter<"Supervisor"> | number
+    sectionId?: IntFilter<"Supervisor"> | number
+    userId?: IntFilter<"Supervisor"> | number
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type SupervisorOrderByWithRelationInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+    section?: SectionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SupervisorWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId?: number
+    AND?: SupervisorWhereInput | SupervisorWhereInput[]
+    OR?: SupervisorWhereInput[]
+    NOT?: SupervisorWhereInput | SupervisorWhereInput[]
+    sectionId?: IntFilter<"Supervisor"> | number
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type SupervisorOrderByWithAggregationInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+    _count?: SupervisorCountOrderByAggregateInput
+    _avg?: SupervisorAvgOrderByAggregateInput
+    _max?: SupervisorMaxOrderByAggregateInput
+    _min?: SupervisorMinOrderByAggregateInput
+    _sum?: SupervisorSumOrderByAggregateInput
+  }
+
+  export type SupervisorScalarWhereWithAggregatesInput = {
+    AND?: SupervisorScalarWhereWithAggregatesInput | SupervisorScalarWhereWithAggregatesInput[]
+    OR?: SupervisorScalarWhereWithAggregatesInput[]
+    NOT?: SupervisorScalarWhereWithAggregatesInput | SupervisorScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Supervisor"> | number
+    sectionId?: IntWithAggregatesFilter<"Supervisor"> | number
+    userId?: IntWithAggregatesFilter<"Supervisor"> | number
+  }
+
+  export type SectionWhereInput = {
+    AND?: SectionWhereInput | SectionWhereInput[]
+    OR?: SectionWhereInput[]
+    NOT?: SectionWhereInput | SectionWhereInput[]
+    id?: IntFilter<"Section"> | number
+    name?: StringFilter<"Section"> | string
+    sectionType?: IntFilter<"Section"> | number
+    area?: IntNullableFilter<"Section"> | number | null
+    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    assets?: AssetListRelationFilter
+    coordinates?: CoordinateListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
+    supervisors?: SupervisorListRelationFilter
+  }
+
+  export type SectionOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrderInput | SortOrder
+    type?: SectionTypeOrderByWithRelationInput
+    assets?: AssetOrderByRelationAggregateInput
+    coordinates?: CoordinateOrderByRelationAggregateInput
+    activePlans?: ActivePlansOrderByRelationAggregateInput
+    supervisors?: SupervisorOrderByRelationAggregateInput
+  }
+
+  export type SectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SectionWhereInput | SectionWhereInput[]
+    OR?: SectionWhereInput[]
+    NOT?: SectionWhereInput | SectionWhereInput[]
+    name?: StringFilter<"Section"> | string
+    sectionType?: IntFilter<"Section"> | number
+    area?: IntNullableFilter<"Section"> | number | null
+    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    assets?: AssetListRelationFilter
+    coordinates?: CoordinateListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
+    supervisors?: SupervisorListRelationFilter
+  }, "id">
+
+  export type SectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrderInput | SortOrder
+    _count?: SectionCountOrderByAggregateInput
+    _avg?: SectionAvgOrderByAggregateInput
+    _max?: SectionMaxOrderByAggregateInput
+    _min?: SectionMinOrderByAggregateInput
+    _sum?: SectionSumOrderByAggregateInput
+  }
+
+  export type SectionScalarWhereWithAggregatesInput = {
+    AND?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
+    OR?: SectionScalarWhereWithAggregatesInput[]
+    NOT?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Section"> | number
+    name?: StringWithAggregatesFilter<"Section"> | string
+    sectionType?: IntWithAggregatesFilter<"Section"> | number
+    area?: IntNullableWithAggregatesFilter<"Section"> | number | null
   }
 
   export type ShiftWhereInput = {
@@ -21713,67 +22934,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"SectionType"> | string
     description?: StringWithAggregatesFilter<"SectionType"> | string
     color?: StringWithAggregatesFilter<"SectionType"> | string
-  }
-
-  export type SectionWhereInput = {
-    AND?: SectionWhereInput | SectionWhereInput[]
-    OR?: SectionWhereInput[]
-    NOT?: SectionWhereInput | SectionWhereInput[]
-    id?: IntFilter<"Section"> | number
-    name?: StringFilter<"Section"> | string
-    sectionType?: IntFilter<"Section"> | number
-    area?: IntNullableFilter<"Section"> | number | null
-    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
-    assets?: AssetListRelationFilter
-    coordinates?: CoordinateListRelationFilter
-    activePlans?: ActivePlansListRelationFilter
-  }
-
-  export type SectionOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrderInput | SortOrder
-    type?: SectionTypeOrderByWithRelationInput
-    assets?: AssetOrderByRelationAggregateInput
-    coordinates?: CoordinateOrderByRelationAggregateInput
-    activePlans?: ActivePlansOrderByRelationAggregateInput
-  }
-
-  export type SectionWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: SectionWhereInput | SectionWhereInput[]
-    OR?: SectionWhereInput[]
-    NOT?: SectionWhereInput | SectionWhereInput[]
-    name?: StringFilter<"Section"> | string
-    sectionType?: IntFilter<"Section"> | number
-    area?: IntNullableFilter<"Section"> | number | null
-    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
-    assets?: AssetListRelationFilter
-    coordinates?: CoordinateListRelationFilter
-    activePlans?: ActivePlansListRelationFilter
-  }, "id">
-
-  export type SectionOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrderInput | SortOrder
-    _count?: SectionCountOrderByAggregateInput
-    _avg?: SectionAvgOrderByAggregateInput
-    _max?: SectionMaxOrderByAggregateInput
-    _min?: SectionMinOrderByAggregateInput
-    _sum?: SectionSumOrderByAggregateInput
-  }
-
-  export type SectionScalarWhereWithAggregatesInput = {
-    AND?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
-    OR?: SectionScalarWhereWithAggregatesInput[]
-    NOT?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Section"> | number
-    name?: StringWithAggregatesFilter<"Section"> | string
-    sectionType?: IntWithAggregatesFilter<"Section"> | number
-    area?: IntNullableWithAggregatesFilter<"Section"> | number | null
   }
 
   export type CoordinateWhereInput = {
@@ -22401,6 +23561,7 @@ export namespace Prisma {
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -22419,6 +23580,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdBy?: number | null
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -22436,6 +23598,7 @@ export namespace Prisma {
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -22454,6 +23617,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -22501,6 +23665,105 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type SupervisorCreateInput = {
+    section: SectionCreateNestedOneWithoutSupervisorsInput
+    user: UserCreateNestedOneWithoutSupervisorInput
+  }
+
+  export type SupervisorUncheckedCreateInput = {
+    id?: number
+    sectionId: number
+    userId: number
+  }
+
+  export type SupervisorUpdateInput = {
+    section?: SectionUpdateOneRequiredWithoutSupervisorsNestedInput
+    user?: UserUpdateOneRequiredWithoutSupervisorNestedInput
+  }
+
+  export type SupervisorUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SupervisorCreateManyInput = {
+    id?: number
+    sectionId: number
+    userId: number
+  }
+
+  export type SupervisorUpdateManyMutationInput = {
+
+  }
+
+  export type SupervisorUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionCreateInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionCreateManyInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+  }
+
+  export type SectionUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type SectionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ShiftCreateInput = {
@@ -22844,63 +24107,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     color?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionCreateInput = {
-    name: string
-    area?: number | null
-    type: SectionTypeCreateNestedOneWithoutSectionsInput
-    assets?: AssetCreateNestedManyWithoutSectionInput
-    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
-    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
-  }
-
-  export type SectionUncheckedCreateInput = {
-    id?: number
-    name: string
-    sectionType: number
-    area?: number | null
-    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
-    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
-    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
-  }
-
-  export type SectionUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
-    assets?: AssetUpdateManyWithoutSectionNestedInput
-    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
-    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
-  }
-
-  export type SectionUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    sectionType?: IntFieldUpdateOperationsInput | number
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
-    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
-    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
-  }
-
-  export type SectionCreateManyInput = {
-    id?: number
-    name: string
-    sectionType: number
-    area?: number | null
-  }
-
-  export type SectionUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type SectionUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    sectionType?: IntFieldUpdateOperationsInput | number
-    area?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type CoordinateCreateInput = {
@@ -23641,6 +24847,11 @@ export namespace Prisma {
     isNot?: UserWhereInput | null
   }
 
+  export type SupervisorNullableRelationFilter = {
+    is?: SupervisorWhereInput | null
+    isNot?: SupervisorWhereInput | null
+  }
+
   export type UserCountOrderByAggregateInput = {
     userId?: SortOrder
     username?: SortOrder
@@ -23706,6 +24917,124 @@ export namespace Prisma {
     createdBy?: SortOrder
   }
 
+  export type SectionRelationFilter = {
+    is?: SectionWhereInput
+    isNot?: SectionWhereInput
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SupervisorCountOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorAvgOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorMinOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorSumOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SectionTypeRelationFilter = {
+    is?: SectionTypeWhereInput
+    isNot?: SectionTypeWhereInput
+  }
+
+  export type AssetListRelationFilter = {
+    every?: AssetWhereInput
+    some?: AssetWhereInput
+    none?: AssetWhereInput
+  }
+
+  export type CoordinateListRelationFilter = {
+    every?: CoordinateWhereInput
+    some?: CoordinateWhereInput
+    none?: CoordinateWhereInput
+  }
+
+  export type ActivePlansListRelationFilter = {
+    every?: ActivePlansWhereInput
+    some?: ActivePlansWhereInput
+    none?: ActivePlansWhereInput
+  }
+
+  export type SupervisorListRelationFilter = {
+    every?: SupervisorWhereInput
+    some?: SupervisorWhereInput
+    none?: SupervisorWhereInput
+  }
+
+  export type AssetOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CoordinateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ActivePlansOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SupervisorOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SectionCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrder
+  }
+
+  export type SectionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrder
+  }
+
+  export type SectionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrder
+  }
+
+  export type SectionMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrder
+  }
+
+  export type SectionSumOrderByAggregateInput = {
+    id?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrder
+  }
+
   export type ShiftCountOrderByAggregateInput = {
     shiftId?: SortOrder
     name?: SortOrder
@@ -23757,12 +25086,6 @@ export namespace Prisma {
     none?: PlanfilesWhereInput
   }
 
-  export type ActivePlansListRelationFilter = {
-    every?: ActivePlansWhereInput
-    some?: ActivePlansWhereInput
-    none?: ActivePlansWhereInput
-  }
-
   export type PlanAssetsListRelationFilter = {
     every?: PlanAssetsWhereInput
     some?: PlanAssetsWhereInput
@@ -23770,10 +25093,6 @@ export namespace Prisma {
   }
 
   export type PlanfilesOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ActivePlansOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23907,11 +25226,6 @@ export namespace Prisma {
     planId?: SortOrder
   }
 
-  export type SectionRelationFilter = {
-    is?: SectionWhereInput
-    isNot?: SectionWhereInput
-  }
-
   export type ActivePlansCountOrderByAggregateInput = {
     id?: SortOrder
     planName?: SortOrder
@@ -23982,64 +25296,6 @@ export namespace Prisma {
 
   export type SectionTypeSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type SectionTypeRelationFilter = {
-    is?: SectionTypeWhereInput
-    isNot?: SectionTypeWhereInput
-  }
-
-  export type AssetListRelationFilter = {
-    every?: AssetWhereInput
-    some?: AssetWhereInput
-    none?: AssetWhereInput
-  }
-
-  export type CoordinateListRelationFilter = {
-    every?: CoordinateWhereInput
-    some?: CoordinateWhereInput
-    none?: CoordinateWhereInput
-  }
-
-  export type AssetOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CoordinateOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SectionCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrder
-  }
-
-  export type SectionAvgOrderByAggregateInput = {
-    id?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrder
-  }
-
-  export type SectionMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrder
-  }
-
-  export type SectionMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrder
-  }
-
-  export type SectionSumOrderByAggregateInput = {
-    id?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrder
   }
 
   export type CoordinateCountOrderByAggregateInput = {
@@ -24400,11 +25656,23 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type SupervisorCreateNestedOneWithoutUserInput = {
+    create?: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SupervisorCreateOrConnectWithoutUserInput
+    connect?: SupervisorWhereUniqueInput
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
     createMany?: UserCreateManyCreatorInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type SupervisorUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SupervisorCreateOrConnectWithoutUserInput
+    connect?: SupervisorWhereUniqueInput
   }
 
   export type RoleUpdateOneRequiredWithoutUsersNestedInput = {
@@ -24449,6 +25717,16 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type SupervisorUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SupervisorCreateOrConnectWithoutUserInput
+    upsert?: SupervisorUpsertWithoutUserInput
+    disconnect?: SupervisorWhereInput | boolean
+    delete?: SupervisorWhereInput | boolean
+    connect?: SupervisorWhereUniqueInput
+    update?: XOR<XOR<SupervisorUpdateToOneWithWhereWithoutUserInput, SupervisorUpdateWithoutUserInput>, SupervisorUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
@@ -24461,6 +25739,226 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCreatorInput | UserUpdateWithWhereUniqueWithoutCreatorInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCreatorInput | UserUpdateManyWithWhereWithoutCreatorInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type SupervisorUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SupervisorCreateOrConnectWithoutUserInput
+    upsert?: SupervisorUpsertWithoutUserInput
+    disconnect?: SupervisorWhereInput | boolean
+    delete?: SupervisorWhereInput | boolean
+    connect?: SupervisorWhereUniqueInput
+    update?: XOR<XOR<SupervisorUpdateToOneWithWhereWithoutUserInput, SupervisorUpdateWithoutUserInput>, SupervisorUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SectionCreateNestedOneWithoutSupervisorsInput = {
+    create?: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutSupervisorsInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSupervisorInput = {
+    create?: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSupervisorInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SectionUpdateOneRequiredWithoutSupervisorsNestedInput = {
+    create?: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutSupervisorsInput
+    upsert?: SectionUpsertWithoutSupervisorsInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutSupervisorsInput, SectionUpdateWithoutSupervisorsInput>, SectionUncheckedUpdateWithoutSupervisorsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSupervisorNestedInput = {
+    create?: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSupervisorInput
+    upsert?: UserUpsertWithoutSupervisorInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSupervisorInput, UserUpdateWithoutSupervisorInput>, UserUncheckedUpdateWithoutSupervisorInput>
+  }
+
+  export type SectionTypeCreateNestedOneWithoutSectionsInput = {
+    create?: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
+    connectOrCreate?: SectionTypeCreateOrConnectWithoutSectionsInput
+    connect?: SectionTypeWhereUniqueInput
+  }
+
+  export type AssetCreateNestedManyWithoutSectionInput = {
+    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
+    createMany?: AssetCreateManySectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type CoordinateCreateNestedManyWithoutSectionInput = {
+    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
+    createMany?: CoordinateCreateManySectionInputEnvelope
+    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+  }
+
+  export type ActivePlansCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+  }
+
+  export type SupervisorCreateNestedManyWithoutSectionInput = {
+    create?: XOR<SupervisorCreateWithoutSectionInput, SupervisorUncheckedCreateWithoutSectionInput> | SupervisorCreateWithoutSectionInput[] | SupervisorUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SupervisorCreateOrConnectWithoutSectionInput | SupervisorCreateOrConnectWithoutSectionInput[]
+    createMany?: SupervisorCreateManySectionInputEnvelope
+    connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+  }
+
+  export type AssetUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
+    createMany?: AssetCreateManySectionInputEnvelope
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type CoordinateUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
+    createMany?: CoordinateCreateManySectionInputEnvelope
+    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+  }
+
+  export type ActivePlansUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+  }
+
+  export type SupervisorUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<SupervisorCreateWithoutSectionInput, SupervisorUncheckedCreateWithoutSectionInput> | SupervisorCreateWithoutSectionInput[] | SupervisorUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SupervisorCreateOrConnectWithoutSectionInput | SupervisorCreateOrConnectWithoutSectionInput[]
+    createMany?: SupervisorCreateManySectionInputEnvelope
+    connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+  }
+
+  export type SectionTypeUpdateOneRequiredWithoutSectionsNestedInput = {
+    create?: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
+    connectOrCreate?: SectionTypeCreateOrConnectWithoutSectionsInput
+    upsert?: SectionTypeUpsertWithoutSectionsInput
+    connect?: SectionTypeWhereUniqueInput
+    update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutSectionsInput, SectionTypeUpdateWithoutSectionsInput>, SectionTypeUncheckedUpdateWithoutSectionsInput>
+  }
+
+  export type AssetUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutSectionInput | AssetUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: AssetCreateManySectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutSectionInput | AssetUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutSectionInput | AssetUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type CoordinateUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
+    upsert?: CoordinateUpsertWithWhereUniqueWithoutSectionInput | CoordinateUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: CoordinateCreateManySectionInputEnvelope
+    set?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    disconnect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    delete?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    update?: CoordinateUpdateWithWhereUniqueWithoutSectionInput | CoordinateUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: CoordinateUpdateManyWithWhereWithoutSectionInput | CoordinateUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
+  }
+
+  export type ActivePlansUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutSectionInput | ActivePlansUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutSectionInput | ActivePlansUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutSectionInput | ActivePlansUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
+  export type SupervisorUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<SupervisorCreateWithoutSectionInput, SupervisorUncheckedCreateWithoutSectionInput> | SupervisorCreateWithoutSectionInput[] | SupervisorUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SupervisorCreateOrConnectWithoutSectionInput | SupervisorCreateOrConnectWithoutSectionInput[]
+    upsert?: SupervisorUpsertWithWhereUniqueWithoutSectionInput | SupervisorUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: SupervisorCreateManySectionInputEnvelope
+    set?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    disconnect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    delete?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    update?: SupervisorUpdateWithWhereUniqueWithoutSectionInput | SupervisorUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: SupervisorUpdateManyWithWhereWithoutSectionInput | SupervisorUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
+  }
+
+  export type AssetUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
+    upsert?: AssetUpsertWithWhereUniqueWithoutSectionInput | AssetUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: AssetCreateManySectionInputEnvelope
+    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+    update?: AssetUpdateWithWhereUniqueWithoutSectionInput | AssetUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: AssetUpdateManyWithWhereWithoutSectionInput | AssetUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type CoordinateUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
+    upsert?: CoordinateUpsertWithWhereUniqueWithoutSectionInput | CoordinateUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: CoordinateCreateManySectionInputEnvelope
+    set?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    disconnect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    delete?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
+    update?: CoordinateUpdateWithWhereUniqueWithoutSectionInput | CoordinateUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: CoordinateUpdateManyWithWhereWithoutSectionInput | CoordinateUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
+  }
+
+  export type ActivePlansUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutSectionInput | ActivePlansUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ActivePlansCreateManySectionInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutSectionInput | ActivePlansUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutSectionInput | ActivePlansUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
+  export type SupervisorUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<SupervisorCreateWithoutSectionInput, SupervisorUncheckedCreateWithoutSectionInput> | SupervisorCreateWithoutSectionInput[] | SupervisorUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SupervisorCreateOrConnectWithoutSectionInput | SupervisorCreateOrConnectWithoutSectionInput[]
+    upsert?: SupervisorUpsertWithWhereUniqueWithoutSectionInput | SupervisorUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: SupervisorCreateManySectionInputEnvelope
+    set?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    disconnect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    delete?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+    update?: SupervisorUpdateWithWhereUniqueWithoutSectionInput | SupervisorUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: SupervisorUpdateManyWithWhereWithoutSectionInput | SupervisorUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
   }
 
   export type PlanfilesCreateNestedManyWithoutPlanInput = {
@@ -24703,146 +26201,6 @@ export namespace Prisma {
     update?: SectionUpdateWithWhereUniqueWithoutTypeInput | SectionUpdateWithWhereUniqueWithoutTypeInput[]
     updateMany?: SectionUpdateManyWithWhereWithoutTypeInput | SectionUpdateManyWithWhereWithoutTypeInput[]
     deleteMany?: SectionScalarWhereInput | SectionScalarWhereInput[]
-  }
-
-  export type SectionTypeCreateNestedOneWithoutSectionsInput = {
-    create?: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
-    connectOrCreate?: SectionTypeCreateOrConnectWithoutSectionsInput
-    connect?: SectionTypeWhereUniqueInput
-  }
-
-  export type AssetCreateNestedManyWithoutSectionInput = {
-    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
-    createMany?: AssetCreateManySectionInputEnvelope
-    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-  }
-
-  export type CoordinateCreateNestedManyWithoutSectionInput = {
-    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
-    createMany?: CoordinateCreateManySectionInputEnvelope
-    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-  }
-
-  export type ActivePlansCreateNestedManyWithoutSectionInput = {
-    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
-    createMany?: ActivePlansCreateManySectionInputEnvelope
-    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-  }
-
-  export type AssetUncheckedCreateNestedManyWithoutSectionInput = {
-    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
-    createMany?: AssetCreateManySectionInputEnvelope
-    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-  }
-
-  export type CoordinateUncheckedCreateNestedManyWithoutSectionInput = {
-    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
-    createMany?: CoordinateCreateManySectionInputEnvelope
-    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-  }
-
-  export type ActivePlansUncheckedCreateNestedManyWithoutSectionInput = {
-    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
-    createMany?: ActivePlansCreateManySectionInputEnvelope
-    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-  }
-
-  export type SectionTypeUpdateOneRequiredWithoutSectionsNestedInput = {
-    create?: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
-    connectOrCreate?: SectionTypeCreateOrConnectWithoutSectionsInput
-    upsert?: SectionTypeUpsertWithoutSectionsInput
-    connect?: SectionTypeWhereUniqueInput
-    update?: XOR<XOR<SectionTypeUpdateToOneWithWhereWithoutSectionsInput, SectionTypeUpdateWithoutSectionsInput>, SectionTypeUncheckedUpdateWithoutSectionsInput>
-  }
-
-  export type AssetUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
-    upsert?: AssetUpsertWithWhereUniqueWithoutSectionInput | AssetUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: AssetCreateManySectionInputEnvelope
-    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    update?: AssetUpdateWithWhereUniqueWithoutSectionInput | AssetUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: AssetUpdateManyWithWhereWithoutSectionInput | AssetUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
-  }
-
-  export type CoordinateUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
-    upsert?: CoordinateUpsertWithWhereUniqueWithoutSectionInput | CoordinateUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: CoordinateCreateManySectionInputEnvelope
-    set?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    disconnect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    delete?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    update?: CoordinateUpdateWithWhereUniqueWithoutSectionInput | CoordinateUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: CoordinateUpdateManyWithWhereWithoutSectionInput | CoordinateUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
-  }
-
-  export type ActivePlansUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
-    upsert?: ActivePlansUpsertWithWhereUniqueWithoutSectionInput | ActivePlansUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: ActivePlansCreateManySectionInputEnvelope
-    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    update?: ActivePlansUpdateWithWhereUniqueWithoutSectionInput | ActivePlansUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: ActivePlansUpdateManyWithWhereWithoutSectionInput | ActivePlansUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
-  }
-
-  export type AssetUncheckedUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
-    upsert?: AssetUpsertWithWhereUniqueWithoutSectionInput | AssetUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: AssetCreateManySectionInputEnvelope
-    set?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    disconnect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    delete?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
-    update?: AssetUpdateWithWhereUniqueWithoutSectionInput | AssetUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: AssetUpdateManyWithWhereWithoutSectionInput | AssetUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
-  }
-
-  export type CoordinateUncheckedUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput> | CoordinateCreateWithoutSectionInput[] | CoordinateUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: CoordinateCreateOrConnectWithoutSectionInput | CoordinateCreateOrConnectWithoutSectionInput[]
-    upsert?: CoordinateUpsertWithWhereUniqueWithoutSectionInput | CoordinateUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: CoordinateCreateManySectionInputEnvelope
-    set?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    disconnect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    delete?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    connect?: CoordinateWhereUniqueInput | CoordinateWhereUniqueInput[]
-    update?: CoordinateUpdateWithWhereUniqueWithoutSectionInput | CoordinateUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: CoordinateUpdateManyWithWhereWithoutSectionInput | CoordinateUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
-  }
-
-  export type ActivePlansUncheckedUpdateManyWithoutSectionNestedInput = {
-    create?: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput> | ActivePlansCreateWithoutSectionInput[] | ActivePlansUncheckedCreateWithoutSectionInput[]
-    connectOrCreate?: ActivePlansCreateOrConnectWithoutSectionInput | ActivePlansCreateOrConnectWithoutSectionInput[]
-    upsert?: ActivePlansUpsertWithWhereUniqueWithoutSectionInput | ActivePlansUpsertWithWhereUniqueWithoutSectionInput[]
-    createMany?: ActivePlansCreateManySectionInputEnvelope
-    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
-    update?: ActivePlansUpdateWithWhereUniqueWithoutSectionInput | ActivePlansUpdateWithWhereUniqueWithoutSectionInput[]
-    updateMany?: ActivePlansUpdateManyWithWhereWithoutSectionInput | ActivePlansUpdateManyWithWhereWithoutSectionInput[]
-    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
   }
 
   export type SectionCreateNestedOneWithoutCoordinatesInput = {
@@ -25406,6 +26764,7 @@ export namespace Prisma {
     userRole: RoleCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPositionInput = {
@@ -25423,6 +26782,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdBy?: number | null
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPositionInput = {
@@ -25485,6 +26845,7 @@ export namespace Prisma {
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserRoleInput = {
@@ -25502,6 +26863,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdBy?: number | null
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserRoleInput = {
@@ -25592,6 +26954,7 @@ export namespace Prisma {
     userRole: RoleCreateNestedOneWithoutUsersInput
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedUsersInput = {
@@ -25609,6 +26972,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedUsersInput = {
@@ -25630,6 +26994,7 @@ export namespace Prisma {
     userRole: RoleCreateNestedOneWithoutUsersInput
     Position?: PositionCreateNestedOneWithoutUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatorInput = {
@@ -25647,6 +27012,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatorInput = {
@@ -25657,6 +27023,20 @@ export namespace Prisma {
   export type UserCreateManyCreatorInputEnvelope = {
     data: UserCreateManyCreatorInput | UserCreateManyCreatorInput[]
     skipDuplicates?: boolean
+  }
+
+  export type SupervisorCreateWithoutUserInput = {
+    section: SectionCreateNestedOneWithoutSupervisorsInput
+  }
+
+  export type SupervisorUncheckedCreateWithoutUserInput = {
+    id?: number
+    sectionId: number
+  }
+
+  export type SupervisorCreateOrConnectWithoutUserInput = {
+    where: SupervisorWhereUniqueInput
+    create: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
   }
 
   export type RoleUpsertWithoutUsersInput = {
@@ -25744,6 +27124,7 @@ export namespace Prisma {
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedUsersInput = {
@@ -25761,6 +27142,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -25777,6 +27159,404 @@ export namespace Prisma {
   export type UserUpdateManyWithWhereWithoutCreatorInput = {
     where: UserScalarWhereInput
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type SupervisorUpsertWithoutUserInput = {
+    update: XOR<SupervisorUpdateWithoutUserInput, SupervisorUncheckedUpdateWithoutUserInput>
+    create: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
+    where?: SupervisorWhereInput
+  }
+
+  export type SupervisorUpdateToOneWithWhereWithoutUserInput = {
+    where?: SupervisorWhereInput
+    data: XOR<SupervisorUpdateWithoutUserInput, SupervisorUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SupervisorUpdateWithoutUserInput = {
+    section?: SectionUpdateOneRequiredWithoutSupervisorsNestedInput
+  }
+
+  export type SupervisorUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionCreateWithoutSupervisorsInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutSupervisorsInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutSupervisorsInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+  }
+
+  export type UserCreateWithoutSupervisorInput = {
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userRole: RoleCreateNestedOneWithoutUsersInput
+    Position?: PositionCreateNestedOneWithoutUsersInput
+    Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutSupervisorInput = {
+    userId?: number
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    userRoleId: number
+    positionId?: number | null
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutSupervisorInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+  }
+
+  export type SectionUpsertWithoutSupervisorsInput = {
+    update: XOR<SectionUpdateWithoutSupervisorsInput, SectionUncheckedUpdateWithoutSupervisorsInput>
+    create: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutSupervisorsInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutSupervisorsInput, SectionUncheckedUpdateWithoutSupervisorsInput>
+  }
+
+  export type SectionUpdateWithoutSupervisorsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutSupervisorsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type UserUpsertWithoutSupervisorInput = {
+    update: XOR<UserUpdateWithoutSupervisorInput, UserUncheckedUpdateWithoutSupervisorInput>
+    create: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSupervisorInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSupervisorInput, UserUncheckedUpdateWithoutSupervisorInput>
+  }
+
+  export type UserUpdateWithoutSupervisorInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Position?: PositionUpdateOneWithoutUsersNestedInput
+    Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSupervisorInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    userRoleId?: IntFieldUpdateOperationsInput | number
+    positionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type SectionTypeCreateWithoutSectionsInput = {
+    name: string
+    description: string
+    color?: string
+  }
+
+  export type SectionTypeUncheckedCreateWithoutSectionsInput = {
+    id?: number
+    name: string
+    description: string
+    color?: string
+  }
+
+  export type SectionTypeCreateOrConnectWithoutSectionsInput = {
+    where: SectionTypeWhereUniqueInput
+    create: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
+  }
+
+  export type AssetCreateWithoutSectionInput = {
+    name: string
+    description: string
+    latitude?: number | null
+    longitude?: number | null
+    planAssets?: PlanAssetsCreateNestedManyWithoutAssetInput
+    type: AssetTypeCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutSectionInput = {
+    id?: number
+    name: string
+    description: string
+    assetType: number
+    latitude?: number | null
+    longitude?: number | null
+    planAssets?: PlanAssetsUncheckedCreateNestedManyWithoutAssetInput
+  }
+
+  export type AssetCreateOrConnectWithoutSectionInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput>
+  }
+
+  export type AssetCreateManySectionInputEnvelope = {
+    data: AssetCreateManySectionInput | AssetCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CoordinateCreateWithoutSectionInput = {
+    latitude: number
+    longitude: number
+  }
+
+  export type CoordinateUncheckedCreateWithoutSectionInput = {
+    id?: number
+    latitude: number
+    longitude: number
+  }
+
+  export type CoordinateCreateOrConnectWithoutSectionInput = {
+    where: CoordinateWhereUniqueInput
+    create: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput>
+  }
+
+  export type CoordinateCreateManySectionInputEnvelope = {
+    data: CoordinateCreateManySectionInput | CoordinateCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ActivePlansCreateWithoutSectionInput = {
+    planName: string
+    plan: PlanCreateNestedOneWithoutActivePlansInput
+  }
+
+  export type ActivePlansUncheckedCreateWithoutSectionInput = {
+    id?: number
+    planName: string
+    planId: number
+  }
+
+  export type ActivePlansCreateOrConnectWithoutSectionInput = {
+    where: ActivePlansWhereUniqueInput
+    create: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ActivePlansCreateManySectionInputEnvelope = {
+    data: ActivePlansCreateManySectionInput | ActivePlansCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SupervisorCreateWithoutSectionInput = {
+    user: UserCreateNestedOneWithoutSupervisorInput
+  }
+
+  export type SupervisorUncheckedCreateWithoutSectionInput = {
+    id?: number
+    userId: number
+  }
+
+  export type SupervisorCreateOrConnectWithoutSectionInput = {
+    where: SupervisorWhereUniqueInput
+    create: XOR<SupervisorCreateWithoutSectionInput, SupervisorUncheckedCreateWithoutSectionInput>
+  }
+
+  export type SupervisorCreateManySectionInputEnvelope = {
+    data: SupervisorCreateManySectionInput | SupervisorCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SectionTypeUpsertWithoutSectionsInput = {
+    update: XOR<SectionTypeUpdateWithoutSectionsInput, SectionTypeUncheckedUpdateWithoutSectionsInput>
+    create: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
+    where?: SectionTypeWhereInput
+  }
+
+  export type SectionTypeUpdateToOneWithWhereWithoutSectionsInput = {
+    where?: SectionTypeWhereInput
+    data: XOR<SectionTypeUpdateWithoutSectionsInput, SectionTypeUncheckedUpdateWithoutSectionsInput>
+  }
+
+  export type SectionTypeUpdateWithoutSectionsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SectionTypeUncheckedUpdateWithoutSectionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssetUpsertWithWhereUniqueWithoutSectionInput = {
+    where: AssetWhereUniqueInput
+    update: XOR<AssetUpdateWithoutSectionInput, AssetUncheckedUpdateWithoutSectionInput>
+    create: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput>
+  }
+
+  export type AssetUpdateWithWhereUniqueWithoutSectionInput = {
+    where: AssetWhereUniqueInput
+    data: XOR<AssetUpdateWithoutSectionInput, AssetUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type AssetUpdateManyWithWhereWithoutSectionInput = {
+    where: AssetScalarWhereInput
+    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type AssetScalarWhereInput = {
+    AND?: AssetScalarWhereInput | AssetScalarWhereInput[]
+    OR?: AssetScalarWhereInput[]
+    NOT?: AssetScalarWhereInput | AssetScalarWhereInput[]
+    id?: IntFilter<"Asset"> | number
+    name?: StringFilter<"Asset"> | string
+    description?: StringFilter<"Asset"> | string
+    assetType?: IntFilter<"Asset"> | number
+    assetSection?: IntFilter<"Asset"> | number
+    latitude?: FloatNullableFilter<"Asset"> | number | null
+    longitude?: FloatNullableFilter<"Asset"> | number | null
+  }
+
+  export type CoordinateUpsertWithWhereUniqueWithoutSectionInput = {
+    where: CoordinateWhereUniqueInput
+    update: XOR<CoordinateUpdateWithoutSectionInput, CoordinateUncheckedUpdateWithoutSectionInput>
+    create: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput>
+  }
+
+  export type CoordinateUpdateWithWhereUniqueWithoutSectionInput = {
+    where: CoordinateWhereUniqueInput
+    data: XOR<CoordinateUpdateWithoutSectionInput, CoordinateUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type CoordinateUpdateManyWithWhereWithoutSectionInput = {
+    where: CoordinateScalarWhereInput
+    data: XOR<CoordinateUpdateManyMutationInput, CoordinateUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type CoordinateScalarWhereInput = {
+    AND?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
+    OR?: CoordinateScalarWhereInput[]
+    NOT?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
+    id?: IntFilter<"Coordinate"> | number
+    latitude?: FloatFilter<"Coordinate"> | number
+    longitude?: FloatFilter<"Coordinate"> | number
+    sectionId?: IntFilter<"Coordinate"> | number
+  }
+
+  export type ActivePlansUpsertWithWhereUniqueWithoutSectionInput = {
+    where: ActivePlansWhereUniqueInput
+    update: XOR<ActivePlansUpdateWithoutSectionInput, ActivePlansUncheckedUpdateWithoutSectionInput>
+    create: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ActivePlansUpdateWithWhereUniqueWithoutSectionInput = {
+    where: ActivePlansWhereUniqueInput
+    data: XOR<ActivePlansUpdateWithoutSectionInput, ActivePlansUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type ActivePlansUpdateManyWithWhereWithoutSectionInput = {
+    where: ActivePlansScalarWhereInput
+    data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type ActivePlansScalarWhereInput = {
+    AND?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+    OR?: ActivePlansScalarWhereInput[]
+    NOT?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+    id?: IntFilter<"ActivePlans"> | number
+    planName?: StringFilter<"ActivePlans"> | string
+    planId?: IntFilter<"ActivePlans"> | number
+    sectionId?: IntFilter<"ActivePlans"> | number
+  }
+
+  export type SupervisorUpsertWithWhereUniqueWithoutSectionInput = {
+    where: SupervisorWhereUniqueInput
+    update: XOR<SupervisorUpdateWithoutSectionInput, SupervisorUncheckedUpdateWithoutSectionInput>
+    create: XOR<SupervisorCreateWithoutSectionInput, SupervisorUncheckedCreateWithoutSectionInput>
+  }
+
+  export type SupervisorUpdateWithWhereUniqueWithoutSectionInput = {
+    where: SupervisorWhereUniqueInput
+    data: XOR<SupervisorUpdateWithoutSectionInput, SupervisorUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type SupervisorUpdateManyWithWhereWithoutSectionInput = {
+    where: SupervisorScalarWhereInput
+    data: XOR<SupervisorUpdateManyMutationInput, SupervisorUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type SupervisorScalarWhereInput = {
+    AND?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
+    OR?: SupervisorScalarWhereInput[]
+    NOT?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
+    id?: IntFilter<"Supervisor"> | number
+    sectionId?: IntFilter<"Supervisor"> | number
+    userId?: IntFilter<"Supervisor"> | number
   }
 
   export type PlanfilesCreateWithoutPlanInput = {
@@ -25885,16 +27665,6 @@ export namespace Prisma {
   export type ActivePlansUpdateManyWithWhereWithoutPlanInput = {
     where: ActivePlansScalarWhereInput
     data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutPlanInput>
-  }
-
-  export type ActivePlansScalarWhereInput = {
-    AND?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
-    OR?: ActivePlansScalarWhereInput[]
-    NOT?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
-    id?: IntFilter<"ActivePlans"> | number
-    planName?: StringFilter<"ActivePlans"> | string
-    planId?: IntFilter<"ActivePlans"> | number
-    sectionId?: IntFilter<"ActivePlans"> | number
   }
 
   export type PlanAssetsUpsertWithWhereUniqueWithoutPlanInput = {
@@ -26145,6 +27915,7 @@ export namespace Prisma {
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutActivePlansInput = {
@@ -26154,6 +27925,7 @@ export namespace Prisma {
     area?: number | null
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutActivePlansInput = {
@@ -26214,6 +27986,7 @@ export namespace Prisma {
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutActivePlansInput = {
@@ -26223,6 +27996,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateWithoutTypeInput = {
@@ -26231,6 +28005,7 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutTypeInput = {
@@ -26240,6 +28015,7 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutTypeInput = {
@@ -26278,196 +28054,13 @@ export namespace Prisma {
     area?: IntNullableFilter<"Section"> | number | null
   }
 
-  export type SectionTypeCreateWithoutSectionsInput = {
-    name: string
-    description: string
-    color?: string
-  }
-
-  export type SectionTypeUncheckedCreateWithoutSectionsInput = {
-    id?: number
-    name: string
-    description: string
-    color?: string
-  }
-
-  export type SectionTypeCreateOrConnectWithoutSectionsInput = {
-    where: SectionTypeWhereUniqueInput
-    create: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
-  }
-
-  export type AssetCreateWithoutSectionInput = {
-    name: string
-    description: string
-    latitude?: number | null
-    longitude?: number | null
-    planAssets?: PlanAssetsCreateNestedManyWithoutAssetInput
-    type: AssetTypeCreateNestedOneWithoutAssetsInput
-  }
-
-  export type AssetUncheckedCreateWithoutSectionInput = {
-    id?: number
-    name: string
-    description: string
-    assetType: number
-    latitude?: number | null
-    longitude?: number | null
-    planAssets?: PlanAssetsUncheckedCreateNestedManyWithoutAssetInput
-  }
-
-  export type AssetCreateOrConnectWithoutSectionInput = {
-    where: AssetWhereUniqueInput
-    create: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput>
-  }
-
-  export type AssetCreateManySectionInputEnvelope = {
-    data: AssetCreateManySectionInput | AssetCreateManySectionInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CoordinateCreateWithoutSectionInput = {
-    latitude: number
-    longitude: number
-  }
-
-  export type CoordinateUncheckedCreateWithoutSectionInput = {
-    id?: number
-    latitude: number
-    longitude: number
-  }
-
-  export type CoordinateCreateOrConnectWithoutSectionInput = {
-    where: CoordinateWhereUniqueInput
-    create: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput>
-  }
-
-  export type CoordinateCreateManySectionInputEnvelope = {
-    data: CoordinateCreateManySectionInput | CoordinateCreateManySectionInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ActivePlansCreateWithoutSectionInput = {
-    planName: string
-    plan: PlanCreateNestedOneWithoutActivePlansInput
-  }
-
-  export type ActivePlansUncheckedCreateWithoutSectionInput = {
-    id?: number
-    planName: string
-    planId: number
-  }
-
-  export type ActivePlansCreateOrConnectWithoutSectionInput = {
-    where: ActivePlansWhereUniqueInput
-    create: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput>
-  }
-
-  export type ActivePlansCreateManySectionInputEnvelope = {
-    data: ActivePlansCreateManySectionInput | ActivePlansCreateManySectionInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type SectionTypeUpsertWithoutSectionsInput = {
-    update: XOR<SectionTypeUpdateWithoutSectionsInput, SectionTypeUncheckedUpdateWithoutSectionsInput>
-    create: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
-    where?: SectionTypeWhereInput
-  }
-
-  export type SectionTypeUpdateToOneWithWhereWithoutSectionsInput = {
-    where?: SectionTypeWhereInput
-    data: XOR<SectionTypeUpdateWithoutSectionsInput, SectionTypeUncheckedUpdateWithoutSectionsInput>
-  }
-
-  export type SectionTypeUpdateWithoutSectionsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    color?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SectionTypeUncheckedUpdateWithoutSectionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    color?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AssetUpsertWithWhereUniqueWithoutSectionInput = {
-    where: AssetWhereUniqueInput
-    update: XOR<AssetUpdateWithoutSectionInput, AssetUncheckedUpdateWithoutSectionInput>
-    create: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput>
-  }
-
-  export type AssetUpdateWithWhereUniqueWithoutSectionInput = {
-    where: AssetWhereUniqueInput
-    data: XOR<AssetUpdateWithoutSectionInput, AssetUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type AssetUpdateManyWithWhereWithoutSectionInput = {
-    where: AssetScalarWhereInput
-    data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutSectionInput>
-  }
-
-  export type AssetScalarWhereInput = {
-    AND?: AssetScalarWhereInput | AssetScalarWhereInput[]
-    OR?: AssetScalarWhereInput[]
-    NOT?: AssetScalarWhereInput | AssetScalarWhereInput[]
-    id?: IntFilter<"Asset"> | number
-    name?: StringFilter<"Asset"> | string
-    description?: StringFilter<"Asset"> | string
-    assetType?: IntFilter<"Asset"> | number
-    assetSection?: IntFilter<"Asset"> | number
-    latitude?: FloatNullableFilter<"Asset"> | number | null
-    longitude?: FloatNullableFilter<"Asset"> | number | null
-  }
-
-  export type CoordinateUpsertWithWhereUniqueWithoutSectionInput = {
-    where: CoordinateWhereUniqueInput
-    update: XOR<CoordinateUpdateWithoutSectionInput, CoordinateUncheckedUpdateWithoutSectionInput>
-    create: XOR<CoordinateCreateWithoutSectionInput, CoordinateUncheckedCreateWithoutSectionInput>
-  }
-
-  export type CoordinateUpdateWithWhereUniqueWithoutSectionInput = {
-    where: CoordinateWhereUniqueInput
-    data: XOR<CoordinateUpdateWithoutSectionInput, CoordinateUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type CoordinateUpdateManyWithWhereWithoutSectionInput = {
-    where: CoordinateScalarWhereInput
-    data: XOR<CoordinateUpdateManyMutationInput, CoordinateUncheckedUpdateManyWithoutSectionInput>
-  }
-
-  export type CoordinateScalarWhereInput = {
-    AND?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
-    OR?: CoordinateScalarWhereInput[]
-    NOT?: CoordinateScalarWhereInput | CoordinateScalarWhereInput[]
-    id?: IntFilter<"Coordinate"> | number
-    latitude?: FloatFilter<"Coordinate"> | number
-    longitude?: FloatFilter<"Coordinate"> | number
-    sectionId?: IntFilter<"Coordinate"> | number
-  }
-
-  export type ActivePlansUpsertWithWhereUniqueWithoutSectionInput = {
-    where: ActivePlansWhereUniqueInput
-    update: XOR<ActivePlansUpdateWithoutSectionInput, ActivePlansUncheckedUpdateWithoutSectionInput>
-    create: XOR<ActivePlansCreateWithoutSectionInput, ActivePlansUncheckedCreateWithoutSectionInput>
-  }
-
-  export type ActivePlansUpdateWithWhereUniqueWithoutSectionInput = {
-    where: ActivePlansWhereUniqueInput
-    data: XOR<ActivePlansUpdateWithoutSectionInput, ActivePlansUncheckedUpdateWithoutSectionInput>
-  }
-
-  export type ActivePlansUpdateManyWithWhereWithoutSectionInput = {
-    where: ActivePlansScalarWhereInput
-    data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutSectionInput>
-  }
-
   export type SectionCreateWithoutCoordinatesInput = {
     name: string
     area?: number | null
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     assets?: AssetCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutCoordinatesInput = {
@@ -26477,6 +28070,7 @@ export namespace Prisma {
     area?: number | null
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutCoordinatesInput = {
@@ -26501,6 +28095,7 @@ export namespace Prisma {
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     assets?: AssetUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutCoordinatesInput = {
@@ -26510,6 +28105,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type AssetCreateWithoutTypeInput = {
@@ -26600,6 +28196,7 @@ export namespace Prisma {
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutAssetsInput = {
@@ -26609,6 +28206,7 @@ export namespace Prisma {
     area?: number | null
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutAssetsInput = {
@@ -26671,6 +28269,7 @@ export namespace Prisma {
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutAssetsInput = {
@@ -26680,6 +28279,7 @@ export namespace Prisma {
     area?: NullableIntFieldUpdateOperationsInput | number | null
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type MineCreateManyOwnerInput = {
@@ -26763,6 +28363,7 @@ export namespace Prisma {
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPositionInput = {
@@ -26780,6 +28381,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPositionInput = {
@@ -26828,6 +28430,7 @@ export namespace Prisma {
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserRoleInput = {
@@ -26845,6 +28448,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutUserRoleInput = {
@@ -26893,6 +28497,7 @@ export namespace Prisma {
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Position?: PositionUpdateOneWithoutUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatorInput = {
@@ -26910,6 +28515,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCreatorInput = {
@@ -26926,6 +28532,108 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AssetCreateManySectionInput = {
+    id?: number
+    name: string
+    description: string
+    assetType: number
+    latitude?: number | null
+    longitude?: number | null
+  }
+
+  export type CoordinateCreateManySectionInput = {
+    id?: number
+    latitude: number
+    longitude: number
+  }
+
+  export type ActivePlansCreateManySectionInput = {
+    id?: number
+    planName: string
+    planId: number
+  }
+
+  export type SupervisorCreateManySectionInput = {
+    id?: number
+    userId: number
+  }
+
+  export type AssetUpdateWithoutSectionInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    planAssets?: PlanAssetsUpdateManyWithoutAssetNestedInput
+    type?: AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    assetType?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    planAssets?: PlanAssetsUncheckedUpdateManyWithoutAssetNestedInput
+  }
+
+  export type AssetUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    assetType?: IntFieldUpdateOperationsInput | number
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type CoordinateUpdateWithoutSectionInput = {
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type CoordinateUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type CoordinateUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansUpdateWithoutSectionInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
+  }
+
+  export type ActivePlansUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SupervisorUpdateWithoutSectionInput = {
+    user?: UserUpdateOneRequiredWithoutSupervisorNestedInput
+  }
+
+  export type SupervisorUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SupervisorUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlanfilesCreateManyPlanInput = {
@@ -27013,6 +28721,7 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutTypeInput = {
@@ -27022,95 +28731,13 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateManyWithoutTypeInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     area?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type AssetCreateManySectionInput = {
-    id?: number
-    name: string
-    description: string
-    assetType: number
-    latitude?: number | null
-    longitude?: number | null
-  }
-
-  export type CoordinateCreateManySectionInput = {
-    id?: number
-    latitude: number
-    longitude: number
-  }
-
-  export type ActivePlansCreateManySectionInput = {
-    id?: number
-    planName: string
-    planId: number
-  }
-
-  export type AssetUpdateWithoutSectionInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    planAssets?: PlanAssetsUpdateManyWithoutAssetNestedInput
-    type?: AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
-  }
-
-  export type AssetUncheckedUpdateWithoutSectionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    assetType?: IntFieldUpdateOperationsInput | number
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    planAssets?: PlanAssetsUncheckedUpdateManyWithoutAssetNestedInput
-  }
-
-  export type AssetUncheckedUpdateManyWithoutSectionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    assetType?: IntFieldUpdateOperationsInput | number
-    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
-    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
-  }
-
-  export type CoordinateUpdateWithoutSectionInput = {
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type CoordinateUncheckedUpdateWithoutSectionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type CoordinateUncheckedUpdateManyWithoutSectionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type ActivePlansUpdateWithoutSectionInput = {
-    planName?: StringFieldUpdateOperationsInput | string
-    plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
-  }
-
-  export type ActivePlansUncheckedUpdateWithoutSectionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    planName?: StringFieldUpdateOperationsInput | string
-    planId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ActivePlansUncheckedUpdateManyWithoutSectionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    planName?: StringFieldUpdateOperationsInput | string
-    planId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AssetCreateManyTypeInput = {
@@ -27195,6 +28822,10 @@ export namespace Prisma {
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use SectionCountOutputTypeDefaultArgs instead
+     */
+    export type SectionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use PlanCountOutputTypeDefaultArgs instead
      */
     export type PlanCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -27202,10 +28833,6 @@ export namespace Prisma {
      * @deprecated Use SectionTypeCountOutputTypeDefaultArgs instead
      */
     export type SectionTypeCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionTypeCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use SectionCountOutputTypeDefaultArgs instead
-     */
-    export type SectionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AssetTypeCountOutputTypeDefaultArgs instead
      */
@@ -27247,6 +28874,14 @@ export namespace Prisma {
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use SupervisorDefaultArgs instead
+     */
+    export type SupervisorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SupervisorDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SectionDefaultArgs instead
+     */
+    export type SectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use ShiftDefaultArgs instead
      */
     export type ShiftArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftDefaultArgs<ExtArgs>
@@ -27270,10 +28905,6 @@ export namespace Prisma {
      * @deprecated Use SectionTypeDefaultArgs instead
      */
     export type SectionTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use SectionDefaultArgs instead
-     */
-    export type SectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CoordinateDefaultArgs instead
      */

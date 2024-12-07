@@ -5,7 +5,7 @@ import { prisma } from "../../utils/prisma";
 const activePlanSchema = z.object({
   planName: z.string().min(1, "Plan Name is required"),
   planId: z.number().int("Plan ID must be an integer"),
-  sectionIds: z.array(z.number().int("Section ID must be an integer")).min(1, "At least one section is required")
+  sectionIds: z.array(z.number().int("Section ID must be an integer")).min(1, "At least one section is required"),
 });
 
 export const createOrUpdateActivePlans = async (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ export const createOrUpdateActivePlans = async (req: Request, res: Response) => 
           data: {
             planName,
             planId,
-            sectionId
+            sectionId,
           }
         });
       }));

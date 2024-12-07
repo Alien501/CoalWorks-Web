@@ -72,8 +72,10 @@ export const getAllSections = async (req: Request, res: Response) => {
         activePlans: true,
       },
     });
+
     res.status(200).json(sections);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Failed to fetch sections" });
   }
 };

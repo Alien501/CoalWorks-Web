@@ -33,6 +33,15 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 interface Plan {
     planId: number;
@@ -55,6 +64,9 @@ interface Section {
 export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
     const [sections, setSections] = useState<Section[]>([]);
     const [selectedSections, setSelectedSections] = useState<{ [key: number]: boolean }>({});
+    const [users, setUsers] = useState([])
+    const [selectedUser, setSelectedUser] = useState<null | number>(null)
+    console.log(sections)
 
     useEffect(() => {
         const fetchSectionsHandler = async () => {
@@ -63,7 +75,15 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                 setSections(res);
             }
         };
+
+        const fetchUsers = async () => {
+            const res = await axios.get("api/data/user");
+            if (res) {
+                setUsers(res.data)
+            }
+        }
         fetchSectionsHandler();
+        fetchUsers()
     }, []);
 
     const handleCheckboxChange = (sectionId: number, checked: boolean) => {
@@ -82,7 +102,8 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
             const res = await axios.post("/api/data/rounds/active-plan", {
                 planId: id,
                 planName: planName,
-                sectionIds: sectionIds
+                sectionIds: sectionIds,
+                userId: selectedUser
             });
 
             if (res.status === 201) {
@@ -138,7 +159,7 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                                 <DialogTrigger asChild>
                                     <Button variant="outline">Schedule</Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[425px]">
+                                <DialogContent className="sm:max-w-[500px]">
                                     <DialogHeader>
                                         <DialogTitle>Schedule Round</DialogTitle>
                                         <DialogDescription>Schedule rounds to the sections</DialogDescription>
@@ -157,6 +178,29 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                                                     <Label htmlFor={`section-${section.id}`}>{section.name}</Label>
                                                 </div>
                                             ))}
+
+                                            <div className=" flex space-x-3 mt-7">
+                                            <Label>
+                                            The Person you want to get notified about this round plan
+                                            </Label>
+                                                <div>
+                                                    <Select onValueChange={(value) => setSelectedUser(parseInt(value))}>
+                                                        <SelectTrigger className="w-[180px]">
+                                                            <SelectValue placeholder="Select a Supervisor/Worker" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectGroup>
+                                                                {/* <SelectLabel>Select</SelectLabel> */}
+                                                                {
+                                                                    users?.data?.map(user => (
+                                                                        <SelectItem value={user.userId}><span className="font-semibold mr-2">{user.userRole.roleName}:</span>{user.username}</SelectItem>
+                                                                    ))
+                                                                }
+                                                            </SelectGroup>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            </div>
                                         </ScrollArea>
                                     </DialogDescription>
                                     <DialogFooter>

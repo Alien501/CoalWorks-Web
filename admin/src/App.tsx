@@ -32,6 +32,8 @@ import { Card, CardTitle, CardDescription, CardHeader, CardContent, CardFooter }
 import { Alert, AlertTitle, AlertDescription } from './components/ui/alert'
 import { AlertCircle, ArrowLeft } from 'lucide-react'
 import { Button } from './components/ui/button'
+import { ShiftHandover } from './pages/shiftHandover'
+import { CreateShiftHandover } from './pages/createShiftHandover'
 interface ErrorPageProps {
   error: Error & { digest?: string }
   reset: () => void
@@ -171,6 +173,14 @@ function App() {
         {
           path: '/master-data/mine',
           element: <ProtectedRoute><MinesPage /></ProtectedRoute>
+        },
+        {
+          path: '/shift-handover',
+          element: <ShiftHandover />
+        },
+        {
+          path: '/create-shift-handover',
+          element: <CreateShiftHandover />
         }
       ]
     },
@@ -209,7 +219,7 @@ function App() {
     {
       path: '/init',
       element: <InitPage />
-    }
+    },
   ])
 
   return (

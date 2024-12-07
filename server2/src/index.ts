@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import morgan from "morgan";
+import morgan from 'morgan';
 import { handleError } from './middlewares/handleError';
 import { router } from './router/router';
 import cors from 'cors';

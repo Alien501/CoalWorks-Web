@@ -60,6 +60,7 @@ import MapPolygonDrawer from '@/components/custom/drawingMap';
 import { MoreHorizontal } from 'lucide-react';
 import { Description } from '@radix-ui/react-dialog';
 // import { toast } from "@/components/ui/use-toast" // Assuming you're using shadcn/ui toast
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface SectionType {
   id: number
@@ -609,6 +610,7 @@ export default function SectionsPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Area</TableHead>
+                <TableHead>Assign Supervisor</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -623,6 +625,9 @@ export default function SectionsPage() {
                     <TableCell>{section.name}</TableCell>
                     <TableCell>{sectionType?.name || 'Unknown'}</TableCell>
                     <TableCell>{section.area || 'N/A'}</TableCell>
+                    <TableCell>
+                      hi there
+                    </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>
                         <Dialog open={isEditDialogOpen2 && editingSection?.id === section.id} onOpenChange={setIsEditDialogOpen2}>

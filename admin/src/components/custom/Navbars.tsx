@@ -49,6 +49,11 @@ const menuItems: MenuItems[] = [
         url: '/master-data',
         title: 'Master Config'
     },
+    {
+        icon: Settings,
+        url: '/shift-handover',
+        title: 'Shift Handover'
+    },
 ]
 
 const SideNavbar = () => {

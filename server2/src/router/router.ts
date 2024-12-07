@@ -14,6 +14,7 @@ import { roundsRouter } from "./roundsRouter";
 import { initRouter } from "./initRouter";
 import { adminRouter } from "./adminRouter";
 import { mineRouter } from "./mineRouter";
+import { supervisorRouter } from "./supervisorRouter";
 
 const router = Router();
 
@@ -60,5 +61,7 @@ router.use('/assettype', assetTypeRouter);
 
 // Plans
 router.use('/rounds', roundsRouter);
+
+router.use('/supervisor', supervisorRouter);
 router.use
 export { router };

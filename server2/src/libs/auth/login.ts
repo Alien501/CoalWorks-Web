@@ -2,10 +2,10 @@
 import { Request, RequestHandler, Response } from 'express';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../utils/generated';
 import { generateJwtToken } from '../../middlewares/auth';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 const LoginSchema = z.object({
     email: z.string().email(),

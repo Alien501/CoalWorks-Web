@@ -1,30 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger,
-  DialogFooter,
-  DialogClose
-} from "@/components/ui/dialog"
+import {  Dialog,  DialogContent,  DialogHeader,  DialogTitle,  DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Plus, Edit, Trash2 } from 'lucide-react'
 
 type Role = {
@@ -35,20 +15,7 @@ type Role = {
 }
 
 export default function RolesManagement() {
-  const [roles, setRoles] = useState<Role[]>([
-    { 
-      id: 'super-admin', 
-      name: 'Super Admin', 
-      description: 'Full system access',
-      createdAt: new Date() 
-    },
-    { 
-      id: 'manager', 
-      name: 'Manager', 
-      description: 'Operational management role',
-      createdAt: new Date() 
-    }
-  ])
+  const [roles, setRoles] = useState<Role[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [newRole, setNewRole] = useState<Partial<Role>>({})
   const [editingRole, setEditingRole] = useState<Role | null>(null)
@@ -89,6 +56,12 @@ export default function RolesManagement() {
       role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (role.description?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
     )
+
+  useEffect(() => {
+    const getAndSetPositions = async () => {
+      role
+    }
+  })
 
   return (
     <div className="container mx-auto py-10">

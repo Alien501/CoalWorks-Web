@@ -20,7 +20,7 @@ export const UtilityCard = ({ title, subTitle, bodyContent, visible }: { title: 
                     }
                 </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-1 flex flex-col items-center justify-evenly">
                 {bodyContent}
             </CardContent>
         </Card>

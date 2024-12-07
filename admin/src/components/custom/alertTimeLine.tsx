@@ -1,76 +1,116 @@
-import { cn } from "@/lib/utils"
-import { ScrollArea } from "../ui/scroll-area"
+import React from 'react';
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "../ui/scroll-area";
+import { 
+  AlertCircle, 
+  CheckCircle, 
+  Info, 
+  AlertTriangle 
+} from "lucide-react";
 
 interface AlertEntry {
-  date: string
-  status: string
-  isActive?: boolean
+  title: string;
+  date: Date;
+  type: 'warning' | 'danger' | 'success' | 'info';
 }
 
-export default function AlertsCard() {
-  const entries: AlertEntry[] = [
+export default function SecurityAlertsDashboard() {
+  // Sample alerts with enhanced data
+  const alerts: AlertEntry[] = [
     {
-      date: "11 Dec 2023",
-      status: "Security Warning",
-      isActive: true
+      title: "Security Warning: Unusual Login Attempt",
+      date: new Date('2023-12-11'),
+      type: 'warning'
     },
     {
-      date: "12 Dec 2023",
-      status: "Potential Breach Detected",
-      isActive: true
+      title: "Potential Breach Detected in Network",
+      date: new Date('2023-12-12'),
+      type: 'danger'
     },
     {
-      date: "13 Dec 2023",
-      status: "Resolved",
-      isActive: false
+      title: "Firewall Configuration Resolved",
+      date: new Date('2023-12-13'),
+      type: 'success'
     },
     {
-      date: "14 Dec 2023",
-      status: "Resolved",
-      isActive: false
+      title: "System Health Check Completed",
+      date: new Date('2023-12-14'),
+      type: 'info'
     },
     {
-      date: "15 Dec 2023",
-      status: "System Check",
-      isActive: false
+      title: "Network Monitoring Status Update",
+      date: new Date('2023-12-15'),
+      type: 'info'
     }
-  ]
+  ];
+
+  // Function to get alert icon based on type
+  const getAlertIcon = (type: AlertEntry['type']) => {
+    const iconProps = { size: 20 };
+    const iconMap = {
+      'warning': <AlertTriangle {...iconProps} className="text-amber-600" />,
+      'danger': <AlertCircle {...iconProps} className="text-red-600" />,
+      'success': <CheckCircle {...iconProps} className="text-green-600" />,
+      'info': <Info {...iconProps} className="text-blue-600" />
+    };
+    return iconMap[type];
+  };
+
+  // Function to get text color based on alert type
+  const getTypeColor = (type: AlertEntry['type']) => {
+    const colorMap = {
+      'warning': 'text-amber-600',
+      'danger': 'text-red-600',
+      'success': 'text-green-600',
+      'info': 'text-blue-600'
+    };
+    return colorMap[type];
+  };
 
   return (
-    <div className="bg-background shadow-sm rounded-lg border">
-      <ScrollArea className="h-[250px]">
-        <div className="p-4 space-y-4">
-          {entries.map((entry, index) => (
-            <div key={index} className="flex items-center gap-3">
-              {/* <div 
-                className={cn(
-                  "w-3 h-3 rounded-full",
-                  entry.isActive 
-                    ? "bg-yellow-500" 
-                    : entry.status === "Resolved" 
-                      ? "bg-green-500" 
-                      : "border-2 border-gray-200"
-                )}
-              /> */}
-              
-              <div className="flex-1">
-                <div className="flex justify-between items-center">
-                  <p className={cn(
-                    "text-sm",
-                    entry.isActive ? "text-yellow-600" : 
-                    entry.status === "Resolved" ? "text-green-600" : "text-gray-500"
+    <div className="bg-background shadow-none rounded-lg border-none">
+      {/* <div className="p-4 border-b">
+        <h2 className="text-lg font-semibold text-slate-800">Security Alerts Dashboard</h2>
+      </div> */}
+      <ScrollArea className="h-full">
+        <table className="w-full">
+          <thead className="sticky top-0 bg-background-50 z-10">
+            <tr>
+              <th className="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Alert</th>
+              <th className="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Date</th>
+              <th className="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {alerts.map((alert, index) => (
+              <tr 
+                key={index} 
+                className="hover:bg-black-50 transition-colors duration-200 ease-in-out border-b last:border-b-0"
+              >
+                <td className="p-3 text-sm flex items-center gap-3">
+                  {getAlertIcon(alert.type)}
+                  <span className="text-slate-50">{alert.title}</span>
+                </td>
+                <td className="p-3 text-sm text-gray-600">
+                  {alert.date.toLocaleDateString('en-US', {
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric'
+                  })}
+                </td>
+                <td className="p-3 text-sm">
+                  <span className={cn(
+                    "capitalize font-medium",
+                    getTypeColor(alert.type)
                   )}>
-                    {entry.status}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    {entry.date}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                    {alert.type}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </ScrollArea>
     </div>
-  )
+  );
 }

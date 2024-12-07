@@ -1,227 +1,248 @@
-import { useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, MoreVertical, ChevronRight } from "lucide-react";
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Search, MoreHorizontal, Plus, Edit, Trash2 } from 'lucide-react'
 
-import { toast } from "sonner";
-import { Suspense } from "react";
-
-interface Permission {
-    id: string;
-    name: string;
-    children?: Permission[];
-    description?: string;
+type Role = {
+  id: string
+  name: string
+  description?: string
+  createdAt: Date
 }
 
-export default function RolesAndPermissions() {
-    const [selectedRole, setSelectedRole] = useState("");
-    const [expandedItems, setExpandedItems] = useState<string[]>(["tenant-management"]);
-    const [rolePermissions, setRolePermissions] = useState<Record<string, Set<string>>>({});
+export default function RolesManagement() {
+  const [roles, setRoles] = useState<Role[]>([
+    { 
+      id: 'super-admin', 
+      name: 'Super Admin', 
+      description: 'Full system access',
+      createdAt: new Date() 
+    },
+    { 
+      id: 'manager', 
+      name: 'Manager', 
+      description: 'Operational management role',
+      createdAt: new Date() 
+    }
+  ])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [newRole, setNewRole] = useState<Partial<Role>>({})
+  const [editingRole, setEditingRole] = useState<Role | null>(null)
 
-    const roles = [
-        { id: "super-admin", name: "Super Admin" },
-        { id: "manager", name: "Manager" },
-        { id: "maintenance-manager", name: "Maintenance Manager" },
-        { id: "new-role", name: "New Role" },
-        { id: "developer", name: "Developer" },
-        { id: "supervisor", name: "Supervisor" },
-    ];
+  const handleAddRole = () => {
+    if (!newRole.name) {
+      alert("Role name is required")
+      return
+    }
 
-    const permissions: Permission[] = [
-        { id: "dashboard", name: "Dashboard" },
-        {
-            id: "tenant-management",
-            name: "Tenant Management",
-            children: [
-                { id: "display-tenants", name: "Display Tenants" },
-                { id: "create-tenant", name: "Create Tenant" },
-                { id: "update-tenant", name: "Update Tenant" },
-            ],
-        },
-        { id: "maintenance", name: "Maintenance Control Center" },
-        { id: "spare-parts", name: "Spare Parts Control Center" },
-        { id: "user-management", name: "User Management" },
-        { id: "work-instructions", name: "Work Instructions Authoring" },
-    ];
+    const roleToAdd: Role = {
+      ...newRole as Role,
+      id: newRole.name?.toLowerCase().replace(/\s+/g, '-'),
+      createdAt: new Date()
+    }
 
-    const toggleExpand = (id: string) => {
-        setExpandedItems((prev) =>
-            prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-        );
-    };
+    setRoles([...roles, roleToAdd])
+    setNewRole({}) // Reset form
+  }
 
-    const togglePermission = (permissionId: string) => {
-        setRolePermissions((prev) => {
-            const updated = new Set(prev[selectedRole] || []);
+  const handleEditRole = () => {
+    if (!editingRole) return
 
-            if (updated.has(permissionId)) {
-                updated.delete(permissionId);
-            } else {
-                updated.add(permissionId);
-            }
+    setRoles(roles.map(role => 
+      role.id === editingRole.id 
+        ? { ...editingRole } 
+        : role
+    ))
+    setEditingRole(null)
+  }
 
-            return { ...prev, [selectedRole]: updated };
-        });
-    };
+  const handleDeleteRole = (roleId: string) => {
+    setRoles(roles.filter(role => role.id !== roleId))
+  }
 
-    const isPermissionChecked = (permissionId: string) => {
-        return rolePermissions[selectedRole]?.has(permissionId) ?? false;
-    };
+  const filteredRoles = roles
+    .filter(role => 
+      role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (role.description?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
+    )
 
-
-    const handleSave = () => {
-        const serializedPermissions = Object.fromEntries(
-            Object.entries(rolePermissions).map(([role, permissions]) => [
-                role,
-                Array.from(permissions || []),
-            ])
-        );
-        console.log(serializedPermissions);
-        toast.success(`Saved Permissions: ${JSON.stringify(serializedPermissions, null, 2)}`);
-    };
-
-    return (
-        <Suspense fallback={"loading"}>
-            <div className="w-full pt-3 px-4">
-                <div className='flex justify-between items-center border-b pb-3'>
-                    <Breadcrumb about='skjfdk'>
-                        <BreadcrumbList >
-                            <BreadcrumbItem>
-                                <BreadcrumbLink>
-                                    <a href="/master-data/positions">
-                                        <span className={window.location.pathname === "/master-data/positions" ? "text-black: dark:text-white" : ""}>
-                                            Positions
-                                        </span>
-                                    </a>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbLink>
-                                    <a href="/master-data/permissions">
-                                        <span className={window.location.pathname === "/master-data/permissions" ? "text-black dark:text-white" : ""}>
-                                            Roles and Permission
-                                        </span>
-                                    </a>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-
-                        </BreadcrumbList>
-                    </Breadcrumb>
-                </div>
-                <div className="container mx-auto py-10">
-                    <h1 className="text-3xl font-bold mb-6">Roles and Permissions</h1>
-                    <div className="flex w-full bg-background border rounded-lg px-4">
-                        <div className="w-72 border-r pr-2">
-                            <div className="pt-2 px-2 ">
-                                <div className="relative">
-                                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Search" className="pl-8" />
-                                </div>
-                            </div>
-                            <div className="space-y-1 pt-2">
-                                {roles.map((role) => (
-                                    <div
-                                        key={role.id}
-                                        className={`flex items-center px-2 justify-between py-1 hover:bg-accent ${selectedRole === role.id ? "bg-accent" : ""
-                                            }`}
-                                        onClick={() => setSelectedRole(role.id)}
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            <Checkbox checked={selectedRole === role.id} />
-                                            <span className="text-sm">{role.name}</span>
-                                        </div>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8">
-                                                    <MoreVertical className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                                                <DropdownMenuItem>Delete</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="flex-1 p-4">
-                            <div className="mb-6 flex items-center justify-between">
-                                <div className="flex space-x-8 justify-center items-center">
-                                    <span className="text-nowrap font-semibold">Selected Role</span>
-                                    <span>
-                                        <Input disabled value={roles.find((r) => r.id === selectedRole)?.name || ""} />
-                                    </span>
-                                </div>
-                                <div className="space-x-2">
-                                    <Button variant="outline">Copy</Button>
-                                    <Button onClick={handleSave}>Save</Button>
-                                </div>
-                            </div>
-
-                            <div className="space-y-1">
-                                {permissions.map((permission) => (
-                                    <div key={permission.id} className="space-y-1">
-                                        <div className="flex items-center space-x-2 rounded-md px-2 py-2 hover:bg-accent">
-                                            <Checkbox
-                                                checked={isPermissionChecked(permission.id)}
-                                                onCheckedChange={() => togglePermission(permission.id)}
-                                            />
-                                            <span className="flex-1 text-sm">{permission.name}</span>
-                                            {permission.children && (
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-8 w-8"
-                                                    onClick={() => toggleExpand(permission.id)}
-                                                >
-                                                    <ChevronRight
-                                                        className={`h-4 w-4 transition-transform ${expandedItems.includes(permission.id) ? "rotate-90" : ""
-                                                            }`}
-                                                    />
-                                                </Button>
-                                            )}
-                                        </div>
-                                        {permission.children && expandedItems.includes(permission.id) && (
-                                            <div className="ml-6 space-y-1">
-                                                {permission.children.map((child) => (
-                                                    <div
-                                                        key={child.id}
-                                                        className="flex items-center space-x-2 rounded-md px-2 py-2 hover:bg-accent"
-                                                    >
-                                                        <Checkbox
-                                                            checked={isPermissionChecked(child.id)}
-                                                            onCheckedChange={() => togglePermission(child.id)}
-                                                        />
-                                                        <span className="text-sm">{child.name}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className="container mx-auto py-10">
+      <div className="flex justify-between items-center mb-4">
+        <div className="relative flex-grow max-w-md mr-4">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search roles..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-8"
+          />
+        </div>
+        
+        {/* Add Role Dialog */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" /> Add Role
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Role</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Role Name
+                </Label>
+                <Input 
+                  id="name" 
+                  value={newRole.name || ''} 
+                  onChange={(e) => setNewRole({...newRole, name: e.target.value})}
+                  className="col-span-3" 
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="description" className="text-right">
+                  Description
+                </Label>
+                <Input 
+                  id="description" 
+                  value={newRole.description || ''} 
+                  onChange={(e) => setNewRole({...newRole, description: e.target.value})}
+                  className="col-span-3" 
+                />
+              </div>
             </div>
-        </Suspense>
-    );
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button type="submit" onClick={handleAddRole}>
+                  Add Role
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Edit Role Dialog */}
+      <Dialog open={!!editingRole} onOpenChange={() => setEditingRole(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Role</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-name" className="text-right">
+                Role Name
+              </Label>
+              <Input 
+                id="edit-name" 
+                value={editingRole?.name || ''} 
+                onChange={(e) => setEditingRole(prev => prev ? {...prev, name: e.target.value} : null)}
+                className="col-span-3" 
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-description" className="text-right">
+                Description
+              </Label>
+              <Input 
+                id="edit-description" 
+                value={editingRole?.description || ''} 
+                onChange={(e) => setEditingRole(prev => prev ? {...prev, description: e.target.value} : null)}
+                className="col-span-3" 
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Cancel
+              </Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button type="submit" onClick={handleEditRole}>
+                Save Changes
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Roles Table */}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Role Name</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Created At</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredRoles.map((role) => (
+            <TableRow key={role.id}>
+              <TableCell>{role.name}</TableCell>
+              <TableCell>{role.description || 'No description'}</TableCell>
+              <TableCell>{role.createdAt.toLocaleDateString()}</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem 
+                      onClick={() => setEditingRole(role)}
+                      className="cursor-pointer"
+                    >
+                      <Edit className="mr-2 h-4 w-4" /> Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => handleDeleteRole(role.id)}
+                      className="cursor-pointer text-red-600"
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" /> Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  )
 }

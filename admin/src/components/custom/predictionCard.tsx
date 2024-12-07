@@ -41,7 +41,7 @@ const PredictionCard: React.FC<PredictionCardProps> = ({ prediction }) => {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl hover:shadow-2xl transition-all duration-300">
+    <Card className="bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <div className="flex items-center space-x-2">
           <AlertTriangle className={`h-6 w-6 ${getSeverityColor(prediction.severity)}`} />

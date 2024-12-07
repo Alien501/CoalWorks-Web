@@ -84,24 +84,46 @@ model Permission {
 }
 
 model User {
-  userId       Int       @id @default(autoincrement())
-  username     String    @unique @db.VarChar(100)
-  email        String    @unique @db.VarChar(100)
-  phone        String?   @db.VarChar(20)
-  passwordHash String    @db.VarChar(255)
-  salt         String    @db.VarChar(255)
+  userId       Int         @id @default(autoincrement())
+  username     String      @unique @db.VarChar(100)
+  email        String      @unique @db.VarChar(100)
+  phone        String?     @db.VarChar(20)
+  passwordHash String      @db.VarChar(255)
+  salt         String      @db.VarChar(255)
   userRoleId   Int
-  userRole     Role      @relation(fields: [userRoleId], references: [roleId])
+  userRole     Role        @relation(fields: [userRoleId], references: [roleId])
   positionId   Int?
-  Position     Position? @relation(fields: [positionId], references: [positionId])
-  isActive     Boolean   @default(true)
-  profileImage String?   @db.VarChar(255)
+  Position     Position?   @relation(fields: [positionId], references: [positionId])
+  isActive     Boolean     @default(true)
+  profileImage String?     @db.VarChar(255)
   lastLogin    DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
   createdBy    Int?
-  Creator      User?     @relation("UserCreation", fields: [createdBy], references: [userId])
-  CreatedUsers User[]    @relation("UserCreation")
+  Creator      User?       @relation("UserCreation", fields: [createdBy], references: [userId])
+  CreatedUsers User[]      @relation("UserCreation")
+  supervisor   Supervisor?
+}
+
+model Supervisor {
+  id        Int     @id @default(autoincrement())
+  sectionId Int
+  userId    Int     @unique
+  section   Section @relation(fields: [sectionId], references: [id])
+  user      User    @relation(fields: [userId], references: [userId])
+}
+
+model Section {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+  sectionType Int
+  area        Int?
+
+  type        SectionType   @relation(fields: [sectionType], references: [id])
+  assets      Asset[]
+  coordinates Coordinate[]
+  activePlans ActivePlans[]
+  supervisors Supervisor[]
 }
 
 model Shift {
@@ -172,25 +194,13 @@ model SectionType {
   color       String    @default("#fffff")
 }
 
-model Section {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(255)
-  sectionType Int
-  area        Int?
-
-  type        SectionType   @relation(fields: [sectionType], references: [id])
-  assets      Asset[]
-  coordinates Coordinate[]
-  activePlans ActivePlans[]
-}
-
 model Coordinate {
   id        Int   @id @default(autoincrement())
   latitude  Float
   longitude Float
   sectionId Int
 
-  section Section @relation(fields: [sectionId], references: [id])
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 }
 
 model AssetType {
@@ -206,6 +216,8 @@ model Asset {
   description  String       @db.VarChar(255)
   assetType    Int
   assetSection Int
+  latitude     Float?
+  longitude    Float?
   planAssets   PlanAssets[]
   type         AssetType    @relation(fields: [assetType], references: [id])
   section      Section      @relation(fields: [assetSection], references: [id])

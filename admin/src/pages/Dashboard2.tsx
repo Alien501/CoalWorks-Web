@@ -23,8 +23,145 @@ import {
     AlertTriangle
 } from 'lucide-react';
 import Map from "./map";
-import PredictionCard from "@/components/custom/predictionCard";
+// import PredictionCard from "@/components/custom/predictionCard";
+import { PredictionCard } from "./somthing";
 import MiningMap from "./map";
+import RiskMatrix from "@/components/custom/riskMatrix";
+import PriorityActionsSMP from "./somthing";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Progress } from "@/components/ui/progress";
+import OperationalTrendsCard from "./operationalTrend";
+
+const predictions = [
+    {
+        id: 1,
+        headline: "Equipment Breakdown Likely in Zone B",
+        incidentType: "Breakdown",
+        severity: "Critical",
+        probability: 87,
+        recommendedAction: "Dispatch a maintenance team to Zone B within 2 hours.",
+        reason: "High vibration detected on Conveyor Belt 4",
+        workflow: [
+            "1. Assess Conveyor Belt 4 for unusual vibrations",
+            "2. Check belt tension and alignment",
+            "3. Inspect rollers and bearings",
+            "4. Lubricate necessary components",
+            "5. Report findings and actions taken"
+        ],
+        personnelAllocation: "Maintenance Team Alpha"
+    },
+    {
+        id: 1,
+        headline: "Equipment Breakdown Likely in Zone B",
+        incidentType: "Breakdown",
+        severity: "Critical",
+        probability: 87,
+        recommendedAction: "Dispatch a maintenance team to Zone B within 2 hours.",
+        reason: "High vibration detected on Conveyor Belt 4",
+        workflow: [
+            "1. Assess Conveyor Belt 4 for unusual vibrations",
+            "2. Check belt tension and alignment",
+            "3. Inspect rollers and bearings",
+            "4. Lubricate necessary components",
+            "5. Report findings and actions taken"
+        ],
+        personnelAllocation: "Maintenance Team Alpha"
+    },
+    {
+        id: 1,
+        headline: "Equipment Breakdown Likely in Zone B",
+        incidentType: "Breakdown",
+        severity: "Critical",
+        probability: 87,
+        recommendedAction: "Dispatch a maintenance team to Zone B within 2 hours.",
+        reason: "High vibration detected on Conveyor Belt 4",
+        workflow: [
+            "1. Assess Conveyor Belt 4 for unusual vibrations",
+            "2. Check belt tension and alignment",
+            "3. Inspect rollers and bearings",
+            "4. Lubricate necessary components",
+            "5. Report findings and actions taken"
+        ],
+        personnelAllocation: "Maintenance Team Alpha"
+    },
+    {
+        id: 1,
+        headline: "Equipment Breakdown Likely in Zone B",
+        incidentType: "Breakdown",
+        severity: "Critical",
+        probability: 87,
+        recommendedAction: "Dispatch a maintenance team to Zone B within 2 hours.",
+        reason: "High vibration detected on Conveyor Belt 4",
+        workflow: [
+            "1. Assess Conveyor Belt 4 for unusual vibrations",
+            "2. Check belt tension and alignment",
+            "3. Inspect rollers and bearings",
+            "4. Lubricate necessary components",
+            "5. Report findings and actions taken"
+        ],
+        personnelAllocation: "Maintenance Team Alpha"
+    }
+]
+
+const tasks = [
+    {
+        id: 1,
+        title: "Unattended Safety Breach in Zone C",
+        prediction: "Will escalate to Critical in 2 hours",
+        action: "Assign Safety Team Bravo to investigate",
+        type: "safety",
+        severity: "High"
+    },
+    {
+        id: 2,
+        title: "SHIFT-008 tasks are 60% delayed",
+        prediction: "Productivity will drop below 75%",
+        action: "Reallocate one team from SHIFT-009 to SHIFT-008",
+        type: "delay",
+        severity: "Moderate"
+    },
+    {
+        id: 3,
+        title: "Excavator #47 overdue for maintenance",
+        prediction: "Breakdown risk: High",
+        action: "Schedule immediate servicing",
+        type: "equipment",
+        severity: "High"
+    }
+]
+
+const PriorityCard = ({prediction}) => {
+    return (
+        <Dialog>
+            <DialogTrigger>
+                <Card className="w-full m-2 bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl hover:shadow-2xl transition-all duration-300 rounded-sm">
+                    <CardContent className="p-2 space-y-2">
+                        <div className="flex space-x-1 items-center">
+                            <AlertTriangle className="text-yellow-400" />
+                            <h1 className="text-sm font-medium text-left">{prediction.headline}</h1>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span>
+                                <Badge variant={prediction.severity === "Critical" ? "destructive" : "default"}>
+                                    {prediction.severity}
+                                </Badge>
+                            </span>
+                            <span>
+                                {prediction.probability}%
+                            </span>
+                        </div>
+                    </CardContent>
+                </Card>
+            </DialogTrigger>
+            <DialogContent>
+                <PredictionCard prediction={prediction} />
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 const NewDashboard = () => {
     const [date, setDate] = useState();
     const [graphType, setGraphType] = useState<string>('bar')
@@ -47,32 +184,32 @@ const NewDashboard = () => {
     }
 
 
-    const predictions = [
-        {
-            title: "Equipment Breakdown Likely in Zone B",
-            type: "Breakdown" as const,
-            severity: "Critical" as const,
-            probability: 87,
-            timeframe: "Next 2-4 hours",
-            recommendation: "Dispatch maintenance team to Zone B for immediate inspection of conveyor belt system."
-        },
-        // {
-        //     title: "Potential Safety Risk in Shaft 3",
-        //     type: "Safety" as const,
-        //     severity: "Moderate" as const,
-        //     probability: 75,
-        //     timeframe: "Next 6 hours",
-        //     recommendation: "Conduct emergency ventilation check and adjust air flow parameters."
-        // },
-        // {
-        //     title: "Production Delay Risk in Section C",
-        //     type: "Delay" as const,
-        //     severity: "Moderate" as const,
-        //     probability: 82,
-        //     timeframe: "Next shift",
-        //     recommendation: "Reallocate resources to prevent bottleneck in coal extraction process."
-        // }
-    ];
+    // const predictions = [
+    //     {
+    //         title: "Equipment Breakdown Likely in Zone B",
+    //         type: "Breakdown" as const,
+    //         severity: "Critical" as const,
+    //         probability: 87,
+    //         timeframe: "Next 2-4 hours",
+    //         recommendation: "Dispatch maintenance team to Zone B for immediate inspection of conveyor belt system."
+    //     },
+    //     // {
+    //     //     title: "Potential Safety Risk in Shaft 3",
+    //     //     type: "Safety" as const,
+    //     //     severity: "Moderate" as const,
+    //     //     probability: 75,
+    //     //     timeframe: "Next 6 hours",
+    //     //     recommendation: "Conduct emergency ventilation check and adjust air flow parameters."
+    //     // },
+    //     // {
+    //     //     title: "Production Delay Risk in Section C",
+    //     //     type: "Delay" as const,
+    //     //     severity: "Moderate" as const,
+    //     //     probability: 82,
+    //     //     timeframe: "Next shift",
+    //     //     recommendation: "Reallocate resources to prevent bottleneck in coal extraction process."
+    //     // }
+    // ];
 
 
     return (
@@ -191,49 +328,61 @@ const NewDashboard = () => {
                 <div className="p-2 grid grid-cols-2 gap-4">
                     <div className="h-max">
                         <UtilityCard
-                            title="Operational Trends"
-                            subTitle="Total shipping revenue overview"
+                            title="Analytic View"
+                            subTitle="Key Performance Highlights"
                             bodyContent={
-                                <div className="flex flex-col space-y-3">
-                                    <div>
-                                        <SpiderGraph />
-                                    </div>
-                                    <div className="rounded-lg border h-[120px] p-2 w-full ">
-                                        <div className="flex items-center justify-center">
-                                            <h3 className="text-lg font-semibold text-nowrap ">
-                                                Operational Performance Metrics
-                                            </h3>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-3 mt-3 justify-center items-center ml-4">
-                                            <div className="flex space-x-3 items-center">
-                                                <span className="p-2 rounded-full border">
-                                                    <Clock size={30}></Clock>
-                                                </span>
-                                                <span>
-                                                    Operational Efficiency
-                                                </span>
-                                                <span className="text-2xl text-green-500 flex justify-center items-center space-x-3">
-                                                    <span>
-                                                        96%
-                                                    </span>
-                                                    <span>
-                                                        <TrendingUp></TrendingUp>
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                // <div className="flex flex-col space-y-3">
+                                //     <div>
+                                //         <SpiderGraph />
+                                //     </div>
+                                //     <div className="rounded-lg border h-[120px] p-2 w-full ">
+                                //         <div className="flex items-center justify-center">
+                                //             <h3 className="text-lg font-semibold text-nowrap ">
+                                //                 Operational Performance Metrics
+                                //             </h3>
+                                //         </div>
+                                //         <div className="grid grid-cols-2 gap-3 mt-3 justify-center items-center ml-4">
+                                //             <div className="flex space-x-3 items-center">
+                                //                 <span className="p-2 rounded-full border">
+                                //                     <Clock size={30}></Clock>
+                                //                 </span>
+                                //                 <span>
+                                //                     Operational Efficiency
+                                //                 </span>
+                                //                 <span className="text-2xl text-green-500 flex justify-center items-center space-x-3">
+                                //                     <span>
+                                //                         96%
+                                //                     </span>
+                                //                     <span>
+                                //                         <TrendingUp></TrendingUp>
+                                //                     </span>
+                                //                 </span>
+                                //             </div>
+                                //         </div>
+                                //     </div>
+                                // </div>
+                                <OperationalTrendsCard />
                             }
                         />
                     </div>
                     <div className="">
                         <UtilityCard
-                            title=""
-                            subTitle=""
-                            bodyContent={<div>{predictions.map((prediction, index) => (
-                                <PredictionCard key={index} prediction={prediction} />
-                            ))}</div>}
+                            title="Priority Alert"
+                            subTitle="Real-time predictions and actionable insights"
+                            bodyContent={
+                                <>
+                                            <div>
+                                                <ScrollArea className="h-[280px]">
+                                                    {
+                                                        predictions.map(prediction => <PriorityCard prediction={prediction} />)
+                                                    }
+                                                </ScrollArea>
+                                            </div>
+                                            <div className="h-9 bg-red-300/0 flex items-center">
+                                                <Progress value={90} />
+                                            </div>
+                                </>
+                                        }
                             visible={false}
                         />
                     </div>
@@ -249,6 +398,7 @@ const NewDashboard = () => {
             <div id="dashboard-table-container">
                 <DashboardTable shiftsData={shiftsData} />
             </div>
+            <RiskMatrix />
         </section>
     )
 };

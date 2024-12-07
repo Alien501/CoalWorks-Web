@@ -139,6 +139,21 @@ const MasterData = () => {
                             </CardContent>
                         </Card>
                     </Link>
+                    <Link to={'/master-data/user'} className="block">
+                        <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <CardHeader>
+                                <CardTitle className="flex items-center justify-between">
+                                    Users
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex items-center justify-center h-40">
+                                <div className="text-center flex flex-col justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="size-[70px] lucide lucide-user-round-pen"><path d="M2 21a8 8 0 0 1 10.821-7.487"/><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="8" r="5"/></svg>
+                                    <p className="text-xl font-semibold text-gray-700">Manage Users</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
 
                     <div className="opacity-50 pointer-events-none">
                         <Card className="h-full">

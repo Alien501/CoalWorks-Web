@@ -102,7 +102,6 @@ model User {
   createdBy    Int?
   Creator      User?     @relation("UserCreation", fields: [createdBy], references: [userId])
   CreatedUsers User[]    @relation("UserCreation")
-  ActivePlans  ActivePlans[]
   supervisor   Supervisor?
 }
 
@@ -183,11 +182,9 @@ model ActivePlans {
   planName  String
   planId    Int
   sectionId Int
-  userId    Int
 
   plan    Plan    @relation(fields: [planId], references: [planId])
   section Section @relation(fields: [sectionId], references: [id])
-  user User @relation(fields: [userId], references: [userId])
 }
 
 model SectionType {

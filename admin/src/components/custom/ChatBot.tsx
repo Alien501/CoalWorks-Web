@@ -44,7 +44,7 @@ export default function ChatBot({ isOpen, onClose }: ChatBotProps) {
         setTimeout(() => {
             const assistantMessage: Message = {
                 id: Date.now() + 1,
-                content: `You typed ${userMessage.content}`,
+                content: `No. of active shifts: 13`,
                 role: 'assistant'
             }
             setMessages(prevMessages => [...prevMessages, assistantMessage])

@@ -203,6 +203,19 @@ exports.Prisma.UserScalarFieldEnum = {
   createdBy: 'createdBy'
 };
 
+exports.Prisma.SupervisorScalarFieldEnum = {
+  id: 'id',
+  sectionId: 'sectionId',
+  userId: 'userId'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sectionType: 'sectionType',
+  area: 'area'
+};
+
 exports.Prisma.ShiftScalarFieldEnum = {
   shiftId: 'shiftId',
   name: 'name',
@@ -251,13 +264,6 @@ exports.Prisma.SectionTypeScalarFieldEnum = {
   name: 'name',
   description: 'description',
   color: 'color'
-};
-
-exports.Prisma.SectionScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  sectionType: 'sectionType',
-  area: 'area'
 };
 
 exports.Prisma.CoordinateScalarFieldEnum = {
@@ -322,13 +328,14 @@ exports.Prisma.ModelName = {
   Role: 'Role',
   Permission: 'Permission',
   User: 'User',
+  Supervisor: 'Supervisor',
+  Section: 'Section',
   Shift: 'Shift',
   Plan: 'Plan',
   PlanAssets: 'PlanAssets',
   Planfiles: 'Planfiles',
   ActivePlans: 'ActivePlans',
   SectionType: 'SectionType',
-  Section: 'Section',
   Coordinate: 'Coordinate',
   AssetType: 'AssetType',
   Asset: 'Asset'

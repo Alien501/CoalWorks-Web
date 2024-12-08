@@ -35,7 +35,7 @@ import { Button } from './components/ui/button'
 import { ShiftHandover } from './pages/shiftHandover'
 import { CreateShiftHandover } from './pages/createShiftHandover'
 import { UserManagement } from './pages/userManagement'
-
+import { ShiftHandover2 } from './pages/shiftHandover2'
 import RiskMatrix from './pages/RiskMatrixs'
 import { ShiftTemplateCard } from './components/custom/shiftTemplateCard'
 import { ShiftTemplates } from './pages/ShiftTemplates'
@@ -189,6 +189,10 @@ function App() {
         {
           path: '/shift-handover',
           element: <ShiftHandover />
+        },
+        {
+          path: '/shift-handover2',
+          element: <ShiftHandover2 />
         },
         {
           path: '/create-shift-handover',

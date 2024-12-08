@@ -12,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
+import { Dialog, DialogHeader, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog"
 import { v4 as uuidv4 } from 'uuid'
 import { ChevronLeft, Plus, Pencil, Trash2, MoreVertical, GripVertical } from 'lucide-react'
 import { cn } from "@/lib/utils"
@@ -140,31 +141,108 @@ export default function FormTemplateBuilder() {
         )
     }
 
+    const [editSectionModalOpen, setEditSectionModalOpen] = useState(false)
+    const [editFieldModalOpen, setEditFieldModalOpen] = useState(false)
+    const [currentSection, setCurrentSection] = useState<FormSection | null>(null)
+    const [currentField, setCurrentField] = useState<FormField | null>(null)
+
+    const addSection = () => {
+        const newSection: FormSection = {
+            id: uuidv4(),
+            title: `Section ${sections.length + 1}`,
+            fields: []
+        }
+        setSections([...sections, newSection])
+    }
+
+    const deleteSection = (sectionId: string) => {
+        setSections(sections.filter(section => section.id !== sectionId))
+    }
+
+    const openEditSectionModal = (section: FormSection) => {
+        setCurrentSection(section)
+        setEditSectionModalOpen(true)
+    }
+
+    const updateSection = () => {
+        if (!currentSection) return
+
+        setSections(sections.map(section => 
+            section.id === currentSection.id ? currentSection : section
+        ))
+        setEditSectionModalOpen(false)
+    }
+
+    const addField = (sectionId: string) => {
+        const newField: FormField = {
+            id: uuidv4(),
+            type: 'text',
+            label: 'New Field',
+            required: false
+        }
+
+        setSections(sections.map(section =>
+            section.id === sectionId
+                ? { ...section, fields: [...section.fields, newField] }
+                : section
+        ))
+    }
+
+    const deleteField = (sectionId: string, fieldId: string) => {
+        setSections(sections.map(section => {
+            if (section.id === sectionId) {
+                return {
+                    ...section,
+                    fields: section.fields.filter(field => field.id !== fieldId)
+                }
+            }
+            return section
+        }))
+    }
+
+    const openEditFieldModal = (section: FormSection, field: FormField) => {
+        setCurrentSection(section)
+        setCurrentField(field)
+        setEditFieldModalOpen(true)
+    }
+
+    const updateField = () => {
+        if (!currentSection || !currentField) return
+
+        setSections(sections.map(section => {
+            if (section.id === currentSection.id) {
+                return {
+                    ...section,
+                    fields: section.fields.map(field => 
+                        field.id === currentField.id ? currentField : field
+                    )
+                }
+            }
+            return section
+        }))
+        setEditFieldModalOpen(false)
+    }
+
+    useEffect(() => {
+        const getAndSetAllSections = async () => {
+            const d = await fetchSections();
+            if(d) {
+                setMineSections(d);
+            }
+        }
+
+        const getAndSetRoles = async () => {
+            const d = await fetchAllRoles();
+            if(d) {
+                setRoles(d)
+            }
+        }
+
+        getAndSetAllSections();
+        getAndSetRoles();
+    }, []);
+
     const renderFormBuilderStep = () => {
-        const addSection = () => {
-            const newSection: FormSection = {
-                id: uuidv4(),
-                title: `Section ${sections.length + 1}`,
-                fields: []
-            }
-            setSections([...sections, newSection])
-        }
-
-        const addField = (sectionId: string) => {
-            const newField: FormField = {
-                id: uuidv4(),
-                type: 'text',
-                label: 'New Field',
-                required: false
-            }
-
-            setSections(sections.map(section =>
-                section.id === sectionId
-                    ? { ...section, fields: [...section.fields, newField] }
-                    : section
-            ))
-        }
-
         return (
             <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex justify-between items-center">
@@ -189,6 +267,7 @@ export default function FormTemplateBuilder() {
                                     variant="ghost"
                                     size="icon"
                                     className="text-white hover:text-white"
+                                    onClick={() => openEditSectionModal(section)}
                                 >
                                     <Pencil className="w-4 h-4" />
                                 </Button>
@@ -196,6 +275,7 @@ export default function FormTemplateBuilder() {
                                     variant="ghost"
                                     size="icon"
                                     className="text-white hover:text-white"
+                                    onClick={() => deleteSection(section.id)}
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
@@ -205,7 +285,7 @@ export default function FormTemplateBuilder() {
                             {section.fields.map((field) => (
                                 <div
                                     key={field.id}
-                                    className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg group"
+                                    className="flex items-center gap-4 p-4 hover:bg-background-50 rounded-lg group"
                                 >
                                     <GripVertical className="w-4 h-4 text-gray-400" />
                                     <div className="flex-1">
@@ -216,13 +296,24 @@ export default function FormTemplateBuilder() {
                                             </span>
                                         </div>
                                     </div>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="opacity-0 group-hover:opacity-100"
-                                    >
-                                        <MoreVertical className="w-4 h-4" />
-                                    </Button>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="opacity-0 group-hover:opacity-100"
+                                            onClick={() => openEditFieldModal(section, field)}
+                                        >
+                                            <Pencil className="w-4 h-4" />
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="opacity-0 group-hover:opacity-100"
+                                            onClick={() => deleteField(section.id, field.id)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </div>
                                 </div>
                             ))}
                             <Button
@@ -235,6 +326,110 @@ export default function FormTemplateBuilder() {
                         </CardContent>
                     </Card>
                 ))}
+
+                <Dialog open={editSectionModalOpen} onOpenChange={setEditSectionModalOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Edit Section</DialogTitle>
+                        </DialogHeader>
+                        {currentSection && (
+                            <div className="space-y-4">
+                                <Label>Section Title</Label>
+                                <Input 
+                                    value={currentSection.title}
+                                    onChange={(e) => setCurrentSection({
+                                        ...currentSection, 
+                                        title: e.target.value
+                                    })}
+                                />
+                            </div>
+                        )}
+                        <DialogFooter>
+                            <Button variant="outline" onClick={() => setEditSectionModalOpen(false)}>
+                                Cancel
+                            </Button>
+                            <Button onClick={updateSection}>
+                                Save Changes
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+
+                <Dialog open={editFieldModalOpen} onOpenChange={setEditFieldModalOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Edit Field</DialogTitle>
+                        </DialogHeader>
+                        {currentSection && currentField && (
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>Field Label</Label>
+                                    <Input 
+                                        value={currentField.label}
+                                        onChange={(e) => setCurrentField({
+                                            ...currentField, 
+                                            label: e.target.value
+                                        })}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Field Type</Label>
+                                    <Select
+                                        value={currentField.type}
+                                        onValueChange={(value: FieldType) => setCurrentField({
+                                            ...currentField, 
+                                            type: value
+                                        })}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select field type" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {['text', 'number', 'select', 'checkbox', 'textarea', 'date'].map(type => (
+                                                <SelectItem key={type} value={type as FieldType}>
+                                                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="flex items-center gap-2">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={currentField.required}
+                                            onChange={(e) => setCurrentField({
+                                                ...currentField, 
+                                                required: e.target.checked
+                                            })}
+                                        />
+                                        Required Field
+                                    </Label>
+                                </div>
+                                {currentField.type === 'select' && (
+                                    <div className="space-y-2">
+                                        <Label>Options (comma-separated)</Label>
+                                        <Input 
+                                            value={currentField.options?.join(', ') || ''}
+                                            onChange={(e) => setCurrentField({
+                                                ...currentField, 
+                                                options: e.target.value.split(',').map(opt => opt.trim())
+                                            })}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        <DialogFooter>
+                            <Button variant="outline" onClick={() => setEditFieldModalOpen(false)}>
+                                Cancel
+                            </Button>
+                            <Button onClick={updateField}>
+                                Save Changes
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
 
                 <div className="flex justify-between">
                     <Button

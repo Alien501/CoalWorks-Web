@@ -15,6 +15,7 @@ import { initRouter } from "./initRouter";
 import { adminRouter } from "./adminRouter";
 import { mineRouter } from "./mineRouter";
 import { supervisorRouter } from "./supervisorRouter";
+import { smpRouter } from "./smpRouter";
 
 const router = Router();
 
@@ -63,5 +64,7 @@ router.use('/assettype', assetTypeRouter);
 router.use('/rounds', roundsRouter);
 
 router.use('/supervisor', supervisorRouter);
-router.use
+
+router.use('/smp', smpRouter);
+
 export { router };

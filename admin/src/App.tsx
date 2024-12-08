@@ -34,6 +34,8 @@ import { AlertCircle, ArrowLeft } from 'lucide-react'
 import { Button } from './components/ui/button'
 import { ShiftHandover } from './pages/shiftHandover'
 import { CreateShiftHandover } from './pages/createShiftHandover'
+import RiskMatrix from './pages/RiskMatrixs'
+
 interface ErrorPageProps {
   error: Error & { digest?: string }
   reset: () => void
@@ -181,6 +183,10 @@ function App() {
         {
           path: '/create-shift-handover',
           element: <CreateShiftHandover />
+        },
+        {
+          path: '/risk-matrix',
+          element: <RiskMatrix />
         }
       ]
     },

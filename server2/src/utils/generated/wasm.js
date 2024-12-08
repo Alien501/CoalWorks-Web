@@ -289,6 +289,36 @@ exports.Prisma.AssetScalarFieldEnum = {
   longitude: 'longitude'
 };
 
+exports.Prisma.RiskMatrixScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  col: 'col',
+  row: 'row'
+};
+
+exports.Prisma.RiskValuesScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  name: 'name',
+  scale: 'scale',
+  matrixId: 'matrixId'
+};
+
+exports.Prisma.RiskAssesmentScalarFieldEnum = {
+  id: 'id',
+  activity: 'activity',
+  sectionId: 'sectionId',
+  hazard: 'hazard',
+  Mechanism: 'Mechanism',
+  exposedGroup: 'exposedGroup',
+  description: 'description',
+  consequence: 'consequence',
+  exposure: 'exposure',
+  probability: 'probability',
+  riskValue: 'riskValue',
+  riskContolPlan: 'riskContolPlan'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -319,6 +349,12 @@ exports.PlanStatus = exports.$Enums.PlanStatus = {
   Published: 'Published'
 };
 
+exports.RiskProps = exports.$Enums.RiskProps = {
+  Consequence: 'Consequence',
+  Probability: 'Probability',
+  Exposure: 'Exposure'
+};
+
 exports.Prisma.ModelName = {
   InitStatus: 'InitStatus',
   SuperAdmin: 'SuperAdmin',
@@ -338,7 +374,10 @@ exports.Prisma.ModelName = {
   SectionType: 'SectionType',
   Coordinate: 'Coordinate',
   AssetType: 'AssetType',
-  Asset: 'Asset'
+  Asset: 'Asset',
+  RiskMatrix: 'RiskMatrix',
+  RiskValues: 'RiskValues',
+  RiskAssesment: 'RiskAssesment'
 };
 
 /**

@@ -84,48 +84,48 @@ model Permission {
 }
 
 model User {
-  userId       Int       @id @default(autoincrement())
-  username     String    @unique @db.VarChar(100)
-  email        String    @unique @db.VarChar(100)
-  phone        String?   @db.VarChar(20)
-  passwordHash String    @db.VarChar(255)
-  salt         String    @db.VarChar(255)
+  userId       Int         @id @default(autoincrement())
+  username     String      @unique @db.VarChar(100)
+  email        String      @unique @db.VarChar(100)
+  phone        String?     @db.VarChar(20)
+  passwordHash String      @db.VarChar(255)
+  salt         String      @db.VarChar(255)
   userRoleId   Int
-  userRole     Role      @relation(fields: [userRoleId], references: [roleId])
+  userRole     Role        @relation(fields: [userRoleId], references: [roleId])
   positionId   Int?
-  Position     Position? @relation(fields: [positionId], references: [positionId])
-  isActive     Boolean   @default(true)
-  profileImage String?   @db.VarChar(255)
+  Position     Position?   @relation(fields: [positionId], references: [positionId])
+  isActive     Boolean     @default(true)
+  profileImage String?     @db.VarChar(255)
   lastLogin    DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
   createdBy    Int?
-  Creator      User?     @relation("UserCreation", fields: [createdBy], references: [userId])
-  CreatedUsers User[]    @relation("UserCreation")
+  Creator      User?       @relation("UserCreation", fields: [createdBy], references: [userId])
+  CreatedUsers User[]      @relation("UserCreation")
   supervisor   Supervisor?
 }
 
 model Supervisor {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   sectionId Int
-  userId    Int    @unique
-  section   Section   @relation(fields: [sectionId], references: [id])
-  user      User      @relation(fields: [userId], references: [userId])
+  userId    Int     @unique
+  section   Section @relation(fields: [sectionId], references: [id])
+  user      User    @relation(fields: [userId], references: [userId])
 }
 
 model Section {
-  id          Int          @id @default(autoincrement())
-  name        String       @db.VarChar(255)
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
   sectionType Int
   area        Int?
 
-  type        SectionType  @relation(fields: [sectionType], references: [id])
-  assets      Asset[]
-  coordinates Coordinate[]
-  activePlans ActivePlans[]
-  supervisors Supervisor[] 
+  type          SectionType     @relation(fields: [sectionType], references: [id])
+  assets        Asset[]
+  coordinates   Coordinate[]
+  activePlans   ActivePlans[]
+  supervisors   Supervisor[]
+  RiskAssesment RiskAssesment[]
 }
-
 
 model Shift {
   shiftId   Int     @id @default(autoincrement())
@@ -178,22 +178,21 @@ model Planfiles {
 }
 
 model ActivePlans {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   planName  String
   planId    Int
   sectionId Int
-  plan    Plan    @relation(fields: [planId], references: [planId])
-  section Section @relation(fields: [sectionId], references: [id])
+  plan      Plan    @relation(fields: [planId], references: [planId])
+  section   Section @relation(fields: [sectionId], references: [id])
 }
 
 model SectionType {
-  id          Int            @id @default(autoincrement())
-  name        String         @db.VarChar(255)
-  description String         @db.VarChar(255)
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  description String    @db.VarChar(255)
   sections    Section[]
-  color       String         @default("#fffff")
+  color       String    @default("#fffff")
 }
-
 
 model Coordinate {
   id        Int   @id @default(autoincrement())
@@ -224,3 +223,41 @@ model Asset {
   section      Section      @relation(fields: [assetSection], references: [id])
 }
 
+model RiskMatrix {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(255)
+  col        Int
+  row        Int
+  RiskValues RiskValues[]
+}
+
+enum RiskProps {
+  Consequence
+  Probability
+  Exposure
+}
+
+model RiskValues {
+  id       Int        @id @default(autoincrement())
+  type     RiskProps
+  name     String
+  scale    Int
+  matrixId Int
+  matrix   RiskMatrix @relation(fields: [matrixId], references: [id])
+}
+
+model RiskAssesment {
+  id             Int     @id @default(autoincrement())
+  activity       String
+  sectionId      Int
+  section        Section @relation(fields: [sectionId], references: [id])
+  hazard         String
+  Mechanism      String
+  exposedGroup   String
+  description    String
+  consequence    Float
+  exposure       Float
+  probability    Float
+  riskValue      Float
+  riskContolPlan Json
+}

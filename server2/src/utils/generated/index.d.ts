@@ -108,6 +108,21 @@ export type AssetType = $Result.DefaultSelection<Prisma.$AssetTypePayload>
  * 
  */
 export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
+/**
+ * Model RiskMatrix
+ * 
+ */
+export type RiskMatrix = $Result.DefaultSelection<Prisma.$RiskMatrixPayload>
+/**
+ * Model RiskValues
+ * 
+ */
+export type RiskValues = $Result.DefaultSelection<Prisma.$RiskValuesPayload>
+/**
+ * Model RiskAssesment
+ * 
+ */
+export type RiskAssesment = $Result.DefaultSelection<Prisma.$RiskAssesmentPayload>
 
 /**
  * Enums
@@ -121,11 +136,24 @@ export namespace $Enums {
 
 export type PlanStatus = (typeof PlanStatus)[keyof typeof PlanStatus]
 
+
+export const RiskProps: {
+  Consequence: 'Consequence',
+  Probability: 'Probability',
+  Exposure: 'Exposure'
+};
+
+export type RiskProps = (typeof RiskProps)[keyof typeof RiskProps]
+
 }
 
 export type PlanStatus = $Enums.PlanStatus
 
 export const PlanStatus: typeof $Enums.PlanStatus
+
+export type RiskProps = $Enums.RiskProps
+
+export const RiskProps: typeof $Enums.RiskProps
 
 /**
  * ##  Prisma Client ʲˢ
@@ -439,6 +467,36 @@ export class PrismaClient<
     * ```
     */
   get asset(): Prisma.AssetDelegate<ExtArgs>;
+
+  /**
+   * `prisma.riskMatrix`: Exposes CRUD operations for the **RiskMatrix** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RiskMatrices
+    * const riskMatrices = await prisma.riskMatrix.findMany()
+    * ```
+    */
+  get riskMatrix(): Prisma.RiskMatrixDelegate<ExtArgs>;
+
+  /**
+   * `prisma.riskValues`: Exposes CRUD operations for the **RiskValues** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RiskValues
+    * const riskValues = await prisma.riskValues.findMany()
+    * ```
+    */
+  get riskValues(): Prisma.RiskValuesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.riskAssesment`: Exposes CRUD operations for the **RiskAssesment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RiskAssesments
+    * const riskAssesments = await prisma.riskAssesment.findMany()
+    * ```
+    */
+  get riskAssesment(): Prisma.RiskAssesmentDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -898,7 +956,10 @@ export namespace Prisma {
     SectionType: 'SectionType',
     Coordinate: 'Coordinate',
     AssetType: 'AssetType',
-    Asset: 'Asset'
+    Asset: 'Asset',
+    RiskMatrix: 'RiskMatrix',
+    RiskValues: 'RiskValues',
+    RiskAssesment: 'RiskAssesment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -914,7 +975,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "supervisor" | "section" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "coordinate" | "assetType" | "asset"
+      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "supervisor" | "section" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "coordinate" | "assetType" | "asset" | "riskMatrix" | "riskValues" | "riskAssesment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2248,6 +2309,216 @@ export namespace Prisma {
           }
         }
       }
+      RiskMatrix: {
+        payload: Prisma.$RiskMatrixPayload<ExtArgs>
+        fields: Prisma.RiskMatrixFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RiskMatrixFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RiskMatrixFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>
+          }
+          findFirst: {
+            args: Prisma.RiskMatrixFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RiskMatrixFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>
+          }
+          findMany: {
+            args: Prisma.RiskMatrixFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>[]
+          }
+          create: {
+            args: Prisma.RiskMatrixCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>
+          }
+          createMany: {
+            args: Prisma.RiskMatrixCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RiskMatrixCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>[]
+          }
+          delete: {
+            args: Prisma.RiskMatrixDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>
+          }
+          update: {
+            args: Prisma.RiskMatrixUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>
+          }
+          deleteMany: {
+            args: Prisma.RiskMatrixDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RiskMatrixUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RiskMatrixUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskMatrixPayload>
+          }
+          aggregate: {
+            args: Prisma.RiskMatrixAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRiskMatrix>
+          }
+          groupBy: {
+            args: Prisma.RiskMatrixGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RiskMatrixGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RiskMatrixCountArgs<ExtArgs>
+            result: $Utils.Optional<RiskMatrixCountAggregateOutputType> | number
+          }
+        }
+      }
+      RiskValues: {
+        payload: Prisma.$RiskValuesPayload<ExtArgs>
+        fields: Prisma.RiskValuesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RiskValuesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RiskValuesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>
+          }
+          findFirst: {
+            args: Prisma.RiskValuesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RiskValuesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>
+          }
+          findMany: {
+            args: Prisma.RiskValuesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>[]
+          }
+          create: {
+            args: Prisma.RiskValuesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>
+          }
+          createMany: {
+            args: Prisma.RiskValuesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RiskValuesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>[]
+          }
+          delete: {
+            args: Prisma.RiskValuesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>
+          }
+          update: {
+            args: Prisma.RiskValuesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>
+          }
+          deleteMany: {
+            args: Prisma.RiskValuesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RiskValuesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RiskValuesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskValuesPayload>
+          }
+          aggregate: {
+            args: Prisma.RiskValuesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRiskValues>
+          }
+          groupBy: {
+            args: Prisma.RiskValuesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RiskValuesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RiskValuesCountArgs<ExtArgs>
+            result: $Utils.Optional<RiskValuesCountAggregateOutputType> | number
+          }
+        }
+      }
+      RiskAssesment: {
+        payload: Prisma.$RiskAssesmentPayload<ExtArgs>
+        fields: Prisma.RiskAssesmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RiskAssesmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RiskAssesmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>
+          }
+          findFirst: {
+            args: Prisma.RiskAssesmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RiskAssesmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>
+          }
+          findMany: {
+            args: Prisma.RiskAssesmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>[]
+          }
+          create: {
+            args: Prisma.RiskAssesmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>
+          }
+          createMany: {
+            args: Prisma.RiskAssesmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RiskAssesmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>[]
+          }
+          delete: {
+            args: Prisma.RiskAssesmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>
+          }
+          update: {
+            args: Prisma.RiskAssesmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.RiskAssesmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RiskAssesmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RiskAssesmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RiskAssesmentPayload>
+          }
+          aggregate: {
+            args: Prisma.RiskAssesmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRiskAssesment>
+          }
+          groupBy: {
+            args: Prisma.RiskAssesmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RiskAssesmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RiskAssesmentCountArgs<ExtArgs>
+            result: $Utils.Optional<RiskAssesmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2537,6 +2808,7 @@ export namespace Prisma {
     coordinates: number
     activePlans: number
     supervisors: number
+    RiskAssesment: number
   }
 
   export type SectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2544,6 +2816,7 @@ export namespace Prisma {
     coordinates?: boolean | SectionCountOutputTypeCountCoordinatesArgs
     activePlans?: boolean | SectionCountOutputTypeCountActivePlansArgs
     supervisors?: boolean | SectionCountOutputTypeCountSupervisorsArgs
+    RiskAssesment?: boolean | SectionCountOutputTypeCountRiskAssesmentArgs
   }
 
   // Custom InputTypes
@@ -2583,6 +2856,13 @@ export namespace Prisma {
    */
   export type SectionCountOutputTypeCountSupervisorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SupervisorWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountRiskAssesmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RiskAssesmentWhereInput
   }
 
 
@@ -2725,6 +3005,37 @@ export namespace Prisma {
    */
   export type AssetCountOutputTypeCountPlanAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PlanAssetsWhereInput
+  }
+
+
+  /**
+   * Count Type RiskMatrixCountOutputType
+   */
+
+  export type RiskMatrixCountOutputType = {
+    RiskValues: number
+  }
+
+  export type RiskMatrixCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    RiskValues?: boolean | RiskMatrixCountOutputTypeCountRiskValuesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RiskMatrixCountOutputType without action
+   */
+  export type RiskMatrixCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrixCountOutputType
+     */
+    select?: RiskMatrixCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RiskMatrixCountOutputType without action
+   */
+  export type RiskMatrixCountOutputTypeCountRiskValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RiskValuesWhereInput
   }
 
 
@@ -11834,6 +12145,7 @@ export namespace Prisma {
     coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
     activePlans?: boolean | Section$activePlansArgs<ExtArgs>
     supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
+    RiskAssesment?: boolean | Section$RiskAssesmentArgs<ExtArgs>
     _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["section"]>
 
@@ -11858,6 +12170,7 @@ export namespace Prisma {
     coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
     activePlans?: boolean | Section$activePlansArgs<ExtArgs>
     supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
+    RiskAssesment?: boolean | Section$RiskAssesmentArgs<ExtArgs>
     _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11872,6 +12185,7 @@ export namespace Prisma {
       coordinates: Prisma.$CoordinatePayload<ExtArgs>[]
       activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
       supervisors: Prisma.$SupervisorPayload<ExtArgs>[]
+      RiskAssesment: Prisma.$RiskAssesmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -12247,6 +12561,7 @@ export namespace Prisma {
     coordinates<T extends Section$coordinatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$coordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany"> | Null>
     activePlans<T extends Section$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Section$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
     supervisors<T extends Section$supervisorsArgs<ExtArgs> = {}>(args?: Subset<T, Section$supervisorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany"> | Null>
+    RiskAssesment<T extends Section$RiskAssesmentArgs<ExtArgs> = {}>(args?: Subset<T, Section$RiskAssesmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12675,6 +12990,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
+  }
+
+  /**
+   * Section.RiskAssesment
+   */
+  export type Section$RiskAssesmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    where?: RiskAssesmentWhereInput
+    orderBy?: RiskAssesmentOrderByWithRelationInput | RiskAssesmentOrderByWithRelationInput[]
+    cursor?: RiskAssesmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RiskAssesmentScalarFieldEnum | RiskAssesmentScalarFieldEnum[]
   }
 
   /**
@@ -21534,6 +21869,3026 @@ export namespace Prisma {
 
 
   /**
+   * Model RiskMatrix
+   */
+
+  export type AggregateRiskMatrix = {
+    _count: RiskMatrixCountAggregateOutputType | null
+    _avg: RiskMatrixAvgAggregateOutputType | null
+    _sum: RiskMatrixSumAggregateOutputType | null
+    _min: RiskMatrixMinAggregateOutputType | null
+    _max: RiskMatrixMaxAggregateOutputType | null
+  }
+
+  export type RiskMatrixAvgAggregateOutputType = {
+    id: number | null
+    col: number | null
+    row: number | null
+  }
+
+  export type RiskMatrixSumAggregateOutputType = {
+    id: number | null
+    col: number | null
+    row: number | null
+  }
+
+  export type RiskMatrixMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    col: number | null
+    row: number | null
+  }
+
+  export type RiskMatrixMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    col: number | null
+    row: number | null
+  }
+
+  export type RiskMatrixCountAggregateOutputType = {
+    id: number
+    name: number
+    col: number
+    row: number
+    _all: number
+  }
+
+
+  export type RiskMatrixAvgAggregateInputType = {
+    id?: true
+    col?: true
+    row?: true
+  }
+
+  export type RiskMatrixSumAggregateInputType = {
+    id?: true
+    col?: true
+    row?: true
+  }
+
+  export type RiskMatrixMinAggregateInputType = {
+    id?: true
+    name?: true
+    col?: true
+    row?: true
+  }
+
+  export type RiskMatrixMaxAggregateInputType = {
+    id?: true
+    name?: true
+    col?: true
+    row?: true
+  }
+
+  export type RiskMatrixCountAggregateInputType = {
+    id?: true
+    name?: true
+    col?: true
+    row?: true
+    _all?: true
+  }
+
+  export type RiskMatrixAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RiskMatrix to aggregate.
+     */
+    where?: RiskMatrixWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskMatrices to fetch.
+     */
+    orderBy?: RiskMatrixOrderByWithRelationInput | RiskMatrixOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RiskMatrixWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskMatrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskMatrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RiskMatrices
+    **/
+    _count?: true | RiskMatrixCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RiskMatrixAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RiskMatrixSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RiskMatrixMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RiskMatrixMaxAggregateInputType
+  }
+
+  export type GetRiskMatrixAggregateType<T extends RiskMatrixAggregateArgs> = {
+        [P in keyof T & keyof AggregateRiskMatrix]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRiskMatrix[P]>
+      : GetScalarType<T[P], AggregateRiskMatrix[P]>
+  }
+
+
+
+
+  export type RiskMatrixGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RiskMatrixWhereInput
+    orderBy?: RiskMatrixOrderByWithAggregationInput | RiskMatrixOrderByWithAggregationInput[]
+    by: RiskMatrixScalarFieldEnum[] | RiskMatrixScalarFieldEnum
+    having?: RiskMatrixScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RiskMatrixCountAggregateInputType | true
+    _avg?: RiskMatrixAvgAggregateInputType
+    _sum?: RiskMatrixSumAggregateInputType
+    _min?: RiskMatrixMinAggregateInputType
+    _max?: RiskMatrixMaxAggregateInputType
+  }
+
+  export type RiskMatrixGroupByOutputType = {
+    id: number
+    name: string
+    col: number
+    row: number
+    _count: RiskMatrixCountAggregateOutputType | null
+    _avg: RiskMatrixAvgAggregateOutputType | null
+    _sum: RiskMatrixSumAggregateOutputType | null
+    _min: RiskMatrixMinAggregateOutputType | null
+    _max: RiskMatrixMaxAggregateOutputType | null
+  }
+
+  type GetRiskMatrixGroupByPayload<T extends RiskMatrixGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RiskMatrixGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RiskMatrixGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RiskMatrixGroupByOutputType[P]>
+            : GetScalarType<T[P], RiskMatrixGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RiskMatrixSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    col?: boolean
+    row?: boolean
+    RiskValues?: boolean | RiskMatrix$RiskValuesArgs<ExtArgs>
+    _count?: boolean | RiskMatrixCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["riskMatrix"]>
+
+  export type RiskMatrixSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    col?: boolean
+    row?: boolean
+  }, ExtArgs["result"]["riskMatrix"]>
+
+  export type RiskMatrixSelectScalar = {
+    id?: boolean
+    name?: boolean
+    col?: boolean
+    row?: boolean
+  }
+
+  export type RiskMatrixInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    RiskValues?: boolean | RiskMatrix$RiskValuesArgs<ExtArgs>
+    _count?: boolean | RiskMatrixCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RiskMatrixIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $RiskMatrixPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RiskMatrix"
+    objects: {
+      RiskValues: Prisma.$RiskValuesPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      col: number
+      row: number
+    }, ExtArgs["result"]["riskMatrix"]>
+    composites: {}
+  }
+
+  type RiskMatrixGetPayload<S extends boolean | null | undefined | RiskMatrixDefaultArgs> = $Result.GetResult<Prisma.$RiskMatrixPayload, S>
+
+  type RiskMatrixCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RiskMatrixFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RiskMatrixCountAggregateInputType | true
+    }
+
+  export interface RiskMatrixDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiskMatrix'], meta: { name: 'RiskMatrix' } }
+    /**
+     * Find zero or one RiskMatrix that matches the filter.
+     * @param {RiskMatrixFindUniqueArgs} args - Arguments to find a RiskMatrix
+     * @example
+     * // Get one RiskMatrix
+     * const riskMatrix = await prisma.riskMatrix.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RiskMatrixFindUniqueArgs>(args: SelectSubset<T, RiskMatrixFindUniqueArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RiskMatrix that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RiskMatrixFindUniqueOrThrowArgs} args - Arguments to find a RiskMatrix
+     * @example
+     * // Get one RiskMatrix
+     * const riskMatrix = await prisma.riskMatrix.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RiskMatrixFindUniqueOrThrowArgs>(args: SelectSubset<T, RiskMatrixFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RiskMatrix that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixFindFirstArgs} args - Arguments to find a RiskMatrix
+     * @example
+     * // Get one RiskMatrix
+     * const riskMatrix = await prisma.riskMatrix.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RiskMatrixFindFirstArgs>(args?: SelectSubset<T, RiskMatrixFindFirstArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RiskMatrix that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixFindFirstOrThrowArgs} args - Arguments to find a RiskMatrix
+     * @example
+     * // Get one RiskMatrix
+     * const riskMatrix = await prisma.riskMatrix.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RiskMatrixFindFirstOrThrowArgs>(args?: SelectSubset<T, RiskMatrixFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RiskMatrices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RiskMatrices
+     * const riskMatrices = await prisma.riskMatrix.findMany()
+     * 
+     * // Get first 10 RiskMatrices
+     * const riskMatrices = await prisma.riskMatrix.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const riskMatrixWithIdOnly = await prisma.riskMatrix.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RiskMatrixFindManyArgs>(args?: SelectSubset<T, RiskMatrixFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RiskMatrix.
+     * @param {RiskMatrixCreateArgs} args - Arguments to create a RiskMatrix.
+     * @example
+     * // Create one RiskMatrix
+     * const RiskMatrix = await prisma.riskMatrix.create({
+     *   data: {
+     *     // ... data to create a RiskMatrix
+     *   }
+     * })
+     * 
+     */
+    create<T extends RiskMatrixCreateArgs>(args: SelectSubset<T, RiskMatrixCreateArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RiskMatrices.
+     * @param {RiskMatrixCreateManyArgs} args - Arguments to create many RiskMatrices.
+     * @example
+     * // Create many RiskMatrices
+     * const riskMatrix = await prisma.riskMatrix.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RiskMatrixCreateManyArgs>(args?: SelectSubset<T, RiskMatrixCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RiskMatrices and returns the data saved in the database.
+     * @param {RiskMatrixCreateManyAndReturnArgs} args - Arguments to create many RiskMatrices.
+     * @example
+     * // Create many RiskMatrices
+     * const riskMatrix = await prisma.riskMatrix.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RiskMatrices and only return the `id`
+     * const riskMatrixWithIdOnly = await prisma.riskMatrix.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RiskMatrixCreateManyAndReturnArgs>(args?: SelectSubset<T, RiskMatrixCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RiskMatrix.
+     * @param {RiskMatrixDeleteArgs} args - Arguments to delete one RiskMatrix.
+     * @example
+     * // Delete one RiskMatrix
+     * const RiskMatrix = await prisma.riskMatrix.delete({
+     *   where: {
+     *     // ... filter to delete one RiskMatrix
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RiskMatrixDeleteArgs>(args: SelectSubset<T, RiskMatrixDeleteArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RiskMatrix.
+     * @param {RiskMatrixUpdateArgs} args - Arguments to update one RiskMatrix.
+     * @example
+     * // Update one RiskMatrix
+     * const riskMatrix = await prisma.riskMatrix.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RiskMatrixUpdateArgs>(args: SelectSubset<T, RiskMatrixUpdateArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RiskMatrices.
+     * @param {RiskMatrixDeleteManyArgs} args - Arguments to filter RiskMatrices to delete.
+     * @example
+     * // Delete a few RiskMatrices
+     * const { count } = await prisma.riskMatrix.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RiskMatrixDeleteManyArgs>(args?: SelectSubset<T, RiskMatrixDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RiskMatrices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RiskMatrices
+     * const riskMatrix = await prisma.riskMatrix.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RiskMatrixUpdateManyArgs>(args: SelectSubset<T, RiskMatrixUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RiskMatrix.
+     * @param {RiskMatrixUpsertArgs} args - Arguments to update or create a RiskMatrix.
+     * @example
+     * // Update or create a RiskMatrix
+     * const riskMatrix = await prisma.riskMatrix.upsert({
+     *   create: {
+     *     // ... data to create a RiskMatrix
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RiskMatrix we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RiskMatrixUpsertArgs>(args: SelectSubset<T, RiskMatrixUpsertArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RiskMatrices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixCountArgs} args - Arguments to filter RiskMatrices to count.
+     * @example
+     * // Count the number of RiskMatrices
+     * const count = await prisma.riskMatrix.count({
+     *   where: {
+     *     // ... the filter for the RiskMatrices we want to count
+     *   }
+     * })
+    **/
+    count<T extends RiskMatrixCountArgs>(
+      args?: Subset<T, RiskMatrixCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RiskMatrixCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RiskMatrix.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RiskMatrixAggregateArgs>(args: Subset<T, RiskMatrixAggregateArgs>): Prisma.PrismaPromise<GetRiskMatrixAggregateType<T>>
+
+    /**
+     * Group by RiskMatrix.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskMatrixGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RiskMatrixGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RiskMatrixGroupByArgs['orderBy'] }
+        : { orderBy?: RiskMatrixGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RiskMatrixGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiskMatrixGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RiskMatrix model
+   */
+  readonly fields: RiskMatrixFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RiskMatrix.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RiskMatrixClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    RiskValues<T extends RiskMatrix$RiskValuesArgs<ExtArgs> = {}>(args?: Subset<T, RiskMatrix$RiskValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RiskMatrix model
+   */ 
+  interface RiskMatrixFieldRefs {
+    readonly id: FieldRef<"RiskMatrix", 'Int'>
+    readonly name: FieldRef<"RiskMatrix", 'String'>
+    readonly col: FieldRef<"RiskMatrix", 'Int'>
+    readonly row: FieldRef<"RiskMatrix", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RiskMatrix findUnique
+   */
+  export type RiskMatrixFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskMatrix to fetch.
+     */
+    where: RiskMatrixWhereUniqueInput
+  }
+
+  /**
+   * RiskMatrix findUniqueOrThrow
+   */
+  export type RiskMatrixFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskMatrix to fetch.
+     */
+    where: RiskMatrixWhereUniqueInput
+  }
+
+  /**
+   * RiskMatrix findFirst
+   */
+  export type RiskMatrixFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskMatrix to fetch.
+     */
+    where?: RiskMatrixWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskMatrices to fetch.
+     */
+    orderBy?: RiskMatrixOrderByWithRelationInput | RiskMatrixOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RiskMatrices.
+     */
+    cursor?: RiskMatrixWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskMatrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskMatrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RiskMatrices.
+     */
+    distinct?: RiskMatrixScalarFieldEnum | RiskMatrixScalarFieldEnum[]
+  }
+
+  /**
+   * RiskMatrix findFirstOrThrow
+   */
+  export type RiskMatrixFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskMatrix to fetch.
+     */
+    where?: RiskMatrixWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskMatrices to fetch.
+     */
+    orderBy?: RiskMatrixOrderByWithRelationInput | RiskMatrixOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RiskMatrices.
+     */
+    cursor?: RiskMatrixWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskMatrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskMatrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RiskMatrices.
+     */
+    distinct?: RiskMatrixScalarFieldEnum | RiskMatrixScalarFieldEnum[]
+  }
+
+  /**
+   * RiskMatrix findMany
+   */
+  export type RiskMatrixFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskMatrices to fetch.
+     */
+    where?: RiskMatrixWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskMatrices to fetch.
+     */
+    orderBy?: RiskMatrixOrderByWithRelationInput | RiskMatrixOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RiskMatrices.
+     */
+    cursor?: RiskMatrixWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskMatrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskMatrices.
+     */
+    skip?: number
+    distinct?: RiskMatrixScalarFieldEnum | RiskMatrixScalarFieldEnum[]
+  }
+
+  /**
+   * RiskMatrix create
+   */
+  export type RiskMatrixCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RiskMatrix.
+     */
+    data: XOR<RiskMatrixCreateInput, RiskMatrixUncheckedCreateInput>
+  }
+
+  /**
+   * RiskMatrix createMany
+   */
+  export type RiskMatrixCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RiskMatrices.
+     */
+    data: RiskMatrixCreateManyInput | RiskMatrixCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RiskMatrix createManyAndReturn
+   */
+  export type RiskMatrixCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RiskMatrices.
+     */
+    data: RiskMatrixCreateManyInput | RiskMatrixCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RiskMatrix update
+   */
+  export type RiskMatrixUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RiskMatrix.
+     */
+    data: XOR<RiskMatrixUpdateInput, RiskMatrixUncheckedUpdateInput>
+    /**
+     * Choose, which RiskMatrix to update.
+     */
+    where: RiskMatrixWhereUniqueInput
+  }
+
+  /**
+   * RiskMatrix updateMany
+   */
+  export type RiskMatrixUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RiskMatrices.
+     */
+    data: XOR<RiskMatrixUpdateManyMutationInput, RiskMatrixUncheckedUpdateManyInput>
+    /**
+     * Filter which RiskMatrices to update
+     */
+    where?: RiskMatrixWhereInput
+  }
+
+  /**
+   * RiskMatrix upsert
+   */
+  export type RiskMatrixUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RiskMatrix to update in case it exists.
+     */
+    where: RiskMatrixWhereUniqueInput
+    /**
+     * In case the RiskMatrix found by the `where` argument doesn't exist, create a new RiskMatrix with this data.
+     */
+    create: XOR<RiskMatrixCreateInput, RiskMatrixUncheckedCreateInput>
+    /**
+     * In case the RiskMatrix was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RiskMatrixUpdateInput, RiskMatrixUncheckedUpdateInput>
+  }
+
+  /**
+   * RiskMatrix delete
+   */
+  export type RiskMatrixDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+    /**
+     * Filter which RiskMatrix to delete.
+     */
+    where: RiskMatrixWhereUniqueInput
+  }
+
+  /**
+   * RiskMatrix deleteMany
+   */
+  export type RiskMatrixDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RiskMatrices to delete
+     */
+    where?: RiskMatrixWhereInput
+  }
+
+  /**
+   * RiskMatrix.RiskValues
+   */
+  export type RiskMatrix$RiskValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    where?: RiskValuesWhereInput
+    orderBy?: RiskValuesOrderByWithRelationInput | RiskValuesOrderByWithRelationInput[]
+    cursor?: RiskValuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RiskValuesScalarFieldEnum | RiskValuesScalarFieldEnum[]
+  }
+
+  /**
+   * RiskMatrix without action
+   */
+  export type RiskMatrixDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskMatrix
+     */
+    select?: RiskMatrixSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskMatrixInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RiskValues
+   */
+
+  export type AggregateRiskValues = {
+    _count: RiskValuesCountAggregateOutputType | null
+    _avg: RiskValuesAvgAggregateOutputType | null
+    _sum: RiskValuesSumAggregateOutputType | null
+    _min: RiskValuesMinAggregateOutputType | null
+    _max: RiskValuesMaxAggregateOutputType | null
+  }
+
+  export type RiskValuesAvgAggregateOutputType = {
+    id: number | null
+    scale: number | null
+    matrixId: number | null
+  }
+
+  export type RiskValuesSumAggregateOutputType = {
+    id: number | null
+    scale: number | null
+    matrixId: number | null
+  }
+
+  export type RiskValuesMinAggregateOutputType = {
+    id: number | null
+    type: $Enums.RiskProps | null
+    name: string | null
+    scale: number | null
+    matrixId: number | null
+  }
+
+  export type RiskValuesMaxAggregateOutputType = {
+    id: number | null
+    type: $Enums.RiskProps | null
+    name: string | null
+    scale: number | null
+    matrixId: number | null
+  }
+
+  export type RiskValuesCountAggregateOutputType = {
+    id: number
+    type: number
+    name: number
+    scale: number
+    matrixId: number
+    _all: number
+  }
+
+
+  export type RiskValuesAvgAggregateInputType = {
+    id?: true
+    scale?: true
+    matrixId?: true
+  }
+
+  export type RiskValuesSumAggregateInputType = {
+    id?: true
+    scale?: true
+    matrixId?: true
+  }
+
+  export type RiskValuesMinAggregateInputType = {
+    id?: true
+    type?: true
+    name?: true
+    scale?: true
+    matrixId?: true
+  }
+
+  export type RiskValuesMaxAggregateInputType = {
+    id?: true
+    type?: true
+    name?: true
+    scale?: true
+    matrixId?: true
+  }
+
+  export type RiskValuesCountAggregateInputType = {
+    id?: true
+    type?: true
+    name?: true
+    scale?: true
+    matrixId?: true
+    _all?: true
+  }
+
+  export type RiskValuesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RiskValues to aggregate.
+     */
+    where?: RiskValuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskValues to fetch.
+     */
+    orderBy?: RiskValuesOrderByWithRelationInput | RiskValuesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RiskValuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RiskValues
+    **/
+    _count?: true | RiskValuesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RiskValuesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RiskValuesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RiskValuesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RiskValuesMaxAggregateInputType
+  }
+
+  export type GetRiskValuesAggregateType<T extends RiskValuesAggregateArgs> = {
+        [P in keyof T & keyof AggregateRiskValues]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRiskValues[P]>
+      : GetScalarType<T[P], AggregateRiskValues[P]>
+  }
+
+
+
+
+  export type RiskValuesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RiskValuesWhereInput
+    orderBy?: RiskValuesOrderByWithAggregationInput | RiskValuesOrderByWithAggregationInput[]
+    by: RiskValuesScalarFieldEnum[] | RiskValuesScalarFieldEnum
+    having?: RiskValuesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RiskValuesCountAggregateInputType | true
+    _avg?: RiskValuesAvgAggregateInputType
+    _sum?: RiskValuesSumAggregateInputType
+    _min?: RiskValuesMinAggregateInputType
+    _max?: RiskValuesMaxAggregateInputType
+  }
+
+  export type RiskValuesGroupByOutputType = {
+    id: number
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+    matrixId: number
+    _count: RiskValuesCountAggregateOutputType | null
+    _avg: RiskValuesAvgAggregateOutputType | null
+    _sum: RiskValuesSumAggregateOutputType | null
+    _min: RiskValuesMinAggregateOutputType | null
+    _max: RiskValuesMaxAggregateOutputType | null
+  }
+
+  type GetRiskValuesGroupByPayload<T extends RiskValuesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RiskValuesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RiskValuesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RiskValuesGroupByOutputType[P]>
+            : GetScalarType<T[P], RiskValuesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RiskValuesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    name?: boolean
+    scale?: boolean
+    matrixId?: boolean
+    matrix?: boolean | RiskMatrixDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["riskValues"]>
+
+  export type RiskValuesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    name?: boolean
+    scale?: boolean
+    matrixId?: boolean
+    matrix?: boolean | RiskMatrixDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["riskValues"]>
+
+  export type RiskValuesSelectScalar = {
+    id?: boolean
+    type?: boolean
+    name?: boolean
+    scale?: boolean
+    matrixId?: boolean
+  }
+
+  export type RiskValuesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    matrix?: boolean | RiskMatrixDefaultArgs<ExtArgs>
+  }
+  export type RiskValuesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    matrix?: boolean | RiskMatrixDefaultArgs<ExtArgs>
+  }
+
+  export type $RiskValuesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RiskValues"
+    objects: {
+      matrix: Prisma.$RiskMatrixPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      type: $Enums.RiskProps
+      name: string
+      scale: number
+      matrixId: number
+    }, ExtArgs["result"]["riskValues"]>
+    composites: {}
+  }
+
+  type RiskValuesGetPayload<S extends boolean | null | undefined | RiskValuesDefaultArgs> = $Result.GetResult<Prisma.$RiskValuesPayload, S>
+
+  type RiskValuesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RiskValuesFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RiskValuesCountAggregateInputType | true
+    }
+
+  export interface RiskValuesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiskValues'], meta: { name: 'RiskValues' } }
+    /**
+     * Find zero or one RiskValues that matches the filter.
+     * @param {RiskValuesFindUniqueArgs} args - Arguments to find a RiskValues
+     * @example
+     * // Get one RiskValues
+     * const riskValues = await prisma.riskValues.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RiskValuesFindUniqueArgs>(args: SelectSubset<T, RiskValuesFindUniqueArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RiskValues that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RiskValuesFindUniqueOrThrowArgs} args - Arguments to find a RiskValues
+     * @example
+     * // Get one RiskValues
+     * const riskValues = await prisma.riskValues.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RiskValuesFindUniqueOrThrowArgs>(args: SelectSubset<T, RiskValuesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RiskValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesFindFirstArgs} args - Arguments to find a RiskValues
+     * @example
+     * // Get one RiskValues
+     * const riskValues = await prisma.riskValues.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RiskValuesFindFirstArgs>(args?: SelectSubset<T, RiskValuesFindFirstArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RiskValues that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesFindFirstOrThrowArgs} args - Arguments to find a RiskValues
+     * @example
+     * // Get one RiskValues
+     * const riskValues = await prisma.riskValues.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RiskValuesFindFirstOrThrowArgs>(args?: SelectSubset<T, RiskValuesFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RiskValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RiskValues
+     * const riskValues = await prisma.riskValues.findMany()
+     * 
+     * // Get first 10 RiskValues
+     * const riskValues = await prisma.riskValues.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const riskValuesWithIdOnly = await prisma.riskValues.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RiskValuesFindManyArgs>(args?: SelectSubset<T, RiskValuesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RiskValues.
+     * @param {RiskValuesCreateArgs} args - Arguments to create a RiskValues.
+     * @example
+     * // Create one RiskValues
+     * const RiskValues = await prisma.riskValues.create({
+     *   data: {
+     *     // ... data to create a RiskValues
+     *   }
+     * })
+     * 
+     */
+    create<T extends RiskValuesCreateArgs>(args: SelectSubset<T, RiskValuesCreateArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RiskValues.
+     * @param {RiskValuesCreateManyArgs} args - Arguments to create many RiskValues.
+     * @example
+     * // Create many RiskValues
+     * const riskValues = await prisma.riskValues.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RiskValuesCreateManyArgs>(args?: SelectSubset<T, RiskValuesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RiskValues and returns the data saved in the database.
+     * @param {RiskValuesCreateManyAndReturnArgs} args - Arguments to create many RiskValues.
+     * @example
+     * // Create many RiskValues
+     * const riskValues = await prisma.riskValues.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RiskValues and only return the `id`
+     * const riskValuesWithIdOnly = await prisma.riskValues.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RiskValuesCreateManyAndReturnArgs>(args?: SelectSubset<T, RiskValuesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RiskValues.
+     * @param {RiskValuesDeleteArgs} args - Arguments to delete one RiskValues.
+     * @example
+     * // Delete one RiskValues
+     * const RiskValues = await prisma.riskValues.delete({
+     *   where: {
+     *     // ... filter to delete one RiskValues
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RiskValuesDeleteArgs>(args: SelectSubset<T, RiskValuesDeleteArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RiskValues.
+     * @param {RiskValuesUpdateArgs} args - Arguments to update one RiskValues.
+     * @example
+     * // Update one RiskValues
+     * const riskValues = await prisma.riskValues.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RiskValuesUpdateArgs>(args: SelectSubset<T, RiskValuesUpdateArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RiskValues.
+     * @param {RiskValuesDeleteManyArgs} args - Arguments to filter RiskValues to delete.
+     * @example
+     * // Delete a few RiskValues
+     * const { count } = await prisma.riskValues.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RiskValuesDeleteManyArgs>(args?: SelectSubset<T, RiskValuesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RiskValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RiskValues
+     * const riskValues = await prisma.riskValues.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RiskValuesUpdateManyArgs>(args: SelectSubset<T, RiskValuesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RiskValues.
+     * @param {RiskValuesUpsertArgs} args - Arguments to update or create a RiskValues.
+     * @example
+     * // Update or create a RiskValues
+     * const riskValues = await prisma.riskValues.upsert({
+     *   create: {
+     *     // ... data to create a RiskValues
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RiskValues we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RiskValuesUpsertArgs>(args: SelectSubset<T, RiskValuesUpsertArgs<ExtArgs>>): Prisma__RiskValuesClient<$Result.GetResult<Prisma.$RiskValuesPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RiskValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesCountArgs} args - Arguments to filter RiskValues to count.
+     * @example
+     * // Count the number of RiskValues
+     * const count = await prisma.riskValues.count({
+     *   where: {
+     *     // ... the filter for the RiskValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends RiskValuesCountArgs>(
+      args?: Subset<T, RiskValuesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RiskValuesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RiskValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RiskValuesAggregateArgs>(args: Subset<T, RiskValuesAggregateArgs>): Prisma.PrismaPromise<GetRiskValuesAggregateType<T>>
+
+    /**
+     * Group by RiskValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskValuesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RiskValuesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RiskValuesGroupByArgs['orderBy'] }
+        : { orderBy?: RiskValuesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RiskValuesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiskValuesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RiskValues model
+   */
+  readonly fields: RiskValuesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RiskValues.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RiskValuesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    matrix<T extends RiskMatrixDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RiskMatrixDefaultArgs<ExtArgs>>): Prisma__RiskMatrixClient<$Result.GetResult<Prisma.$RiskMatrixPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RiskValues model
+   */ 
+  interface RiskValuesFieldRefs {
+    readonly id: FieldRef<"RiskValues", 'Int'>
+    readonly type: FieldRef<"RiskValues", 'RiskProps'>
+    readonly name: FieldRef<"RiskValues", 'String'>
+    readonly scale: FieldRef<"RiskValues", 'Int'>
+    readonly matrixId: FieldRef<"RiskValues", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RiskValues findUnique
+   */
+  export type RiskValuesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskValues to fetch.
+     */
+    where: RiskValuesWhereUniqueInput
+  }
+
+  /**
+   * RiskValues findUniqueOrThrow
+   */
+  export type RiskValuesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskValues to fetch.
+     */
+    where: RiskValuesWhereUniqueInput
+  }
+
+  /**
+   * RiskValues findFirst
+   */
+  export type RiskValuesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskValues to fetch.
+     */
+    where?: RiskValuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskValues to fetch.
+     */
+    orderBy?: RiskValuesOrderByWithRelationInput | RiskValuesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RiskValues.
+     */
+    cursor?: RiskValuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RiskValues.
+     */
+    distinct?: RiskValuesScalarFieldEnum | RiskValuesScalarFieldEnum[]
+  }
+
+  /**
+   * RiskValues findFirstOrThrow
+   */
+  export type RiskValuesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskValues to fetch.
+     */
+    where?: RiskValuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskValues to fetch.
+     */
+    orderBy?: RiskValuesOrderByWithRelationInput | RiskValuesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RiskValues.
+     */
+    cursor?: RiskValuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RiskValues.
+     */
+    distinct?: RiskValuesScalarFieldEnum | RiskValuesScalarFieldEnum[]
+  }
+
+  /**
+   * RiskValues findMany
+   */
+  export type RiskValuesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskValues to fetch.
+     */
+    where?: RiskValuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskValues to fetch.
+     */
+    orderBy?: RiskValuesOrderByWithRelationInput | RiskValuesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RiskValues.
+     */
+    cursor?: RiskValuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskValues.
+     */
+    skip?: number
+    distinct?: RiskValuesScalarFieldEnum | RiskValuesScalarFieldEnum[]
+  }
+
+  /**
+   * RiskValues create
+   */
+  export type RiskValuesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RiskValues.
+     */
+    data: XOR<RiskValuesCreateInput, RiskValuesUncheckedCreateInput>
+  }
+
+  /**
+   * RiskValues createMany
+   */
+  export type RiskValuesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RiskValues.
+     */
+    data: RiskValuesCreateManyInput | RiskValuesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RiskValues createManyAndReturn
+   */
+  export type RiskValuesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RiskValues.
+     */
+    data: RiskValuesCreateManyInput | RiskValuesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RiskValues update
+   */
+  export type RiskValuesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RiskValues.
+     */
+    data: XOR<RiskValuesUpdateInput, RiskValuesUncheckedUpdateInput>
+    /**
+     * Choose, which RiskValues to update.
+     */
+    where: RiskValuesWhereUniqueInput
+  }
+
+  /**
+   * RiskValues updateMany
+   */
+  export type RiskValuesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RiskValues.
+     */
+    data: XOR<RiskValuesUpdateManyMutationInput, RiskValuesUncheckedUpdateManyInput>
+    /**
+     * Filter which RiskValues to update
+     */
+    where?: RiskValuesWhereInput
+  }
+
+  /**
+   * RiskValues upsert
+   */
+  export type RiskValuesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RiskValues to update in case it exists.
+     */
+    where: RiskValuesWhereUniqueInput
+    /**
+     * In case the RiskValues found by the `where` argument doesn't exist, create a new RiskValues with this data.
+     */
+    create: XOR<RiskValuesCreateInput, RiskValuesUncheckedCreateInput>
+    /**
+     * In case the RiskValues was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RiskValuesUpdateInput, RiskValuesUncheckedUpdateInput>
+  }
+
+  /**
+   * RiskValues delete
+   */
+  export type RiskValuesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+    /**
+     * Filter which RiskValues to delete.
+     */
+    where: RiskValuesWhereUniqueInput
+  }
+
+  /**
+   * RiskValues deleteMany
+   */
+  export type RiskValuesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RiskValues to delete
+     */
+    where?: RiskValuesWhereInput
+  }
+
+  /**
+   * RiskValues without action
+   */
+  export type RiskValuesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskValues
+     */
+    select?: RiskValuesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskValuesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RiskAssesment
+   */
+
+  export type AggregateRiskAssesment = {
+    _count: RiskAssesmentCountAggregateOutputType | null
+    _avg: RiskAssesmentAvgAggregateOutputType | null
+    _sum: RiskAssesmentSumAggregateOutputType | null
+    _min: RiskAssesmentMinAggregateOutputType | null
+    _max: RiskAssesmentMaxAggregateOutputType | null
+  }
+
+  export type RiskAssesmentAvgAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    consequence: number | null
+    exposure: number | null
+    probability: number | null
+    riskValue: number | null
+  }
+
+  export type RiskAssesmentSumAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    consequence: number | null
+    exposure: number | null
+    probability: number | null
+    riskValue: number | null
+  }
+
+  export type RiskAssesmentMinAggregateOutputType = {
+    id: number | null
+    activity: string | null
+    sectionId: number | null
+    hazard: string | null
+    Mechanism: string | null
+    exposedGroup: string | null
+    description: string | null
+    consequence: number | null
+    exposure: number | null
+    probability: number | null
+    riskValue: number | null
+  }
+
+  export type RiskAssesmentMaxAggregateOutputType = {
+    id: number | null
+    activity: string | null
+    sectionId: number | null
+    hazard: string | null
+    Mechanism: string | null
+    exposedGroup: string | null
+    description: string | null
+    consequence: number | null
+    exposure: number | null
+    probability: number | null
+    riskValue: number | null
+  }
+
+  export type RiskAssesmentCountAggregateOutputType = {
+    id: number
+    activity: number
+    sectionId: number
+    hazard: number
+    Mechanism: number
+    exposedGroup: number
+    description: number
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: number
+    _all: number
+  }
+
+
+  export type RiskAssesmentAvgAggregateInputType = {
+    id?: true
+    sectionId?: true
+    consequence?: true
+    exposure?: true
+    probability?: true
+    riskValue?: true
+  }
+
+  export type RiskAssesmentSumAggregateInputType = {
+    id?: true
+    sectionId?: true
+    consequence?: true
+    exposure?: true
+    probability?: true
+    riskValue?: true
+  }
+
+  export type RiskAssesmentMinAggregateInputType = {
+    id?: true
+    activity?: true
+    sectionId?: true
+    hazard?: true
+    Mechanism?: true
+    exposedGroup?: true
+    description?: true
+    consequence?: true
+    exposure?: true
+    probability?: true
+    riskValue?: true
+  }
+
+  export type RiskAssesmentMaxAggregateInputType = {
+    id?: true
+    activity?: true
+    sectionId?: true
+    hazard?: true
+    Mechanism?: true
+    exposedGroup?: true
+    description?: true
+    consequence?: true
+    exposure?: true
+    probability?: true
+    riskValue?: true
+  }
+
+  export type RiskAssesmentCountAggregateInputType = {
+    id?: true
+    activity?: true
+    sectionId?: true
+    hazard?: true
+    Mechanism?: true
+    exposedGroup?: true
+    description?: true
+    consequence?: true
+    exposure?: true
+    probability?: true
+    riskValue?: true
+    riskContolPlan?: true
+    _all?: true
+  }
+
+  export type RiskAssesmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RiskAssesment to aggregate.
+     */
+    where?: RiskAssesmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskAssesments to fetch.
+     */
+    orderBy?: RiskAssesmentOrderByWithRelationInput | RiskAssesmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RiskAssesmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskAssesments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskAssesments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RiskAssesments
+    **/
+    _count?: true | RiskAssesmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RiskAssesmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RiskAssesmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RiskAssesmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RiskAssesmentMaxAggregateInputType
+  }
+
+  export type GetRiskAssesmentAggregateType<T extends RiskAssesmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateRiskAssesment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRiskAssesment[P]>
+      : GetScalarType<T[P], AggregateRiskAssesment[P]>
+  }
+
+
+
+
+  export type RiskAssesmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RiskAssesmentWhereInput
+    orderBy?: RiskAssesmentOrderByWithAggregationInput | RiskAssesmentOrderByWithAggregationInput[]
+    by: RiskAssesmentScalarFieldEnum[] | RiskAssesmentScalarFieldEnum
+    having?: RiskAssesmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RiskAssesmentCountAggregateInputType | true
+    _avg?: RiskAssesmentAvgAggregateInputType
+    _sum?: RiskAssesmentSumAggregateInputType
+    _min?: RiskAssesmentMinAggregateInputType
+    _max?: RiskAssesmentMaxAggregateInputType
+  }
+
+  export type RiskAssesmentGroupByOutputType = {
+    id: number
+    activity: string
+    sectionId: number
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonValue
+    _count: RiskAssesmentCountAggregateOutputType | null
+    _avg: RiskAssesmentAvgAggregateOutputType | null
+    _sum: RiskAssesmentSumAggregateOutputType | null
+    _min: RiskAssesmentMinAggregateOutputType | null
+    _max: RiskAssesmentMaxAggregateOutputType | null
+  }
+
+  type GetRiskAssesmentGroupByPayload<T extends RiskAssesmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RiskAssesmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RiskAssesmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RiskAssesmentGroupByOutputType[P]>
+            : GetScalarType<T[P], RiskAssesmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RiskAssesmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    activity?: boolean
+    sectionId?: boolean
+    hazard?: boolean
+    Mechanism?: boolean
+    exposedGroup?: boolean
+    description?: boolean
+    consequence?: boolean
+    exposure?: boolean
+    probability?: boolean
+    riskValue?: boolean
+    riskContolPlan?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["riskAssesment"]>
+
+  export type RiskAssesmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    activity?: boolean
+    sectionId?: boolean
+    hazard?: boolean
+    Mechanism?: boolean
+    exposedGroup?: boolean
+    description?: boolean
+    consequence?: boolean
+    exposure?: boolean
+    probability?: boolean
+    riskValue?: boolean
+    riskContolPlan?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["riskAssesment"]>
+
+  export type RiskAssesmentSelectScalar = {
+    id?: boolean
+    activity?: boolean
+    sectionId?: boolean
+    hazard?: boolean
+    Mechanism?: boolean
+    exposedGroup?: boolean
+    description?: boolean
+    consequence?: boolean
+    exposure?: boolean
+    probability?: boolean
+    riskValue?: boolean
+    riskContolPlan?: boolean
+  }
+
+  export type RiskAssesmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+  export type RiskAssesmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+
+  export type $RiskAssesmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RiskAssesment"
+    objects: {
+      section: Prisma.$SectionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      activity: string
+      sectionId: number
+      hazard: string
+      Mechanism: string
+      exposedGroup: string
+      description: string
+      consequence: number
+      exposure: number
+      probability: number
+      riskValue: number
+      riskContolPlan: Prisma.JsonValue
+    }, ExtArgs["result"]["riskAssesment"]>
+    composites: {}
+  }
+
+  type RiskAssesmentGetPayload<S extends boolean | null | undefined | RiskAssesmentDefaultArgs> = $Result.GetResult<Prisma.$RiskAssesmentPayload, S>
+
+  type RiskAssesmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RiskAssesmentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RiskAssesmentCountAggregateInputType | true
+    }
+
+  export interface RiskAssesmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RiskAssesment'], meta: { name: 'RiskAssesment' } }
+    /**
+     * Find zero or one RiskAssesment that matches the filter.
+     * @param {RiskAssesmentFindUniqueArgs} args - Arguments to find a RiskAssesment
+     * @example
+     * // Get one RiskAssesment
+     * const riskAssesment = await prisma.riskAssesment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RiskAssesmentFindUniqueArgs>(args: SelectSubset<T, RiskAssesmentFindUniqueArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RiskAssesment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RiskAssesmentFindUniqueOrThrowArgs} args - Arguments to find a RiskAssesment
+     * @example
+     * // Get one RiskAssesment
+     * const riskAssesment = await prisma.riskAssesment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RiskAssesmentFindUniqueOrThrowArgs>(args: SelectSubset<T, RiskAssesmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RiskAssesment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentFindFirstArgs} args - Arguments to find a RiskAssesment
+     * @example
+     * // Get one RiskAssesment
+     * const riskAssesment = await prisma.riskAssesment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RiskAssesmentFindFirstArgs>(args?: SelectSubset<T, RiskAssesmentFindFirstArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RiskAssesment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentFindFirstOrThrowArgs} args - Arguments to find a RiskAssesment
+     * @example
+     * // Get one RiskAssesment
+     * const riskAssesment = await prisma.riskAssesment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RiskAssesmentFindFirstOrThrowArgs>(args?: SelectSubset<T, RiskAssesmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RiskAssesments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RiskAssesments
+     * const riskAssesments = await prisma.riskAssesment.findMany()
+     * 
+     * // Get first 10 RiskAssesments
+     * const riskAssesments = await prisma.riskAssesment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const riskAssesmentWithIdOnly = await prisma.riskAssesment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RiskAssesmentFindManyArgs>(args?: SelectSubset<T, RiskAssesmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RiskAssesment.
+     * @param {RiskAssesmentCreateArgs} args - Arguments to create a RiskAssesment.
+     * @example
+     * // Create one RiskAssesment
+     * const RiskAssesment = await prisma.riskAssesment.create({
+     *   data: {
+     *     // ... data to create a RiskAssesment
+     *   }
+     * })
+     * 
+     */
+    create<T extends RiskAssesmentCreateArgs>(args: SelectSubset<T, RiskAssesmentCreateArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RiskAssesments.
+     * @param {RiskAssesmentCreateManyArgs} args - Arguments to create many RiskAssesments.
+     * @example
+     * // Create many RiskAssesments
+     * const riskAssesment = await prisma.riskAssesment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RiskAssesmentCreateManyArgs>(args?: SelectSubset<T, RiskAssesmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RiskAssesments and returns the data saved in the database.
+     * @param {RiskAssesmentCreateManyAndReturnArgs} args - Arguments to create many RiskAssesments.
+     * @example
+     * // Create many RiskAssesments
+     * const riskAssesment = await prisma.riskAssesment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RiskAssesments and only return the `id`
+     * const riskAssesmentWithIdOnly = await prisma.riskAssesment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RiskAssesmentCreateManyAndReturnArgs>(args?: SelectSubset<T, RiskAssesmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RiskAssesment.
+     * @param {RiskAssesmentDeleteArgs} args - Arguments to delete one RiskAssesment.
+     * @example
+     * // Delete one RiskAssesment
+     * const RiskAssesment = await prisma.riskAssesment.delete({
+     *   where: {
+     *     // ... filter to delete one RiskAssesment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RiskAssesmentDeleteArgs>(args: SelectSubset<T, RiskAssesmentDeleteArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RiskAssesment.
+     * @param {RiskAssesmentUpdateArgs} args - Arguments to update one RiskAssesment.
+     * @example
+     * // Update one RiskAssesment
+     * const riskAssesment = await prisma.riskAssesment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RiskAssesmentUpdateArgs>(args: SelectSubset<T, RiskAssesmentUpdateArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RiskAssesments.
+     * @param {RiskAssesmentDeleteManyArgs} args - Arguments to filter RiskAssesments to delete.
+     * @example
+     * // Delete a few RiskAssesments
+     * const { count } = await prisma.riskAssesment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RiskAssesmentDeleteManyArgs>(args?: SelectSubset<T, RiskAssesmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RiskAssesments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RiskAssesments
+     * const riskAssesment = await prisma.riskAssesment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RiskAssesmentUpdateManyArgs>(args: SelectSubset<T, RiskAssesmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RiskAssesment.
+     * @param {RiskAssesmentUpsertArgs} args - Arguments to update or create a RiskAssesment.
+     * @example
+     * // Update or create a RiskAssesment
+     * const riskAssesment = await prisma.riskAssesment.upsert({
+     *   create: {
+     *     // ... data to create a RiskAssesment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RiskAssesment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RiskAssesmentUpsertArgs>(args: SelectSubset<T, RiskAssesmentUpsertArgs<ExtArgs>>): Prisma__RiskAssesmentClient<$Result.GetResult<Prisma.$RiskAssesmentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RiskAssesments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentCountArgs} args - Arguments to filter RiskAssesments to count.
+     * @example
+     * // Count the number of RiskAssesments
+     * const count = await prisma.riskAssesment.count({
+     *   where: {
+     *     // ... the filter for the RiskAssesments we want to count
+     *   }
+     * })
+    **/
+    count<T extends RiskAssesmentCountArgs>(
+      args?: Subset<T, RiskAssesmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RiskAssesmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RiskAssesment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RiskAssesmentAggregateArgs>(args: Subset<T, RiskAssesmentAggregateArgs>): Prisma.PrismaPromise<GetRiskAssesmentAggregateType<T>>
+
+    /**
+     * Group by RiskAssesment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RiskAssesmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RiskAssesmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RiskAssesmentGroupByArgs['orderBy'] }
+        : { orderBy?: RiskAssesmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RiskAssesmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRiskAssesmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RiskAssesment model
+   */
+  readonly fields: RiskAssesmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RiskAssesment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RiskAssesmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RiskAssesment model
+   */ 
+  interface RiskAssesmentFieldRefs {
+    readonly id: FieldRef<"RiskAssesment", 'Int'>
+    readonly activity: FieldRef<"RiskAssesment", 'String'>
+    readonly sectionId: FieldRef<"RiskAssesment", 'Int'>
+    readonly hazard: FieldRef<"RiskAssesment", 'String'>
+    readonly Mechanism: FieldRef<"RiskAssesment", 'String'>
+    readonly exposedGroup: FieldRef<"RiskAssesment", 'String'>
+    readonly description: FieldRef<"RiskAssesment", 'String'>
+    readonly consequence: FieldRef<"RiskAssesment", 'Float'>
+    readonly exposure: FieldRef<"RiskAssesment", 'Float'>
+    readonly probability: FieldRef<"RiskAssesment", 'Float'>
+    readonly riskValue: FieldRef<"RiskAssesment", 'Float'>
+    readonly riskContolPlan: FieldRef<"RiskAssesment", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RiskAssesment findUnique
+   */
+  export type RiskAssesmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskAssesment to fetch.
+     */
+    where: RiskAssesmentWhereUniqueInput
+  }
+
+  /**
+   * RiskAssesment findUniqueOrThrow
+   */
+  export type RiskAssesmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskAssesment to fetch.
+     */
+    where: RiskAssesmentWhereUniqueInput
+  }
+
+  /**
+   * RiskAssesment findFirst
+   */
+  export type RiskAssesmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskAssesment to fetch.
+     */
+    where?: RiskAssesmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskAssesments to fetch.
+     */
+    orderBy?: RiskAssesmentOrderByWithRelationInput | RiskAssesmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RiskAssesments.
+     */
+    cursor?: RiskAssesmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskAssesments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskAssesments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RiskAssesments.
+     */
+    distinct?: RiskAssesmentScalarFieldEnum | RiskAssesmentScalarFieldEnum[]
+  }
+
+  /**
+   * RiskAssesment findFirstOrThrow
+   */
+  export type RiskAssesmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskAssesment to fetch.
+     */
+    where?: RiskAssesmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskAssesments to fetch.
+     */
+    orderBy?: RiskAssesmentOrderByWithRelationInput | RiskAssesmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RiskAssesments.
+     */
+    cursor?: RiskAssesmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskAssesments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskAssesments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RiskAssesments.
+     */
+    distinct?: RiskAssesmentScalarFieldEnum | RiskAssesmentScalarFieldEnum[]
+  }
+
+  /**
+   * RiskAssesment findMany
+   */
+  export type RiskAssesmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * Filter, which RiskAssesments to fetch.
+     */
+    where?: RiskAssesmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RiskAssesments to fetch.
+     */
+    orderBy?: RiskAssesmentOrderByWithRelationInput | RiskAssesmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RiskAssesments.
+     */
+    cursor?: RiskAssesmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RiskAssesments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RiskAssesments.
+     */
+    skip?: number
+    distinct?: RiskAssesmentScalarFieldEnum | RiskAssesmentScalarFieldEnum[]
+  }
+
+  /**
+   * RiskAssesment create
+   */
+  export type RiskAssesmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RiskAssesment.
+     */
+    data: XOR<RiskAssesmentCreateInput, RiskAssesmentUncheckedCreateInput>
+  }
+
+  /**
+   * RiskAssesment createMany
+   */
+  export type RiskAssesmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RiskAssesments.
+     */
+    data: RiskAssesmentCreateManyInput | RiskAssesmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RiskAssesment createManyAndReturn
+   */
+  export type RiskAssesmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RiskAssesments.
+     */
+    data: RiskAssesmentCreateManyInput | RiskAssesmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RiskAssesment update
+   */
+  export type RiskAssesmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RiskAssesment.
+     */
+    data: XOR<RiskAssesmentUpdateInput, RiskAssesmentUncheckedUpdateInput>
+    /**
+     * Choose, which RiskAssesment to update.
+     */
+    where: RiskAssesmentWhereUniqueInput
+  }
+
+  /**
+   * RiskAssesment updateMany
+   */
+  export type RiskAssesmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RiskAssesments.
+     */
+    data: XOR<RiskAssesmentUpdateManyMutationInput, RiskAssesmentUncheckedUpdateManyInput>
+    /**
+     * Filter which RiskAssesments to update
+     */
+    where?: RiskAssesmentWhereInput
+  }
+
+  /**
+   * RiskAssesment upsert
+   */
+  export type RiskAssesmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RiskAssesment to update in case it exists.
+     */
+    where: RiskAssesmentWhereUniqueInput
+    /**
+     * In case the RiskAssesment found by the `where` argument doesn't exist, create a new RiskAssesment with this data.
+     */
+    create: XOR<RiskAssesmentCreateInput, RiskAssesmentUncheckedCreateInput>
+    /**
+     * In case the RiskAssesment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RiskAssesmentUpdateInput, RiskAssesmentUncheckedUpdateInput>
+  }
+
+  /**
+   * RiskAssesment delete
+   */
+  export type RiskAssesmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+    /**
+     * Filter which RiskAssesment to delete.
+     */
+    where: RiskAssesmentWhereUniqueInput
+  }
+
+  /**
+   * RiskAssesment deleteMany
+   */
+  export type RiskAssesmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RiskAssesments to delete
+     */
+    where?: RiskAssesmentWhereInput
+  }
+
+  /**
+   * RiskAssesment without action
+   */
+  export type RiskAssesmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RiskAssesment
+     */
+    select?: RiskAssesmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RiskAssesmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -21771,6 +25126,45 @@ export namespace Prisma {
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
 
 
+  export const RiskMatrixScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    col: 'col',
+    row: 'row'
+  };
+
+  export type RiskMatrixScalarFieldEnum = (typeof RiskMatrixScalarFieldEnum)[keyof typeof RiskMatrixScalarFieldEnum]
+
+
+  export const RiskValuesScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    name: 'name',
+    scale: 'scale',
+    matrixId: 'matrixId'
+  };
+
+  export type RiskValuesScalarFieldEnum = (typeof RiskValuesScalarFieldEnum)[keyof typeof RiskValuesScalarFieldEnum]
+
+
+  export const RiskAssesmentScalarFieldEnum: {
+    id: 'id',
+    activity: 'activity',
+    sectionId: 'sectionId',
+    hazard: 'hazard',
+    Mechanism: 'Mechanism',
+    exposedGroup: 'exposedGroup',
+    description: 'description',
+    consequence: 'consequence',
+    exposure: 'exposure',
+    probability: 'probability',
+    riskValue: 'riskValue',
+    riskContolPlan: 'riskContolPlan'
+  };
+
+  export type RiskAssesmentScalarFieldEnum = (typeof RiskAssesmentScalarFieldEnum)[keyof typeof RiskAssesmentScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -21911,6 +25305,20 @@ export namespace Prisma {
    * Reference to a field of type 'PlanStatus[]'
    */
   export type ListEnumPlanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RiskProps'
+   */
+  export type EnumRiskPropsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskProps'>
+    
+
+
+  /**
+   * Reference to a field of type 'RiskProps[]'
+   */
+  export type ListEnumRiskPropsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskProps[]'>
     
   /**
    * Deep Input Types
@@ -22524,6 +25932,7 @@ export namespace Prisma {
     coordinates?: CoordinateListRelationFilter
     activePlans?: ActivePlansListRelationFilter
     supervisors?: SupervisorListRelationFilter
+    RiskAssesment?: RiskAssesmentListRelationFilter
   }
 
   export type SectionOrderByWithRelationInput = {
@@ -22536,6 +25945,7 @@ export namespace Prisma {
     coordinates?: CoordinateOrderByRelationAggregateInput
     activePlans?: ActivePlansOrderByRelationAggregateInput
     supervisors?: SupervisorOrderByRelationAggregateInput
+    RiskAssesment?: RiskAssesmentOrderByRelationAggregateInput
   }
 
   export type SectionWhereUniqueInput = Prisma.AtLeast<{
@@ -22551,6 +25961,7 @@ export namespace Prisma {
     coordinates?: CoordinateListRelationFilter
     activePlans?: ActivePlansListRelationFilter
     supervisors?: SupervisorListRelationFilter
+    RiskAssesment?: RiskAssesmentListRelationFilter
   }, "id">
 
   export type SectionOrderByWithAggregationInput = {
@@ -23106,6 +26517,207 @@ export namespace Prisma {
     assetSection?: IntWithAggregatesFilter<"Asset"> | number
     latitude?: FloatNullableWithAggregatesFilter<"Asset"> | number | null
     longitude?: FloatNullableWithAggregatesFilter<"Asset"> | number | null
+  }
+
+  export type RiskMatrixWhereInput = {
+    AND?: RiskMatrixWhereInput | RiskMatrixWhereInput[]
+    OR?: RiskMatrixWhereInput[]
+    NOT?: RiskMatrixWhereInput | RiskMatrixWhereInput[]
+    id?: IntFilter<"RiskMatrix"> | number
+    name?: StringFilter<"RiskMatrix"> | string
+    col?: IntFilter<"RiskMatrix"> | number
+    row?: IntFilter<"RiskMatrix"> | number
+    RiskValues?: RiskValuesListRelationFilter
+  }
+
+  export type RiskMatrixOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+    RiskValues?: RiskValuesOrderByRelationAggregateInput
+  }
+
+  export type RiskMatrixWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RiskMatrixWhereInput | RiskMatrixWhereInput[]
+    OR?: RiskMatrixWhereInput[]
+    NOT?: RiskMatrixWhereInput | RiskMatrixWhereInput[]
+    name?: StringFilter<"RiskMatrix"> | string
+    col?: IntFilter<"RiskMatrix"> | number
+    row?: IntFilter<"RiskMatrix"> | number
+    RiskValues?: RiskValuesListRelationFilter
+  }, "id">
+
+  export type RiskMatrixOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+    _count?: RiskMatrixCountOrderByAggregateInput
+    _avg?: RiskMatrixAvgOrderByAggregateInput
+    _max?: RiskMatrixMaxOrderByAggregateInput
+    _min?: RiskMatrixMinOrderByAggregateInput
+    _sum?: RiskMatrixSumOrderByAggregateInput
+  }
+
+  export type RiskMatrixScalarWhereWithAggregatesInput = {
+    AND?: RiskMatrixScalarWhereWithAggregatesInput | RiskMatrixScalarWhereWithAggregatesInput[]
+    OR?: RiskMatrixScalarWhereWithAggregatesInput[]
+    NOT?: RiskMatrixScalarWhereWithAggregatesInput | RiskMatrixScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RiskMatrix"> | number
+    name?: StringWithAggregatesFilter<"RiskMatrix"> | string
+    col?: IntWithAggregatesFilter<"RiskMatrix"> | number
+    row?: IntWithAggregatesFilter<"RiskMatrix"> | number
+  }
+
+  export type RiskValuesWhereInput = {
+    AND?: RiskValuesWhereInput | RiskValuesWhereInput[]
+    OR?: RiskValuesWhereInput[]
+    NOT?: RiskValuesWhereInput | RiskValuesWhereInput[]
+    id?: IntFilter<"RiskValues"> | number
+    type?: EnumRiskPropsFilter<"RiskValues"> | $Enums.RiskProps
+    name?: StringFilter<"RiskValues"> | string
+    scale?: IntFilter<"RiskValues"> | number
+    matrixId?: IntFilter<"RiskValues"> | number
+    matrix?: XOR<RiskMatrixRelationFilter, RiskMatrixWhereInput>
+  }
+
+  export type RiskValuesOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+    matrix?: RiskMatrixOrderByWithRelationInput
+  }
+
+  export type RiskValuesWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RiskValuesWhereInput | RiskValuesWhereInput[]
+    OR?: RiskValuesWhereInput[]
+    NOT?: RiskValuesWhereInput | RiskValuesWhereInput[]
+    type?: EnumRiskPropsFilter<"RiskValues"> | $Enums.RiskProps
+    name?: StringFilter<"RiskValues"> | string
+    scale?: IntFilter<"RiskValues"> | number
+    matrixId?: IntFilter<"RiskValues"> | number
+    matrix?: XOR<RiskMatrixRelationFilter, RiskMatrixWhereInput>
+  }, "id">
+
+  export type RiskValuesOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+    _count?: RiskValuesCountOrderByAggregateInput
+    _avg?: RiskValuesAvgOrderByAggregateInput
+    _max?: RiskValuesMaxOrderByAggregateInput
+    _min?: RiskValuesMinOrderByAggregateInput
+    _sum?: RiskValuesSumOrderByAggregateInput
+  }
+
+  export type RiskValuesScalarWhereWithAggregatesInput = {
+    AND?: RiskValuesScalarWhereWithAggregatesInput | RiskValuesScalarWhereWithAggregatesInput[]
+    OR?: RiskValuesScalarWhereWithAggregatesInput[]
+    NOT?: RiskValuesScalarWhereWithAggregatesInput | RiskValuesScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RiskValues"> | number
+    type?: EnumRiskPropsWithAggregatesFilter<"RiskValues"> | $Enums.RiskProps
+    name?: StringWithAggregatesFilter<"RiskValues"> | string
+    scale?: IntWithAggregatesFilter<"RiskValues"> | number
+    matrixId?: IntWithAggregatesFilter<"RiskValues"> | number
+  }
+
+  export type RiskAssesmentWhereInput = {
+    AND?: RiskAssesmentWhereInput | RiskAssesmentWhereInput[]
+    OR?: RiskAssesmentWhereInput[]
+    NOT?: RiskAssesmentWhereInput | RiskAssesmentWhereInput[]
+    id?: IntFilter<"RiskAssesment"> | number
+    activity?: StringFilter<"RiskAssesment"> | string
+    sectionId?: IntFilter<"RiskAssesment"> | number
+    hazard?: StringFilter<"RiskAssesment"> | string
+    Mechanism?: StringFilter<"RiskAssesment"> | string
+    exposedGroup?: StringFilter<"RiskAssesment"> | string
+    description?: StringFilter<"RiskAssesment"> | string
+    consequence?: FloatFilter<"RiskAssesment"> | number
+    exposure?: FloatFilter<"RiskAssesment"> | number
+    probability?: FloatFilter<"RiskAssesment"> | number
+    riskValue?: FloatFilter<"RiskAssesment"> | number
+    riskContolPlan?: JsonFilter<"RiskAssesment">
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }
+
+  export type RiskAssesmentOrderByWithRelationInput = {
+    id?: SortOrder
+    activity?: SortOrder
+    sectionId?: SortOrder
+    hazard?: SortOrder
+    Mechanism?: SortOrder
+    exposedGroup?: SortOrder
+    description?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+    riskContolPlan?: SortOrder
+    section?: SectionOrderByWithRelationInput
+  }
+
+  export type RiskAssesmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RiskAssesmentWhereInput | RiskAssesmentWhereInput[]
+    OR?: RiskAssesmentWhereInput[]
+    NOT?: RiskAssesmentWhereInput | RiskAssesmentWhereInput[]
+    activity?: StringFilter<"RiskAssesment"> | string
+    sectionId?: IntFilter<"RiskAssesment"> | number
+    hazard?: StringFilter<"RiskAssesment"> | string
+    Mechanism?: StringFilter<"RiskAssesment"> | string
+    exposedGroup?: StringFilter<"RiskAssesment"> | string
+    description?: StringFilter<"RiskAssesment"> | string
+    consequence?: FloatFilter<"RiskAssesment"> | number
+    exposure?: FloatFilter<"RiskAssesment"> | number
+    probability?: FloatFilter<"RiskAssesment"> | number
+    riskValue?: FloatFilter<"RiskAssesment"> | number
+    riskContolPlan?: JsonFilter<"RiskAssesment">
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }, "id">
+
+  export type RiskAssesmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    activity?: SortOrder
+    sectionId?: SortOrder
+    hazard?: SortOrder
+    Mechanism?: SortOrder
+    exposedGroup?: SortOrder
+    description?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+    riskContolPlan?: SortOrder
+    _count?: RiskAssesmentCountOrderByAggregateInput
+    _avg?: RiskAssesmentAvgOrderByAggregateInput
+    _max?: RiskAssesmentMaxOrderByAggregateInput
+    _min?: RiskAssesmentMinOrderByAggregateInput
+    _sum?: RiskAssesmentSumOrderByAggregateInput
+  }
+
+  export type RiskAssesmentScalarWhereWithAggregatesInput = {
+    AND?: RiskAssesmentScalarWhereWithAggregatesInput | RiskAssesmentScalarWhereWithAggregatesInput[]
+    OR?: RiskAssesmentScalarWhereWithAggregatesInput[]
+    NOT?: RiskAssesmentScalarWhereWithAggregatesInput | RiskAssesmentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RiskAssesment"> | number
+    activity?: StringWithAggregatesFilter<"RiskAssesment"> | string
+    sectionId?: IntWithAggregatesFilter<"RiskAssesment"> | number
+    hazard?: StringWithAggregatesFilter<"RiskAssesment"> | string
+    Mechanism?: StringWithAggregatesFilter<"RiskAssesment"> | string
+    exposedGroup?: StringWithAggregatesFilter<"RiskAssesment"> | string
+    description?: StringWithAggregatesFilter<"RiskAssesment"> | string
+    consequence?: FloatWithAggregatesFilter<"RiskAssesment"> | number
+    exposure?: FloatWithAggregatesFilter<"RiskAssesment"> | number
+    probability?: FloatWithAggregatesFilter<"RiskAssesment"> | number
+    riskValue?: FloatWithAggregatesFilter<"RiskAssesment"> | number
+    riskContolPlan?: JsonWithAggregatesFilter<"RiskAssesment">
   }
 
   export type InitStatusCreateInput = {
@@ -23713,6 +27325,7 @@ export namespace Prisma {
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateInput = {
@@ -23724,6 +27337,7 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUpdateInput = {
@@ -23734,6 +27348,7 @@ export namespace Prisma {
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateInput = {
@@ -23745,6 +27360,7 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateManyInput = {
@@ -24264,6 +27880,209 @@ export namespace Prisma {
     assetSection?: IntFieldUpdateOperationsInput | number
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+  }
+
+  export type RiskMatrixCreateInput = {
+    name: string
+    col: number
+    row: number
+    RiskValues?: RiskValuesCreateNestedManyWithoutMatrixInput
+  }
+
+  export type RiskMatrixUncheckedCreateInput = {
+    id?: number
+    name: string
+    col: number
+    row: number
+    RiskValues?: RiskValuesUncheckedCreateNestedManyWithoutMatrixInput
+  }
+
+  export type RiskMatrixUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    col?: IntFieldUpdateOperationsInput | number
+    row?: IntFieldUpdateOperationsInput | number
+    RiskValues?: RiskValuesUpdateManyWithoutMatrixNestedInput
+  }
+
+  export type RiskMatrixUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    col?: IntFieldUpdateOperationsInput | number
+    row?: IntFieldUpdateOperationsInput | number
+    RiskValues?: RiskValuesUncheckedUpdateManyWithoutMatrixNestedInput
+  }
+
+  export type RiskMatrixCreateManyInput = {
+    id?: number
+    name: string
+    col: number
+    row: number
+  }
+
+  export type RiskMatrixUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    col?: IntFieldUpdateOperationsInput | number
+    row?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskMatrixUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    col?: IntFieldUpdateOperationsInput | number
+    row?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskValuesCreateInput = {
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+    matrix: RiskMatrixCreateNestedOneWithoutRiskValuesInput
+  }
+
+  export type RiskValuesUncheckedCreateInput = {
+    id?: number
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+    matrixId: number
+  }
+
+  export type RiskValuesUpdateInput = {
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+    matrix?: RiskMatrixUpdateOneRequiredWithoutRiskValuesNestedInput
+  }
+
+  export type RiskValuesUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+    matrixId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskValuesCreateManyInput = {
+    id?: number
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+    matrixId: number
+  }
+
+  export type RiskValuesUpdateManyMutationInput = {
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskValuesUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+    matrixId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskAssesmentCreateInput = {
+    activity: string
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonNullValueInput | InputJsonValue
+    section: SectionCreateNestedOneWithoutRiskAssesmentInput
+  }
+
+  export type RiskAssesmentUncheckedCreateInput = {
+    id?: number
+    activity: string
+    sectionId: number
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentUpdateInput = {
+    activity?: StringFieldUpdateOperationsInput | string
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
+    section?: SectionUpdateOneRequiredWithoutRiskAssesmentNestedInput
+  }
+
+  export type RiskAssesmentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    activity?: StringFieldUpdateOperationsInput | string
+    sectionId?: IntFieldUpdateOperationsInput | number
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentCreateManyInput = {
+    id?: number
+    activity: string
+    sectionId: number
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentUpdateManyMutationInput = {
+    activity?: StringFieldUpdateOperationsInput | string
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    activity?: StringFieldUpdateOperationsInput | string
+    sectionId?: IntFieldUpdateOperationsInput | number
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -24986,6 +28805,12 @@ export namespace Prisma {
     none?: SupervisorWhereInput
   }
 
+  export type RiskAssesmentListRelationFilter = {
+    every?: RiskAssesmentWhereInput
+    some?: RiskAssesmentWhereInput
+    none?: RiskAssesmentWhereInput
+  }
+
   export type AssetOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -24999,6 +28824,10 @@ export namespace Prisma {
   }
 
   export type SupervisorOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RiskAssesmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25437,6 +29266,168 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type RiskValuesListRelationFilter = {
+    every?: RiskValuesWhereInput
+    some?: RiskValuesWhereInput
+    none?: RiskValuesWhereInput
+  }
+
+  export type RiskValuesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RiskMatrixCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+  }
+
+  export type RiskMatrixAvgOrderByAggregateInput = {
+    id?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+  }
+
+  export type RiskMatrixMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+  }
+
+  export type RiskMatrixMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+  }
+
+  export type RiskMatrixSumOrderByAggregateInput = {
+    id?: SortOrder
+    col?: SortOrder
+    row?: SortOrder
+  }
+
+  export type EnumRiskPropsFilter<$PrismaModel = never> = {
+    equals?: $Enums.RiskProps | EnumRiskPropsFieldRefInput<$PrismaModel>
+    in?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    not?: NestedEnumRiskPropsFilter<$PrismaModel> | $Enums.RiskProps
+  }
+
+  export type RiskMatrixRelationFilter = {
+    is?: RiskMatrixWhereInput
+    isNot?: RiskMatrixWhereInput
+  }
+
+  export type RiskValuesCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+  }
+
+  export type RiskValuesAvgOrderByAggregateInput = {
+    id?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+  }
+
+  export type RiskValuesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+  }
+
+  export type RiskValuesMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+  }
+
+  export type RiskValuesSumOrderByAggregateInput = {
+    id?: SortOrder
+    scale?: SortOrder
+    matrixId?: SortOrder
+  }
+
+  export type EnumRiskPropsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RiskProps | EnumRiskPropsFieldRefInput<$PrismaModel>
+    in?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    not?: NestedEnumRiskPropsWithAggregatesFilter<$PrismaModel> | $Enums.RiskProps
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRiskPropsFilter<$PrismaModel>
+    _max?: NestedEnumRiskPropsFilter<$PrismaModel>
+  }
+
+  export type RiskAssesmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    activity?: SortOrder
+    sectionId?: SortOrder
+    hazard?: SortOrder
+    Mechanism?: SortOrder
+    exposedGroup?: SortOrder
+    description?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+    riskContolPlan?: SortOrder
+  }
+
+  export type RiskAssesmentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+  }
+
+  export type RiskAssesmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    activity?: SortOrder
+    sectionId?: SortOrder
+    hazard?: SortOrder
+    Mechanism?: SortOrder
+    exposedGroup?: SortOrder
+    description?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+  }
+
+  export type RiskAssesmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    activity?: SortOrder
+    sectionId?: SortOrder
+    hazard?: SortOrder
+    Mechanism?: SortOrder
+    exposedGroup?: SortOrder
+    description?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+  }
+
+  export type RiskAssesmentSumOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    consequence?: SortOrder
+    exposure?: SortOrder
+    probability?: SortOrder
+    riskValue?: SortOrder
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -25813,6 +29804,13 @@ export namespace Prisma {
     connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
   }
 
+  export type RiskAssesmentCreateNestedManyWithoutSectionInput = {
+    create?: XOR<RiskAssesmentCreateWithoutSectionInput, RiskAssesmentUncheckedCreateWithoutSectionInput> | RiskAssesmentCreateWithoutSectionInput[] | RiskAssesmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: RiskAssesmentCreateOrConnectWithoutSectionInput | RiskAssesmentCreateOrConnectWithoutSectionInput[]
+    createMany?: RiskAssesmentCreateManySectionInputEnvelope
+    connect?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutSectionInput = {
     create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
@@ -25839,6 +29837,13 @@ export namespace Prisma {
     connectOrCreate?: SupervisorCreateOrConnectWithoutSectionInput | SupervisorCreateOrConnectWithoutSectionInput[]
     createMany?: SupervisorCreateManySectionInputEnvelope
     connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+  }
+
+  export type RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<RiskAssesmentCreateWithoutSectionInput, RiskAssesmentUncheckedCreateWithoutSectionInput> | RiskAssesmentCreateWithoutSectionInput[] | RiskAssesmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: RiskAssesmentCreateOrConnectWithoutSectionInput | RiskAssesmentCreateOrConnectWithoutSectionInput[]
+    createMany?: RiskAssesmentCreateManySectionInputEnvelope
+    connect?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
   }
 
   export type SectionTypeUpdateOneRequiredWithoutSectionsNestedInput = {
@@ -25905,6 +29910,20 @@ export namespace Prisma {
     deleteMany?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
   }
 
+  export type RiskAssesmentUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<RiskAssesmentCreateWithoutSectionInput, RiskAssesmentUncheckedCreateWithoutSectionInput> | RiskAssesmentCreateWithoutSectionInput[] | RiskAssesmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: RiskAssesmentCreateOrConnectWithoutSectionInput | RiskAssesmentCreateOrConnectWithoutSectionInput[]
+    upsert?: RiskAssesmentUpsertWithWhereUniqueWithoutSectionInput | RiskAssesmentUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: RiskAssesmentCreateManySectionInputEnvelope
+    set?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    disconnect?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    delete?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    connect?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    update?: RiskAssesmentUpdateWithWhereUniqueWithoutSectionInput | RiskAssesmentUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: RiskAssesmentUpdateManyWithWhereWithoutSectionInput | RiskAssesmentUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: RiskAssesmentScalarWhereInput | RiskAssesmentScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutSectionNestedInput = {
     create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
@@ -25959,6 +29978,20 @@ export namespace Prisma {
     update?: SupervisorUpdateWithWhereUniqueWithoutSectionInput | SupervisorUpdateWithWhereUniqueWithoutSectionInput[]
     updateMany?: SupervisorUpdateManyWithWhereWithoutSectionInput | SupervisorUpdateManyWithWhereWithoutSectionInput[]
     deleteMany?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
+  }
+
+  export type RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<RiskAssesmentCreateWithoutSectionInput, RiskAssesmentUncheckedCreateWithoutSectionInput> | RiskAssesmentCreateWithoutSectionInput[] | RiskAssesmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: RiskAssesmentCreateOrConnectWithoutSectionInput | RiskAssesmentCreateOrConnectWithoutSectionInput[]
+    upsert?: RiskAssesmentUpsertWithWhereUniqueWithoutSectionInput | RiskAssesmentUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: RiskAssesmentCreateManySectionInputEnvelope
+    set?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    disconnect?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    delete?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    connect?: RiskAssesmentWhereUniqueInput | RiskAssesmentWhereUniqueInput[]
+    update?: RiskAssesmentUpdateWithWhereUniqueWithoutSectionInput | RiskAssesmentUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: RiskAssesmentUpdateManyWithWhereWithoutSectionInput | RiskAssesmentUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: RiskAssesmentScalarWhereInput | RiskAssesmentScalarWhereInput[]
   }
 
   export type PlanfilesCreateNestedManyWithoutPlanInput = {
@@ -26337,6 +30370,80 @@ export namespace Prisma {
     deleteMany?: PlanAssetsScalarWhereInput | PlanAssetsScalarWhereInput[]
   }
 
+  export type RiskValuesCreateNestedManyWithoutMatrixInput = {
+    create?: XOR<RiskValuesCreateWithoutMatrixInput, RiskValuesUncheckedCreateWithoutMatrixInput> | RiskValuesCreateWithoutMatrixInput[] | RiskValuesUncheckedCreateWithoutMatrixInput[]
+    connectOrCreate?: RiskValuesCreateOrConnectWithoutMatrixInput | RiskValuesCreateOrConnectWithoutMatrixInput[]
+    createMany?: RiskValuesCreateManyMatrixInputEnvelope
+    connect?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+  }
+
+  export type RiskValuesUncheckedCreateNestedManyWithoutMatrixInput = {
+    create?: XOR<RiskValuesCreateWithoutMatrixInput, RiskValuesUncheckedCreateWithoutMatrixInput> | RiskValuesCreateWithoutMatrixInput[] | RiskValuesUncheckedCreateWithoutMatrixInput[]
+    connectOrCreate?: RiskValuesCreateOrConnectWithoutMatrixInput | RiskValuesCreateOrConnectWithoutMatrixInput[]
+    createMany?: RiskValuesCreateManyMatrixInputEnvelope
+    connect?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+  }
+
+  export type RiskValuesUpdateManyWithoutMatrixNestedInput = {
+    create?: XOR<RiskValuesCreateWithoutMatrixInput, RiskValuesUncheckedCreateWithoutMatrixInput> | RiskValuesCreateWithoutMatrixInput[] | RiskValuesUncheckedCreateWithoutMatrixInput[]
+    connectOrCreate?: RiskValuesCreateOrConnectWithoutMatrixInput | RiskValuesCreateOrConnectWithoutMatrixInput[]
+    upsert?: RiskValuesUpsertWithWhereUniqueWithoutMatrixInput | RiskValuesUpsertWithWhereUniqueWithoutMatrixInput[]
+    createMany?: RiskValuesCreateManyMatrixInputEnvelope
+    set?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    disconnect?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    delete?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    connect?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    update?: RiskValuesUpdateWithWhereUniqueWithoutMatrixInput | RiskValuesUpdateWithWhereUniqueWithoutMatrixInput[]
+    updateMany?: RiskValuesUpdateManyWithWhereWithoutMatrixInput | RiskValuesUpdateManyWithWhereWithoutMatrixInput[]
+    deleteMany?: RiskValuesScalarWhereInput | RiskValuesScalarWhereInput[]
+  }
+
+  export type RiskValuesUncheckedUpdateManyWithoutMatrixNestedInput = {
+    create?: XOR<RiskValuesCreateWithoutMatrixInput, RiskValuesUncheckedCreateWithoutMatrixInput> | RiskValuesCreateWithoutMatrixInput[] | RiskValuesUncheckedCreateWithoutMatrixInput[]
+    connectOrCreate?: RiskValuesCreateOrConnectWithoutMatrixInput | RiskValuesCreateOrConnectWithoutMatrixInput[]
+    upsert?: RiskValuesUpsertWithWhereUniqueWithoutMatrixInput | RiskValuesUpsertWithWhereUniqueWithoutMatrixInput[]
+    createMany?: RiskValuesCreateManyMatrixInputEnvelope
+    set?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    disconnect?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    delete?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    connect?: RiskValuesWhereUniqueInput | RiskValuesWhereUniqueInput[]
+    update?: RiskValuesUpdateWithWhereUniqueWithoutMatrixInput | RiskValuesUpdateWithWhereUniqueWithoutMatrixInput[]
+    updateMany?: RiskValuesUpdateManyWithWhereWithoutMatrixInput | RiskValuesUpdateManyWithWhereWithoutMatrixInput[]
+    deleteMany?: RiskValuesScalarWhereInput | RiskValuesScalarWhereInput[]
+  }
+
+  export type RiskMatrixCreateNestedOneWithoutRiskValuesInput = {
+    create?: XOR<RiskMatrixCreateWithoutRiskValuesInput, RiskMatrixUncheckedCreateWithoutRiskValuesInput>
+    connectOrCreate?: RiskMatrixCreateOrConnectWithoutRiskValuesInput
+    connect?: RiskMatrixWhereUniqueInput
+  }
+
+  export type EnumRiskPropsFieldUpdateOperationsInput = {
+    set?: $Enums.RiskProps
+  }
+
+  export type RiskMatrixUpdateOneRequiredWithoutRiskValuesNestedInput = {
+    create?: XOR<RiskMatrixCreateWithoutRiskValuesInput, RiskMatrixUncheckedCreateWithoutRiskValuesInput>
+    connectOrCreate?: RiskMatrixCreateOrConnectWithoutRiskValuesInput
+    upsert?: RiskMatrixUpsertWithoutRiskValuesInput
+    connect?: RiskMatrixWhereUniqueInput
+    update?: XOR<XOR<RiskMatrixUpdateToOneWithWhereWithoutRiskValuesInput, RiskMatrixUpdateWithoutRiskValuesInput>, RiskMatrixUncheckedUpdateWithoutRiskValuesInput>
+  }
+
+  export type SectionCreateNestedOneWithoutRiskAssesmentInput = {
+    create?: XOR<SectionCreateWithoutRiskAssesmentInput, SectionUncheckedCreateWithoutRiskAssesmentInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutRiskAssesmentInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type SectionUpdateOneRequiredWithoutRiskAssesmentNestedInput = {
+    create?: XOR<SectionCreateWithoutRiskAssesmentInput, SectionUncheckedCreateWithoutRiskAssesmentInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutRiskAssesmentInput
+    upsert?: SectionUpsertWithoutRiskAssesmentInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutRiskAssesmentInput, SectionUpdateWithoutRiskAssesmentInput>, SectionUncheckedUpdateWithoutRiskAssesmentInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -26634,6 +30741,23 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRiskPropsFilter<$PrismaModel = never> = {
+    equals?: $Enums.RiskProps | EnumRiskPropsFieldRefInput<$PrismaModel>
+    in?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    not?: NestedEnumRiskPropsFilter<$PrismaModel> | $Enums.RiskProps
+  }
+
+  export type NestedEnumRiskPropsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RiskProps | EnumRiskPropsFieldRefInput<$PrismaModel>
+    in?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RiskProps[] | ListEnumRiskPropsFieldRefInput<$PrismaModel>
+    not?: NestedEnumRiskPropsWithAggregatesFilter<$PrismaModel> | $Enums.RiskProps
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRiskPropsFilter<$PrismaModel>
+    _max?: NestedEnumRiskPropsFilter<$PrismaModel>
   }
 
   export type OwnerCreateWithoutMinesInput = {
@@ -27188,6 +31312,7 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutSupervisorsInput = {
@@ -27198,6 +31323,7 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutSupervisorsInput = {
@@ -27263,6 +31389,7 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutSupervisorsInput = {
@@ -27273,6 +31400,7 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type UserUpsertWithoutSupervisorInput = {
@@ -27429,6 +31557,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RiskAssesmentCreateWithoutSectionInput = {
+    activity: string
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentUncheckedCreateWithoutSectionInput = {
+    id?: number
+    activity: string
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentCreateOrConnectWithoutSectionInput = {
+    where: RiskAssesmentWhereUniqueInput
+    create: XOR<RiskAssesmentCreateWithoutSectionInput, RiskAssesmentUncheckedCreateWithoutSectionInput>
+  }
+
+  export type RiskAssesmentCreateManySectionInputEnvelope = {
+    data: RiskAssesmentCreateManySectionInput | RiskAssesmentCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SectionTypeUpsertWithoutSectionsInput = {
     update: XOR<SectionTypeUpdateWithoutSectionsInput, SectionTypeUncheckedUpdateWithoutSectionsInput>
     create: XOR<SectionTypeCreateWithoutSectionsInput, SectionTypeUncheckedCreateWithoutSectionsInput>
@@ -27557,6 +31722,40 @@ export namespace Prisma {
     id?: IntFilter<"Supervisor"> | number
     sectionId?: IntFilter<"Supervisor"> | number
     userId?: IntFilter<"Supervisor"> | number
+  }
+
+  export type RiskAssesmentUpsertWithWhereUniqueWithoutSectionInput = {
+    where: RiskAssesmentWhereUniqueInput
+    update: XOR<RiskAssesmentUpdateWithoutSectionInput, RiskAssesmentUncheckedUpdateWithoutSectionInput>
+    create: XOR<RiskAssesmentCreateWithoutSectionInput, RiskAssesmentUncheckedCreateWithoutSectionInput>
+  }
+
+  export type RiskAssesmentUpdateWithWhereUniqueWithoutSectionInput = {
+    where: RiskAssesmentWhereUniqueInput
+    data: XOR<RiskAssesmentUpdateWithoutSectionInput, RiskAssesmentUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type RiskAssesmentUpdateManyWithWhereWithoutSectionInput = {
+    where: RiskAssesmentScalarWhereInput
+    data: XOR<RiskAssesmentUpdateManyMutationInput, RiskAssesmentUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type RiskAssesmentScalarWhereInput = {
+    AND?: RiskAssesmentScalarWhereInput | RiskAssesmentScalarWhereInput[]
+    OR?: RiskAssesmentScalarWhereInput[]
+    NOT?: RiskAssesmentScalarWhereInput | RiskAssesmentScalarWhereInput[]
+    id?: IntFilter<"RiskAssesment"> | number
+    activity?: StringFilter<"RiskAssesment"> | string
+    sectionId?: IntFilter<"RiskAssesment"> | number
+    hazard?: StringFilter<"RiskAssesment"> | string
+    Mechanism?: StringFilter<"RiskAssesment"> | string
+    exposedGroup?: StringFilter<"RiskAssesment"> | string
+    description?: StringFilter<"RiskAssesment"> | string
+    consequence?: FloatFilter<"RiskAssesment"> | number
+    exposure?: FloatFilter<"RiskAssesment"> | number
+    probability?: FloatFilter<"RiskAssesment"> | number
+    riskValue?: FloatFilter<"RiskAssesment"> | number
+    riskContolPlan?: JsonFilter<"RiskAssesment">
   }
 
   export type PlanfilesCreateWithoutPlanInput = {
@@ -27916,6 +32115,7 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutActivePlansInput = {
@@ -27926,6 +32126,7 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutActivePlansInput = {
@@ -27987,6 +32188,7 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutActivePlansInput = {
@@ -27997,6 +32199,7 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionCreateWithoutTypeInput = {
@@ -28006,6 +32209,7 @@ export namespace Prisma {
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutTypeInput = {
@@ -28016,6 +32220,7 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutTypeInput = {
@@ -28061,6 +32266,7 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutCoordinatesInput = {
@@ -28071,6 +32277,7 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutCoordinatesInput = {
@@ -28096,6 +32303,7 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutCoordinatesInput = {
@@ -28106,6 +32314,7 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type AssetCreateWithoutTypeInput = {
@@ -28197,6 +32406,7 @@ export namespace Prisma {
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutAssetsInput = {
@@ -28207,6 +32417,7 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    RiskAssesment?: RiskAssesmentUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutAssetsInput = {
@@ -28270,6 +32481,7 @@ export namespace Prisma {
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutAssetsInput = {
@@ -28277,6 +32489,157 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     sectionType?: IntFieldUpdateOperationsInput | number
     area?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type RiskValuesCreateWithoutMatrixInput = {
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+  }
+
+  export type RiskValuesUncheckedCreateWithoutMatrixInput = {
+    id?: number
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+  }
+
+  export type RiskValuesCreateOrConnectWithoutMatrixInput = {
+    where: RiskValuesWhereUniqueInput
+    create: XOR<RiskValuesCreateWithoutMatrixInput, RiskValuesUncheckedCreateWithoutMatrixInput>
+  }
+
+  export type RiskValuesCreateManyMatrixInputEnvelope = {
+    data: RiskValuesCreateManyMatrixInput | RiskValuesCreateManyMatrixInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RiskValuesUpsertWithWhereUniqueWithoutMatrixInput = {
+    where: RiskValuesWhereUniqueInput
+    update: XOR<RiskValuesUpdateWithoutMatrixInput, RiskValuesUncheckedUpdateWithoutMatrixInput>
+    create: XOR<RiskValuesCreateWithoutMatrixInput, RiskValuesUncheckedCreateWithoutMatrixInput>
+  }
+
+  export type RiskValuesUpdateWithWhereUniqueWithoutMatrixInput = {
+    where: RiskValuesWhereUniqueInput
+    data: XOR<RiskValuesUpdateWithoutMatrixInput, RiskValuesUncheckedUpdateWithoutMatrixInput>
+  }
+
+  export type RiskValuesUpdateManyWithWhereWithoutMatrixInput = {
+    where: RiskValuesScalarWhereInput
+    data: XOR<RiskValuesUpdateManyMutationInput, RiskValuesUncheckedUpdateManyWithoutMatrixInput>
+  }
+
+  export type RiskValuesScalarWhereInput = {
+    AND?: RiskValuesScalarWhereInput | RiskValuesScalarWhereInput[]
+    OR?: RiskValuesScalarWhereInput[]
+    NOT?: RiskValuesScalarWhereInput | RiskValuesScalarWhereInput[]
+    id?: IntFilter<"RiskValues"> | number
+    type?: EnumRiskPropsFilter<"RiskValues"> | $Enums.RiskProps
+    name?: StringFilter<"RiskValues"> | string
+    scale?: IntFilter<"RiskValues"> | number
+    matrixId?: IntFilter<"RiskValues"> | number
+  }
+
+  export type RiskMatrixCreateWithoutRiskValuesInput = {
+    name: string
+    col: number
+    row: number
+  }
+
+  export type RiskMatrixUncheckedCreateWithoutRiskValuesInput = {
+    id?: number
+    name: string
+    col: number
+    row: number
+  }
+
+  export type RiskMatrixCreateOrConnectWithoutRiskValuesInput = {
+    where: RiskMatrixWhereUniqueInput
+    create: XOR<RiskMatrixCreateWithoutRiskValuesInput, RiskMatrixUncheckedCreateWithoutRiskValuesInput>
+  }
+
+  export type RiskMatrixUpsertWithoutRiskValuesInput = {
+    update: XOR<RiskMatrixUpdateWithoutRiskValuesInput, RiskMatrixUncheckedUpdateWithoutRiskValuesInput>
+    create: XOR<RiskMatrixCreateWithoutRiskValuesInput, RiskMatrixUncheckedCreateWithoutRiskValuesInput>
+    where?: RiskMatrixWhereInput
+  }
+
+  export type RiskMatrixUpdateToOneWithWhereWithoutRiskValuesInput = {
+    where?: RiskMatrixWhereInput
+    data: XOR<RiskMatrixUpdateWithoutRiskValuesInput, RiskMatrixUncheckedUpdateWithoutRiskValuesInput>
+  }
+
+  export type RiskMatrixUpdateWithoutRiskValuesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    col?: IntFieldUpdateOperationsInput | number
+    row?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskMatrixUncheckedUpdateWithoutRiskValuesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    col?: IntFieldUpdateOperationsInput | number
+    row?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionCreateWithoutRiskAssesmentInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutRiskAssesmentInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutRiskAssesmentInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutRiskAssesmentInput, SectionUncheckedCreateWithoutRiskAssesmentInput>
+  }
+
+  export type SectionUpsertWithoutRiskAssesmentInput = {
+    update: XOR<SectionUpdateWithoutRiskAssesmentInput, SectionUncheckedUpdateWithoutRiskAssesmentInput>
+    create: XOR<SectionCreateWithoutRiskAssesmentInput, SectionUncheckedCreateWithoutRiskAssesmentInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutRiskAssesmentInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutRiskAssesmentInput, SectionUncheckedUpdateWithoutRiskAssesmentInput>
+  }
+
+  export type SectionUpdateWithoutRiskAssesmentInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutRiskAssesmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
@@ -28560,6 +32923,20 @@ export namespace Prisma {
     userId: number
   }
 
+  export type RiskAssesmentCreateManySectionInput = {
+    id?: number
+    activity: string
+    hazard: string
+    Mechanism: string
+    exposedGroup: string
+    description: string
+    consequence: number
+    exposure: number
+    probability: number
+    riskValue: number
+    riskContolPlan: JsonNullValueInput | InputJsonValue
+  }
+
   export type AssetUpdateWithoutSectionInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -28634,6 +33011,47 @@ export namespace Prisma {
   export type SupervisorUncheckedUpdateManyWithoutSectionInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskAssesmentUpdateWithoutSectionInput = {
+    activity?: StringFieldUpdateOperationsInput | string
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    activity?: StringFieldUpdateOperationsInput | string
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type RiskAssesmentUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    activity?: StringFieldUpdateOperationsInput | string
+    hazard?: StringFieldUpdateOperationsInput | string
+    Mechanism?: StringFieldUpdateOperationsInput | string
+    exposedGroup?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    consequence?: FloatFieldUpdateOperationsInput | number
+    exposure?: FloatFieldUpdateOperationsInput | number
+    probability?: FloatFieldUpdateOperationsInput | number
+    riskValue?: FloatFieldUpdateOperationsInput | number
+    riskContolPlan?: JsonNullValueInput | InputJsonValue
   }
 
   export type PlanfilesCreateManyPlanInput = {
@@ -28722,6 +33140,7 @@ export namespace Prisma {
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutTypeInput = {
@@ -28732,6 +33151,7 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    RiskAssesment?: RiskAssesmentUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateManyWithoutTypeInput = {
@@ -28800,6 +33220,33 @@ export namespace Prisma {
     assetName?: StringFieldUpdateOperationsInput | string
   }
 
+  export type RiskValuesCreateManyMatrixInput = {
+    id?: number
+    type: $Enums.RiskProps
+    name: string
+    scale: number
+  }
+
+  export type RiskValuesUpdateWithoutMatrixInput = {
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskValuesUncheckedUpdateWithoutMatrixInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RiskValuesUncheckedUpdateManyWithoutMatrixInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    type?: EnumRiskPropsFieldUpdateOperationsInput | $Enums.RiskProps
+    name?: StringFieldUpdateOperationsInput | string
+    scale?: IntFieldUpdateOperationsInput | number
+  }
+
 
 
   /**
@@ -28841,6 +33288,10 @@ export namespace Prisma {
      * @deprecated Use AssetCountOutputTypeDefaultArgs instead
      */
     export type AssetCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RiskMatrixCountOutputTypeDefaultArgs instead
+     */
+    export type RiskMatrixCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiskMatrixCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use InitStatusDefaultArgs instead
      */
@@ -28917,6 +33368,18 @@ export namespace Prisma {
      * @deprecated Use AssetDefaultArgs instead
      */
     export type AssetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RiskMatrixDefaultArgs instead
+     */
+    export type RiskMatrixArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiskMatrixDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RiskValuesDefaultArgs instead
+     */
+    export type RiskValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiskValuesDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RiskAssesmentDefaultArgs instead
+     */
+    export type RiskAssesmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RiskAssesmentDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

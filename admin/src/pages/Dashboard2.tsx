@@ -34,6 +34,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
 import OperationalTrendsCard from "./operationalTrend";
 
+import { motion } from "motion/react";
+
 const predictions = [
     {
         id: 1,
@@ -225,13 +227,15 @@ const NewDashboard = () => {
                         <CardContent className="p-1 space-x-2 flex">
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Button variant={'secondary'} className="flex rounded-full text-xs font-medium">
-                                        <span><CalendarIcon /></span>
-                                        <div className="flex flex-col">
-                                            <span>Timeframe</span>
-                                            <span>{date ? format(date, "P") : ""}</span>
-                                        </div>
-                                    </Button>
+                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: .95 }}>
+                                        <Button variant={'secondary'} className="flex rounded-full text-xs font-medium">
+                                            <span><CalendarIcon /></span>
+                                            <div className="flex flex-col">
+                                                <span>Timeframe</span>
+                                                <span>{date ? format(date, "P") : ""}</span>
+                                            </div>
+                                        </Button>
+                                    </motion.button>
                                 </PopoverTrigger>
                                 <PopoverContent>
                                     <Calendar

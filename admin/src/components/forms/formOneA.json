@@ -1,0 +1,174 @@
+{
+    "formName": "Shift-wise Production Report (Under Ground)",
+    "formNo": "Form 1-A",
+    "formSchema": [
+        {
+            "isTable": false,
+            "fieldLabel": "Name of subsidary",
+            "fieldName": "nameOfSubsidary",
+            "fieldType": "text"
+        },
+        {
+            "isTable": false,
+            "fieldLabel": "Name of Area",
+            "fieldName": "nameOfArea",
+            "fieldType": "text"
+        },
+        {
+            "isTable": false,
+            "fieldLabel": "Name of Mine",
+            "fieldName": "nameOfMine",
+            "fieldType": "text"
+        },
+        {
+            "isTable": false,
+            "fieldLabel": "Name of the pit/incline",
+            "fieldName": "nameOfThePitOrIncline",
+            "fieldType": "text"
+        },
+        {
+            "fieldLabel": "Departmental/Contractual",
+            "fieldName": "departmental",
+            "fieldType": "text"
+        },
+        {
+            "isTable": false,
+            "fieldLabel": "Name of the Contratcor",
+            "fieldName": "nameOfTheContractor",
+            "fieldType": "date"
+        },
+        {
+            "isTable": false,
+            "fieldLabel": "Shift",
+            "fieldName": "shift",
+            "fieldType": "text"
+        },
+        {
+            "isTable": true,
+            "tableHeader": [
+                {
+                    "headerLabel": "Name of the seam and District",
+                    "hasSubHeader": false,
+                    "fieldType": "string"
+                },
+                {
+                    "headerLabel": "No. of P/R Loader",
+                    "hasSubHeader": false,
+                    "fieldType": "number"
+                },
+                {
+                    "headerLabel": "SDL/LHD/Cont. Miner/LW/Other",
+                    "hasSubHeader": true,
+                    "subHeader": [
+                        {
+                            "headerLabel": "SI No.",
+                            "hasSubHeader": false,
+                            "fieldType": "number"
+                        },
+                        {
+                            "headerLabel": "Name/No.",
+                            "hasSubHeader": false,
+                            "fieldType": "number"
+                        }
+                    ]
+                },
+                {
+                    "headerLabel": "Hours",
+                    "hasSubHeader": true,
+                    "subHeader": [
+                        {
+                            "headerLabel": "Working",
+                            "hasSubHeader": false,
+                            "fileldType": "number"
+                        },
+                        {
+                            "headerLabel": "BD",
+                            "hasSubHeader": false,
+                            "fileldType": "number"
+                        },
+                        {
+                            "headerLabel": "IDLE",
+                            "hasSubHeader": false,
+                            "fileldType": "number"
+                        }
+                    ]
+                },
+                {
+                    "headerLabel": "Shot firing Detail",
+                    "hasSubHeader": true,
+                    "subHeader": [
+                        {
+                            "headerLabel": "name of the face",
+                            "hasSubHeader": false,
+                            "fieldType": "text"
+                        },
+                        {
+                            "headerLabel": "No. of Hole blasted",
+                            "hasSubHeader": false,
+                            "fieldType": "number"
+                        },
+                        {
+                            "headerLabel": "Explosive blasted(kg)",
+                            "hasSubHeader": false,
+                            "fieldType": "number"
+                        }
+                    ]
+                },
+                {
+                    "headerLabel": "Production",
+                    "hasSubHeader": true,
+                    "subHeader": [
+                        {
+                            "headerLabel": "TUB/Mine Car Nos.",
+                            "hasSubheader": false,
+                            "fieldType": "number"
+                        },
+                        {
+                            "headerLabel": "SKIP Nos.",
+                            "hasSubheader": false,
+                            "fieldType": "number"
+                        },
+                        {
+                            "headerLabel": "BELTCONV",
+                            "hasSubheader": false,
+                            "fieldType": "number"
+                        }
+                    ]
+                },
+                {
+                    "headerLabel": "TUB/Mine Car Factor",
+                    "hasSubHeader": false,
+                    "fieldType": "text"
+                },
+                {
+                    "headerLabel": "Total Production (in Te)",
+                    "hasSubHeader": false,
+                    "fieldType": "text"
+                },
+                {
+                    "headerLabel": "Roof Bolting (Nos)",
+                    "hasSubHeader": false,
+                    "fieldType": "text"
+                }
+            ]
+        },
+        {
+            "isTable": false,
+            "fieldLabel": "Remarks",
+            "fieldName": "remark",
+            "fieldType": "textarea"
+        },
+        {
+            "isTable": false,
+            "isSignature": true,
+            "signatureLabels": ["overman", "Shift Inch", "Shift Engineer/Foreman"],
+            "fieldLabel": "image"
+        },
+        {
+            "isTable": false,
+            "isSignature": true,
+            "signatureLabels": ["overman", "Shift Inch", "Shift Engineer/Foreman"],
+            "fieldLabel": "image"
+        }
+    ]
+}

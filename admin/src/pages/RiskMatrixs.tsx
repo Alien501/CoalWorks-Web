@@ -63,7 +63,10 @@ const RiskMatrix = () => {
             <div className="p-2">
               <div className="flex justify-between items-center h-16 p-1">
                 <p>Created Risk Matrix</p>
-                <Button className="h-10 w-10 rounded-full" variant='secondary' onClick={nextStep}><PlusIcon /></Button>
+                {
+                  riskMatrix.length < 1 &&
+                  <Button className="h-10 w-10 rounded-full" variant='secondary' onClick={nextStep}><PlusIcon /></Button>
+                }
               </div>
               <div>
                 <Table>

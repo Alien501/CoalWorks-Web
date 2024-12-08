@@ -37,6 +37,9 @@ import { CreateShiftHandover } from './pages/createShiftHandover'
 import { UserManagement } from './pages/userManagement'
 
 import RiskMatrix from './pages/RiskMatrixs'
+import { ShiftTemplateCard } from './components/custom/shiftTemplateCard'
+import { ShiftTemplates } from './pages/ShiftTemplates'
+import CreateShiftTemplate from './pages/CreateShiftTemplate'
 
 interface ErrorPageProps {
   error: Error & { digest?: string }
@@ -189,6 +192,14 @@ function App() {
         {
           path: '/create-shift-handover',
           element: <CreateShiftHandover />
+        },
+        {
+          path: '/shift-templates',
+          element: <ShiftTemplates />
+        },
+        {
+          path: '/shift-template-create',
+          element: <CreateShiftTemplate />
         },
         {
           path: '/risk-matrix',

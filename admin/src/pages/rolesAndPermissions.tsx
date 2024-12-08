@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {  Dialog,  DialogContent,  DialogHeader,  DialogTitle,  DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
@@ -9,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Search, MoreHorizontal, Plus, Edit, Trash2 } from 'lucide-react'
 import axios from "axios"
 import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
 
 type Role = {
   id: string
@@ -18,7 +17,6 @@ type Role = {
 }
 
 export default function RolesManagement() {
-  const [roles, setRoles] = useState<Role[]>([])
   const [roles, setRoles] = useState<Role[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [newRole, setNewRole] = useState<Partial<Role>>({})
@@ -94,11 +92,11 @@ export default function RolesManagement() {
     (role.description?.toLowerCase().includes(searchTerm?.toLowerCase()) ?? false)
   )
 
-  useEffect(() => {
-    const getAndSetPositions = async () => {
-      role
-    }
-  })
+  // useEffect(() => {
+  //   const getAndSetPositions = async () => {
+  //     role
+  //   }
+  // })
 
   return (
     <div className="container mx-auto py-10">

@@ -17,6 +17,7 @@ import { mineRouter } from "./mineRouter";
 import { supervisorRouter } from "./supervisorRouter";
 import { sectionUserRouter } from "./sectionUserRouter";
 import { shiftTemplateRouter } from "./shiftTemplateRouter";
+import { smpRouter } from "./smpRouter";
 
 const router = Router();
 
@@ -67,5 +68,7 @@ router.use('/rounds', roundsRouter);
 router.use('/supervisor', supervisorRouter);
 router.use('/sectionuser', sectionUserRouter)
 router.use('/shifttemplate', shiftTemplateRouter)
+
+router.use('/smp', smpRouter);
 
 export { router };

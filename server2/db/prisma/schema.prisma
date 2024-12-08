@@ -151,6 +151,7 @@ model Section {
   users            SectionUsers[] // Many-to-many relation
   shiftAssignments ShiftAssignment[]
   shiftTemplates ShiftTemplate[]
+  RiskAssesment RiskAssesment[]
 }
 
 model Supervisor {
@@ -311,4 +312,43 @@ model Asset {
   planAssets   PlanAssets[]
   type         AssetType    @relation(fields: [assetType], references: [id])
   section      Section      @relation(fields: [assetSection], references: [id])
+}
+
+model RiskMatrix {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(255)
+  col        Int
+  row        Int
+  RiskValues RiskValues[]
+}
+
+enum RiskProps {
+  Consequence
+  Probability
+  Exposure
+}
+
+model RiskValues {
+  id       Int        @id @default(autoincrement())
+  type     RiskProps
+  name     String
+  scale    Int
+  matrixId Int
+  matrix   RiskMatrix @relation(fields: [matrixId], references: [id])
+}
+
+model RiskAssesment {
+  id             Int     @id @default(autoincrement())
+  activity       String
+  sectionId      Int
+  section        Section @relation(fields: [sectionId], references: [id])
+  hazard         String
+  Mechanism      String
+  exposedGroup   String
+  description    String
+  consequence    Float
+  exposure       Float
+  probability    Float
+  riskValue      Float
+  riskContolPlan Json
 }

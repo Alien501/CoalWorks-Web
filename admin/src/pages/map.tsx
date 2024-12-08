@@ -15,7 +15,7 @@ import ReactDOMServer from 'react-dom/server';
 import SectionCard from '@/components/custom/sectionCard';
 import MineCard from '@/components/custom/mineCard';
 import StylizedIndustrialNightScene from "@/assets/img/StylizedIndustrialNightScene.jpeg"
-
+import { motion } from "motion/react";
 // Mock heat map data for mines in Tamil Nadu
 const mockHeatMapData = [
   {
@@ -497,42 +497,44 @@ export default function MapPoints() {
         </CardContent>
       </Card>
       <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          {selectedSection && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="flex items-center justify-between">
-                  <span>{selectedSection.name}</span>
-                  <MapIcon size={20} style={{ color: selectedSection.color }} />
-                </DialogTitle>
-                <DialogDescription>
-                  Details about the selected section.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <img
-                  src={StylizedIndustrialNightScene}
-                  alt={`${selectedSection.name} section`}
-                  className="rounded-md object-cover w-full h-[150px]"
-                />
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <span className="text-sm font-medium col-span-1">Type:</span>
-                  <span className="col-span-3">Section</span>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <span className="text-sm font-medium col-span-1">Color:</span>
-                  <div className="col-span-3 flex items-center">
-                    <div className="w-6 h-6 rounded-full mr-2" style={{ backgroundColor: selectedSection.color }}></div>
-                    <span>{selectedSection.color}</span>
+        <motion.div layoutId='something'>
+          <DialogContent id='something' className="sm:max-w-[425px]">
+            {selectedSection && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="flex items-center justify-between">
+                    <span>{selectedSection.name}</span>
+                    <MapIcon size={20} style={{ color: selectedSection.color }} />
+                  </DialogTitle>
+                  <DialogDescription>
+                    Details about the selected section.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <img
+                    src={StylizedIndustrialNightScene}
+                    alt={`${selectedSection.name} section`}
+                    className="rounded-md object-cover w-full h-[150px]"
+                  />
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <span className="text-sm font-medium col-span-1">Type:</span>
+                    <span className="col-span-3">Section</span>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <span className="text-sm font-medium col-span-1">Color:</span>
+                    <div className="col-span-3 flex items-center">
+                      <div className="w-6 h-6 rounded-full mr-2" style={{ backgroundColor: selectedSection.color }}></div>
+                      <span>{selectedSection.color}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <DialogFooter>
-                <Button onClick={() => setDialogOpen(false)}>Close</Button>
-              </DialogFooter>
-            </>
-          )}
-        </DialogContent>
+                <DialogFooter>
+                  <Button onClick={() => setDialogOpen(false)}>Close</Button>
+                </DialogFooter>
+              </>
+            )}
+          </DialogContent>
+        </motion.div>
       </Dialog>
     </>
   );

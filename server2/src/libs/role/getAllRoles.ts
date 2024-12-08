@@ -8,7 +8,7 @@ const getAllRoles: RequestHandler = async (req: Request, res: Response) => {
             Users: true
         }
     });
-    res.status(201).json({
+    res.status(200).json({
         data: roles,
         error: null
     })

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -15,6 +15,9 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { ChevronLeft, Plus, Pencil, Trash2, MoreVertical, GripVertical } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { fetchSections } from "@/utils/fetchSections"
+import { fetchPositions } from "@/utils/fetchPosition"
+import { fetchAllRoles } from "@/utils/fetchAllRoles"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date'
 
@@ -61,6 +64,8 @@ export default function FormTemplateBuilder() {
             ]
         }
     ])
+    const [mineSections, setMineSections] = useState([])
+    const [roles, setRoles] = useState([]);
 
     const renderBasicInfoStep = () => {
         const handleInputChange = (field: keyof FormTemplateBasicInfo, value: string) => {
@@ -68,7 +73,7 @@ export default function FormTemplateBuilder() {
         }
 
         const isStepValid = basicInfo.name.trim() !== '' &&
-            basicInfo.section.trim() !== ''
+            !isNaN(basicInfo.section)
 
         return (
             <Card className="max-w-xl mx-auto">
@@ -91,11 +96,14 @@ export default function FormTemplateBuilder() {
                             onValueChange={(value) => handleInputChange('section', value)}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select Plant" />
+                                <SelectValue placeholder="Select Section" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="plant1">544566 - CWP 7468 Plant</SelectItem>
-                                <SelectItem value="plant2">789012 - Main Production Plant</SelectItem>
+                                {
+                                    mineSections.map(section => (
+                                        <SelectItem value={section.id}>{section.name}</SelectItem>
+                                    ))
+                                }
                             </SelectContent>
                         </Select>
                     </div>
@@ -109,8 +117,13 @@ export default function FormTemplateBuilder() {
                                 <SelectValue placeholder="Select Position" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="position1">Shift Supervisor</SelectItem>
-                                <SelectItem value="position2">Operation Manager</SelectItem>
+                                {
+                                    roles.map(role => (
+                                        <SelectItem value={role.roleId}>{role.roleName}</SelectItem>
+                                    ))
+                                }
+                                {/* <SelectItem value="position1">Shift Supervisor</SelectItem>
+                                <SelectItem value="position2">Operation Manager</SelectItem> */}
                             </SelectContent>
                         </Select>
                     </div>
@@ -260,6 +273,28 @@ export default function FormTemplateBuilder() {
             </div>
         )
     }
+
+    useEffect(() => {
+        const getAndSetAllSections = async () => {
+            const d = await fetchSections();
+            if(d) {
+                setMineSections(d);
+            }
+            return false;
+        }
+
+        const getAndSetRoles = async () => {
+            const d = await fetchAllRoles();
+            if(d) {
+                console.log(d)
+                setRoles(d)
+            }
+            return false;
+        }
+
+        getAndSetAllSections();
+        getAndSetRoles();
+    }, []);
 
     return (
         <div className="min-h-screen bg-background p-6">

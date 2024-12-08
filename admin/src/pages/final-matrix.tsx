@@ -57,7 +57,7 @@ export const FinalMatrix: React.FC<FinalMatrixProps> = ({ data, onPrev }) => {
           </TableHeader>
           <TableBody>
             {likelihood.map((like) => (
-              <TableRow key={like.id}>
+              <TableRow key={like.id} className='h-20'>
                 <TableCell className="font-medium bg-background">
                   {like.name} ({like.scale})
                 </TableCell>
@@ -69,7 +69,7 @@ export const FinalMatrix: React.FC<FinalMatrixProps> = ({ data, onPrev }) => {
                       key={cellId}
                       className="p-0 text-center text-foreground"
                     >
-                        {value}
+                      {value}
                       <Tooltip id={cellId} />
                     </TableCell>
                   )

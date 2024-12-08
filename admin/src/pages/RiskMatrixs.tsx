@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { toast } from "sonner";
 import axios from "axios";
 import { fetchAllRiskMatrix } from "@/utils/fetchAllRiskMatrix";
+import { fetchAllHazards } from "@/utils/fetchAllHazards";
 
 const RiskMatrix = () => {
   const [step, setStep] = useState(0);
@@ -19,6 +20,7 @@ const RiskMatrix = () => {
     exposure: [],
   });
   const [riskMatrix, setRiskMatrix] = useState([]);
+  const [hazards, setHazards] = useState([]);
   const [currentMatrix, setCurrentMatrix] = useState();
 
   const updateMatrixData = (key, value) => {
@@ -57,8 +59,8 @@ const RiskMatrix = () => {
     switch (step) {
       case 0:
         return(
-          <div className="w-full h-full grid grid-cols-2">
-            <div>
+          <div className="w-full h-full grid grid-cols-2 gap-2">
+            <div className="p-2">
               <div className="flex justify-between items-center h-16 p-1">
                 <p>Created Risk Matrix</p>
                 <Button className="h-10 w-10 rounded-full" variant='secondary' onClick={nextStep}><PlusIcon /></Button>
@@ -90,8 +92,40 @@ const RiskMatrix = () => {
                 </Table>
               </div>
             </div>
-            <div>
-
+            <div className="p-2">
+              <div>
+                <div className="flex justify-between items-center h-16 p-1">
+                  <p>Hazards</p>
+                  <AddHazardModal />
+                </div>
+                <div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Activity</TableHead>
+                        <TableHead>Hazard</TableHead>
+                        <TableHead>Mechanism</TableHead>
+                        <TableHead>Risk Value</TableHead>
+                        <TableHead></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {
+                        hazards.map(hazard => (
+                          <TableRow>
+                            <TableCell>{hazard.id}</TableCell>
+                            <TableCell>{hazard.activity}</TableCell>
+                            <TableCell>{hazard.hazard}</TableCell>
+                            <TableCell>{hazard.Mechanism}</TableCell>
+                            <TableCell>{hazard.riskValue}</TableCell>
+                          </TableRow>
+                        ))
+                      }
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -135,7 +169,7 @@ const RiskMatrix = () => {
         return (
           <InputDetails
             title="Probability"
-            data={matrixData.probability} // Pass existing data
+            data={matrixData.probability}
             count={matrixData.dimensions.row}
             onNext={(data) => {
               updateMatrixData("probability", data);
@@ -149,7 +183,7 @@ const RiskMatrix = () => {
         return (
           <InputDetails
             title="Exposure"
-            data={matrixData.exposure} // Pass existing data
+            data={matrixData.exposure}
             count={matrixData.dimensions.row}
             onNext={(data) => {
               updateMatrixData("exposure", data);
@@ -181,11 +215,28 @@ const RiskMatrix = () => {
       return false;
     }
 
+    const getAndSetHazards = async () => {
+      const d = await fetchAllHazards();
+      if(d) {
+        const sortedHazards = d.sort((a, b) => b.riskValue - a.riskValue);
+        setHazards(sortedHazards);
+        return true;
+      }
+      return false;
+    }
+
     const d = getAndSetRiskMatrix();
     if(d) {
       toast.success("Data fetched successfully")
     }else{
       toast.error("Something went wrong while fetching data");
+    }
+
+    const d1 = getAndSetHazards();
+    if(d1) {
+      toast.success('Fetched hazards successfully!')
+    } else {
+      toast.message("Something went wrong!")
     }
   }, [])
   return (
@@ -193,7 +244,7 @@ const RiskMatrix = () => {
       <div className="container h-full mx-auto py-8">
         <div className="h-16 flex justify-between items-center p-2">
             <h1 className="text-3xl font-bold mb-8 text-center">Safety Management Plan</h1>
-            <AddHazardModal />
+            {/* <AddHazardModal /> */}
         </div>
         <div className="flex items-center justify-center h-full">{renderStep()}</div>
       </div>

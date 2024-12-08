@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 
+// TODO
+
 export const RiskAssessmentSchema = z.object({
     activity: z.string(),
     sectionId: z.number().int().positive(),
@@ -13,7 +15,7 @@ export const RiskAssessmentSchema = z.object({
     exposure: z.number().min(0),
     probability: z.number().min(0),
     riskValue: z.number().min(0),
-    riskContolPlan: z.record(z.any()),
+    riskContolPlan: z.array(z.record(z.any())),
 });
 
 export const RiskAssessmentUpdateSchema = RiskAssessmentSchema.partial();

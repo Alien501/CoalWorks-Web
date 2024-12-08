@@ -344,7 +344,7 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
                                     <SelectValue placeholder="Select a section" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {sections.map((section) => (
+                                    {sections?.map((section) => (
                                         <SelectItem key={section.id} value={section.id}>
                                             {section.name}
                                         </SelectItem>
@@ -402,7 +402,7 @@ const RoundAndTasks: React.FC<RoundAndTasksProps> = ({
                                     <SelectValue placeholder="Select a section" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {sections.map((section) => (
+                                    {sections?.map((section) => (
                                         <SelectItem key={section.id} value={section.id}>
                                             {section.name}
                                         </SelectItem>

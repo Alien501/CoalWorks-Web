@@ -166,7 +166,7 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
                                     </DialogHeader>
                                     <DialogDescription>
                                         <ScrollArea className="max-h-[350px] space-y-2">
-                                            {sections.map((section) => (
+                                            {sections?.map((section) => (
                                                 <div className="flex items-center space-x-2 mt-2" key={section.id}>
                                                     <Checkbox
                                                         id={`section-${section.id}`}
@@ -181,7 +181,7 @@ export default function RoundPlansTable({ plans }: { plans: Plan[] }) {
 
                                             <div className=" flex space-x-3 mt-7">
                                             <Label>
-                                            The Person you want to get notified about this round plan
+                                            Select the supervisor
                                             </Label>
                                                 <div>
                                                     <Select onValueChange={(value) => setSelectedUser(parseInt(value))}>

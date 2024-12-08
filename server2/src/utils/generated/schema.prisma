@@ -68,7 +68,7 @@ model Role {
   roleId      Int      @id @default(autoincrement())
   roleName    String   @unique @db.VarChar(100)
   description String?  @db.Text
-  permissions Json
+  permissions Json?
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -84,25 +84,72 @@ model Permission {
 }
 
 model User {
-  userId       Int         @id @default(autoincrement())
-  username     String      @unique @db.VarChar(100)
-  email        String      @unique @db.VarChar(100)
-  phone        String?     @db.VarChar(20)
-  passwordHash String      @db.VarChar(255)
-  salt         String      @db.VarChar(255)
-  userRoleId   Int
-  userRole     Role        @relation(fields: [userRoleId], references: [roleId])
-  positionId   Int?
-  Position     Position?   @relation(fields: [positionId], references: [positionId])
-  isActive     Boolean     @default(true)
-  profileImage String?     @db.VarChar(255)
-  lastLogin    DateTime?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  createdBy    Int?
-  Creator      User?       @relation("UserCreation", fields: [createdBy], references: [userId])
-  CreatedUsers User[]      @relation("UserCreation")
-  supervisor   Supervisor?
+  userId                Int                       @id @default(autoincrement())
+  username              String                    @unique @db.VarChar(100)
+  email                 String                    @unique @db.VarChar(100)
+  phone                 String?                   @db.VarChar(20)
+  passwordHash          String                    @db.VarChar(255)
+  salt                  String                    @db.VarChar(255)
+  userRoleId            Int
+  userRole              Role                      @relation(fields: [userRoleId], references: [roleId])
+  positionId            Int?
+  Position              Position?                 @relation(fields: [positionId], references: [positionId])
+  isActive              Boolean                   @default(true)
+  profileImage          String?                   @db.VarChar(255)
+  lastLogin             DateTime?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  createdBy             Int?
+  Creator               User?                     @relation("UserCreation", fields: [createdBy], references: [userId])
+  CreatedUsers          User[]                    @relation("UserCreation")
+  supervisor            Supervisor?
+  isSupervisor          Boolean                   @default(false)
+  activePlans           ActivePlans[]
+  supervisorAssignments ShiftAssignment[]         @relation("SupervisorAssignments")
+  operatorAssignments   ShiftAssignmentOperator[] @relation("OperatorAssignments")
+
+  shifts   ShiftUsers[]
+  sections SectionUsers[]
+}
+
+model ShiftAssignment {
+  id           Int      @id @default(autoincrement())
+  sectionId    Int
+  shiftId      Int
+  supervisorId Int
+  createdAt    DateTime @default(now())
+
+  section    Section @relation(fields: [sectionId], references: [id])
+  shift      Shift   @relation(fields: [shiftId], references: [shiftId])
+  supervisor User    @relation("SupervisorAssignments", fields: [supervisorId], references: [userId])
+
+  operators ShiftAssignmentOperator[]
+}
+
+model ShiftAssignmentOperator {
+  id                Int @id @default(autoincrement())
+  shiftAssignmentId Int
+  operatorId        Int
+
+  shiftAssignment ShiftAssignment @relation(fields: [shiftAssignmentId], references: [id], onDelete: Cascade)
+  operator        User            @relation("OperatorAssignments", fields: [operatorId], references: [userId])
+
+  @@unique([shiftAssignmentId, operatorId])
+}
+
+model Section {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+  sectionType Int
+  area        Int?
+
+  type             SectionType       @relation(fields: [sectionType], references: [id])
+  assets           Asset[]
+  coordinates      Coordinate[]
+  activePlans      ActivePlans[]
+  supervisors      Supervisor[]
+  users            SectionUsers[] // Many-to-many relation
+  shiftAssignments ShiftAssignment[]
 }
 
 model Supervisor {
@@ -113,17 +160,14 @@ model Supervisor {
   user      User    @relation(fields: [userId], references: [userId])
 }
 
-model Section {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(255)
-  sectionType Int
-  area        Int?
+model SectionUsers {
+  sectionId Int
+  userId    Int
 
-  type        SectionType   @relation(fields: [sectionType], references: [id])
-  assets      Asset[]
-  coordinates Coordinate[]
-  activePlans ActivePlans[]
-  supervisors Supervisor[]
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([sectionId, userId])
 }
 
 model Shift {
@@ -133,8 +177,21 @@ model Shift {
   endTime   String
   isActive  Boolean @default(true)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  users            ShiftUsers[]
+  shiftAssignments ShiftAssignment[]
+}
+
+model ShiftUsers {
+  shiftId Int
+  userId  Int
+
+  shift Shift @relation(fields: [shiftId], references: [shiftId], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([shiftId, userId])
+  @@unique([shiftId, userId])
 }
 
 enum PlanStatus {
@@ -181,8 +238,10 @@ model ActivePlans {
   planName  String
   planId    Int
   sectionId Int
+  userId    Int?
   plan      Plan    @relation(fields: [planId], references: [planId])
   section   Section @relation(fields: [sectionId], references: [id])
+  user      User?   @relation(fields: [userId], references: [userId])
 }
 
 model SectionType {

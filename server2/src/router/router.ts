@@ -15,6 +15,8 @@ import { initRouter } from "./initRouter";
 import { adminRouter } from "./adminRouter";
 import { mineRouter } from "./mineRouter";
 import { supervisorRouter } from "./supervisorRouter";
+import { sectionUserRouter } from "./sectionUserRouter";
+import { shiftTemplateRouter } from "./shiftTemplateRouter";
 
 const router = Router();
 
@@ -63,5 +65,7 @@ router.use('/assettype', assetTypeRouter);
 router.use('/rounds', roundsRouter);
 
 router.use('/supervisor', supervisorRouter);
-router.use
+router.use('/sectionuser', sectionUserRouter)
+router.use('/shifttemplate', shiftTemplateRouter)
+
 export { router };

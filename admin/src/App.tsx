@@ -34,6 +34,8 @@ import { AlertCircle, ArrowLeft } from 'lucide-react'
 import { Button } from './components/ui/button'
 import { ShiftHandover } from './pages/shiftHandover'
 import { CreateShiftHandover } from './pages/createShiftHandover'
+import { UserManagement } from './pages/userManagement'
+
 interface ErrorPageProps {
   error: Error & { digest?: string }
   reset: () => void
@@ -173,6 +175,10 @@ function App() {
         {
           path: '/master-data/mine',
           element: <ProtectedRoute><MinesPage /></ProtectedRoute>
+        },
+        {
+          path: '/master-data/user',
+          element: <ProtectedRoute><UserManagement /></ProtectedRoute>
         },
         {
           path: '/shift-handover',

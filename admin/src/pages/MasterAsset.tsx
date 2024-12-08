@@ -424,7 +424,7 @@ export default function MasterAsset() {
                           <SelectValue placeholder="Select Section" />
                         </SelectTrigger>
                         <SelectContent>
-                          {sections.map(section => (
+                          {sections?.map(section => (
                             <SelectItem
                               key={section.id}
                               value={section.id.toString()}
@@ -519,7 +519,7 @@ export default function MasterAsset() {
                   <SelectValue placeholder="Filter by Section" />
                 </SelectTrigger>
                 <SelectContent>
-                  {sections.map(section => (
+                  {sections?.map(section => (
                     <SelectItem
                       key={section.id}
                       value={section.id.toString()}
@@ -656,7 +656,7 @@ export default function MasterAsset() {
             <TableBody>
               {filteredAssets.map(asset => {
                 const assetType = assetTypes.find(type => type.id === asset.assetType)
-                const section = sections.find(sec => sec.id === asset.assetSection)
+                const section = sections?.find(sec => sec.id === asset.assetSection)
                 return (
                   <TableRow key={asset.id}>
                     <TableCell className="py-4">{asset.id}</TableCell>

@@ -1,11 +1,11 @@
-import { RequestHandler, Response, Request } from "express";
+import { RequestHandler, Response, Request, NextFunction } from "express";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 
 const createSupervisorSchema = z.object({
-    userId: z.number().int("User ID must be an integer"),
-    sectionId: z.number().int("Section ID must be an integer"),
-  });
+  userId: z.array(z.number().int("User ID must be an integer")),
+  sectionId: z.number().int("Section ID must be an integer")
+})
   
   const updateSupervisorSchema = z.object({
     sectionId: z.number().int("Section ID must be an integer").optional(),
@@ -57,21 +57,48 @@ const getSupervisorById: RequestHandler = async (req, res, next): Promise<any> =
   }
 };
 
-// Create a new supervisor
-const createSupervisor: RequestHandler = async (req, res, next) => {
+const createSupervisors = async (
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) => {
   try {
     const validatedData = createSupervisorSchema.parse(req.body);
+    const createdSupervisors = await prisma.$transaction(async (prisma) => {
+      const supervisors = [];
 
-    const supervisor = await prisma.supervisor.create({
-      data: validatedData,
+      //@ts-ignore
+      for (const userId of validatedData.userId) {
+        const supervisor = await prisma.supervisor.create({
+          data: {
+            userId,
+            sectionId: validatedData.sectionId
+          }
+        });
+
+        await prisma.user.update({
+          where: { userId },
+          data: { isSupervisor: true }
+        });
+
+        supervisors.push(supervisor);
+      }
+
+      return supervisors;
     });
 
-    res.status(201).json({ data: supervisor });
+    res.status(201).json({ data: createdSupervisors });
   } catch (error: any) {
-    next(error)
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ 
+        message: 'Validation error',
+        errors: error.errors 
+      });
+    }
+
+    next(error);
   }
 };
-
 // Update a supervisor
 const updateSupervisor: RequestHandler = async (req, res, next) => {
   const id = Number(req.params.id);
@@ -108,7 +135,7 @@ const deleteSupervisor: RequestHandler = async (req, res, next) => {
 export {
   getAllSupervisors,
   getSupervisorById,
-  createSupervisor,
+  createSupervisors,
   updateSupervisor,
   deleteSupervisor,
 };

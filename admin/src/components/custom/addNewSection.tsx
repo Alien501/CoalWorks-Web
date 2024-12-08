@@ -289,7 +289,7 @@ export const AddNewSection: React.FC<AddNewSectionProps> = ({
                     <DropdownMenuLabel>Set Section Type</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuRadioGroup value={formData.type ? formData.type.typeId.toString() : ''} onValueChange={handleTypeChange}>
-                      {sections.map((item) => (
+                      {sections?.map((item) => (
                         <DropdownMenuRadioItem value={item.typeId.toString()} key={item.typeId}>
                           {item.itemName}
                         </DropdownMenuRadioItem>

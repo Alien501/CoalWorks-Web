@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { 
@@ -26,69 +26,91 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Plus, Edit, Trash2 } from 'lucide-react'
+import axios from "axios"
+import { toast } from "sonner"
 
 type Role = {
   id: string
-  name: string
+  roleName: string
   description?: string
   createdAt: Date
 }
 
 export default function RolesManagement() {
-  const [roles, setRoles] = useState<Role[]>([
-    { 
-      id: 'super-admin', 
-      name: 'Super Admin', 
-      description: 'Full system access',
-      createdAt: new Date() 
-    },
-    { 
-      id: 'manager', 
-      name: 'Manager', 
-      description: 'Operational management role',
-      createdAt: new Date() 
-    }
-  ])
+  const [roles, setRoles] = useState<Role[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [newRole, setNewRole] = useState<Partial<Role>>({})
   const [editingRole, setEditingRole] = useState<Role | null>(null)
 
-  const handleAddRole = () => {
-    if (!newRole.name) {
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const res = await axios.get("/api/data/role")
+        setRoles(res.data.data)
+      } catch (error) {
+        console.error("Error fetching roles:", error)
+        alert("Failed to fetch roles")
+      }
+    }
+    fetchRoles()
+  }, [])
+
+  const handleAddRole = async () => {
+    if (!newRole.roleName) {
       alert("Role name is required")
       return
     }
 
-    const roleToAdd: Role = {
-      ...newRole as Role,
-      id: newRole.name?.toLowerCase().replace(/\s+/g, '-'),
-      createdAt: new Date()
+    try {
+      const res = await axios.post("/api/data/role/create", {
+        roleName: newRole.roleName,
+        description: newRole.description
+      })
+      toast.success("Role created successfully, Please refresh the page to see the changes")
+      setRoles((prev) => [...prev, res.data])
+      setNewRole({}) // Reset form
+    } catch (error) {
+      console.error("Error adding role:", error)
+      alert("Failed to add role")
     }
-
-    setRoles([...roles, roleToAdd])
-    setNewRole({}) // Reset form
   }
 
-  const handleEditRole = () => {
+  const handleEditRole = async () => {
     if (!editingRole) return
 
-    setRoles(roles.map(role => 
-      role.id === editingRole.id 
-        ? { ...editingRole } 
-        : role
-    ))
-    setEditingRole(null)
+    try {
+      await axios.post(`/api/data/role/${editingRole.id}`, {
+        roleName: editingRole.roleName,
+        description: editingRole.description
+      })
+
+      setRoles(roles.map(role => 
+        role.id === editingRole.id 
+          ? { ...editingRole } 
+          : role
+      ))
+      setEditingRole(null)
+    } catch (error) {
+      console.error("Error editing role:", error)
+      alert("Failed to edit role")
+    }
   }
 
-  const handleDeleteRole = (roleId: string) => {
-    setRoles(roles.filter(role => role.id !== roleId))
+  const handleDeleteRole = async (roleId: string) => {
+    try {
+      await axios.delete(`/api/data/role/${roleId}`)
+      toast.success("Role deleted successfully, Please refresh the page to see the changes")
+      setRoles(roles.filter(role => role.id !== roleId))
+    } catch (error) {
+      console.error("Error deleting role:", error)
+      alert("Failed to delete role")
+    }
   }
 
-  const filteredRoles = roles
-    .filter(role => 
-      role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (role.description?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
-    )
+  const filteredRoles = roles.filter(role => 
+    role.roleName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+    (role.description?.toLowerCase().includes(searchTerm?.toLowerCase()) ?? false)
+  )
 
   return (
     <div className="container mx-auto py-10">
@@ -121,8 +143,8 @@ export default function RolesManagement() {
                 </Label>
                 <Input 
                   id="name" 
-                  value={newRole.name || ''} 
-                  onChange={(e) => setNewRole({...newRole, name: e.target.value})}
+                  value={newRole.roleName || ''} 
+                  onChange={(e) => setNewRole({...newRole, roleName: e.target.value})}
                   className="col-span-3" 
                 />
               </div>
@@ -167,7 +189,7 @@ export default function RolesManagement() {
               </Label>
               <Input 
                 id="edit-name" 
-                value={editingRole?.name || ''} 
+                value={editingRole?.roleName || ''} 
                 onChange={(e) => setEditingRole(prev => prev ? {...prev, name: e.target.value} : null)}
                 className="col-span-3" 
               />
@@ -212,9 +234,9 @@ export default function RolesManagement() {
         <TableBody>
           {filteredRoles.map((role) => (
             <TableRow key={role.id}>
-              <TableCell>{role.name}</TableCell>
+              <TableCell>{role.roleName}</TableCell>
               <TableCell>{role.description || 'No description'}</TableCell>
-              <TableCell>{role.createdAt.toLocaleDateString()}</TableCell>
+              <TableCell>{new Date(role.createdAt).toLocaleDateString()}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -231,7 +253,7 @@ export default function RolesManagement() {
                       <Edit className="mr-2 h-4 w-4" /> Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => handleDeleteRole(role.id)}
+                      onClick={() => handleDeleteRole(role.roleId)}
                       className="cursor-pointer text-red-600"
                     >
                       <Trash2 className="mr-2 h-4 w-4" /> Delete
@@ -246,3 +268,4 @@ export default function RolesManagement() {
     </div>
   )
 }
+

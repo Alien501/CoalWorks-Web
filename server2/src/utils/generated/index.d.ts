@@ -54,20 +54,50 @@ export type Permission = $Result.DefaultSelection<Prisma.$PermissionPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
- * Model Supervisor
+ * Model ShiftAssignment
  * 
  */
-export type Supervisor = $Result.DefaultSelection<Prisma.$SupervisorPayload>
+export type ShiftAssignment = $Result.DefaultSelection<Prisma.$ShiftAssignmentPayload>
+/**
+ * Model ShiftAssignmentOperator
+ * 
+ */
+export type ShiftAssignmentOperator = $Result.DefaultSelection<Prisma.$ShiftAssignmentOperatorPayload>
 /**
  * Model Section
  * 
  */
 export type Section = $Result.DefaultSelection<Prisma.$SectionPayload>
 /**
+ * Model Supervisor
+ * 
+ */
+export type Supervisor = $Result.DefaultSelection<Prisma.$SupervisorPayload>
+/**
+ * Model SectionUsers
+ * 
+ */
+export type SectionUsers = $Result.DefaultSelection<Prisma.$SectionUsersPayload>
+/**
  * Model Shift
  * 
  */
 export type Shift = $Result.DefaultSelection<Prisma.$ShiftPayload>
+/**
+ * Model ShiftTemplate
+ * 
+ */
+export type ShiftTemplate = $Result.DefaultSelection<Prisma.$ShiftTemplatePayload>
+/**
+ * Model ShiftTemplateQuestion
+ * 
+ */
+export type ShiftTemplateQuestion = $Result.DefaultSelection<Prisma.$ShiftTemplateQuestionPayload>
+/**
+ * Model ShiftUsers
+ * 
+ */
+export type ShiftUsers = $Result.DefaultSelection<Prisma.$ShiftUsersPayload>
 /**
  * Model Plan
  * 
@@ -113,7 +143,20 @@ export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
  * Enums
  */
 export namespace $Enums {
-  export const PlanStatus: {
+  export const ResponseType: {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  DOCUMENT: 'DOCUMENT',
+  LOCATION: 'LOCATION',
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE'
+};
+
+export type ResponseType = (typeof ResponseType)[keyof typeof ResponseType]
+
+
+export const PlanStatus: {
   Draft: 'Draft',
   Unpublished: 'Unpublished',
   Published: 'Published'
@@ -122,6 +165,10 @@ export namespace $Enums {
 export type PlanStatus = (typeof PlanStatus)[keyof typeof PlanStatus]
 
 }
+
+export type ResponseType = $Enums.ResponseType
+
+export const ResponseType: typeof $Enums.ResponseType
 
 export type PlanStatus = $Enums.PlanStatus
 
@@ -331,14 +378,24 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs>;
 
   /**
-   * `prisma.supervisor`: Exposes CRUD operations for the **Supervisor** model.
+   * `prisma.shiftAssignment`: Exposes CRUD operations for the **ShiftAssignment** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Supervisors
-    * const supervisors = await prisma.supervisor.findMany()
+    * // Fetch zero or more ShiftAssignments
+    * const shiftAssignments = await prisma.shiftAssignment.findMany()
     * ```
     */
-  get supervisor(): Prisma.SupervisorDelegate<ExtArgs>;
+  get shiftAssignment(): Prisma.ShiftAssignmentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.shiftAssignmentOperator`: Exposes CRUD operations for the **ShiftAssignmentOperator** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShiftAssignmentOperators
+    * const shiftAssignmentOperators = await prisma.shiftAssignmentOperator.findMany()
+    * ```
+    */
+  get shiftAssignmentOperator(): Prisma.ShiftAssignmentOperatorDelegate<ExtArgs>;
 
   /**
    * `prisma.section`: Exposes CRUD operations for the **Section** model.
@@ -351,6 +408,26 @@ export class PrismaClient<
   get section(): Prisma.SectionDelegate<ExtArgs>;
 
   /**
+   * `prisma.supervisor`: Exposes CRUD operations for the **Supervisor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Supervisors
+    * const supervisors = await prisma.supervisor.findMany()
+    * ```
+    */
+  get supervisor(): Prisma.SupervisorDelegate<ExtArgs>;
+
+  /**
+   * `prisma.sectionUsers`: Exposes CRUD operations for the **SectionUsers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SectionUsers
+    * const sectionUsers = await prisma.sectionUsers.findMany()
+    * ```
+    */
+  get sectionUsers(): Prisma.SectionUsersDelegate<ExtArgs>;
+
+  /**
    * `prisma.shift`: Exposes CRUD operations for the **Shift** model.
     * Example usage:
     * ```ts
@@ -359,6 +436,36 @@ export class PrismaClient<
     * ```
     */
   get shift(): Prisma.ShiftDelegate<ExtArgs>;
+
+  /**
+   * `prisma.shiftTemplate`: Exposes CRUD operations for the **ShiftTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShiftTemplates
+    * const shiftTemplates = await prisma.shiftTemplate.findMany()
+    * ```
+    */
+  get shiftTemplate(): Prisma.ShiftTemplateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.shiftTemplateQuestion`: Exposes CRUD operations for the **ShiftTemplateQuestion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShiftTemplateQuestions
+    * const shiftTemplateQuestions = await prisma.shiftTemplateQuestion.findMany()
+    * ```
+    */
+  get shiftTemplateQuestion(): Prisma.ShiftTemplateQuestionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.shiftUsers`: Exposes CRUD operations for the **ShiftUsers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShiftUsers
+    * const shiftUsers = await prisma.shiftUsers.findMany()
+    * ```
+    */
+  get shiftUsers(): Prisma.ShiftUsersDelegate<ExtArgs>;
 
   /**
    * `prisma.plan`: Exposes CRUD operations for the **Plan** model.
@@ -888,9 +995,15 @@ export namespace Prisma {
     Role: 'Role',
     Permission: 'Permission',
     User: 'User',
-    Supervisor: 'Supervisor',
+    ShiftAssignment: 'ShiftAssignment',
+    ShiftAssignmentOperator: 'ShiftAssignmentOperator',
     Section: 'Section',
+    Supervisor: 'Supervisor',
+    SectionUsers: 'SectionUsers',
     Shift: 'Shift',
+    ShiftTemplate: 'ShiftTemplate',
+    ShiftTemplateQuestion: 'ShiftTemplateQuestion',
+    ShiftUsers: 'ShiftUsers',
     Plan: 'Plan',
     PlanAssets: 'PlanAssets',
     Planfiles: 'Planfiles',
@@ -914,7 +1027,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "supervisor" | "section" | "shift" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "coordinate" | "assetType" | "asset"
+      modelProps: "initStatus" | "superAdmin" | "mine" | "owner" | "position" | "role" | "permission" | "user" | "shiftAssignment" | "shiftAssignmentOperator" | "section" | "supervisor" | "sectionUsers" | "shift" | "shiftTemplate" | "shiftTemplateQuestion" | "shiftUsers" | "plan" | "planAssets" | "planfiles" | "activePlans" | "sectionType" | "coordinate" | "assetType" | "asset"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1478,73 +1591,143 @@ export namespace Prisma {
           }
         }
       }
-      Supervisor: {
-        payload: Prisma.$SupervisorPayload<ExtArgs>
-        fields: Prisma.SupervisorFieldRefs
+      ShiftAssignment: {
+        payload: Prisma.$ShiftAssignmentPayload<ExtArgs>
+        fields: Prisma.ShiftAssignmentFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.SupervisorFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload> | null
+            args: Prisma.ShiftAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.SupervisorFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+            args: Prisma.ShiftAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>
           }
           findFirst: {
-            args: Prisma.SupervisorFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload> | null
+            args: Prisma.ShiftAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.SupervisorFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+            args: Prisma.ShiftAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>
           }
           findMany: {
-            args: Prisma.SupervisorFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>[]
+            args: Prisma.ShiftAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>[]
           }
           create: {
-            args: Prisma.SupervisorCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+            args: Prisma.ShiftAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>
           }
           createMany: {
-            args: Prisma.SupervisorCreateManyArgs<ExtArgs>
+            args: Prisma.ShiftAssignmentCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.SupervisorCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>[]
+            args: Prisma.ShiftAssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>[]
           }
           delete: {
-            args: Prisma.SupervisorDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+            args: Prisma.ShiftAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>
           }
           update: {
-            args: Prisma.SupervisorUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+            args: Prisma.ShiftAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>
           }
           deleteMany: {
-            args: Prisma.SupervisorDeleteManyArgs<ExtArgs>
+            args: Prisma.ShiftAssignmentDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.SupervisorUpdateManyArgs<ExtArgs>
+            args: Prisma.ShiftAssignmentUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.SupervisorUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+            args: Prisma.ShiftAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentPayload>
           }
           aggregate: {
-            args: Prisma.SupervisorAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSupervisor>
+            args: Prisma.ShiftAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShiftAssignment>
           }
           groupBy: {
-            args: Prisma.SupervisorGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SupervisorGroupByOutputType>[]
+            args: Prisma.ShiftAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShiftAssignmentGroupByOutputType>[]
           }
           count: {
-            args: Prisma.SupervisorCountArgs<ExtArgs>
-            result: $Utils.Optional<SupervisorCountAggregateOutputType> | number
+            args: Prisma.ShiftAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<ShiftAssignmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShiftAssignmentOperator: {
+        payload: Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>
+        fields: Prisma.ShiftAssignmentOperatorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShiftAssignmentOperatorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShiftAssignmentOperatorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>
+          }
+          findFirst: {
+            args: Prisma.ShiftAssignmentOperatorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShiftAssignmentOperatorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>
+          }
+          findMany: {
+            args: Prisma.ShiftAssignmentOperatorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>[]
+          }
+          create: {
+            args: Prisma.ShiftAssignmentOperatorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>
+          }
+          createMany: {
+            args: Prisma.ShiftAssignmentOperatorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShiftAssignmentOperatorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>[]
+          }
+          delete: {
+            args: Prisma.ShiftAssignmentOperatorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>
+          }
+          update: {
+            args: Prisma.ShiftAssignmentOperatorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShiftAssignmentOperatorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShiftAssignmentOperatorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ShiftAssignmentOperatorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftAssignmentOperatorPayload>
+          }
+          aggregate: {
+            args: Prisma.ShiftAssignmentOperatorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShiftAssignmentOperator>
+          }
+          groupBy: {
+            args: Prisma.ShiftAssignmentOperatorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShiftAssignmentOperatorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShiftAssignmentOperatorCountArgs<ExtArgs>
+            result: $Utils.Optional<ShiftAssignmentOperatorCountAggregateOutputType> | number
           }
         }
       }
@@ -1618,6 +1801,146 @@ export namespace Prisma {
           }
         }
       }
+      Supervisor: {
+        payload: Prisma.$SupervisorPayload<ExtArgs>
+        fields: Prisma.SupervisorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupervisorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupervisorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          findFirst: {
+            args: Prisma.SupervisorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupervisorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          findMany: {
+            args: Prisma.SupervisorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>[]
+          }
+          create: {
+            args: Prisma.SupervisorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          createMany: {
+            args: Prisma.SupervisorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SupervisorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>[]
+          }
+          delete: {
+            args: Prisma.SupervisorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          update: {
+            args: Prisma.SupervisorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          deleteMany: {
+            args: Prisma.SupervisorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupervisorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SupervisorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupervisorPayload>
+          }
+          aggregate: {
+            args: Prisma.SupervisorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupervisor>
+          }
+          groupBy: {
+            args: Prisma.SupervisorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupervisorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupervisorCountArgs<ExtArgs>
+            result: $Utils.Optional<SupervisorCountAggregateOutputType> | number
+          }
+        }
+      }
+      SectionUsers: {
+        payload: Prisma.$SectionUsersPayload<ExtArgs>
+        fields: Prisma.SectionUsersFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SectionUsersFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SectionUsersFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>
+          }
+          findFirst: {
+            args: Prisma.SectionUsersFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SectionUsersFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>
+          }
+          findMany: {
+            args: Prisma.SectionUsersFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>[]
+          }
+          create: {
+            args: Prisma.SectionUsersCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>
+          }
+          createMany: {
+            args: Prisma.SectionUsersCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SectionUsersCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>[]
+          }
+          delete: {
+            args: Prisma.SectionUsersDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>
+          }
+          update: {
+            args: Prisma.SectionUsersUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>
+          }
+          deleteMany: {
+            args: Prisma.SectionUsersDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SectionUsersUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SectionUsersUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SectionUsersPayload>
+          }
+          aggregate: {
+            args: Prisma.SectionUsersAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSectionUsers>
+          }
+          groupBy: {
+            args: Prisma.SectionUsersGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SectionUsersGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SectionUsersCountArgs<ExtArgs>
+            result: $Utils.Optional<SectionUsersCountAggregateOutputType> | number
+          }
+        }
+      }
       Shift: {
         payload: Prisma.$ShiftPayload<ExtArgs>
         fields: Prisma.ShiftFieldRefs
@@ -1685,6 +2008,216 @@ export namespace Prisma {
           count: {
             args: Prisma.ShiftCountArgs<ExtArgs>
             result: $Utils.Optional<ShiftCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShiftTemplate: {
+        payload: Prisma.$ShiftTemplatePayload<ExtArgs>
+        fields: Prisma.ShiftTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShiftTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShiftTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.ShiftTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShiftTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.ShiftTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.ShiftTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.ShiftTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShiftTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.ShiftTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>
+          }
+          update: {
+            args: Prisma.ShiftTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.ShiftTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShiftTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ShiftTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.ShiftTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShiftTemplate>
+          }
+          groupBy: {
+            args: Prisma.ShiftTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShiftTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShiftTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<ShiftTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShiftTemplateQuestion: {
+        payload: Prisma.$ShiftTemplateQuestionPayload<ExtArgs>
+        fields: Prisma.ShiftTemplateQuestionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShiftTemplateQuestionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShiftTemplateQuestionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>
+          }
+          findFirst: {
+            args: Prisma.ShiftTemplateQuestionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShiftTemplateQuestionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>
+          }
+          findMany: {
+            args: Prisma.ShiftTemplateQuestionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>[]
+          }
+          create: {
+            args: Prisma.ShiftTemplateQuestionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>
+          }
+          createMany: {
+            args: Prisma.ShiftTemplateQuestionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShiftTemplateQuestionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>[]
+          }
+          delete: {
+            args: Prisma.ShiftTemplateQuestionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>
+          }
+          update: {
+            args: Prisma.ShiftTemplateQuestionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShiftTemplateQuestionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShiftTemplateQuestionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ShiftTemplateQuestionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftTemplateQuestionPayload>
+          }
+          aggregate: {
+            args: Prisma.ShiftTemplateQuestionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShiftTemplateQuestion>
+          }
+          groupBy: {
+            args: Prisma.ShiftTemplateQuestionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShiftTemplateQuestionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShiftTemplateQuestionCountArgs<ExtArgs>
+            result: $Utils.Optional<ShiftTemplateQuestionCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShiftUsers: {
+        payload: Prisma.$ShiftUsersPayload<ExtArgs>
+        fields: Prisma.ShiftUsersFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShiftUsersFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShiftUsersFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>
+          }
+          findFirst: {
+            args: Prisma.ShiftUsersFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShiftUsersFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>
+          }
+          findMany: {
+            args: Prisma.ShiftUsersFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>[]
+          }
+          create: {
+            args: Prisma.ShiftUsersCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>
+          }
+          createMany: {
+            args: Prisma.ShiftUsersCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShiftUsersCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>[]
+          }
+          delete: {
+            args: Prisma.ShiftUsersDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>
+          }
+          update: {
+            args: Prisma.ShiftUsersUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShiftUsersDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShiftUsersUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ShiftUsersUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShiftUsersPayload>
+          }
+          aggregate: {
+            args: Prisma.ShiftUsersAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShiftUsers>
+          }
+          groupBy: {
+            args: Prisma.ShiftUsersGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShiftUsersGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShiftUsersCountArgs<ExtArgs>
+            result: $Utils.Optional<ShiftUsersCountAggregateOutputType> | number
           }
         }
       }
@@ -2503,10 +3036,20 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     CreatedUsers: number
+    activePlans: number
+    supervisorAssignments: number
+    operatorAssignments: number
+    shifts: number
+    sections: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     CreatedUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
+    activePlans?: boolean | UserCountOutputTypeCountActivePlansArgs
+    supervisorAssignments?: boolean | UserCountOutputTypeCountSupervisorAssignmentsArgs
+    operatorAssignments?: boolean | UserCountOutputTypeCountOperatorAssignmentsArgs
+    shifts?: boolean | UserCountOutputTypeCountShiftsArgs
+    sections?: boolean | UserCountOutputTypeCountSectionsArgs
   }
 
   // Custom InputTypes
@@ -2527,6 +3070,72 @@ export namespace Prisma {
     where?: UserWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountActivePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivePlansWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSupervisorAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountOperatorAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentOperatorWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountShiftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftUsersWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionUsersWhereInput
+  }
+
+
+  /**
+   * Count Type ShiftAssignmentCountOutputType
+   */
+
+  export type ShiftAssignmentCountOutputType = {
+    operators: number
+  }
+
+  export type ShiftAssignmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    operators?: boolean | ShiftAssignmentCountOutputTypeCountOperatorsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShiftAssignmentCountOutputType without action
+   */
+  export type ShiftAssignmentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentCountOutputType
+     */
+    select?: ShiftAssignmentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShiftAssignmentCountOutputType without action
+   */
+  export type ShiftAssignmentCountOutputTypeCountOperatorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentOperatorWhereInput
+  }
+
 
   /**
    * Count Type SectionCountOutputType
@@ -2537,6 +3146,9 @@ export namespace Prisma {
     coordinates: number
     activePlans: number
     supervisors: number
+    users: number
+    shiftAssignments: number
+    shiftTemplates: number
   }
 
   export type SectionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2544,6 +3156,9 @@ export namespace Prisma {
     coordinates?: boolean | SectionCountOutputTypeCountCoordinatesArgs
     activePlans?: boolean | SectionCountOutputTypeCountActivePlansArgs
     supervisors?: boolean | SectionCountOutputTypeCountSupervisorsArgs
+    users?: boolean | SectionCountOutputTypeCountUsersArgs
+    shiftAssignments?: boolean | SectionCountOutputTypeCountShiftAssignmentsArgs
+    shiftTemplates?: boolean | SectionCountOutputTypeCountShiftTemplatesArgs
   }
 
   // Custom InputTypes
@@ -2583,6 +3198,107 @@ export namespace Prisma {
    */
   export type SectionCountOutputTypeCountSupervisorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SupervisorWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionUsersWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountShiftAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentWhereInput
+  }
+
+  /**
+   * SectionCountOutputType without action
+   */
+  export type SectionCountOutputTypeCountShiftTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftTemplateWhereInput
+  }
+
+
+  /**
+   * Count Type ShiftCountOutputType
+   */
+
+  export type ShiftCountOutputType = {
+    users: number
+    shiftAssignments: number
+    shiftTemplates: number
+  }
+
+  export type ShiftCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | ShiftCountOutputTypeCountUsersArgs
+    shiftAssignments?: boolean | ShiftCountOutputTypeCountShiftAssignmentsArgs
+    shiftTemplates?: boolean | ShiftCountOutputTypeCountShiftTemplatesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShiftCountOutputType without action
+   */
+  export type ShiftCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftCountOutputType
+     */
+    select?: ShiftCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShiftCountOutputType without action
+   */
+  export type ShiftCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftUsersWhereInput
+  }
+
+  /**
+   * ShiftCountOutputType without action
+   */
+  export type ShiftCountOutputTypeCountShiftAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentWhereInput
+  }
+
+  /**
+   * ShiftCountOutputType without action
+   */
+  export type ShiftCountOutputTypeCountShiftTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftTemplateWhereInput
+  }
+
+
+  /**
+   * Count Type ShiftTemplateCountOutputType
+   */
+
+  export type ShiftTemplateCountOutputType = {
+    questions: number
+  }
+
+  export type ShiftTemplateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    questions?: boolean | ShiftTemplateCountOutputTypeCountQuestionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShiftTemplateCountOutputType without action
+   */
+  export type ShiftTemplateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateCountOutputType
+     */
+    select?: ShiftTemplateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShiftTemplateCountOutputType without action
+   */
+  export type ShiftTemplateCountOutputTypeCountQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftTemplateQuestionWhereInput
   }
 
 
@@ -7763,7 +8479,7 @@ export namespace Prisma {
     roleId: number
     roleName: string
     description: string | null
-    permissions: JsonValue
+    permissions: JsonValue | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -7835,7 +8551,7 @@ export namespace Prisma {
       roleId: number
       roleName: string
       description: string | null
-      permissions: Prisma.JsonValue
+      permissions: Prisma.JsonValue | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -9541,6 +10257,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     createdBy: number | null
+    isSupervisor: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -9558,6 +10275,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     createdBy: number | null
+    isSupervisor: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -9575,6 +10293,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     createdBy: number
+    isSupervisor: number
     _all: number
   }
 
@@ -9608,6 +10327,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     createdBy?: true
+    isSupervisor?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -9625,6 +10345,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     createdBy?: true
+    isSupervisor?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -9642,6 +10363,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     createdBy?: true
+    isSupervisor?: true
     _all?: true
   }
 
@@ -9746,6 +10468,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     createdBy: number | null
+    isSupervisor: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -9782,11 +10505,17 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
+    isSupervisor?: boolean
     userRole?: boolean | RoleDefaultArgs<ExtArgs>
     Position?: boolean | User$PositionArgs<ExtArgs>
     Creator?: boolean | User$CreatorArgs<ExtArgs>
     CreatedUsers?: boolean | User$CreatedUsersArgs<ExtArgs>
     supervisor?: boolean | User$supervisorArgs<ExtArgs>
+    activePlans?: boolean | User$activePlansArgs<ExtArgs>
+    supervisorAssignments?: boolean | User$supervisorAssignmentsArgs<ExtArgs>
+    operatorAssignments?: boolean | User$operatorAssignmentsArgs<ExtArgs>
+    shifts?: boolean | User$shiftsArgs<ExtArgs>
+    sections?: boolean | User$sectionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -9805,6 +10534,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
+    isSupervisor?: boolean
     userRole?: boolean | RoleDefaultArgs<ExtArgs>
     Position?: boolean | User$PositionArgs<ExtArgs>
     Creator?: boolean | User$CreatorArgs<ExtArgs>
@@ -9825,6 +10555,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
+    isSupervisor?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9833,6 +10564,11 @@ export namespace Prisma {
     Creator?: boolean | User$CreatorArgs<ExtArgs>
     CreatedUsers?: boolean | User$CreatedUsersArgs<ExtArgs>
     supervisor?: boolean | User$supervisorArgs<ExtArgs>
+    activePlans?: boolean | User$activePlansArgs<ExtArgs>
+    supervisorAssignments?: boolean | User$supervisorAssignmentsArgs<ExtArgs>
+    operatorAssignments?: boolean | User$operatorAssignmentsArgs<ExtArgs>
+    shifts?: boolean | User$shiftsArgs<ExtArgs>
+    sections?: boolean | User$sectionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9849,6 +10585,11 @@ export namespace Prisma {
       Creator: Prisma.$UserPayload<ExtArgs> | null
       CreatedUsers: Prisma.$UserPayload<ExtArgs>[]
       supervisor: Prisma.$SupervisorPayload<ExtArgs> | null
+      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
+      supervisorAssignments: Prisma.$ShiftAssignmentPayload<ExtArgs>[]
+      operatorAssignments: Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>[]
+      shifts: Prisma.$ShiftUsersPayload<ExtArgs>[]
+      sections: Prisma.$SectionUsersPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: number
@@ -9865,6 +10606,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       createdBy: number | null
+      isSupervisor: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -10234,6 +10976,11 @@ export namespace Prisma {
     Creator<T extends User$CreatorArgs<ExtArgs> = {}>(args?: Subset<T, User$CreatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     CreatedUsers<T extends User$CreatedUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$CreatedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany"> | Null>
     supervisor<T extends User$supervisorArgs<ExtArgs> = {}>(args?: Subset<T, User$supervisorArgs<ExtArgs>>): Prisma__SupervisorClient<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    activePlans<T extends User$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, User$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
+    supervisorAssignments<T extends User$supervisorAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$supervisorAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findMany"> | Null>
+    operatorAssignments<T extends User$operatorAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$operatorAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findMany"> | Null>
+    shifts<T extends User$shiftsArgs<ExtArgs> = {}>(args?: Subset<T, User$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findMany"> | Null>
+    sections<T extends User$sectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10277,6 +11024,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly createdBy: FieldRef<"User", 'Int'>
+    readonly isSupervisor: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -10660,6 +11408,106 @@ export namespace Prisma {
   }
 
   /**
+   * User.activePlans
+   */
+  export type User$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    where?: ActivePlansWhereInput
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    cursor?: ActivePlansWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
+  }
+
+  /**
+   * User.supervisorAssignments
+   */
+  export type User$supervisorAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    where?: ShiftAssignmentWhereInput
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    cursor?: ShiftAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftAssignmentScalarFieldEnum | ShiftAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.operatorAssignments
+   */
+  export type User$operatorAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    where?: ShiftAssignmentOperatorWhereInput
+    orderBy?: ShiftAssignmentOperatorOrderByWithRelationInput | ShiftAssignmentOperatorOrderByWithRelationInput[]
+    cursor?: ShiftAssignmentOperatorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftAssignmentOperatorScalarFieldEnum | ShiftAssignmentOperatorScalarFieldEnum[]
+  }
+
+  /**
+   * User.shifts
+   */
+  export type User$shiftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    where?: ShiftUsersWhereInput
+    orderBy?: ShiftUsersOrderByWithRelationInput | ShiftUsersOrderByWithRelationInput[]
+    cursor?: ShiftUsersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftUsersScalarFieldEnum | ShiftUsersScalarFieldEnum[]
+  }
+
+  /**
+   * User.sections
+   */
+  export type User$sectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionUsers
+     */
+    select?: SectionUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionUsersInclude<ExtArgs> | null
+    where?: SectionUsersWhereInput
+    orderBy?: SectionUsersOrderByWithRelationInput | SectionUsersOrderByWithRelationInput[]
+    cursor?: SectionUsersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SectionUsersScalarFieldEnum | SectionUsersScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10671,6 +11519,3113 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShiftAssignment
+   */
+
+  export type AggregateShiftAssignment = {
+    _count: ShiftAssignmentCountAggregateOutputType | null
+    _avg: ShiftAssignmentAvgAggregateOutputType | null
+    _sum: ShiftAssignmentSumAggregateOutputType | null
+    _min: ShiftAssignmentMinAggregateOutputType | null
+    _max: ShiftAssignmentMaxAggregateOutputType | null
+  }
+
+  export type ShiftAssignmentAvgAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    shiftId: number | null
+    supervisorId: number | null
+  }
+
+  export type ShiftAssignmentSumAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    shiftId: number | null
+    supervisorId: number | null
+  }
+
+  export type ShiftAssignmentMinAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    shiftId: number | null
+    supervisorId: number | null
+    createdAt: Date | null
+  }
+
+  export type ShiftAssignmentMaxAggregateOutputType = {
+    id: number | null
+    sectionId: number | null
+    shiftId: number | null
+    supervisorId: number | null
+    createdAt: Date | null
+  }
+
+  export type ShiftAssignmentCountAggregateOutputType = {
+    id: number
+    sectionId: number
+    shiftId: number
+    supervisorId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ShiftAssignmentAvgAggregateInputType = {
+    id?: true
+    sectionId?: true
+    shiftId?: true
+    supervisorId?: true
+  }
+
+  export type ShiftAssignmentSumAggregateInputType = {
+    id?: true
+    sectionId?: true
+    shiftId?: true
+    supervisorId?: true
+  }
+
+  export type ShiftAssignmentMinAggregateInputType = {
+    id?: true
+    sectionId?: true
+    shiftId?: true
+    supervisorId?: true
+    createdAt?: true
+  }
+
+  export type ShiftAssignmentMaxAggregateInputType = {
+    id?: true
+    sectionId?: true
+    shiftId?: true
+    supervisorId?: true
+    createdAt?: true
+  }
+
+  export type ShiftAssignmentCountAggregateInputType = {
+    id?: true
+    sectionId?: true
+    shiftId?: true
+    supervisorId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ShiftAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftAssignment to aggregate.
+     */
+    where?: ShiftAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignments to fetch.
+     */
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShiftAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShiftAssignments
+    **/
+    _count?: true | ShiftAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShiftAssignmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShiftAssignmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShiftAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShiftAssignmentMaxAggregateInputType
+  }
+
+  export type GetShiftAssignmentAggregateType<T extends ShiftAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateShiftAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShiftAssignment[P]>
+      : GetScalarType<T[P], AggregateShiftAssignment[P]>
+  }
+
+
+
+
+  export type ShiftAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentWhereInput
+    orderBy?: ShiftAssignmentOrderByWithAggregationInput | ShiftAssignmentOrderByWithAggregationInput[]
+    by: ShiftAssignmentScalarFieldEnum[] | ShiftAssignmentScalarFieldEnum
+    having?: ShiftAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShiftAssignmentCountAggregateInputType | true
+    _avg?: ShiftAssignmentAvgAggregateInputType
+    _sum?: ShiftAssignmentSumAggregateInputType
+    _min?: ShiftAssignmentMinAggregateInputType
+    _max?: ShiftAssignmentMaxAggregateInputType
+  }
+
+  export type ShiftAssignmentGroupByOutputType = {
+    id: number
+    sectionId: number
+    shiftId: number
+    supervisorId: number
+    createdAt: Date
+    _count: ShiftAssignmentCountAggregateOutputType | null
+    _avg: ShiftAssignmentAvgAggregateOutputType | null
+    _sum: ShiftAssignmentSumAggregateOutputType | null
+    _min: ShiftAssignmentMinAggregateOutputType | null
+    _max: ShiftAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetShiftAssignmentGroupByPayload<T extends ShiftAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShiftAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShiftAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShiftAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], ShiftAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShiftAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    shiftId?: boolean
+    supervisorId?: boolean
+    createdAt?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    operators?: boolean | ShiftAssignment$operatorsArgs<ExtArgs>
+    _count?: boolean | ShiftAssignmentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftAssignment"]>
+
+  export type ShiftAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sectionId?: boolean
+    shiftId?: boolean
+    supervisorId?: boolean
+    createdAt?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    supervisor?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftAssignment"]>
+
+  export type ShiftAssignmentSelectScalar = {
+    id?: boolean
+    sectionId?: boolean
+    shiftId?: boolean
+    supervisorId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ShiftAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    operators?: boolean | ShiftAssignment$operatorsArgs<ExtArgs>
+    _count?: boolean | ShiftAssignmentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShiftAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    supervisor?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ShiftAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShiftAssignment"
+    objects: {
+      section: Prisma.$SectionPayload<ExtArgs>
+      shift: Prisma.$ShiftPayload<ExtArgs>
+      supervisor: Prisma.$UserPayload<ExtArgs>
+      operators: Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      sectionId: number
+      shiftId: number
+      supervisorId: number
+      createdAt: Date
+    }, ExtArgs["result"]["shiftAssignment"]>
+    composites: {}
+  }
+
+  type ShiftAssignmentGetPayload<S extends boolean | null | undefined | ShiftAssignmentDefaultArgs> = $Result.GetResult<Prisma.$ShiftAssignmentPayload, S>
+
+  type ShiftAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ShiftAssignmentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ShiftAssignmentCountAggregateInputType | true
+    }
+
+  export interface ShiftAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShiftAssignment'], meta: { name: 'ShiftAssignment' } }
+    /**
+     * Find zero or one ShiftAssignment that matches the filter.
+     * @param {ShiftAssignmentFindUniqueArgs} args - Arguments to find a ShiftAssignment
+     * @example
+     * // Get one ShiftAssignment
+     * const shiftAssignment = await prisma.shiftAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShiftAssignmentFindUniqueArgs>(args: SelectSubset<T, ShiftAssignmentFindUniqueArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ShiftAssignment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ShiftAssignmentFindUniqueOrThrowArgs} args - Arguments to find a ShiftAssignment
+     * @example
+     * // Get one ShiftAssignment
+     * const shiftAssignment = await prisma.shiftAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShiftAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, ShiftAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ShiftAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentFindFirstArgs} args - Arguments to find a ShiftAssignment
+     * @example
+     * // Get one ShiftAssignment
+     * const shiftAssignment = await prisma.shiftAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShiftAssignmentFindFirstArgs>(args?: SelectSubset<T, ShiftAssignmentFindFirstArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ShiftAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentFindFirstOrThrowArgs} args - Arguments to find a ShiftAssignment
+     * @example
+     * // Get one ShiftAssignment
+     * const shiftAssignment = await prisma.shiftAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShiftAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, ShiftAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ShiftAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShiftAssignments
+     * const shiftAssignments = await prisma.shiftAssignment.findMany()
+     * 
+     * // Get first 10 ShiftAssignments
+     * const shiftAssignments = await prisma.shiftAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shiftAssignmentWithIdOnly = await prisma.shiftAssignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShiftAssignmentFindManyArgs>(args?: SelectSubset<T, ShiftAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ShiftAssignment.
+     * @param {ShiftAssignmentCreateArgs} args - Arguments to create a ShiftAssignment.
+     * @example
+     * // Create one ShiftAssignment
+     * const ShiftAssignment = await prisma.shiftAssignment.create({
+     *   data: {
+     *     // ... data to create a ShiftAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShiftAssignmentCreateArgs>(args: SelectSubset<T, ShiftAssignmentCreateArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ShiftAssignments.
+     * @param {ShiftAssignmentCreateManyArgs} args - Arguments to create many ShiftAssignments.
+     * @example
+     * // Create many ShiftAssignments
+     * const shiftAssignment = await prisma.shiftAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShiftAssignmentCreateManyArgs>(args?: SelectSubset<T, ShiftAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShiftAssignments and returns the data saved in the database.
+     * @param {ShiftAssignmentCreateManyAndReturnArgs} args - Arguments to create many ShiftAssignments.
+     * @example
+     * // Create many ShiftAssignments
+     * const shiftAssignment = await prisma.shiftAssignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShiftAssignments and only return the `id`
+     * const shiftAssignmentWithIdOnly = await prisma.shiftAssignment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShiftAssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, ShiftAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ShiftAssignment.
+     * @param {ShiftAssignmentDeleteArgs} args - Arguments to delete one ShiftAssignment.
+     * @example
+     * // Delete one ShiftAssignment
+     * const ShiftAssignment = await prisma.shiftAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one ShiftAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShiftAssignmentDeleteArgs>(args: SelectSubset<T, ShiftAssignmentDeleteArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ShiftAssignment.
+     * @param {ShiftAssignmentUpdateArgs} args - Arguments to update one ShiftAssignment.
+     * @example
+     * // Update one ShiftAssignment
+     * const shiftAssignment = await prisma.shiftAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShiftAssignmentUpdateArgs>(args: SelectSubset<T, ShiftAssignmentUpdateArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ShiftAssignments.
+     * @param {ShiftAssignmentDeleteManyArgs} args - Arguments to filter ShiftAssignments to delete.
+     * @example
+     * // Delete a few ShiftAssignments
+     * const { count } = await prisma.shiftAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShiftAssignmentDeleteManyArgs>(args?: SelectSubset<T, ShiftAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShiftAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShiftAssignments
+     * const shiftAssignment = await prisma.shiftAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShiftAssignmentUpdateManyArgs>(args: SelectSubset<T, ShiftAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ShiftAssignment.
+     * @param {ShiftAssignmentUpsertArgs} args - Arguments to update or create a ShiftAssignment.
+     * @example
+     * // Update or create a ShiftAssignment
+     * const shiftAssignment = await prisma.shiftAssignment.upsert({
+     *   create: {
+     *     // ... data to create a ShiftAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShiftAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShiftAssignmentUpsertArgs>(args: SelectSubset<T, ShiftAssignmentUpsertArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ShiftAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentCountArgs} args - Arguments to filter ShiftAssignments to count.
+     * @example
+     * // Count the number of ShiftAssignments
+     * const count = await prisma.shiftAssignment.count({
+     *   where: {
+     *     // ... the filter for the ShiftAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShiftAssignmentCountArgs>(
+      args?: Subset<T, ShiftAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShiftAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShiftAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShiftAssignmentAggregateArgs>(args: Subset<T, ShiftAssignmentAggregateArgs>): Prisma.PrismaPromise<GetShiftAssignmentAggregateType<T>>
+
+    /**
+     * Group by ShiftAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShiftAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShiftAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: ShiftAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShiftAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShiftAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShiftAssignment model
+   */
+  readonly fields: ShiftAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShiftAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShiftAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    shift<T extends ShiftDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShiftDefaultArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    supervisor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    operators<T extends ShiftAssignment$operatorsArgs<ExtArgs> = {}>(args?: Subset<T, ShiftAssignment$operatorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShiftAssignment model
+   */ 
+  interface ShiftAssignmentFieldRefs {
+    readonly id: FieldRef<"ShiftAssignment", 'Int'>
+    readonly sectionId: FieldRef<"ShiftAssignment", 'Int'>
+    readonly shiftId: FieldRef<"ShiftAssignment", 'Int'>
+    readonly supervisorId: FieldRef<"ShiftAssignment", 'Int'>
+    readonly createdAt: FieldRef<"ShiftAssignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShiftAssignment findUnique
+   */
+  export type ShiftAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignment to fetch.
+     */
+    where: ShiftAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignment findUniqueOrThrow
+   */
+  export type ShiftAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignment to fetch.
+     */
+    where: ShiftAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignment findFirst
+   */
+  export type ShiftAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignment to fetch.
+     */
+    where?: ShiftAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignments to fetch.
+     */
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftAssignments.
+     */
+    cursor?: ShiftAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftAssignments.
+     */
+    distinct?: ShiftAssignmentScalarFieldEnum | ShiftAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignment findFirstOrThrow
+   */
+  export type ShiftAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignment to fetch.
+     */
+    where?: ShiftAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignments to fetch.
+     */
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftAssignments.
+     */
+    cursor?: ShiftAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftAssignments.
+     */
+    distinct?: ShiftAssignmentScalarFieldEnum | ShiftAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignment findMany
+   */
+  export type ShiftAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignments to fetch.
+     */
+    where?: ShiftAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignments to fetch.
+     */
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShiftAssignments.
+     */
+    cursor?: ShiftAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignments.
+     */
+    skip?: number
+    distinct?: ShiftAssignmentScalarFieldEnum | ShiftAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignment create
+   */
+  export type ShiftAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShiftAssignment.
+     */
+    data: XOR<ShiftAssignmentCreateInput, ShiftAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * ShiftAssignment createMany
+   */
+  export type ShiftAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShiftAssignments.
+     */
+    data: ShiftAssignmentCreateManyInput | ShiftAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShiftAssignment createManyAndReturn
+   */
+  export type ShiftAssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ShiftAssignments.
+     */
+    data: ShiftAssignmentCreateManyInput | ShiftAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShiftAssignment update
+   */
+  export type ShiftAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShiftAssignment.
+     */
+    data: XOR<ShiftAssignmentUpdateInput, ShiftAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which ShiftAssignment to update.
+     */
+    where: ShiftAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignment updateMany
+   */
+  export type ShiftAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShiftAssignments.
+     */
+    data: XOR<ShiftAssignmentUpdateManyMutationInput, ShiftAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which ShiftAssignments to update
+     */
+    where?: ShiftAssignmentWhereInput
+  }
+
+  /**
+   * ShiftAssignment upsert
+   */
+  export type ShiftAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShiftAssignment to update in case it exists.
+     */
+    where: ShiftAssignmentWhereUniqueInput
+    /**
+     * In case the ShiftAssignment found by the `where` argument doesn't exist, create a new ShiftAssignment with this data.
+     */
+    create: XOR<ShiftAssignmentCreateInput, ShiftAssignmentUncheckedCreateInput>
+    /**
+     * In case the ShiftAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShiftAssignmentUpdateInput, ShiftAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * ShiftAssignment delete
+   */
+  export type ShiftAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which ShiftAssignment to delete.
+     */
+    where: ShiftAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignment deleteMany
+   */
+  export type ShiftAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftAssignments to delete
+     */
+    where?: ShiftAssignmentWhereInput
+  }
+
+  /**
+   * ShiftAssignment.operators
+   */
+  export type ShiftAssignment$operatorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    where?: ShiftAssignmentOperatorWhereInput
+    orderBy?: ShiftAssignmentOperatorOrderByWithRelationInput | ShiftAssignmentOperatorOrderByWithRelationInput[]
+    cursor?: ShiftAssignmentOperatorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftAssignmentOperatorScalarFieldEnum | ShiftAssignmentOperatorScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignment without action
+   */
+  export type ShiftAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShiftAssignmentOperator
+   */
+
+  export type AggregateShiftAssignmentOperator = {
+    _count: ShiftAssignmentOperatorCountAggregateOutputType | null
+    _avg: ShiftAssignmentOperatorAvgAggregateOutputType | null
+    _sum: ShiftAssignmentOperatorSumAggregateOutputType | null
+    _min: ShiftAssignmentOperatorMinAggregateOutputType | null
+    _max: ShiftAssignmentOperatorMaxAggregateOutputType | null
+  }
+
+  export type ShiftAssignmentOperatorAvgAggregateOutputType = {
+    id: number | null
+    shiftAssignmentId: number | null
+    operatorId: number | null
+  }
+
+  export type ShiftAssignmentOperatorSumAggregateOutputType = {
+    id: number | null
+    shiftAssignmentId: number | null
+    operatorId: number | null
+  }
+
+  export type ShiftAssignmentOperatorMinAggregateOutputType = {
+    id: number | null
+    shiftAssignmentId: number | null
+    operatorId: number | null
+  }
+
+  export type ShiftAssignmentOperatorMaxAggregateOutputType = {
+    id: number | null
+    shiftAssignmentId: number | null
+    operatorId: number | null
+  }
+
+  export type ShiftAssignmentOperatorCountAggregateOutputType = {
+    id: number
+    shiftAssignmentId: number
+    operatorId: number
+    _all: number
+  }
+
+
+  export type ShiftAssignmentOperatorAvgAggregateInputType = {
+    id?: true
+    shiftAssignmentId?: true
+    operatorId?: true
+  }
+
+  export type ShiftAssignmentOperatorSumAggregateInputType = {
+    id?: true
+    shiftAssignmentId?: true
+    operatorId?: true
+  }
+
+  export type ShiftAssignmentOperatorMinAggregateInputType = {
+    id?: true
+    shiftAssignmentId?: true
+    operatorId?: true
+  }
+
+  export type ShiftAssignmentOperatorMaxAggregateInputType = {
+    id?: true
+    shiftAssignmentId?: true
+    operatorId?: true
+  }
+
+  export type ShiftAssignmentOperatorCountAggregateInputType = {
+    id?: true
+    shiftAssignmentId?: true
+    operatorId?: true
+    _all?: true
+  }
+
+  export type ShiftAssignmentOperatorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftAssignmentOperator to aggregate.
+     */
+    where?: ShiftAssignmentOperatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignmentOperators to fetch.
+     */
+    orderBy?: ShiftAssignmentOperatorOrderByWithRelationInput | ShiftAssignmentOperatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShiftAssignmentOperatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignmentOperators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignmentOperators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShiftAssignmentOperators
+    **/
+    _count?: true | ShiftAssignmentOperatorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShiftAssignmentOperatorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShiftAssignmentOperatorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShiftAssignmentOperatorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShiftAssignmentOperatorMaxAggregateInputType
+  }
+
+  export type GetShiftAssignmentOperatorAggregateType<T extends ShiftAssignmentOperatorAggregateArgs> = {
+        [P in keyof T & keyof AggregateShiftAssignmentOperator]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShiftAssignmentOperator[P]>
+      : GetScalarType<T[P], AggregateShiftAssignmentOperator[P]>
+  }
+
+
+
+
+  export type ShiftAssignmentOperatorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftAssignmentOperatorWhereInput
+    orderBy?: ShiftAssignmentOperatorOrderByWithAggregationInput | ShiftAssignmentOperatorOrderByWithAggregationInput[]
+    by: ShiftAssignmentOperatorScalarFieldEnum[] | ShiftAssignmentOperatorScalarFieldEnum
+    having?: ShiftAssignmentOperatorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShiftAssignmentOperatorCountAggregateInputType | true
+    _avg?: ShiftAssignmentOperatorAvgAggregateInputType
+    _sum?: ShiftAssignmentOperatorSumAggregateInputType
+    _min?: ShiftAssignmentOperatorMinAggregateInputType
+    _max?: ShiftAssignmentOperatorMaxAggregateInputType
+  }
+
+  export type ShiftAssignmentOperatorGroupByOutputType = {
+    id: number
+    shiftAssignmentId: number
+    operatorId: number
+    _count: ShiftAssignmentOperatorCountAggregateOutputType | null
+    _avg: ShiftAssignmentOperatorAvgAggregateOutputType | null
+    _sum: ShiftAssignmentOperatorSumAggregateOutputType | null
+    _min: ShiftAssignmentOperatorMinAggregateOutputType | null
+    _max: ShiftAssignmentOperatorMaxAggregateOutputType | null
+  }
+
+  type GetShiftAssignmentOperatorGroupByPayload<T extends ShiftAssignmentOperatorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShiftAssignmentOperatorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShiftAssignmentOperatorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShiftAssignmentOperatorGroupByOutputType[P]>
+            : GetScalarType<T[P], ShiftAssignmentOperatorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShiftAssignmentOperatorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shiftAssignmentId?: boolean
+    operatorId?: boolean
+    shiftAssignment?: boolean | ShiftAssignmentDefaultArgs<ExtArgs>
+    operator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftAssignmentOperator"]>
+
+  export type ShiftAssignmentOperatorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shiftAssignmentId?: boolean
+    operatorId?: boolean
+    shiftAssignment?: boolean | ShiftAssignmentDefaultArgs<ExtArgs>
+    operator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftAssignmentOperator"]>
+
+  export type ShiftAssignmentOperatorSelectScalar = {
+    id?: boolean
+    shiftAssignmentId?: boolean
+    operatorId?: boolean
+  }
+
+  export type ShiftAssignmentOperatorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shiftAssignment?: boolean | ShiftAssignmentDefaultArgs<ExtArgs>
+    operator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ShiftAssignmentOperatorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shiftAssignment?: boolean | ShiftAssignmentDefaultArgs<ExtArgs>
+    operator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ShiftAssignmentOperatorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShiftAssignmentOperator"
+    objects: {
+      shiftAssignment: Prisma.$ShiftAssignmentPayload<ExtArgs>
+      operator: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      shiftAssignmentId: number
+      operatorId: number
+    }, ExtArgs["result"]["shiftAssignmentOperator"]>
+    composites: {}
+  }
+
+  type ShiftAssignmentOperatorGetPayload<S extends boolean | null | undefined | ShiftAssignmentOperatorDefaultArgs> = $Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload, S>
+
+  type ShiftAssignmentOperatorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ShiftAssignmentOperatorFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ShiftAssignmentOperatorCountAggregateInputType | true
+    }
+
+  export interface ShiftAssignmentOperatorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShiftAssignmentOperator'], meta: { name: 'ShiftAssignmentOperator' } }
+    /**
+     * Find zero or one ShiftAssignmentOperator that matches the filter.
+     * @param {ShiftAssignmentOperatorFindUniqueArgs} args - Arguments to find a ShiftAssignmentOperator
+     * @example
+     * // Get one ShiftAssignmentOperator
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShiftAssignmentOperatorFindUniqueArgs>(args: SelectSubset<T, ShiftAssignmentOperatorFindUniqueArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ShiftAssignmentOperator that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ShiftAssignmentOperatorFindUniqueOrThrowArgs} args - Arguments to find a ShiftAssignmentOperator
+     * @example
+     * // Get one ShiftAssignmentOperator
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShiftAssignmentOperatorFindUniqueOrThrowArgs>(args: SelectSubset<T, ShiftAssignmentOperatorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ShiftAssignmentOperator that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorFindFirstArgs} args - Arguments to find a ShiftAssignmentOperator
+     * @example
+     * // Get one ShiftAssignmentOperator
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShiftAssignmentOperatorFindFirstArgs>(args?: SelectSubset<T, ShiftAssignmentOperatorFindFirstArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ShiftAssignmentOperator that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorFindFirstOrThrowArgs} args - Arguments to find a ShiftAssignmentOperator
+     * @example
+     * // Get one ShiftAssignmentOperator
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShiftAssignmentOperatorFindFirstOrThrowArgs>(args?: SelectSubset<T, ShiftAssignmentOperatorFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ShiftAssignmentOperators that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShiftAssignmentOperators
+     * const shiftAssignmentOperators = await prisma.shiftAssignmentOperator.findMany()
+     * 
+     * // Get first 10 ShiftAssignmentOperators
+     * const shiftAssignmentOperators = await prisma.shiftAssignmentOperator.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shiftAssignmentOperatorWithIdOnly = await prisma.shiftAssignmentOperator.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShiftAssignmentOperatorFindManyArgs>(args?: SelectSubset<T, ShiftAssignmentOperatorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ShiftAssignmentOperator.
+     * @param {ShiftAssignmentOperatorCreateArgs} args - Arguments to create a ShiftAssignmentOperator.
+     * @example
+     * // Create one ShiftAssignmentOperator
+     * const ShiftAssignmentOperator = await prisma.shiftAssignmentOperator.create({
+     *   data: {
+     *     // ... data to create a ShiftAssignmentOperator
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShiftAssignmentOperatorCreateArgs>(args: SelectSubset<T, ShiftAssignmentOperatorCreateArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ShiftAssignmentOperators.
+     * @param {ShiftAssignmentOperatorCreateManyArgs} args - Arguments to create many ShiftAssignmentOperators.
+     * @example
+     * // Create many ShiftAssignmentOperators
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShiftAssignmentOperatorCreateManyArgs>(args?: SelectSubset<T, ShiftAssignmentOperatorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShiftAssignmentOperators and returns the data saved in the database.
+     * @param {ShiftAssignmentOperatorCreateManyAndReturnArgs} args - Arguments to create many ShiftAssignmentOperators.
+     * @example
+     * // Create many ShiftAssignmentOperators
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShiftAssignmentOperators and only return the `id`
+     * const shiftAssignmentOperatorWithIdOnly = await prisma.shiftAssignmentOperator.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShiftAssignmentOperatorCreateManyAndReturnArgs>(args?: SelectSubset<T, ShiftAssignmentOperatorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ShiftAssignmentOperator.
+     * @param {ShiftAssignmentOperatorDeleteArgs} args - Arguments to delete one ShiftAssignmentOperator.
+     * @example
+     * // Delete one ShiftAssignmentOperator
+     * const ShiftAssignmentOperator = await prisma.shiftAssignmentOperator.delete({
+     *   where: {
+     *     // ... filter to delete one ShiftAssignmentOperator
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShiftAssignmentOperatorDeleteArgs>(args: SelectSubset<T, ShiftAssignmentOperatorDeleteArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ShiftAssignmentOperator.
+     * @param {ShiftAssignmentOperatorUpdateArgs} args - Arguments to update one ShiftAssignmentOperator.
+     * @example
+     * // Update one ShiftAssignmentOperator
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShiftAssignmentOperatorUpdateArgs>(args: SelectSubset<T, ShiftAssignmentOperatorUpdateArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ShiftAssignmentOperators.
+     * @param {ShiftAssignmentOperatorDeleteManyArgs} args - Arguments to filter ShiftAssignmentOperators to delete.
+     * @example
+     * // Delete a few ShiftAssignmentOperators
+     * const { count } = await prisma.shiftAssignmentOperator.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShiftAssignmentOperatorDeleteManyArgs>(args?: SelectSubset<T, ShiftAssignmentOperatorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShiftAssignmentOperators.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShiftAssignmentOperators
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShiftAssignmentOperatorUpdateManyArgs>(args: SelectSubset<T, ShiftAssignmentOperatorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ShiftAssignmentOperator.
+     * @param {ShiftAssignmentOperatorUpsertArgs} args - Arguments to update or create a ShiftAssignmentOperator.
+     * @example
+     * // Update or create a ShiftAssignmentOperator
+     * const shiftAssignmentOperator = await prisma.shiftAssignmentOperator.upsert({
+     *   create: {
+     *     // ... data to create a ShiftAssignmentOperator
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShiftAssignmentOperator we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShiftAssignmentOperatorUpsertArgs>(args: SelectSubset<T, ShiftAssignmentOperatorUpsertArgs<ExtArgs>>): Prisma__ShiftAssignmentOperatorClient<$Result.GetResult<Prisma.$ShiftAssignmentOperatorPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ShiftAssignmentOperators.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorCountArgs} args - Arguments to filter ShiftAssignmentOperators to count.
+     * @example
+     * // Count the number of ShiftAssignmentOperators
+     * const count = await prisma.shiftAssignmentOperator.count({
+     *   where: {
+     *     // ... the filter for the ShiftAssignmentOperators we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShiftAssignmentOperatorCountArgs>(
+      args?: Subset<T, ShiftAssignmentOperatorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShiftAssignmentOperatorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShiftAssignmentOperator.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShiftAssignmentOperatorAggregateArgs>(args: Subset<T, ShiftAssignmentOperatorAggregateArgs>): Prisma.PrismaPromise<GetShiftAssignmentOperatorAggregateType<T>>
+
+    /**
+     * Group by ShiftAssignmentOperator.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftAssignmentOperatorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShiftAssignmentOperatorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShiftAssignmentOperatorGroupByArgs['orderBy'] }
+        : { orderBy?: ShiftAssignmentOperatorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShiftAssignmentOperatorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShiftAssignmentOperatorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShiftAssignmentOperator model
+   */
+  readonly fields: ShiftAssignmentOperatorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShiftAssignmentOperator.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShiftAssignmentOperatorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shiftAssignment<T extends ShiftAssignmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShiftAssignmentDefaultArgs<ExtArgs>>): Prisma__ShiftAssignmentClient<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    operator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShiftAssignmentOperator model
+   */ 
+  interface ShiftAssignmentOperatorFieldRefs {
+    readonly id: FieldRef<"ShiftAssignmentOperator", 'Int'>
+    readonly shiftAssignmentId: FieldRef<"ShiftAssignmentOperator", 'Int'>
+    readonly operatorId: FieldRef<"ShiftAssignmentOperator", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShiftAssignmentOperator findUnique
+   */
+  export type ShiftAssignmentOperatorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignmentOperator to fetch.
+     */
+    where: ShiftAssignmentOperatorWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignmentOperator findUniqueOrThrow
+   */
+  export type ShiftAssignmentOperatorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignmentOperator to fetch.
+     */
+    where: ShiftAssignmentOperatorWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignmentOperator findFirst
+   */
+  export type ShiftAssignmentOperatorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignmentOperator to fetch.
+     */
+    where?: ShiftAssignmentOperatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignmentOperators to fetch.
+     */
+    orderBy?: ShiftAssignmentOperatorOrderByWithRelationInput | ShiftAssignmentOperatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftAssignmentOperators.
+     */
+    cursor?: ShiftAssignmentOperatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignmentOperators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignmentOperators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftAssignmentOperators.
+     */
+    distinct?: ShiftAssignmentOperatorScalarFieldEnum | ShiftAssignmentOperatorScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignmentOperator findFirstOrThrow
+   */
+  export type ShiftAssignmentOperatorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignmentOperator to fetch.
+     */
+    where?: ShiftAssignmentOperatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignmentOperators to fetch.
+     */
+    orderBy?: ShiftAssignmentOperatorOrderByWithRelationInput | ShiftAssignmentOperatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftAssignmentOperators.
+     */
+    cursor?: ShiftAssignmentOperatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignmentOperators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignmentOperators.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftAssignmentOperators.
+     */
+    distinct?: ShiftAssignmentOperatorScalarFieldEnum | ShiftAssignmentOperatorScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignmentOperator findMany
+   */
+  export type ShiftAssignmentOperatorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftAssignmentOperators to fetch.
+     */
+    where?: ShiftAssignmentOperatorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftAssignmentOperators to fetch.
+     */
+    orderBy?: ShiftAssignmentOperatorOrderByWithRelationInput | ShiftAssignmentOperatorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShiftAssignmentOperators.
+     */
+    cursor?: ShiftAssignmentOperatorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftAssignmentOperators from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftAssignmentOperators.
+     */
+    skip?: number
+    distinct?: ShiftAssignmentOperatorScalarFieldEnum | ShiftAssignmentOperatorScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftAssignmentOperator create
+   */
+  export type ShiftAssignmentOperatorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShiftAssignmentOperator.
+     */
+    data: XOR<ShiftAssignmentOperatorCreateInput, ShiftAssignmentOperatorUncheckedCreateInput>
+  }
+
+  /**
+   * ShiftAssignmentOperator createMany
+   */
+  export type ShiftAssignmentOperatorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShiftAssignmentOperators.
+     */
+    data: ShiftAssignmentOperatorCreateManyInput | ShiftAssignmentOperatorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShiftAssignmentOperator createManyAndReturn
+   */
+  export type ShiftAssignmentOperatorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ShiftAssignmentOperators.
+     */
+    data: ShiftAssignmentOperatorCreateManyInput | ShiftAssignmentOperatorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShiftAssignmentOperator update
+   */
+  export type ShiftAssignmentOperatorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShiftAssignmentOperator.
+     */
+    data: XOR<ShiftAssignmentOperatorUpdateInput, ShiftAssignmentOperatorUncheckedUpdateInput>
+    /**
+     * Choose, which ShiftAssignmentOperator to update.
+     */
+    where: ShiftAssignmentOperatorWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignmentOperator updateMany
+   */
+  export type ShiftAssignmentOperatorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShiftAssignmentOperators.
+     */
+    data: XOR<ShiftAssignmentOperatorUpdateManyMutationInput, ShiftAssignmentOperatorUncheckedUpdateManyInput>
+    /**
+     * Filter which ShiftAssignmentOperators to update
+     */
+    where?: ShiftAssignmentOperatorWhereInput
+  }
+
+  /**
+   * ShiftAssignmentOperator upsert
+   */
+  export type ShiftAssignmentOperatorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShiftAssignmentOperator to update in case it exists.
+     */
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    /**
+     * In case the ShiftAssignmentOperator found by the `where` argument doesn't exist, create a new ShiftAssignmentOperator with this data.
+     */
+    create: XOR<ShiftAssignmentOperatorCreateInput, ShiftAssignmentOperatorUncheckedCreateInput>
+    /**
+     * In case the ShiftAssignmentOperator was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShiftAssignmentOperatorUpdateInput, ShiftAssignmentOperatorUncheckedUpdateInput>
+  }
+
+  /**
+   * ShiftAssignmentOperator delete
+   */
+  export type ShiftAssignmentOperatorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+    /**
+     * Filter which ShiftAssignmentOperator to delete.
+     */
+    where: ShiftAssignmentOperatorWhereUniqueInput
+  }
+
+  /**
+   * ShiftAssignmentOperator deleteMany
+   */
+  export type ShiftAssignmentOperatorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftAssignmentOperators to delete
+     */
+    where?: ShiftAssignmentOperatorWhereInput
+  }
+
+  /**
+   * ShiftAssignmentOperator without action
+   */
+  export type ShiftAssignmentOperatorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignmentOperator
+     */
+    select?: ShiftAssignmentOperatorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentOperatorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Section
+   */
+
+  export type AggregateSection = {
+    _count: SectionCountAggregateOutputType | null
+    _avg: SectionAvgAggregateOutputType | null
+    _sum: SectionSumAggregateOutputType | null
+    _min: SectionMinAggregateOutputType | null
+    _max: SectionMaxAggregateOutputType | null
+  }
+
+  export type SectionAvgAggregateOutputType = {
+    id: number | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionSumAggregateOutputType = {
+    id: number | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    sectionType: number | null
+    area: number | null
+  }
+
+  export type SectionCountAggregateOutputType = {
+    id: number
+    name: number
+    sectionType: number
+    area: number
+    _all: number
+  }
+
+
+  export type SectionAvgAggregateInputType = {
+    id?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionSumAggregateInputType = {
+    id?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionMinAggregateInputType = {
+    id?: true
+    name?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionMaxAggregateInputType = {
+    id?: true
+    name?: true
+    sectionType?: true
+    area?: true
+  }
+
+  export type SectionCountAggregateInputType = {
+    id?: true
+    name?: true
+    sectionType?: true
+    area?: true
+    _all?: true
+  }
+
+  export type SectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Section to aggregate.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Sections
+    **/
+    _count?: true | SectionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SectionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SectionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SectionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SectionMaxAggregateInputType
+  }
+
+  export type GetSectionAggregateType<T extends SectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSection]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSection[P]>
+      : GetScalarType<T[P], AggregateSection[P]>
+  }
+
+
+
+
+  export type SectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionWhereInput
+    orderBy?: SectionOrderByWithAggregationInput | SectionOrderByWithAggregationInput[]
+    by: SectionScalarFieldEnum[] | SectionScalarFieldEnum
+    having?: SectionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SectionCountAggregateInputType | true
+    _avg?: SectionAvgAggregateInputType
+    _sum?: SectionSumAggregateInputType
+    _min?: SectionMinAggregateInputType
+    _max?: SectionMaxAggregateInputType
+  }
+
+  export type SectionGroupByOutputType = {
+    id: number
+    name: string
+    sectionType: number
+    area: number | null
+    _count: SectionCountAggregateOutputType | null
+    _avg: SectionAvgAggregateOutputType | null
+    _sum: SectionSumAggregateOutputType | null
+    _min: SectionMinAggregateOutputType | null
+    _max: SectionMaxAggregateOutputType | null
+  }
+
+  type GetSectionGroupByPayload<T extends SectionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SectionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SectionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SectionGroupByOutputType[P]>
+            : GetScalarType<T[P], SectionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionType?: boolean
+    area?: boolean
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    assets?: boolean | Section$assetsArgs<ExtArgs>
+    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
+    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
+    supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
+    users?: boolean | Section$usersArgs<ExtArgs>
+    shiftAssignments?: boolean | Section$shiftAssignmentsArgs<ExtArgs>
+    shiftTemplates?: boolean | Section$shiftTemplatesArgs<ExtArgs>
+    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["section"]>
+
+  export type SectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sectionType?: boolean
+    area?: boolean
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["section"]>
+
+  export type SectionSelectScalar = {
+    id?: boolean
+    name?: boolean
+    sectionType?: boolean
+    area?: boolean
+  }
+
+  export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+    assets?: boolean | Section$assetsArgs<ExtArgs>
+    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
+    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
+    supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
+    users?: boolean | Section$usersArgs<ExtArgs>
+    shiftAssignments?: boolean | Section$shiftAssignmentsArgs<ExtArgs>
+    shiftTemplates?: boolean | Section$shiftTemplatesArgs<ExtArgs>
+    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $SectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Section"
+    objects: {
+      type: Prisma.$SectionTypePayload<ExtArgs>
+      assets: Prisma.$AssetPayload<ExtArgs>[]
+      coordinates: Prisma.$CoordinatePayload<ExtArgs>[]
+      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
+      supervisors: Prisma.$SupervisorPayload<ExtArgs>[]
+      users: Prisma.$SectionUsersPayload<ExtArgs>[]
+      shiftAssignments: Prisma.$ShiftAssignmentPayload<ExtArgs>[]
+      shiftTemplates: Prisma.$ShiftTemplatePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      sectionType: number
+      area: number | null
+    }, ExtArgs["result"]["section"]>
+    composites: {}
+  }
+
+  type SectionGetPayload<S extends boolean | null | undefined | SectionDefaultArgs> = $Result.GetResult<Prisma.$SectionPayload, S>
+
+  type SectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SectionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SectionCountAggregateInputType | true
+    }
+
+  export interface SectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Section'], meta: { name: 'Section' } }
+    /**
+     * Find zero or one Section that matches the filter.
+     * @param {SectionFindUniqueArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SectionFindUniqueArgs>(args: SelectSubset<T, SectionFindUniqueArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Section that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SectionFindUniqueOrThrowArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SectionFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Section that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionFindFirstArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SectionFindFirstArgs>(args?: SelectSubset<T, SectionFindFirstArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Section that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionFindFirstOrThrowArgs} args - Arguments to find a Section
+     * @example
+     * // Get one Section
+     * const section = await prisma.section.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SectionFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Sections that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Sections
+     * const sections = await prisma.section.findMany()
+     * 
+     * // Get first 10 Sections
+     * const sections = await prisma.section.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sectionWithIdOnly = await prisma.section.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SectionFindManyArgs>(args?: SelectSubset<T, SectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Section.
+     * @param {SectionCreateArgs} args - Arguments to create a Section.
+     * @example
+     * // Create one Section
+     * const Section = await prisma.section.create({
+     *   data: {
+     *     // ... data to create a Section
+     *   }
+     * })
+     * 
+     */
+    create<T extends SectionCreateArgs>(args: SelectSubset<T, SectionCreateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Sections.
+     * @param {SectionCreateManyArgs} args - Arguments to create many Sections.
+     * @example
+     * // Create many Sections
+     * const section = await prisma.section.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SectionCreateManyArgs>(args?: SelectSubset<T, SectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Sections and returns the data saved in the database.
+     * @param {SectionCreateManyAndReturnArgs} args - Arguments to create many Sections.
+     * @example
+     * // Create many Sections
+     * const section = await prisma.section.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Sections and only return the `id`
+     * const sectionWithIdOnly = await prisma.section.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SectionCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Section.
+     * @param {SectionDeleteArgs} args - Arguments to delete one Section.
+     * @example
+     * // Delete one Section
+     * const Section = await prisma.section.delete({
+     *   where: {
+     *     // ... filter to delete one Section
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SectionDeleteArgs>(args: SelectSubset<T, SectionDeleteArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Section.
+     * @param {SectionUpdateArgs} args - Arguments to update one Section.
+     * @example
+     * // Update one Section
+     * const section = await prisma.section.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SectionUpdateArgs>(args: SelectSubset<T, SectionUpdateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Sections.
+     * @param {SectionDeleteManyArgs} args - Arguments to filter Sections to delete.
+     * @example
+     * // Delete a few Sections
+     * const { count } = await prisma.section.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SectionDeleteManyArgs>(args?: SelectSubset<T, SectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Sections
+     * const section = await prisma.section.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SectionUpdateManyArgs>(args: SelectSubset<T, SectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Section.
+     * @param {SectionUpsertArgs} args - Arguments to update or create a Section.
+     * @example
+     * // Update or create a Section
+     * const section = await prisma.section.upsert({
+     *   create: {
+     *     // ... data to create a Section
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Section we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SectionUpsertArgs>(args: SelectSubset<T, SectionUpsertArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Sections.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionCountArgs} args - Arguments to filter Sections to count.
+     * @example
+     * // Count the number of Sections
+     * const count = await prisma.section.count({
+     *   where: {
+     *     // ... the filter for the Sections we want to count
+     *   }
+     * })
+    **/
+    count<T extends SectionCountArgs>(
+      args?: Subset<T, SectionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SectionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Section.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SectionAggregateArgs>(args: Subset<T, SectionAggregateArgs>): Prisma.PrismaPromise<GetSectionAggregateType<T>>
+
+    /**
+     * Group by Section.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SectionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SectionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SectionGroupByArgs['orderBy'] }
+        : { orderBy?: SectionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Section model
+   */
+  readonly fields: SectionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Section.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    type<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assets<T extends Section$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Section$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
+    coordinates<T extends Section$coordinatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$coordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany"> | Null>
+    activePlans<T extends Section$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Section$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
+    supervisors<T extends Section$supervisorsArgs<ExtArgs> = {}>(args?: Subset<T, Section$supervisorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany"> | Null>
+    users<T extends Section$usersArgs<ExtArgs> = {}>(args?: Subset<T, Section$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findMany"> | Null>
+    shiftAssignments<T extends Section$shiftAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Section$shiftAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findMany"> | Null>
+    shiftTemplates<T extends Section$shiftTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$shiftTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Section model
+   */ 
+  interface SectionFieldRefs {
+    readonly id: FieldRef<"Section", 'Int'>
+    readonly name: FieldRef<"Section", 'String'>
+    readonly sectionType: FieldRef<"Section", 'Int'>
+    readonly area: FieldRef<"Section", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Section findUnique
+   */
+  export type SectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section findUniqueOrThrow
+   */
+  export type SectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section findFirst
+   */
+  export type SectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sections.
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sections.
+     */
+    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * Section findFirstOrThrow
+   */
+  export type SectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Section to fetch.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Sections.
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sections.
+     */
+    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * Section findMany
+   */
+  export type SectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter, which Sections to fetch.
+     */
+    where?: SectionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Sections to fetch.
+     */
+    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Sections.
+     */
+    cursor?: SectionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Sections from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Sections.
+     */
+    skip?: number
+    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+  }
+
+  /**
+   * Section create
+   */
+  export type SectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Section.
+     */
+    data: XOR<SectionCreateInput, SectionUncheckedCreateInput>
+  }
+
+  /**
+   * Section createMany
+   */
+  export type SectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Sections.
+     */
+    data: SectionCreateManyInput | SectionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Section createManyAndReturn
+   */
+  export type SectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Sections.
+     */
+    data: SectionCreateManyInput | SectionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Section update
+   */
+  export type SectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Section.
+     */
+    data: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
+    /**
+     * Choose, which Section to update.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section updateMany
+   */
+  export type SectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Sections.
+     */
+    data: XOR<SectionUpdateManyMutationInput, SectionUncheckedUpdateManyInput>
+    /**
+     * Filter which Sections to update
+     */
+    where?: SectionWhereInput
+  }
+
+  /**
+   * Section upsert
+   */
+  export type SectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Section to update in case it exists.
+     */
+    where: SectionWhereUniqueInput
+    /**
+     * In case the Section found by the `where` argument doesn't exist, create a new Section with this data.
+     */
+    create: XOR<SectionCreateInput, SectionUncheckedCreateInput>
+    /**
+     * In case the Section was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
+  }
+
+  /**
+   * Section delete
+   */
+  export type SectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
+    /**
+     * Filter which Section to delete.
+     */
+    where: SectionWhereUniqueInput
+  }
+
+  /**
+   * Section deleteMany
+   */
+  export type SectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Sections to delete
+     */
+    where?: SectionWhereInput
+  }
+
+  /**
+   * Section.assets
+   */
+  export type Section$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asset
+     */
+    select?: AssetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssetInclude<ExtArgs> | null
+    where?: AssetWhereInput
+    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
+    cursor?: AssetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Section.coordinates
+   */
+  export type Section$coordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coordinate
+     */
+    select?: CoordinateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CoordinateInclude<ExtArgs> | null
+    where?: CoordinateWhereInput
+    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
+    cursor?: CoordinateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
+  }
+
+  /**
+   * Section.activePlans
+   */
+  export type Section$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivePlans
+     */
+    select?: ActivePlansSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivePlansInclude<ExtArgs> | null
+    where?: ActivePlansWhereInput
+    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
+    cursor?: ActivePlansWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
+  }
+
+  /**
+   * Section.supervisors
+   */
+  export type Section$supervisorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Supervisor
+     */
+    select?: SupervisorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SupervisorInclude<ExtArgs> | null
+    where?: SupervisorWhereInput
+    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
+    cursor?: SupervisorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
+  }
+
+  /**
+   * Section.users
+   */
+  export type Section$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SectionUsers
+     */
+    select?: SectionUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionUsersInclude<ExtArgs> | null
+    where?: SectionUsersWhereInput
+    orderBy?: SectionUsersOrderByWithRelationInput | SectionUsersOrderByWithRelationInput[]
+    cursor?: SectionUsersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SectionUsersScalarFieldEnum | SectionUsersScalarFieldEnum[]
+  }
+
+  /**
+   * Section.shiftAssignments
+   */
+  export type Section$shiftAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    where?: ShiftAssignmentWhereInput
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    cursor?: ShiftAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftAssignmentScalarFieldEnum | ShiftAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Section.shiftTemplates
+   */
+  export type Section$shiftTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    where?: ShiftTemplateWhereInput
+    orderBy?: ShiftTemplateOrderByWithRelationInput | ShiftTemplateOrderByWithRelationInput[]
+    cursor?: ShiftTemplateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftTemplateScalarFieldEnum | ShiftTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * Section without action
+   */
+  export type SectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Section
+     */
+    select?: SectionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SectionInclude<ExtArgs> | null
   }
 
 
@@ -11632,383 +15587,348 @@ export namespace Prisma {
 
 
   /**
-   * Model Section
+   * Model SectionUsers
    */
 
-  export type AggregateSection = {
-    _count: SectionCountAggregateOutputType | null
-    _avg: SectionAvgAggregateOutputType | null
-    _sum: SectionSumAggregateOutputType | null
-    _min: SectionMinAggregateOutputType | null
-    _max: SectionMaxAggregateOutputType | null
+  export type AggregateSectionUsers = {
+    _count: SectionUsersCountAggregateOutputType | null
+    _avg: SectionUsersAvgAggregateOutputType | null
+    _sum: SectionUsersSumAggregateOutputType | null
+    _min: SectionUsersMinAggregateOutputType | null
+    _max: SectionUsersMaxAggregateOutputType | null
   }
 
-  export type SectionAvgAggregateOutputType = {
-    id: number | null
-    sectionType: number | null
-    area: number | null
+  export type SectionUsersAvgAggregateOutputType = {
+    sectionId: number | null
+    userId: number | null
   }
 
-  export type SectionSumAggregateOutputType = {
-    id: number | null
-    sectionType: number | null
-    area: number | null
+  export type SectionUsersSumAggregateOutputType = {
+    sectionId: number | null
+    userId: number | null
   }
 
-  export type SectionMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    sectionType: number | null
-    area: number | null
+  export type SectionUsersMinAggregateOutputType = {
+    sectionId: number | null
+    userId: number | null
   }
 
-  export type SectionMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    sectionType: number | null
-    area: number | null
+  export type SectionUsersMaxAggregateOutputType = {
+    sectionId: number | null
+    userId: number | null
   }
 
-  export type SectionCountAggregateOutputType = {
-    id: number
-    name: number
-    sectionType: number
-    area: number
+  export type SectionUsersCountAggregateOutputType = {
+    sectionId: number
+    userId: number
     _all: number
   }
 
 
-  export type SectionAvgAggregateInputType = {
-    id?: true
-    sectionType?: true
-    area?: true
+  export type SectionUsersAvgAggregateInputType = {
+    sectionId?: true
+    userId?: true
   }
 
-  export type SectionSumAggregateInputType = {
-    id?: true
-    sectionType?: true
-    area?: true
+  export type SectionUsersSumAggregateInputType = {
+    sectionId?: true
+    userId?: true
   }
 
-  export type SectionMinAggregateInputType = {
-    id?: true
-    name?: true
-    sectionType?: true
-    area?: true
+  export type SectionUsersMinAggregateInputType = {
+    sectionId?: true
+    userId?: true
   }
 
-  export type SectionMaxAggregateInputType = {
-    id?: true
-    name?: true
-    sectionType?: true
-    area?: true
+  export type SectionUsersMaxAggregateInputType = {
+    sectionId?: true
+    userId?: true
   }
 
-  export type SectionCountAggregateInputType = {
-    id?: true
-    name?: true
-    sectionType?: true
-    area?: true
+  export type SectionUsersCountAggregateInputType = {
+    sectionId?: true
+    userId?: true
     _all?: true
   }
 
-  export type SectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Section to aggregate.
+     * Filter which SectionUsers to aggregate.
      */
-    where?: SectionWhereInput
+    where?: SectionUsersWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sections to fetch.
+     * Determine the order of SectionUsers to fetch.
      */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    orderBy?: SectionUsersOrderByWithRelationInput | SectionUsersOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: SectionWhereUniqueInput
+    cursor?: SectionUsersWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sections from the position of the cursor.
+     * Take `±n` SectionUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sections.
+     * Skip the first `n` SectionUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Sections
+     * Count returned SectionUsers
     **/
-    _count?: true | SectionCountAggregateInputType
+    _count?: true | SectionUsersCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: SectionAvgAggregateInputType
+    _avg?: SectionUsersAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: SectionSumAggregateInputType
+    _sum?: SectionUsersSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: SectionMinAggregateInputType
+    _min?: SectionUsersMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: SectionMaxAggregateInputType
+    _max?: SectionUsersMaxAggregateInputType
   }
 
-  export type GetSectionAggregateType<T extends SectionAggregateArgs> = {
-        [P in keyof T & keyof AggregateSection]: P extends '_count' | 'count'
+  export type GetSectionUsersAggregateType<T extends SectionUsersAggregateArgs> = {
+        [P in keyof T & keyof AggregateSectionUsers]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateSection[P]>
-      : GetScalarType<T[P], AggregateSection[P]>
+        : GetScalarType<T[P], AggregateSectionUsers[P]>
+      : GetScalarType<T[P], AggregateSectionUsers[P]>
   }
 
 
 
 
-  export type SectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SectionWhereInput
-    orderBy?: SectionOrderByWithAggregationInput | SectionOrderByWithAggregationInput[]
-    by: SectionScalarFieldEnum[] | SectionScalarFieldEnum
-    having?: SectionScalarWhereWithAggregatesInput
+  export type SectionUsersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SectionUsersWhereInput
+    orderBy?: SectionUsersOrderByWithAggregationInput | SectionUsersOrderByWithAggregationInput[]
+    by: SectionUsersScalarFieldEnum[] | SectionUsersScalarFieldEnum
+    having?: SectionUsersScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: SectionCountAggregateInputType | true
-    _avg?: SectionAvgAggregateInputType
-    _sum?: SectionSumAggregateInputType
-    _min?: SectionMinAggregateInputType
-    _max?: SectionMaxAggregateInputType
+    _count?: SectionUsersCountAggregateInputType | true
+    _avg?: SectionUsersAvgAggregateInputType
+    _sum?: SectionUsersSumAggregateInputType
+    _min?: SectionUsersMinAggregateInputType
+    _max?: SectionUsersMaxAggregateInputType
   }
 
-  export type SectionGroupByOutputType = {
-    id: number
-    name: string
-    sectionType: number
-    area: number | null
-    _count: SectionCountAggregateOutputType | null
-    _avg: SectionAvgAggregateOutputType | null
-    _sum: SectionSumAggregateOutputType | null
-    _min: SectionMinAggregateOutputType | null
-    _max: SectionMaxAggregateOutputType | null
+  export type SectionUsersGroupByOutputType = {
+    sectionId: number
+    userId: number
+    _count: SectionUsersCountAggregateOutputType | null
+    _avg: SectionUsersAvgAggregateOutputType | null
+    _sum: SectionUsersSumAggregateOutputType | null
+    _min: SectionUsersMinAggregateOutputType | null
+    _max: SectionUsersMaxAggregateOutputType | null
   }
 
-  type GetSectionGroupByPayload<T extends SectionGroupByArgs> = Prisma.PrismaPromise<
+  type GetSectionUsersGroupByPayload<T extends SectionUsersGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<SectionGroupByOutputType, T['by']> &
+      PickEnumerable<SectionUsersGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof SectionGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof SectionUsersGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], SectionGroupByOutputType[P]>
-            : GetScalarType<T[P], SectionGroupByOutputType[P]>
+              : GetScalarType<T[P], SectionUsersGroupByOutputType[P]>
+            : GetScalarType<T[P], SectionUsersGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type SectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    sectionType?: boolean
-    area?: boolean
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-    assets?: boolean | Section$assetsArgs<ExtArgs>
-    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
-    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
-    supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
-    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["section"]>
+  export type SectionUsersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    sectionId?: boolean
+    userId?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sectionUsers"]>
 
-  export type SectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    sectionType?: boolean
-    area?: boolean
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["section"]>
+  export type SectionUsersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    sectionId?: boolean
+    userId?: boolean
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sectionUsers"]>
 
-  export type SectionSelectScalar = {
-    id?: boolean
-    name?: boolean
-    sectionType?: boolean
-    area?: boolean
+  export type SectionUsersSelectScalar = {
+    sectionId?: boolean
+    userId?: boolean
   }
 
-  export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
-    assets?: boolean | Section$assetsArgs<ExtArgs>
-    coordinates?: boolean | Section$coordinatesArgs<ExtArgs>
-    activePlans?: boolean | Section$activePlansArgs<ExtArgs>
-    supervisors?: boolean | Section$supervisorsArgs<ExtArgs>
-    _count?: boolean | SectionCountOutputTypeDefaultArgs<ExtArgs>
+  export type SectionUsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type SectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    type?: boolean | SectionTypeDefaultArgs<ExtArgs>
+  export type SectionUsersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $SectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Section"
+  export type $SectionUsersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SectionUsers"
     objects: {
-      type: Prisma.$SectionTypePayload<ExtArgs>
-      assets: Prisma.$AssetPayload<ExtArgs>[]
-      coordinates: Prisma.$CoordinatePayload<ExtArgs>[]
-      activePlans: Prisma.$ActivePlansPayload<ExtArgs>[]
-      supervisors: Prisma.$SupervisorPayload<ExtArgs>[]
+      section: Prisma.$SectionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      sectionType: number
-      area: number | null
-    }, ExtArgs["result"]["section"]>
+      sectionId: number
+      userId: number
+    }, ExtArgs["result"]["sectionUsers"]>
     composites: {}
   }
 
-  type SectionGetPayload<S extends boolean | null | undefined | SectionDefaultArgs> = $Result.GetResult<Prisma.$SectionPayload, S>
+  type SectionUsersGetPayload<S extends boolean | null | undefined | SectionUsersDefaultArgs> = $Result.GetResult<Prisma.$SectionUsersPayload, S>
 
-  type SectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<SectionFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: SectionCountAggregateInputType | true
+  type SectionUsersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SectionUsersFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SectionUsersCountAggregateInputType | true
     }
 
-  export interface SectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Section'], meta: { name: 'Section' } }
+  export interface SectionUsersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SectionUsers'], meta: { name: 'SectionUsers' } }
     /**
-     * Find zero or one Section that matches the filter.
-     * @param {SectionFindUniqueArgs} args - Arguments to find a Section
+     * Find zero or one SectionUsers that matches the filter.
+     * @param {SectionUsersFindUniqueArgs} args - Arguments to find a SectionUsers
      * @example
-     * // Get one Section
-     * const section = await prisma.section.findUnique({
+     * // Get one SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends SectionFindUniqueArgs>(args: SelectSubset<T, SectionFindUniqueArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+    findUnique<T extends SectionUsersFindUniqueArgs>(args: SelectSubset<T, SectionUsersFindUniqueArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
 
     /**
-     * Find one Section that matches the filter or throw an error with `error.code='P2025'` 
+     * Find one SectionUsers that matches the filter or throw an error with `error.code='P2025'` 
      * if no matches were found.
-     * @param {SectionFindUniqueOrThrowArgs} args - Arguments to find a Section
+     * @param {SectionUsersFindUniqueOrThrowArgs} args - Arguments to find a SectionUsers
      * @example
-     * // Get one Section
-     * const section = await prisma.section.findUniqueOrThrow({
+     * // Get one SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SectionFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+    findUniqueOrThrow<T extends SectionUsersFindUniqueOrThrowArgs>(args: SelectSubset<T, SectionUsersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
 
     /**
-     * Find the first Section that matches the filter.
+     * Find the first SectionUsers that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionFindFirstArgs} args - Arguments to find a Section
+     * @param {SectionUsersFindFirstArgs} args - Arguments to find a SectionUsers
      * @example
-     * // Get one Section
-     * const section = await prisma.section.findFirst({
+     * // Get one SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends SectionFindFirstArgs>(args?: SelectSubset<T, SectionFindFirstArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+    findFirst<T extends SectionUsersFindFirstArgs>(args?: SelectSubset<T, SectionUsersFindFirstArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
 
     /**
-     * Find the first Section that matches the filter or
+     * Find the first SectionUsers that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionFindFirstOrThrowArgs} args - Arguments to find a Section
+     * @param {SectionUsersFindFirstOrThrowArgs} args - Arguments to find a SectionUsers
      * @example
-     * // Get one Section
-     * const section = await prisma.section.findFirstOrThrow({
+     * // Get one SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends SectionFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+    findFirstOrThrow<T extends SectionUsersFindFirstOrThrowArgs>(args?: SelectSubset<T, SectionUsersFindFirstOrThrowArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
 
     /**
-     * Find zero or more Sections that matches the filter.
+     * Find zero or more SectionUsers that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {SectionUsersFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Sections
-     * const sections = await prisma.section.findMany()
+     * // Get all SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.findMany()
      * 
-     * // Get first 10 Sections
-     * const sections = await prisma.section.findMany({ take: 10 })
+     * // Get first 10 SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const sectionWithIdOnly = await prisma.section.findMany({ select: { id: true } })
+     * // Only select the `sectionId`
+     * const sectionUsersWithSectionIdOnly = await prisma.sectionUsers.findMany({ select: { sectionId: true } })
      * 
      */
-    findMany<T extends SectionFindManyArgs>(args?: SelectSubset<T, SectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany">>
+    findMany<T extends SectionUsersFindManyArgs>(args?: SelectSubset<T, SectionUsersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "findMany">>
 
     /**
-     * Create a Section.
-     * @param {SectionCreateArgs} args - Arguments to create a Section.
+     * Create a SectionUsers.
+     * @param {SectionUsersCreateArgs} args - Arguments to create a SectionUsers.
      * @example
-     * // Create one Section
-     * const Section = await prisma.section.create({
+     * // Create one SectionUsers
+     * const SectionUsers = await prisma.sectionUsers.create({
      *   data: {
-     *     // ... data to create a Section
+     *     // ... data to create a SectionUsers
      *   }
      * })
      * 
      */
-    create<T extends SectionCreateArgs>(args: SelectSubset<T, SectionCreateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+    create<T extends SectionUsersCreateArgs>(args: SelectSubset<T, SectionUsersCreateArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "create">, never, ExtArgs>
 
     /**
-     * Create many Sections.
-     * @param {SectionCreateManyArgs} args - Arguments to create many Sections.
+     * Create many SectionUsers.
+     * @param {SectionUsersCreateManyArgs} args - Arguments to create many SectionUsers.
      * @example
-     * // Create many Sections
-     * const section = await prisma.section.createMany({
+     * // Create many SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends SectionCreateManyArgs>(args?: SelectSubset<T, SectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends SectionUsersCreateManyArgs>(args?: SelectSubset<T, SectionUsersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Sections and returns the data saved in the database.
-     * @param {SectionCreateManyAndReturnArgs} args - Arguments to create many Sections.
+     * Create many SectionUsers and returns the data saved in the database.
+     * @param {SectionUsersCreateManyAndReturnArgs} args - Arguments to create many SectionUsers.
      * @example
-     * // Create many Sections
-     * const section = await prisma.section.createManyAndReturn({
+     * // Create many SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Sections and only return the `id`
-     * const sectionWithIdOnly = await prisma.section.createManyAndReturn({ 
-     *   select: { id: true },
+     * // Create many SectionUsers and only return the `sectionId`
+     * const sectionUsersWithSectionIdOnly = await prisma.sectionUsers.createManyAndReturn({ 
+     *   select: { sectionId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -12017,28 +15937,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends SectionCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "createManyAndReturn">>
+    createManyAndReturn<T extends SectionUsersCreateManyAndReturnArgs>(args?: SelectSubset<T, SectionUsersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "createManyAndReturn">>
 
     /**
-     * Delete a Section.
-     * @param {SectionDeleteArgs} args - Arguments to delete one Section.
+     * Delete a SectionUsers.
+     * @param {SectionUsersDeleteArgs} args - Arguments to delete one SectionUsers.
      * @example
-     * // Delete one Section
-     * const Section = await prisma.section.delete({
+     * // Delete one SectionUsers
+     * const SectionUsers = await prisma.sectionUsers.delete({
      *   where: {
-     *     // ... filter to delete one Section
+     *     // ... filter to delete one SectionUsers
      *   }
      * })
      * 
      */
-    delete<T extends SectionDeleteArgs>(args: SelectSubset<T, SectionDeleteArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+    delete<T extends SectionUsersDeleteArgs>(args: SelectSubset<T, SectionUsersDeleteArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "delete">, never, ExtArgs>
 
     /**
-     * Update one Section.
-     * @param {SectionUpdateArgs} args - Arguments to update one Section.
+     * Update one SectionUsers.
+     * @param {SectionUsersUpdateArgs} args - Arguments to update one SectionUsers.
      * @example
-     * // Update one Section
-     * const section = await prisma.section.update({
+     * // Update one SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -12048,30 +15968,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends SectionUpdateArgs>(args: SelectSubset<T, SectionUpdateArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+    update<T extends SectionUsersUpdateArgs>(args: SelectSubset<T, SectionUsersUpdateArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "update">, never, ExtArgs>
 
     /**
-     * Delete zero or more Sections.
-     * @param {SectionDeleteManyArgs} args - Arguments to filter Sections to delete.
+     * Delete zero or more SectionUsers.
+     * @param {SectionUsersDeleteManyArgs} args - Arguments to filter SectionUsers to delete.
      * @example
-     * // Delete a few Sections
-     * const { count } = await prisma.section.deleteMany({
+     * // Delete a few SectionUsers
+     * const { count } = await prisma.sectionUsers.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends SectionDeleteManyArgs>(args?: SelectSubset<T, SectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends SectionUsersDeleteManyArgs>(args?: SelectSubset<T, SectionUsersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Sections.
+     * Update zero or more SectionUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {SectionUsersUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Sections
-     * const section = await prisma.section.updateMany({
+     * // Update many SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -12081,56 +16001,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends SectionUpdateManyArgs>(args: SelectSubset<T, SectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends SectionUsersUpdateManyArgs>(args: SelectSubset<T, SectionUsersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Section.
-     * @param {SectionUpsertArgs} args - Arguments to update or create a Section.
+     * Create or update one SectionUsers.
+     * @param {SectionUsersUpsertArgs} args - Arguments to update or create a SectionUsers.
      * @example
-     * // Update or create a Section
-     * const section = await prisma.section.upsert({
+     * // Update or create a SectionUsers
+     * const sectionUsers = await prisma.sectionUsers.upsert({
      *   create: {
-     *     // ... data to create a Section
+     *     // ... data to create a SectionUsers
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Section we want to update
+     *     // ... the filter for the SectionUsers we want to update
      *   }
      * })
      */
-    upsert<T extends SectionUpsertArgs>(args: SelectSubset<T, SectionUpsertArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+    upsert<T extends SectionUsersUpsertArgs>(args: SelectSubset<T, SectionUsersUpsertArgs<ExtArgs>>): Prisma__SectionUsersClient<$Result.GetResult<Prisma.$SectionUsersPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
 
 
     /**
-     * Count the number of Sections.
+     * Count the number of SectionUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionCountArgs} args - Arguments to filter Sections to count.
+     * @param {SectionUsersCountArgs} args - Arguments to filter SectionUsers to count.
      * @example
-     * // Count the number of Sections
-     * const count = await prisma.section.count({
+     * // Count the number of SectionUsers
+     * const count = await prisma.sectionUsers.count({
      *   where: {
-     *     // ... the filter for the Sections we want to count
+     *     // ... the filter for the SectionUsers we want to count
      *   }
      * })
     **/
-    count<T extends SectionCountArgs>(
-      args?: Subset<T, SectionCountArgs>,
+    count<T extends SectionUsersCountArgs>(
+      args?: Subset<T, SectionUsersCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], SectionCountAggregateOutputType>
+          : GetScalarType<T['select'], SectionUsersCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Section.
+     * Allows you to perform aggregations operations on a SectionUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {SectionUsersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -12150,13 +16070,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SectionAggregateArgs>(args: Subset<T, SectionAggregateArgs>): Prisma.PrismaPromise<GetSectionAggregateType<T>>
+    aggregate<T extends SectionUsersAggregateArgs>(args: Subset<T, SectionUsersAggregateArgs>): Prisma.PrismaPromise<GetSectionUsersAggregateType<T>>
 
     /**
-     * Group by Section.
+     * Group by SectionUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SectionGroupByArgs} args - Group by arguments.
+     * @param {SectionUsersGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -12171,14 +16091,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends SectionGroupByArgs,
+      T extends SectionUsersGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SectionGroupByArgs['orderBy'] }
-        : { orderBy?: SectionGroupByArgs['orderBy'] },
+        ? { orderBy: SectionUsersGroupByArgs['orderBy'] }
+        : { orderBy?: SectionUsersGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -12227,26 +16147,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, SectionUsersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSectionUsersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Section model
+   * Fields of the SectionUsers model
    */
-  readonly fields: SectionFieldRefs;
+  readonly fields: SectionUsersFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Section.
+   * The delegate class that acts as a "Promise-like" for SectionUsers.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__SectionUsersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    type<T extends SectionTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionTypeDefaultArgs<ExtArgs>>): Prisma__SectionTypeClient<$Result.GetResult<Prisma.$SectionTypePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    assets<T extends Section$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Section$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany"> | Null>
-    coordinates<T extends Section$coordinatesArgs<ExtArgs> = {}>(args?: Subset<T, Section$coordinatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoordinatePayload<ExtArgs>, T, "findMany"> | Null>
-    activePlans<T extends Section$activePlansArgs<ExtArgs> = {}>(args?: Subset<T, Section$activePlansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivePlansPayload<ExtArgs>, T, "findMany"> | Null>
-    supervisors<T extends Section$supervisorsArgs<ExtArgs> = {}>(args?: Subset<T, Section$supervisorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupervisorPayload<ExtArgs>, T, "findMany"> | Null>
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12273,422 +16190,340 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Section model
+   * Fields of the SectionUsers model
    */ 
-  interface SectionFieldRefs {
-    readonly id: FieldRef<"Section", 'Int'>
-    readonly name: FieldRef<"Section", 'String'>
-    readonly sectionType: FieldRef<"Section", 'Int'>
-    readonly area: FieldRef<"Section", 'Int'>
+  interface SectionUsersFieldRefs {
+    readonly sectionId: FieldRef<"SectionUsers", 'Int'>
+    readonly userId: FieldRef<"SectionUsers", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * Section findUnique
+   * SectionUsers findUnique
    */
-  export type SectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * Filter, which Section to fetch.
+     * Filter, which SectionUsers to fetch.
      */
-    where: SectionWhereUniqueInput
+    where: SectionUsersWhereUniqueInput
   }
 
   /**
-   * Section findUniqueOrThrow
+   * SectionUsers findUniqueOrThrow
    */
-  export type SectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * Filter, which Section to fetch.
+     * Filter, which SectionUsers to fetch.
      */
-    where: SectionWhereUniqueInput
+    where: SectionUsersWhereUniqueInput
   }
 
   /**
-   * Section findFirst
+   * SectionUsers findFirst
    */
-  export type SectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * Filter, which Section to fetch.
+     * Filter, which SectionUsers to fetch.
      */
-    where?: SectionWhereInput
+    where?: SectionUsersWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sections to fetch.
+     * Determine the order of SectionUsers to fetch.
      */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    orderBy?: SectionUsersOrderByWithRelationInput | SectionUsersOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Sections.
+     * Sets the position for searching for SectionUsers.
      */
-    cursor?: SectionWhereUniqueInput
+    cursor?: SectionUsersWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sections from the position of the cursor.
+     * Take `±n` SectionUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sections.
+     * Skip the first `n` SectionUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Sections.
+     * Filter by unique combinations of SectionUsers.
      */
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+    distinct?: SectionUsersScalarFieldEnum | SectionUsersScalarFieldEnum[]
   }
 
   /**
-   * Section findFirstOrThrow
+   * SectionUsers findFirstOrThrow
    */
-  export type SectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * Filter, which Section to fetch.
+     * Filter, which SectionUsers to fetch.
      */
-    where?: SectionWhereInput
+    where?: SectionUsersWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sections to fetch.
+     * Determine the order of SectionUsers to fetch.
      */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    orderBy?: SectionUsersOrderByWithRelationInput | SectionUsersOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Sections.
+     * Sets the position for searching for SectionUsers.
      */
-    cursor?: SectionWhereUniqueInput
+    cursor?: SectionUsersWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sections from the position of the cursor.
+     * Take `±n` SectionUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sections.
+     * Skip the first `n` SectionUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Sections.
+     * Filter by unique combinations of SectionUsers.
      */
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+    distinct?: SectionUsersScalarFieldEnum | SectionUsersScalarFieldEnum[]
   }
 
   /**
-   * Section findMany
+   * SectionUsers findMany
    */
-  export type SectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * Filter, which Sections to fetch.
+     * Filter, which SectionUsers to fetch.
      */
-    where?: SectionWhereInput
+    where?: SectionUsersWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sections to fetch.
+     * Determine the order of SectionUsers to fetch.
      */
-    orderBy?: SectionOrderByWithRelationInput | SectionOrderByWithRelationInput[]
+    orderBy?: SectionUsersOrderByWithRelationInput | SectionUsersOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Sections.
+     * Sets the position for listing SectionUsers.
      */
-    cursor?: SectionWhereUniqueInput
+    cursor?: SectionUsersWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sections from the position of the cursor.
+     * Take `±n` SectionUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sections.
+     * Skip the first `n` SectionUsers.
      */
     skip?: number
-    distinct?: SectionScalarFieldEnum | SectionScalarFieldEnum[]
+    distinct?: SectionUsersScalarFieldEnum | SectionUsersScalarFieldEnum[]
   }
 
   /**
-   * Section create
+   * SectionUsers create
    */
-  export type SectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * The data needed to create a Section.
+     * The data needed to create a SectionUsers.
      */
-    data: XOR<SectionCreateInput, SectionUncheckedCreateInput>
+    data: XOR<SectionUsersCreateInput, SectionUsersUncheckedCreateInput>
   }
 
   /**
-   * Section createMany
+   * SectionUsers createMany
    */
-  export type SectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Sections.
+     * The data used to create many SectionUsers.
      */
-    data: SectionCreateManyInput | SectionCreateManyInput[]
+    data: SectionUsersCreateManyInput | SectionUsersCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Section createManyAndReturn
+   * SectionUsers createManyAndReturn
    */
-  export type SectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelectCreateManyAndReturn<ExtArgs> | null
+    select?: SectionUsersSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * The data used to create many Sections.
+     * The data used to create many SectionUsers.
      */
-    data: SectionCreateManyInput | SectionCreateManyInput[]
+    data: SectionUsersCreateManyInput | SectionUsersCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: SectionUsersIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Section update
+   * SectionUsers update
    */
-  export type SectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * The data needed to update a Section.
+     * The data needed to update a SectionUsers.
      */
-    data: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
+    data: XOR<SectionUsersUpdateInput, SectionUsersUncheckedUpdateInput>
     /**
-     * Choose, which Section to update.
+     * Choose, which SectionUsers to update.
      */
-    where: SectionWhereUniqueInput
+    where: SectionUsersWhereUniqueInput
   }
 
   /**
-   * Section updateMany
+   * SectionUsers updateMany
    */
-  export type SectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Sections.
+     * The data used to update SectionUsers.
      */
-    data: XOR<SectionUpdateManyMutationInput, SectionUncheckedUpdateManyInput>
+    data: XOR<SectionUsersUpdateManyMutationInput, SectionUsersUncheckedUpdateManyInput>
     /**
-     * Filter which Sections to update
+     * Filter which SectionUsers to update
      */
-    where?: SectionWhereInput
+    where?: SectionUsersWhereInput
   }
 
   /**
-   * Section upsert
+   * SectionUsers upsert
    */
-  export type SectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * The filter to search for the Section to update in case it exists.
+     * The filter to search for the SectionUsers to update in case it exists.
      */
-    where: SectionWhereUniqueInput
+    where: SectionUsersWhereUniqueInput
     /**
-     * In case the Section found by the `where` argument doesn't exist, create a new Section with this data.
+     * In case the SectionUsers found by the `where` argument doesn't exist, create a new SectionUsers with this data.
      */
-    create: XOR<SectionCreateInput, SectionUncheckedCreateInput>
+    create: XOR<SectionUsersCreateInput, SectionUsersUncheckedCreateInput>
     /**
-     * In case the Section was found with the provided `where` argument, update it with this data.
+     * In case the SectionUsers was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<SectionUpdateInput, SectionUncheckedUpdateInput>
+    update: XOR<SectionUsersUpdateInput, SectionUsersUncheckedUpdateInput>
   }
 
   /**
-   * Section delete
+   * SectionUsers delete
    */
-  export type SectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Section
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: SectionSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
     /**
-     * Filter which Section to delete.
+     * Filter which SectionUsers to delete.
      */
-    where: SectionWhereUniqueInput
+    where: SectionUsersWhereUniqueInput
   }
 
   /**
-   * Section deleteMany
+   * SectionUsers deleteMany
    */
-  export type SectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Sections to delete
+     * Filter which SectionUsers to delete
      */
-    where?: SectionWhereInput
+    where?: SectionUsersWhereInput
   }
 
   /**
-   * Section.assets
+   * SectionUsers without action
    */
-  export type Section$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SectionUsersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Asset
+     * Select specific fields to fetch from the SectionUsers
      */
-    select?: AssetSelect<ExtArgs> | null
+    select?: SectionUsersSelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AssetInclude<ExtArgs> | null
-    where?: AssetWhereInput
-    orderBy?: AssetOrderByWithRelationInput | AssetOrderByWithRelationInput[]
-    cursor?: AssetWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
-  }
-
-  /**
-   * Section.coordinates
-   */
-  export type Section$coordinatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Coordinate
-     */
-    select?: CoordinateSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CoordinateInclude<ExtArgs> | null
-    where?: CoordinateWhereInput
-    orderBy?: CoordinateOrderByWithRelationInput | CoordinateOrderByWithRelationInput[]
-    cursor?: CoordinateWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CoordinateScalarFieldEnum | CoordinateScalarFieldEnum[]
-  }
-
-  /**
-   * Section.activePlans
-   */
-  export type Section$activePlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ActivePlans
-     */
-    select?: ActivePlansSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ActivePlansInclude<ExtArgs> | null
-    where?: ActivePlansWhereInput
-    orderBy?: ActivePlansOrderByWithRelationInput | ActivePlansOrderByWithRelationInput[]
-    cursor?: ActivePlansWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ActivePlansScalarFieldEnum | ActivePlansScalarFieldEnum[]
-  }
-
-  /**
-   * Section.supervisors
-   */
-  export type Section$supervisorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Supervisor
-     */
-    select?: SupervisorSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SupervisorInclude<ExtArgs> | null
-    where?: SupervisorWhereInput
-    orderBy?: SupervisorOrderByWithRelationInput | SupervisorOrderByWithRelationInput[]
-    cursor?: SupervisorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SupervisorScalarFieldEnum | SupervisorScalarFieldEnum[]
-  }
-
-  /**
-   * Section without action
-   */
-  export type SectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Section
-     */
-    select?: SectionSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SectionInclude<ExtArgs> | null
+    include?: SectionUsersInclude<ExtArgs> | null
   }
 
 
@@ -12906,6 +16741,10 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    users?: boolean | Shift$usersArgs<ExtArgs>
+    shiftAssignments?: boolean | Shift$shiftAssignmentsArgs<ExtArgs>
+    shiftTemplates?: boolean | Shift$shiftTemplatesArgs<ExtArgs>
+    _count?: boolean | ShiftCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shift"]>
 
   export type ShiftSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12928,10 +16767,21 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+  export type ShiftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | Shift$usersArgs<ExtArgs>
+    shiftAssignments?: boolean | Shift$shiftAssignmentsArgs<ExtArgs>
+    shiftTemplates?: boolean | Shift$shiftTemplatesArgs<ExtArgs>
+    _count?: boolean | ShiftCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShiftIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ShiftPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Shift"
-    objects: {}
+    objects: {
+      users: Prisma.$ShiftUsersPayload<ExtArgs>[]
+      shiftAssignments: Prisma.$ShiftAssignmentPayload<ExtArgs>[]
+      shiftTemplates: Prisma.$ShiftTemplatePayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       shiftId: number
       name: string
@@ -13304,6 +17154,9 @@ export namespace Prisma {
    */
   export interface Prisma__ShiftClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    users<T extends Shift$usersArgs<ExtArgs> = {}>(args?: Subset<T, Shift$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findMany"> | Null>
+    shiftAssignments<T extends Shift$shiftAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Shift$shiftAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftAssignmentPayload<ExtArgs>, T, "findMany"> | Null>
+    shiftTemplates<T extends Shift$shiftTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, Shift$shiftTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13353,6 +17206,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * Filter, which Shift to fetch.
      */
     where: ShiftWhereUniqueInput
@@ -13367,6 +17224,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * Filter, which Shift to fetch.
      */
     where: ShiftWhereUniqueInput
@@ -13380,6 +17241,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Shift
      */
     select?: ShiftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
     /**
      * Filter, which Shift to fetch.
      */
@@ -13425,6 +17290,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * Filter, which Shift to fetch.
      */
     where?: ShiftWhereInput
@@ -13469,6 +17338,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * Filter, which Shifts to fetch.
      */
     where?: ShiftWhereInput
@@ -13507,6 +17380,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Shift
      */
     select?: ShiftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
     /**
      * The data needed to create a Shift.
      */
@@ -13548,6 +17425,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * The data needed to update a Shift.
      */
     data: XOR<ShiftUpdateInput, ShiftUncheckedUpdateInput>
@@ -13580,6 +17461,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * The filter to search for the Shift to update in case it exists.
      */
     where: ShiftWhereUniqueInput
@@ -13602,6 +17487,10 @@ export namespace Prisma {
      */
     select?: ShiftSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+    /**
      * Filter which Shift to delete.
      */
     where: ShiftWhereUniqueInput
@@ -13618,6 +17507,66 @@ export namespace Prisma {
   }
 
   /**
+   * Shift.users
+   */
+  export type Shift$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    where?: ShiftUsersWhereInput
+    orderBy?: ShiftUsersOrderByWithRelationInput | ShiftUsersOrderByWithRelationInput[]
+    cursor?: ShiftUsersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftUsersScalarFieldEnum | ShiftUsersScalarFieldEnum[]
+  }
+
+  /**
+   * Shift.shiftAssignments
+   */
+  export type Shift$shiftAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftAssignment
+     */
+    select?: ShiftAssignmentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftAssignmentInclude<ExtArgs> | null
+    where?: ShiftAssignmentWhereInput
+    orderBy?: ShiftAssignmentOrderByWithRelationInput | ShiftAssignmentOrderByWithRelationInput[]
+    cursor?: ShiftAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftAssignmentScalarFieldEnum | ShiftAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shift.shiftTemplates
+   */
+  export type Shift$shiftTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    where?: ShiftTemplateWhereInput
+    orderBy?: ShiftTemplateOrderByWithRelationInput | ShiftTemplateOrderByWithRelationInput[]
+    cursor?: ShiftTemplateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftTemplateScalarFieldEnum | ShiftTemplateScalarFieldEnum[]
+  }
+
+  /**
    * Shift without action
    */
   export type ShiftDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13625,6 +17574,2925 @@ export namespace Prisma {
      * Select specific fields to fetch from the Shift
      */
     select?: ShiftSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShiftTemplate
+   */
+
+  export type AggregateShiftTemplate = {
+    _count: ShiftTemplateCountAggregateOutputType | null
+    _avg: ShiftTemplateAvgAggregateOutputType | null
+    _sum: ShiftTemplateSumAggregateOutputType | null
+    _min: ShiftTemplateMinAggregateOutputType | null
+    _max: ShiftTemplateMaxAggregateOutputType | null
+  }
+
+  export type ShiftTemplateAvgAggregateOutputType = {
+    id: number | null
+    shiftId: number | null
+    sectionId: number | null
+  }
+
+  export type ShiftTemplateSumAggregateOutputType = {
+    id: number | null
+    shiftId: number | null
+    sectionId: number | null
+  }
+
+  export type ShiftTemplateMinAggregateOutputType = {
+    id: number | null
+    shiftId: number | null
+    sectionId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShiftTemplateMaxAggregateOutputType = {
+    id: number | null
+    shiftId: number | null
+    sectionId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShiftTemplateCountAggregateOutputType = {
+    id: number
+    shiftId: number
+    sectionId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShiftTemplateAvgAggregateInputType = {
+    id?: true
+    shiftId?: true
+    sectionId?: true
+  }
+
+  export type ShiftTemplateSumAggregateInputType = {
+    id?: true
+    shiftId?: true
+    sectionId?: true
+  }
+
+  export type ShiftTemplateMinAggregateInputType = {
+    id?: true
+    shiftId?: true
+    sectionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShiftTemplateMaxAggregateInputType = {
+    id?: true
+    shiftId?: true
+    sectionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShiftTemplateCountAggregateInputType = {
+    id?: true
+    shiftId?: true
+    sectionId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShiftTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftTemplate to aggregate.
+     */
+    where?: ShiftTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplates to fetch.
+     */
+    orderBy?: ShiftTemplateOrderByWithRelationInput | ShiftTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShiftTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShiftTemplates
+    **/
+    _count?: true | ShiftTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShiftTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShiftTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShiftTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShiftTemplateMaxAggregateInputType
+  }
+
+  export type GetShiftTemplateAggregateType<T extends ShiftTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateShiftTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShiftTemplate[P]>
+      : GetScalarType<T[P], AggregateShiftTemplate[P]>
+  }
+
+
+
+
+  export type ShiftTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftTemplateWhereInput
+    orderBy?: ShiftTemplateOrderByWithAggregationInput | ShiftTemplateOrderByWithAggregationInput[]
+    by: ShiftTemplateScalarFieldEnum[] | ShiftTemplateScalarFieldEnum
+    having?: ShiftTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShiftTemplateCountAggregateInputType | true
+    _avg?: ShiftTemplateAvgAggregateInputType
+    _sum?: ShiftTemplateSumAggregateInputType
+    _min?: ShiftTemplateMinAggregateInputType
+    _max?: ShiftTemplateMaxAggregateInputType
+  }
+
+  export type ShiftTemplateGroupByOutputType = {
+    id: number
+    shiftId: number
+    sectionId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ShiftTemplateCountAggregateOutputType | null
+    _avg: ShiftTemplateAvgAggregateOutputType | null
+    _sum: ShiftTemplateSumAggregateOutputType | null
+    _min: ShiftTemplateMinAggregateOutputType | null
+    _max: ShiftTemplateMaxAggregateOutputType | null
+  }
+
+  type GetShiftTemplateGroupByPayload<T extends ShiftTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShiftTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShiftTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShiftTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], ShiftTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShiftTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shiftId?: boolean
+    sectionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    questions?: boolean | ShiftTemplate$questionsArgs<ExtArgs>
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    _count?: boolean | ShiftTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftTemplate"]>
+
+  export type ShiftTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shiftId?: boolean
+    sectionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftTemplate"]>
+
+  export type ShiftTemplateSelectScalar = {
+    id?: boolean
+    shiftId?: boolean
+    sectionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShiftTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    questions?: boolean | ShiftTemplate$questionsArgs<ExtArgs>
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+    _count?: boolean | ShiftTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShiftTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    section?: boolean | SectionDefaultArgs<ExtArgs>
+  }
+
+  export type $ShiftTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShiftTemplate"
+    objects: {
+      questions: Prisma.$ShiftTemplateQuestionPayload<ExtArgs>[]
+      shift: Prisma.$ShiftPayload<ExtArgs>
+      section: Prisma.$SectionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      shiftId: number
+      sectionId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shiftTemplate"]>
+    composites: {}
+  }
+
+  type ShiftTemplateGetPayload<S extends boolean | null | undefined | ShiftTemplateDefaultArgs> = $Result.GetResult<Prisma.$ShiftTemplatePayload, S>
+
+  type ShiftTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ShiftTemplateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ShiftTemplateCountAggregateInputType | true
+    }
+
+  export interface ShiftTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShiftTemplate'], meta: { name: 'ShiftTemplate' } }
+    /**
+     * Find zero or one ShiftTemplate that matches the filter.
+     * @param {ShiftTemplateFindUniqueArgs} args - Arguments to find a ShiftTemplate
+     * @example
+     * // Get one ShiftTemplate
+     * const shiftTemplate = await prisma.shiftTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShiftTemplateFindUniqueArgs>(args: SelectSubset<T, ShiftTemplateFindUniqueArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ShiftTemplate that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ShiftTemplateFindUniqueOrThrowArgs} args - Arguments to find a ShiftTemplate
+     * @example
+     * // Get one ShiftTemplate
+     * const shiftTemplate = await prisma.shiftTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShiftTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, ShiftTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ShiftTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateFindFirstArgs} args - Arguments to find a ShiftTemplate
+     * @example
+     * // Get one ShiftTemplate
+     * const shiftTemplate = await prisma.shiftTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShiftTemplateFindFirstArgs>(args?: SelectSubset<T, ShiftTemplateFindFirstArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ShiftTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateFindFirstOrThrowArgs} args - Arguments to find a ShiftTemplate
+     * @example
+     * // Get one ShiftTemplate
+     * const shiftTemplate = await prisma.shiftTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShiftTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, ShiftTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ShiftTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShiftTemplates
+     * const shiftTemplates = await prisma.shiftTemplate.findMany()
+     * 
+     * // Get first 10 ShiftTemplates
+     * const shiftTemplates = await prisma.shiftTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shiftTemplateWithIdOnly = await prisma.shiftTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShiftTemplateFindManyArgs>(args?: SelectSubset<T, ShiftTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ShiftTemplate.
+     * @param {ShiftTemplateCreateArgs} args - Arguments to create a ShiftTemplate.
+     * @example
+     * // Create one ShiftTemplate
+     * const ShiftTemplate = await prisma.shiftTemplate.create({
+     *   data: {
+     *     // ... data to create a ShiftTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShiftTemplateCreateArgs>(args: SelectSubset<T, ShiftTemplateCreateArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ShiftTemplates.
+     * @param {ShiftTemplateCreateManyArgs} args - Arguments to create many ShiftTemplates.
+     * @example
+     * // Create many ShiftTemplates
+     * const shiftTemplate = await prisma.shiftTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShiftTemplateCreateManyArgs>(args?: SelectSubset<T, ShiftTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShiftTemplates and returns the data saved in the database.
+     * @param {ShiftTemplateCreateManyAndReturnArgs} args - Arguments to create many ShiftTemplates.
+     * @example
+     * // Create many ShiftTemplates
+     * const shiftTemplate = await prisma.shiftTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShiftTemplates and only return the `id`
+     * const shiftTemplateWithIdOnly = await prisma.shiftTemplate.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShiftTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, ShiftTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ShiftTemplate.
+     * @param {ShiftTemplateDeleteArgs} args - Arguments to delete one ShiftTemplate.
+     * @example
+     * // Delete one ShiftTemplate
+     * const ShiftTemplate = await prisma.shiftTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one ShiftTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShiftTemplateDeleteArgs>(args: SelectSubset<T, ShiftTemplateDeleteArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ShiftTemplate.
+     * @param {ShiftTemplateUpdateArgs} args - Arguments to update one ShiftTemplate.
+     * @example
+     * // Update one ShiftTemplate
+     * const shiftTemplate = await prisma.shiftTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShiftTemplateUpdateArgs>(args: SelectSubset<T, ShiftTemplateUpdateArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ShiftTemplates.
+     * @param {ShiftTemplateDeleteManyArgs} args - Arguments to filter ShiftTemplates to delete.
+     * @example
+     * // Delete a few ShiftTemplates
+     * const { count } = await prisma.shiftTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShiftTemplateDeleteManyArgs>(args?: SelectSubset<T, ShiftTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShiftTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShiftTemplates
+     * const shiftTemplate = await prisma.shiftTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShiftTemplateUpdateManyArgs>(args: SelectSubset<T, ShiftTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ShiftTemplate.
+     * @param {ShiftTemplateUpsertArgs} args - Arguments to update or create a ShiftTemplate.
+     * @example
+     * // Update or create a ShiftTemplate
+     * const shiftTemplate = await prisma.shiftTemplate.upsert({
+     *   create: {
+     *     // ... data to create a ShiftTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShiftTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShiftTemplateUpsertArgs>(args: SelectSubset<T, ShiftTemplateUpsertArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ShiftTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateCountArgs} args - Arguments to filter ShiftTemplates to count.
+     * @example
+     * // Count the number of ShiftTemplates
+     * const count = await prisma.shiftTemplate.count({
+     *   where: {
+     *     // ... the filter for the ShiftTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShiftTemplateCountArgs>(
+      args?: Subset<T, ShiftTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShiftTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShiftTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShiftTemplateAggregateArgs>(args: Subset<T, ShiftTemplateAggregateArgs>): Prisma.PrismaPromise<GetShiftTemplateAggregateType<T>>
+
+    /**
+     * Group by ShiftTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShiftTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShiftTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: ShiftTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShiftTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShiftTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShiftTemplate model
+   */
+  readonly fields: ShiftTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShiftTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShiftTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    questions<T extends ShiftTemplate$questionsArgs<ExtArgs> = {}>(args?: Subset<T, ShiftTemplate$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "findMany"> | Null>
+    shift<T extends ShiftDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShiftDefaultArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShiftTemplate model
+   */ 
+  interface ShiftTemplateFieldRefs {
+    readonly id: FieldRef<"ShiftTemplate", 'Int'>
+    readonly shiftId: FieldRef<"ShiftTemplate", 'Int'>
+    readonly sectionId: FieldRef<"ShiftTemplate", 'Int'>
+    readonly createdAt: FieldRef<"ShiftTemplate", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShiftTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShiftTemplate findUnique
+   */
+  export type ShiftTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplate to fetch.
+     */
+    where: ShiftTemplateWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplate findUniqueOrThrow
+   */
+  export type ShiftTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplate to fetch.
+     */
+    where: ShiftTemplateWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplate findFirst
+   */
+  export type ShiftTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplate to fetch.
+     */
+    where?: ShiftTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplates to fetch.
+     */
+    orderBy?: ShiftTemplateOrderByWithRelationInput | ShiftTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftTemplates.
+     */
+    cursor?: ShiftTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftTemplates.
+     */
+    distinct?: ShiftTemplateScalarFieldEnum | ShiftTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplate findFirstOrThrow
+   */
+  export type ShiftTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplate to fetch.
+     */
+    where?: ShiftTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplates to fetch.
+     */
+    orderBy?: ShiftTemplateOrderByWithRelationInput | ShiftTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftTemplates.
+     */
+    cursor?: ShiftTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftTemplates.
+     */
+    distinct?: ShiftTemplateScalarFieldEnum | ShiftTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplate findMany
+   */
+  export type ShiftTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplates to fetch.
+     */
+    where?: ShiftTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplates to fetch.
+     */
+    orderBy?: ShiftTemplateOrderByWithRelationInput | ShiftTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShiftTemplates.
+     */
+    cursor?: ShiftTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplates.
+     */
+    skip?: number
+    distinct?: ShiftTemplateScalarFieldEnum | ShiftTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplate create
+   */
+  export type ShiftTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShiftTemplate.
+     */
+    data: XOR<ShiftTemplateCreateInput, ShiftTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * ShiftTemplate createMany
+   */
+  export type ShiftTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShiftTemplates.
+     */
+    data: ShiftTemplateCreateManyInput | ShiftTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShiftTemplate createManyAndReturn
+   */
+  export type ShiftTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ShiftTemplates.
+     */
+    data: ShiftTemplateCreateManyInput | ShiftTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShiftTemplate update
+   */
+  export type ShiftTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShiftTemplate.
+     */
+    data: XOR<ShiftTemplateUpdateInput, ShiftTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which ShiftTemplate to update.
+     */
+    where: ShiftTemplateWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplate updateMany
+   */
+  export type ShiftTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShiftTemplates.
+     */
+    data: XOR<ShiftTemplateUpdateManyMutationInput, ShiftTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which ShiftTemplates to update
+     */
+    where?: ShiftTemplateWhereInput
+  }
+
+  /**
+   * ShiftTemplate upsert
+   */
+  export type ShiftTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShiftTemplate to update in case it exists.
+     */
+    where: ShiftTemplateWhereUniqueInput
+    /**
+     * In case the ShiftTemplate found by the `where` argument doesn't exist, create a new ShiftTemplate with this data.
+     */
+    create: XOR<ShiftTemplateCreateInput, ShiftTemplateUncheckedCreateInput>
+    /**
+     * In case the ShiftTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShiftTemplateUpdateInput, ShiftTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * ShiftTemplate delete
+   */
+  export type ShiftTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+    /**
+     * Filter which ShiftTemplate to delete.
+     */
+    where: ShiftTemplateWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplate deleteMany
+   */
+  export type ShiftTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftTemplates to delete
+     */
+    where?: ShiftTemplateWhereInput
+  }
+
+  /**
+   * ShiftTemplate.questions
+   */
+  export type ShiftTemplate$questionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    where?: ShiftTemplateQuestionWhereInput
+    orderBy?: ShiftTemplateQuestionOrderByWithRelationInput | ShiftTemplateQuestionOrderByWithRelationInput[]
+    cursor?: ShiftTemplateQuestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShiftTemplateQuestionScalarFieldEnum | ShiftTemplateQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplate without action
+   */
+  export type ShiftTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplate
+     */
+    select?: ShiftTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShiftTemplateQuestion
+   */
+
+  export type AggregateShiftTemplateQuestion = {
+    _count: ShiftTemplateQuestionCountAggregateOutputType | null
+    _avg: ShiftTemplateQuestionAvgAggregateOutputType | null
+    _sum: ShiftTemplateQuestionSumAggregateOutputType | null
+    _min: ShiftTemplateQuestionMinAggregateOutputType | null
+    _max: ShiftTemplateQuestionMaxAggregateOutputType | null
+  }
+
+  export type ShiftTemplateQuestionAvgAggregateOutputType = {
+    id: number | null
+    templateId: number | null
+  }
+
+  export type ShiftTemplateQuestionSumAggregateOutputType = {
+    id: number | null
+    templateId: number | null
+  }
+
+  export type ShiftTemplateQuestionMinAggregateOutputType = {
+    id: number | null
+    templateId: number | null
+    question: string | null
+    responseType: $Enums.ResponseType | null
+  }
+
+  export type ShiftTemplateQuestionMaxAggregateOutputType = {
+    id: number | null
+    templateId: number | null
+    question: string | null
+    responseType: $Enums.ResponseType | null
+  }
+
+  export type ShiftTemplateQuestionCountAggregateOutputType = {
+    id: number
+    templateId: number
+    question: number
+    responseType: number
+    multipleChoiceOptions: number
+    _all: number
+  }
+
+
+  export type ShiftTemplateQuestionAvgAggregateInputType = {
+    id?: true
+    templateId?: true
+  }
+
+  export type ShiftTemplateQuestionSumAggregateInputType = {
+    id?: true
+    templateId?: true
+  }
+
+  export type ShiftTemplateQuestionMinAggregateInputType = {
+    id?: true
+    templateId?: true
+    question?: true
+    responseType?: true
+  }
+
+  export type ShiftTemplateQuestionMaxAggregateInputType = {
+    id?: true
+    templateId?: true
+    question?: true
+    responseType?: true
+  }
+
+  export type ShiftTemplateQuestionCountAggregateInputType = {
+    id?: true
+    templateId?: true
+    question?: true
+    responseType?: true
+    multipleChoiceOptions?: true
+    _all?: true
+  }
+
+  export type ShiftTemplateQuestionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftTemplateQuestion to aggregate.
+     */
+    where?: ShiftTemplateQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplateQuestions to fetch.
+     */
+    orderBy?: ShiftTemplateQuestionOrderByWithRelationInput | ShiftTemplateQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShiftTemplateQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplateQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplateQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShiftTemplateQuestions
+    **/
+    _count?: true | ShiftTemplateQuestionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShiftTemplateQuestionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShiftTemplateQuestionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShiftTemplateQuestionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShiftTemplateQuestionMaxAggregateInputType
+  }
+
+  export type GetShiftTemplateQuestionAggregateType<T extends ShiftTemplateQuestionAggregateArgs> = {
+        [P in keyof T & keyof AggregateShiftTemplateQuestion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShiftTemplateQuestion[P]>
+      : GetScalarType<T[P], AggregateShiftTemplateQuestion[P]>
+  }
+
+
+
+
+  export type ShiftTemplateQuestionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftTemplateQuestionWhereInput
+    orderBy?: ShiftTemplateQuestionOrderByWithAggregationInput | ShiftTemplateQuestionOrderByWithAggregationInput[]
+    by: ShiftTemplateQuestionScalarFieldEnum[] | ShiftTemplateQuestionScalarFieldEnum
+    having?: ShiftTemplateQuestionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShiftTemplateQuestionCountAggregateInputType | true
+    _avg?: ShiftTemplateQuestionAvgAggregateInputType
+    _sum?: ShiftTemplateQuestionSumAggregateInputType
+    _min?: ShiftTemplateQuestionMinAggregateInputType
+    _max?: ShiftTemplateQuestionMaxAggregateInputType
+  }
+
+  export type ShiftTemplateQuestionGroupByOutputType = {
+    id: number
+    templateId: number
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions: string[]
+    _count: ShiftTemplateQuestionCountAggregateOutputType | null
+    _avg: ShiftTemplateQuestionAvgAggregateOutputType | null
+    _sum: ShiftTemplateQuestionSumAggregateOutputType | null
+    _min: ShiftTemplateQuestionMinAggregateOutputType | null
+    _max: ShiftTemplateQuestionMaxAggregateOutputType | null
+  }
+
+  type GetShiftTemplateQuestionGroupByPayload<T extends ShiftTemplateQuestionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShiftTemplateQuestionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShiftTemplateQuestionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShiftTemplateQuestionGroupByOutputType[P]>
+            : GetScalarType<T[P], ShiftTemplateQuestionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShiftTemplateQuestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    templateId?: boolean
+    question?: boolean
+    responseType?: boolean
+    multipleChoiceOptions?: boolean
+    template?: boolean | ShiftTemplateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftTemplateQuestion"]>
+
+  export type ShiftTemplateQuestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    templateId?: boolean
+    question?: boolean
+    responseType?: boolean
+    multipleChoiceOptions?: boolean
+    template?: boolean | ShiftTemplateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftTemplateQuestion"]>
+
+  export type ShiftTemplateQuestionSelectScalar = {
+    id?: boolean
+    templateId?: boolean
+    question?: boolean
+    responseType?: boolean
+    multipleChoiceOptions?: boolean
+  }
+
+  export type ShiftTemplateQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    template?: boolean | ShiftTemplateDefaultArgs<ExtArgs>
+  }
+  export type ShiftTemplateQuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    template?: boolean | ShiftTemplateDefaultArgs<ExtArgs>
+  }
+
+  export type $ShiftTemplateQuestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShiftTemplateQuestion"
+    objects: {
+      template: Prisma.$ShiftTemplatePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      templateId: number
+      question: string
+      responseType: $Enums.ResponseType
+      multipleChoiceOptions: string[]
+    }, ExtArgs["result"]["shiftTemplateQuestion"]>
+    composites: {}
+  }
+
+  type ShiftTemplateQuestionGetPayload<S extends boolean | null | undefined | ShiftTemplateQuestionDefaultArgs> = $Result.GetResult<Prisma.$ShiftTemplateQuestionPayload, S>
+
+  type ShiftTemplateQuestionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ShiftTemplateQuestionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ShiftTemplateQuestionCountAggregateInputType | true
+    }
+
+  export interface ShiftTemplateQuestionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShiftTemplateQuestion'], meta: { name: 'ShiftTemplateQuestion' } }
+    /**
+     * Find zero or one ShiftTemplateQuestion that matches the filter.
+     * @param {ShiftTemplateQuestionFindUniqueArgs} args - Arguments to find a ShiftTemplateQuestion
+     * @example
+     * // Get one ShiftTemplateQuestion
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShiftTemplateQuestionFindUniqueArgs>(args: SelectSubset<T, ShiftTemplateQuestionFindUniqueArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ShiftTemplateQuestion that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ShiftTemplateQuestionFindUniqueOrThrowArgs} args - Arguments to find a ShiftTemplateQuestion
+     * @example
+     * // Get one ShiftTemplateQuestion
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShiftTemplateQuestionFindUniqueOrThrowArgs>(args: SelectSubset<T, ShiftTemplateQuestionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ShiftTemplateQuestion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionFindFirstArgs} args - Arguments to find a ShiftTemplateQuestion
+     * @example
+     * // Get one ShiftTemplateQuestion
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShiftTemplateQuestionFindFirstArgs>(args?: SelectSubset<T, ShiftTemplateQuestionFindFirstArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ShiftTemplateQuestion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionFindFirstOrThrowArgs} args - Arguments to find a ShiftTemplateQuestion
+     * @example
+     * // Get one ShiftTemplateQuestion
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShiftTemplateQuestionFindFirstOrThrowArgs>(args?: SelectSubset<T, ShiftTemplateQuestionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ShiftTemplateQuestions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShiftTemplateQuestions
+     * const shiftTemplateQuestions = await prisma.shiftTemplateQuestion.findMany()
+     * 
+     * // Get first 10 ShiftTemplateQuestions
+     * const shiftTemplateQuestions = await prisma.shiftTemplateQuestion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shiftTemplateQuestionWithIdOnly = await prisma.shiftTemplateQuestion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShiftTemplateQuestionFindManyArgs>(args?: SelectSubset<T, ShiftTemplateQuestionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ShiftTemplateQuestion.
+     * @param {ShiftTemplateQuestionCreateArgs} args - Arguments to create a ShiftTemplateQuestion.
+     * @example
+     * // Create one ShiftTemplateQuestion
+     * const ShiftTemplateQuestion = await prisma.shiftTemplateQuestion.create({
+     *   data: {
+     *     // ... data to create a ShiftTemplateQuestion
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShiftTemplateQuestionCreateArgs>(args: SelectSubset<T, ShiftTemplateQuestionCreateArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ShiftTemplateQuestions.
+     * @param {ShiftTemplateQuestionCreateManyArgs} args - Arguments to create many ShiftTemplateQuestions.
+     * @example
+     * // Create many ShiftTemplateQuestions
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShiftTemplateQuestionCreateManyArgs>(args?: SelectSubset<T, ShiftTemplateQuestionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShiftTemplateQuestions and returns the data saved in the database.
+     * @param {ShiftTemplateQuestionCreateManyAndReturnArgs} args - Arguments to create many ShiftTemplateQuestions.
+     * @example
+     * // Create many ShiftTemplateQuestions
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShiftTemplateQuestions and only return the `id`
+     * const shiftTemplateQuestionWithIdOnly = await prisma.shiftTemplateQuestion.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShiftTemplateQuestionCreateManyAndReturnArgs>(args?: SelectSubset<T, ShiftTemplateQuestionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ShiftTemplateQuestion.
+     * @param {ShiftTemplateQuestionDeleteArgs} args - Arguments to delete one ShiftTemplateQuestion.
+     * @example
+     * // Delete one ShiftTemplateQuestion
+     * const ShiftTemplateQuestion = await prisma.shiftTemplateQuestion.delete({
+     *   where: {
+     *     // ... filter to delete one ShiftTemplateQuestion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShiftTemplateQuestionDeleteArgs>(args: SelectSubset<T, ShiftTemplateQuestionDeleteArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ShiftTemplateQuestion.
+     * @param {ShiftTemplateQuestionUpdateArgs} args - Arguments to update one ShiftTemplateQuestion.
+     * @example
+     * // Update one ShiftTemplateQuestion
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShiftTemplateQuestionUpdateArgs>(args: SelectSubset<T, ShiftTemplateQuestionUpdateArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ShiftTemplateQuestions.
+     * @param {ShiftTemplateQuestionDeleteManyArgs} args - Arguments to filter ShiftTemplateQuestions to delete.
+     * @example
+     * // Delete a few ShiftTemplateQuestions
+     * const { count } = await prisma.shiftTemplateQuestion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShiftTemplateQuestionDeleteManyArgs>(args?: SelectSubset<T, ShiftTemplateQuestionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShiftTemplateQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShiftTemplateQuestions
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShiftTemplateQuestionUpdateManyArgs>(args: SelectSubset<T, ShiftTemplateQuestionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ShiftTemplateQuestion.
+     * @param {ShiftTemplateQuestionUpsertArgs} args - Arguments to update or create a ShiftTemplateQuestion.
+     * @example
+     * // Update or create a ShiftTemplateQuestion
+     * const shiftTemplateQuestion = await prisma.shiftTemplateQuestion.upsert({
+     *   create: {
+     *     // ... data to create a ShiftTemplateQuestion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShiftTemplateQuestion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShiftTemplateQuestionUpsertArgs>(args: SelectSubset<T, ShiftTemplateQuestionUpsertArgs<ExtArgs>>): Prisma__ShiftTemplateQuestionClient<$Result.GetResult<Prisma.$ShiftTemplateQuestionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ShiftTemplateQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionCountArgs} args - Arguments to filter ShiftTemplateQuestions to count.
+     * @example
+     * // Count the number of ShiftTemplateQuestions
+     * const count = await prisma.shiftTemplateQuestion.count({
+     *   where: {
+     *     // ... the filter for the ShiftTemplateQuestions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShiftTemplateQuestionCountArgs>(
+      args?: Subset<T, ShiftTemplateQuestionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShiftTemplateQuestionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShiftTemplateQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShiftTemplateQuestionAggregateArgs>(args: Subset<T, ShiftTemplateQuestionAggregateArgs>): Prisma.PrismaPromise<GetShiftTemplateQuestionAggregateType<T>>
+
+    /**
+     * Group by ShiftTemplateQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftTemplateQuestionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShiftTemplateQuestionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShiftTemplateQuestionGroupByArgs['orderBy'] }
+        : { orderBy?: ShiftTemplateQuestionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShiftTemplateQuestionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShiftTemplateQuestionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShiftTemplateQuestion model
+   */
+  readonly fields: ShiftTemplateQuestionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShiftTemplateQuestion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShiftTemplateQuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    template<T extends ShiftTemplateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShiftTemplateDefaultArgs<ExtArgs>>): Prisma__ShiftTemplateClient<$Result.GetResult<Prisma.$ShiftTemplatePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShiftTemplateQuestion model
+   */ 
+  interface ShiftTemplateQuestionFieldRefs {
+    readonly id: FieldRef<"ShiftTemplateQuestion", 'Int'>
+    readonly templateId: FieldRef<"ShiftTemplateQuestion", 'Int'>
+    readonly question: FieldRef<"ShiftTemplateQuestion", 'String'>
+    readonly responseType: FieldRef<"ShiftTemplateQuestion", 'ResponseType'>
+    readonly multipleChoiceOptions: FieldRef<"ShiftTemplateQuestion", 'String[]'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShiftTemplateQuestion findUnique
+   */
+  export type ShiftTemplateQuestionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplateQuestion to fetch.
+     */
+    where: ShiftTemplateQuestionWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplateQuestion findUniqueOrThrow
+   */
+  export type ShiftTemplateQuestionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplateQuestion to fetch.
+     */
+    where: ShiftTemplateQuestionWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplateQuestion findFirst
+   */
+  export type ShiftTemplateQuestionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplateQuestion to fetch.
+     */
+    where?: ShiftTemplateQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplateQuestions to fetch.
+     */
+    orderBy?: ShiftTemplateQuestionOrderByWithRelationInput | ShiftTemplateQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftTemplateQuestions.
+     */
+    cursor?: ShiftTemplateQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplateQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplateQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftTemplateQuestions.
+     */
+    distinct?: ShiftTemplateQuestionScalarFieldEnum | ShiftTemplateQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplateQuestion findFirstOrThrow
+   */
+  export type ShiftTemplateQuestionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplateQuestion to fetch.
+     */
+    where?: ShiftTemplateQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplateQuestions to fetch.
+     */
+    orderBy?: ShiftTemplateQuestionOrderByWithRelationInput | ShiftTemplateQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftTemplateQuestions.
+     */
+    cursor?: ShiftTemplateQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplateQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplateQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftTemplateQuestions.
+     */
+    distinct?: ShiftTemplateQuestionScalarFieldEnum | ShiftTemplateQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplateQuestion findMany
+   */
+  export type ShiftTemplateQuestionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftTemplateQuestions to fetch.
+     */
+    where?: ShiftTemplateQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftTemplateQuestions to fetch.
+     */
+    orderBy?: ShiftTemplateQuestionOrderByWithRelationInput | ShiftTemplateQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShiftTemplateQuestions.
+     */
+    cursor?: ShiftTemplateQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftTemplateQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftTemplateQuestions.
+     */
+    skip?: number
+    distinct?: ShiftTemplateQuestionScalarFieldEnum | ShiftTemplateQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftTemplateQuestion create
+   */
+  export type ShiftTemplateQuestionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShiftTemplateQuestion.
+     */
+    data: XOR<ShiftTemplateQuestionCreateInput, ShiftTemplateQuestionUncheckedCreateInput>
+  }
+
+  /**
+   * ShiftTemplateQuestion createMany
+   */
+  export type ShiftTemplateQuestionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShiftTemplateQuestions.
+     */
+    data: ShiftTemplateQuestionCreateManyInput | ShiftTemplateQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShiftTemplateQuestion createManyAndReturn
+   */
+  export type ShiftTemplateQuestionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ShiftTemplateQuestions.
+     */
+    data: ShiftTemplateQuestionCreateManyInput | ShiftTemplateQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShiftTemplateQuestion update
+   */
+  export type ShiftTemplateQuestionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShiftTemplateQuestion.
+     */
+    data: XOR<ShiftTemplateQuestionUpdateInput, ShiftTemplateQuestionUncheckedUpdateInput>
+    /**
+     * Choose, which ShiftTemplateQuestion to update.
+     */
+    where: ShiftTemplateQuestionWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplateQuestion updateMany
+   */
+  export type ShiftTemplateQuestionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShiftTemplateQuestions.
+     */
+    data: XOR<ShiftTemplateQuestionUpdateManyMutationInput, ShiftTemplateQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which ShiftTemplateQuestions to update
+     */
+    where?: ShiftTemplateQuestionWhereInput
+  }
+
+  /**
+   * ShiftTemplateQuestion upsert
+   */
+  export type ShiftTemplateQuestionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShiftTemplateQuestion to update in case it exists.
+     */
+    where: ShiftTemplateQuestionWhereUniqueInput
+    /**
+     * In case the ShiftTemplateQuestion found by the `where` argument doesn't exist, create a new ShiftTemplateQuestion with this data.
+     */
+    create: XOR<ShiftTemplateQuestionCreateInput, ShiftTemplateQuestionUncheckedCreateInput>
+    /**
+     * In case the ShiftTemplateQuestion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShiftTemplateQuestionUpdateInput, ShiftTemplateQuestionUncheckedUpdateInput>
+  }
+
+  /**
+   * ShiftTemplateQuestion delete
+   */
+  export type ShiftTemplateQuestionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+    /**
+     * Filter which ShiftTemplateQuestion to delete.
+     */
+    where: ShiftTemplateQuestionWhereUniqueInput
+  }
+
+  /**
+   * ShiftTemplateQuestion deleteMany
+   */
+  export type ShiftTemplateQuestionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftTemplateQuestions to delete
+     */
+    where?: ShiftTemplateQuestionWhereInput
+  }
+
+  /**
+   * ShiftTemplateQuestion without action
+   */
+  export type ShiftTemplateQuestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftTemplateQuestion
+     */
+    select?: ShiftTemplateQuestionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftTemplateQuestionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShiftUsers
+   */
+
+  export type AggregateShiftUsers = {
+    _count: ShiftUsersCountAggregateOutputType | null
+    _avg: ShiftUsersAvgAggregateOutputType | null
+    _sum: ShiftUsersSumAggregateOutputType | null
+    _min: ShiftUsersMinAggregateOutputType | null
+    _max: ShiftUsersMaxAggregateOutputType | null
+  }
+
+  export type ShiftUsersAvgAggregateOutputType = {
+    shiftId: number | null
+    userId: number | null
+  }
+
+  export type ShiftUsersSumAggregateOutputType = {
+    shiftId: number | null
+    userId: number | null
+  }
+
+  export type ShiftUsersMinAggregateOutputType = {
+    shiftId: number | null
+    userId: number | null
+  }
+
+  export type ShiftUsersMaxAggregateOutputType = {
+    shiftId: number | null
+    userId: number | null
+  }
+
+  export type ShiftUsersCountAggregateOutputType = {
+    shiftId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type ShiftUsersAvgAggregateInputType = {
+    shiftId?: true
+    userId?: true
+  }
+
+  export type ShiftUsersSumAggregateInputType = {
+    shiftId?: true
+    userId?: true
+  }
+
+  export type ShiftUsersMinAggregateInputType = {
+    shiftId?: true
+    userId?: true
+  }
+
+  export type ShiftUsersMaxAggregateInputType = {
+    shiftId?: true
+    userId?: true
+  }
+
+  export type ShiftUsersCountAggregateInputType = {
+    shiftId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type ShiftUsersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftUsers to aggregate.
+     */
+    where?: ShiftUsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftUsers to fetch.
+     */
+    orderBy?: ShiftUsersOrderByWithRelationInput | ShiftUsersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShiftUsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShiftUsers
+    **/
+    _count?: true | ShiftUsersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShiftUsersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShiftUsersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShiftUsersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShiftUsersMaxAggregateInputType
+  }
+
+  export type GetShiftUsersAggregateType<T extends ShiftUsersAggregateArgs> = {
+        [P in keyof T & keyof AggregateShiftUsers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShiftUsers[P]>
+      : GetScalarType<T[P], AggregateShiftUsers[P]>
+  }
+
+
+
+
+  export type ShiftUsersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShiftUsersWhereInput
+    orderBy?: ShiftUsersOrderByWithAggregationInput | ShiftUsersOrderByWithAggregationInput[]
+    by: ShiftUsersScalarFieldEnum[] | ShiftUsersScalarFieldEnum
+    having?: ShiftUsersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShiftUsersCountAggregateInputType | true
+    _avg?: ShiftUsersAvgAggregateInputType
+    _sum?: ShiftUsersSumAggregateInputType
+    _min?: ShiftUsersMinAggregateInputType
+    _max?: ShiftUsersMaxAggregateInputType
+  }
+
+  export type ShiftUsersGroupByOutputType = {
+    shiftId: number
+    userId: number
+    _count: ShiftUsersCountAggregateOutputType | null
+    _avg: ShiftUsersAvgAggregateOutputType | null
+    _sum: ShiftUsersSumAggregateOutputType | null
+    _min: ShiftUsersMinAggregateOutputType | null
+    _max: ShiftUsersMaxAggregateOutputType | null
+  }
+
+  type GetShiftUsersGroupByPayload<T extends ShiftUsersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShiftUsersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShiftUsersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShiftUsersGroupByOutputType[P]>
+            : GetScalarType<T[P], ShiftUsersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShiftUsersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    shiftId?: boolean
+    userId?: boolean
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftUsers"]>
+
+  export type ShiftUsersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    shiftId?: boolean
+    userId?: boolean
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shiftUsers"]>
+
+  export type ShiftUsersSelectScalar = {
+    shiftId?: boolean
+    userId?: boolean
+  }
+
+  export type ShiftUsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ShiftUsersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shift?: boolean | ShiftDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ShiftUsersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShiftUsers"
+    objects: {
+      shift: Prisma.$ShiftPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      shiftId: number
+      userId: number
+    }, ExtArgs["result"]["shiftUsers"]>
+    composites: {}
+  }
+
+  type ShiftUsersGetPayload<S extends boolean | null | undefined | ShiftUsersDefaultArgs> = $Result.GetResult<Prisma.$ShiftUsersPayload, S>
+
+  type ShiftUsersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ShiftUsersFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ShiftUsersCountAggregateInputType | true
+    }
+
+  export interface ShiftUsersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShiftUsers'], meta: { name: 'ShiftUsers' } }
+    /**
+     * Find zero or one ShiftUsers that matches the filter.
+     * @param {ShiftUsersFindUniqueArgs} args - Arguments to find a ShiftUsers
+     * @example
+     * // Get one ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShiftUsersFindUniqueArgs>(args: SelectSubset<T, ShiftUsersFindUniqueArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ShiftUsers that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ShiftUsersFindUniqueOrThrowArgs} args - Arguments to find a ShiftUsers
+     * @example
+     * // Get one ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShiftUsersFindUniqueOrThrowArgs>(args: SelectSubset<T, ShiftUsersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ShiftUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersFindFirstArgs} args - Arguments to find a ShiftUsers
+     * @example
+     * // Get one ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShiftUsersFindFirstArgs>(args?: SelectSubset<T, ShiftUsersFindFirstArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ShiftUsers that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersFindFirstOrThrowArgs} args - Arguments to find a ShiftUsers
+     * @example
+     * // Get one ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShiftUsersFindFirstOrThrowArgs>(args?: SelectSubset<T, ShiftUsersFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ShiftUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.findMany()
+     * 
+     * // Get first 10 ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.findMany({ take: 10 })
+     * 
+     * // Only select the `shiftId`
+     * const shiftUsersWithShiftIdOnly = await prisma.shiftUsers.findMany({ select: { shiftId: true } })
+     * 
+     */
+    findMany<T extends ShiftUsersFindManyArgs>(args?: SelectSubset<T, ShiftUsersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ShiftUsers.
+     * @param {ShiftUsersCreateArgs} args - Arguments to create a ShiftUsers.
+     * @example
+     * // Create one ShiftUsers
+     * const ShiftUsers = await prisma.shiftUsers.create({
+     *   data: {
+     *     // ... data to create a ShiftUsers
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShiftUsersCreateArgs>(args: SelectSubset<T, ShiftUsersCreateArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ShiftUsers.
+     * @param {ShiftUsersCreateManyArgs} args - Arguments to create many ShiftUsers.
+     * @example
+     * // Create many ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShiftUsersCreateManyArgs>(args?: SelectSubset<T, ShiftUsersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShiftUsers and returns the data saved in the database.
+     * @param {ShiftUsersCreateManyAndReturnArgs} args - Arguments to create many ShiftUsers.
+     * @example
+     * // Create many ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShiftUsers and only return the `shiftId`
+     * const shiftUsersWithShiftIdOnly = await prisma.shiftUsers.createManyAndReturn({ 
+     *   select: { shiftId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShiftUsersCreateManyAndReturnArgs>(args?: SelectSubset<T, ShiftUsersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ShiftUsers.
+     * @param {ShiftUsersDeleteArgs} args - Arguments to delete one ShiftUsers.
+     * @example
+     * // Delete one ShiftUsers
+     * const ShiftUsers = await prisma.shiftUsers.delete({
+     *   where: {
+     *     // ... filter to delete one ShiftUsers
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShiftUsersDeleteArgs>(args: SelectSubset<T, ShiftUsersDeleteArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ShiftUsers.
+     * @param {ShiftUsersUpdateArgs} args - Arguments to update one ShiftUsers.
+     * @example
+     * // Update one ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShiftUsersUpdateArgs>(args: SelectSubset<T, ShiftUsersUpdateArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ShiftUsers.
+     * @param {ShiftUsersDeleteManyArgs} args - Arguments to filter ShiftUsers to delete.
+     * @example
+     * // Delete a few ShiftUsers
+     * const { count } = await prisma.shiftUsers.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShiftUsersDeleteManyArgs>(args?: SelectSubset<T, ShiftUsersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShiftUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShiftUsersUpdateManyArgs>(args: SelectSubset<T, ShiftUsersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ShiftUsers.
+     * @param {ShiftUsersUpsertArgs} args - Arguments to update or create a ShiftUsers.
+     * @example
+     * // Update or create a ShiftUsers
+     * const shiftUsers = await prisma.shiftUsers.upsert({
+     *   create: {
+     *     // ... data to create a ShiftUsers
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShiftUsers we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShiftUsersUpsertArgs>(args: SelectSubset<T, ShiftUsersUpsertArgs<ExtArgs>>): Prisma__ShiftUsersClient<$Result.GetResult<Prisma.$ShiftUsersPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ShiftUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersCountArgs} args - Arguments to filter ShiftUsers to count.
+     * @example
+     * // Count the number of ShiftUsers
+     * const count = await prisma.shiftUsers.count({
+     *   where: {
+     *     // ... the filter for the ShiftUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShiftUsersCountArgs>(
+      args?: Subset<T, ShiftUsersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShiftUsersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShiftUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShiftUsersAggregateArgs>(args: Subset<T, ShiftUsersAggregateArgs>): Prisma.PrismaPromise<GetShiftUsersAggregateType<T>>
+
+    /**
+     * Group by ShiftUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShiftUsersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShiftUsersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShiftUsersGroupByArgs['orderBy'] }
+        : { orderBy?: ShiftUsersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShiftUsersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShiftUsersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShiftUsers model
+   */
+  readonly fields: ShiftUsersFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShiftUsers.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShiftUsersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shift<T extends ShiftDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShiftDefaultArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShiftUsers model
+   */ 
+  interface ShiftUsersFieldRefs {
+    readonly shiftId: FieldRef<"ShiftUsers", 'Int'>
+    readonly userId: FieldRef<"ShiftUsers", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShiftUsers findUnique
+   */
+  export type ShiftUsersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftUsers to fetch.
+     */
+    where: ShiftUsersWhereUniqueInput
+  }
+
+  /**
+   * ShiftUsers findUniqueOrThrow
+   */
+  export type ShiftUsersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftUsers to fetch.
+     */
+    where: ShiftUsersWhereUniqueInput
+  }
+
+  /**
+   * ShiftUsers findFirst
+   */
+  export type ShiftUsersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftUsers to fetch.
+     */
+    where?: ShiftUsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftUsers to fetch.
+     */
+    orderBy?: ShiftUsersOrderByWithRelationInput | ShiftUsersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftUsers.
+     */
+    cursor?: ShiftUsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftUsers.
+     */
+    distinct?: ShiftUsersScalarFieldEnum | ShiftUsersScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftUsers findFirstOrThrow
+   */
+  export type ShiftUsersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftUsers to fetch.
+     */
+    where?: ShiftUsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftUsers to fetch.
+     */
+    orderBy?: ShiftUsersOrderByWithRelationInput | ShiftUsersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShiftUsers.
+     */
+    cursor?: ShiftUsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShiftUsers.
+     */
+    distinct?: ShiftUsersScalarFieldEnum | ShiftUsersScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftUsers findMany
+   */
+  export type ShiftUsersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * Filter, which ShiftUsers to fetch.
+     */
+    where?: ShiftUsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShiftUsers to fetch.
+     */
+    orderBy?: ShiftUsersOrderByWithRelationInput | ShiftUsersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShiftUsers.
+     */
+    cursor?: ShiftUsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShiftUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShiftUsers.
+     */
+    skip?: number
+    distinct?: ShiftUsersScalarFieldEnum | ShiftUsersScalarFieldEnum[]
+  }
+
+  /**
+   * ShiftUsers create
+   */
+  export type ShiftUsersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShiftUsers.
+     */
+    data: XOR<ShiftUsersCreateInput, ShiftUsersUncheckedCreateInput>
+  }
+
+  /**
+   * ShiftUsers createMany
+   */
+  export type ShiftUsersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShiftUsers.
+     */
+    data: ShiftUsersCreateManyInput | ShiftUsersCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShiftUsers createManyAndReturn
+   */
+  export type ShiftUsersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ShiftUsers.
+     */
+    data: ShiftUsersCreateManyInput | ShiftUsersCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShiftUsers update
+   */
+  export type ShiftUsersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShiftUsers.
+     */
+    data: XOR<ShiftUsersUpdateInput, ShiftUsersUncheckedUpdateInput>
+    /**
+     * Choose, which ShiftUsers to update.
+     */
+    where: ShiftUsersWhereUniqueInput
+  }
+
+  /**
+   * ShiftUsers updateMany
+   */
+  export type ShiftUsersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShiftUsers.
+     */
+    data: XOR<ShiftUsersUpdateManyMutationInput, ShiftUsersUncheckedUpdateManyInput>
+    /**
+     * Filter which ShiftUsers to update
+     */
+    where?: ShiftUsersWhereInput
+  }
+
+  /**
+   * ShiftUsers upsert
+   */
+  export type ShiftUsersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShiftUsers to update in case it exists.
+     */
+    where: ShiftUsersWhereUniqueInput
+    /**
+     * In case the ShiftUsers found by the `where` argument doesn't exist, create a new ShiftUsers with this data.
+     */
+    create: XOR<ShiftUsersCreateInput, ShiftUsersUncheckedCreateInput>
+    /**
+     * In case the ShiftUsers was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShiftUsersUpdateInput, ShiftUsersUncheckedUpdateInput>
+  }
+
+  /**
+   * ShiftUsers delete
+   */
+  export type ShiftUsersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
+    /**
+     * Filter which ShiftUsers to delete.
+     */
+    where: ShiftUsersWhereUniqueInput
+  }
+
+  /**
+   * ShiftUsers deleteMany
+   */
+  export type ShiftUsersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShiftUsers to delete
+     */
+    where?: ShiftUsersWhereInput
+  }
+
+  /**
+   * ShiftUsers without action
+   */
+  export type ShiftUsersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShiftUsers
+     */
+    select?: ShiftUsersSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShiftUsersInclude<ExtArgs> | null
   }
 
 
@@ -16646,12 +23514,14 @@ export namespace Prisma {
     id: number | null
     planId: number | null
     sectionId: number | null
+    userId: number | null
   }
 
   export type ActivePlansSumAggregateOutputType = {
     id: number | null
     planId: number | null
     sectionId: number | null
+    userId: number | null
   }
 
   export type ActivePlansMinAggregateOutputType = {
@@ -16659,6 +23529,7 @@ export namespace Prisma {
     planName: string | null
     planId: number | null
     sectionId: number | null
+    userId: number | null
   }
 
   export type ActivePlansMaxAggregateOutputType = {
@@ -16666,6 +23537,7 @@ export namespace Prisma {
     planName: string | null
     planId: number | null
     sectionId: number | null
+    userId: number | null
   }
 
   export type ActivePlansCountAggregateOutputType = {
@@ -16673,6 +23545,7 @@ export namespace Prisma {
     planName: number
     planId: number
     sectionId: number
+    userId: number
     _all: number
   }
 
@@ -16681,12 +23554,14 @@ export namespace Prisma {
     id?: true
     planId?: true
     sectionId?: true
+    userId?: true
   }
 
   export type ActivePlansSumAggregateInputType = {
     id?: true
     planId?: true
     sectionId?: true
+    userId?: true
   }
 
   export type ActivePlansMinAggregateInputType = {
@@ -16694,6 +23569,7 @@ export namespace Prisma {
     planName?: true
     planId?: true
     sectionId?: true
+    userId?: true
   }
 
   export type ActivePlansMaxAggregateInputType = {
@@ -16701,6 +23577,7 @@ export namespace Prisma {
     planName?: true
     planId?: true
     sectionId?: true
+    userId?: true
   }
 
   export type ActivePlansCountAggregateInputType = {
@@ -16708,6 +23585,7 @@ export namespace Prisma {
     planName?: true
     planId?: true
     sectionId?: true
+    userId?: true
     _all?: true
   }
 
@@ -16802,6 +23680,7 @@ export namespace Prisma {
     planName: string
     planId: number
     sectionId: number
+    userId: number | null
     _count: ActivePlansCountAggregateOutputType | null
     _avg: ActivePlansAvgAggregateOutputType | null
     _sum: ActivePlansSumAggregateOutputType | null
@@ -16828,8 +23707,10 @@ export namespace Prisma {
     planName?: boolean
     planId?: boolean
     sectionId?: boolean
+    userId?: boolean
     plan?: boolean | PlanDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | ActivePlans$userArgs<ExtArgs>
   }, ExtArgs["result"]["activePlans"]>
 
   export type ActivePlansSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16837,8 +23718,10 @@ export namespace Prisma {
     planName?: boolean
     planId?: boolean
     sectionId?: boolean
+    userId?: boolean
     plan?: boolean | PlanDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | ActivePlans$userArgs<ExtArgs>
   }, ExtArgs["result"]["activePlans"]>
 
   export type ActivePlansSelectScalar = {
@@ -16846,15 +23729,18 @@ export namespace Prisma {
     planName?: boolean
     planId?: boolean
     sectionId?: boolean
+    userId?: boolean
   }
 
   export type ActivePlansInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plan?: boolean | PlanDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | ActivePlans$userArgs<ExtArgs>
   }
   export type ActivePlansIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plan?: boolean | PlanDefaultArgs<ExtArgs>
     section?: boolean | SectionDefaultArgs<ExtArgs>
+    user?: boolean | ActivePlans$userArgs<ExtArgs>
   }
 
   export type $ActivePlansPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16862,12 +23748,14 @@ export namespace Prisma {
     objects: {
       plan: Prisma.$PlanPayload<ExtArgs>
       section: Prisma.$SectionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       planName: string
       planId: number
       sectionId: number
+      userId: number | null
     }, ExtArgs["result"]["activePlans"]>
     composites: {}
   }
@@ -17234,6 +24122,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     plan<T extends PlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlanDefaultArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends ActivePlans$userArgs<ExtArgs> = {}>(args?: Subset<T, ActivePlans$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17267,6 +24156,7 @@ export namespace Prisma {
     readonly planName: FieldRef<"ActivePlans", 'String'>
     readonly planId: FieldRef<"ActivePlans", 'Int'>
     readonly sectionId: FieldRef<"ActivePlans", 'Int'>
+    readonly userId: FieldRef<"ActivePlans", 'Int'>
   }
     
 
@@ -17582,6 +24472,21 @@ export namespace Prisma {
      * Filter which ActivePlans to delete
      */
     where?: ActivePlansWhereInput
+  }
+
+  /**
+   * ActivePlans.user
+   */
+  export type ActivePlans$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -21646,10 +28551,41 @@ export namespace Prisma {
     lastLogin: 'lastLogin',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    createdBy: 'createdBy'
+    createdBy: 'createdBy',
+    isSupervisor: 'isSupervisor'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const ShiftAssignmentScalarFieldEnum: {
+    id: 'id',
+    sectionId: 'sectionId',
+    shiftId: 'shiftId',
+    supervisorId: 'supervisorId',
+    createdAt: 'createdAt'
+  };
+
+  export type ShiftAssignmentScalarFieldEnum = (typeof ShiftAssignmentScalarFieldEnum)[keyof typeof ShiftAssignmentScalarFieldEnum]
+
+
+  export const ShiftAssignmentOperatorScalarFieldEnum: {
+    id: 'id',
+    shiftAssignmentId: 'shiftAssignmentId',
+    operatorId: 'operatorId'
+  };
+
+  export type ShiftAssignmentOperatorScalarFieldEnum = (typeof ShiftAssignmentOperatorScalarFieldEnum)[keyof typeof ShiftAssignmentOperatorScalarFieldEnum]
+
+
+  export const SectionScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    sectionType: 'sectionType',
+    area: 'area'
+  };
+
+  export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
 
 
   export const SupervisorScalarFieldEnum: {
@@ -21661,14 +28597,12 @@ export namespace Prisma {
   export type SupervisorScalarFieldEnum = (typeof SupervisorScalarFieldEnum)[keyof typeof SupervisorScalarFieldEnum]
 
 
-  export const SectionScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    sectionType: 'sectionType',
-    area: 'area'
+  export const SectionUsersScalarFieldEnum: {
+    sectionId: 'sectionId',
+    userId: 'userId'
   };
 
-  export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
+  export type SectionUsersScalarFieldEnum = (typeof SectionUsersScalarFieldEnum)[keyof typeof SectionUsersScalarFieldEnum]
 
 
   export const ShiftScalarFieldEnum: {
@@ -21682,6 +28616,36 @@ export namespace Prisma {
   };
 
   export type ShiftScalarFieldEnum = (typeof ShiftScalarFieldEnum)[keyof typeof ShiftScalarFieldEnum]
+
+
+  export const ShiftTemplateScalarFieldEnum: {
+    id: 'id',
+    shiftId: 'shiftId',
+    sectionId: 'sectionId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShiftTemplateScalarFieldEnum = (typeof ShiftTemplateScalarFieldEnum)[keyof typeof ShiftTemplateScalarFieldEnum]
+
+
+  export const ShiftTemplateQuestionScalarFieldEnum: {
+    id: 'id',
+    templateId: 'templateId',
+    question: 'question',
+    responseType: 'responseType',
+    multipleChoiceOptions: 'multipleChoiceOptions'
+  };
+
+  export type ShiftTemplateQuestionScalarFieldEnum = (typeof ShiftTemplateQuestionScalarFieldEnum)[keyof typeof ShiftTemplateQuestionScalarFieldEnum]
+
+
+  export const ShiftUsersScalarFieldEnum: {
+    shiftId: 'shiftId',
+    userId: 'userId'
+  };
+
+  export type ShiftUsersScalarFieldEnum = (typeof ShiftUsersScalarFieldEnum)[keyof typeof ShiftUsersScalarFieldEnum]
 
 
   export const PlanScalarFieldEnum: {
@@ -21723,7 +28687,8 @@ export namespace Prisma {
     id: 'id',
     planName: 'planName',
     planId: 'planId',
-    sectionId: 'sectionId'
+    sectionId: 'sectionId',
+    userId: 'userId'
   };
 
   export type ActivePlansScalarFieldEnum = (typeof ActivePlansScalarFieldEnum)[keyof typeof ActivePlansScalarFieldEnum]
@@ -21784,6 +28749,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -21897,6 +28870,20 @@ export namespace Prisma {
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResponseType'
+   */
+  export type EnumResponseTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResponseType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ResponseType[]'
+   */
+  export type ListEnumResponseTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResponseType[]'>
     
 
 
@@ -22233,7 +29220,7 @@ export namespace Prisma {
     roleId?: IntFilter<"Role"> | number
     roleName?: StringFilter<"Role"> | string
     description?: StringNullableFilter<"Role"> | string | null
-    permissions?: JsonFilter<"Role">
+    permissions?: JsonNullableFilter<"Role">
     isActive?: BoolFilter<"Role"> | boolean
     createdAt?: DateTimeFilter<"Role"> | Date | string
     updatedAt?: DateTimeFilter<"Role"> | Date | string
@@ -22244,7 +29231,7 @@ export namespace Prisma {
     roleId?: SortOrder
     roleName?: SortOrder
     description?: SortOrderInput | SortOrder
-    permissions?: SortOrder
+    permissions?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22258,7 +29245,7 @@ export namespace Prisma {
     OR?: RoleWhereInput[]
     NOT?: RoleWhereInput | RoleWhereInput[]
     description?: StringNullableFilter<"Role"> | string | null
-    permissions?: JsonFilter<"Role">
+    permissions?: JsonNullableFilter<"Role">
     isActive?: BoolFilter<"Role"> | boolean
     createdAt?: DateTimeFilter<"Role"> | Date | string
     updatedAt?: DateTimeFilter<"Role"> | Date | string
@@ -22269,7 +29256,7 @@ export namespace Prisma {
     roleId?: SortOrder
     roleName?: SortOrder
     description?: SortOrderInput | SortOrder
-    permissions?: SortOrder
+    permissions?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22287,7 +29274,7 @@ export namespace Prisma {
     roleId?: IntWithAggregatesFilter<"Role"> | number
     roleName?: StringWithAggregatesFilter<"Role"> | string
     description?: StringNullableWithAggregatesFilter<"Role"> | string | null
-    permissions?: JsonWithAggregatesFilter<"Role">
+    permissions?: JsonNullableWithAggregatesFilter<"Role">
     isActive?: BoolWithAggregatesFilter<"Role"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Role"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Role"> | Date | string
@@ -22365,11 +29352,17 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     createdBy?: IntNullableFilter<"User"> | number | null
+    isSupervisor?: BoolFilter<"User"> | boolean
     userRole?: XOR<RoleRelationFilter, RoleWhereInput>
     Position?: XOR<PositionNullableRelationFilter, PositionWhereInput> | null
     Creator?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     CreatedUsers?: UserListRelationFilter
     supervisor?: XOR<SupervisorNullableRelationFilter, SupervisorWhereInput> | null
+    activePlans?: ActivePlansListRelationFilter
+    supervisorAssignments?: ShiftAssignmentListRelationFilter
+    operatorAssignments?: ShiftAssignmentOperatorListRelationFilter
+    shifts?: ShiftUsersListRelationFilter
+    sections?: SectionUsersListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -22387,11 +29380,17 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
+    isSupervisor?: SortOrder
     userRole?: RoleOrderByWithRelationInput
     Position?: PositionOrderByWithRelationInput
     Creator?: UserOrderByWithRelationInput
     CreatedUsers?: UserOrderByRelationAggregateInput
     supervisor?: SupervisorOrderByWithRelationInput
+    activePlans?: ActivePlansOrderByRelationAggregateInput
+    supervisorAssignments?: ShiftAssignmentOrderByRelationAggregateInput
+    operatorAssignments?: ShiftAssignmentOperatorOrderByRelationAggregateInput
+    shifts?: ShiftUsersOrderByRelationAggregateInput
+    sections?: SectionUsersOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -22412,11 +29411,17 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     createdBy?: IntNullableFilter<"User"> | number | null
+    isSupervisor?: BoolFilter<"User"> | boolean
     userRole?: XOR<RoleRelationFilter, RoleWhereInput>
     Position?: XOR<PositionNullableRelationFilter, PositionWhereInput> | null
     Creator?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     CreatedUsers?: UserListRelationFilter
     supervisor?: XOR<SupervisorNullableRelationFilter, SupervisorWhereInput> | null
+    activePlans?: ActivePlansListRelationFilter
+    supervisorAssignments?: ShiftAssignmentListRelationFilter
+    operatorAssignments?: ShiftAssignmentOperatorListRelationFilter
+    shifts?: ShiftUsersListRelationFilter
+    sections?: SectionUsersListRelationFilter
   }, "userId" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -22434,6 +29439,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
+    isSupervisor?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -22459,6 +29465,197 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     createdBy?: IntNullableWithAggregatesFilter<"User"> | number | null
+    isSupervisor?: BoolWithAggregatesFilter<"User"> | boolean
+  }
+
+  export type ShiftAssignmentWhereInput = {
+    AND?: ShiftAssignmentWhereInput | ShiftAssignmentWhereInput[]
+    OR?: ShiftAssignmentWhereInput[]
+    NOT?: ShiftAssignmentWhereInput | ShiftAssignmentWhereInput[]
+    id?: IntFilter<"ShiftAssignment"> | number
+    sectionId?: IntFilter<"ShiftAssignment"> | number
+    shiftId?: IntFilter<"ShiftAssignment"> | number
+    supervisorId?: IntFilter<"ShiftAssignment"> | number
+    createdAt?: DateTimeFilter<"ShiftAssignment"> | Date | string
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+    shift?: XOR<ShiftRelationFilter, ShiftWhereInput>
+    supervisor?: XOR<UserRelationFilter, UserWhereInput>
+    operators?: ShiftAssignmentOperatorListRelationFilter
+  }
+
+  export type ShiftAssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
+    createdAt?: SortOrder
+    section?: SectionOrderByWithRelationInput
+    shift?: ShiftOrderByWithRelationInput
+    supervisor?: UserOrderByWithRelationInput
+    operators?: ShiftAssignmentOperatorOrderByRelationAggregateInput
+  }
+
+  export type ShiftAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ShiftAssignmentWhereInput | ShiftAssignmentWhereInput[]
+    OR?: ShiftAssignmentWhereInput[]
+    NOT?: ShiftAssignmentWhereInput | ShiftAssignmentWhereInput[]
+    sectionId?: IntFilter<"ShiftAssignment"> | number
+    shiftId?: IntFilter<"ShiftAssignment"> | number
+    supervisorId?: IntFilter<"ShiftAssignment"> | number
+    createdAt?: DateTimeFilter<"ShiftAssignment"> | Date | string
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+    shift?: XOR<ShiftRelationFilter, ShiftWhereInput>
+    supervisor?: XOR<UserRelationFilter, UserWhereInput>
+    operators?: ShiftAssignmentOperatorListRelationFilter
+  }, "id">
+
+  export type ShiftAssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ShiftAssignmentCountOrderByAggregateInput
+    _avg?: ShiftAssignmentAvgOrderByAggregateInput
+    _max?: ShiftAssignmentMaxOrderByAggregateInput
+    _min?: ShiftAssignmentMinOrderByAggregateInput
+    _sum?: ShiftAssignmentSumOrderByAggregateInput
+  }
+
+  export type ShiftAssignmentScalarWhereWithAggregatesInput = {
+    AND?: ShiftAssignmentScalarWhereWithAggregatesInput | ShiftAssignmentScalarWhereWithAggregatesInput[]
+    OR?: ShiftAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: ShiftAssignmentScalarWhereWithAggregatesInput | ShiftAssignmentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShiftAssignment"> | number
+    sectionId?: IntWithAggregatesFilter<"ShiftAssignment"> | number
+    shiftId?: IntWithAggregatesFilter<"ShiftAssignment"> | number
+    supervisorId?: IntWithAggregatesFilter<"ShiftAssignment"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ShiftAssignment"> | Date | string
+  }
+
+  export type ShiftAssignmentOperatorWhereInput = {
+    AND?: ShiftAssignmentOperatorWhereInput | ShiftAssignmentOperatorWhereInput[]
+    OR?: ShiftAssignmentOperatorWhereInput[]
+    NOT?: ShiftAssignmentOperatorWhereInput | ShiftAssignmentOperatorWhereInput[]
+    id?: IntFilter<"ShiftAssignmentOperator"> | number
+    shiftAssignmentId?: IntFilter<"ShiftAssignmentOperator"> | number
+    operatorId?: IntFilter<"ShiftAssignmentOperator"> | number
+    shiftAssignment?: XOR<ShiftAssignmentRelationFilter, ShiftAssignmentWhereInput>
+    operator?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type ShiftAssignmentOperatorOrderByWithRelationInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
+    shiftAssignment?: ShiftAssignmentOrderByWithRelationInput
+    operator?: UserOrderByWithRelationInput
+  }
+
+  export type ShiftAssignmentOperatorWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    shiftAssignmentId_operatorId?: ShiftAssignmentOperatorShiftAssignmentIdOperatorIdCompoundUniqueInput
+    AND?: ShiftAssignmentOperatorWhereInput | ShiftAssignmentOperatorWhereInput[]
+    OR?: ShiftAssignmentOperatorWhereInput[]
+    NOT?: ShiftAssignmentOperatorWhereInput | ShiftAssignmentOperatorWhereInput[]
+    shiftAssignmentId?: IntFilter<"ShiftAssignmentOperator"> | number
+    operatorId?: IntFilter<"ShiftAssignmentOperator"> | number
+    shiftAssignment?: XOR<ShiftAssignmentRelationFilter, ShiftAssignmentWhereInput>
+    operator?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "shiftAssignmentId_operatorId">
+
+  export type ShiftAssignmentOperatorOrderByWithAggregationInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
+    _count?: ShiftAssignmentOperatorCountOrderByAggregateInput
+    _avg?: ShiftAssignmentOperatorAvgOrderByAggregateInput
+    _max?: ShiftAssignmentOperatorMaxOrderByAggregateInput
+    _min?: ShiftAssignmentOperatorMinOrderByAggregateInput
+    _sum?: ShiftAssignmentOperatorSumOrderByAggregateInput
+  }
+
+  export type ShiftAssignmentOperatorScalarWhereWithAggregatesInput = {
+    AND?: ShiftAssignmentOperatorScalarWhereWithAggregatesInput | ShiftAssignmentOperatorScalarWhereWithAggregatesInput[]
+    OR?: ShiftAssignmentOperatorScalarWhereWithAggregatesInput[]
+    NOT?: ShiftAssignmentOperatorScalarWhereWithAggregatesInput | ShiftAssignmentOperatorScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShiftAssignmentOperator"> | number
+    shiftAssignmentId?: IntWithAggregatesFilter<"ShiftAssignmentOperator"> | number
+    operatorId?: IntWithAggregatesFilter<"ShiftAssignmentOperator"> | number
+  }
+
+  export type SectionWhereInput = {
+    AND?: SectionWhereInput | SectionWhereInput[]
+    OR?: SectionWhereInput[]
+    NOT?: SectionWhereInput | SectionWhereInput[]
+    id?: IntFilter<"Section"> | number
+    name?: StringFilter<"Section"> | string
+    sectionType?: IntFilter<"Section"> | number
+    area?: IntNullableFilter<"Section"> | number | null
+    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    assets?: AssetListRelationFilter
+    coordinates?: CoordinateListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
+    supervisors?: SupervisorListRelationFilter
+    users?: SectionUsersListRelationFilter
+    shiftAssignments?: ShiftAssignmentListRelationFilter
+    shiftTemplates?: ShiftTemplateListRelationFilter
+  }
+
+  export type SectionOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrderInput | SortOrder
+    type?: SectionTypeOrderByWithRelationInput
+    assets?: AssetOrderByRelationAggregateInput
+    coordinates?: CoordinateOrderByRelationAggregateInput
+    activePlans?: ActivePlansOrderByRelationAggregateInput
+    supervisors?: SupervisorOrderByRelationAggregateInput
+    users?: SectionUsersOrderByRelationAggregateInput
+    shiftAssignments?: ShiftAssignmentOrderByRelationAggregateInput
+    shiftTemplates?: ShiftTemplateOrderByRelationAggregateInput
+  }
+
+  export type SectionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SectionWhereInput | SectionWhereInput[]
+    OR?: SectionWhereInput[]
+    NOT?: SectionWhereInput | SectionWhereInput[]
+    name?: StringFilter<"Section"> | string
+    sectionType?: IntFilter<"Section"> | number
+    area?: IntNullableFilter<"Section"> | number | null
+    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
+    assets?: AssetListRelationFilter
+    coordinates?: CoordinateListRelationFilter
+    activePlans?: ActivePlansListRelationFilter
+    supervisors?: SupervisorListRelationFilter
+    users?: SectionUsersListRelationFilter
+    shiftAssignments?: ShiftAssignmentListRelationFilter
+    shiftTemplates?: ShiftTemplateListRelationFilter
+  }, "id">
+
+  export type SectionOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sectionType?: SortOrder
+    area?: SortOrderInput | SortOrder
+    _count?: SectionCountOrderByAggregateInput
+    _avg?: SectionAvgOrderByAggregateInput
+    _max?: SectionMaxOrderByAggregateInput
+    _min?: SectionMinOrderByAggregateInput
+    _sum?: SectionSumOrderByAggregateInput
+  }
+
+  export type SectionScalarWhereWithAggregatesInput = {
+    AND?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
+    OR?: SectionScalarWhereWithAggregatesInput[]
+    NOT?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Section"> | number
+    name?: StringWithAggregatesFilter<"Section"> | string
+    sectionType?: IntWithAggregatesFilter<"Section"> | number
+    area?: IntNullableWithAggregatesFilter<"Section"> | number | null
   }
 
   export type SupervisorWhereInput = {
@@ -22511,68 +29708,50 @@ export namespace Prisma {
     userId?: IntWithAggregatesFilter<"Supervisor"> | number
   }
 
-  export type SectionWhereInput = {
-    AND?: SectionWhereInput | SectionWhereInput[]
-    OR?: SectionWhereInput[]
-    NOT?: SectionWhereInput | SectionWhereInput[]
-    id?: IntFilter<"Section"> | number
-    name?: StringFilter<"Section"> | string
-    sectionType?: IntFilter<"Section"> | number
-    area?: IntNullableFilter<"Section"> | number | null
-    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
-    assets?: AssetListRelationFilter
-    coordinates?: CoordinateListRelationFilter
-    activePlans?: ActivePlansListRelationFilter
-    supervisors?: SupervisorListRelationFilter
+  export type SectionUsersWhereInput = {
+    AND?: SectionUsersWhereInput | SectionUsersWhereInput[]
+    OR?: SectionUsersWhereInput[]
+    NOT?: SectionUsersWhereInput | SectionUsersWhereInput[]
+    sectionId?: IntFilter<"SectionUsers"> | number
+    userId?: IntFilter<"SectionUsers"> | number
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
-  export type SectionOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrderInput | SortOrder
-    type?: SectionTypeOrderByWithRelationInput
-    assets?: AssetOrderByRelationAggregateInput
-    coordinates?: CoordinateOrderByRelationAggregateInput
-    activePlans?: ActivePlansOrderByRelationAggregateInput
-    supervisors?: SupervisorOrderByRelationAggregateInput
+  export type SectionUsersOrderByWithRelationInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
+    section?: SectionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
-  export type SectionWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: SectionWhereInput | SectionWhereInput[]
-    OR?: SectionWhereInput[]
-    NOT?: SectionWhereInput | SectionWhereInput[]
-    name?: StringFilter<"Section"> | string
-    sectionType?: IntFilter<"Section"> | number
-    area?: IntNullableFilter<"Section"> | number | null
-    type?: XOR<SectionTypeRelationFilter, SectionTypeWhereInput>
-    assets?: AssetListRelationFilter
-    coordinates?: CoordinateListRelationFilter
-    activePlans?: ActivePlansListRelationFilter
-    supervisors?: SupervisorListRelationFilter
-  }, "id">
+  export type SectionUsersWhereUniqueInput = Prisma.AtLeast<{
+    sectionId_userId?: SectionUsersSectionIdUserIdCompoundUniqueInput
+    AND?: SectionUsersWhereInput | SectionUsersWhereInput[]
+    OR?: SectionUsersWhereInput[]
+    NOT?: SectionUsersWhereInput | SectionUsersWhereInput[]
+    sectionId?: IntFilter<"SectionUsers"> | number
+    userId?: IntFilter<"SectionUsers"> | number
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "sectionId_userId">
 
-  export type SectionOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    sectionType?: SortOrder
-    area?: SortOrderInput | SortOrder
-    _count?: SectionCountOrderByAggregateInput
-    _avg?: SectionAvgOrderByAggregateInput
-    _max?: SectionMaxOrderByAggregateInput
-    _min?: SectionMinOrderByAggregateInput
-    _sum?: SectionSumOrderByAggregateInput
+  export type SectionUsersOrderByWithAggregationInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
+    _count?: SectionUsersCountOrderByAggregateInput
+    _avg?: SectionUsersAvgOrderByAggregateInput
+    _max?: SectionUsersMaxOrderByAggregateInput
+    _min?: SectionUsersMinOrderByAggregateInput
+    _sum?: SectionUsersSumOrderByAggregateInput
   }
 
-  export type SectionScalarWhereWithAggregatesInput = {
-    AND?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
-    OR?: SectionScalarWhereWithAggregatesInput[]
-    NOT?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Section"> | number
-    name?: StringWithAggregatesFilter<"Section"> | string
-    sectionType?: IntWithAggregatesFilter<"Section"> | number
-    area?: IntNullableWithAggregatesFilter<"Section"> | number | null
+  export type SectionUsersScalarWhereWithAggregatesInput = {
+    AND?: SectionUsersScalarWhereWithAggregatesInput | SectionUsersScalarWhereWithAggregatesInput[]
+    OR?: SectionUsersScalarWhereWithAggregatesInput[]
+    NOT?: SectionUsersScalarWhereWithAggregatesInput | SectionUsersScalarWhereWithAggregatesInput[]
+    sectionId?: IntWithAggregatesFilter<"SectionUsers"> | number
+    userId?: IntWithAggregatesFilter<"SectionUsers"> | number
   }
 
   export type ShiftWhereInput = {
@@ -22586,6 +29765,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Shift"> | boolean
     createdAt?: DateTimeFilter<"Shift"> | Date | string
     updatedAt?: DateTimeFilter<"Shift"> | Date | string
+    users?: ShiftUsersListRelationFilter
+    shiftAssignments?: ShiftAssignmentListRelationFilter
+    shiftTemplates?: ShiftTemplateListRelationFilter
   }
 
   export type ShiftOrderByWithRelationInput = {
@@ -22596,6 +29778,9 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    users?: ShiftUsersOrderByRelationAggregateInput
+    shiftAssignments?: ShiftAssignmentOrderByRelationAggregateInput
+    shiftTemplates?: ShiftTemplateOrderByRelationAggregateInput
   }
 
   export type ShiftWhereUniqueInput = Prisma.AtLeast<{
@@ -22609,6 +29794,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Shift"> | boolean
     createdAt?: DateTimeFilter<"Shift"> | Date | string
     updatedAt?: DateTimeFilter<"Shift"> | Date | string
+    users?: ShiftUsersListRelationFilter
+    shiftAssignments?: ShiftAssignmentListRelationFilter
+    shiftTemplates?: ShiftTemplateListRelationFilter
   }, "shiftId">
 
   export type ShiftOrderByWithAggregationInput = {
@@ -22637,6 +29825,172 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"Shift"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Shift"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Shift"> | Date | string
+  }
+
+  export type ShiftTemplateWhereInput = {
+    AND?: ShiftTemplateWhereInput | ShiftTemplateWhereInput[]
+    OR?: ShiftTemplateWhereInput[]
+    NOT?: ShiftTemplateWhereInput | ShiftTemplateWhereInput[]
+    id?: IntFilter<"ShiftTemplate"> | number
+    shiftId?: IntFilter<"ShiftTemplate"> | number
+    sectionId?: IntFilter<"ShiftTemplate"> | number
+    createdAt?: DateTimeFilter<"ShiftTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"ShiftTemplate"> | Date | string
+    questions?: ShiftTemplateQuestionListRelationFilter
+    shift?: XOR<ShiftRelationFilter, ShiftWhereInput>
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }
+
+  export type ShiftTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    questions?: ShiftTemplateQuestionOrderByRelationAggregateInput
+    shift?: ShiftOrderByWithRelationInput
+    section?: SectionOrderByWithRelationInput
+  }
+
+  export type ShiftTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ShiftTemplateWhereInput | ShiftTemplateWhereInput[]
+    OR?: ShiftTemplateWhereInput[]
+    NOT?: ShiftTemplateWhereInput | ShiftTemplateWhereInput[]
+    shiftId?: IntFilter<"ShiftTemplate"> | number
+    sectionId?: IntFilter<"ShiftTemplate"> | number
+    createdAt?: DateTimeFilter<"ShiftTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"ShiftTemplate"> | Date | string
+    questions?: ShiftTemplateQuestionListRelationFilter
+    shift?: XOR<ShiftRelationFilter, ShiftWhereInput>
+    section?: XOR<SectionRelationFilter, SectionWhereInput>
+  }, "id">
+
+  export type ShiftTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShiftTemplateCountOrderByAggregateInput
+    _avg?: ShiftTemplateAvgOrderByAggregateInput
+    _max?: ShiftTemplateMaxOrderByAggregateInput
+    _min?: ShiftTemplateMinOrderByAggregateInput
+    _sum?: ShiftTemplateSumOrderByAggregateInput
+  }
+
+  export type ShiftTemplateScalarWhereWithAggregatesInput = {
+    AND?: ShiftTemplateScalarWhereWithAggregatesInput | ShiftTemplateScalarWhereWithAggregatesInput[]
+    OR?: ShiftTemplateScalarWhereWithAggregatesInput[]
+    NOT?: ShiftTemplateScalarWhereWithAggregatesInput | ShiftTemplateScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShiftTemplate"> | number
+    shiftId?: IntWithAggregatesFilter<"ShiftTemplate"> | number
+    sectionId?: IntWithAggregatesFilter<"ShiftTemplate"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ShiftTemplate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShiftTemplate"> | Date | string
+  }
+
+  export type ShiftTemplateQuestionWhereInput = {
+    AND?: ShiftTemplateQuestionWhereInput | ShiftTemplateQuestionWhereInput[]
+    OR?: ShiftTemplateQuestionWhereInput[]
+    NOT?: ShiftTemplateQuestionWhereInput | ShiftTemplateQuestionWhereInput[]
+    id?: IntFilter<"ShiftTemplateQuestion"> | number
+    templateId?: IntFilter<"ShiftTemplateQuestion"> | number
+    question?: StringFilter<"ShiftTemplateQuestion"> | string
+    responseType?: EnumResponseTypeFilter<"ShiftTemplateQuestion"> | $Enums.ResponseType
+    multipleChoiceOptions?: StringNullableListFilter<"ShiftTemplateQuestion">
+    template?: XOR<ShiftTemplateRelationFilter, ShiftTemplateWhereInput>
+  }
+
+  export type ShiftTemplateQuestionOrderByWithRelationInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+    question?: SortOrder
+    responseType?: SortOrder
+    multipleChoiceOptions?: SortOrder
+    template?: ShiftTemplateOrderByWithRelationInput
+  }
+
+  export type ShiftTemplateQuestionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ShiftTemplateQuestionWhereInput | ShiftTemplateQuestionWhereInput[]
+    OR?: ShiftTemplateQuestionWhereInput[]
+    NOT?: ShiftTemplateQuestionWhereInput | ShiftTemplateQuestionWhereInput[]
+    templateId?: IntFilter<"ShiftTemplateQuestion"> | number
+    question?: StringFilter<"ShiftTemplateQuestion"> | string
+    responseType?: EnumResponseTypeFilter<"ShiftTemplateQuestion"> | $Enums.ResponseType
+    multipleChoiceOptions?: StringNullableListFilter<"ShiftTemplateQuestion">
+    template?: XOR<ShiftTemplateRelationFilter, ShiftTemplateWhereInput>
+  }, "id">
+
+  export type ShiftTemplateQuestionOrderByWithAggregationInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+    question?: SortOrder
+    responseType?: SortOrder
+    multipleChoiceOptions?: SortOrder
+    _count?: ShiftTemplateQuestionCountOrderByAggregateInput
+    _avg?: ShiftTemplateQuestionAvgOrderByAggregateInput
+    _max?: ShiftTemplateQuestionMaxOrderByAggregateInput
+    _min?: ShiftTemplateQuestionMinOrderByAggregateInput
+    _sum?: ShiftTemplateQuestionSumOrderByAggregateInput
+  }
+
+  export type ShiftTemplateQuestionScalarWhereWithAggregatesInput = {
+    AND?: ShiftTemplateQuestionScalarWhereWithAggregatesInput | ShiftTemplateQuestionScalarWhereWithAggregatesInput[]
+    OR?: ShiftTemplateQuestionScalarWhereWithAggregatesInput[]
+    NOT?: ShiftTemplateQuestionScalarWhereWithAggregatesInput | ShiftTemplateQuestionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShiftTemplateQuestion"> | number
+    templateId?: IntWithAggregatesFilter<"ShiftTemplateQuestion"> | number
+    question?: StringWithAggregatesFilter<"ShiftTemplateQuestion"> | string
+    responseType?: EnumResponseTypeWithAggregatesFilter<"ShiftTemplateQuestion"> | $Enums.ResponseType
+    multipleChoiceOptions?: StringNullableListFilter<"ShiftTemplateQuestion">
+  }
+
+  export type ShiftUsersWhereInput = {
+    AND?: ShiftUsersWhereInput | ShiftUsersWhereInput[]
+    OR?: ShiftUsersWhereInput[]
+    NOT?: ShiftUsersWhereInput | ShiftUsersWhereInput[]
+    shiftId?: IntFilter<"ShiftUsers"> | number
+    userId?: IntFilter<"ShiftUsers"> | number
+    shift?: XOR<ShiftRelationFilter, ShiftWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type ShiftUsersOrderByWithRelationInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
+    shift?: ShiftOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ShiftUsersWhereUniqueInput = Prisma.AtLeast<{
+    shiftId_userId?: ShiftUsersShiftIdUserIdCompoundUniqueInput
+    AND?: ShiftUsersWhereInput | ShiftUsersWhereInput[]
+    OR?: ShiftUsersWhereInput[]
+    NOT?: ShiftUsersWhereInput | ShiftUsersWhereInput[]
+    shiftId?: IntFilter<"ShiftUsers"> | number
+    userId?: IntFilter<"ShiftUsers"> | number
+    shift?: XOR<ShiftRelationFilter, ShiftWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "shiftId_userId" | "shiftId_userId">
+
+  export type ShiftUsersOrderByWithAggregationInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
+    _count?: ShiftUsersCountOrderByAggregateInput
+    _avg?: ShiftUsersAvgOrderByAggregateInput
+    _max?: ShiftUsersMaxOrderByAggregateInput
+    _min?: ShiftUsersMinOrderByAggregateInput
+    _sum?: ShiftUsersSumOrderByAggregateInput
+  }
+
+  export type ShiftUsersScalarWhereWithAggregatesInput = {
+    AND?: ShiftUsersScalarWhereWithAggregatesInput | ShiftUsersScalarWhereWithAggregatesInput[]
+    OR?: ShiftUsersScalarWhereWithAggregatesInput[]
+    NOT?: ShiftUsersScalarWhereWithAggregatesInput | ShiftUsersScalarWhereWithAggregatesInput[]
+    shiftId?: IntWithAggregatesFilter<"ShiftUsers"> | number
+    userId?: IntWithAggregatesFilter<"ShiftUsers"> | number
   }
 
   export type PlanWhereInput = {
@@ -22837,8 +30191,10 @@ export namespace Prisma {
     planName?: StringFilter<"ActivePlans"> | string
     planId?: IntFilter<"ActivePlans"> | number
     sectionId?: IntFilter<"ActivePlans"> | number
+    userId?: IntNullableFilter<"ActivePlans"> | number | null
     plan?: XOR<PlanRelationFilter, PlanWhereInput>
     section?: XOR<SectionRelationFilter, SectionWhereInput>
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
   export type ActivePlansOrderByWithRelationInput = {
@@ -22846,8 +30202,10 @@ export namespace Prisma {
     planName?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     plan?: PlanOrderByWithRelationInput
     section?: SectionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type ActivePlansWhereUniqueInput = Prisma.AtLeast<{
@@ -22858,8 +30216,10 @@ export namespace Prisma {
     planName?: StringFilter<"ActivePlans"> | string
     planId?: IntFilter<"ActivePlans"> | number
     sectionId?: IntFilter<"ActivePlans"> | number
+    userId?: IntNullableFilter<"ActivePlans"> | number | null
     plan?: XOR<PlanRelationFilter, PlanWhereInput>
     section?: XOR<SectionRelationFilter, SectionWhereInput>
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type ActivePlansOrderByWithAggregationInput = {
@@ -22867,6 +30227,7 @@ export namespace Prisma {
     planName?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     _count?: ActivePlansCountOrderByAggregateInput
     _avg?: ActivePlansAvgOrderByAggregateInput
     _max?: ActivePlansMaxOrderByAggregateInput
@@ -22882,6 +30243,7 @@ export namespace Prisma {
     planName?: StringWithAggregatesFilter<"ActivePlans"> | string
     planId?: IntWithAggregatesFilter<"ActivePlans"> | number
     sectionId?: IntWithAggregatesFilter<"ActivePlans"> | number
+    userId?: IntNullableWithAggregatesFilter<"ActivePlans"> | number | null
   }
 
   export type SectionTypeWhereInput = {
@@ -23425,7 +30787,7 @@ export namespace Prisma {
   export type RoleCreateInput = {
     roleName: string
     description?: string | null
-    permissions: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23436,7 +30798,7 @@ export namespace Prisma {
     roleId?: number
     roleName: string
     description?: string | null
-    permissions: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23446,7 +30808,7 @@ export namespace Prisma {
   export type RoleUpdateInput = {
     roleName?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    permissions?: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23457,7 +30819,7 @@ export namespace Prisma {
     roleId?: IntFieldUpdateOperationsInput | number
     roleName?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    permissions?: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23468,7 +30830,7 @@ export namespace Prisma {
     roleId?: number
     roleName: string
     description?: string | null
-    permissions: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23477,7 +30839,7 @@ export namespace Prisma {
   export type RoleUpdateManyMutationInput = {
     roleName?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    permissions?: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23487,7 +30849,7 @@ export namespace Prisma {
     roleId?: IntFieldUpdateOperationsInput | number
     roleName?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    permissions?: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23557,11 +30919,17 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     userRole: RoleCreateNestedOneWithoutUsersInput
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -23579,8 +30947,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -23594,11 +30968,17 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -23616,8 +30996,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -23635,6 +31021,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -23648,6 +31035,7 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -23665,6 +31053,172 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ShiftAssignmentCreateInput = {
+    createdAt?: Date | string
+    section: SectionCreateNestedOneWithoutShiftAssignmentsInput
+    shift: ShiftCreateNestedOneWithoutShiftAssignmentsInput
+    supervisor: UserCreateNestedOneWithoutSupervisorAssignmentsInput
+    operators?: ShiftAssignmentOperatorCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentUncheckedCreateInput = {
+    id?: number
+    sectionId: number
+    shiftId: number
+    supervisorId: number
+    createdAt?: Date | string
+    operators?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    shift?: ShiftUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    supervisor?: UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput
+    operators?: ShiftAssignmentOperatorUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operators?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentCreateManyInput = {
+    id?: number
+    sectionId: number
+    shiftId: number
+    supervisorId: number
+    createdAt?: Date | string
+  }
+
+  export type ShiftAssignmentUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftAssignmentOperatorCreateInput = {
+    shiftAssignment: ShiftAssignmentCreateNestedOneWithoutOperatorsInput
+    operator: UserCreateNestedOneWithoutOperatorAssignmentsInput
+  }
+
+  export type ShiftAssignmentOperatorUncheckedCreateInput = {
+    id?: number
+    shiftAssignmentId: number
+    operatorId: number
+  }
+
+  export type ShiftAssignmentOperatorUpdateInput = {
+    shiftAssignment?: ShiftAssignmentUpdateOneRequiredWithoutOperatorsNestedInput
+    operator?: UserUpdateOneRequiredWithoutOperatorAssignmentsNestedInput
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftAssignmentId?: IntFieldUpdateOperationsInput | number
+    operatorId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentOperatorCreateManyInput = {
+    id?: number
+    shiftAssignmentId: number
+    operatorId: number
+  }
+
+  export type ShiftAssignmentOperatorUpdateManyMutationInput = {
+
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftAssignmentId?: IntFieldUpdateOperationsInput | number
+    operatorId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionCreateInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionCreateManyInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+  }
+
+  export type SectionUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type SectionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type SupervisorCreateInput = {
@@ -23705,65 +31259,38 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type SectionCreateInput = {
-    name: string
-    area?: number | null
-    type: SectionTypeCreateNestedOneWithoutSectionsInput
-    assets?: AssetCreateNestedManyWithoutSectionInput
-    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
-    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
-    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+  export type SectionUsersCreateInput = {
+    section: SectionCreateNestedOneWithoutUsersInput
+    user: UserCreateNestedOneWithoutSectionsInput
   }
 
-  export type SectionUncheckedCreateInput = {
-    id?: number
-    name: string
-    sectionType: number
-    area?: number | null
-    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
-    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
-    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
-    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+  export type SectionUsersUncheckedCreateInput = {
+    sectionId: number
+    userId: number
   }
 
-  export type SectionUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
-    assets?: AssetUpdateManyWithoutSectionNestedInput
-    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
-    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
-    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+  export type SectionUsersUpdateInput = {
+    section?: SectionUpdateOneRequiredWithoutUsersNestedInput
+    user?: UserUpdateOneRequiredWithoutSectionsNestedInput
   }
 
-  export type SectionUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    sectionType?: IntFieldUpdateOperationsInput | number
-    area?: NullableIntFieldUpdateOperationsInput | number | null
-    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
-    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
-    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
-    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+  export type SectionUsersUncheckedUpdateInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type SectionCreateManyInput = {
-    id?: number
-    name: string
-    sectionType: number
-    area?: number | null
+  export type SectionUsersCreateManyInput = {
+    sectionId: number
+    userId: number
   }
 
-  export type SectionUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    area?: NullableIntFieldUpdateOperationsInput | number | null
+  export type SectionUsersUpdateManyMutationInput = {
+
   }
 
-  export type SectionUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    sectionType?: IntFieldUpdateOperationsInput | number
-    area?: NullableIntFieldUpdateOperationsInput | number | null
+  export type SectionUsersUncheckedUpdateManyInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ShiftCreateInput = {
@@ -23773,6 +31300,9 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    users?: ShiftUsersCreateNestedManyWithoutShiftInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutShiftInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutShiftInput
   }
 
   export type ShiftUncheckedCreateInput = {
@@ -23783,6 +31313,9 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    users?: ShiftUsersUncheckedCreateNestedManyWithoutShiftInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutShiftInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutShiftInput
   }
 
   export type ShiftUpdateInput = {
@@ -23792,6 +31325,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: ShiftUsersUpdateManyWithoutShiftNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutShiftNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutShiftNestedInput
   }
 
   export type ShiftUncheckedUpdateInput = {
@@ -23802,6 +31338,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: ShiftUsersUncheckedUpdateManyWithoutShiftNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutShiftNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutShiftNestedInput
   }
 
   export type ShiftCreateManyInput = {
@@ -23831,6 +31370,147 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftTemplateCreateInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: ShiftTemplateQuestionCreateNestedManyWithoutTemplateInput
+    shift: ShiftCreateNestedOneWithoutShiftTemplatesInput
+    section: SectionCreateNestedOneWithoutShiftTemplatesInput
+  }
+
+  export type ShiftTemplateUncheckedCreateInput = {
+    id?: number
+    shiftId: number
+    sectionId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: ShiftTemplateQuestionUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type ShiftTemplateUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: ShiftTemplateQuestionUpdateManyWithoutTemplateNestedInput
+    shift?: ShiftUpdateOneRequiredWithoutShiftTemplatesNestedInput
+    section?: SectionUpdateOneRequiredWithoutShiftTemplatesNestedInput
+  }
+
+  export type ShiftTemplateUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: ShiftTemplateQuestionUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type ShiftTemplateCreateManyInput = {
+    id?: number
+    shiftId: number
+    sectionId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShiftTemplateUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftTemplateUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftTemplateQuestionCreateInput = {
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionCreatemultipleChoiceOptionsInput | string[]
+    template: ShiftTemplateCreateNestedOneWithoutQuestionsInput
+  }
+
+  export type ShiftTemplateQuestionUncheckedCreateInput = {
+    id?: number
+    templateId: number
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionCreatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUpdateInput = {
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+    template?: ShiftTemplateUpdateOneRequiredWithoutQuestionsNestedInput
+  }
+
+  export type ShiftTemplateQuestionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    templateId?: IntFieldUpdateOperationsInput | number
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionCreateManyInput = {
+    id?: number
+    templateId: number
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionCreatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUpdateManyMutationInput = {
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    templateId?: IntFieldUpdateOperationsInput | number
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftUsersCreateInput = {
+    shift: ShiftCreateNestedOneWithoutUsersInput
+    user: UserCreateNestedOneWithoutShiftsInput
+  }
+
+  export type ShiftUsersUncheckedCreateInput = {
+    shiftId: number
+    userId: number
+  }
+
+  export type ShiftUsersUpdateInput = {
+    shift?: ShiftUpdateOneRequiredWithoutUsersNestedInput
+    user?: UserUpdateOneRequiredWithoutShiftsNestedInput
+  }
+
+  export type ShiftUsersUncheckedUpdateInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftUsersCreateManyInput = {
+    shiftId: number
+    userId: number
+  }
+
+  export type ShiftUsersUpdateManyMutationInput = {
+
+  }
+
+  export type ShiftUsersUncheckedUpdateManyInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlanCreateInput = {
@@ -24019,6 +31699,7 @@ export namespace Prisma {
     planName: string
     plan: PlanCreateNestedOneWithoutActivePlansInput
     section: SectionCreateNestedOneWithoutActivePlansInput
+    user?: UserCreateNestedOneWithoutActivePlansInput
   }
 
   export type ActivePlansUncheckedCreateInput = {
@@ -24026,12 +31707,14 @@ export namespace Prisma {
     planName: string
     planId: number
     sectionId: number
+    userId?: number | null
   }
 
   export type ActivePlansUpdateInput = {
     planName?: StringFieldUpdateOperationsInput | string
     plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
     section?: SectionUpdateOneRequiredWithoutActivePlansNestedInput
+    user?: UserUpdateOneWithoutActivePlansNestedInput
   }
 
   export type ActivePlansUncheckedUpdateInput = {
@@ -24039,6 +31722,7 @@ export namespace Prisma {
     planName?: StringFieldUpdateOperationsInput | string
     planId?: IntFieldUpdateOperationsInput | number
     sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ActivePlansCreateManyInput = {
@@ -24046,6 +31730,7 @@ export namespace Prisma {
     planName: string
     planId: number
     sectionId: number
+    userId?: number | null
   }
 
   export type ActivePlansUpdateManyMutationInput = {
@@ -24057,6 +31742,7 @@ export namespace Prisma {
     planName?: StringFieldUpdateOperationsInput | string
     planId?: IntFieldUpdateOperationsInput | number
     sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type SectionTypeCreateInput = {
@@ -24745,6 +32431,28 @@ export namespace Prisma {
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type RoleCountOrderByAggregateInput = {
     roleId?: SortOrder
@@ -24799,6 +32507,31 @@ export namespace Prisma {
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
 
   export type PermissionCountOrderByAggregateInput = {
     permissionId?: SortOrder
@@ -24852,6 +32585,56 @@ export namespace Prisma {
     isNot?: SupervisorWhereInput | null
   }
 
+  export type ActivePlansListRelationFilter = {
+    every?: ActivePlansWhereInput
+    some?: ActivePlansWhereInput
+    none?: ActivePlansWhereInput
+  }
+
+  export type ShiftAssignmentListRelationFilter = {
+    every?: ShiftAssignmentWhereInput
+    some?: ShiftAssignmentWhereInput
+    none?: ShiftAssignmentWhereInput
+  }
+
+  export type ShiftAssignmentOperatorListRelationFilter = {
+    every?: ShiftAssignmentOperatorWhereInput
+    some?: ShiftAssignmentOperatorWhereInput
+    none?: ShiftAssignmentOperatorWhereInput
+  }
+
+  export type ShiftUsersListRelationFilter = {
+    every?: ShiftUsersWhereInput
+    some?: ShiftUsersWhereInput
+    none?: ShiftUsersWhereInput
+  }
+
+  export type SectionUsersListRelationFilter = {
+    every?: SectionUsersWhereInput
+    some?: SectionUsersWhereInput
+    none?: SectionUsersWhereInput
+  }
+
+  export type ActivePlansOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShiftAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShiftAssignmentOperatorOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShiftUsersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SectionUsersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     userId?: SortOrder
     username?: SortOrder
@@ -24867,6 +32650,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrder
+    isSupervisor?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -24891,6 +32675,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrder
+    isSupervisor?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -24908,6 +32693,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrder
+    isSupervisor?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -24922,39 +32708,92 @@ export namespace Prisma {
     isNot?: SectionWhereInput
   }
 
+  export type ShiftRelationFilter = {
+    is?: ShiftWhereInput
+    isNot?: ShiftWhereInput
+  }
+
   export type UserRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type SupervisorCountOrderByAggregateInput = {
+  export type ShiftAssignmentCountOrderByAggregateInput = {
     id?: SortOrder
     sectionId?: SortOrder
-    userId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
+    createdAt?: SortOrder
   }
 
-  export type SupervisorAvgOrderByAggregateInput = {
+  export type ShiftAssignmentAvgOrderByAggregateInput = {
     id?: SortOrder
     sectionId?: SortOrder
-    userId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
   }
 
-  export type SupervisorMaxOrderByAggregateInput = {
+  export type ShiftAssignmentMaxOrderByAggregateInput = {
     id?: SortOrder
     sectionId?: SortOrder
-    userId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
+    createdAt?: SortOrder
   }
 
-  export type SupervisorMinOrderByAggregateInput = {
+  export type ShiftAssignmentMinOrderByAggregateInput = {
     id?: SortOrder
     sectionId?: SortOrder
-    userId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
+    createdAt?: SortOrder
   }
 
-  export type SupervisorSumOrderByAggregateInput = {
+  export type ShiftAssignmentSumOrderByAggregateInput = {
     id?: SortOrder
     sectionId?: SortOrder
-    userId?: SortOrder
+    shiftId?: SortOrder
+    supervisorId?: SortOrder
+  }
+
+  export type ShiftAssignmentRelationFilter = {
+    is?: ShiftAssignmentWhereInput
+    isNot?: ShiftAssignmentWhereInput
+  }
+
+  export type ShiftAssignmentOperatorShiftAssignmentIdOperatorIdCompoundUniqueInput = {
+    shiftAssignmentId: number
+    operatorId: number
+  }
+
+  export type ShiftAssignmentOperatorCountOrderByAggregateInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
+  }
+
+  export type ShiftAssignmentOperatorAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
+  }
+
+  export type ShiftAssignmentOperatorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
+  }
+
+  export type ShiftAssignmentOperatorMinOrderByAggregateInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
+  }
+
+  export type ShiftAssignmentOperatorSumOrderByAggregateInput = {
+    id?: SortOrder
+    shiftAssignmentId?: SortOrder
+    operatorId?: SortOrder
   }
 
   export type SectionTypeRelationFilter = {
@@ -24974,16 +32813,16 @@ export namespace Prisma {
     none?: CoordinateWhereInput
   }
 
-  export type ActivePlansListRelationFilter = {
-    every?: ActivePlansWhereInput
-    some?: ActivePlansWhereInput
-    none?: ActivePlansWhereInput
-  }
-
   export type SupervisorListRelationFilter = {
     every?: SupervisorWhereInput
     some?: SupervisorWhereInput
     none?: SupervisorWhereInput
+  }
+
+  export type ShiftTemplateListRelationFilter = {
+    every?: ShiftTemplateWhereInput
+    some?: ShiftTemplateWhereInput
+    none?: ShiftTemplateWhereInput
   }
 
   export type AssetOrderByRelationAggregateInput = {
@@ -24994,11 +32833,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ActivePlansOrderByRelationAggregateInput = {
+  export type SupervisorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type SupervisorOrderByRelationAggregateInput = {
+  export type ShiftTemplateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25033,6 +32872,66 @@ export namespace Prisma {
     id?: SortOrder
     sectionType?: SortOrder
     area?: SortOrder
+  }
+
+  export type SupervisorCountOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorAvgOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorMinOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SupervisorSumOrderByAggregateInput = {
+    id?: SortOrder
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SectionUsersSectionIdUserIdCompoundUniqueInput = {
+    sectionId: number
+    userId: number
+  }
+
+  export type SectionUsersCountOrderByAggregateInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SectionUsersAvgOrderByAggregateInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SectionUsersMaxOrderByAggregateInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SectionUsersMinOrderByAggregateInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SectionUsersSumOrderByAggregateInput = {
+    sectionId?: SortOrder
+    userId?: SortOrder
   }
 
   export type ShiftCountOrderByAggregateInput = {
@@ -25071,6 +32970,144 @@ export namespace Prisma {
 
   export type ShiftSumOrderByAggregateInput = {
     shiftId?: SortOrder
+  }
+
+  export type ShiftTemplateQuestionListRelationFilter = {
+    every?: ShiftTemplateQuestionWhereInput
+    some?: ShiftTemplateQuestionWhereInput
+    none?: ShiftTemplateQuestionWhereInput
+  }
+
+  export type ShiftTemplateQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShiftTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShiftTemplateAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type ShiftTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShiftTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShiftTemplateSumOrderByAggregateInput = {
+    id?: SortOrder
+    shiftId?: SortOrder
+    sectionId?: SortOrder
+  }
+
+  export type EnumResponseTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResponseType | EnumResponseTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResponseTypeFilter<$PrismaModel> | $Enums.ResponseType
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type ShiftTemplateRelationFilter = {
+    is?: ShiftTemplateWhereInput
+    isNot?: ShiftTemplateWhereInput
+  }
+
+  export type ShiftTemplateQuestionCountOrderByAggregateInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+    question?: SortOrder
+    responseType?: SortOrder
+    multipleChoiceOptions?: SortOrder
+  }
+
+  export type ShiftTemplateQuestionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+  }
+
+  export type ShiftTemplateQuestionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+    question?: SortOrder
+    responseType?: SortOrder
+  }
+
+  export type ShiftTemplateQuestionMinOrderByAggregateInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+    question?: SortOrder
+    responseType?: SortOrder
+  }
+
+  export type ShiftTemplateQuestionSumOrderByAggregateInput = {
+    id?: SortOrder
+    templateId?: SortOrder
+  }
+
+  export type EnumResponseTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResponseType | EnumResponseTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResponseTypeWithAggregatesFilter<$PrismaModel> | $Enums.ResponseType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResponseTypeFilter<$PrismaModel>
+    _max?: NestedEnumResponseTypeFilter<$PrismaModel>
+  }
+
+  export type ShiftUsersShiftIdUserIdCompoundUniqueInput = {
+    shiftId: number
+    userId: number
+  }
+
+  export type ShiftUsersCountOrderByAggregateInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ShiftUsersAvgOrderByAggregateInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ShiftUsersMaxOrderByAggregateInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ShiftUsersMinOrderByAggregateInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ShiftUsersSumOrderByAggregateInput = {
+    shiftId?: SortOrder
+    userId?: SortOrder
   }
 
   export type EnumPlanStatusFilter<$PrismaModel = never> = {
@@ -25231,12 +33268,14 @@ export namespace Prisma {
     planName?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrder
   }
 
   export type ActivePlansAvgOrderByAggregateInput = {
     id?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrder
   }
 
   export type ActivePlansMaxOrderByAggregateInput = {
@@ -25244,6 +33283,7 @@ export namespace Prisma {
     planName?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrder
   }
 
   export type ActivePlansMinOrderByAggregateInput = {
@@ -25251,12 +33291,14 @@ export namespace Prisma {
     planName?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrder
   }
 
   export type ActivePlansSumOrderByAggregateInput = {
     id?: SortOrder
     planId?: SortOrder
     sectionId?: SortOrder
+    userId?: SortOrder
   }
 
   export type SectionListRelationFilter = {
@@ -25662,6 +33704,41 @@ export namespace Prisma {
     connect?: SupervisorWhereUniqueInput
   }
 
+  export type ActivePlansCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivePlansCreateWithoutUserInput, ActivePlansUncheckedCreateWithoutUserInput> | ActivePlansCreateWithoutUserInput[] | ActivePlansUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutUserInput | ActivePlansCreateOrConnectWithoutUserInput[]
+    createMany?: ActivePlansCreateManyUserInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentCreateNestedManyWithoutSupervisorInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSupervisorInput, ShiftAssignmentUncheckedCreateWithoutSupervisorInput> | ShiftAssignmentCreateWithoutSupervisorInput[] | ShiftAssignmentUncheckedCreateWithoutSupervisorInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSupervisorInput | ShiftAssignmentCreateOrConnectWithoutSupervisorInput[]
+    createMany?: ShiftAssignmentCreateManySupervisorInputEnvelope
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput> | ShiftAssignmentOperatorCreateWithoutOperatorInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput | ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyOperatorInputEnvelope
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+  }
+
+  export type ShiftUsersCreateNestedManyWithoutUserInput = {
+    create?: XOR<ShiftUsersCreateWithoutUserInput, ShiftUsersUncheckedCreateWithoutUserInput> | ShiftUsersCreateWithoutUserInput[] | ShiftUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutUserInput | ShiftUsersCreateOrConnectWithoutUserInput[]
+    createMany?: ShiftUsersCreateManyUserInputEnvelope
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+  }
+
+  export type SectionUsersCreateNestedManyWithoutUserInput = {
+    create?: XOR<SectionUsersCreateWithoutUserInput, SectionUsersUncheckedCreateWithoutUserInput> | SectionUsersCreateWithoutUserInput[] | SectionUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutUserInput | SectionUsersCreateOrConnectWithoutUserInput[]
+    createMany?: SectionUsersCreateManyUserInputEnvelope
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
@@ -25673,6 +33750,41 @@ export namespace Prisma {
     create?: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
     connectOrCreate?: SupervisorCreateOrConnectWithoutUserInput
     connect?: SupervisorWhereUniqueInput
+  }
+
+  export type ActivePlansUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivePlansCreateWithoutUserInput, ActivePlansUncheckedCreateWithoutUserInput> | ActivePlansCreateWithoutUserInput[] | ActivePlansUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutUserInput | ActivePlansCreateOrConnectWithoutUserInput[]
+    createMany?: ActivePlansCreateManyUserInputEnvelope
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSupervisorInput, ShiftAssignmentUncheckedCreateWithoutSupervisorInput> | ShiftAssignmentCreateWithoutSupervisorInput[] | ShiftAssignmentUncheckedCreateWithoutSupervisorInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSupervisorInput | ShiftAssignmentCreateOrConnectWithoutSupervisorInput[]
+    createMany?: ShiftAssignmentCreateManySupervisorInputEnvelope
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput> | ShiftAssignmentOperatorCreateWithoutOperatorInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput | ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyOperatorInputEnvelope
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+  }
+
+  export type ShiftUsersUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ShiftUsersCreateWithoutUserInput, ShiftUsersUncheckedCreateWithoutUserInput> | ShiftUsersCreateWithoutUserInput[] | ShiftUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutUserInput | ShiftUsersCreateOrConnectWithoutUserInput[]
+    createMany?: ShiftUsersCreateManyUserInputEnvelope
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+  }
+
+  export type SectionUsersUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SectionUsersCreateWithoutUserInput, SectionUsersUncheckedCreateWithoutUserInput> | SectionUsersCreateWithoutUserInput[] | SectionUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutUserInput | SectionUsersCreateOrConnectWithoutUserInput[]
+    createMany?: SectionUsersCreateManyUserInputEnvelope
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
   }
 
   export type RoleUpdateOneRequiredWithoutUsersNestedInput = {
@@ -25727,6 +33839,76 @@ export namespace Prisma {
     update?: XOR<XOR<SupervisorUpdateToOneWithWhereWithoutUserInput, SupervisorUpdateWithoutUserInput>, SupervisorUncheckedUpdateWithoutUserInput>
   }
 
+  export type ActivePlansUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutUserInput, ActivePlansUncheckedCreateWithoutUserInput> | ActivePlansCreateWithoutUserInput[] | ActivePlansUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutUserInput | ActivePlansCreateOrConnectWithoutUserInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutUserInput | ActivePlansUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivePlansCreateManyUserInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutUserInput | ActivePlansUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutUserInput | ActivePlansUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentUpdateManyWithoutSupervisorNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSupervisorInput, ShiftAssignmentUncheckedCreateWithoutSupervisorInput> | ShiftAssignmentCreateWithoutSupervisorInput[] | ShiftAssignmentUncheckedCreateWithoutSupervisorInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSupervisorInput | ShiftAssignmentCreateOrConnectWithoutSupervisorInput[]
+    upsert?: ShiftAssignmentUpsertWithWhereUniqueWithoutSupervisorInput | ShiftAssignmentUpsertWithWhereUniqueWithoutSupervisorInput[]
+    createMany?: ShiftAssignmentCreateManySupervisorInputEnvelope
+    set?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    disconnect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    delete?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    update?: ShiftAssignmentUpdateWithWhereUniqueWithoutSupervisorInput | ShiftAssignmentUpdateWithWhereUniqueWithoutSupervisorInput[]
+    updateMany?: ShiftAssignmentUpdateManyWithWhereWithoutSupervisorInput | ShiftAssignmentUpdateManyWithWhereWithoutSupervisorInput[]
+    deleteMany?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput> | ShiftAssignmentOperatorCreateWithoutOperatorInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput | ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput[]
+    upsert?: ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutOperatorInput | ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutOperatorInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyOperatorInputEnvelope
+    set?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    disconnect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    delete?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    update?: ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutOperatorInput | ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutOperatorInput[]
+    updateMany?: ShiftAssignmentOperatorUpdateManyWithWhereWithoutOperatorInput | ShiftAssignmentOperatorUpdateManyWithWhereWithoutOperatorInput[]
+    deleteMany?: ShiftAssignmentOperatorScalarWhereInput | ShiftAssignmentOperatorScalarWhereInput[]
+  }
+
+  export type ShiftUsersUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ShiftUsersCreateWithoutUserInput, ShiftUsersUncheckedCreateWithoutUserInput> | ShiftUsersCreateWithoutUserInput[] | ShiftUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutUserInput | ShiftUsersCreateOrConnectWithoutUserInput[]
+    upsert?: ShiftUsersUpsertWithWhereUniqueWithoutUserInput | ShiftUsersUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ShiftUsersCreateManyUserInputEnvelope
+    set?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    disconnect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    delete?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    update?: ShiftUsersUpdateWithWhereUniqueWithoutUserInput | ShiftUsersUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ShiftUsersUpdateManyWithWhereWithoutUserInput | ShiftUsersUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ShiftUsersScalarWhereInput | ShiftUsersScalarWhereInput[]
+  }
+
+  export type SectionUsersUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SectionUsersCreateWithoutUserInput, SectionUsersUncheckedCreateWithoutUserInput> | SectionUsersCreateWithoutUserInput[] | SectionUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutUserInput | SectionUsersCreateOrConnectWithoutUserInput[]
+    upsert?: SectionUsersUpsertWithWhereUniqueWithoutUserInput | SectionUsersUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SectionUsersCreateManyUserInputEnvelope
+    set?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    disconnect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    delete?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    update?: SectionUsersUpdateWithWhereUniqueWithoutUserInput | SectionUsersUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SectionUsersUpdateManyWithWhereWithoutUserInput | SectionUsersUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SectionUsersScalarWhereInput | SectionUsersScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
@@ -25751,32 +33933,186 @@ export namespace Prisma {
     update?: XOR<XOR<SupervisorUpdateToOneWithWhereWithoutUserInput, SupervisorUpdateWithoutUserInput>, SupervisorUncheckedUpdateWithoutUserInput>
   }
 
-  export type SectionCreateNestedOneWithoutSupervisorsInput = {
-    create?: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
-    connectOrCreate?: SectionCreateOrConnectWithoutSupervisorsInput
+  export type ActivePlansUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivePlansCreateWithoutUserInput, ActivePlansUncheckedCreateWithoutUserInput> | ActivePlansCreateWithoutUserInput[] | ActivePlansUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivePlansCreateOrConnectWithoutUserInput | ActivePlansCreateOrConnectWithoutUserInput[]
+    upsert?: ActivePlansUpsertWithWhereUniqueWithoutUserInput | ActivePlansUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivePlansCreateManyUserInputEnvelope
+    set?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    disconnect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    delete?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    connect?: ActivePlansWhereUniqueInput | ActivePlansWhereUniqueInput[]
+    update?: ActivePlansUpdateWithWhereUniqueWithoutUserInput | ActivePlansUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivePlansUpdateManyWithWhereWithoutUserInput | ActivePlansUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSupervisorInput, ShiftAssignmentUncheckedCreateWithoutSupervisorInput> | ShiftAssignmentCreateWithoutSupervisorInput[] | ShiftAssignmentUncheckedCreateWithoutSupervisorInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSupervisorInput | ShiftAssignmentCreateOrConnectWithoutSupervisorInput[]
+    upsert?: ShiftAssignmentUpsertWithWhereUniqueWithoutSupervisorInput | ShiftAssignmentUpsertWithWhereUniqueWithoutSupervisorInput[]
+    createMany?: ShiftAssignmentCreateManySupervisorInputEnvelope
+    set?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    disconnect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    delete?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    update?: ShiftAssignmentUpdateWithWhereUniqueWithoutSupervisorInput | ShiftAssignmentUpdateWithWhereUniqueWithoutSupervisorInput[]
+    updateMany?: ShiftAssignmentUpdateManyWithWhereWithoutSupervisorInput | ShiftAssignmentUpdateManyWithWhereWithoutSupervisorInput[]
+    deleteMany?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput> | ShiftAssignmentOperatorCreateWithoutOperatorInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput | ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput[]
+    upsert?: ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutOperatorInput | ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutOperatorInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyOperatorInputEnvelope
+    set?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    disconnect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    delete?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    update?: ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutOperatorInput | ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutOperatorInput[]
+    updateMany?: ShiftAssignmentOperatorUpdateManyWithWhereWithoutOperatorInput | ShiftAssignmentOperatorUpdateManyWithWhereWithoutOperatorInput[]
+    deleteMany?: ShiftAssignmentOperatorScalarWhereInput | ShiftAssignmentOperatorScalarWhereInput[]
+  }
+
+  export type ShiftUsersUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ShiftUsersCreateWithoutUserInput, ShiftUsersUncheckedCreateWithoutUserInput> | ShiftUsersCreateWithoutUserInput[] | ShiftUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutUserInput | ShiftUsersCreateOrConnectWithoutUserInput[]
+    upsert?: ShiftUsersUpsertWithWhereUniqueWithoutUserInput | ShiftUsersUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ShiftUsersCreateManyUserInputEnvelope
+    set?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    disconnect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    delete?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    update?: ShiftUsersUpdateWithWhereUniqueWithoutUserInput | ShiftUsersUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ShiftUsersUpdateManyWithWhereWithoutUserInput | ShiftUsersUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ShiftUsersScalarWhereInput | ShiftUsersScalarWhereInput[]
+  }
+
+  export type SectionUsersUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SectionUsersCreateWithoutUserInput, SectionUsersUncheckedCreateWithoutUserInput> | SectionUsersCreateWithoutUserInput[] | SectionUsersUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutUserInput | SectionUsersCreateOrConnectWithoutUserInput[]
+    upsert?: SectionUsersUpsertWithWhereUniqueWithoutUserInput | SectionUsersUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SectionUsersCreateManyUserInputEnvelope
+    set?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    disconnect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    delete?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    update?: SectionUsersUpdateWithWhereUniqueWithoutUserInput | SectionUsersUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SectionUsersUpdateManyWithWhereWithoutUserInput | SectionUsersUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SectionUsersScalarWhereInput | SectionUsersScalarWhereInput[]
+  }
+
+  export type SectionCreateNestedOneWithoutShiftAssignmentsInput = {
+    create?: XOR<SectionCreateWithoutShiftAssignmentsInput, SectionUncheckedCreateWithoutShiftAssignmentsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutShiftAssignmentsInput
     connect?: SectionWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutSupervisorInput = {
-    create?: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSupervisorInput
+  export type ShiftCreateNestedOneWithoutShiftAssignmentsInput = {
+    create?: XOR<ShiftCreateWithoutShiftAssignmentsInput, ShiftUncheckedCreateWithoutShiftAssignmentsInput>
+    connectOrCreate?: ShiftCreateOrConnectWithoutShiftAssignmentsInput
+    connect?: ShiftWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSupervisorAssignmentsInput = {
+    create?: XOR<UserCreateWithoutSupervisorAssignmentsInput, UserUncheckedCreateWithoutSupervisorAssignmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSupervisorAssignmentsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type SectionUpdateOneRequiredWithoutSupervisorsNestedInput = {
-    create?: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
-    connectOrCreate?: SectionCreateOrConnectWithoutSupervisorsInput
-    upsert?: SectionUpsertWithoutSupervisorsInput
+  export type ShiftAssignmentOperatorCreateNestedManyWithoutShiftAssignmentInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput> | ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput | ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyShiftAssignmentInputEnvelope
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutShiftAssignmentInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput> | ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput | ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyShiftAssignmentInputEnvelope
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+  }
+
+  export type SectionUpdateOneRequiredWithoutShiftAssignmentsNestedInput = {
+    create?: XOR<SectionCreateWithoutShiftAssignmentsInput, SectionUncheckedCreateWithoutShiftAssignmentsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutShiftAssignmentsInput
+    upsert?: SectionUpsertWithoutShiftAssignmentsInput
     connect?: SectionWhereUniqueInput
-    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutSupervisorsInput, SectionUpdateWithoutSupervisorsInput>, SectionUncheckedUpdateWithoutSupervisorsInput>
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutShiftAssignmentsInput, SectionUpdateWithoutShiftAssignmentsInput>, SectionUncheckedUpdateWithoutShiftAssignmentsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutSupervisorNestedInput = {
-    create?: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSupervisorInput
-    upsert?: UserUpsertWithoutSupervisorInput
+  export type ShiftUpdateOneRequiredWithoutShiftAssignmentsNestedInput = {
+    create?: XOR<ShiftCreateWithoutShiftAssignmentsInput, ShiftUncheckedCreateWithoutShiftAssignmentsInput>
+    connectOrCreate?: ShiftCreateOrConnectWithoutShiftAssignmentsInput
+    upsert?: ShiftUpsertWithoutShiftAssignmentsInput
+    connect?: ShiftWhereUniqueInput
+    update?: XOR<XOR<ShiftUpdateToOneWithWhereWithoutShiftAssignmentsInput, ShiftUpdateWithoutShiftAssignmentsInput>, ShiftUncheckedUpdateWithoutShiftAssignmentsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput = {
+    create?: XOR<UserCreateWithoutSupervisorAssignmentsInput, UserUncheckedCreateWithoutSupervisorAssignmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSupervisorAssignmentsInput
+    upsert?: UserUpsertWithoutSupervisorAssignmentsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSupervisorInput, UserUpdateWithoutSupervisorInput>, UserUncheckedUpdateWithoutSupervisorInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSupervisorAssignmentsInput, UserUpdateWithoutSupervisorAssignmentsInput>, UserUncheckedUpdateWithoutSupervisorAssignmentsInput>
+  }
+
+  export type ShiftAssignmentOperatorUpdateManyWithoutShiftAssignmentNestedInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput> | ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput | ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput[]
+    upsert?: ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutShiftAssignmentInput | ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutShiftAssignmentInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyShiftAssignmentInputEnvelope
+    set?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    disconnect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    delete?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    update?: ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutShiftAssignmentInput | ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutShiftAssignmentInput[]
+    updateMany?: ShiftAssignmentOperatorUpdateManyWithWhereWithoutShiftAssignmentInput | ShiftAssignmentOperatorUpdateManyWithWhereWithoutShiftAssignmentInput[]
+    deleteMany?: ShiftAssignmentOperatorScalarWhereInput | ShiftAssignmentOperatorScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentNestedInput = {
+    create?: XOR<ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput> | ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput[] | ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput[]
+    connectOrCreate?: ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput | ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput[]
+    upsert?: ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutShiftAssignmentInput | ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutShiftAssignmentInput[]
+    createMany?: ShiftAssignmentOperatorCreateManyShiftAssignmentInputEnvelope
+    set?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    disconnect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    delete?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    connect?: ShiftAssignmentOperatorWhereUniqueInput | ShiftAssignmentOperatorWhereUniqueInput[]
+    update?: ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutShiftAssignmentInput | ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutShiftAssignmentInput[]
+    updateMany?: ShiftAssignmentOperatorUpdateManyWithWhereWithoutShiftAssignmentInput | ShiftAssignmentOperatorUpdateManyWithWhereWithoutShiftAssignmentInput[]
+    deleteMany?: ShiftAssignmentOperatorScalarWhereInput | ShiftAssignmentOperatorScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentCreateNestedOneWithoutOperatorsInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutOperatorsInput, ShiftAssignmentUncheckedCreateWithoutOperatorsInput>
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutOperatorsInput
+    connect?: ShiftAssignmentWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutOperatorAssignmentsInput = {
+    create?: XOR<UserCreateWithoutOperatorAssignmentsInput, UserUncheckedCreateWithoutOperatorAssignmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOperatorAssignmentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ShiftAssignmentUpdateOneRequiredWithoutOperatorsNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutOperatorsInput, ShiftAssignmentUncheckedCreateWithoutOperatorsInput>
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutOperatorsInput
+    upsert?: ShiftAssignmentUpsertWithoutOperatorsInput
+    connect?: ShiftAssignmentWhereUniqueInput
+    update?: XOR<XOR<ShiftAssignmentUpdateToOneWithWhereWithoutOperatorsInput, ShiftAssignmentUpdateWithoutOperatorsInput>, ShiftAssignmentUncheckedUpdateWithoutOperatorsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutOperatorAssignmentsNestedInput = {
+    create?: XOR<UserCreateWithoutOperatorAssignmentsInput, UserUncheckedCreateWithoutOperatorAssignmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOperatorAssignmentsInput
+    upsert?: UserUpsertWithoutOperatorAssignmentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOperatorAssignmentsInput, UserUpdateWithoutOperatorAssignmentsInput>, UserUncheckedUpdateWithoutOperatorAssignmentsInput>
   }
 
   export type SectionTypeCreateNestedOneWithoutSectionsInput = {
@@ -25813,6 +34149,27 @@ export namespace Prisma {
     connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
   }
 
+  export type SectionUsersCreateNestedManyWithoutSectionInput = {
+    create?: XOR<SectionUsersCreateWithoutSectionInput, SectionUsersUncheckedCreateWithoutSectionInput> | SectionUsersCreateWithoutSectionInput[] | SectionUsersUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutSectionInput | SectionUsersCreateOrConnectWithoutSectionInput[]
+    createMany?: SectionUsersCreateManySectionInputEnvelope
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSectionInput, ShiftAssignmentUncheckedCreateWithoutSectionInput> | ShiftAssignmentCreateWithoutSectionInput[] | ShiftAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSectionInput | ShiftAssignmentCreateOrConnectWithoutSectionInput[]
+    createMany?: ShiftAssignmentCreateManySectionInputEnvelope
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+  }
+
+  export type ShiftTemplateCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ShiftTemplateCreateWithoutSectionInput, ShiftTemplateUncheckedCreateWithoutSectionInput> | ShiftTemplateCreateWithoutSectionInput[] | ShiftTemplateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutSectionInput | ShiftTemplateCreateOrConnectWithoutSectionInput[]
+    createMany?: ShiftTemplateCreateManySectionInputEnvelope
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutSectionInput = {
     create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
@@ -25839,6 +34196,27 @@ export namespace Prisma {
     connectOrCreate?: SupervisorCreateOrConnectWithoutSectionInput | SupervisorCreateOrConnectWithoutSectionInput[]
     createMany?: SupervisorCreateManySectionInputEnvelope
     connect?: SupervisorWhereUniqueInput | SupervisorWhereUniqueInput[]
+  }
+
+  export type SectionUsersUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<SectionUsersCreateWithoutSectionInput, SectionUsersUncheckedCreateWithoutSectionInput> | SectionUsersCreateWithoutSectionInput[] | SectionUsersUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutSectionInput | SectionUsersCreateOrConnectWithoutSectionInput[]
+    createMany?: SectionUsersCreateManySectionInputEnvelope
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSectionInput, ShiftAssignmentUncheckedCreateWithoutSectionInput> | ShiftAssignmentCreateWithoutSectionInput[] | ShiftAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSectionInput | ShiftAssignmentCreateOrConnectWithoutSectionInput[]
+    createMany?: ShiftAssignmentCreateManySectionInputEnvelope
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+  }
+
+  export type ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput = {
+    create?: XOR<ShiftTemplateCreateWithoutSectionInput, ShiftTemplateUncheckedCreateWithoutSectionInput> | ShiftTemplateCreateWithoutSectionInput[] | ShiftTemplateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutSectionInput | ShiftTemplateCreateOrConnectWithoutSectionInput[]
+    createMany?: ShiftTemplateCreateManySectionInputEnvelope
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
   }
 
   export type SectionTypeUpdateOneRequiredWithoutSectionsNestedInput = {
@@ -25905,6 +34283,48 @@ export namespace Prisma {
     deleteMany?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
   }
 
+  export type SectionUsersUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<SectionUsersCreateWithoutSectionInput, SectionUsersUncheckedCreateWithoutSectionInput> | SectionUsersCreateWithoutSectionInput[] | SectionUsersUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutSectionInput | SectionUsersCreateOrConnectWithoutSectionInput[]
+    upsert?: SectionUsersUpsertWithWhereUniqueWithoutSectionInput | SectionUsersUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: SectionUsersCreateManySectionInputEnvelope
+    set?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    disconnect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    delete?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    update?: SectionUsersUpdateWithWhereUniqueWithoutSectionInput | SectionUsersUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: SectionUsersUpdateManyWithWhereWithoutSectionInput | SectionUsersUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: SectionUsersScalarWhereInput | SectionUsersScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSectionInput, ShiftAssignmentUncheckedCreateWithoutSectionInput> | ShiftAssignmentCreateWithoutSectionInput[] | ShiftAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSectionInput | ShiftAssignmentCreateOrConnectWithoutSectionInput[]
+    upsert?: ShiftAssignmentUpsertWithWhereUniqueWithoutSectionInput | ShiftAssignmentUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ShiftAssignmentCreateManySectionInputEnvelope
+    set?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    disconnect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    delete?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    update?: ShiftAssignmentUpdateWithWhereUniqueWithoutSectionInput | ShiftAssignmentUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ShiftAssignmentUpdateManyWithWhereWithoutSectionInput | ShiftAssignmentUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+  }
+
+  export type ShiftTemplateUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ShiftTemplateCreateWithoutSectionInput, ShiftTemplateUncheckedCreateWithoutSectionInput> | ShiftTemplateCreateWithoutSectionInput[] | ShiftTemplateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutSectionInput | ShiftTemplateCreateOrConnectWithoutSectionInput[]
+    upsert?: ShiftTemplateUpsertWithWhereUniqueWithoutSectionInput | ShiftTemplateUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ShiftTemplateCreateManySectionInputEnvelope
+    set?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    disconnect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    delete?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    update?: ShiftTemplateUpdateWithWhereUniqueWithoutSectionInput | ShiftTemplateUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ShiftTemplateUpdateManyWithWhereWithoutSectionInput | ShiftTemplateUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ShiftTemplateScalarWhereInput | ShiftTemplateScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutSectionNestedInput = {
     create?: XOR<AssetCreateWithoutSectionInput, AssetUncheckedCreateWithoutSectionInput> | AssetCreateWithoutSectionInput[] | AssetUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSectionInput | AssetCreateOrConnectWithoutSectionInput[]
@@ -25959,6 +34379,355 @@ export namespace Prisma {
     update?: SupervisorUpdateWithWhereUniqueWithoutSectionInput | SupervisorUpdateWithWhereUniqueWithoutSectionInput[]
     updateMany?: SupervisorUpdateManyWithWhereWithoutSectionInput | SupervisorUpdateManyWithWhereWithoutSectionInput[]
     deleteMany?: SupervisorScalarWhereInput | SupervisorScalarWhereInput[]
+  }
+
+  export type SectionUsersUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<SectionUsersCreateWithoutSectionInput, SectionUsersUncheckedCreateWithoutSectionInput> | SectionUsersCreateWithoutSectionInput[] | SectionUsersUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: SectionUsersCreateOrConnectWithoutSectionInput | SectionUsersCreateOrConnectWithoutSectionInput[]
+    upsert?: SectionUsersUpsertWithWhereUniqueWithoutSectionInput | SectionUsersUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: SectionUsersCreateManySectionInputEnvelope
+    set?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    disconnect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    delete?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    connect?: SectionUsersWhereUniqueInput | SectionUsersWhereUniqueInput[]
+    update?: SectionUsersUpdateWithWhereUniqueWithoutSectionInput | SectionUsersUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: SectionUsersUpdateManyWithWhereWithoutSectionInput | SectionUsersUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: SectionUsersScalarWhereInput | SectionUsersScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutSectionInput, ShiftAssignmentUncheckedCreateWithoutSectionInput> | ShiftAssignmentCreateWithoutSectionInput[] | ShiftAssignmentUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutSectionInput | ShiftAssignmentCreateOrConnectWithoutSectionInput[]
+    upsert?: ShiftAssignmentUpsertWithWhereUniqueWithoutSectionInput | ShiftAssignmentUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ShiftAssignmentCreateManySectionInputEnvelope
+    set?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    disconnect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    delete?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    update?: ShiftAssignmentUpdateWithWhereUniqueWithoutSectionInput | ShiftAssignmentUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ShiftAssignmentUpdateManyWithWhereWithoutSectionInput | ShiftAssignmentUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+  }
+
+  export type ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput = {
+    create?: XOR<ShiftTemplateCreateWithoutSectionInput, ShiftTemplateUncheckedCreateWithoutSectionInput> | ShiftTemplateCreateWithoutSectionInput[] | ShiftTemplateUncheckedCreateWithoutSectionInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutSectionInput | ShiftTemplateCreateOrConnectWithoutSectionInput[]
+    upsert?: ShiftTemplateUpsertWithWhereUniqueWithoutSectionInput | ShiftTemplateUpsertWithWhereUniqueWithoutSectionInput[]
+    createMany?: ShiftTemplateCreateManySectionInputEnvelope
+    set?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    disconnect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    delete?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    update?: ShiftTemplateUpdateWithWhereUniqueWithoutSectionInput | ShiftTemplateUpdateWithWhereUniqueWithoutSectionInput[]
+    updateMany?: ShiftTemplateUpdateManyWithWhereWithoutSectionInput | ShiftTemplateUpdateManyWithWhereWithoutSectionInput[]
+    deleteMany?: ShiftTemplateScalarWhereInput | ShiftTemplateScalarWhereInput[]
+  }
+
+  export type SectionCreateNestedOneWithoutSupervisorsInput = {
+    create?: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutSupervisorsInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSupervisorInput = {
+    create?: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSupervisorInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SectionUpdateOneRequiredWithoutSupervisorsNestedInput = {
+    create?: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutSupervisorsInput
+    upsert?: SectionUpsertWithoutSupervisorsInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutSupervisorsInput, SectionUpdateWithoutSupervisorsInput>, SectionUncheckedUpdateWithoutSupervisorsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSupervisorNestedInput = {
+    create?: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSupervisorInput
+    upsert?: UserUpsertWithoutSupervisorInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSupervisorInput, UserUpdateWithoutSupervisorInput>, UserUncheckedUpdateWithoutSupervisorInput>
+  }
+
+  export type SectionCreateNestedOneWithoutUsersInput = {
+    create?: XOR<SectionCreateWithoutUsersInput, SectionUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutUsersInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSectionsInput = {
+    create?: XOR<UserCreateWithoutSectionsInput, UserUncheckedCreateWithoutSectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSectionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SectionUpdateOneRequiredWithoutUsersNestedInput = {
+    create?: XOR<SectionCreateWithoutUsersInput, SectionUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutUsersInput
+    upsert?: SectionUpsertWithoutUsersInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutUsersInput, SectionUpdateWithoutUsersInput>, SectionUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSectionsNestedInput = {
+    create?: XOR<UserCreateWithoutSectionsInput, UserUncheckedCreateWithoutSectionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSectionsInput
+    upsert?: UserUpsertWithoutSectionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSectionsInput, UserUpdateWithoutSectionsInput>, UserUncheckedUpdateWithoutSectionsInput>
+  }
+
+  export type ShiftUsersCreateNestedManyWithoutShiftInput = {
+    create?: XOR<ShiftUsersCreateWithoutShiftInput, ShiftUsersUncheckedCreateWithoutShiftInput> | ShiftUsersCreateWithoutShiftInput[] | ShiftUsersUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutShiftInput | ShiftUsersCreateOrConnectWithoutShiftInput[]
+    createMany?: ShiftUsersCreateManyShiftInputEnvelope
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentCreateNestedManyWithoutShiftInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutShiftInput, ShiftAssignmentUncheckedCreateWithoutShiftInput> | ShiftAssignmentCreateWithoutShiftInput[] | ShiftAssignmentUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutShiftInput | ShiftAssignmentCreateOrConnectWithoutShiftInput[]
+    createMany?: ShiftAssignmentCreateManyShiftInputEnvelope
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+  }
+
+  export type ShiftTemplateCreateNestedManyWithoutShiftInput = {
+    create?: XOR<ShiftTemplateCreateWithoutShiftInput, ShiftTemplateUncheckedCreateWithoutShiftInput> | ShiftTemplateCreateWithoutShiftInput[] | ShiftTemplateUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutShiftInput | ShiftTemplateCreateOrConnectWithoutShiftInput[]
+    createMany?: ShiftTemplateCreateManyShiftInputEnvelope
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+  }
+
+  export type ShiftUsersUncheckedCreateNestedManyWithoutShiftInput = {
+    create?: XOR<ShiftUsersCreateWithoutShiftInput, ShiftUsersUncheckedCreateWithoutShiftInput> | ShiftUsersCreateWithoutShiftInput[] | ShiftUsersUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutShiftInput | ShiftUsersCreateOrConnectWithoutShiftInput[]
+    createMany?: ShiftUsersCreateManyShiftInputEnvelope
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+  }
+
+  export type ShiftAssignmentUncheckedCreateNestedManyWithoutShiftInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutShiftInput, ShiftAssignmentUncheckedCreateWithoutShiftInput> | ShiftAssignmentCreateWithoutShiftInput[] | ShiftAssignmentUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutShiftInput | ShiftAssignmentCreateOrConnectWithoutShiftInput[]
+    createMany?: ShiftAssignmentCreateManyShiftInputEnvelope
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+  }
+
+  export type ShiftTemplateUncheckedCreateNestedManyWithoutShiftInput = {
+    create?: XOR<ShiftTemplateCreateWithoutShiftInput, ShiftTemplateUncheckedCreateWithoutShiftInput> | ShiftTemplateCreateWithoutShiftInput[] | ShiftTemplateUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutShiftInput | ShiftTemplateCreateOrConnectWithoutShiftInput[]
+    createMany?: ShiftTemplateCreateManyShiftInputEnvelope
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+  }
+
+  export type ShiftUsersUpdateManyWithoutShiftNestedInput = {
+    create?: XOR<ShiftUsersCreateWithoutShiftInput, ShiftUsersUncheckedCreateWithoutShiftInput> | ShiftUsersCreateWithoutShiftInput[] | ShiftUsersUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutShiftInput | ShiftUsersCreateOrConnectWithoutShiftInput[]
+    upsert?: ShiftUsersUpsertWithWhereUniqueWithoutShiftInput | ShiftUsersUpsertWithWhereUniqueWithoutShiftInput[]
+    createMany?: ShiftUsersCreateManyShiftInputEnvelope
+    set?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    disconnect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    delete?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    update?: ShiftUsersUpdateWithWhereUniqueWithoutShiftInput | ShiftUsersUpdateWithWhereUniqueWithoutShiftInput[]
+    updateMany?: ShiftUsersUpdateManyWithWhereWithoutShiftInput | ShiftUsersUpdateManyWithWhereWithoutShiftInput[]
+    deleteMany?: ShiftUsersScalarWhereInput | ShiftUsersScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentUpdateManyWithoutShiftNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutShiftInput, ShiftAssignmentUncheckedCreateWithoutShiftInput> | ShiftAssignmentCreateWithoutShiftInput[] | ShiftAssignmentUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutShiftInput | ShiftAssignmentCreateOrConnectWithoutShiftInput[]
+    upsert?: ShiftAssignmentUpsertWithWhereUniqueWithoutShiftInput | ShiftAssignmentUpsertWithWhereUniqueWithoutShiftInput[]
+    createMany?: ShiftAssignmentCreateManyShiftInputEnvelope
+    set?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    disconnect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    delete?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    update?: ShiftAssignmentUpdateWithWhereUniqueWithoutShiftInput | ShiftAssignmentUpdateWithWhereUniqueWithoutShiftInput[]
+    updateMany?: ShiftAssignmentUpdateManyWithWhereWithoutShiftInput | ShiftAssignmentUpdateManyWithWhereWithoutShiftInput[]
+    deleteMany?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+  }
+
+  export type ShiftTemplateUpdateManyWithoutShiftNestedInput = {
+    create?: XOR<ShiftTemplateCreateWithoutShiftInput, ShiftTemplateUncheckedCreateWithoutShiftInput> | ShiftTemplateCreateWithoutShiftInput[] | ShiftTemplateUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutShiftInput | ShiftTemplateCreateOrConnectWithoutShiftInput[]
+    upsert?: ShiftTemplateUpsertWithWhereUniqueWithoutShiftInput | ShiftTemplateUpsertWithWhereUniqueWithoutShiftInput[]
+    createMany?: ShiftTemplateCreateManyShiftInputEnvelope
+    set?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    disconnect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    delete?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    update?: ShiftTemplateUpdateWithWhereUniqueWithoutShiftInput | ShiftTemplateUpdateWithWhereUniqueWithoutShiftInput[]
+    updateMany?: ShiftTemplateUpdateManyWithWhereWithoutShiftInput | ShiftTemplateUpdateManyWithWhereWithoutShiftInput[]
+    deleteMany?: ShiftTemplateScalarWhereInput | ShiftTemplateScalarWhereInput[]
+  }
+
+  export type ShiftUsersUncheckedUpdateManyWithoutShiftNestedInput = {
+    create?: XOR<ShiftUsersCreateWithoutShiftInput, ShiftUsersUncheckedCreateWithoutShiftInput> | ShiftUsersCreateWithoutShiftInput[] | ShiftUsersUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftUsersCreateOrConnectWithoutShiftInput | ShiftUsersCreateOrConnectWithoutShiftInput[]
+    upsert?: ShiftUsersUpsertWithWhereUniqueWithoutShiftInput | ShiftUsersUpsertWithWhereUniqueWithoutShiftInput[]
+    createMany?: ShiftUsersCreateManyShiftInputEnvelope
+    set?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    disconnect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    delete?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    connect?: ShiftUsersWhereUniqueInput | ShiftUsersWhereUniqueInput[]
+    update?: ShiftUsersUpdateWithWhereUniqueWithoutShiftInput | ShiftUsersUpdateWithWhereUniqueWithoutShiftInput[]
+    updateMany?: ShiftUsersUpdateManyWithWhereWithoutShiftInput | ShiftUsersUpdateManyWithWhereWithoutShiftInput[]
+    deleteMany?: ShiftUsersScalarWhereInput | ShiftUsersScalarWhereInput[]
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyWithoutShiftNestedInput = {
+    create?: XOR<ShiftAssignmentCreateWithoutShiftInput, ShiftAssignmentUncheckedCreateWithoutShiftInput> | ShiftAssignmentCreateWithoutShiftInput[] | ShiftAssignmentUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftAssignmentCreateOrConnectWithoutShiftInput | ShiftAssignmentCreateOrConnectWithoutShiftInput[]
+    upsert?: ShiftAssignmentUpsertWithWhereUniqueWithoutShiftInput | ShiftAssignmentUpsertWithWhereUniqueWithoutShiftInput[]
+    createMany?: ShiftAssignmentCreateManyShiftInputEnvelope
+    set?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    disconnect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    delete?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    connect?: ShiftAssignmentWhereUniqueInput | ShiftAssignmentWhereUniqueInput[]
+    update?: ShiftAssignmentUpdateWithWhereUniqueWithoutShiftInput | ShiftAssignmentUpdateWithWhereUniqueWithoutShiftInput[]
+    updateMany?: ShiftAssignmentUpdateManyWithWhereWithoutShiftInput | ShiftAssignmentUpdateManyWithWhereWithoutShiftInput[]
+    deleteMany?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+  }
+
+  export type ShiftTemplateUncheckedUpdateManyWithoutShiftNestedInput = {
+    create?: XOR<ShiftTemplateCreateWithoutShiftInput, ShiftTemplateUncheckedCreateWithoutShiftInput> | ShiftTemplateCreateWithoutShiftInput[] | ShiftTemplateUncheckedCreateWithoutShiftInput[]
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutShiftInput | ShiftTemplateCreateOrConnectWithoutShiftInput[]
+    upsert?: ShiftTemplateUpsertWithWhereUniqueWithoutShiftInput | ShiftTemplateUpsertWithWhereUniqueWithoutShiftInput[]
+    createMany?: ShiftTemplateCreateManyShiftInputEnvelope
+    set?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    disconnect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    delete?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    connect?: ShiftTemplateWhereUniqueInput | ShiftTemplateWhereUniqueInput[]
+    update?: ShiftTemplateUpdateWithWhereUniqueWithoutShiftInput | ShiftTemplateUpdateWithWhereUniqueWithoutShiftInput[]
+    updateMany?: ShiftTemplateUpdateManyWithWhereWithoutShiftInput | ShiftTemplateUpdateManyWithWhereWithoutShiftInput[]
+    deleteMany?: ShiftTemplateScalarWhereInput | ShiftTemplateScalarWhereInput[]
+  }
+
+  export type ShiftTemplateQuestionCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<ShiftTemplateQuestionCreateWithoutTemplateInput, ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput> | ShiftTemplateQuestionCreateWithoutTemplateInput[] | ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput | ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput[]
+    createMany?: ShiftTemplateQuestionCreateManyTemplateInputEnvelope
+    connect?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+  }
+
+  export type ShiftCreateNestedOneWithoutShiftTemplatesInput = {
+    create?: XOR<ShiftCreateWithoutShiftTemplatesInput, ShiftUncheckedCreateWithoutShiftTemplatesInput>
+    connectOrCreate?: ShiftCreateOrConnectWithoutShiftTemplatesInput
+    connect?: ShiftWhereUniqueInput
+  }
+
+  export type SectionCreateNestedOneWithoutShiftTemplatesInput = {
+    create?: XOR<SectionCreateWithoutShiftTemplatesInput, SectionUncheckedCreateWithoutShiftTemplatesInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutShiftTemplatesInput
+    connect?: SectionWhereUniqueInput
+  }
+
+  export type ShiftTemplateQuestionUncheckedCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<ShiftTemplateQuestionCreateWithoutTemplateInput, ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput> | ShiftTemplateQuestionCreateWithoutTemplateInput[] | ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput | ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput[]
+    createMany?: ShiftTemplateQuestionCreateManyTemplateInputEnvelope
+    connect?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+  }
+
+  export type ShiftTemplateQuestionUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<ShiftTemplateQuestionCreateWithoutTemplateInput, ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput> | ShiftTemplateQuestionCreateWithoutTemplateInput[] | ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput | ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput[]
+    upsert?: ShiftTemplateQuestionUpsertWithWhereUniqueWithoutTemplateInput | ShiftTemplateQuestionUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: ShiftTemplateQuestionCreateManyTemplateInputEnvelope
+    set?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    disconnect?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    delete?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    connect?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    update?: ShiftTemplateQuestionUpdateWithWhereUniqueWithoutTemplateInput | ShiftTemplateQuestionUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: ShiftTemplateQuestionUpdateManyWithWhereWithoutTemplateInput | ShiftTemplateQuestionUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: ShiftTemplateQuestionScalarWhereInput | ShiftTemplateQuestionScalarWhereInput[]
+  }
+
+  export type ShiftUpdateOneRequiredWithoutShiftTemplatesNestedInput = {
+    create?: XOR<ShiftCreateWithoutShiftTemplatesInput, ShiftUncheckedCreateWithoutShiftTemplatesInput>
+    connectOrCreate?: ShiftCreateOrConnectWithoutShiftTemplatesInput
+    upsert?: ShiftUpsertWithoutShiftTemplatesInput
+    connect?: ShiftWhereUniqueInput
+    update?: XOR<XOR<ShiftUpdateToOneWithWhereWithoutShiftTemplatesInput, ShiftUpdateWithoutShiftTemplatesInput>, ShiftUncheckedUpdateWithoutShiftTemplatesInput>
+  }
+
+  export type SectionUpdateOneRequiredWithoutShiftTemplatesNestedInput = {
+    create?: XOR<SectionCreateWithoutShiftTemplatesInput, SectionUncheckedCreateWithoutShiftTemplatesInput>
+    connectOrCreate?: SectionCreateOrConnectWithoutShiftTemplatesInput
+    upsert?: SectionUpsertWithoutShiftTemplatesInput
+    connect?: SectionWhereUniqueInput
+    update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutShiftTemplatesInput, SectionUpdateWithoutShiftTemplatesInput>, SectionUncheckedUpdateWithoutShiftTemplatesInput>
+  }
+
+  export type ShiftTemplateQuestionUncheckedUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<ShiftTemplateQuestionCreateWithoutTemplateInput, ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput> | ShiftTemplateQuestionCreateWithoutTemplateInput[] | ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput | ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput[]
+    upsert?: ShiftTemplateQuestionUpsertWithWhereUniqueWithoutTemplateInput | ShiftTemplateQuestionUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: ShiftTemplateQuestionCreateManyTemplateInputEnvelope
+    set?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    disconnect?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    delete?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    connect?: ShiftTemplateQuestionWhereUniqueInput | ShiftTemplateQuestionWhereUniqueInput[]
+    update?: ShiftTemplateQuestionUpdateWithWhereUniqueWithoutTemplateInput | ShiftTemplateQuestionUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: ShiftTemplateQuestionUpdateManyWithWhereWithoutTemplateInput | ShiftTemplateQuestionUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: ShiftTemplateQuestionScalarWhereInput | ShiftTemplateQuestionScalarWhereInput[]
+  }
+
+  export type ShiftTemplateQuestionCreatemultipleChoiceOptionsInput = {
+    set: string[]
+  }
+
+  export type ShiftTemplateCreateNestedOneWithoutQuestionsInput = {
+    create?: XOR<ShiftTemplateCreateWithoutQuestionsInput, ShiftTemplateUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutQuestionsInput
+    connect?: ShiftTemplateWhereUniqueInput
+  }
+
+  export type EnumResponseTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ResponseType
+  }
+
+  export type ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type ShiftTemplateUpdateOneRequiredWithoutQuestionsNestedInput = {
+    create?: XOR<ShiftTemplateCreateWithoutQuestionsInput, ShiftTemplateUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: ShiftTemplateCreateOrConnectWithoutQuestionsInput
+    upsert?: ShiftTemplateUpsertWithoutQuestionsInput
+    connect?: ShiftTemplateWhereUniqueInput
+    update?: XOR<XOR<ShiftTemplateUpdateToOneWithWhereWithoutQuestionsInput, ShiftTemplateUpdateWithoutQuestionsInput>, ShiftTemplateUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type ShiftCreateNestedOneWithoutUsersInput = {
+    create?: XOR<ShiftCreateWithoutUsersInput, ShiftUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: ShiftCreateOrConnectWithoutUsersInput
+    connect?: ShiftWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutShiftsInput = {
+    create?: XOR<UserCreateWithoutShiftsInput, UserUncheckedCreateWithoutShiftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShiftsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ShiftUpdateOneRequiredWithoutUsersNestedInput = {
+    create?: XOR<ShiftCreateWithoutUsersInput, ShiftUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: ShiftCreateOrConnectWithoutUsersInput
+    upsert?: ShiftUpsertWithoutUsersInput
+    connect?: ShiftWhereUniqueInput
+    update?: XOR<XOR<ShiftUpdateToOneWithWhereWithoutUsersInput, ShiftUpdateWithoutUsersInput>, ShiftUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutShiftsNestedInput = {
+    create?: XOR<UserCreateWithoutShiftsInput, UserUncheckedCreateWithoutShiftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShiftsInput
+    upsert?: UserUpsertWithoutShiftsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShiftsInput, UserUpdateWithoutShiftsInput>, UserUncheckedUpdateWithoutShiftsInput>
   }
 
   export type PlanfilesCreateNestedManyWithoutPlanInput = {
@@ -26145,6 +34914,12 @@ export namespace Prisma {
     connect?: SectionWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutActivePlansInput = {
+    create?: XOR<UserCreateWithoutActivePlansInput, UserUncheckedCreateWithoutActivePlansInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivePlansInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type PlanUpdateOneRequiredWithoutActivePlansNestedInput = {
     create?: XOR<PlanCreateWithoutActivePlansInput, PlanUncheckedCreateWithoutActivePlansInput>
     connectOrCreate?: PlanCreateOrConnectWithoutActivePlansInput
@@ -26159,6 +34934,16 @@ export namespace Prisma {
     upsert?: SectionUpsertWithoutActivePlansInput
     connect?: SectionWhereUniqueInput
     update?: XOR<XOR<SectionUpdateToOneWithWhereWithoutActivePlansInput, SectionUpdateWithoutActivePlansInput>, SectionUncheckedUpdateWithoutActivePlansInput>
+  }
+
+  export type UserUpdateOneWithoutActivePlansNestedInput = {
+    create?: XOR<UserCreateWithoutActivePlansInput, UserUncheckedCreateWithoutActivePlansInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivePlansInput
+    upsert?: UserUpsertWithoutActivePlansInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivePlansInput, UserUpdateWithoutActivePlansInput>, UserUncheckedUpdateWithoutActivePlansInput>
   }
 
   export type SectionCreateNestedManyWithoutTypeInput = {
@@ -26602,6 +35387,45 @@ export namespace Prisma {
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumResponseTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResponseType | EnumResponseTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResponseTypeFilter<$PrismaModel> | $Enums.ResponseType
+  }
+
+  export type NestedEnumResponseTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ResponseType | EnumResponseTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ResponseType[] | ListEnumResponseTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumResponseTypeWithAggregatesFilter<$PrismaModel> | $Enums.ResponseType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumResponseTypeFilter<$PrismaModel>
+    _max?: NestedEnumResponseTypeFilter<$PrismaModel>
+  }
 
   export type NestedEnumPlanStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.PlanStatus | EnumPlanStatusFieldRefInput<$PrismaModel>
@@ -26761,10 +35585,16 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     userRole: RoleCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPositionInput = {
@@ -26781,8 +35611,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPositionInput = {
@@ -26829,6 +35665,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     createdBy?: IntNullableFilter<"User"> | number | null
+    isSupervisor?: BoolFilter<"User"> | boolean
   }
 
   export type UserCreateWithoutUserRoleInput = {
@@ -26842,10 +35679,16 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserRoleInput = {
@@ -26862,8 +35705,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserRoleInput = {
@@ -26895,7 +35744,7 @@ export namespace Prisma {
   export type RoleCreateWithoutUsersInput = {
     roleName: string
     description?: string | null
-    permissions: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26905,7 +35754,7 @@ export namespace Prisma {
     roleId?: number
     roleName: string
     description?: string | null
-    permissions: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26951,10 +35800,16 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     userRole: RoleCreateNestedOneWithoutUsersInput
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedUsersInput = {
@@ -26972,7 +35827,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
     supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedUsersInput = {
@@ -26991,10 +35852,16 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     userRole: RoleCreateNestedOneWithoutUsersInput
     Position?: PositionCreateNestedOneWithoutUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatorInput = {
@@ -27011,8 +35878,14 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
     supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatorInput = {
@@ -27039,6 +35912,109 @@ export namespace Prisma {
     create: XOR<SupervisorCreateWithoutUserInput, SupervisorUncheckedCreateWithoutUserInput>
   }
 
+  export type ActivePlansCreateWithoutUserInput = {
+    planName: string
+    plan: PlanCreateNestedOneWithoutActivePlansInput
+    section: SectionCreateNestedOneWithoutActivePlansInput
+  }
+
+  export type ActivePlansUncheckedCreateWithoutUserInput = {
+    id?: number
+    planName: string
+    planId: number
+    sectionId: number
+  }
+
+  export type ActivePlansCreateOrConnectWithoutUserInput = {
+    where: ActivePlansWhereUniqueInput
+    create: XOR<ActivePlansCreateWithoutUserInput, ActivePlansUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivePlansCreateManyUserInputEnvelope = {
+    data: ActivePlansCreateManyUserInput | ActivePlansCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftAssignmentCreateWithoutSupervisorInput = {
+    createdAt?: Date | string
+    section: SectionCreateNestedOneWithoutShiftAssignmentsInput
+    shift: ShiftCreateNestedOneWithoutShiftAssignmentsInput
+    operators?: ShiftAssignmentOperatorCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentUncheckedCreateWithoutSupervisorInput = {
+    id?: number
+    sectionId: number
+    shiftId: number
+    createdAt?: Date | string
+    operators?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentCreateOrConnectWithoutSupervisorInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    create: XOR<ShiftAssignmentCreateWithoutSupervisorInput, ShiftAssignmentUncheckedCreateWithoutSupervisorInput>
+  }
+
+  export type ShiftAssignmentCreateManySupervisorInputEnvelope = {
+    data: ShiftAssignmentCreateManySupervisorInput | ShiftAssignmentCreateManySupervisorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftAssignmentOperatorCreateWithoutOperatorInput = {
+    shiftAssignment: ShiftAssignmentCreateNestedOneWithoutOperatorsInput
+  }
+
+  export type ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput = {
+    id?: number
+    shiftAssignmentId: number
+  }
+
+  export type ShiftAssignmentOperatorCreateOrConnectWithoutOperatorInput = {
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    create: XOR<ShiftAssignmentOperatorCreateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput>
+  }
+
+  export type ShiftAssignmentOperatorCreateManyOperatorInputEnvelope = {
+    data: ShiftAssignmentOperatorCreateManyOperatorInput | ShiftAssignmentOperatorCreateManyOperatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftUsersCreateWithoutUserInput = {
+    shift: ShiftCreateNestedOneWithoutUsersInput
+  }
+
+  export type ShiftUsersUncheckedCreateWithoutUserInput = {
+    shiftId: number
+  }
+
+  export type ShiftUsersCreateOrConnectWithoutUserInput = {
+    where: ShiftUsersWhereUniqueInput
+    create: XOR<ShiftUsersCreateWithoutUserInput, ShiftUsersUncheckedCreateWithoutUserInput>
+  }
+
+  export type ShiftUsersCreateManyUserInputEnvelope = {
+    data: ShiftUsersCreateManyUserInput | ShiftUsersCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SectionUsersCreateWithoutUserInput = {
+    section: SectionCreateNestedOneWithoutUsersInput
+  }
+
+  export type SectionUsersUncheckedCreateWithoutUserInput = {
+    sectionId: number
+  }
+
+  export type SectionUsersCreateOrConnectWithoutUserInput = {
+    where: SectionUsersWhereUniqueInput
+    create: XOR<SectionUsersCreateWithoutUserInput, SectionUsersUncheckedCreateWithoutUserInput>
+  }
+
+  export type SectionUsersCreateManyUserInputEnvelope = {
+    data: SectionUsersCreateManyUserInput | SectionUsersCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RoleUpsertWithoutUsersInput = {
     update: XOR<RoleUpdateWithoutUsersInput, RoleUncheckedUpdateWithoutUsersInput>
     create: XOR<RoleCreateWithoutUsersInput, RoleUncheckedCreateWithoutUsersInput>
@@ -27053,7 +36029,7 @@ export namespace Prisma {
   export type RoleUpdateWithoutUsersInput = {
     roleName?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    permissions?: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27063,7 +36039,7 @@ export namespace Prisma {
     roleId?: IntFieldUpdateOperationsInput | number
     roleName?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    permissions?: JsonNullValueInput | InputJsonValue
+    permissions?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27121,10 +36097,16 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedUsersInput = {
@@ -27142,7 +36124,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -27181,16 +36169,146 @@ export namespace Prisma {
     sectionId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type SectionCreateWithoutSupervisorsInput = {
+  export type ActivePlansUpsertWithWhereUniqueWithoutUserInput = {
+    where: ActivePlansWhereUniqueInput
+    update: XOR<ActivePlansUpdateWithoutUserInput, ActivePlansUncheckedUpdateWithoutUserInput>
+    create: XOR<ActivePlansCreateWithoutUserInput, ActivePlansUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivePlansUpdateWithWhereUniqueWithoutUserInput = {
+    where: ActivePlansWhereUniqueInput
+    data: XOR<ActivePlansUpdateWithoutUserInput, ActivePlansUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ActivePlansUpdateManyWithWhereWithoutUserInput = {
+    where: ActivePlansScalarWhereInput
+    data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ActivePlansScalarWhereInput = {
+    AND?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+    OR?: ActivePlansScalarWhereInput[]
+    NOT?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
+    id?: IntFilter<"ActivePlans"> | number
+    planName?: StringFilter<"ActivePlans"> | string
+    planId?: IntFilter<"ActivePlans"> | number
+    sectionId?: IntFilter<"ActivePlans"> | number
+    userId?: IntNullableFilter<"ActivePlans"> | number | null
+  }
+
+  export type ShiftAssignmentUpsertWithWhereUniqueWithoutSupervisorInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    update: XOR<ShiftAssignmentUpdateWithoutSupervisorInput, ShiftAssignmentUncheckedUpdateWithoutSupervisorInput>
+    create: XOR<ShiftAssignmentCreateWithoutSupervisorInput, ShiftAssignmentUncheckedCreateWithoutSupervisorInput>
+  }
+
+  export type ShiftAssignmentUpdateWithWhereUniqueWithoutSupervisorInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    data: XOR<ShiftAssignmentUpdateWithoutSupervisorInput, ShiftAssignmentUncheckedUpdateWithoutSupervisorInput>
+  }
+
+  export type ShiftAssignmentUpdateManyWithWhereWithoutSupervisorInput = {
+    where: ShiftAssignmentScalarWhereInput
+    data: XOR<ShiftAssignmentUpdateManyMutationInput, ShiftAssignmentUncheckedUpdateManyWithoutSupervisorInput>
+  }
+
+  export type ShiftAssignmentScalarWhereInput = {
+    AND?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+    OR?: ShiftAssignmentScalarWhereInput[]
+    NOT?: ShiftAssignmentScalarWhereInput | ShiftAssignmentScalarWhereInput[]
+    id?: IntFilter<"ShiftAssignment"> | number
+    sectionId?: IntFilter<"ShiftAssignment"> | number
+    shiftId?: IntFilter<"ShiftAssignment"> | number
+    supervisorId?: IntFilter<"ShiftAssignment"> | number
+    createdAt?: DateTimeFilter<"ShiftAssignment"> | Date | string
+  }
+
+  export type ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutOperatorInput = {
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    update: XOR<ShiftAssignmentOperatorUpdateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedUpdateWithoutOperatorInput>
+    create: XOR<ShiftAssignmentOperatorCreateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedCreateWithoutOperatorInput>
+  }
+
+  export type ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutOperatorInput = {
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    data: XOR<ShiftAssignmentOperatorUpdateWithoutOperatorInput, ShiftAssignmentOperatorUncheckedUpdateWithoutOperatorInput>
+  }
+
+  export type ShiftAssignmentOperatorUpdateManyWithWhereWithoutOperatorInput = {
+    where: ShiftAssignmentOperatorScalarWhereInput
+    data: XOR<ShiftAssignmentOperatorUpdateManyMutationInput, ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorInput>
+  }
+
+  export type ShiftAssignmentOperatorScalarWhereInput = {
+    AND?: ShiftAssignmentOperatorScalarWhereInput | ShiftAssignmentOperatorScalarWhereInput[]
+    OR?: ShiftAssignmentOperatorScalarWhereInput[]
+    NOT?: ShiftAssignmentOperatorScalarWhereInput | ShiftAssignmentOperatorScalarWhereInput[]
+    id?: IntFilter<"ShiftAssignmentOperator"> | number
+    shiftAssignmentId?: IntFilter<"ShiftAssignmentOperator"> | number
+    operatorId?: IntFilter<"ShiftAssignmentOperator"> | number
+  }
+
+  export type ShiftUsersUpsertWithWhereUniqueWithoutUserInput = {
+    where: ShiftUsersWhereUniqueInput
+    update: XOR<ShiftUsersUpdateWithoutUserInput, ShiftUsersUncheckedUpdateWithoutUserInput>
+    create: XOR<ShiftUsersCreateWithoutUserInput, ShiftUsersUncheckedCreateWithoutUserInput>
+  }
+
+  export type ShiftUsersUpdateWithWhereUniqueWithoutUserInput = {
+    where: ShiftUsersWhereUniqueInput
+    data: XOR<ShiftUsersUpdateWithoutUserInput, ShiftUsersUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ShiftUsersUpdateManyWithWhereWithoutUserInput = {
+    where: ShiftUsersScalarWhereInput
+    data: XOR<ShiftUsersUpdateManyMutationInput, ShiftUsersUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ShiftUsersScalarWhereInput = {
+    AND?: ShiftUsersScalarWhereInput | ShiftUsersScalarWhereInput[]
+    OR?: ShiftUsersScalarWhereInput[]
+    NOT?: ShiftUsersScalarWhereInput | ShiftUsersScalarWhereInput[]
+    shiftId?: IntFilter<"ShiftUsers"> | number
+    userId?: IntFilter<"ShiftUsers"> | number
+  }
+
+  export type SectionUsersUpsertWithWhereUniqueWithoutUserInput = {
+    where: SectionUsersWhereUniqueInput
+    update: XOR<SectionUsersUpdateWithoutUserInput, SectionUsersUncheckedUpdateWithoutUserInput>
+    create: XOR<SectionUsersCreateWithoutUserInput, SectionUsersUncheckedCreateWithoutUserInput>
+  }
+
+  export type SectionUsersUpdateWithWhereUniqueWithoutUserInput = {
+    where: SectionUsersWhereUniqueInput
+    data: XOR<SectionUsersUpdateWithoutUserInput, SectionUsersUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SectionUsersUpdateManyWithWhereWithoutUserInput = {
+    where: SectionUsersScalarWhereInput
+    data: XOR<SectionUsersUpdateManyMutationInput, SectionUsersUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SectionUsersScalarWhereInput = {
+    AND?: SectionUsersScalarWhereInput | SectionUsersScalarWhereInput[]
+    OR?: SectionUsersScalarWhereInput[]
+    NOT?: SectionUsersScalarWhereInput | SectionUsersScalarWhereInput[]
+    sectionId?: IntFilter<"SectionUsers"> | number
+    userId?: IntFilter<"SectionUsers"> | number
+  }
+
+  export type SectionCreateWithoutShiftAssignmentsInput = {
     name: string
     area?: number | null
     type: SectionTypeCreateNestedOneWithoutSectionsInput
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
   }
 
-  export type SectionUncheckedCreateWithoutSupervisorsInput = {
+  export type SectionUncheckedCreateWithoutShiftAssignmentsInput = {
     id?: number
     name: string
     sectionType: number
@@ -27198,14 +36316,45 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
   }
 
-  export type SectionCreateOrConnectWithoutSupervisorsInput = {
+  export type SectionCreateOrConnectWithoutShiftAssignmentsInput = {
     where: SectionWhereUniqueInput
-    create: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    create: XOR<SectionCreateWithoutShiftAssignmentsInput, SectionUncheckedCreateWithoutShiftAssignmentsInput>
   }
 
-  export type UserCreateWithoutSupervisorInput = {
+  export type ShiftCreateWithoutShiftAssignmentsInput = {
+    name: string
+    startTime: string
+    endTime: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: ShiftUsersCreateNestedManyWithoutShiftInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutShiftInput
+  }
+
+  export type ShiftUncheckedCreateWithoutShiftAssignmentsInput = {
+    shiftId?: number
+    name: string
+    startTime: string
+    endTime: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: ShiftUsersUncheckedCreateNestedManyWithoutShiftInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutShiftInput
+  }
+
+  export type ShiftCreateOrConnectWithoutShiftAssignmentsInput = {
+    where: ShiftWhereUniqueInput
+    create: XOR<ShiftCreateWithoutShiftAssignmentsInput, ShiftUncheckedCreateWithoutShiftAssignmentsInput>
+  }
+
+  export type UserCreateWithoutSupervisorAssignmentsInput = {
     username: string
     email: string
     phone?: string | null
@@ -27216,13 +36365,19 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
     userRole: RoleCreateNestedOneWithoutUsersInput
     Position?: PositionCreateNestedOneWithoutUsersInput
     Creator?: UserCreateNestedOneWithoutCreatedUsersInput
     CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutSupervisorInput = {
+  export type UserUncheckedCreateWithoutSupervisorAssignmentsInput = {
     userId?: number
     username: string
     email: string
@@ -27237,35 +36392,63 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
     CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutSupervisorInput = {
+  export type UserCreateOrConnectWithoutSupervisorAssignmentsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    create: XOR<UserCreateWithoutSupervisorAssignmentsInput, UserUncheckedCreateWithoutSupervisorAssignmentsInput>
   }
 
-  export type SectionUpsertWithoutSupervisorsInput = {
-    update: XOR<SectionUpdateWithoutSupervisorsInput, SectionUncheckedUpdateWithoutSupervisorsInput>
-    create: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+  export type ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput = {
+    operator: UserCreateNestedOneWithoutOperatorAssignmentsInput
+  }
+
+  export type ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput = {
+    id?: number
+    operatorId: number
+  }
+
+  export type ShiftAssignmentOperatorCreateOrConnectWithoutShiftAssignmentInput = {
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    create: XOR<ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput>
+  }
+
+  export type ShiftAssignmentOperatorCreateManyShiftAssignmentInputEnvelope = {
+    data: ShiftAssignmentOperatorCreateManyShiftAssignmentInput | ShiftAssignmentOperatorCreateManyShiftAssignmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SectionUpsertWithoutShiftAssignmentsInput = {
+    update: XOR<SectionUpdateWithoutShiftAssignmentsInput, SectionUncheckedUpdateWithoutShiftAssignmentsInput>
+    create: XOR<SectionCreateWithoutShiftAssignmentsInput, SectionUncheckedCreateWithoutShiftAssignmentsInput>
     where?: SectionWhereInput
   }
 
-  export type SectionUpdateToOneWithWhereWithoutSupervisorsInput = {
+  export type SectionUpdateToOneWithWhereWithoutShiftAssignmentsInput = {
     where?: SectionWhereInput
-    data: XOR<SectionUpdateWithoutSupervisorsInput, SectionUncheckedUpdateWithoutSupervisorsInput>
+    data: XOR<SectionUpdateWithoutShiftAssignmentsInput, SectionUncheckedUpdateWithoutShiftAssignmentsInput>
   }
 
-  export type SectionUpdateWithoutSupervisorsInput = {
+  export type SectionUpdateWithoutShiftAssignmentsInput = {
     name?: StringFieldUpdateOperationsInput | string
     area?: NullableIntFieldUpdateOperationsInput | number | null
     type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
   }
 
-  export type SectionUncheckedUpdateWithoutSupervisorsInput = {
+  export type SectionUncheckedUpdateWithoutShiftAssignmentsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     sectionType?: IntFieldUpdateOperationsInput | number
@@ -27273,20 +36456,57 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
   }
 
-  export type UserUpsertWithoutSupervisorInput = {
-    update: XOR<UserUpdateWithoutSupervisorInput, UserUncheckedUpdateWithoutSupervisorInput>
-    create: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+  export type ShiftUpsertWithoutShiftAssignmentsInput = {
+    update: XOR<ShiftUpdateWithoutShiftAssignmentsInput, ShiftUncheckedUpdateWithoutShiftAssignmentsInput>
+    create: XOR<ShiftCreateWithoutShiftAssignmentsInput, ShiftUncheckedCreateWithoutShiftAssignmentsInput>
+    where?: ShiftWhereInput
+  }
+
+  export type ShiftUpdateToOneWithWhereWithoutShiftAssignmentsInput = {
+    where?: ShiftWhereInput
+    data: XOR<ShiftUpdateWithoutShiftAssignmentsInput, ShiftUncheckedUpdateWithoutShiftAssignmentsInput>
+  }
+
+  export type ShiftUpdateWithoutShiftAssignmentsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: ShiftUsersUpdateManyWithoutShiftNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutShiftNestedInput
+  }
+
+  export type ShiftUncheckedUpdateWithoutShiftAssignmentsInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: ShiftUsersUncheckedUpdateManyWithoutShiftNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutShiftNestedInput
+  }
+
+  export type UserUpsertWithoutSupervisorAssignmentsInput = {
+    update: XOR<UserUpdateWithoutSupervisorAssignmentsInput, UserUncheckedUpdateWithoutSupervisorAssignmentsInput>
+    create: XOR<UserCreateWithoutSupervisorAssignmentsInput, UserUncheckedCreateWithoutSupervisorAssignmentsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutSupervisorInput = {
+  export type UserUpdateToOneWithWhereWithoutSupervisorAssignmentsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSupervisorInput, UserUncheckedUpdateWithoutSupervisorInput>
+    data: XOR<UserUpdateWithoutSupervisorAssignmentsInput, UserUncheckedUpdateWithoutSupervisorAssignmentsInput>
   }
 
-  export type UserUpdateWithoutSupervisorInput = {
+  export type UserUpdateWithoutSupervisorAssignmentsInput = {
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27297,13 +36517,19 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutSupervisorInput = {
+  export type UserUncheckedUpdateWithoutSupervisorAssignmentsInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -27318,7 +36544,185 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ShiftAssignmentOperatorUpsertWithWhereUniqueWithoutShiftAssignmentInput = {
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    update: XOR<ShiftAssignmentOperatorUpdateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedUpdateWithoutShiftAssignmentInput>
+    create: XOR<ShiftAssignmentOperatorCreateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedCreateWithoutShiftAssignmentInput>
+  }
+
+  export type ShiftAssignmentOperatorUpdateWithWhereUniqueWithoutShiftAssignmentInput = {
+    where: ShiftAssignmentOperatorWhereUniqueInput
+    data: XOR<ShiftAssignmentOperatorUpdateWithoutShiftAssignmentInput, ShiftAssignmentOperatorUncheckedUpdateWithoutShiftAssignmentInput>
+  }
+
+  export type ShiftAssignmentOperatorUpdateManyWithWhereWithoutShiftAssignmentInput = {
+    where: ShiftAssignmentOperatorScalarWhereInput
+    data: XOR<ShiftAssignmentOperatorUpdateManyMutationInput, ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentInput>
+  }
+
+  export type ShiftAssignmentCreateWithoutOperatorsInput = {
+    createdAt?: Date | string
+    section: SectionCreateNestedOneWithoutShiftAssignmentsInput
+    shift: ShiftCreateNestedOneWithoutShiftAssignmentsInput
+    supervisor: UserCreateNestedOneWithoutSupervisorAssignmentsInput
+  }
+
+  export type ShiftAssignmentUncheckedCreateWithoutOperatorsInput = {
+    id?: number
+    sectionId: number
+    shiftId: number
+    supervisorId: number
+    createdAt?: Date | string
+  }
+
+  export type ShiftAssignmentCreateOrConnectWithoutOperatorsInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    create: XOR<ShiftAssignmentCreateWithoutOperatorsInput, ShiftAssignmentUncheckedCreateWithoutOperatorsInput>
+  }
+
+  export type UserCreateWithoutOperatorAssignmentsInput = {
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isSupervisor?: boolean
+    userRole: RoleCreateNestedOneWithoutUsersInput
+    Position?: PositionCreateNestedOneWithoutUsersInput
+    Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutOperatorAssignmentsInput = {
+    userId?: number
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    userRoleId: number
+    positionId?: number | null
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    isSupervisor?: boolean
+    CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutOperatorAssignmentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutOperatorAssignmentsInput, UserUncheckedCreateWithoutOperatorAssignmentsInput>
+  }
+
+  export type ShiftAssignmentUpsertWithoutOperatorsInput = {
+    update: XOR<ShiftAssignmentUpdateWithoutOperatorsInput, ShiftAssignmentUncheckedUpdateWithoutOperatorsInput>
+    create: XOR<ShiftAssignmentCreateWithoutOperatorsInput, ShiftAssignmentUncheckedCreateWithoutOperatorsInput>
+    where?: ShiftAssignmentWhereInput
+  }
+
+  export type ShiftAssignmentUpdateToOneWithWhereWithoutOperatorsInput = {
+    where?: ShiftAssignmentWhereInput
+    data: XOR<ShiftAssignmentUpdateWithoutOperatorsInput, ShiftAssignmentUncheckedUpdateWithoutOperatorsInput>
+  }
+
+  export type ShiftAssignmentUpdateWithoutOperatorsInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    shift?: ShiftUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    supervisor?: UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateWithoutOperatorsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutOperatorAssignmentsInput = {
+    update: XOR<UserUpdateWithoutOperatorAssignmentsInput, UserUncheckedUpdateWithoutOperatorAssignmentsInput>
+    create: XOR<UserCreateWithoutOperatorAssignmentsInput, UserUncheckedCreateWithoutOperatorAssignmentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutOperatorAssignmentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutOperatorAssignmentsInput, UserUncheckedUpdateWithoutOperatorAssignmentsInput>
+  }
+
+  export type UserUpdateWithoutOperatorAssignmentsInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Position?: PositionUpdateOneWithoutUsersNestedInput
+    Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutOperatorAssignmentsInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    userRoleId?: IntFieldUpdateOperationsInput | number
+    positionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SectionTypeCreateWithoutSectionsInput = {
@@ -27392,12 +36796,14 @@ export namespace Prisma {
   export type ActivePlansCreateWithoutSectionInput = {
     planName: string
     plan: PlanCreateNestedOneWithoutActivePlansInput
+    user?: UserCreateNestedOneWithoutActivePlansInput
   }
 
   export type ActivePlansUncheckedCreateWithoutSectionInput = {
     id?: number
     planName: string
     planId: number
+    userId?: number | null
   }
 
   export type ActivePlansCreateOrConnectWithoutSectionInput = {
@@ -27426,6 +36832,74 @@ export namespace Prisma {
 
   export type SupervisorCreateManySectionInputEnvelope = {
     data: SupervisorCreateManySectionInput | SupervisorCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SectionUsersCreateWithoutSectionInput = {
+    user: UserCreateNestedOneWithoutSectionsInput
+  }
+
+  export type SectionUsersUncheckedCreateWithoutSectionInput = {
+    userId: number
+  }
+
+  export type SectionUsersCreateOrConnectWithoutSectionInput = {
+    where: SectionUsersWhereUniqueInput
+    create: XOR<SectionUsersCreateWithoutSectionInput, SectionUsersUncheckedCreateWithoutSectionInput>
+  }
+
+  export type SectionUsersCreateManySectionInputEnvelope = {
+    data: SectionUsersCreateManySectionInput | SectionUsersCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftAssignmentCreateWithoutSectionInput = {
+    createdAt?: Date | string
+    shift: ShiftCreateNestedOneWithoutShiftAssignmentsInput
+    supervisor: UserCreateNestedOneWithoutSupervisorAssignmentsInput
+    operators?: ShiftAssignmentOperatorCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentUncheckedCreateWithoutSectionInput = {
+    id?: number
+    shiftId: number
+    supervisorId: number
+    createdAt?: Date | string
+    operators?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentCreateOrConnectWithoutSectionInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    create: XOR<ShiftAssignmentCreateWithoutSectionInput, ShiftAssignmentUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ShiftAssignmentCreateManySectionInputEnvelope = {
+    data: ShiftAssignmentCreateManySectionInput | ShiftAssignmentCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftTemplateCreateWithoutSectionInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: ShiftTemplateQuestionCreateNestedManyWithoutTemplateInput
+    shift: ShiftCreateNestedOneWithoutShiftTemplatesInput
+  }
+
+  export type ShiftTemplateUncheckedCreateWithoutSectionInput = {
+    id?: number
+    shiftId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: ShiftTemplateQuestionUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type ShiftTemplateCreateOrConnectWithoutSectionInput = {
+    where: ShiftTemplateWhereUniqueInput
+    create: XOR<ShiftTemplateCreateWithoutSectionInput, ShiftTemplateUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ShiftTemplateCreateManySectionInputEnvelope = {
+    data: ShiftTemplateCreateManySectionInput | ShiftTemplateCreateManySectionInput[]
     skipDuplicates?: boolean
   }
 
@@ -27524,16 +36998,6 @@ export namespace Prisma {
     data: XOR<ActivePlansUpdateManyMutationInput, ActivePlansUncheckedUpdateManyWithoutSectionInput>
   }
 
-  export type ActivePlansScalarWhereInput = {
-    AND?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
-    OR?: ActivePlansScalarWhereInput[]
-    NOT?: ActivePlansScalarWhereInput | ActivePlansScalarWhereInput[]
-    id?: IntFilter<"ActivePlans"> | number
-    planName?: StringFilter<"ActivePlans"> | string
-    planId?: IntFilter<"ActivePlans"> | number
-    sectionId?: IntFilter<"ActivePlans"> | number
-  }
-
   export type SupervisorUpsertWithWhereUniqueWithoutSectionInput = {
     where: SupervisorWhereUniqueInput
     update: XOR<SupervisorUpdateWithoutSectionInput, SupervisorUncheckedUpdateWithoutSectionInput>
@@ -27557,6 +37021,929 @@ export namespace Prisma {
     id?: IntFilter<"Supervisor"> | number
     sectionId?: IntFilter<"Supervisor"> | number
     userId?: IntFilter<"Supervisor"> | number
+  }
+
+  export type SectionUsersUpsertWithWhereUniqueWithoutSectionInput = {
+    where: SectionUsersWhereUniqueInput
+    update: XOR<SectionUsersUpdateWithoutSectionInput, SectionUsersUncheckedUpdateWithoutSectionInput>
+    create: XOR<SectionUsersCreateWithoutSectionInput, SectionUsersUncheckedCreateWithoutSectionInput>
+  }
+
+  export type SectionUsersUpdateWithWhereUniqueWithoutSectionInput = {
+    where: SectionUsersWhereUniqueInput
+    data: XOR<SectionUsersUpdateWithoutSectionInput, SectionUsersUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type SectionUsersUpdateManyWithWhereWithoutSectionInput = {
+    where: SectionUsersScalarWhereInput
+    data: XOR<SectionUsersUpdateManyMutationInput, SectionUsersUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type ShiftAssignmentUpsertWithWhereUniqueWithoutSectionInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    update: XOR<ShiftAssignmentUpdateWithoutSectionInput, ShiftAssignmentUncheckedUpdateWithoutSectionInput>
+    create: XOR<ShiftAssignmentCreateWithoutSectionInput, ShiftAssignmentUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ShiftAssignmentUpdateWithWhereUniqueWithoutSectionInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    data: XOR<ShiftAssignmentUpdateWithoutSectionInput, ShiftAssignmentUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type ShiftAssignmentUpdateManyWithWhereWithoutSectionInput = {
+    where: ShiftAssignmentScalarWhereInput
+    data: XOR<ShiftAssignmentUpdateManyMutationInput, ShiftAssignmentUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type ShiftTemplateUpsertWithWhereUniqueWithoutSectionInput = {
+    where: ShiftTemplateWhereUniqueInput
+    update: XOR<ShiftTemplateUpdateWithoutSectionInput, ShiftTemplateUncheckedUpdateWithoutSectionInput>
+    create: XOR<ShiftTemplateCreateWithoutSectionInput, ShiftTemplateUncheckedCreateWithoutSectionInput>
+  }
+
+  export type ShiftTemplateUpdateWithWhereUniqueWithoutSectionInput = {
+    where: ShiftTemplateWhereUniqueInput
+    data: XOR<ShiftTemplateUpdateWithoutSectionInput, ShiftTemplateUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type ShiftTemplateUpdateManyWithWhereWithoutSectionInput = {
+    where: ShiftTemplateScalarWhereInput
+    data: XOR<ShiftTemplateUpdateManyMutationInput, ShiftTemplateUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type ShiftTemplateScalarWhereInput = {
+    AND?: ShiftTemplateScalarWhereInput | ShiftTemplateScalarWhereInput[]
+    OR?: ShiftTemplateScalarWhereInput[]
+    NOT?: ShiftTemplateScalarWhereInput | ShiftTemplateScalarWhereInput[]
+    id?: IntFilter<"ShiftTemplate"> | number
+    shiftId?: IntFilter<"ShiftTemplate"> | number
+    sectionId?: IntFilter<"ShiftTemplate"> | number
+    createdAt?: DateTimeFilter<"ShiftTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"ShiftTemplate"> | Date | string
+  }
+
+  export type SectionCreateWithoutSupervisorsInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutSupervisorsInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutSupervisorsInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+  }
+
+  export type UserCreateWithoutSupervisorInput = {
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isSupervisor?: boolean
+    userRole: RoleCreateNestedOneWithoutUsersInput
+    Position?: PositionCreateNestedOneWithoutUsersInput
+    Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSupervisorInput = {
+    userId?: number
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    userRoleId: number
+    positionId?: number | null
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    isSupervisor?: boolean
+    CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSupervisorInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+  }
+
+  export type SectionUpsertWithoutSupervisorsInput = {
+    update: XOR<SectionUpdateWithoutSupervisorsInput, SectionUncheckedUpdateWithoutSupervisorsInput>
+    create: XOR<SectionCreateWithoutSupervisorsInput, SectionUncheckedCreateWithoutSupervisorsInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutSupervisorsInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutSupervisorsInput, SectionUncheckedUpdateWithoutSupervisorsInput>
+  }
+
+  export type SectionUpdateWithoutSupervisorsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutSupervisorsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type UserUpsertWithoutSupervisorInput = {
+    update: XOR<UserUpdateWithoutSupervisorInput, UserUncheckedUpdateWithoutSupervisorInput>
+    create: XOR<UserCreateWithoutSupervisorInput, UserUncheckedCreateWithoutSupervisorInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSupervisorInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSupervisorInput, UserUncheckedUpdateWithoutSupervisorInput>
+  }
+
+  export type UserUpdateWithoutSupervisorInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Position?: PositionUpdateOneWithoutUsersNestedInput
+    Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSupervisorInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    userRoleId?: IntFieldUpdateOperationsInput | number
+    positionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SectionCreateWithoutUsersInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutUsersInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutUsersInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutUsersInput, SectionUncheckedCreateWithoutUsersInput>
+  }
+
+  export type UserCreateWithoutSectionsInput = {
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isSupervisor?: boolean
+    userRole: RoleCreateNestedOneWithoutUsersInput
+    Position?: PositionCreateNestedOneWithoutUsersInput
+    Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSectionsInput = {
+    userId?: number
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    userRoleId: number
+    positionId?: number | null
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    isSupervisor?: boolean
+    CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSectionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSectionsInput, UserUncheckedCreateWithoutSectionsInput>
+  }
+
+  export type SectionUpsertWithoutUsersInput = {
+    update: XOR<SectionUpdateWithoutUsersInput, SectionUncheckedUpdateWithoutUsersInput>
+    create: XOR<SectionCreateWithoutUsersInput, SectionUncheckedCreateWithoutUsersInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutUsersInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutUsersInput, SectionUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type SectionUpdateWithoutUsersInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutUsersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type UserUpsertWithoutSectionsInput = {
+    update: XOR<UserUpdateWithoutSectionsInput, UserUncheckedUpdateWithoutSectionsInput>
+    create: XOR<UserCreateWithoutSectionsInput, UserUncheckedCreateWithoutSectionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSectionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSectionsInput, UserUncheckedUpdateWithoutSectionsInput>
+  }
+
+  export type UserUpdateWithoutSectionsInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Position?: PositionUpdateOneWithoutUsersNestedInput
+    Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSectionsInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    userRoleId?: IntFieldUpdateOperationsInput | number
+    positionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ShiftUsersCreateWithoutShiftInput = {
+    user: UserCreateNestedOneWithoutShiftsInput
+  }
+
+  export type ShiftUsersUncheckedCreateWithoutShiftInput = {
+    userId: number
+  }
+
+  export type ShiftUsersCreateOrConnectWithoutShiftInput = {
+    where: ShiftUsersWhereUniqueInput
+    create: XOR<ShiftUsersCreateWithoutShiftInput, ShiftUsersUncheckedCreateWithoutShiftInput>
+  }
+
+  export type ShiftUsersCreateManyShiftInputEnvelope = {
+    data: ShiftUsersCreateManyShiftInput | ShiftUsersCreateManyShiftInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftAssignmentCreateWithoutShiftInput = {
+    createdAt?: Date | string
+    section: SectionCreateNestedOneWithoutShiftAssignmentsInput
+    supervisor: UserCreateNestedOneWithoutSupervisorAssignmentsInput
+    operators?: ShiftAssignmentOperatorCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentUncheckedCreateWithoutShiftInput = {
+    id?: number
+    sectionId: number
+    supervisorId: number
+    createdAt?: Date | string
+    operators?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutShiftAssignmentInput
+  }
+
+  export type ShiftAssignmentCreateOrConnectWithoutShiftInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    create: XOR<ShiftAssignmentCreateWithoutShiftInput, ShiftAssignmentUncheckedCreateWithoutShiftInput>
+  }
+
+  export type ShiftAssignmentCreateManyShiftInputEnvelope = {
+    data: ShiftAssignmentCreateManyShiftInput | ShiftAssignmentCreateManyShiftInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftTemplateCreateWithoutShiftInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: ShiftTemplateQuestionCreateNestedManyWithoutTemplateInput
+    section: SectionCreateNestedOneWithoutShiftTemplatesInput
+  }
+
+  export type ShiftTemplateUncheckedCreateWithoutShiftInput = {
+    id?: number
+    sectionId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: ShiftTemplateQuestionUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type ShiftTemplateCreateOrConnectWithoutShiftInput = {
+    where: ShiftTemplateWhereUniqueInput
+    create: XOR<ShiftTemplateCreateWithoutShiftInput, ShiftTemplateUncheckedCreateWithoutShiftInput>
+  }
+
+  export type ShiftTemplateCreateManyShiftInputEnvelope = {
+    data: ShiftTemplateCreateManyShiftInput | ShiftTemplateCreateManyShiftInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftUsersUpsertWithWhereUniqueWithoutShiftInput = {
+    where: ShiftUsersWhereUniqueInput
+    update: XOR<ShiftUsersUpdateWithoutShiftInput, ShiftUsersUncheckedUpdateWithoutShiftInput>
+    create: XOR<ShiftUsersCreateWithoutShiftInput, ShiftUsersUncheckedCreateWithoutShiftInput>
+  }
+
+  export type ShiftUsersUpdateWithWhereUniqueWithoutShiftInput = {
+    where: ShiftUsersWhereUniqueInput
+    data: XOR<ShiftUsersUpdateWithoutShiftInput, ShiftUsersUncheckedUpdateWithoutShiftInput>
+  }
+
+  export type ShiftUsersUpdateManyWithWhereWithoutShiftInput = {
+    where: ShiftUsersScalarWhereInput
+    data: XOR<ShiftUsersUpdateManyMutationInput, ShiftUsersUncheckedUpdateManyWithoutShiftInput>
+  }
+
+  export type ShiftAssignmentUpsertWithWhereUniqueWithoutShiftInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    update: XOR<ShiftAssignmentUpdateWithoutShiftInput, ShiftAssignmentUncheckedUpdateWithoutShiftInput>
+    create: XOR<ShiftAssignmentCreateWithoutShiftInput, ShiftAssignmentUncheckedCreateWithoutShiftInput>
+  }
+
+  export type ShiftAssignmentUpdateWithWhereUniqueWithoutShiftInput = {
+    where: ShiftAssignmentWhereUniqueInput
+    data: XOR<ShiftAssignmentUpdateWithoutShiftInput, ShiftAssignmentUncheckedUpdateWithoutShiftInput>
+  }
+
+  export type ShiftAssignmentUpdateManyWithWhereWithoutShiftInput = {
+    where: ShiftAssignmentScalarWhereInput
+    data: XOR<ShiftAssignmentUpdateManyMutationInput, ShiftAssignmentUncheckedUpdateManyWithoutShiftInput>
+  }
+
+  export type ShiftTemplateUpsertWithWhereUniqueWithoutShiftInput = {
+    where: ShiftTemplateWhereUniqueInput
+    update: XOR<ShiftTemplateUpdateWithoutShiftInput, ShiftTemplateUncheckedUpdateWithoutShiftInput>
+    create: XOR<ShiftTemplateCreateWithoutShiftInput, ShiftTemplateUncheckedCreateWithoutShiftInput>
+  }
+
+  export type ShiftTemplateUpdateWithWhereUniqueWithoutShiftInput = {
+    where: ShiftTemplateWhereUniqueInput
+    data: XOR<ShiftTemplateUpdateWithoutShiftInput, ShiftTemplateUncheckedUpdateWithoutShiftInput>
+  }
+
+  export type ShiftTemplateUpdateManyWithWhereWithoutShiftInput = {
+    where: ShiftTemplateScalarWhereInput
+    data: XOR<ShiftTemplateUpdateManyMutationInput, ShiftTemplateUncheckedUpdateManyWithoutShiftInput>
+  }
+
+  export type ShiftTemplateQuestionCreateWithoutTemplateInput = {
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionCreatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput = {
+    id?: number
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionCreatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionCreateOrConnectWithoutTemplateInput = {
+    where: ShiftTemplateQuestionWhereUniqueInput
+    create: XOR<ShiftTemplateQuestionCreateWithoutTemplateInput, ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type ShiftTemplateQuestionCreateManyTemplateInputEnvelope = {
+    data: ShiftTemplateQuestionCreateManyTemplateInput | ShiftTemplateQuestionCreateManyTemplateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShiftCreateWithoutShiftTemplatesInput = {
+    name: string
+    startTime: string
+    endTime: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: ShiftUsersCreateNestedManyWithoutShiftInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutShiftInput
+  }
+
+  export type ShiftUncheckedCreateWithoutShiftTemplatesInput = {
+    shiftId?: number
+    name: string
+    startTime: string
+    endTime: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: ShiftUsersUncheckedCreateNestedManyWithoutShiftInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutShiftInput
+  }
+
+  export type ShiftCreateOrConnectWithoutShiftTemplatesInput = {
+    where: ShiftWhereUniqueInput
+    create: XOR<ShiftCreateWithoutShiftTemplatesInput, ShiftUncheckedCreateWithoutShiftTemplatesInput>
+  }
+
+  export type SectionCreateWithoutShiftTemplatesInput = {
+    name: string
+    area?: number | null
+    type: SectionTypeCreateNestedOneWithoutSectionsInput
+    assets?: AssetCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionUncheckedCreateWithoutShiftTemplatesInput = {
+    id?: number
+    name: string
+    sectionType: number
+    area?: number | null
+    assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
+    coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
+    supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+  }
+
+  export type SectionCreateOrConnectWithoutShiftTemplatesInput = {
+    where: SectionWhereUniqueInput
+    create: XOR<SectionCreateWithoutShiftTemplatesInput, SectionUncheckedCreateWithoutShiftTemplatesInput>
+  }
+
+  export type ShiftTemplateQuestionUpsertWithWhereUniqueWithoutTemplateInput = {
+    where: ShiftTemplateQuestionWhereUniqueInput
+    update: XOR<ShiftTemplateQuestionUpdateWithoutTemplateInput, ShiftTemplateQuestionUncheckedUpdateWithoutTemplateInput>
+    create: XOR<ShiftTemplateQuestionCreateWithoutTemplateInput, ShiftTemplateQuestionUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type ShiftTemplateQuestionUpdateWithWhereUniqueWithoutTemplateInput = {
+    where: ShiftTemplateQuestionWhereUniqueInput
+    data: XOR<ShiftTemplateQuestionUpdateWithoutTemplateInput, ShiftTemplateQuestionUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type ShiftTemplateQuestionUpdateManyWithWhereWithoutTemplateInput = {
+    where: ShiftTemplateQuestionScalarWhereInput
+    data: XOR<ShiftTemplateQuestionUpdateManyMutationInput, ShiftTemplateQuestionUncheckedUpdateManyWithoutTemplateInput>
+  }
+
+  export type ShiftTemplateQuestionScalarWhereInput = {
+    AND?: ShiftTemplateQuestionScalarWhereInput | ShiftTemplateQuestionScalarWhereInput[]
+    OR?: ShiftTemplateQuestionScalarWhereInput[]
+    NOT?: ShiftTemplateQuestionScalarWhereInput | ShiftTemplateQuestionScalarWhereInput[]
+    id?: IntFilter<"ShiftTemplateQuestion"> | number
+    templateId?: IntFilter<"ShiftTemplateQuestion"> | number
+    question?: StringFilter<"ShiftTemplateQuestion"> | string
+    responseType?: EnumResponseTypeFilter<"ShiftTemplateQuestion"> | $Enums.ResponseType
+    multipleChoiceOptions?: StringNullableListFilter<"ShiftTemplateQuestion">
+  }
+
+  export type ShiftUpsertWithoutShiftTemplatesInput = {
+    update: XOR<ShiftUpdateWithoutShiftTemplatesInput, ShiftUncheckedUpdateWithoutShiftTemplatesInput>
+    create: XOR<ShiftCreateWithoutShiftTemplatesInput, ShiftUncheckedCreateWithoutShiftTemplatesInput>
+    where?: ShiftWhereInput
+  }
+
+  export type ShiftUpdateToOneWithWhereWithoutShiftTemplatesInput = {
+    where?: ShiftWhereInput
+    data: XOR<ShiftUpdateWithoutShiftTemplatesInput, ShiftUncheckedUpdateWithoutShiftTemplatesInput>
+  }
+
+  export type ShiftUpdateWithoutShiftTemplatesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: ShiftUsersUpdateManyWithoutShiftNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutShiftNestedInput
+  }
+
+  export type ShiftUncheckedUpdateWithoutShiftTemplatesInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: ShiftUsersUncheckedUpdateManyWithoutShiftNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutShiftNestedInput
+  }
+
+  export type SectionUpsertWithoutShiftTemplatesInput = {
+    update: XOR<SectionUpdateWithoutShiftTemplatesInput, SectionUncheckedUpdateWithoutShiftTemplatesInput>
+    create: XOR<SectionCreateWithoutShiftTemplatesInput, SectionUncheckedCreateWithoutShiftTemplatesInput>
+    where?: SectionWhereInput
+  }
+
+  export type SectionUpdateToOneWithWhereWithoutShiftTemplatesInput = {
+    where?: SectionWhereInput
+    data: XOR<SectionUpdateWithoutShiftTemplatesInput, SectionUncheckedUpdateWithoutShiftTemplatesInput>
+  }
+
+  export type SectionUpdateWithoutShiftTemplatesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: SectionTypeUpdateOneRequiredWithoutSectionsNestedInput
+    assets?: AssetUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+  }
+
+  export type SectionUncheckedUpdateWithoutShiftTemplatesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    sectionType?: IntFieldUpdateOperationsInput | number
+    area?: NullableIntFieldUpdateOperationsInput | number | null
+    assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
+    coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
+    supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type ShiftTemplateCreateWithoutQuestionsInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shift: ShiftCreateNestedOneWithoutShiftTemplatesInput
+    section: SectionCreateNestedOneWithoutShiftTemplatesInput
+  }
+
+  export type ShiftTemplateUncheckedCreateWithoutQuestionsInput = {
+    id?: number
+    shiftId: number
+    sectionId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShiftTemplateCreateOrConnectWithoutQuestionsInput = {
+    where: ShiftTemplateWhereUniqueInput
+    create: XOR<ShiftTemplateCreateWithoutQuestionsInput, ShiftTemplateUncheckedCreateWithoutQuestionsInput>
+  }
+
+  export type ShiftTemplateUpsertWithoutQuestionsInput = {
+    update: XOR<ShiftTemplateUpdateWithoutQuestionsInput, ShiftTemplateUncheckedUpdateWithoutQuestionsInput>
+    create: XOR<ShiftTemplateCreateWithoutQuestionsInput, ShiftTemplateUncheckedCreateWithoutQuestionsInput>
+    where?: ShiftTemplateWhereInput
+  }
+
+  export type ShiftTemplateUpdateToOneWithWhereWithoutQuestionsInput = {
+    where?: ShiftTemplateWhereInput
+    data: XOR<ShiftTemplateUpdateWithoutQuestionsInput, ShiftTemplateUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type ShiftTemplateUpdateWithoutQuestionsInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shift?: ShiftUpdateOneRequiredWithoutShiftTemplatesNestedInput
+    section?: SectionUpdateOneRequiredWithoutShiftTemplatesNestedInput
+  }
+
+  export type ShiftTemplateUncheckedUpdateWithoutQuestionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftCreateWithoutUsersInput = {
+    name: string
+    startTime: string
+    endTime: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutShiftInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutShiftInput
+  }
+
+  export type ShiftUncheckedCreateWithoutUsersInput = {
+    shiftId?: number
+    name: string
+    startTime: string
+    endTime: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutShiftInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutShiftInput
+  }
+
+  export type ShiftCreateOrConnectWithoutUsersInput = {
+    where: ShiftWhereUniqueInput
+    create: XOR<ShiftCreateWithoutUsersInput, ShiftUncheckedCreateWithoutUsersInput>
+  }
+
+  export type UserCreateWithoutShiftsInput = {
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isSupervisor?: boolean
+    userRole: RoleCreateNestedOneWithoutUsersInput
+    Position?: PositionCreateNestedOneWithoutUsersInput
+    Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutShiftsInput = {
+    userId?: number
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    userRoleId: number
+    positionId?: number | null
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    isSupervisor?: boolean
+    CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    activePlans?: ActivePlansUncheckedCreateNestedManyWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutShiftsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutShiftsInput, UserUncheckedCreateWithoutShiftsInput>
+  }
+
+  export type ShiftUpsertWithoutUsersInput = {
+    update: XOR<ShiftUpdateWithoutUsersInput, ShiftUncheckedUpdateWithoutUsersInput>
+    create: XOR<ShiftCreateWithoutUsersInput, ShiftUncheckedCreateWithoutUsersInput>
+    where?: ShiftWhereInput
+  }
+
+  export type ShiftUpdateToOneWithWhereWithoutUsersInput = {
+    where?: ShiftWhereInput
+    data: XOR<ShiftUpdateWithoutUsersInput, ShiftUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type ShiftUpdateWithoutUsersInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutShiftNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutShiftNestedInput
+  }
+
+  export type ShiftUncheckedUpdateWithoutUsersInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutShiftNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutShiftNestedInput
+  }
+
+  export type UserUpsertWithoutShiftsInput = {
+    update: XOR<UserUpdateWithoutShiftsInput, UserUncheckedUpdateWithoutShiftsInput>
+    create: XOR<UserCreateWithoutShiftsInput, UserUncheckedCreateWithoutShiftsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutShiftsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutShiftsInput, UserUncheckedUpdateWithoutShiftsInput>
+  }
+
+  export type UserUpdateWithoutShiftsInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Position?: PositionUpdateOneWithoutUsersNestedInput
+    Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutShiftsInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    userRoleId?: IntFieldUpdateOperationsInput | number
+    positionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlanfilesCreateWithoutPlanInput = {
@@ -27585,12 +37972,14 @@ export namespace Prisma {
   export type ActivePlansCreateWithoutPlanInput = {
     planName: string
     section: SectionCreateNestedOneWithoutActivePlansInput
+    user?: UserCreateNestedOneWithoutActivePlansInput
   }
 
   export type ActivePlansUncheckedCreateWithoutPlanInput = {
     id?: number
     planName: string
     sectionId: number
+    userId?: number | null
   }
 
   export type ActivePlansCreateOrConnectWithoutPlanInput = {
@@ -27916,6 +38305,9 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutActivePlansInput = {
@@ -27926,11 +38318,66 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutActivePlansInput = {
     where: SectionWhereUniqueInput
     create: XOR<SectionCreateWithoutActivePlansInput, SectionUncheckedCreateWithoutActivePlansInput>
+  }
+
+  export type UserCreateWithoutActivePlansInput = {
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isSupervisor?: boolean
+    userRole: RoleCreateNestedOneWithoutUsersInput
+    Position?: PositionCreateNestedOneWithoutUsersInput
+    Creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    CreatedUsers?: UserCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorCreateNestedOneWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersCreateNestedManyWithoutUserInput
+    sections?: SectionUsersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutActivePlansInput = {
+    userId?: number
+    username: string
+    email: string
+    phone?: string | null
+    passwordHash: string
+    salt: string
+    userRoleId: number
+    positionId?: number | null
+    isActive?: boolean
+    profileImage?: string | null
+    lastLogin?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    isSupervisor?: boolean
+    CreatedUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    supervisor?: SupervisorUncheckedCreateNestedOneWithoutUserInput
+    supervisorAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSupervisorInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedCreateNestedManyWithoutOperatorInput
+    shifts?: ShiftUsersUncheckedCreateNestedManyWithoutUserInput
+    sections?: SectionUsersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutActivePlansInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutActivePlansInput, UserUncheckedCreateWithoutActivePlansInput>
   }
 
   export type PlanUpsertWithoutActivePlansInput = {
@@ -27987,6 +38434,9 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutActivePlansInput = {
@@ -27997,6 +38447,67 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
+  }
+
+  export type UserUpsertWithoutActivePlansInput = {
+    update: XOR<UserUpdateWithoutActivePlansInput, UserUncheckedUpdateWithoutActivePlansInput>
+    create: XOR<UserCreateWithoutActivePlansInput, UserUncheckedCreateWithoutActivePlansInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutActivePlansInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutActivePlansInput, UserUncheckedUpdateWithoutActivePlansInput>
+  }
+
+  export type UserUpdateWithoutActivePlansInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Position?: PositionUpdateOneWithoutUsersNestedInput
+    Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutActivePlansInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    salt?: StringFieldUpdateOperationsInput | string
+    userRoleId?: IntFieldUpdateOperationsInput | number
+    positionId?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+    CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SectionCreateWithoutTypeInput = {
@@ -28006,6 +38517,9 @@ export namespace Prisma {
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutTypeInput = {
@@ -28016,6 +38530,9 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutTypeInput = {
@@ -28061,6 +38578,9 @@ export namespace Prisma {
     assets?: AssetCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutCoordinatesInput = {
@@ -28071,6 +38591,9 @@ export namespace Prisma {
     assets?: AssetUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutCoordinatesInput = {
@@ -28096,6 +38619,9 @@ export namespace Prisma {
     assets?: AssetUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutCoordinatesInput = {
@@ -28106,6 +38632,9 @@ export namespace Prisma {
     assets?: AssetUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type AssetCreateWithoutTypeInput = {
@@ -28197,6 +38726,9 @@ export namespace Prisma {
     coordinates?: CoordinateCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorCreateNestedManyWithoutSectionInput
+    users?: SectionUsersCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateCreateNestedManyWithoutSectionInput
   }
 
   export type SectionUncheckedCreateWithoutAssetsInput = {
@@ -28207,6 +38739,9 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedCreateNestedManyWithoutSectionInput
     activePlans?: ActivePlansUncheckedCreateNestedManyWithoutSectionInput
     supervisors?: SupervisorUncheckedCreateNestedManyWithoutSectionInput
+    users?: SectionUsersUncheckedCreateNestedManyWithoutSectionInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutSectionInput
+    shiftTemplates?: ShiftTemplateUncheckedCreateNestedManyWithoutSectionInput
   }
 
   export type SectionCreateOrConnectWithoutAssetsInput = {
@@ -28270,6 +38805,9 @@ export namespace Prisma {
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutAssetsInput = {
@@ -28280,6 +38818,9 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type MineCreateManyOwnerInput = {
@@ -28347,6 +38888,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
   }
 
   export type UserUpdateWithoutPositionInput = {
@@ -28360,10 +38902,16 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPositionInput = {
@@ -28380,8 +38928,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPositionInput = {
@@ -28398,6 +38952,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserCreateManyUserRoleInput = {
@@ -28414,6 +38969,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
+    isSupervisor?: boolean
   }
 
   export type UserUpdateWithoutUserRoleInput = {
@@ -28427,10 +38983,16 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     Position?: PositionUpdateOneWithoutUsersNestedInput
     Creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserRoleInput = {
@@ -28447,8 +39009,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutUserRoleInput = {
@@ -28465,6 +39033,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserCreateManyCreatorInput = {
@@ -28481,6 +39050,34 @@ export namespace Prisma {
     lastLogin?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    isSupervisor?: boolean
+  }
+
+  export type ActivePlansCreateManyUserInput = {
+    id?: number
+    planName: string
+    planId: number
+    sectionId: number
+  }
+
+  export type ShiftAssignmentCreateManySupervisorInput = {
+    id?: number
+    sectionId: number
+    shiftId: number
+    createdAt?: Date | string
+  }
+
+  export type ShiftAssignmentOperatorCreateManyOperatorInput = {
+    id?: number
+    shiftAssignmentId: number
+  }
+
+  export type ShiftUsersCreateManyUserInput = {
+    shiftId: number
+  }
+
+  export type SectionUsersCreateManyUserInput = {
+    sectionId: number
   }
 
   export type UserUpdateWithoutCreatorInput = {
@@ -28494,10 +39091,16 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     userRole?: RoleUpdateOneRequiredWithoutUsersNestedInput
     Position?: PositionUpdateOneWithoutUsersNestedInput
     CreatedUsers?: UserUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatorInput = {
@@ -28514,8 +39117,14 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
     CreatedUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
     supervisor?: SupervisorUncheckedUpdateOneWithoutUserNestedInput
+    activePlans?: ActivePlansUncheckedUpdateManyWithoutUserNestedInput
+    supervisorAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSupervisorNestedInput
+    operatorAssignments?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorNestedInput
+    shifts?: ShiftUsersUncheckedUpdateManyWithoutUserNestedInput
+    sections?: SectionUsersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCreatorInput = {
@@ -28532,6 +39141,106 @@ export namespace Prisma {
     lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSupervisor?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ActivePlansUpdateWithoutUserInput = {
+    planName?: StringFieldUpdateOperationsInput | string
+    plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
+    section?: SectionUpdateOneRequiredWithoutActivePlansNestedInput
+  }
+
+  export type ActivePlansUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivePlansUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    planName?: StringFieldUpdateOperationsInput | string
+    planId?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentUpdateWithoutSupervisorInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    shift?: ShiftUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    operators?: ShiftAssignmentOperatorUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateWithoutSupervisorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operators?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyWithoutSupervisorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftAssignmentOperatorUpdateWithoutOperatorInput = {
+    shiftAssignment?: ShiftAssignmentUpdateOneRequiredWithoutOperatorsNestedInput
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateWithoutOperatorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftAssignmentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateManyWithoutOperatorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftAssignmentId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftUsersUpdateWithoutUserInput = {
+    shift?: ShiftUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type ShiftUsersUncheckedUpdateWithoutUserInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftUsersUncheckedUpdateManyWithoutUserInput = {
+    shiftId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionUsersUpdateWithoutUserInput = {
+    section?: SectionUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type SectionUsersUncheckedUpdateWithoutUserInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionUsersUncheckedUpdateManyWithoutUserInput = {
+    sectionId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentOperatorCreateManyShiftAssignmentInput = {
+    id?: number
+    operatorId: number
+  }
+
+  export type ShiftAssignmentOperatorUpdateWithoutShiftAssignmentInput = {
+    operator?: UserUpdateOneRequiredWithoutOperatorAssignmentsNestedInput
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateWithoutShiftAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    operatorId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    operatorId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AssetCreateManySectionInput = {
@@ -28553,11 +39262,30 @@ export namespace Prisma {
     id?: number
     planName: string
     planId: number
+    userId?: number | null
   }
 
   export type SupervisorCreateManySectionInput = {
     id?: number
     userId: number
+  }
+
+  export type SectionUsersCreateManySectionInput = {
+    userId: number
+  }
+
+  export type ShiftAssignmentCreateManySectionInput = {
+    id?: number
+    shiftId: number
+    supervisorId: number
+    createdAt?: Date | string
+  }
+
+  export type ShiftTemplateCreateManySectionInput = {
+    id?: number
+    shiftId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AssetUpdateWithoutSectionInput = {
@@ -28608,18 +39336,21 @@ export namespace Prisma {
   export type ActivePlansUpdateWithoutSectionInput = {
     planName?: StringFieldUpdateOperationsInput | string
     plan?: PlanUpdateOneRequiredWithoutActivePlansNestedInput
+    user?: UserUpdateOneWithoutActivePlansNestedInput
   }
 
   export type ActivePlansUncheckedUpdateWithoutSectionInput = {
     id?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     planId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ActivePlansUncheckedUpdateManyWithoutSectionInput = {
     id?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     planId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type SupervisorUpdateWithoutSectionInput = {
@@ -28636,6 +39367,163 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type SectionUsersUpdateWithoutSectionInput = {
+    user?: UserUpdateOneRequiredWithoutSectionsNestedInput
+  }
+
+  export type SectionUsersUncheckedUpdateWithoutSectionInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SectionUsersUncheckedUpdateManyWithoutSectionInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentUpdateWithoutSectionInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shift?: ShiftUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    supervisor?: UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput
+    operators?: ShiftAssignmentOperatorUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operators?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftTemplateUpdateWithoutSectionInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: ShiftTemplateQuestionUpdateManyWithoutTemplateNestedInput
+    shift?: ShiftUpdateOneRequiredWithoutShiftTemplatesNestedInput
+  }
+
+  export type ShiftTemplateUncheckedUpdateWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: ShiftTemplateQuestionUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type ShiftTemplateUncheckedUpdateManyWithoutSectionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shiftId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftUsersCreateManyShiftInput = {
+    userId: number
+  }
+
+  export type ShiftAssignmentCreateManyShiftInput = {
+    id?: number
+    sectionId: number
+    supervisorId: number
+    createdAt?: Date | string
+  }
+
+  export type ShiftTemplateCreateManyShiftInput = {
+    id?: number
+    sectionId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShiftUsersUpdateWithoutShiftInput = {
+    user?: UserUpdateOneRequiredWithoutShiftsNestedInput
+  }
+
+  export type ShiftUsersUncheckedUpdateWithoutShiftInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftUsersUncheckedUpdateManyWithoutShiftInput = {
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ShiftAssignmentUpdateWithoutShiftInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutShiftAssignmentsNestedInput
+    supervisor?: UserUpdateOneRequiredWithoutSupervisorAssignmentsNestedInput
+    operators?: ShiftAssignmentOperatorUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateWithoutShiftInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operators?: ShiftAssignmentOperatorUncheckedUpdateManyWithoutShiftAssignmentNestedInput
+  }
+
+  export type ShiftAssignmentUncheckedUpdateManyWithoutShiftInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    supervisorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftTemplateUpdateWithoutShiftInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: ShiftTemplateQuestionUpdateManyWithoutTemplateNestedInput
+    section?: SectionUpdateOneRequiredWithoutShiftTemplatesNestedInput
+  }
+
+  export type ShiftTemplateUncheckedUpdateWithoutShiftInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: ShiftTemplateQuestionUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type ShiftTemplateUncheckedUpdateManyWithoutShiftInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sectionId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShiftTemplateQuestionCreateManyTemplateInput = {
+    id?: number
+    question: string
+    responseType: $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionCreatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUpdateWithoutTemplateInput = {
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUncheckedUpdateWithoutTemplateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+  }
+
+  export type ShiftTemplateQuestionUncheckedUpdateManyWithoutTemplateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    question?: StringFieldUpdateOperationsInput | string
+    responseType?: EnumResponseTypeFieldUpdateOperationsInput | $Enums.ResponseType
+    multipleChoiceOptions?: ShiftTemplateQuestionUpdatemultipleChoiceOptionsInput | string[]
+  }
+
   export type PlanfilesCreateManyPlanInput = {
     fileId?: number
     fileName: string
@@ -28647,6 +39535,7 @@ export namespace Prisma {
     id?: number
     planName: string
     sectionId: number
+    userId?: number | null
   }
 
   export type PlanAssetsCreateManyPlanInput = {
@@ -28678,18 +39567,21 @@ export namespace Prisma {
   export type ActivePlansUpdateWithoutPlanInput = {
     planName?: StringFieldUpdateOperationsInput | string
     section?: SectionUpdateOneRequiredWithoutActivePlansNestedInput
+    user?: UserUpdateOneWithoutActivePlansNestedInput
   }
 
   export type ActivePlansUncheckedUpdateWithoutPlanInput = {
     id?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ActivePlansUncheckedUpdateManyWithoutPlanInput = {
     id?: IntFieldUpdateOperationsInput | number
     planName?: StringFieldUpdateOperationsInput | string
     sectionId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type PlanAssetsUpdateWithoutPlanInput = {
@@ -28722,6 +39614,9 @@ export namespace Prisma {
     coordinates?: CoordinateUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateWithoutTypeInput = {
@@ -28732,6 +39627,9 @@ export namespace Prisma {
     coordinates?: CoordinateUncheckedUpdateManyWithoutSectionNestedInput
     activePlans?: ActivePlansUncheckedUpdateManyWithoutSectionNestedInput
     supervisors?: SupervisorUncheckedUpdateManyWithoutSectionNestedInput
+    users?: SectionUsersUncheckedUpdateManyWithoutSectionNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutSectionNestedInput
+    shiftTemplates?: ShiftTemplateUncheckedUpdateManyWithoutSectionNestedInput
   }
 
   export type SectionUncheckedUpdateManyWithoutTypeInput = {
@@ -28822,9 +39720,21 @@ export namespace Prisma {
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use ShiftAssignmentCountOutputTypeDefaultArgs instead
+     */
+    export type ShiftAssignmentCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftAssignmentCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use SectionCountOutputTypeDefaultArgs instead
      */
     export type SectionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShiftCountOutputTypeDefaultArgs instead
+     */
+    export type ShiftCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShiftTemplateCountOutputTypeDefaultArgs instead
+     */
+    export type ShiftTemplateCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftTemplateCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use PlanCountOutputTypeDefaultArgs instead
      */
@@ -28874,17 +39784,41 @@ export namespace Prisma {
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
     /**
-     * @deprecated Use SupervisorDefaultArgs instead
+     * @deprecated Use ShiftAssignmentDefaultArgs instead
      */
-    export type SupervisorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SupervisorDefaultArgs<ExtArgs>
+    export type ShiftAssignmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftAssignmentDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShiftAssignmentOperatorDefaultArgs instead
+     */
+    export type ShiftAssignmentOperatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftAssignmentOperatorDefaultArgs<ExtArgs>
     /**
      * @deprecated Use SectionDefaultArgs instead
      */
     export type SectionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use SupervisorDefaultArgs instead
+     */
+    export type SupervisorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SupervisorDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SectionUsersDefaultArgs instead
+     */
+    export type SectionUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SectionUsersDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use ShiftDefaultArgs instead
      */
     export type ShiftArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShiftTemplateDefaultArgs instead
+     */
+    export type ShiftTemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftTemplateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShiftTemplateQuestionDefaultArgs instead
+     */
+    export type ShiftTemplateQuestionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftTemplateQuestionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ShiftUsersDefaultArgs instead
+     */
+    export type ShiftUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ShiftUsersDefaultArgs<ExtArgs>
     /**
      * @deprecated Use PlanDefaultArgs instead
      */

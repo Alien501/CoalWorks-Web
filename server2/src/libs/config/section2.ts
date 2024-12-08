@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
@@ -70,12 +70,13 @@ export const getAllSections = async (req: Request, res: Response) => {
         assets: true,
         coordinates: true,
         activePlans: true,
+        supervisors: true,
       },
     });
 
     res.status(200).json(sections);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: "Failed to fetch sections" });
   }
 };
@@ -140,8 +141,8 @@ export const deleteSection = async (req: Request, res: Response) => {
     const sectionWithRelations = await prisma.section.findUnique({
       where: { id },
       include: {
-        assets: true,       // Assuming assets relation exists
-        coordinates: true,  // Assuming coordinates relation exists
+        assets: true, // Assuming assets relation exists
+        coordinates: true, // Assuming coordinates relation exists
       },
     });
 
@@ -170,3 +171,66 @@ export const deleteSection = async (req: Request, res: Response) => {
   }
 };
 
+export const getSupervisorBySectionId = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const supervisors = await prisma.supervisor.findMany({
+      where: { sectionId: parseInt(id) },
+      include: {
+        user: {
+          select: {
+            userId: true,
+            username: true,
+            email: true,
+            phone: true,
+            isSupervisor: true,
+          },
+        },
+      },
+    });
+    if (supervisors.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No supervisors found for this section." });
+    }
+
+    res.json(supervisors.map((sup) => sup.user));
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching supervisors." });
+  }
+};
+
+export const getAllUsersOfSection = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const section = await prisma.section.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        users: {
+          where: {
+            isSupervisor: false, // Filter users where isSupervisor is false
+          },
+          select: {
+            userId: true,
+            username: true,
+            email: true,
+            phone: true,
+            isActive: true,
+          },
+        },
+      },
+    });
+
+    if (!section) {
+      return res.status(404).json({ message: "Section not found." });
+    }
+
+    res.json(section.users); // Return the list of users in the section
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while fetching users." });
+  }
+};

@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -61,13 +59,8 @@ interface Shift {
   isActive: boolean
 }
 
-
-const MasterShift = () => {
-  const [shifts, setShifts] = useState<Shift[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [sortColumn, setSortColumn] = useState<keyof Shift | "">("")
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
-
+// Extracted NewShiftForm to prevent recreation on parent renders
+const NewShiftForm = ({ onSubmitSuccess }: { onSubmitSuccess: (newShift: Shift) => void }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -77,46 +70,116 @@ const MasterShift = () => {
     },
   })
 
-  const fetchAndSetShifts = async () => {
-    const res = await getShifts();
-    if(res) {
-      console.log(res);
-      setShifts(prev => res);
-    }else{
-      setShifts([]);
-    }
-  }
-
-
-  useEffect(() => {
-    fetchAndSetShifts()
-  }, [])
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await addNewShift(values);
-      if(!response) {
+      if (!response) {
         return;
       }
       const newShift: Shift = {
         ...response,
         isActive: true
       }
-      
-      setShifts([...shifts, newShift])
+      onSubmitSuccess(newShift)
       form.reset()
     } catch (error) {
       console.error('Error creating shift:', error)
     }
   }
 
-  const filteredShifts = shifts.filter((shift) =>
-    shift.name.toLowerCase().includes(searchTerm.toLowerCase())
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Shift Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter shift name"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                This is the name that will be displayed for the shift.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex space-x-4 justify-center items-center">
+          <FormField
+            control={form.control}
+            name="startTime"
+            render={({ field }) => (
+              <FormItem className="flex items-center space-x-2">
+                <FormLabel>Start Time</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    {...field}
+                    className="w-max mx-auto"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="endTime"
+            render={({ field }) => (
+              <FormItem className="flex items-center space-x-2">
+                <FormLabel>End Time</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    className="w-max mx-auto"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <DialogFooter>
+          <Button type="submit">Save Shift</Button>
+        </DialogFooter>
+      </form>
+    </Form>
   )
+}
+
+const MasterShift = () => {
+  const [shifts, setShifts] = useState<Shift[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [sortColumn, setSortColumn] = useState<keyof Shift | "">("")
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
+
+  const fetchAndSetShifts = async () => {
+    const res = await getShifts();
+    if (res) {
+      setShifts(res);
+    } else {
+      setShifts([]);
+    }
+  }
 
   useEffect(() => {
-    
-  }, [shifts])
+    fetchAndSetShifts()
+  }, [])
+
+  const handleNewShift = (newShift: Shift) => {
+    setShifts(prev => [...prev, newShift])
+  }
+
+  const filteredShifts = shifts.filter((shift) =>
+    shift.name?.toLowerCase().includes(searchTerm?.toLowerCase())
+  )
+
   const sortedShifts = [...filteredShifts].sort((a, b) => {
     if (!sortColumn) return 0
     const aValue = a[sortColumn]
@@ -136,73 +199,21 @@ const MasterShift = () => {
   }
 
   const toggleShiftActive = async (shiftId: string) => {
+    const shift = shifts.find(s => s.shiftId === shiftId)
+    if (!shift) return
+
     const changeStatusRes = await updateShiftData({
-      isActive: !shifts.find(shift => shift.shiftId == shiftId)?.isActive
+      isActive: !shift.isActive
     }, shiftId)
-    if(changeStatusRes) {
+
+    if (changeStatusRes) {
       alert('Changed status successfully!')
-      setShifts(shifts.map(shift => 
-        shift.shiftId === shiftId ? { ...shift, isActive: !shift.isActive } : shift
+      setShifts(shifts.map(s =>
+        s.shiftId === shiftId ? { ...s, isActive: !s.isActive } : s
       ))
     } else {
       alert('Something went wrong while updating data!');
     }
-  }
-
-  const NewShiftForm = () => {
-    return(
-        <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem >
-                <FormLabel>Shift Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter shift name" {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is the name that will be displayed for the shift.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex space-x-4 justify-center items-center">
-            <FormField
-              control={form.control}
-              name="startTime"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-">
-                  <FormLabel>Start Time</FormLabel>
-                  <FormControl>
-                    <Input type="time" {...field} className="w-max mx-auto" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="endTime"
-              render={({ field }) => (
-                <FormItem className="flex items-center space-x-">
-                  <FormLabel>End Time</FormLabel>
-                  <FormControl>
-                    <Input type="time" className="w-max mx-auto" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <DialogFooter>
-            <Button type="submit">Save Shift</Button>
-          </DialogFooter>
-        </form>
-      </Form>
-    )
   }
 
   return (
@@ -221,7 +232,7 @@ const MasterShift = () => {
           </div>
           <Modal
             modalTitle="Add New Shift"
-            modalContent={<NewShiftForm />}
+            modalContent={<NewShiftForm onSubmitSuccess={handleNewShift} />}
             modalTriggerElement={<Button><Plus className="mr-2 h-4 w-4" /> Create New Shift</Button>}
           />
         </div>
@@ -243,8 +254,8 @@ const MasterShift = () => {
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody key={shifts}>
-            {shifts.map((shift) => (
+          <TableBody>
+            {sortedShifts.map((shift) => (
               <TableRow key={shift.shiftId}>
                 <TableCell className="font-medium">{shift.name}</TableCell>
                 <TableCell>{shift.startTime}</TableCell>

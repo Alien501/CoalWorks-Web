@@ -4,6 +4,8 @@ import { Plus, Search, Filter } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from '@/components/ui/badge';
+import { AddWorkForce } from '@/components/custom/addWorkforce';
 import {
   Table,
   TableBody,
@@ -58,9 +60,11 @@ import { toast } from 'sonner';
 import { fetchSections } from '@/utils/fetchSections';
 import MapPolygonDrawer from '@/components/custom/drawingMap';
 import { MoreHorizontal } from 'lucide-react';
+import { AssignWorkForce } from '@/components/custom/assignWorkforce';
 import { Description } from '@radix-ui/react-dialog';
 // import { toast } from "@/components/ui/use-toast" // Assuming you're using shadcn/ui toast
 import { Checkbox } from "@/components/ui/checkbox"
+import CreateShiftTemplateDialog from '@/components/custom/createShiftTemplateDialog';
 
 interface SectionType {
   id: number
@@ -97,10 +101,95 @@ export default function SectionsPage() {
     coordinates: []
   });
 
+  const mockShifts = [
+    { id: 1, name: "Morning Shift" },
+    { id: 2, name: "Afternoon Shift" },
+    { id: 3, name: "Night Shift" }
+  ];
+
+  const mockSupervisors = [
+    { id: 1, name: "John Doe" },
+    { id: 2, name: "Jane Smith" },
+    { id: 3, name: "Mike Johnson" }
+  ];
+
+  const mockOperators = [
+    { id: 1, name: "Alice Brown" },
+    { id: 2, name: "Bob Wilson" },
+    { id: 3, name: "Charlie Davis" },
+    { id: 4, name: "Diana Evans" },
+    { id: 5, name: "Ethan Green" }
+  ];
+
+  const [selectedShift, setSelectedShift] = useState(null);
+  const [shiftAssignments, setShiftAssignments] = useState({});
+  const [selectedSupervisor, setSelectedSupervisor] = useState(null);
+  const [selectedOperators, setSelectedOperators] = useState([]);
+
+  const handleShiftSelection = (shift) => {
+    setSelectedShift(shift);
+    // Reset selections when changing shifts
+    setSelectedSupervisor(null);
+    setSelectedOperators([]);
+  };
+
+  const handleSupervisorSelect = (supervisor) => {
+    setSelectedSupervisor(supervisor);
+  };
+
+  const handleOperatorToggle = (operator) => {
+    setSelectedOperators(prev =>
+      prev.includes(operator)
+        ? prev.filter(op => op.id !== operator.id)
+        : [...prev, operator]
+    );
+  };
+
+  const handleAssignToShift = () => {
+    if (!selectedShift || !selectedSupervisor) return;
+
+    setShiftAssignments(prev => ({
+      ...prev,
+      [selectedShift.id]: {
+        shift: selectedShift,
+        supervisor: selectedSupervisor,
+        operators: selectedOperators
+      }
+    }));
+
+    // Reset selections after assignment
+    setSelectedSupervisor(null);
+    setSelectedOperators([]);
+  };
+
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isEditDialogOpen2, setIsEditDialogOpen2] = useState(false)
+  const [assignWorkForceOpen, setIsAssignWorkForceOpen] = useState(false)
   const [editingSectionType, setEditingSectionType] = useState<SectionType | null>(null)
   const [editingSection, setEditingSection] = useState<Section | null>(null)
+  const [users, setUsers] = useState([])
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([])
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [overAllSelectedSection, setOverallSelectedSection] = useState<Section | null>(null)
+
+  const handleAssignWorkforce = (section) => {
+    setOverallSelectedSection(section)
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleClose2 = () => {
+    setIsOpen2(false);
+  };
+
+  const handleAddWorkForce = (section) => {
+    setOverallSelectedSection(section)
+    setIsOpen2(true);
+  };
 
 
   const handleEditClick = (section: SectionType) => {
@@ -154,7 +243,7 @@ export default function SectionsPage() {
       if (error.status === 409) {
         toast.error("Section Type cant be deleted since you have sections with this type.")
       }
-      else{
+      else {
         toast.error("Section type can't be deleted due to some errors. Please try again later")
       }
     }
@@ -182,7 +271,7 @@ export default function SectionsPage() {
   async function onDeleteSection(id: number) {
     try {
       const res = await axios.delete(`/api/data/section/${id}`);
-      
+
       // Check response status
       if (res.status === 200) {
         toast.success(res.data.message || "Section deleted successfully");
@@ -191,19 +280,19 @@ export default function SectionsPage() {
       }
     } catch (error: any) {
       const serverMessage = error.response?.data?.msg || "An unexpected error occurred.";
-      
+
       if (error.response?.status === 409) {
-        toast.error(serverMessage); 
+        toast.error(serverMessage);
       } else {
-        toast.error(serverMessage); 
+        toast.error(serverMessage);
       }
-      console.error(error); 
+      console.error(error);
     } finally {
       const updatedSections = await fetchSections();
       setSections(updatedSections);
     }
   }
-  
+
 
   const onEditSectionHandler = async (id: number) => {
     try {
@@ -233,7 +322,7 @@ export default function SectionsPage() {
   }, [sectionTypes, typeSearch]);
 
   const filteredSections = useMemo(() => {
-    return sections.filter(section =>
+    return sections?.filter(section =>
       (section.name.toLowerCase().includes(sectionSearch.toLowerCase())) &&
       (!sectionTypeFilter || section.sectionType === parseInt(sectionTypeFilter))
     );
@@ -281,7 +370,7 @@ export default function SectionsPage() {
 
       setNewSection({ name: "", sectionType: "", area: "", coordinates: [] });
       console.log(newSection)
-      
+
       toast.success("Section created successfully")
     } catch (error) {
       console.error("Error creating section:", error);
@@ -309,8 +398,14 @@ export default function SectionsPage() {
       }
     }
 
+    // const fetchAllUsers = async () => {
+    //   const res = await axios.get("/api/data/user")
+    //   setUsers(res.data.data);
+    // }
+
     getAndSetSectiontype();
     getAndSetSection();
+    // fetchAllUsers();
   }, [])
 
   return (
@@ -610,12 +705,13 @@ export default function SectionsPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Area</TableHead>
-                <TableHead>Assign Supervisor</TableHead>
+                <TableHead>Configuration Status</TableHead>
+                <TableHead>Create Shift Template</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredSections.map(section => {
+              {filteredSections?.map(section => {
                 const sectionType = sectionTypes.find(
                   type => type.id === section.sectionType
                 )
@@ -626,7 +722,14 @@ export default function SectionsPage() {
                     <TableCell>{sectionType?.name || 'Unknown'}</TableCell>
                     <TableCell>{section.area || 'N/A'}</TableCell>
                     <TableCell>
-                      hi there
+                      <CreateShiftTemplateDialog sectionId={section.id}></CreateShiftTemplateDialog>
+                    </TableCell>
+                    <TableCell>
+                      {section.supervisors?.length > 0 ? (
+                        <Badge variant="default">Configured</Badge>
+                      ) : (
+                        <Badge variant="destructive">Not Configured</Badge>
+                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>
@@ -642,6 +745,12 @@ export default function SectionsPage() {
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuItem onSelect={() => handleEditClick2(section)}>
                                 Edit Section
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onSelect={() => handleAssignWorkforce(section)}>
+                                Assign Workforce
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onSelect={() => handleAddWorkForce(section)}>
+                                Add Workforce
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem className="text-red-600">
@@ -708,6 +817,20 @@ export default function SectionsPage() {
                               <Button onClick={handleSaveChanges2}>Save changes</Button>
                             </DialogFooter>
                           </DialogContent>
+                        </Dialog>
+                        <Dialog open={isOpen2} onOpenChange={handleClose2}>
+                          <DialogContent className="w-[95vw] max-w-[95vw] h-[90%] sm:w-[90vw] sm:max-w-[90vw] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle>Add Workforce</DialogTitle>
+                              <DialogDescription>
+                                Select and add workforce to {overAllSelectedSection?.name}
+                                <AddWorkForce overAllSelectedSection={overAllSelectedSection}></AddWorkForce>
+                              </DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
+                        <Dialog open={isOpen} onOpenChange={handleClose}>
+                          <AssignWorkForce overAllSelectedSection={overAllSelectedSection}></AssignWorkForce>
                         </Dialog>
                         <AlertDialogContent>
                           <AlertDialogHeader>

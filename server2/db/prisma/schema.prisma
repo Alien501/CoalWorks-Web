@@ -68,7 +68,7 @@ model Role {
   roleId      Int      @id @default(autoincrement())
   roleName    String   @unique @db.VarChar(100)
   description String?  @db.Text
-  permissions Json
+  permissions Json?
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -84,48 +84,92 @@ model Permission {
 }
 
 model User {
-  userId       Int       @id @default(autoincrement())
-  username     String    @unique @db.VarChar(100)
-  email        String    @unique @db.VarChar(100)
-  phone        String?   @db.VarChar(20)
-  passwordHash String    @db.VarChar(255)
-  salt         String    @db.VarChar(255)
-  userRoleId   Int
-  userRole     Role      @relation(fields: [userRoleId], references: [roleId])
-  positionId   Int?
-  Position     Position? @relation(fields: [positionId], references: [positionId])
-  isActive     Boolean   @default(true)
-  profileImage String?   @db.VarChar(255)
-  lastLogin    DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  createdBy    Int?
-  Creator      User?     @relation("UserCreation", fields: [createdBy], references: [userId])
-  CreatedUsers User[]    @relation("UserCreation")
-  supervisor   Supervisor?
+  userId                Int                       @id @default(autoincrement())
+  username              String                    @unique @db.VarChar(100)
+  email                 String                    @unique @db.VarChar(100)
+  phone                 String?                   @db.VarChar(20)
+  passwordHash          String                    @db.VarChar(255)
+  salt                  String                    @db.VarChar(255)
+  userRoleId            Int
+  userRole              Role                      @relation(fields: [userRoleId], references: [roleId])
+  positionId            Int?
+  Position              Position?                 @relation(fields: [positionId], references: [positionId])
+  isActive              Boolean                   @default(true)
+  profileImage          String?                   @db.VarChar(255)
+  lastLogin             DateTime?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  createdBy             Int?
+  Creator               User?                     @relation("UserCreation", fields: [createdBy], references: [userId])
+  CreatedUsers          User[]                    @relation("UserCreation")
+  supervisor            Supervisor?
+  isSupervisor          Boolean                   @default(false)
+  activePlans           ActivePlans[]
+  supervisorAssignments ShiftAssignment[]         @relation("SupervisorAssignments")
+  operatorAssignments   ShiftAssignmentOperator[] @relation("OperatorAssignments")
+
+  shifts   ShiftUsers[]
+  sections SectionUsers[]
 }
 
-model Supervisor {
-  id        Int      @id @default(autoincrement())
-  sectionId Int
-  userId    Int    @unique
-  section   Section   @relation(fields: [sectionId], references: [id])
-  user      User      @relation(fields: [userId], references: [userId])
+model ShiftAssignment {
+  id           Int      @id @default(autoincrement())
+  sectionId    Int
+  shiftId      Int
+  supervisorId Int
+  createdAt    DateTime @default(now())
+
+  section    Section @relation(fields: [sectionId], references: [id])
+  shift      Shift   @relation(fields: [shiftId], references: [shiftId])
+  supervisor User    @relation("SupervisorAssignments", fields: [supervisorId], references: [userId])
+
+  operators ShiftAssignmentOperator[]
+}
+
+model ShiftAssignmentOperator {
+  id                Int @id @default(autoincrement())
+  shiftAssignmentId Int
+  operatorId        Int
+
+  shiftAssignment ShiftAssignment @relation(fields: [shiftAssignmentId], references: [id], onDelete: Cascade)
+  operator        User            @relation("OperatorAssignments", fields: [operatorId], references: [userId])
+
+  @@unique([shiftAssignmentId, operatorId])
 }
 
 model Section {
-  id          Int          @id @default(autoincrement())
-  name        String       @db.VarChar(255)
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
   sectionType Int
   area        Int?
 
-  type        SectionType  @relation(fields: [sectionType], references: [id])
-  assets      Asset[]
-  coordinates Coordinate[]
-  activePlans ActivePlans[]
-  supervisors Supervisor[] 
+  type             SectionType       @relation(fields: [sectionType], references: [id])
+  assets           Asset[]
+  coordinates      Coordinate[]
+  activePlans      ActivePlans[]
+  supervisors      Supervisor[]
+  users            SectionUsers[] // Many-to-many relation
+  shiftAssignments ShiftAssignment[]
+  shiftTemplates ShiftTemplate[]
 }
 
+model Supervisor {
+  id        Int     @id @default(autoincrement())
+  sectionId Int
+  userId    Int     @unique
+  section   Section @relation(fields: [sectionId], references: [id])
+  user      User    @relation(fields: [userId], references: [userId])
+}
+
+model SectionUsers {
+  sectionId Int
+  userId    Int
+
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([sectionId, userId])
+}
 
 model Shift {
   shiftId   Int     @id @default(autoincrement())
@@ -134,8 +178,52 @@ model Shift {
   endTime   String
   isActive  Boolean @default(true)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  users            ShiftUsers[]
+  shiftAssignments ShiftAssignment[]
+  shiftTemplates ShiftTemplate[]
+}
+
+model ShiftTemplate {
+  id           Int                @id @default(autoincrement())
+  shiftId      Int
+  sectionId    Int
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  questions    ShiftTemplateQuestion[]
+  shift        Shift              @relation(fields: [shiftId], references: [shiftId])
+  section      Section            @relation(fields: [sectionId], references: [id])
+}
+
+enum ResponseType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  DOCUMENT
+  LOCATION
+  MULTIPLE_CHOICE
+}
+
+model ShiftTemplateQuestion {
+  id             Int               @id @default(autoincrement())
+  templateId     Int
+  question       String
+  responseType   ResponseType
+  multipleChoiceOptions String[]
+  template       ShiftTemplate     @relation(fields: [templateId], references: [id], onDelete: Cascade)
+}
+
+model ShiftUsers {
+  shiftId Int
+  userId  Int
+
+  shift Shift @relation(fields: [shiftId], references: [shiftId], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@id([shiftId, userId])
+  @@unique([shiftId, userId])
 }
 
 enum PlanStatus {
@@ -178,22 +266,23 @@ model Planfiles {
 }
 
 model ActivePlans {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   planName  String
   planId    Int
   sectionId Int
-  plan    Plan    @relation(fields: [planId], references: [planId])
-  section Section @relation(fields: [sectionId], references: [id])
+  userId    Int?
+  plan      Plan    @relation(fields: [planId], references: [planId])
+  section   Section @relation(fields: [sectionId], references: [id])
+  user      User?   @relation(fields: [userId], references: [userId])
 }
 
 model SectionType {
-  id          Int            @id @default(autoincrement())
-  name        String         @db.VarChar(255)
-  description String         @db.VarChar(255)
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  description String    @db.VarChar(255)
   sections    Section[]
-  color       String         @default("#fffff")
+  color       String    @default("#fffff")
 }
-
 
 model Coordinate {
   id        Int   @id @default(autoincrement())
@@ -223,4 +312,3 @@ model Asset {
   type         AssetType    @relation(fields: [assetType], references: [id])
   section      Section      @relation(fields: [assetSection], references: [id])
 }
-

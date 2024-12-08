@@ -200,7 +200,29 @@ exports.Prisma.UserScalarFieldEnum = {
   lastLogin: 'lastLogin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdBy: 'createdBy'
+  createdBy: 'createdBy',
+  isSupervisor: 'isSupervisor'
+};
+
+exports.Prisma.ShiftAssignmentScalarFieldEnum = {
+  id: 'id',
+  sectionId: 'sectionId',
+  shiftId: 'shiftId',
+  supervisorId: 'supervisorId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ShiftAssignmentOperatorScalarFieldEnum = {
+  id: 'id',
+  shiftAssignmentId: 'shiftAssignmentId',
+  operatorId: 'operatorId'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sectionType: 'sectionType',
+  area: 'area'
 };
 
 exports.Prisma.SupervisorScalarFieldEnum = {
@@ -209,11 +231,9 @@ exports.Prisma.SupervisorScalarFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.SectionScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  sectionType: 'sectionType',
-  area: 'area'
+exports.Prisma.SectionUsersScalarFieldEnum = {
+  sectionId: 'sectionId',
+  userId: 'userId'
 };
 
 exports.Prisma.ShiftScalarFieldEnum = {
@@ -224,6 +244,27 @@ exports.Prisma.ShiftScalarFieldEnum = {
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShiftTemplateScalarFieldEnum = {
+  id: 'id',
+  shiftId: 'shiftId',
+  sectionId: 'sectionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShiftTemplateQuestionScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  question: 'question',
+  responseType: 'responseType',
+  multipleChoiceOptions: 'multipleChoiceOptions'
+};
+
+exports.Prisma.ShiftUsersScalarFieldEnum = {
+  shiftId: 'shiftId',
+  userId: 'userId'
 };
 
 exports.Prisma.PlanScalarFieldEnum = {
@@ -256,7 +297,8 @@ exports.Prisma.ActivePlansScalarFieldEnum = {
   id: 'id',
   planName: 'planName',
   planId: 'planId',
-  sectionId: 'sectionId'
+  sectionId: 'sectionId',
+  userId: 'userId'
 };
 
 exports.Prisma.SectionTypeScalarFieldEnum = {
@@ -298,6 +340,11 @@ exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -313,6 +360,16 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.ResponseType = exports.$Enums.ResponseType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  DOCUMENT: 'DOCUMENT',
+  LOCATION: 'LOCATION',
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE'
+};
+
 exports.PlanStatus = exports.$Enums.PlanStatus = {
   Draft: 'Draft',
   Unpublished: 'Unpublished',
@@ -328,9 +385,15 @@ exports.Prisma.ModelName = {
   Role: 'Role',
   Permission: 'Permission',
   User: 'User',
-  Supervisor: 'Supervisor',
+  ShiftAssignment: 'ShiftAssignment',
+  ShiftAssignmentOperator: 'ShiftAssignmentOperator',
   Section: 'Section',
+  Supervisor: 'Supervisor',
+  SectionUsers: 'SectionUsers',
   Shift: 'Shift',
+  ShiftTemplate: 'ShiftTemplate',
+  ShiftTemplateQuestion: 'ShiftTemplateQuestion',
+  ShiftUsers: 'ShiftUsers',
   Plan: 'Plan',
   PlanAssets: 'PlanAssets',
   Planfiles: 'Planfiles',

@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
-import { createSupervisor, getAllSupervisors, getSupervisorById, deleteSupervisor, updateSupervisor } from "../libs/supervisor/supervisor";
+import { createSupervisors, getAllSupervisors, getSupervisorById, deleteSupervisor, updateSupervisor } from "../libs/supervisor/supervisor";
 
 const supervisorRouter = Router();
 
 supervisorRouter.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await createSupervisor(req, res, next);
+    await getAllSupervisors(req, res, next);
 }))
 
 supervisorRouter.post('/create', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    await getAllSupervisors(req, res, next);
+    await createSupervisors(req, res, next);
 }))
 
 

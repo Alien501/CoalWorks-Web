@@ -75,7 +75,7 @@ export const SectionTable = ({sortColumn, sortOrder, handleSort, sectionData, de
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
-                                        <DropdownMenuLabel>Actionssss</DropdownMenuLabel>
+                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                         <DropdownMenuItem>Edit Section</DropdownMenuItem>
                                         <DropdownMenuItem>View Details</DropdownMenuItem>
                                         <DropdownMenuSeparator />

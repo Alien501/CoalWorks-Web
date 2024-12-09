@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 
-const formData = [
+export const formData = [
     {
         "formName": "Shift-wise Production Report (Under Ground)",
         "formNo": "Form 1-A",

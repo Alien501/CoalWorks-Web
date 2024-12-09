@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,13 +10,18 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
-import { Dialog, DialogHeader, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogHeader, DialogContent, DialogFooter, DialogTrigger, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { v4 as uuidv4 } from 'uuid'
 import { ChevronLeft, Plus, Pencil, Trash2, MoreVertical, GripVertical } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { fetchSections } from "@/utils/fetchSections"
 import { fetchPositions } from "@/utils/fetchPosition"
 import { fetchAllRoles } from "@/utils/fetchAllRoles"
+import { Sparkles } from "lucide-react"
+import { formData } from "./YellowBook"
+import { dummyAiResponse } from "@/lib/dummyAiResponse"
+import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
+import { DynamicFormGenerator } from "@/components/custom/dynamicFormGenerator"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date'
 
@@ -45,6 +48,8 @@ interface FormTemplateBasicInfo {
 
 export default function FormTemplateBuilder() {
     const [currentStep, setCurrentStep] = useState(1)
+    const [selectedRole, setSelectedRole] = useState<string | null>(null);
+    const [selectedForm, setSelectedForm] = useState<string | null>(null);
     const [basicInfo, setBasicInfo] = useState<FormTemplateBasicInfo>({
         name: '',
         section: '',
@@ -145,6 +150,8 @@ export default function FormTemplateBuilder() {
     const [editFieldModalOpen, setEditFieldModalOpen] = useState(false)
     const [currentSection, setCurrentSection] = useState<FormSection | null>(null)
     const [currentField, setCurrentField] = useState<FormField | null>(null)
+    const [userQuery, setuserQuery] = useState("")
+    const [aiResponse, setAiResponse] = useState(null)
 
     const addSection = () => {
         const newSection: FormSection = {
@@ -167,7 +174,7 @@ export default function FormTemplateBuilder() {
     const updateSection = () => {
         if (!currentSection) return
 
-        setSections(sections.map(section => 
+        setSections(sections.map(section =>
             section.id === currentSection.id ? currentSection : section
         ))
         setEditSectionModalOpen(false)
@@ -186,6 +193,12 @@ export default function FormTemplateBuilder() {
                 ? { ...section, fields: [...section.fields, newField] }
                 : section
         ))
+    }
+
+    async function onAIGenerate(){
+        const queryString = `Make me a shift log template for ${selectedRole} that will help me to fill ${selectedForm}, ${userQuery}`
+        console.log("reaches")
+        setAiResponse(dummyAiResponse)
     }
 
     const deleteField = (sectionId: string, fieldId: string) => {
@@ -213,7 +226,7 @@ export default function FormTemplateBuilder() {
             if (section.id === currentSection.id) {
                 return {
                     ...section,
-                    fields: section.fields.map(field => 
+                    fields: section.fields.map(field =>
                         field.id === currentField.id ? currentField : field
                     )
                 }
@@ -226,14 +239,14 @@ export default function FormTemplateBuilder() {
     useEffect(() => {
         const getAndSetAllSections = async () => {
             const d = await fetchSections();
-            if(d) {
+            if (d) {
                 setMineSections(d);
             }
         }
 
         const getAndSetRoles = async () => {
             const d = await fetchAllRoles();
-            if(d) {
+            if (d) {
                 setRoles(d)
             }
         }
@@ -247,15 +260,81 @@ export default function FormTemplateBuilder() {
             <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h2 className="text-2xl font-semibold">Build Your Form</h2>
+                        <h2 className="text-2xl font-semibold">Build Your Log Template</h2>
                         <p className="text-muted-foreground">Create sections and add fields to your form template</p>
                     </div>
-                    <Button onClick={addSection} variant="outline">
-                        <Plus className="w-4 h-4 mr-2" /> Add Section
-                    </Button>
+                    <div className="flex items-center justify-center space-x-5">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button>
+                                    <Sparkles className="w-4 h-4 " /> Generate with AI
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px]">
+                                <DialogHeader>
+                                    <DialogTitle>Generate form with AI</DialogTitle>
+                                    <DialogDescription>
+                                        Fill all the details
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="position" className="text-right">
+                                            Position
+                                        </Label>
+                                        <Select onValueChange={(value) => setSelectedRole(value)}>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Position" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {
+                                                    roles.map(role => (
+                                                        <SelectItem value={role.roleName}>{role.roleName}</SelectItem>
+                                                    ))
+                                                }
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="formname" className="text-right">
+                                            Which Form in yellow book
+                                        </Label>
+                                        <Select onValueChange={(value) => setSelectedForm(value)}>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder="Form No." />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {
+                                                    formData.map(form => (
+                                                        <SelectItem value={form.formNo}>{form.formNo}</SelectItem>
+                                                    ))
+                                                }
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="query" className="text-right">
+                                            How do you need the form
+                                        </Label>
+                                        <Input
+                                            id="query"
+                                            className="col-span-3"
+                                            onChange={(e)=> setuserQuery(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button onClick={onAIGenerate}>Generate</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                        <Button onClick={addSection} variant="outline">
+                            <Plus className="w-4 h-4 mr-2" /> Add Section
+                        </Button>
+                    </div>
                 </div>
 
-                {sections.map((section) => (
+                {aiResponse!= null ?sections.map((section) => (
                     <Card key={section.id} className="border">
                         <div className="bg-blue-600 text-white p-4 rounded-t-lg flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -325,7 +404,9 @@ export default function FormTemplateBuilder() {
                             </Button>
                         </CardContent>
                     </Card>
-                ))}
+                )): (
+                    <DynamicFormGenerator formData={aiResponse}></DynamicFormGenerator>
+                )}
 
                 <Dialog open={editSectionModalOpen} onOpenChange={setEditSectionModalOpen}>
                     <DialogContent>
@@ -335,10 +416,10 @@ export default function FormTemplateBuilder() {
                         {currentSection && (
                             <div className="space-y-4">
                                 <Label>Section Title</Label>
-                                <Input 
+                                <Input
                                     value={currentSection.title}
                                     onChange={(e) => setCurrentSection({
-                                        ...currentSection, 
+                                        ...currentSection,
                                         title: e.target.value
                                     })}
                                 />
@@ -364,10 +445,10 @@ export default function FormTemplateBuilder() {
                             <div className="space-y-4">
                                 <div className="space-y-2">
                                     <Label>Field Label</Label>
-                                    <Input 
+                                    <Input
                                         value={currentField.label}
                                         onChange={(e) => setCurrentField({
-                                            ...currentField, 
+                                            ...currentField,
                                             label: e.target.value
                                         })}
                                     />
@@ -377,7 +458,7 @@ export default function FormTemplateBuilder() {
                                     <Select
                                         value={currentField.type}
                                         onValueChange={(value: FieldType) => setCurrentField({
-                                            ...currentField, 
+                                            ...currentField,
                                             type: value
                                         })}
                                     >
@@ -395,11 +476,11 @@ export default function FormTemplateBuilder() {
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="flex items-center gap-2">
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             checked={currentField.required}
                                             onChange={(e) => setCurrentField({
-                                                ...currentField, 
+                                                ...currentField,
                                                 required: e.target.checked
                                             })}
                                         />
@@ -409,10 +490,10 @@ export default function FormTemplateBuilder() {
                                 {currentField.type === 'select' && (
                                     <div className="space-y-2">
                                         <Label>Options (comma-separated)</Label>
-                                        <Input 
+                                        <Input
                                             value={currentField.options?.join(', ') || ''}
                                             onChange={(e) => setCurrentField({
-                                                ...currentField, 
+                                                ...currentField,
                                                 options: e.target.value.split(',').map(opt => opt.trim())
                                             })}
                                         />
@@ -472,7 +553,7 @@ export default function FormTemplateBuilder() {
     useEffect(() => {
         const getAndSetAllSections = async () => {
             const d = await fetchSections();
-            if(d) {
+            if (d) {
                 setMineSections(d);
             }
             return false;
@@ -480,7 +561,7 @@ export default function FormTemplateBuilder() {
 
         const getAndSetRoles = async () => {
             const d = await fetchAllRoles();
-            if(d) {
+            if (d) {
                 console.log(d)
                 setRoles(d)
             }

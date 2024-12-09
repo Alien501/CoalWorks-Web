@@ -22,6 +22,7 @@ import { formData } from "./YellowBook"
 import { dummyAiResponse } from "@/lib/dummyAiResponse"
 import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
 import DynamicFormGenerator  from "@/components/custom/dynamicFormGenerator"
+import axios from "axios"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date'
 
@@ -45,6 +46,70 @@ interface FormTemplateBasicInfo {
     section: string
     position: string
 }
+
+interface AIFormField {
+    label: string;
+    name: string;
+    type: string;
+    description?: string;
+    placeholder?: string;
+    required: boolean;
+    value?: string;
+    checked?: boolean;
+    options?: { label: string; value: string }[];
+}
+
+interface AIFormSection {
+    section_name: string;
+    section_description?: string;
+    fields: AIFormField[];
+}
+
+interface AIFormTemplate {
+    form_name: string;
+    form_description: string;
+    sections: AIFormSection[];
+}
+
+function convertCustomFormToAITemplate(
+    customSections: CustomFormSection[], 
+    formName: string = 'Custom Form', 
+    formDescription: string = 'Automatically generated form'
+): AIFormTemplate {
+    return {
+        form_name: formName,
+        form_description: formDescription,
+        sections: customSections.map((section, sectionIndex) => ({
+            section_name: section.title,
+            section_description: `Section ${sectionIndex + 1} details`,
+            fields: section.fields.map(field => ({
+                label: field.label,
+                name: field.label.toLowerCase().replace(/\s+/g, '_'),
+                type: convertFieldType(field.type),
+                description: `${field.label} field`,
+                placeholder: field.placeholder || `Enter ${field.label.toLowerCase()}`,
+                required: field.required,
+                value: '',
+                checked: true,
+                // Only add options for select type
+                ...(field.type === 'select' ? { options: [] } : {})
+            }))
+        }))
+    }
+}
+
+function convertFieldType(customType: string): string {
+    const typeMapping: { [key: string]: string } = {
+        'text': 'Text',
+        'number': 'Number',
+        'textarea': 'Textarea',
+        'checkbox': 'Checkbox',
+        'date': 'Date Picker',
+        'select': 'Select'
+    }
+    return typeMapping[customType] || 'Text'
+}
+
 
 export default function FormTemplateBuilder() {
     const [currentStep, setCurrentStep] = useState(1)
@@ -254,6 +319,14 @@ export default function FormTemplateBuilder() {
             return section
         }))
         setEditFieldModalOpen(false)
+    }
+
+    const onSaveTemplateButtonClicked = async () => {
+        const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
+        console.log(formatedTemplate)
+        const res = await axios.post('/api/data/shifttemplate/create', {
+            shiftId: basicInfo.
+        })
     }
 
     useEffect(() => {
@@ -539,7 +612,7 @@ export default function FormTemplateBuilder() {
                     >
                         <ChevronLeft className="w-4 h-4 mr-2" /> Back
                     </Button>
-                    <Button>Save Template</Button>
+                    <Button onClick={onSaveTemplateButtonClicked}>Save Template</Button>
                 </div>
             </div>
         )

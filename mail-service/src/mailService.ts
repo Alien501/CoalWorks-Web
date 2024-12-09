@@ -2,6 +2,9 @@ import nodemailer from 'nodemailer';
 import { prisma } from '../../server2//src/utils/prisma'
 import { createTransport } from 'nodemailer';
 import schedule from 'node-schedule';
+import { config } from 'dotenv';
+
+config();
 
 interface MailOptions {
   recipients: string[];
@@ -15,6 +18,10 @@ interface MailOptions {
 class MailService {
   private transporter: nodemailer.Transporter;
   constructor() {
+      console.log(process.env.SMTP_HOST)
+      console.log(process.env.SMTP_PORT)
+      console.log(process.env.SMTP_USER)
+      console.log(process.env.SMTP_PASS)
       this.transporter = createTransport({
         // @ts-ignore
       host: process.env.SMTP_HOST || 'smtp.google.com',
@@ -68,7 +75,6 @@ class MailService {
               html: task.body,
               attachments: task.attachments ? JSON.parse(task.attachments as string) : undefined
             });
-            console.log(info)
             return prisma.mailLog.create({
               data: {
                 mailTaskId: taskId,
@@ -78,7 +84,6 @@ class MailService {
               }
             });
           } catch (error) {
-            console.log(error)
             return prisma.mailLog.create({
               data: {
                 mailTaskId: taskId,

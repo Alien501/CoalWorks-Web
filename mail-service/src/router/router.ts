@@ -11,7 +11,7 @@ const mailSchema = z.object({
   recipients: z.array(z.string().email()),
   subject: z.string().min(1, "Subject is required"),
   body: z.string().min(1, "Body is required"),
-  scheduledFor: z.date().optional(),
+  scheduledFor: z.string().optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).optional(),
   attachments: z.array(z.object({
     filename: z.string(),

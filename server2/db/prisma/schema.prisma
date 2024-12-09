@@ -352,3 +352,44 @@ model RiskAssesment {
   riskValue      Float
   riskContolPlan Json
 }
+
+
+enum MailStatus {
+  PENDING
+  QUEUED
+  PROCESSING
+  SENT
+  FAILED
+}
+
+enum MailPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model MailTask {
+  id            String       @id @default(cuid())
+  recipients    String[]
+  subject       String
+  body          String       @db.Text
+  attachments   Json?
+  scheduledFor  DateTime?
+  status        MailStatus   @default(PENDING)
+  priority      MailPriority @default(MEDIUM)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  mailLogs      MailLog[]
+}
+
+model MailLog {
+  id            String    @id @default(cuid())
+  mailTaskId    String
+  recipient     String
+  status        MailStatus
+  sentAt        DateTime?
+  errorMessage  String?
+  
+  mailTask      MailTask  @relation(fields: [mailTaskId], references: [id])
+}

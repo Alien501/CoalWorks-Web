@@ -2,14 +2,18 @@ import express from 'express'
 import { config } from "dotenv";
 import morgan from 'morgan';
 import { handleError } from './middleware/handleError';
-import { router } from './router/router';
+import router from './router/router';
+import cors from 'cors';
+
 config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 3001;
 
+app.use(cors());
+app.use(express.json())
 app.use(morgan('short'));
-app.get('/api/v1/mail', router);
+app.use('/api/v1/mail', router);
 
 app.use(handleError);
 

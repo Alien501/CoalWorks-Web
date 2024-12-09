@@ -25,6 +25,10 @@ const sendBulkMail = async (req: Request, res: Response) => {
     })
 }
 
+const scheduleMail =  () => {
+    cron
+}
+
 export {
     sendBulkMail
 }

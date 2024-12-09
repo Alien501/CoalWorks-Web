@@ -21,7 +21,7 @@ import { Sparkles } from "lucide-react"
 import { formData } from "./YellowBook"
 import { dummyAiResponse } from "@/lib/dummyAiResponse"
 import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
-import { DynamicFormGenerator } from "@/components/custom/dynamicFormGenerator"
+import DynamicFormGenerator  from "@/components/custom/dynamicFormGenerator"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date'
 
@@ -198,6 +198,26 @@ export default function FormTemplateBuilder() {
     async function onAIGenerate(){
         const queryString = `Make me a shift log template for ${selectedRole} that will help me to fill ${selectedForm}, ${userQuery}`
         console.log("reaches")
+        //make the api call here
+        //generate a unique string here to set as a key to the response
+        //the dummy ai response is something like this now
+
+
+        // export const dummyAiResponse = {
+        //     form_name: "Coal Mine Blasting Operation Record",
+        //     form_description:
+        //       "Comprehensive documentation of coal mine blasting operations, adhering to Indian mining safety standards.",
+        //     sections: [
+        //       {
+        //         section_name: "General Information",
+        //         section_description: "Basic details about the blasting operation.",
+        //         fields: [
+        //           {
+        //             label: "Mine Name",
+        //             name: "mine_name",
+        // set this key in the qr code route params /form/:uniquekey
+        // when some one hits this route it should fetch the unique and search it in the database and get the formdata and render the form on the screen
+        //when he fills this form and submit it store the formData along with response in a state
         setAiResponse(dummyAiResponse)
     }
 
@@ -334,7 +354,7 @@ export default function FormTemplateBuilder() {
                     </div>
                 </div>
 
-                {aiResponse!= null ?sections.map((section) => (
+                {aiResponse=== null ?sections.map((section) => (
                     <Card key={section.id} className="border">
                         <div className="bg-blue-600 text-white p-4 rounded-t-lg flex items-center justify-between">
                             <div className="flex items-center gap-2">

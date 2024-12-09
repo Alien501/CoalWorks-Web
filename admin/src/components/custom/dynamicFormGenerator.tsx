@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import QRCode from 'qrcode';
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CalendarIcon, QrCode } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -34,15 +36,17 @@ type FormStructure = {
   sections: FormSection[];
 };
 
-export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ formData }) => {
+export default function DynamicFormGenerator({ formData, qrCodeUrl }) {
+  console.log(formData);
   // State to manage form values
   const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
+  const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
 
   // Generic change handler for inputs
   const handleChange = (name: string, value: any) => {
-    setFormValues(prev => ({
+    setFormValues((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -58,7 +62,7 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
             required={field.required}
           />
         );
-      
+
       case 'Textarea':
         return (
           <Textarea
@@ -68,7 +72,7 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
             required={field.required}
           />
         );
-      
+
       case 'Number':
         return (
           <Input
@@ -79,10 +83,10 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
             required={field.required}
           />
         );
-      
+
       case 'Select':
         return (
-          <Select 
+          <Select
             onValueChange={(value) => handleChange(field.name, value)}
             value={formValues[field.name] || undefined}
           >
@@ -98,27 +102,7 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
             </SelectContent>
           </Select>
         );
-      
-      case 'Multi Select':
-        // Note: This would typically require a multi-select component
-        return (
-          <Select 
-            onValueChange={(value) => handleChange(field.name, value)}
-            value={formValues[field.name] || undefined}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder={field.placeholder} />
-            </SelectTrigger>
-            <SelectContent>
-              {field.options?.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
-      
+
       case 'Date Picker':
         return (
           <Popover>
@@ -131,10 +115,9 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {formValues[field.name] 
+                {formValues[field.name]
                   ? format(formValues[field.name], "PPP")
-                  : <span>{field.placeholder}</span>
-                }
+                  : <span>{field.placeholder}</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -147,9 +130,20 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
             </PopoverContent>
           </Popover>
         );
-      
+
       default:
         return <Input placeholder={field.placeholder} />;
+    }
+  };
+
+  // Generate QR Code
+  const generateQRCode = async () => {
+    const shareableLink = `http://localhost:5173/form/${qrCodeUrl}`;
+    try {
+      const qrCode = await QRCode.toDataURL(shareableLink);
+      setQrCodeImage(qrCode);
+    } catch (err) {
+      console.error("Failed to generate QR code:", err);
     }
   };
 
@@ -157,16 +151,50 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form Submitted', formValues);
-    // Add your submission logic here
   };
-
   return (
     <div className="max-w-4xl mx-auto p-6 shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">{formData.form_name}</h1>
-      <p className="text-muted-foreground mb-6">{formData.form_description}</p>
-      
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <h1 className="text-2xl font-bold">{formData.form_name}</h1>
+          <p className="text-muted-foreground">{formData.form_description}</p>
+        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" onClick={generateQRCode}>
+              <QrCode className="mr-2 h-4 w-4" /> Generate Share Link
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Shareable Form Link</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col items-center space-y-4">
+              {qrCodeImage && (
+                <>
+                  <img src={qrCodeImage} alt="QR Code" className="w-64 h-64" />
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      value={`http://localhost:5173/form/${qrCodeUrl}`}
+                      readOnly
+                      className="w-full"
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => navigator.clipboard.writeText(qrCodeImage)}
+                    >
+                      Copy
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-6">
-        {formData.sections.map((section, sectionIndex) => (
+        {formData?.sections?.map((section, sectionIndex) => (
           <div key={sectionIndex} className="border-b pb-6">
             <h2 className="text-xl font-semibold mb-4">{section.section_name}</h2>
             {section.section_description && (
@@ -188,9 +216,9 @@ export const DynamicFormGenerator: React.FC<{ formData: FormStructure }> = ({ fo
             </div>
           </div>
         ))}
-        
+
         <Button type="submit" className="w-full">Submit Form</Button>
       </form>
     </div>
   );
-};
+}

@@ -171,8 +171,8 @@ export function AddHazardModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="h-10 w-10 rounded-full" variant='secondary'>
-          <Plus/>
+        <Button className="">
+          Add Hazard
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">

@@ -40,7 +40,8 @@ import RiskMatrix from './pages/RiskMatrixs'
 import { ShiftTemplateCard } from './components/custom/shiftTemplateCard'
 import { ShiftTemplates } from './pages/ShiftTemplates'
 import CreateShiftTemplate from './pages/CreateShiftTemplate'
-import YellowBook from './pages/YellowBook'
+import FormPage from './pages/FormPage'
+import { OperatorResponseForm } from './components/operatorResponseForm'
 
 interface ErrorPageProps {
   error: Error & { digest?: string }
@@ -210,10 +211,11 @@ function App() {
           path: '/risk-matrix',
           element: <RiskMatrix />
         },
-        {
-          path: '/yellow-book',
-          element: <YellowBook />
-        }
+        // {
+        //   path: '/form/:uniqueKey',
+        //   element: <OperatorResponseForm />
+        // },
+
       ]
     },
     {

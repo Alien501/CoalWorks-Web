@@ -17,7 +17,7 @@ class MailService {
   constructor() {
       this.transporter = createTransport({
         // @ts-ignore
-      host: process.env.SMTP_HOST || 'smtp.google.com',
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.SMTP_PORT || '587'),
       secure: false,
       auth: {

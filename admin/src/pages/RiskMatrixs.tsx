@@ -10,6 +10,15 @@ import { toast } from "sonner";
 import axios from "axios";
 import { fetchAllRiskMatrix } from "@/utils/fetchAllRiskMatrix";
 import { fetchAllHazards } from "@/utils/fetchAllHazards";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 const RiskMatrix = () => {
   const [step, setStep] = useState(0);
@@ -21,7 +30,7 @@ const RiskMatrix = () => {
   });
   const [riskMatrix, setRiskMatrix] = useState([]);
   const [hazards, setHazards] = useState([]);
-  const [currentMatrix, setCurrentMatrix] = useState();
+  const [currentMatrix, setCurrentMatrix] = useState(null); // New state to store the selected matrix
 
   const updateMatrixData = (key, value) => {
     setMatrixData((prev) => ({ ...prev, [key]: value }));
@@ -29,109 +38,132 @@ const RiskMatrix = () => {
 
   const onRiskValueChanged = (e) => {
     console.log(e.target.name);
-    console.log(e.target.value)
-  }
+    console.log(e.target.value);
+  };
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSaveRiskMatrixClicked = async () => {
-    console.log(matrixData)
+    console.log(matrixData);
     const res = await axios.post('/api/data/smp', matrixData);
-    if(res.status == 200){
+    if (res.status === 200) {
       console.log(res.data);
       toast.success("Risk Matrix created successfully!");
-      setMatrixData(() => {
-        return {
-          dimensions: { row: 0, col: 0 },
-          consequences: [],
-          probability: [],
-          exposure: [],
-        }
+      setMatrixData({
+        dimensions: { row: 0, col: 0 },
+        consequences: [],
+        probability: [],
+        exposure: [],
       });
       setStep(0);
-    }else{
-      toast.error('Something went wrong while creating a Risk Matrix')
+    } else {
+      toast.error('Something went wrong while creating a Risk Matrix');
     }
-  }
+  };
 
   const renderStep = () => {
     switch (step) {
       case 0:
-        return(
-          <div className="w-full h-full grid grid-cols-2 gap-2">
-            <div className="p-2">
-              <div className="flex justify-between items-center h-16 p-1">
-                <p>Created Risk Matrix</p>
-                {
-                  riskMatrix.length < 1 &&
-                  <Button className="h-10 w-10 rounded-full" variant='secondary' onClick={nextStep}><PlusIcon /></Button>
-                }
-              </div>
-              <div>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>ID</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Row</TableHead>
-                      <TableHead>Column</TableHead>
-                      <TableHead></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {riskMatrix.length !== 0 && riskMatrix.map(risk => (
-                      <TableRow onClick={() => {
-                        setCurrentMatrix(risk);
-                        setStep(5)
-                      }}>
-                        <TableCell>{risk.id}</TableCell>
-                        <TableCell>{risk.name}</TableCell>
-                        <TableCell>{risk.row}</TableCell>
-                        <TableCell>{risk.col}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-            <div className="p-2">
-              <div>
+        if (!currentMatrix) {
+          return (
+            <div className="w-full h-full grid grid-cols-2 gap-2">
+              <div className="p-2">
                 <div className="flex justify-between items-center h-16 p-1">
-                  <p>Hazards</p>
-                  <AddHazardModal />
-                </div>
-                <div>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>Activity</TableHead>
-                        <TableHead>Hazard</TableHead>
-                        <TableHead>Mechanism</TableHead>
-                        <TableHead>Risk Value</TableHead>
-                        <TableHead></TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {
-                        hazards.map(hazard => (
-                          <TableRow>
-                            <TableCell>{hazard.id}</TableCell>
-                            <TableCell>{hazard.activity}</TableCell>
-                            <TableCell>{hazard.hazard}</TableCell>
-                            <TableCell>{hazard.Mechanism}</TableCell>
-                            <TableCell>{hazard.riskValue}</TableCell>
-                          </TableRow>
-                        ))
-                      }
-                    </TableBody>
-                  </Table>
+                  {
+                    riskMatrix.length < 1 &&
+                    <Button className="" onClick={nextStep}><PlusIcon />Create Risk Matrix</Button>
+                  }
                 </div>
               </div>
+              {/* <div className="p-2">
+                <div>
+                  <div className="flex justify-between items-center h-16 p-1">
+                    <p>Hazards</p>
+                    <AddHazardModal />
+                  </div>
+                  <div>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>ID</TableHead>
+                          <TableHead>Activity</TableHead>
+                          <TableHead>Hazard</TableHead>
+                          <TableHead>Mechanism</TableHead>
+                          <TableHead>Risk Value</TableHead>
+                          <TableHead></TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {
+                          hazards.map(hazard => (
+                            <TableRow key={hazard.id}>
+                              <TableCell>{hazard.id}</TableCell>
+                              <TableCell>{hazard.activity}</TableCell>
+                              <TableCell>{hazard.hazard}</TableCell>
+                              <TableCell>{hazard.Mechanism}</TableCell>
+                              <TableCell>{hazard.riskValue}</TableCell>
+                            </TableRow>
+                          ))
+                        }
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+              </div> */}
             </div>
-          </div>
-        );
+          );
+        } else {
+          return (
+            <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
+              <div className="flex justify-end items-center mb-3 space-x-3">
+                <Button onClick={nextStep}>Configure Risk Matrix</Button>
+                <AddHazardModal></AddHazardModal>
+                <Dialog>
+                  <DialogTrigger><Button>View Hazards</Button></DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Here are the potential hazard you have created</DialogTitle>
+                      <DialogDescription>
+                        <div>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>ID</TableHead>
+                                <TableHead>Activity</TableHead>
+                                <TableHead>Hazard</TableHead>
+                                <TableHead>Mechanism</TableHead>
+                                <TableHead>Risk Value</TableHead>
+                                <TableHead></TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {
+                                hazards.map(hazard => (
+                                  <TableRow key={hazard.id}>
+                                    <TableCell>{hazard.id}</TableCell>
+                                    <TableCell>{hazard.activity}</TableCell>
+                                    <TableCell>{hazard.hazard}</TableCell>
+                                    <TableCell>{hazard.Mechanism}</TableCell>
+                                    <TableCell>{hazard.riskValue}</TableCell>
+                                  </TableRow>
+                                ))
+                              }
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+
+              </div>
+              <div>
+                <FinalMatrix data={currentMatrix} onPrev={() => setStep(0)} />
+              </div >
+            </div >
+          )
+        }
       case 1:
         return (
           <CreateMatrix
@@ -158,7 +190,6 @@ const RiskMatrix = () => {
             title="Consequences"
             data={matrixData.consequences}
             count={matrixData.dimensions.col}
-            // onChange={}
             onNext={(data) => {
               updateMatrixData("consequences", data);
               nextStep();
@@ -201,8 +232,6 @@ const RiskMatrix = () => {
             onPrev={prevStep}
           />
         );
-      case 5:
-        return <FinalMatrix data={currentMatrix} onPrev={() => setStep(0)} />;
       default:
         return null;
     }
@@ -211,48 +240,40 @@ const RiskMatrix = () => {
   useEffect(() => {
     const getAndSetRiskMatrix = async () => {
       const d = await fetchAllRiskMatrix();
-      if(d) {
+      if (d) {
         setRiskMatrix(d);
+        if (d.length > 0) {
+          setCurrentMatrix(d[d.length - 1]); // Set the first matrix as the default
+        }
         return true;
       }
       return false;
-    }
+    };
 
     const getAndSetHazards = async () => {
       const d = await fetchAllHazards();
-      if(d) {
+      if (d) {
         const sortedHazards = d.sort((a, b) => b.riskValue - a.riskValue);
         setHazards(sortedHazards);
         return true;
       }
       return false;
-    }
+    };
 
-    const d = getAndSetRiskMatrix();
-    if(d) {
-      toast.success("Data fetched successfully")
-    }else{
-      toast.error("Something went wrong while fetching data");
-    }
+    getAndSetRiskMatrix();
+    getAndSetHazards();
+  }, []);
 
-    const d1 = getAndSetHazards();
-    if(d1) {
-      toast.success('Fetched hazards successfully!')
-    } else {
-      toast.message("Something went wrong!")
-    }
-  }, [])
   return (
     <section id="riskmatrix-page" className="bg-background border-none h-[87vh]">
       <div className="container h-full mx-auto py-8">
         <div className="h-16 flex justify-between items-center p-2">
-            <h1 className="text-3xl font-bold mb-8 text-center">Safety Management Plan</h1>
-            {/* <AddHazardModal /> */}
+          <h1 className="text-3xl font-bold mb-8 text-center">Safety Management Plan</h1>
         </div>
         <div className="flex items-center justify-center h-full">{renderStep()}</div>
       </div>
     </section>
-  );
+  )
 };
 
 export default RiskMatrix;

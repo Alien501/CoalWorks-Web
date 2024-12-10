@@ -1,33 +1,49 @@
-import ShiftHandoverTable from "@/components/custom/shiftHandoverTable"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
-import { Link } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent } from "@/components/ui/card"
-export const ShiftHandover = () => {
-    const navigate = useNavigate();
+import { Button } from "@/components/ui/button"
+import { ClipboardList, FileText } from 'lucide-react'
 
-    return (
-        <section id="round-plan" className="h-[88vh] overflow-hidden">
-            <div className="h-20 flex items-center justify-center">
-                <h1 className="text-3xl font-bold">Manage Shifts</h1>
-            </div>
-            <div className="h-full grid grid-cols-2 place-content-center place-items-center">
-                <Card onClick={() => navigate('/shift-handover')} className="w-60 h-60 hover:cursor-pointer hover:shadow-lg hover:bg-azure-radiance-500">
-                    <CardContent className="flex items-center justify-center h-full">
-                        <h1 className="font-bold text-2xl text-center">Shift Handover</h1>
-                    </CardContent>
-                </Card>
-                <Card onClick={() => navigate('/shift-templates')} className="w-60 h-60 hover:cursor-pointer hover:shadow-lg hover:bg-azure-radiance-500">
-                    <CardContent className="flex items-center justify-center h-full">
-                        <h1 className="font-bold text-2xl text-center">Shift-log template</h1>
-                    </CardContent>
-                </Card>
-            </div>
-        </section>
-    )
+export const ShiftHandover = () => {
+  const navigate = useNavigate()
+
+  return (
+    <section className="container mx-auto px-4 py-8 h-screen flex flex-col">
+      <h1 className="text-4xl font-bold text-center mb-12">Manage Shifts</h1>
+      <div className="flex-1 flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Card className="w-72 h-72 transition-all duration-300 hover:shadow-xl group">
+            <CardContent className="p-6 h-full flex flex-col items-center justify-center space-y-4">
+              <ClipboardList className="w-16 h-16 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+              <h2 className="text-2xl font-semibold text-center group-hover:text-primary-foreground transition-colors duration-300">Shift Handover</h2>
+              <Button 
+                variant="outline" 
+                className="mt-4 w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+                onClick={() => navigate('/shift-handover')}
+              >
+                View Handovers
+              </Button>
+            </CardContent>
+          </Card>
+          <Card className="w-72 h-72 transition-all duration-300 hover:shadow-xl group">
+            <CardContent className="p-6 h-full flex flex-col items-center justify-center space-y-4">
+              <FileText className="w-16 h-16 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+              <h2 className="text-2xl font-semibold text-center group-hover:text-primary-foreground transition-colors duration-300">Shift-log Template</h2>
+              <Button 
+                variant="outline" 
+                className="mt-4 w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+                onClick={() => navigate('/shift-templates')}
+              >
+                Manage Templates
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+  )
 }
+
+
 // <div id="ShiftHandover-wrapper " className=" font-poppins px-[100px]">
 //     <div className="mt-24 pb-2 flex justify-between items-center px-2 h-12 ">
 //         <span className="font-semibold text-2xl">Shift Handovers</span>

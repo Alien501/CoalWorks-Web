@@ -24,7 +24,7 @@ const createRiskAssesment =  async (req: Request, res: Response) => {
   try {
     const data = RiskAssessmentSchema.parse(req.body);
     const riskAssessment = await prisma.riskAssesment.create({
-      data,
+      data: data
     });
     res.status(201).json(riskAssessment);
   } catch (err: any) {

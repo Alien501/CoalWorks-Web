@@ -46,6 +46,7 @@ interface FormTemplateBasicInfo {
     name: string
     section: string
     position: string
+    duedate: string
 }
 
 interface AIFormField {
@@ -121,7 +122,8 @@ export default function ControlPlanTemplateBuilder() {
     const [basicInfo, setBasicInfo] = useState<FormTemplateBasicInfo>({
         name: '',
         section: '',
-        position: ''
+        position: '',
+        duedate: '',
     })
     const [sections, setSections] = useState<FormSection[]>([
         {
@@ -208,9 +210,21 @@ export default function ControlPlanTemplateBuilder() {
                             </SelectContent>
                         </Select>
                     </div>
+                    <div className="space-y-2">
+                        <Label>Due Date</Label>
+                        <Input
+                            type="date"
+                            name="dudate"
+                            onChange={(e) => handleInputChange('duedate', e.target.value)}
+                        />
+                    </div>
                     <div className="flex justify-end space-x-2">
                         <Button
-                            onClick={() => setCurrentStep(2)}
+                            onClick={() => {
+                                console.log(basicInfo);
+                                
+                                setCurrentStep(2)
+                            }}
                             disabled={!isStepValid}
                         >
                             Next

@@ -41,7 +41,9 @@ import { ShiftTemplateCard } from './components/custom/shiftTemplateCard'
 import { ShiftTemplates } from './pages/ShiftTemplates'
 import CreateShiftTemplate from './pages/CreateShiftTemplate'
 import FormPage from './pages/FormPage'
-import { OperatorResponseForm } from './components/operatorResponseForm'
+// import { OperatorResponseForm } from './components/operatorResponseForm'
+import { CreateControlPlan } from './pages/createControlPlan'
+
 
 interface ErrorPageProps {
   error: Error & { digest?: string }
@@ -210,6 +212,10 @@ function App() {
         {
           path: '/risk-matrix',
           element: <RiskMatrix />
+        },
+        {
+          path: '/control-plan/:id',
+          element: <CreateControlPlan />
         },
         // {
         //   path: '/form/:uniqueKey',

@@ -36,7 +36,8 @@ const getAllRiskAssessments =  async (_req: Request, res: Response) => {
   const riskAssessments = await prisma.riskAssesment.findMany({
     include: { section: true },
   });
-  res.status(200).json(riskAssessments);
+  const sortedRiskAssessments = riskAssessments.sort((a, b) => b.riskValue - a.riskValue);
+  res.status(200).json(sortedRiskAssessments);
 };
 
 const getRiskAssessmentByID =  async (req: Request, res: Response) => {

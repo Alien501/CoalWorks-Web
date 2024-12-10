@@ -48,7 +48,6 @@ const RiskMatrix = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSaveRiskMatrixClicked = async (data) => {
-    console.log("Before sending", matrixData);
     const res = await axios.post('/api/data/smp', {
       ...matrixData,
       exposure: data

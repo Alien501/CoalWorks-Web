@@ -23,7 +23,7 @@ import { dummyAiResponse } from "@/lib/dummyAiResponse"
 import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
 import DynamicFormGenerator  from "@/components/custom/dynamicFormGenerator"
 import axios from "axios"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date' | 'image'
 
@@ -149,6 +149,7 @@ export default function ControlPlanTemplateBuilder() {
     ])
     const [mineSections, setMineSections] = useState([])
     const [roles, setRoles] = useState([]);
+    const navigate = useNavigate();
 
     const renderBasicInfoStep = () => {
         const handleInputChange = (field: keyof FormTemplateBasicInfo, value: string) => {
@@ -172,7 +173,9 @@ export default function ControlPlanTemplateBuilder() {
                             onChange={(e) => handleInputChange('name', e.target.value)}
                         />
                     </div>
-                    {/* <div className="space-y-2">
+                    {
+                    /* 
+                    <div className="space-y-2">
                         <Label>Section <span className="text-red-500">*</span></Label>
                         <Select
                             value={basicInfo.section}
@@ -189,7 +192,9 @@ export default function ControlPlanTemplateBuilder() {
                                 }
                             </SelectContent>
                         </Select>
-                    </div> */}
+                    </div>
+                    */
+                    }
                     <div className="space-y-2">
                         <Label>Position</Label>
                         <Select
@@ -218,7 +223,8 @@ export default function ControlPlanTemplateBuilder() {
                             onChange={(e) => handleInputChange('duedate', e.target.value)}
                         />
                     </div>
-                    <div className="flex justify-end space-x-2">
+                    <div className="flex justify-between space-x-2">
+                        <Button variant='secondary' onClick={() => navigate(-1)}><ChevronLeft /> Back</Button>
                         <Button
                             onClick={() => {
                                 console.log(basicInfo);

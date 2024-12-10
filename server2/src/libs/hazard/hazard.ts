@@ -16,8 +16,8 @@ const addhazardActivity = async (req: Request, res: Response) => {
 }
 
 const getHazardActivity = async (req: Request, res: Response) => {
-    const data = prisma.hazardActivity.findMany();
-
+    const data = await prisma.hazardActivity.findMany();
+    console.log(data)
     res.status(200).json(data)
 }
 
@@ -30,7 +30,7 @@ const addHazardHazard = async (req: Request, res: Response) => {
 }
 
 const getHazardHazard = async (req: Request, res: Response) => {
-    const data = prisma.hazardHazard.findMany();
+    const data = await prisma.hazardHazard.findMany();
 
     res.status(200).json(data)
 }
@@ -45,7 +45,7 @@ const addhazardMechanism = async (req: Request, res: Response) => {
 }
 
 const getHazardMechanism = async (req: Request, res: Response) => {
-    const data = prisma.hazardMechanism.findMany();
+    const data = await prisma.hazardMechanism.findMany();
 
     res.status(200).json(data)
 }
@@ -60,7 +60,7 @@ const addExposedGroup = async (req: Request, res: Response) => {
 }
 
 const getExposedGroup = async (req: Request, res: Response) => {
-    const data = prisma.hazardExposedGroup.findMany();
+    const data = await prisma.hazardExposedGroup.findMany();
 
     res.status(200).json(data)
 }

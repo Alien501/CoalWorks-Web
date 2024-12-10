@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CreateMatrix } from "./create-matrix";
 import { InputDetails } from "./input-details";
 import FinalMatrix from "./final-matrix";
-import { AddHazardModal } from "./add-hazard-modal";
+import {AddHazardModal} from "./add-hazard-modal";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";

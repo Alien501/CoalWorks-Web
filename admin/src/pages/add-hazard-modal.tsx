@@ -27,10 +27,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, PlusIcon, Trash2 } from 'lucide-react'
 import { Checkbox } from "@/components/ui/checkbox"
 import { fetchSections } from "@/utils/fetchSections"
 import { toast } from "sonner"
+import { fetchHazardActivity } from "@/utils/fetchHazardActivity"
+import { fetchHazardHazard } from "@/utils/fetchHazardHazard"
+import { fetchHazardMechanism } from "@/utils/fetchHazardMechanism"
+import { fetchHzardExposedGroup } from "@/utils/fetchHazardExposedGroup"
+import { addhazardActivity } from "@/utils/addHazardActivity"
+import { addHazardHazard } from "@/utils/addHazardHazard"
+import { addHazardMechanism } from "@/utils/addHazardMechanism"
+import { addHazardExposedGroup } from "@/utils/addHazardExposedGroup"
 
 interface Section {
   id: number;
@@ -59,7 +67,23 @@ interface RiskAssessmentData {
   riskControlPlan?: ControlRow[];
 }
 
-export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
+const NewHazardTypeModal = ({ title, placeholder, value, onInputChange, onSaveClicked }) => {
+  return (
+    <div>
+      <div className="space-y-2">
+        <Label>Add new {title}</Label>
+        <Input
+          placeholder={placeholder}
+          value={value.name}
+          onChange={(e) => onInputChange(e.target.value)}
+        />
+      </div>
+      <Button onClick={onSaveClicked} className="m-2">Create</Button>
+    </div>
+  )
+}
+
+export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
   const [sections, setSections] = useState<Section[]>([]);
   const [controlRows, setControlRows] = useState<ControlRow[]>([
     { type: '', details: '', person: '', dueDate: '', completed: false }
@@ -67,6 +91,55 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
   const consequence = currentMatrix.RiskValues.filter(rv => rv.type == 'Consequence').map(rv => rv.scale)
   const exposure = currentMatrix.RiskValues.filter(rv => rv.type == 'Exposure').map(rv => rv.scale)
   const probability = currentMatrix.RiskValues.filter(rv => rv.type == 'Probability').map(rv => rv.scale)
+
+  const [activity, setActivity] = useState([]);
+  const [newActivity, setNewActivity] = useState({
+    name: ''
+  })
+  const [hazard, setHazard] = useState([]);
+  const [newHazard, setNewHazard] = useState({
+    name: ''
+  })
+  const [mechanism, setMechanism] = useState([]);
+  const [newMechanism, setNewMechanism] = useState({
+    name: ''
+  })
+  const [exposedGroup, setExposedGroup] = useState([]);
+  const [newExposedGroup, setNewExposedGroup] = useState({
+    name: ''
+  })
+
+  useEffect(() => {
+    const getAndSethazardActivity = async () => {
+      const res = await fetchHazardActivity();
+      if (res) {
+        setActivity(res);
+      }
+    }
+    const getAndSethazardHazard = async () => {
+      const res = await fetchHazardHazard();
+      if (res) {
+        setHazard(res);
+      }
+    }
+    const getAndSethazardMechanism = async () => {
+      const res = await fetchHazardMechanism();
+      if (res) {
+        setMechanism(res);
+      }
+    }
+    const getAndSethazardExposedGroup = async () => {
+      const res = await fetchHzardExposedGroup();
+      if (res) {
+        setExposedGroup(res);
+      }
+    }
+
+    getAndSethazardActivity()
+      .then(() => getAndSethazardHazard())
+      .then(() => getAndSethazardMechanism())
+      .then(() => getAndSethazardExposedGroup())
+  }, [])
 
   const [formData, setFormData] = useState<RiskAssessmentData>({
     activity: '',
@@ -114,12 +187,12 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
   };
 
   const addControlRow = () => {
-    setControlRows([...controlRows, { 
-      type: '', 
-      details: '', 
-      person: '', 
-      dueDate: '', 
-      completed: false 
+    setControlRows([...controlRows, {
+      type: '',
+      details: '',
+      person: '',
+      dueDate: '',
+      completed: false
     }]);
   };
 
@@ -137,7 +210,7 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const completeData = {
         ...formData,
@@ -147,9 +220,9 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
 
       const response = await axios.post('/api/data/smp/ra', completeData);
-      
+
       toast.success("Risk Assessment Created Successfully");
-      
+
       resetForm();
     } catch (error) {
       toast.error("Failed to create Risk Assessment");
@@ -189,20 +262,58 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="activity">Main Activity</Label>
-              <Input
-                type="text"
-                id="activity"
-                placeholder="Enter activity"
-                value={formData.activity}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="flex space-x-1">
+                <Select
+                  value={formData.activity}
+                  onValueChange={(e) => {
+                    setFormData(prev => {
+                      return {
+                        ...prev,
+                        activity: activity.find(a => a.id == e).id
+                      }
+                    })
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Acitivity" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {
+                      activity.map(activity => (
+                        <SelectItem key={activity.id} value={activity.id}>{activity.name}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+                <Dialog>
+                  <DialogTrigger><Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button></DialogTrigger>
+                  <DialogContent>
+                    <NewHazardTypeModal
+                      title={'Activity'}
+                      placeholder={'Enter new Activity'}
+                      onInputChange={(value) => setNewActivity(prev => ({
+                        name: value
+                      }))}
+                      onSaveClicked={async () => {
+                        console.log(newActivity)
+                        const res = await addhazardActivity(newActivity)
+                        if (res) {
+                          toast.success("Activity added successfully");
+                          setActivity(prev => [...prev, res])
+                        }
+                      }}
+                      value={newActivity}
+                    />
+                  </DialogContent>
+                </Dialog>
+
+              </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="section">Section</Label>
-              <Select 
-                value={formData.sectionId.toString()} 
+              <Select
+                value={formData.sectionId.toString()}
                 onValueChange={handleSelectChange('sectionId')}
               >
                 <SelectTrigger id="section">
@@ -220,40 +331,145 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
             <div className="space-y-2">
               <Label htmlFor="hazard">Hazard</Label>
-              <Input 
-                id="hazard" 
-                placeholder="Enter hazard"
-                value={formData.hazard}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="flex space-x-1">
+                <Select
+                  value={formData.hazard}
+                  onValueChange={(e) => {
+                    setFormData(prev => {
+                      return {
+                        ...prev,
+                        hazard: hazard.find(a => a.id == e).id
+                      }
+                    })
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Hazard" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {
+                      hazard.map(hazard => (
+                        <SelectItem key={hazard.id} value={hazard.id}>{hazard.name}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+                <Dialog>
+                  <DialogTrigger><Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button></DialogTrigger>
+                  <DialogContent>
+                    <NewHazardTypeModal
+                      title={'Hazard'}
+                      placeholder={'Enter new Hzazrd'}
+                      onInputChange={(value) => setNewHazard(prev => ({
+                        name: value
+                      }))}
+                      onSaveClicked={async () => {
+                        const res = await addHazardHazard(newHazard)
+                        if (res) {
+                          toast.success("Hazard added successfully");
+                          setHazard(prev => [...prev, res])
+                        }
+                      }}
+                      value={newHazard}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="mechanism">Mechanism</Label>
-              <Input 
-                id="mechanism" 
-                placeholder="Enter mechanism"
-                value={formData.mechanism}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="flex space-x-1">
+                <Select
+                  value={formData.mechanism}
+                  onValueChange={(e) => {
+                    setFormData(prev => {
+                      return {
+                        ...prev,
+                        mechanism: activity.find(a => a.id == e).id
+                      }
+                    })
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Mechanism" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {
+                      mechanism.map(mechanism => (
+                        <SelectItem key={mechanism.id} value={mechanism.id}>{mechanism.name}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+                <Dialog>
+                  <DialogTrigger><Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button></DialogTrigger>
+                  <DialogContent>
+                    <NewHazardTypeModal
+                      title={'Mechanism'}
+                      placeholder={'Enter new Mechanism'}
+                      onInputChange={(value) => setNewMechanism(prev => ({
+                        name: value
+                      }))}
+                      onSaveClicked={async () => {
+                        const res = await addHazardMechanism(newMechanism)
+                        if (res) {
+                          toast.success("Mechanism added successfully");
+                          setMechanism(prev => [...prev, res])
+                        }
+                      }}
+                      value={newMechanism}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="exposedGroup">Exposed Group</Label>
-              <Select 
-                value={formData.exposedGroup} 
-                onValueChange={handleSelectChange('exposedGroup')}
-              >
-                <SelectTrigger id="exposedGroup">
-                  <SelectValue placeholder="Select group" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="production">Production</SelectItem>
-                  <SelectItem value="maintenance">Maintenance</SelectItem>
-                  <SelectItem value="visitors">Visitors</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex space-x-1">
+                <Select
+                  value={formData.exposedGroup}
+                  onValueChange={(e) => {
+                    setFormData(prev => {
+                      return {
+                        ...prev,
+                        exposedGroup: activity.find(a => a.id == e).id
+                      }
+                    })
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Exposed Group" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {
+                      exposedGroup.map(exp => (
+                        <SelectItem key={exp.id} value={exp.id}>{exp.name}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+                <Dialog>
+                  <DialogTrigger><Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button></DialogTrigger>
+                  <DialogContent>
+                    <NewHazardTypeModal
+                      title={'Exposed Group'}
+                      placeholder={'Enter new Exposed Group'}
+                      onInputChange={(value) => setNewExposedGroup(prev => ({
+                        name: value
+                      }))}
+                      onSaveClicked={async () => {
+                        const res = await addHazardExposedGroup(newExposedGroup)
+                        if (res) {
+                          toast.success("Activity added Exposed Group");
+                          setExposedGroup(prev => [...prev, res])
+                        }
+                      }}
+                      value={exposedGroup}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
           </div>
 
@@ -272,8 +488,8 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
           <div className="grid grid-cols-4 gap-4">
             <div className="space-y-2">
               <Label htmlFor="consequence">Consequences</Label>
-              <Select 
-                value={formData.consequence.toString()} 
+              <Select
+                value={formData.consequence.toString()}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, consequence: Number(value) }))}
               >
                 <SelectTrigger id="consequence">
@@ -291,8 +507,8 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
             <div className="space-y-2">
               <Label htmlFor="exposure">Exposure</Label>
-              <Select 
-                value={formData.exposure.toString()} 
+              <Select
+                value={formData.exposure.toString()}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, exposure: Number(value) }))}
               >
                 <SelectTrigger id="exposure">
@@ -310,8 +526,8 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
             <div className="space-y-2">
               <Label htmlFor="probability">Probability</Label>
-              <Select 
-                value={formData.probability.toString()} 
+              <Select
+                value={formData.probability.toString()}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, probability: Number(value) }))}
               >
                 <SelectTrigger id="probability">
@@ -329,10 +545,10 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
             <div className="space-y-2">
               <Label htmlFor="riskLevel">Risk Level</Label>
-              <Input 
-                id="riskLevel" 
-                value={riskValue} 
-                readOnly 
+              <Input
+                id="riskLevel"
+                value={riskValue}
+                readOnly
               />
             </div>
           </div>
@@ -354,7 +570,7 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
                 {controlRows.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell>
-                      <Select 
+                      <Select
                         value={row.type}
                         onValueChange={(value) => updateControlRow(index, 'type', value)}
                       >
@@ -369,14 +585,14 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
                       </Select>
                     </TableCell>
                     <TableCell>
-                      <Input 
-                        placeholder="Enter details" 
+                      <Input
+                        placeholder="Enter details"
                         value={row.details}
                         onChange={(e) => updateControlRow(index, 'details', e.target.value)}
                       />
                     </TableCell>
                     <TableCell>
-                      <Select 
+                      <Select
                         value={row.person}
                         onValueChange={(value) => updateControlRow(index, 'person', value)}
                       >
@@ -391,23 +607,23 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
                       </Select>
                     </TableCell>
                     <TableCell>
-                      <Input 
-                        type="date" 
+                      <Input
+                        type="date"
                         value={row.dueDate}
                         onChange={(e) => updateControlRow(index, 'dueDate', e.target.value)}
                       />
                     </TableCell>
                     <TableCell>
-                      <Checkbox 
+                      <Checkbox
                         checked={row.completed}
                         onCheckedChange={(checked) => updateControlRow(index, 'completed', checked)}
                       />
                     </TableCell>
                     <TableCell>
                       {controlRows.length > 1 && (
-                        <Button 
-                          variant="destructive" 
-                          size="icon" 
+                        <Button
+                          variant="destructive"
+                          size="icon"
                           onClick={() => removeControlRow(index)}
                         >
                           <Trash2 className="h-4 w-4" />

@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
-import { createUser, assignUserToSection } from "../libs/user/createUser";
+import { createUser, assignUserToSection, userLogin } from "../libs/user/createUser";
 import { getAllUsers } from "../libs/user/getUser";
 
 const userRouter = Router();
@@ -177,6 +177,11 @@ userRouter.get('/', asyncHandler(async (req: Request, res: Response, next: NextF
 userRouter.post('/assign-section', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     await assignUserToSection(req, res, next);
 }))
+
+userRouter.post('/login', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    await userLogin(req, res, next);
+}))
+
 
 export {
     userRouter

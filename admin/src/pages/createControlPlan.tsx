@@ -21,9 +21,10 @@ import { Sparkles } from "lucide-react"
 import { formData } from "./YellowBook"
 import { dummyAiResponse } from "@/lib/dummyAiResponse"
 import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
-import DynamicFormGenerator  from "@/components/custom/dynamicFormGenerator"
+import DynamicFormGenerator from "@/components/custom/dynamicFormGenerator"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
+import { toast } from "sonner"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date' | 'image'
 
@@ -74,8 +75,8 @@ interface AIFormTemplate {
 }
 
 function convertCustomFormToAITemplate(
-    customSections: CustomFormSection[], 
-    formName: string = 'Custom Form', 
+    customSections: CustomFormSection[],
+    formName: string = 'Custom Form',
     formDescription: string = 'Automatically generated form'
 ): AIFormTemplate {
     return {
@@ -108,14 +109,14 @@ function convertFieldType(customType: string): string {
         'checkbox': 'Checkbox',
         'date': 'Date Picker',
         'select': 'Select',
-        'image' : 'File Input'
+        'image': 'File Input'
     }
     return typeMapping[customType] || 'Text'
 }
 
 
 export default function ControlPlanTemplateBuilder() {
-    const {id} = useParams()
+    const { id } = useParams()
     const [currentStep, setCurrentStep] = useState(1)
     const [selectedRole, setSelectedRole] = useState<string | null>(null);
     const [selectedForm, setSelectedForm] = useState<string | null>(null);
@@ -174,26 +175,26 @@ export default function ControlPlanTemplateBuilder() {
                         />
                     </div>
                     {
-                    /* 
-                    <div className="space-y-2">
-                        <Label>Section <span className="text-red-500">*</span></Label>
-                        <Select
-                            value={basicInfo.section}
-                            onValueChange={(value) => handleInputChange('section', value)}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select Section" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {
-                                    mineSections.map(section => (
-                                        <SelectItem value={section.id}>{section.name}</SelectItem>
-                                    ))
-                                }
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    */
+                        /* 
+                        <div className="space-y-2">
+                            <Label>Section <span className="text-red-500">*</span></Label>
+                            <Select
+                                value={basicInfo.section}
+                                onValueChange={(value) => handleInputChange('section', value)}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Section" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {
+                                        mineSections.map(section => (
+                                            <SelectItem value={section.id}>{section.name}</SelectItem>
+                                        ))
+                                    }
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        */
                     }
                     <div className="space-y-2">
                         <Label>Position</Label>
@@ -228,7 +229,7 @@ export default function ControlPlanTemplateBuilder() {
                         <Button
                             onClick={() => {
                                 console.log(basicInfo);
-                                
+
                                 setCurrentStep(2)
                             }}
                             disabled={!isStepValid}
@@ -247,6 +248,7 @@ export default function ControlPlanTemplateBuilder() {
     const [currentField, setCurrentField] = useState<FormField | null>(null)
     const [userQuery, setuserQuery] = useState("")
     const [aiResponse, setAiResponse] = useState(null)
+    const [axiosResponse, setaxiosResponse] = useState(null)
 
     const addSection = () => {
         const newSection: FormSection = {
@@ -290,7 +292,7 @@ export default function ControlPlanTemplateBuilder() {
         ))
     }
 
-    async function onAIGenerate(){
+    async function onAIGenerate() {
         const queryString = `Make me a shift log template for ${selectedRole} that will help me to fill ${selectedForm}, ${userQuery}`
         console.log("reaches")
         //make the api call here
@@ -356,7 +358,38 @@ export default function ControlPlanTemplateBuilder() {
         const newFormatedTemplate = [formatedTemplate]
         const res = await axios.put(`/api/data/smp/ra/${id}`, {
             riskControlPlan: newFormatedTemplate
-    })
+        })
+        setaxiosResponse(res)
+        if (res.status === 200) {
+            toast.success("Control Plan Created Successully")
+            const formId = axiosResponse?.data?.id
+
+            const roleId = basicInfo.position;
+            const res = await axios.get(`/api/data/role/${roleId}`)
+            const response = res.data;
+            const emails = response.data
+                .flatMap(role => role.Users) 
+                .map(user => user.email) 
+                .filter(email => email); 
+            const emailResponse = await axios.post("http://localhost:3001/api/v1/mail/send", {
+                recipients: emails,
+                subject: "Please fill out the control plan form",
+                body: `
+                  <p>Dear Team,</p>
+                  <p>Please ensure you fill out the control plan form by the end of the day. Let us know if you have any questions.</p>
+                  <p><strong>Link:</strong>http://localhost:5173/form/${formId}</p>
+                  <p>Thank you,</p>
+                  <p><strong>Your Company</strong></p>
+                `,
+                scheduledFor: "2024-12-12T10:00:00Z", 
+            })
+            if(emailResponse.status === 200){
+                toast.success("📩 Mail sent !")
+            }
+            else{
+                toast.error("Mail cannot be sent due to some errors")
+            }
+        }
     }
 
     useEffect(() => {
@@ -442,7 +475,7 @@ export default function ControlPlanTemplateBuilder() {
                                         <Input
                                             id="query"
                                             className="col-span-3"
-                                            onChange={(e)=> setuserQuery(e.target.value)}
+                                            onChange={(e) => setuserQuery(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -457,7 +490,7 @@ export default function ControlPlanTemplateBuilder() {
                     </div>
                 </div>
 
-                {aiResponse=== null ?sections.map((section) => (
+                {aiResponse === null ? sections.map((section) => (
                     <Card key={section.id} className="border">
                         <div className="bg-blue-600 text-white p-4 rounded-t-lg flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -527,7 +560,7 @@ export default function ControlPlanTemplateBuilder() {
                             </Button>
                         </CardContent>
                     </Card>
-                )): (
+                )) : (
                     <DynamicFormGenerator formData={aiResponse}></DynamicFormGenerator>
                 )}
 

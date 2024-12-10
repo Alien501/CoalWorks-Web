@@ -48,6 +48,7 @@ const RiskMatrix = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSaveRiskMatrixClicked = async (data) => {
+    console.log("Before sending", matrixData);
     const res = await axios.post('/api/data/smp', {
       ...matrixData,
       exposure: data
@@ -122,19 +123,19 @@ const RiskMatrix = () => {
           return (
             <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
               <div className="flex justify-end items-center mb-3 space-x-3">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>View Risk Matrix</Button>
-                  </DialogTrigger>
-                  <DialogContent className="w-[90vw] h-[90vh] max-w-none max-h-none">
-                    <DialogHeader>
-                      <DialogTitle>Risk Matrix</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex-grow overflow-hidden">
-                      <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+              <Dialog>
+      <DialogTrigger asChild>
+        <Button>View Risk Matrix</Button>
+      </DialogTrigger>
+      <DialogContent className="w-[90vw] h-[90vh] max-w-none max-h-none">
+        <DialogHeader>
+          <DialogTitle>Risk Matrix</DialogTitle>
+        </DialogHeader>
+        <div className="flex-grow overflow-hidden">
+          <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
+        </div>
+      </DialogContent>
+    </Dialog>
                 <Button onClick={nextStep}>Configure Risk Matrix</Button>
                 <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
                 {/* <Dialog>
@@ -197,7 +198,7 @@ const RiskMatrix = () => {
                           <TableCell className="py-4">{hazard.id}</TableCell>
                           <TableCell>{hazard.activity}</TableCell>
                           <TableCell>{hazard.hazard}</TableCell>
-                          <TableCell>{hazard.Mechanism}</TableCell>
+                          <TableCell>{hazard.mechanism}</TableCell>
                           <TableCell>{hazard.section.name}</TableCell>
                           <TableCell>{hazard.riskValue}</TableCell>
                           {

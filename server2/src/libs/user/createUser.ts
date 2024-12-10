@@ -2,6 +2,7 @@ import { RequestHandler, Response, Request } from "express";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../utils/prisma";
+import { asyncHandler } from "../../utils/asyncHandler";
 
 
 const CreateUserSchema = z.object({
@@ -104,8 +105,39 @@ const assignUserToSection: RequestHandler = async (req: Request, res: Response):
     }
 };
 
+const userLogin: RequestHandler = async (req: Request, res: Response): Promise<any>=> {
+    try{
+        console.log("hi there")
+        const {email, password} = req.body;
+        const user = await prisma.user.findFirst({
+            where:{
+                email: email
+            },
+            select:{
+                userId: true
+            }
+        })
+        if(user){
+            return res.status(200).json(user)
+        }
+        else{
+            return res.status(401).json({
+                userId: null
+            })
+        }
+    }
+    catch(error){
+        return res.status(500).json({
+            error: true,
+            msg: "Internal Server Error"
+        })
+    }
+
+}
+
 
 export {
     createUser,
-    assignUserToSection
+    assignUserToSection,
+    userLogin
 }

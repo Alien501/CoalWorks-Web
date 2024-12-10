@@ -43,7 +43,7 @@ import CreateShiftTemplate from './pages/CreateShiftTemplate'
 import FormPage from './pages/FormPage'
 // import { OperatorResponseForm } from './components/operatorResponseForm'
 import ControlPlanTemplateBuilder from './pages/createControlPlan'
-import { RenderSmpForm } from './pages/renderSmpForm'
+import { RenderSmpForm } from './pages/RenderSmpForm'
 
 
 interface ErrorPageProps {

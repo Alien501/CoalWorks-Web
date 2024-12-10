@@ -150,8 +150,8 @@ model Section {
   supervisors      Supervisor[]
   users            SectionUsers[] // Many-to-many relation
   shiftAssignments ShiftAssignment[]
-  shiftTemplates ShiftTemplate[]
-  RiskAssesment RiskAssesment[]
+  shiftTemplates   ShiftTemplate[]
+  RiskAssesment    RiskAssesment[]
 }
 
 model Supervisor {
@@ -183,18 +183,18 @@ model Shift {
   updatedAt        DateTime          @updatedAt
   users            ShiftUsers[]
   shiftAssignments ShiftAssignment[]
-  shiftTemplates ShiftTemplate[]
+  shiftTemplates   ShiftTemplate[]
 }
 
 model ShiftTemplate {
-  id           Int                @id @default(autoincrement())
-  shiftId      Int
-  sectionId    Int
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-  questions    ShiftTemplateQuestion[]
-  shift        Shift              @relation(fields: [shiftId], references: [shiftId])
-  section      Section            @relation(fields: [sectionId], references: [id])
+  id        Int                     @id @default(autoincrement())
+  shiftId   Int
+  sectionId Int
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+  questions ShiftTemplateQuestion[]
+  shift     Shift                   @relation(fields: [shiftId], references: [shiftId])
+  section   Section                 @relation(fields: [sectionId], references: [id])
 }
 
 enum ResponseType {
@@ -208,12 +208,12 @@ enum ResponseType {
 }
 
 model ShiftTemplateQuestion {
-  id             Int               @id @default(autoincrement())
-  templateId     Int
-  question       String
-  responseType   ResponseType
+  id                    Int           @id @default(autoincrement())
+  templateId            Int
+  question              String
+  responseType          ResponseType
   multipleChoiceOptions String[]
-  template       ShiftTemplate     @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  template              ShiftTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
 }
 
 model ShiftUsers {
@@ -353,7 +353,6 @@ model RiskAssesment {
   riskContolPlan Json
 }
 
-
 enum MailStatus {
   PENDING
   QUEUED
@@ -369,27 +368,47 @@ enum MailPriority {
 }
 
 model MailTask {
-  id            String       @id @default(cuid())
-  recipients    String[]
-  subject       String
-  body          String       @db.Text
-  attachments   Json?
-  scheduledFor  DateTime?
-  status        MailStatus   @default(PENDING)
-  priority      MailPriority @default(MEDIUM)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  
-  mailLogs      MailLog[]
+  id           String       @id @default(cuid())
+  recipients   String[]
+  subject      String
+  body         String       @db.Text
+  attachments  Json?
+  scheduledFor DateTime?
+  status       MailStatus   @default(PENDING)
+  priority     MailPriority @default(MEDIUM)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  mailLogs MailLog[]
 }
 
 model MailLog {
-  id            String    @id @default(cuid())
-  mailTaskId    String
-  recipient     String
-  status        MailStatus
-  sentAt        DateTime?
-  errorMessage  String?
-  
-  mailTask      MailTask  @relation(fields: [mailTaskId], references: [id])
+  id           String     @id @default(cuid())
+  mailTaskId   String
+  recipient    String
+  status       MailStatus
+  sentAt       DateTime?
+  errorMessage String?
+
+  mailTask MailTask @relation(fields: [mailTaskId], references: [id])
+}
+
+model hazardActivity {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model hazardHazard {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model hazardMechanism {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model hazardExposedGroup {
+  id   Int    @id @default(autoincrement())
+  name String
 }

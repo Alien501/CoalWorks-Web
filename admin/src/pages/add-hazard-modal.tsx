@@ -27,10 +27,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, PlusIcon, Trash2 } from 'lucide-react'
 import { Checkbox } from "@/components/ui/checkbox"
 import { fetchSections } from "@/utils/fetchSections"
 import { toast } from "sonner"
+import { fetchHazardActivity } from "@/utils/fetchHazardActivity"
+import { fetchHazardHazard } from "@/utils/fetchHazardHazard"
+import { fetchHazardMechanism } from "@/utils/fetchHazardMechanism"
+import { fetchHzardExposedGroup } from "@/utils/fetchHazardExposedGroup"
+import { addhazardActivity } from "@/utils/addHazardActivity"
 
 interface Section {
   id: number;
@@ -59,6 +64,21 @@ interface RiskAssessmentData {
   riskControlPlan?: ControlRow[];
 }
 
+const NewHazardTypeModal = ({title, placeholder, value, onChange}) => {
+  return(
+    <div>
+      <div>
+        <Label>Add new {title}</Label>
+        <Input
+          placeholder={placeholder}
+          onChange={onChange}
+          // value={value}
+        />
+      </div>
+    </div>
+  )
+}
+
 export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
   const [sections, setSections] = useState<Section[]>([]);
   const [controlRows, setControlRows] = useState<ControlRow[]>([
@@ -67,6 +87,52 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
   const consequence = currentMatrix.RiskValues.filter(rv => rv.type == 'Consequence').map(rv => rv.scale)
   const exposure = currentMatrix.RiskValues.filter(rv => rv.type == 'Exposure').map(rv => rv.scale)
   const probability = currentMatrix.RiskValues.filter(rv => rv.type == 'Probability').map(rv => rv.scale)
+
+  const [activity, setActivity] = useState([]);
+  const [newActivity, setNewActivity] = useState({
+    name: ''
+  })
+  const [hazard, setHazard] = useState([]);
+  const [newHazard, setNewHazard] = useState({
+    name: ''
+  })
+  const [mechanism, setMechanism] = useState([]);
+  const [newMechanism, setNewMechanism] = useState({
+    name: ''
+  })
+  const [exposedGroup, setExposedGroup] = useState([]);
+  const [newExposedGroup, setNewExposedGroup] = useState({
+    name: ''
+  })
+
+  useEffect(() => {
+    const getAndSethazardActivity = async () => {
+      const res = await fetchHazardActivity();
+      if(res) {
+        console.log(res);
+      }
+    }
+    const getAndSethazardHazard = async () => {
+      const res = await fetchHazardHazard();
+      if(res) {
+        console.log(res);
+      }
+    }
+    const getAndSethazardMechanism = async () => {
+      const res = await fetchHazardMechanism();
+      if(res) {
+        console.log(res);
+      }
+    }
+    const getAndSethazardExposedGroup = async () => {
+      const res = await fetchHzardExposedGroup();
+      if(res) {
+        console.log(res);
+      }
+    }
+
+    getAndSethazardActivity().then(() => getAndSethazardHazard().then(() => getAndSethazardMechanism().then(() => getAndSethazardExposedGroup())))
+  }, [])
 
   const [formData, setFormData] = useState<RiskAssessmentData>({
     activity: '',
@@ -188,14 +254,44 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="activity">Main Activity</Label>
-              <Input
-                type="text"
-                id="activity"
-                placeholder="Enter activity"
-                value={formData.activity}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="flex space-x-1">
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Acitivity" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {
+                      // activity.map(activity => activity.)
+                    }
+                    <SelectValue ></SelectValue>
+                  </SelectContent>
+                </Select>
+                <Dialog>
+                  <DialogTrigger><Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button></DialogTrigger>
+                  <DialogContent>
+                    <NewHazardTypeModal
+                      title={'Activity'}
+                      placeholder={'Enter new Activity'}
+                      onChange={(e) => setNewActivity(prev => {
+                        return {...prev,
+                        name: e.target.name}
+                      })}
+                      value={newActivity}
+                      onSave={async () => {
+                        if(newActivity.name.trim() !== '')
+                        {
+                          const res = await addhazardActivity(newActivity);
+                          if(res) {
+                            toast.success("Successfully added new Activity")
+                          }
+                        }
+                        else
+                      }}
+                    />
+                  </DialogContent>
+                </Dialog>
+                
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -219,40 +315,50 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
 
             <div className="space-y-2">
               <Label htmlFor="hazard">Hazard</Label>
-              <Input 
-                id="hazard" 
-                placeholder="Enter hazard"
-                value={formData.hazard}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="flex space-x-1">
+                <Input 
+                  id="hazard" 
+                  placeholder="Enter hazard"
+                  value={formData.hazard}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button>
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="mechanism">Mechanism</Label>
-              <Input 
-                id="mechanism" 
-                placeholder="Enter mechanism"
-                value={formData.mechanism}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="flex space-x-1">
+                <Input 
+                  id="mechanism" 
+                  placeholder="Enter mechanism"
+                  value={formData.mechanism}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button>
+              
+              </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="exposedGroup">Exposed Group</Label>
-              <Select 
-                value={formData.exposedGroup} 
-                onValueChange={handleSelectChange('exposedGroup')}
-              >
-                <SelectTrigger id="exposedGroup">
-                  <SelectValue placeholder="Select group" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="production">Production</SelectItem>
-                  <SelectItem value="maintenance">Maintenance</SelectItem>
-                  <SelectItem value="visitors">Visitors</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex space-x-1">
+                <Select 
+                  value={formData.exposedGroup} 
+                  onValueChange={handleSelectChange('exposedGroup')}
+                >
+                  <SelectTrigger id="exposedGroup">
+                    <SelectValue placeholder="Select group" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="production">Production</SelectItem>
+                    <SelectItem value="maintenance">Maintenance</SelectItem>
+                    <SelectItem value="visitors">Visitors</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button variant='ghost' className="rounded-full w-10 h-10"><PlusIcon /></Button>
+              </div>
             </div>
           </div>
 

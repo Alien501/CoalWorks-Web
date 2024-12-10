@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useNavigate } from "react-router-dom";
 
 
 const RiskMatrix = () => {
@@ -31,6 +32,7 @@ const RiskMatrix = () => {
   const [riskMatrix, setRiskMatrix] = useState([]);
   const [hazards, setHazards] = useState([]);
   const [currentMatrix, setCurrentMatrix] = useState(null); // New state to store the selected matrix
+  const navigate = useNavigate()
 
   const updateMatrixData = (key, value) => {
     console.log('Updated data', value);
@@ -123,7 +125,7 @@ const RiskMatrix = () => {
               <div className="flex justify-end items-center mb-3 space-x-3">
                 <Button onClick={nextStep}>Configure Risk Matrix</Button>
                 <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
-                <Dialog>
+                {/* <Dialog>
                   <DialogTrigger><Button>View Hazards</Button></DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
@@ -159,11 +161,44 @@ const RiskMatrix = () => {
                       </DialogDescription>
                     </DialogHeader>
                   </DialogContent>
-                </Dialog>
+                </Dialog> */}
 
               </div>
-              <div>
-                <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
+              <div className="border rounded-lg">
+                {/* <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} /> */}
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="py-4">ID</TableHead>
+                      <TableHead>Activity</TableHead>
+                      <TableHead>Hazard</TableHead>
+                      <TableHead>Mechanism</TableHead>
+                      <TableHead>Section</TableHead>
+                      <TableHead>Risk Value</TableHead>
+                      <TableCell>Control Plan</TableCell>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {
+                      hazards.map((hazard, index) => (
+                        <TableRow key={hazard.id}>
+                          <TableCell className="py-4">{hazard.id}</TableCell>
+                          <TableCell>{hazard.activity}</TableCell>
+                          <TableCell>{hazard.hazard}</TableCell>
+                          <TableCell>{hazard.Mechanism}</TableCell>
+                          <TableCell>{hazard.section.name}</TableCell>
+                          <TableCell>{hazard.riskValue}</TableCell>
+                          {
+                            index <=5 ? (
+                              <TableCell><Button onClick={()=> navigate(`/control-plan/${hazard.id}`)}>Add Control Plan</Button></TableCell>
+                            ):
+                            null
+                          }
+                        </TableRow>
+                      ))
+                    }
+                  </TableBody>
+                </Table>
               </div >
             </div >
           )
@@ -270,7 +305,7 @@ const RiskMatrix = () => {
   }, []);
 
   return (
-    <section id="riskmatrix-page" className="bg-background border-none h-[87vh]">
+    <section id="riskmatrix-page" className="bg-background border-none">
       <div className="container h-full mx-auto py-8">
         <div className="h-16 flex justify-between items-center p-2">
           <h1 className="text-3xl font-bold mb-8 text-center">Safety Management Plan</h1>

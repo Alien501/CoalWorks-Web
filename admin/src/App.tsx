@@ -43,6 +43,7 @@ import CreateShiftTemplate from './pages/CreateShiftTemplate'
 import FormPage from './pages/FormPage'
 // import { OperatorResponseForm } from './components/operatorResponseForm'
 import ControlPlanTemplateBuilder from './pages/createControlPlan'
+import { RenderSmpForm } from './pages/renderSmpForm'
 
 
 interface ErrorPageProps {
@@ -71,9 +72,9 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
               {error || 'An unexpected error occurred'}
             </AlertDescription>
           </Alert>
-          {error.digest && (
-            <p className="mt-2 text-sm text-gray-500">Error ID: {error.digest}</p>
-          )}
+          {/* {error.digest && (
+            <p className="mt-2 text-sm text-gray-500">Error ID: {error.message}</p>
+          )} */}
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline" onClick={() => window.location.pathname = '/'}>
@@ -86,6 +87,96 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
   )
 }
 
+
+const formData = {
+  "sections": [
+    {
+      "fields": [
+        {
+          "name": "do_something",
+          "type": "Text",
+          "label": "Do Something",
+          "value": "",
+          "checked": true,
+          "required": true,
+          "description": "Do Something field",
+          "placeholder": "Enter your full name"
+        },
+        {
+          "name": "enter_the_images",
+          "type": "File Input",
+          "label": "Enter the images",
+          "value": "",
+          "checked": true,
+          "required": true,
+          "description": "Enter the images field",
+          "placeholder": "Enter your full name"
+        },
+        {
+          "name": "new_field",
+          "type": "Number",
+          "label": "New Field",
+          "value": "",
+          "checked": true,
+          "required": false,
+          "description": "New Field field",
+          "placeholder": "Enter new field"
+        },
+        {
+          "name": "new_field_select",
+          "type": "Select",
+          "label": "New Field Select",
+          "value": "",
+          "checked": true,
+          "options": ["Option 1", "Option 2", "Option 3"],
+          "required": false,
+          "description": "New Field Select field",
+          "placeholder": "Select an option"
+        }
+      ],
+      "section_name": "SMP",
+      "section_description": "Section 1 details"
+    },
+    {
+      "fields": [
+        {
+          "name": "checkbox",
+          "type": "Checkbox",
+          "label": "checkbox",
+          "value": "",
+          "checked": true,
+          "required": true,
+          "description": "checkbox field",
+          "placeholder": "Enter checkbox"
+        },
+        {
+          "name": "iasfinwf",
+          "type": "Textarea",
+          "label": "iasfinwf",
+          "value": "",
+          "checked": true,
+          "required": false,
+          "description": "iasfinwf field",
+          "placeholder": "Enter iasfinwf"
+        },
+        {
+          "name": "asfnasdfpm",
+          "type": "Date Picker",
+          "label": "asfnasdfpm",
+          "value": "",
+          "checked": true,
+          "required": false,
+          "description": "asfnasdfpm field",
+          "placeholder": "Enter asfnasdfpm"
+        }
+      ],
+      "section_name": "Section Two",
+      "section_description": "Section 2 details"
+    }
+  ],
+  "form_name": "My New Plan",
+  "form_description": "This is a dynamic form example"
+}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -232,10 +323,10 @@ function App() {
       path: "/register",
       element: <Register />
     },
-    {
-      path: '/form',
-      element: <FormBuilder />
-    },
+    // {
+    //   path: '/form',
+    //   element: <FormBuilder />
+    // },
     {
       path: '/migrate',
       element: <Migration />
@@ -260,6 +351,10 @@ function App() {
       path: '/init',
       element: <InitPage />
     },
+    {
+      path: '/form/:id',
+      element: <RenderSmpForm />
+    }
   ])
 
   return (

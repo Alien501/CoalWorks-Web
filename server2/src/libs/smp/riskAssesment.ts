@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
+import { error } from "console";
 
 // TODO
 
@@ -78,10 +79,32 @@ const deleteRiskAssessment = async (req: Request, res: Response) => {
   res.status(204).send();
 };
 
+const getFormById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if(!id || isNaN((parseInt(id)))) {
+    res.status(400).json({
+      error: "Bad request!"
+    });
+  }
+
+  const formData = await prisma.riskAssesment.findUnique({
+    where: {
+      id: parseInt(id)
+    },
+    select: {
+      riskControlPlan: true
+    }
+  })
+
+  res.status(200).json(formData)
+}
+
 export {
     createRiskAssesment,
     getAllRiskAssessments,
     getRiskAssessmentByID,
     updateRiskAssessment,
-    deleteRiskAssessment
+    deleteRiskAssessment,
+    getFormById
 }

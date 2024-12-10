@@ -169,11 +169,7 @@ export const getShiftAssignmentsBySectionAndShift = async (
                 username: true,
                 email: true,
                 isSupervisor: true,
-                Position: {
-                  select: {
-                    positionId: true,
-                  },
-                },
+                position: true
               },
             },
           },

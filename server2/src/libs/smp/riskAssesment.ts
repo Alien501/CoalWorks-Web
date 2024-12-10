@@ -9,7 +9,7 @@ export const RiskAssessmentSchema = z.object({
     activity: z.string(),
     sectionId: z.number().int().positive(),
     hazard: z.string(),
-    Mechanism: z.string(),
+    mechanism: z.string(),
     exposedGroup: z.string(),
     description: z.string(),
     consequence: z.number().min(0),
@@ -20,7 +20,6 @@ export const RiskAssessmentSchema = z.object({
 });
 
 export const RiskAssessmentUpdateSchema = RiskAssessmentSchema.partial();
-
 const createRiskAssesment =  async (req: Request, res: Response) => {
   try {
     const data = RiskAssessmentSchema.parse(req.body);

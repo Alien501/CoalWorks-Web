@@ -357,11 +357,10 @@ model RiskAssesment {
 model RiskAssessmentResponse {
   id               Int      @id @default(autoincrement())
   userId           Int
-  riskAssessmentId Int
   formId           Int
-  response         Json?
+  response         Json
   user             User     @relation(fields: [userId], references: [userId])
-  riskAssesment   RiskAssesment @relation(fields: [riskAssessmentId], references: [id])
+  form   RiskAssesment @relation(fields: [formId], references: [id])
 }
 
 enum MailStatus {

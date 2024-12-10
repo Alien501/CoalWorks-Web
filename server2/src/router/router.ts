@@ -42,33 +42,28 @@ router.use('/mine', mineRouter)
 // Configuration Routes
 // router.use('/config', configRouter);
 
-// Section Routes
 router.use('/section', sectionRouter);
 
 router.use('/sectiontype', sectionTypeRouter);
 
-// User Routes
 router.use('/user', userRouter);
 
-// Role Routes
 router.use('/role', roleRouter);
 
-// Position Routes
 router.use('/position', positionRouter)
 
-// Shift Routes
 router.use('/shift', shiftRouter);
 
-// Assets Routes
 router.use('/asset', assetRouter);
+
 router.use('/assettype', assetTypeRouter);
 
-
-// Plans
 router.use('/rounds', roundsRouter);
 
 router.use('/supervisor', supervisorRouter);
-router.use('/sectionuser', sectionUserRouter)
+
+router.use('/sectionuser', sectionUserRouter);
+
 router.use('/shifttemplate', shiftTemplateRouter);
 
 router.use('/smp', smpRouter);

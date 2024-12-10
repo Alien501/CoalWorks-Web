@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react"
+import { useState, useEffect, FormEvent, act } from "react"
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -214,7 +214,11 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
     try {
       const completeData = {
         ...formData,
-        Mechanism: formData.mechanism,
+        activity: activity.find(a => a.id === formData.activity).name,
+        exposedGroup: exposedGroup.find(a => a.id === formData.exposedGroup).name,
+        hazard: hazard.find(a => a.id === formData.hazard).name,
+        mechanism: mechanism.find(a => a.id === formData.mechanism).name,
+        // mechanism: formData.mechanism,
         // riskContolPlan: controlRows
       };
 
@@ -431,9 +435,10 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
                   value={formData.exposedGroup}
                   onValueChange={(e) => {
                     setFormData(prev => {
+                      console.log(exposedGroup.find(a => a.id === e))
                       return {
                         ...prev,
-                        exposedGroup: activity.find(a => a.id == e).id
+                        exposedGroup: exposedGroup.find(a => a.id == e).id
                       }
                     })
                   }}

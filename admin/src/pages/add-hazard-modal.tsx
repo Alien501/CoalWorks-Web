@@ -142,8 +142,9 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
       const completeData = {
         ...formData,
         Mechanism: formData.mechanism,
-        riskContolPlan: controlRows
+        // riskContolPlan: controlRows
       };
+
 
       const response = await axios.post('/api/data/smp/ra', completeData);
       
@@ -336,7 +337,7 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
             </div>
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label>Risk Control Plan</Label>
             <Table>
               <TableHeader>
@@ -421,7 +422,7 @@ export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
               <Plus className="mr-2 h-4 w-4" />
               Add Control Measure
             </Button>
-          </div>
+          </div> */}
 
           <div className="flex justify-end gap-4">
             <Button type="button" variant="outline" onClick={resetForm}>Cancel</Button>

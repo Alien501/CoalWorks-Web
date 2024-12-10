@@ -350,7 +350,7 @@ model RiskAssesment {
   exposure       Float
   probability    Float
   riskValue      Float
-  riskContolPlan Json
+  riskControlPlan Json?
 }
 
 

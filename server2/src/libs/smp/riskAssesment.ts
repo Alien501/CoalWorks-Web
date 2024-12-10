@@ -15,7 +15,7 @@ export const RiskAssessmentSchema = z.object({
     exposure: z.number().min(0),
     probability: z.number().min(0),
     riskValue: z.number().min(0),
-    riskContolPlan: z.array(z.record(z.any())),
+    riskControlPlan: z.array(z.record(z.any())).optional(),
 });
 
 export const RiskAssessmentUpdateSchema = RiskAssessmentSchema.partial();
@@ -28,6 +28,7 @@ const createRiskAssesment =  async (req: Request, res: Response) => {
     });
     res.status(201).json(riskAssessment);
   } catch (err: any) {
+    console.log(err)
     res.status(400).json({ error: err.errors || "Invalid request" });
   }
 };

@@ -42,7 +42,7 @@ import { ShiftTemplates } from './pages/ShiftTemplates'
 import CreateShiftTemplate from './pages/CreateShiftTemplate'
 import FormPage from './pages/FormPage'
 // import { OperatorResponseForm } from './components/operatorResponseForm'
-import { CreateControlPlan } from './pages/createControlPlan'
+import ControlPlanTemplateBuilder from './pages/createControlPlan'
 
 
 interface ErrorPageProps {
@@ -215,7 +215,7 @@ function App() {
         },
         {
           path: '/control-plan/:id',
-          element: <CreateControlPlan />
+          element: <ControlPlanTemplateBuilder />
         },
         // {
         //   path: '/form/:uniqueKey',

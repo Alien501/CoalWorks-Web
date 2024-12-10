@@ -84,7 +84,7 @@ model Permission {
 }
 
 model User {
-  userId                Int                       @id @default(autoincrement())
+   userId                Int                       @id @default(autoincrement())
   username              String                    @unique @db.VarChar(100)
   email                 String                    @unique @db.VarChar(100)
   phone                 String?                   @db.VarChar(20)
@@ -93,23 +93,23 @@ model User {
   userRoleId            Int
   userRole              Role                      @relation(fields: [userRoleId], references: [roleId])
   positionId            Int?
-  Position              Position?                 @relation(fields: [positionId], references: [positionId])
+  position              Position?                 @relation(fields: [positionId], references: [positionId])
   isActive              Boolean                   @default(true)
   profileImage          String?                   @db.VarChar(255)
   lastLogin             DateTime?
   createdAt             DateTime                  @default(now())
   updatedAt             DateTime                  @updatedAt
   createdBy             Int?
-  Creator               User?                     @relation("UserCreation", fields: [createdBy], references: [userId])
-  CreatedUsers          User[]                    @relation("UserCreation")
+  creator               User?                     @relation("UserCreation", fields: [createdBy], references: [userId])
+  createdUsers          User[]                    @relation("UserCreation")
   supervisor            Supervisor?
   isSupervisor          Boolean                   @default(false)
   activePlans           ActivePlans[]
   supervisorAssignments ShiftAssignment[]         @relation("SupervisorAssignments")
   operatorAssignments   ShiftAssignmentOperator[] @relation("OperatorAssignments")
-
-  shifts   ShiftUsers[]
-  sections SectionUsers[]
+  shifts                ShiftUsers[]
+  sections              SectionUsers[]
+  riskAssesmentResponse RiskAssessmentResponse[] 
 }
 
 model ShiftAssignment {
@@ -338,19 +338,30 @@ model RiskValues {
 }
 
 model RiskAssesment {
-  id             Int     @id @default(autoincrement())
-  activity       String
-  sectionId      Int
-  section        Section @relation(fields: [sectionId], references: [id])
-  hazard         String
-  Mechanism      String
-  exposedGroup   String
-  description    String
-  consequence    Float
-  exposure       Float
-  probability    Float
-  riskValue      Float
-  riskControlPlan Json?
+  id               Int      @id @default(autoincrement())
+  activity         String
+  sectionId        Int
+  section          Section  @relation(fields: [sectionId], references: [id])
+  hazard           String
+  mechanism        String
+  exposedGroup     String
+  description      String
+  consequence      Float
+  exposure         Float
+  probability      Float
+  riskValue        Float
+  riskControlPlan  Json?
+  responses RiskAssessmentResponse[]
+}
+
+model RiskAssessmentResponse {
+  id               Int      @id @default(autoincrement())
+  userId           Int
+  riskAssessmentId Int
+  formId           Int
+  response         Json?
+  user             User     @relation(fields: [userId], references: [userId])
+  riskAssesment   RiskAssesment @relation(fields: [riskAssessmentId], references: [id])
 }
 
 enum MailStatus {

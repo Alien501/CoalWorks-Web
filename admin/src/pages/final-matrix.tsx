@@ -50,77 +50,83 @@ export const FinalMatrix: React.FC<FinalMatrixProps> = ({ data, hazards }) => {
   const exposure = data.RiskValues.filter(rv => rv.type === 'Exposure').sort((a, b) => a.scale - b.scale)
 
   const findMatchingHazards = (likelihoodScale: number, consequenceScale: number, exposureScale: number) => {
-    return hazards.filter(hazard => 
+    return hazards.filter(hazard =>
       // Fuzzy matching with a small tolerance
       Math.abs(hazard.probability - likelihoodScale) <= 1 &&
-      Math.abs(hazard.consequence - consequenceScale) <= 1 && 
+      Math.abs(hazard.consequence - consequenceScale) <= 1 &&
       Math.abs(hazard.exposure - exposureScale) <= 1
     )
   }
 
   const getRiskColor = (value: number) => {
-    if (value <= 4) return 'bg-green-200'
-    if (value <= 8) return 'bg-yellow-200'
-    return 'bg-red-200'
+    if (value <= 100) return 'bg-green-400'
+    if (value <= 200) return 'bg-yellow-200'
+    return 'bg-red-400'
   }
 
   return (
-    <Card className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
-      <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+    <Card className="w-full h-full shadow-lg rounded-lg flex flex-col">
+      <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-500 text-white flex-shrink-0">
         <CardTitle className="text-2xl font-bold">{data.name}</CardTitle>
       </CardHeader>
-      <CardContent className="p-6">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className='w-[150px]'>Exposure</TableHead>
-              <TableHead className="w-[150px] bg-background">Probability</TableHead>
-              {consequences.map((cons) => (
-                <TableHead key={cons.id} className="bg-background-100 text-center">
-                  {cons.name} ({cons.scale})
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {likelihood.map((like, i) => (
-              <TableRow key={like.id}>
-                <TableCell className='font-medium bg-background'>
-                  {exposure[i].name} ({exposure[i].scale})
-                </TableCell>
-                <TableCell className="font-medium bg-background">
-                  {like.name} ({like.scale})
-                </TableCell>
-                {consequences.map((cons) => {
-                  const value = like.scale * cons.scale * exposure[i].scale;
-                  const matchedHazards = findMatchingHazards(like.scale, cons.scale, exposure[i].scale);
-                  return (
-                    <TableCell
-                      key={`${like.id}-${cons.id}`}
-                      className={`p-2 ${getRiskColor(value)} overflow-hidden`}
-                    >
-                      <div className="text-center font-bold mb-2">{value}</div>
-                      <ScrollArea className="h-40">
-                        {matchedHazards.length === 0 ? (
-                          // <p className="text-sm text-gray-500">No hazards</p>
-                          null
-                        ) : (
-                          matchedHazards.map(hazard => (
-                            <div key={hazard.id} className="mb-2 p-2 bg-white bg-opacity-50 rounded text-sm">
-                              <p className="font-semibold">{hazard.activity}</p>
-                              <p>Hazard: {hazard.hazard}</p>
-                              <p>Exposed: {hazard.exposedGroup}</p>
-                            </div>
-                          ))
-                        )}
-                      </ScrollArea>
-                    </TableCell>
-                  );
-                })}
+      <CardContent className="p-4 flex-grow overflow-hidden ">
+        <ScrollArea className="h-full">
+          <Table className=''>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="bg-background">Exposure</TableHead>
+                <TableHead className="bg-background">Probability</TableHead>
+                {consequences.map((cons) => (
+                  <TableHead key={cons.id} className="bg-background-100 text-center">
+                    {cons.name} ({cons.scale})
+                  </TableHead>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {likelihood.map((like, i) => (
+                <TableRow key={like.id}>
+                  <TableCell className="font-medium bg-background">
+                    {exposure[i].name} ({exposure[i].scale})
+                  </TableCell>
+                  <TableCell className="font-medium bg-background">
+                    {like.name} ({like.scale})
+                  </TableCell>
+                  {consequences.map((cons) => {
+                    const value = like.scale * cons.scale * exposure[i].scale;
+                    const matchedHazards = findMatchingHazards(
+                      like.scale,
+                      cons.scale,
+                      exposure[i].scale
+                    );
+                    return (
+                      <TableCell
+                        key={`${like.id}-${cons.id}`}
+                        className={`p-2 ${getRiskColor(value)} h-32`}
+                      >
+                        <div className="text-center font-bold ">{value}</div>
+                        {/* <ScrollArea className="h-16"> */}
+                          {/* {matchedHazards.length === 0 ? null : (
+                            matchedHazards.map((hazard) => (
+                              <div
+                                key={hazard.id}
+                                className="mb-2 p-2 bg-white bg-opacity-50 rounded text-sm"
+                              >
+                                <p className="font-semibold">{hazard.activity}</p>
+                                <p>Hazard: {hazard.hazard}</p>
+                                <p>Exposed: {hazard.exposedGroup}</p>
+                              </div>
+                            ))
+                          )} */}
+                        {/* </ScrollArea> */}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
       </CardContent>
     </Card>
   )

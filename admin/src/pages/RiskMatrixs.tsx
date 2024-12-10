@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CreateMatrix } from "./create-matrix";
 import { InputDetails } from "./input-details";
 import FinalMatrix from "./final-matrix";
-import {AddHazardModal} from "./add-hazard-modal";
+import { AddHazardModal } from "./add-hazard-modal";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -123,6 +123,19 @@ const RiskMatrix = () => {
           return (
             <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
               <div className="flex justify-end items-center mb-3 space-x-3">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>View Risk Matrix</Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[90vw] h-[90vh] max-w-none max-h-none">
+                    <DialogHeader>
+                      <DialogTitle>Risk Matrix</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex-grow overflow-hidden">
+                      <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
+                    </div>
+                  </DialogContent>
+                </Dialog>
                 <Button onClick={nextStep}>Configure Risk Matrix</Button>
                 <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
                 {/* <Dialog>
@@ -165,17 +178,17 @@ const RiskMatrix = () => {
 
               </div>
               <div className="border rounded-lg">
-                {/* <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} /> */}
+
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="py-4">ID</TableHead>
-                      <TableHead>Activity</TableHead>
-                      <TableHead>Hazard</TableHead>
-                      <TableHead>Mechanism</TableHead>
-                      <TableHead>Section</TableHead>
+                      <TableHead className="py-4 w-[100px]">ID</TableHead>
+                      <TableHead className="w-[200px]">Activity</TableHead>
+                      <TableHead className="w-[200px]">Hazard</TableHead>
+                      <TableHead className="w-[200px]">Mechanism</TableHead>
+                      <TableHead className="w-[200px]">Section</TableHead>
                       <TableHead>Risk Value</TableHead>
-                      <TableCell>Control Plan</TableCell>
+                      <TableCell className="text-right pr-16">Control Plan</TableCell>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -189,10 +202,10 @@ const RiskMatrix = () => {
                           <TableCell>{hazard.section.name}</TableCell>
                           <TableCell>{hazard.riskValue}</TableCell>
                           {
-                            index <=5 ? (
-                              <TableCell><Button onClick={()=> navigate(`/control-plan/${hazard.id}`)}>Add Control Plan</Button></TableCell>
-                            ):
-                            null
+                            index <= 5 ? (
+                              <TableCell className="text-right pr-10"><Button onClick={() => navigate(`/control-plan/${hazard.id}`)}>Add Control Plan</Button></TableCell>
+                            ) :
+                              null
                           }
                         </TableRow>
                       ))

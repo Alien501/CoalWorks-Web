@@ -325,8 +325,8 @@ export default function FormTemplateBuilder() {
         const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
         console.log(formatedTemplate)
         const res = await axios.post('/api/data/shifttemplate/create', {
-            shiftId: basicInfo.
-        })
+            shiftId: basicInfo
+    })
     }
 
     useEffect(() => {

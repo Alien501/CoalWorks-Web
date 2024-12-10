@@ -59,11 +59,14 @@ interface RiskAssessmentData {
   riskControlPlan?: ControlRow[];
 }
 
-export function AddHazardModal() {
+export function AddHazardModal({currentMatrix}: {currentMatrix: any}) {
   const [sections, setSections] = useState<Section[]>([]);
   const [controlRows, setControlRows] = useState<ControlRow[]>([
     { type: '', details: '', person: '', dueDate: '', completed: false }
   ]);
+  const consequence = currentMatrix.RiskValues.filter(rv => rv.type == 'Consequence').map(rv => rv.scale)
+  const exposure = currentMatrix.RiskValues.filter(rv => rv.type == 'Exposure').map(rv => rv.scale)
+  const probability = currentMatrix.RiskValues.filter(rv => rv.type == 'Probability').map(rv => rv.scale)
 
   const [formData, setFormData] = useState<RiskAssessmentData>({
     activity: '',
@@ -276,7 +279,7 @@ export function AddHazardModal() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  {[1, 2, 3, 4, 5].map((n) => (
+                  {consequence.map((n) => (
                     <SelectItem key={n} value={n.toString()}>
                       {n}
                     </SelectItem>
@@ -295,7 +298,7 @@ export function AddHazardModal() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  {[1, 2, 3, 4, 5].map((n) => (
+                  {exposure.map((n) => (
                     <SelectItem key={n} value={n.toString()}>
                       {n}
                     </SelectItem>
@@ -314,7 +317,7 @@ export function AddHazardModal() {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  {[1, 2, 3, 4, 5].map((n) => (
+                  {probability.map((n) => (
                     <SelectItem key={n} value={n.toString()}>
                       {n}
                     </SelectItem>

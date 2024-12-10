@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CreateMatrix } from "./create-matrix";
 import { InputDetails } from "./input-details";
-import { FinalMatrix } from "./final-matrix";
+import FinalMatrix from "./final-matrix";
 import { AddHazardModal } from "./add-hazard-modal";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
@@ -33,6 +33,7 @@ const RiskMatrix = () => {
   const [currentMatrix, setCurrentMatrix] = useState(null); // New state to store the selected matrix
 
   const updateMatrixData = (key, value) => {
+    console.log('Updated data', value);
     setMatrixData((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -44,9 +45,12 @@ const RiskMatrix = () => {
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
 
-  const onSaveRiskMatrixClicked = async () => {
-    console.log(matrixData);
-    const res = await axios.post('/api/data/smp', matrixData);
+  const onSaveRiskMatrixClicked = async (data) => {
+    console.log("Before sending", matrixData);
+    const res = await axios.post('/api/data/smp', {
+      ...matrixData,
+      exposure: data
+    });
     if (res.status === 200) {
       console.log(res.data);
       toast.success("Risk Matrix created successfully!");
@@ -118,7 +122,7 @@ const RiskMatrix = () => {
             <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
               <div className="flex justify-end items-center mb-3 space-x-3">
                 <Button onClick={nextStep}>Configure Risk Matrix</Button>
-                <AddHazardModal></AddHazardModal>
+                <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
                 <Dialog>
                   <DialogTrigger><Button>View Hazards</Button></DialogTrigger>
                   <DialogContent>
@@ -159,7 +163,7 @@ const RiskMatrix = () => {
 
               </div>
               <div>
-                <FinalMatrix data={currentMatrix} onPrev={() => setStep(0)} />
+                <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
               </div >
             </div >
           )
@@ -225,8 +229,9 @@ const RiskMatrix = () => {
             }}
             key={3}
             onSaveClicked={(data) => {
+              console.log("Exposure data", data)
               updateMatrixData('exposure', data);
-              onSaveRiskMatrixClicked();
+              onSaveRiskMatrixClicked(data);
             }}
             isEnd={true}
             onPrev={prevStep}

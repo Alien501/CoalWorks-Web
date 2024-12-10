@@ -19,6 +19,7 @@ import { sectionUserRouter } from "./sectionUserRouter";
 import { shiftTemplateRouter } from "./shiftTemplateRouter";
 import { smpRouter } from "./smpRouter";
 import { hazardRouter } from "./hazardRouter";
+import { riskAssesmentResponseRouter } from "./riskAssesmentResponseRouter";
 
 const router = Router();
 
@@ -71,6 +72,8 @@ router.use('/sectionuser', sectionUserRouter)
 router.use('/shifttemplate', shiftTemplateRouter);
 
 router.use('/smp', smpRouter);
+
+router.use('/riskresponse', riskAssesmentResponseRouter);
 
 router.use('/hazard', hazardRouter);
 

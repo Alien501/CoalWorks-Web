@@ -88,7 +88,7 @@ const shiftTemplateRouter = Router();
  *                   type: string
  *                   example: "Error message"
  */
-shiftTemplateRouter.get('/section/:sectionId', asyncHandler(async (req: Request, res: Response) => {
+shiftTemplateRouter.get('/', asyncHandler(async (req: Request, res: Response) => {
   await getAllShiftTemplates(req, res);
 }));
 

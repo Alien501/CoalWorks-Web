@@ -1,54 +1,65 @@
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { MoreHorizontal, Search } from 'lucide-react'
+import { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { MoreHorizontal, Search } from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useNavigate } from "react-router-dom"
+} from "@/components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface Template {
-    id: string
-    title: string
-    plant: string
-    unit: string
-    position: string
-    createdBy: string
-    status: "Ready" | "Draft"
-    lastModified: string
-    lastPublished: string
-    lastModifiedBy: string
+    id: string;
+    title: string;
+    plant: string;
+    unit: number;
+    position: string | null;
+    createdBy: string;
+    status: "Ready" | "Draft";
+    lastModified: string;
+    lastPublished: string;
+    lastModifiedBy: string;
 }
 
-const templates: Template[] = [
-    {
-        id: "1",
-        title: "Shift Log Template",
-        plant: "NEW_SHR_PLANT_11",
-        unit: "Loc-4-NEW-SHR-11",
-        position: "",
-        createdBy: "Sachin Venkatraman",
-        status: "Ready",
-        lastModified: "8 days ago",
-        lastPublished: "8 days ago",
-        lastModifiedBy: "Sachin V",
-    },
-]
-
 export function ShiftTemplates() {
-    const [search, setSearch] = useState("")
+    const [search, setSearch] = useState("");
+    const [shiftTemplates, setShiftTemplates] = useState<Template[]>([]);
     const navigate = useNavigate();
 
-    const filteredTemplates = templates.filter((template) =>
+    useEffect(() => {
+        async function getAllShiftTemplates() {
+            try {
+                const res = await axios.get("/api/data/shifttemplate");
+                const data = res.data.data.map((item: any) => ({
+                    id: item.id,
+                    title: item.shiftTemplate.form_name,
+                    plant: item.section.name,
+                    unit: item.section.area,
+                    position: item.role.roleName,
+                    createdBy: "N/A", // Placeholder (update as needed)
+                    status: "Draft", // Assuming 'isActive' is missing in response
+                    lastModified: new Date(item.updatedAt).toLocaleDateString(),
+                    lastPublished: new Date(item.createdAt).toLocaleDateString(),
+                    lastModifiedBy: "N/A" // Placeholder (update as needed)
+                }));
+                setShiftTemplates(data);
+            } catch (error) {
+                console.error("Error fetching shift templates:", error);
+            }
+        }
+        getAllShiftTemplates();
+    }, []);
+
+    const filteredTemplates = shiftTemplates.filter((template) =>
         Object.values(template).some((value) =>
-            value.toString().toLowerCase().includes(search.toLowerCase())
+            value && value.toString().toLowerCase().includes(search.toLowerCase())
         )
-    )
+    );
 
     return (
         <section id="section-log" className="container mx-auto py-6">
@@ -64,7 +75,13 @@ export function ShiftTemplates() {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    <Button variant='secondary' className="rounded-full" onClick={() => navigate('/shift-template-create')}>Create New</Button>
+                    <Button
+                        variant='secondary'
+                        className="rounded-full"
+                        onClick={() => navigate('/shift-template-create')}
+                    >
+                        Create New
+                    </Button>
                 </div>
             </div>
 
@@ -73,7 +90,7 @@ export function ShiftTemplates() {
                     <TableHeader>
                         <TableRow>
                             <TableHead>Title</TableHead>
-                            <TableHead>Section</TableHead>
+                            <TableHead>Plant</TableHead>
                             <TableHead>Unit</TableHead>
                             <TableHead>Position</TableHead>
                             <TableHead>Created By</TableHead>
@@ -121,5 +138,5 @@ export function ShiftTemplates() {
                 </Table>
             </div>
         </section>
-    )
+    );
 }

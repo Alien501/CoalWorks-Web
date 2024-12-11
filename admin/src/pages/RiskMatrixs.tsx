@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useNavigate } from "react-router-dom";
+import RiskPlanAnalyticsModal from "@/components/custom/riskPlanAnalyticsModal";
 
 
 const RiskMatrix = () => {
@@ -32,8 +33,10 @@ const RiskMatrix = () => {
   });
   const [riskMatrix, setRiskMatrix] = useState([]);
   const [hazards, setHazards] = useState([]);
-  const [currentMatrix, setCurrentMatrix] = useState(null); // New state to store the selected matrix
+  const [currentMatrix, setCurrentMatrix] = useState(null);
+  const [riskReportModal, setRiskReportModal] = useState(false);
   const navigate = useNavigate()
+  const [formId, setFormId] = useState(null)
 
   const updateMatrixData = (key, value) => {
     console.log('Updated data', value);
@@ -83,6 +86,35 @@ const RiskMatrix = () => {
       return <Badge className="px-2 py-1 text-white bg-red-500 rounded">High Risk</Badge>;
     }
   }
+
+  // const RiskPlanAnalyticsModal = ({id}) => {
+  //   const [analyticsData, setAnalyticsData] = useState(null);
+
+  //   useEffect(() => {
+  //     const fetchAndSetFormResponse = async () => {
+  //       try {
+  //         const res = await axios.get(`/api/data/smp/rs/${id}`);
+  //         if(res.status === 200) {
+  //           console.log(res.data);
+  //         }
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     }
+
+  //     fetchAndSetFormResponse();
+  //   }, [])
+  //   return (
+  //     <Dialog open={riskReportModal} onOpenChange={() => setRiskReportModal(false)}>
+  //       <DialogHeader>
+  //         {/* <DialogTitle>Risk Plan Report</DialogTitle> */}
+  //       </DialogHeader>
+  //       <DialogContent>
+  //         <p>{id}</p>
+  //       </DialogContent>
+  //     </Dialog>
+  //   )
+  // }
 
   const renderStep = () => {
     switch (step) {
@@ -219,13 +251,25 @@ const RiskMatrix = () => {
                         <TableCell>{getRiskDetails(hazard.riskValue)}</TableCell>
                         {
                           index <= 5 ? (
-                            <TableCell className="text-right pr-10"><Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}>{hazard.riskControlPlan ? <><EyeIcon /> View</> : <><PlusIcon /> Add {'  '}</>}</Button></TableCell>
+                            <TableCell className="text-right pr-10">
+                              {
+                                hazard.riskControlPlan ?
+                                  <Button className="w-20" onClick={() => {
+                                    setRiskReportModal(true);
+                                    setFormId(prev => hazard.id)
+
+                                  }}><EyeIcon /> View</Button>
+                                  :
+                                  <Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}><PlusIcon /> Add</Button>
+                              }
+                            </TableCell>
                           ) :
                             null
                         }
                       </TableRow>
                     ))
                   }
+                  <RiskPlanAnalyticsModal onOpenChange={() => setRiskReportModal(false)} open={riskReportModal} key={1} id={formId} />
                 </TableBody>
               </Table>
             </div>

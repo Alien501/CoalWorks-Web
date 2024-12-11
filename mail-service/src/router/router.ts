@@ -32,7 +32,11 @@ router.post('/send', asyncHandler(async (req: Request, res: Response) => {
     attachments: validatedData.attachments,
     priority: validatedData.priority
   });
-  console.log(result)
+
+  console.error(result)
+  if(!result) {
+    res.status(500).json("Something went wrong");
+  }
 
   res.status(200).json({
     message: 'Mail task created and processed',

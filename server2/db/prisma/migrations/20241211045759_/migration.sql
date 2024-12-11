@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "RiskValues" ALTER COLUMN "scale" SET DATA TYPE DOUBLE PRECISION;

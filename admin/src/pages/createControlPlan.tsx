@@ -411,6 +411,32 @@ export default function ControlPlanTemplateBuilder() {
         getAndSetRoles();
     }, []);
 
+    async function onGenerateWithAi(){
+        try {
+            const hazardResponse = await axios.get(`/api/data/smp/ra/${id}`);
+            const hazardData = hazardResponse.data;
+        
+            const roleId = basicInfo.position;
+        
+            const roleResponse = await axios.get(`/api/data/role/${roleId}`);
+            const roleName = roleResponse.data.data[0].roleName;
+        
+            const hazard = {
+              ...hazardData,
+              roleId: roleId,
+              roleName: roleName
+            };
+        
+            const santhoshWishObject = {
+                data: hazard
+            }
+            console.log(santhoshWishObject)
+          } catch (error) {
+            console.error('Error fetching hazard data:', error);
+            throw error;
+          }
+
+    }
     const renderFormBuilderStep = () => {
         return (
             <div className="max-w-4xl mx-auto space-y-6">
@@ -422,7 +448,7 @@ export default function ControlPlanTemplateBuilder() {
                     <div className="flex items-center justify-center space-x-5">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button>
+                                <Button onClick={onGenerateWithAi}>
                                     <Sparkles className="w-4 h-4 " /> Generate with AI
                                 </Button>
                             </DialogTrigger>

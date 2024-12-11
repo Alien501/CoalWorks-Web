@@ -332,7 +332,7 @@ model RiskValues {
   id       Int        @id @default(autoincrement())
   type     RiskProps
   name     String
-  scale    Int
+  scale    Float
   matrixId Int
   matrix   RiskMatrix @relation(fields: [matrixId], references: [id])
 }

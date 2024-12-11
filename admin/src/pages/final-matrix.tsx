@@ -61,14 +61,22 @@ export const FinalMatrix: React.FC<FinalMatrixProps> = ({ data, hazards }) => {
 
   const getRiskDetails = (value) => {
     const numValue = parseFloat(value);
-    if (numValue <= 0.05) {
-      return { color: 'bg-green-500', level: 'Low' };
+  
+    if (numValue <= 0.0) {
+      return { color: 'bg-green-500', level: 'No Risk' }; 
+    } else if (numValue <= 0.05) {
+      return { color: 'bg-green-400', level: 'Minimal Risk' }; 
     } else if (numValue <= 5) {
-      return { color: 'bg-yellow-400', level: 'Medium' };
+      return { color: 'bg-yellow-300', level: 'Low Risk' }; 
+    } else if (numValue <= 10) {
+      return { color: 'bg-yellow-400', level: 'Moderate Risk' }; 
+    } else if (numValue <= 30) {
+      return { color: 'bg-orange-400', level: 'Elevated Risk' }; 
     } else {
-      return { color: 'bg-red-500', level: 'High' };
+      return { color: 'bg-red-500', level: 'High Risk' };
     }
   };
+  
 
   return (
     <Card className="w-full h-full shadow-lg rounded-lg flex flex-col">

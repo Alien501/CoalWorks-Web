@@ -192,7 +192,7 @@ model ShiftTemplate {
   sectionId Int
   createdAt DateTime                @default(now())
   updatedAt DateTime                @updatedAt
-  questions ShiftTemplateQuestion[]
+  questions Json
   shift     Shift                   @relation(fields: [shiftId], references: [shiftId])
   section   Section                 @relation(fields: [sectionId], references: [id])
 }

@@ -318,8 +318,24 @@ export default function ControlPlanTemplateBuilder() {
     }
 
     async function onAIGenerate() {
+
         const queryString = `Make me a shift log template for ${selectedRole} that will help me to fill ${selectedForm}, ${userQuery}`
-        console.log("reaches")
+        try {
+            const res = await axios.post('http://192.168.173.223:8000/generate-form', {
+                "query": queryString,
+                "form_type": "control_plan",
+                "data": {
+                    ...basicInfo
+                }
+            })
+            if(res.status === 200) {
+                console.log(" - --- --- -- Seee HERER ====")
+                setAiResponse(res.data.form)
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong!");
+        }
         //make the api call here
         //generate a unique string here to set as a key to the response
         //the dummy ai response is something like this now
@@ -340,7 +356,7 @@ export default function ControlPlanTemplateBuilder() {
         // set this key in the qr code route params /form/:uniquekey
         // when some one hits this route it should fetch the unique and search it in the database and get the formdata and render the form on the screen
         //when he fills this form and submit it store the formData along with response in a state
-        setAiResponse(dummyAiResponse)
+        // setAiResponse(dummyAiResponse)
     }
 
     const deleteField = (sectionId: string, fieldId: string) => {
@@ -382,7 +398,7 @@ export default function ControlPlanTemplateBuilder() {
         const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
         const newFormatedTemplate = [formatedTemplate]
         const res = await axios.put(`/api/data/smp/ra/${id}`, {
-            riskControlPlan: newFormatedTemplate,
+            riskControlPlan:  [aiResponse] || newFormatedTemplate,
             noOfSections: sections.length
         })
         setaxiosResponse(res)

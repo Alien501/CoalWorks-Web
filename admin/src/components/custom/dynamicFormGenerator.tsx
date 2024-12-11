@@ -36,11 +36,12 @@ type FormStructure = {
   sections: FormSection[];
 };
 
-export default function DynamicFormGenerator({ formData, qrCodeUrl }) {
+export default function DynamicFormGenerator({ formData }) {
+  console.log("See here now")
   console.log(formData);
   // State to manage form values
   const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
-  const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
+  // const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
 
   // Generic change handler for inputs
   const handleChange = (name: string, value: any) => {
@@ -137,15 +138,15 @@ export default function DynamicFormGenerator({ formData, qrCodeUrl }) {
   };
 
   // Generate QR Code
-  const generateQRCode = async () => {
-    const shareableLink = `http://localhost:5173/form/${qrCodeUrl}`;
-    try {
-      const qrCode = await QRCode.toDataURL(shareableLink);
-      setQrCodeImage(qrCode);
-    } catch (err) {
-      console.error("Failed to generate QR code:", err);
-    }
-  };
+  // const generateQRCode = async () => {
+  //   const shareableLink = `http://localhost:5173/form/${qrCodeUrl}`;
+  //   try {
+  //     const qrCode = await QRCode.toDataURL(shareableLink);
+  //     setQrCodeImage(qrCode);
+  //   } catch (err) {
+  //     console.error("Failed to generate QR code:", err);
+  //   }
+  // };
 
   // Submit handler
   const handleSubmit = (e: React.FormEvent) => {
@@ -159,7 +160,7 @@ export default function DynamicFormGenerator({ formData, qrCodeUrl }) {
           <h1 className="text-2xl font-bold">{formData.form_name}</h1>
           <p className="text-muted-foreground">{formData.form_description}</p>
         </div>
-        <Dialog>
+        {/* <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline" onClick={generateQRCode}>
               <QrCode className="mr-2 h-4 w-4" /> Generate Share Link
@@ -190,7 +191,7 @@ export default function DynamicFormGenerator({ formData, qrCodeUrl }) {
               )}
             </div>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">

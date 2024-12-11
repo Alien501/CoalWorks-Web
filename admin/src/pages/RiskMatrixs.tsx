@@ -4,7 +4,7 @@ import { InputDetails } from "./input-details";
 import FinalMatrix from "./final-matrix";
 import { AddHazardModal } from "./add-hazard-modal";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { EyeIcon, PlusIcon } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import axios from "axios";
@@ -84,21 +84,21 @@ const RiskMatrix = () => {
     }
   }
 
-const renderStep = () => {
-  switch (step) {
-    case 0:
-      if (!currentMatrix) {
-        return (
-          <div className="w-full h-full grid grid-cols-2 gap-2">
-            <div className="p-2">
-              <div className="flex justify-between items-center h-16 p-1">
-                {
-                  riskMatrix.length < 1 &&
-                  <Button className="" onClick={nextStep}><PlusIcon />Create Risk Matrix</Button>
-                }
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        if (!currentMatrix) {
+          return (
+            <div className="w-full h-full grid grid-cols-2 gap-2">
+              <div className="p-2">
+                <div className="flex justify-between items-center h-16 p-1">
+                  {
+                    riskMatrix.length < 1 &&
+                    <Button className="" onClick={nextStep}><PlusIcon />Create Risk Matrix</Button>
+                  }
+                </div>
               </div>
-            </div>
-            {/* <div className="p-2">
+              {/* <div className="p-2">
                 <div>
                   <div className="flex justify-between items-center h-16 p-1">
                     <p>Hazards</p>
@@ -133,28 +133,28 @@ const renderStep = () => {
                   </div>
                 </div>
               </div> */}
-          </div>
-        );
-      } else {
-        return (
-          <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
-            <div className="flex justify-end items-center mb-3 space-x-3">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button>View Risk Matrix</Button>
-                </DialogTrigger>
-                <DialogContent className="w-[90vw] h-[97vh] max-w-none max-h-none">
-                  <DialogHeader>
-                    <DialogTitle>Risk Matrix</DialogTitle>
-                  </DialogHeader>
-                  <div className="flex-grow overflow-hidden">
-                    <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
-                  </div>
-                </DialogContent>
-              </Dialog>
-              <Button onClick={nextStep}>Configure Risk Matrix</Button>
-              <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
-              {/* <Dialog>
+            </div>
+          );
+        } else {
+          return (
+            <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
+              <div className="flex justify-end items-center mb-3 space-x-3">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>View Risk Matrix</Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[90vw] h-[97vh] max-w-none max-h-none">
+                    <DialogHeader>
+                      <DialogTitle>Risk Matrix</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex-grow overflow-hidden">
+                      <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                <Button onClick={nextStep}>Configure Risk Matrix</Button>
+                <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
+                {/* <Dialog>
                   <DialogTrigger><Button>View Hazards</Button></DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
@@ -192,9 +192,7 @@ const renderStep = () => {
                   </DialogContent>
                 </Dialog> */}
 
-            </div>
-            <div className="border rounded-lg">
-
+              </div>
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -221,7 +219,7 @@ const renderStep = () => {
                         <TableCell>{getRiskDetails(hazard.riskValue)}</TableCell>
                         {
                           index <= 5 ? (
-                            <TableCell className="text-right pr-10"><Button onClick={() => navigate(`/control-plan/${hazard.id}`)}>Add Control Plan</Button></TableCell>
+                            <TableCell className="text-right pr-10"><Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}>{hazard.riskControlPlan ? <><EyeIcon /> View</> : <><PlusIcon /> Add {'  '}</>}</Button></TableCell>
                           ) :
                             null
                         }
@@ -230,121 +228,120 @@ const renderStep = () => {
                   }
                 </TableBody>
               </Table>
-            </div >
-          </div >
-        )
-      }
-    case 1:
-      return (
-        <CreateMatrix
-          dimensions={matrixData.dimensions}
-          onCreateButtonClicked={() => {
-            if (matrixData.dimensions.row > 0 && matrixData.dimensions.col > 0) {
-              nextStep();
-            } else {
-              toast.error("Please enter valid dimensions");
+            </div>
+          )
+        }
+      case 1:
+        return (
+          <CreateMatrix
+            dimensions={matrixData.dimensions}
+            onCreateButtonClicked={() => {
+              if (matrixData.dimensions.row > 0 && matrixData.dimensions.col > 0) {
+                nextStep();
+              } else {
+                toast.error("Please enter valid dimensions");
+              }
+            }}
+            onChange={(e) =>
+              updateMatrixData("dimensions", {
+                ...matrixData.dimensions,
+                [e.target.name]: e.target.name === "name" ? e.target.value : parseFloat(e.target.value),
+              })
             }
-          }}
-          onChange={(e) =>
-            updateMatrixData("dimensions", {
-              ...matrixData.dimensions,
-              [e.target.name]: e.target.name === "name" ? e.target.value : parseFloat(e.target.value),
-            })
-          }
-          onBackButtonClicked={prevStep}
-        />
-      );
-    case 2:
-      return (
-        <InputDetails
-          title="Consequences"
-          data={matrixData.consequences}
-          count={matrixData.dimensions.col}
-          onNext={(data) => {
-            updateMatrixData("consequences", data);
-            nextStep();
-          }}
-          key={1}
-          onPrev={prevStep}
-          onRiskValueChanged={onRiskValueChanged}
-        />
-      );
-    case 3:
-      return (
-        <InputDetails
-          title="Probability"
-          data={matrixData.probability}
-          count={matrixData.dimensions.row}
-          onNext={(data) => {
-            updateMatrixData("probability", data);
-            nextStep();
-          }}
-          key={2}
-          onPrev={prevStep}
-        />
-      );
-    case 4:
-      return (
-        <InputDetails
-          title="Exposure"
-          data={matrixData.exposure}
-          count={matrixData.dimensions.row}
-          onNext={(data) => {
-            updateMatrixData("exposure", data);
-            nextStep();
-          }}
-          key={3}
-          onSaveClicked={(data) => {
-            console.log("Exposure data", data)
-            updateMatrixData('exposure', data);
-            onSaveRiskMatrixClicked(data);
-          }}
-          isEnd={true}
-          onPrev={prevStep}
-        />
-      );
-    default:
-      return null;
-  }
-};
+            onBackButtonClicked={prevStep}
+          />
+        );
+      case 2:
+        return (
+          <InputDetails
+            title="Consequences"
+            data={matrixData.consequences}
+            count={matrixData.dimensions.col}
+            onNext={(data) => {
+              updateMatrixData("consequences", data);
+              nextStep();
+            }}
+            key={1}
+            onPrev={prevStep}
+            onRiskValueChanged={onRiskValueChanged}
+          />
+        );
+      case 3:
+        return (
+          <InputDetails
+            title="Probability"
+            data={matrixData.probability}
+            count={matrixData.dimensions.row}
+            onNext={(data) => {
+              updateMatrixData("probability", data);
+              nextStep();
+            }}
+            key={2}
+            onPrev={prevStep}
+          />
+        );
+      case 4:
+        return (
+          <InputDetails
+            title="Exposure"
+            data={matrixData.exposure}
+            count={matrixData.dimensions.row}
+            onNext={(data) => {
+              updateMatrixData("exposure", data);
+              nextStep();
+            }}
+            key={3}
+            onSaveClicked={(data) => {
+              console.log("Exposure data", data)
+              updateMatrixData('exposure', data);
+              onSaveRiskMatrixClicked(data);
+            }}
+            isEnd={true}
+            onPrev={prevStep}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
-useEffect(() => {
-  const getAndSetRiskMatrix = async () => {
-    const d = await fetchAllRiskMatrix();
-    if (d) {
-      setRiskMatrix(d);
-      if (d.length > 0) {
-        setCurrentMatrix(d[d.length - 1]); // Set the first matrix as the default
+  useEffect(() => {
+    const getAndSetRiskMatrix = async () => {
+      const d = await fetchAllRiskMatrix();
+      if (d) {
+        setRiskMatrix(d);
+        if (d.length > 0) {
+          setCurrentMatrix(d[d.length - 1]); // Set the first matrix as the default
+        }
+        return true;
       }
-      return true;
-    }
-    return false;
-  };
+      return false;
+    };
 
-  const getAndSetHazards = async () => {
-    const d = await fetchAllHazards();
-    if (d) {
-      const sortedHazards = d.sort((a, b) => b.riskValue - a.riskValue);
-      setHazards(sortedHazards);
-      return true;
-    }
-    return false;
-  };
+    const getAndSetHazards = async () => {
+      const d = await fetchAllHazards();
+      if (d) {
+        const sortedHazards = d.sort((a, b) => b.riskValue - a.riskValue);
+        setHazards(sortedHazards);
+        return true;
+      }
+      return false;
+    };
 
-  getAndSetRiskMatrix();
-  getAndSetHazards();
-}, []);
+    getAndSetRiskMatrix();
+    getAndSetHazards();
+  }, []);
 
-return (
-  <section id="riskmatrix-page" className="bg-background border-none">
-    <div className="container h-full mx-auto py-8">
-      <div className="h-16 flex justify-between items-center p-2">
-        <h1 className="text-3xl font-bold mb-8 text-center">Safety Management Plan</h1>
+  return (
+    <section id="riskmatrix-page" className="bg-background border-none">
+      <div className="container h-full mx-auto py-8">
+        <div className="h-16 flex justify-between items-center p-2">
+          <h1 className="text-3xl font-bold mb-8 text-center">Safety Management Plan</h1>
+        </div>
+        <div className="flex items-center justify-center h-full">{renderStep()}</div>
       </div>
-      <div className="flex items-center justify-center h-full">{renderStep()}</div>
-    </div>
-  </section>
-)
+    </section>
+  )
 };
 
 export default RiskMatrix;

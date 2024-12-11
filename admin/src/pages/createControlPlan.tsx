@@ -25,6 +25,7 @@ import DynamicFormGenerator from "@/components/custom/dynamicFormGenerator"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "sonner"
+import { fetchControlPlan } from "@/utils/fetchControlPlan"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date' | 'image'
 
@@ -241,6 +242,30 @@ export default function ControlPlanTemplateBuilder() {
             </Card>
         )
     }
+
+
+    useEffect(() => {
+        const getAndSetFormData = async () => {
+            const res = await fetchControlPlan(id);
+            if(res) {
+                if(res.riskControlPlan) {
+                    console.log(res);
+                    console.log(res.riskContolPlan);
+                    // setBasicInfo(prev => {
+                    //     return {
+                    //         ...prev,
+                    //         name: res.riskControlPlan.form_name,
+                    //         section: res.section.id,
+                    //         position: parseInt(res.riskControlPlan.form_description),
+                    //         duedate: res.riskControlPlan.duedate
+                    //     }
+                    // })
+                }
+            }
+        }
+
+        getAndSetFormData();
+    }, [])
 
     const [editSectionModalOpen, setEditSectionModalOpen] = useState(false)
     const [editFieldModalOpen, setEditFieldModalOpen] = useState(false)

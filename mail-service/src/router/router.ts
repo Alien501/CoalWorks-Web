@@ -23,6 +23,7 @@ const mailSchema = z.object({
 // Send immediate mail
 router.post('/send', asyncHandler(async (req: Request, res: Response) => {
   const validatedData = mailSchema.parse(req.body);
+  console.log("reaches here")
   
   const result = await MailService.sendImmediateMail({
     recipients: validatedData.recipients,

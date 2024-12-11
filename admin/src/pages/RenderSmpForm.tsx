@@ -36,6 +36,7 @@ interface FormData {
 export const RenderSmpForm = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
+  const [completedSections, setCompletedSections] = useState<number[]>([]);
   const { register: loginRegister, handleSubmit: handleLoginSubmit } = useForm<LoginData>();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const params = useParams();
@@ -77,7 +78,7 @@ export const RenderSmpForm = () => {
 
     const fetchAndSetForm = async () => {
       try {
-        const res = await axios.get(`/api/data/smp/ra/form/${params.id}`);
+        const res = await axios.get(`/api/data/smp/ra/${params.id}`);
         setFormData(res.data.riskControlPlan[0]);
       } catch (error) {
         console.error(error);
@@ -95,7 +96,8 @@ export const RenderSmpForm = () => {
     const res = await axios.post("/api/data/riskresponse", {
       userId: userId,
       formId: parseInt(params.id),
-      response: data
+      response: data,
+      noOfSectionsCompleted: completedSections.length
     })
     if (res.status === 201) {
       toast.success("Response submitted Successfully")
@@ -103,6 +105,18 @@ export const RenderSmpForm = () => {
     else {
       toast.error("Error in submitting response")
     }
+  };
+
+  // Mark section as finished
+  const markSectionAsFinished = (sectionIndex: number) => {
+    // Toggle section completion
+    setCompletedSections(prev => 
+      prev.includes(sectionIndex) 
+        ? prev.filter(index => index !== sectionIndex)
+        : [...prev, sectionIndex]
+    );
+    
+    toast.success(`Section ${sectionIndex + 1} ${completedSections.includes(sectionIndex) ? 'unmarked' : 'marked'} as finished`);
   };
 
   // Login form rendering
@@ -159,8 +173,20 @@ export const RenderSmpForm = () => {
               <CardContent>
                 {formData.sections.map((section, sectionIndex) => (
                   <div key={sectionIndex} className="mb-8">
-                    <h3 className="text-lg font-semibold mb-2">{section.section_name}</h3>
-                    <p className="text-sm text-gray-500 mb-4">{section.section_description}</p>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="text-lg font-semibold mb-2">{section.section_name}</h3>
+                        <p className="text-sm text-gray-500 mb-4">{section.section_description}</p>
+                      </div>
+                      <Button 
+                        type="button"
+                        variant={completedSections.includes(sectionIndex) ? "default" : "outline"}
+                        onClick={() => markSectionAsFinished(sectionIndex)}
+                        className="ml-4"
+                      >
+                        {completedSections.includes(sectionIndex) ? 'Unmark' : 'Mark'} as Finished
+                      </Button>
+                    </div>
                     {section.fields.map((field, fieldIndex) => (
                       <div key={fieldIndex} className="mb-4">
                         <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">

@@ -351,6 +351,8 @@ model RiskAssesment {
   probability      Float
   riskValue        Float
   riskControlPlan  Json?
+  noOfSections     Int      @default(2)
+  noOfSectionsCompleted Int @default(0)
   responses RiskAssessmentResponse[]
 }
 

@@ -4,7 +4,7 @@ import { InputDetails } from "./input-details";
 import FinalMatrix from "./final-matrix";
 import { AddHazardModal } from "./add-hazard-modal";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { EyeIcon, PlusIcon } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import axios from "axios";
@@ -48,6 +48,7 @@ const RiskMatrix = () => {
   const prevStep = () => setStep((prev) => prev - 1);
 
   const onSaveRiskMatrixClicked = async (data) => {
+    console.log("Before sending", matrixData);
     const res = await axios.post('/api/data/smp', {
       ...matrixData,
       exposure: data
@@ -122,19 +123,19 @@ const RiskMatrix = () => {
           return (
             <div className="sm:max-w-4xl md:max-w-6xl lg:max-w-7xl shadow-lg rounded-lg w-full">
               <div className="flex justify-end items-center mb-3 space-x-3">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>View Risk Matrix</Button>
-                  </DialogTrigger>
-                  <DialogContent className="w-[90vw] h-[90vh] max-w-none max-h-none">
-                    <DialogHeader>
-                      <DialogTitle>Risk Matrix</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex-grow overflow-hidden">
-                      <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+              <Dialog>
+      <DialogTrigger asChild>
+        <Button>View Risk Matrix</Button>
+      </DialogTrigger>
+      <DialogContent className="w-[90vw] h-[90vh] max-w-none max-h-none">
+        <DialogHeader>
+          <DialogTitle>Risk Matrix</DialogTitle>
+        </DialogHeader>
+        <div className="flex-grow overflow-hidden">
+          <FinalMatrix hazards={hazards} data={currentMatrix} onPrev={() => setStep(0)} />
+        </div>
+      </DialogContent>
+    </Dialog>
                 <Button onClick={nextStep}>Configure Risk Matrix</Button>
                 <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
                 {/* <Dialog>
@@ -197,12 +198,12 @@ const RiskMatrix = () => {
                           <TableCell className="py-4">{hazard.id}</TableCell>
                           <TableCell>{hazard.activity}</TableCell>
                           <TableCell>{hazard.hazard}</TableCell>
-                          <TableCell>{hazard.Mechanism}</TableCell>
+                          <TableCell>{hazard.mechanism}</TableCell>
                           <TableCell>{hazard.section.name}</TableCell>
                           <TableCell>{hazard.riskValue}</TableCell>
                           {
                             index <= 5 ? (
-                              <TableCell className="text-right pr-10"><Button onClick={() => navigate(`/control-plan/${hazard.id}`)}>Add Control Plan</Button></TableCell>
+                              <TableCell className="text-right pr-10"><Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}>{hazard.riskControlPlan? <><EyeIcon /> View</>: <><PlusIcon /> Add {'  '}</>}</Button></TableCell>
                             ) :
                               null
                           }
@@ -229,7 +230,7 @@ const RiskMatrix = () => {
             onChange={(e) =>
               updateMatrixData("dimensions", {
                 ...matrixData.dimensions,
-                [e.target.name]: e.target.name === "name" ? e.target.value : parseInt(e.target.value),
+                [e.target.name]: e.target.name === "name" ? e.target.value : parseFloat(e.target.value),
               })
             }
             onBackButtonClicked={prevStep}

@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent, act } from "react"
+import { useState, useEffect, FormEvent } from "react"
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -218,7 +218,6 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
         exposedGroup: exposedGroup.find(a => a.id === formData.exposedGroup).name,
         hazard: hazard.find(a => a.id === formData.hazard).name,
         mechanism: mechanism.find(a => a.id === formData.mechanism).name,
-        // mechanism: formData.mechanism,
         // riskContolPlan: controlRows
       };
 
@@ -279,7 +278,7 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
                   }}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Acitivity" />
+                    <SelectValue placeholder="Select Activity" />
                   </SelectTrigger>
                   <SelectContent>
                     {
@@ -369,6 +368,7 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
                       }))}
                       onSaveClicked={async () => {
                         const res = await addHazardHazard(newHazard)
+                        console.log(res)
                         if (res) {
                           toast.success("Hazard added successfully");
                           setHazard(prev => [...prev, res])
@@ -435,10 +435,9 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
                   value={formData.exposedGroup}
                   onValueChange={(e) => {
                     setFormData(prev => {
-                      console.log(exposedGroup.find(a => a.id === e))
                       return {
                         ...prev,
-                        exposedGroup: exposedGroup.find(a => a.id == e).id
+                        exposedGroup: activity.find(a => a.id == e).id
                       }
                     })
                   }}
@@ -557,94 +556,6 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
               />
             </div>
           </div>
-
-          {/* <div className="space-y-2">
-            <Label>Risk Control Plan</Label>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Control Type</TableHead>
-                  <TableHead>Control Details</TableHead>
-                  <TableHead>Person</TableHead>
-                  <TableHead>Due Date</TableHead>
-                  <TableHead>Completed</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {controlRows.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Select
-                        value={row.type}
-                        onValueChange={(value) => updateControlRow(index, 'type', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="ppe">Personal Protective Equipment</SelectItem>
-                          <SelectItem value="training">Training</SelectItem>
-                          <SelectItem value="engineering">Engineering Controls</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        placeholder="Enter details"
-                        value={row.details}
-                        onChange={(e) => updateControlRow(index, 'details', e.target.value)}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        value={row.person}
-                        onValueChange={(value) => updateControlRow(index, 'person', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select person" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="supervisor">Supervisor</SelectItem>
-                          <SelectItem value="manager">Manager</SelectItem>
-                          <SelectItem value="worker">Worker</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="date"
-                        value={row.dueDate}
-                        onChange={(e) => updateControlRow(index, 'dueDate', e.target.value)}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Checkbox
-                        checked={row.completed}
-                        onCheckedChange={(checked) => updateControlRow(index, 'completed', checked)}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      {controlRows.length > 1 && (
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          onClick={() => removeControlRow(index)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Button variant="outline" onClick={addControlRow} className="mt-2">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Control Measure
-            </Button>
-          </div> */}
-
           <div className="flex justify-end gap-4">
             <Button type="button" variant="outline" onClick={resetForm}>Cancel</Button>
             <Button type="submit">Save Assessment</Button>

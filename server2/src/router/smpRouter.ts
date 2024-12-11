@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { createRiskMatrix, createRiskMatrixWithRiskValue, deleteRiskMatrix, getAllRiskMatrix, getRiskMatrixById, updateRiskMatrix } from "../libs/smp/riskMatrix";
-import { createRiskAssesment, deleteRiskAssessment, getAllRiskAssessments, getFormById, getRiskAssessmentByID, updateRiskAssessment } from "../libs/smp/riskAssesment";
+import { createRiskAssesment, deleteRiskAssessment, getAllRiskAssessments, getRiskAssessmentByID, updateRiskAssessment } from "../libs/smp/riskAssesment";
 import { createRiskValues, deleteRiskValues, getAllRiskValues, getRiskValuesById, updateRiskValues } from "../libs/smp/riskValues";
 
 const smpRouter = Router();
@@ -580,7 +580,7 @@ smpRouter.delete('/rv/:id', asyncHandler (async (req: Request, res: Response, ne
  *                 type: integer
  *               riskValue:
  *                 type: integer
- *               riskContolPlan:
+ *               riskControlPlan:
  *                 type: array
  *                 items:
  *                   type: object
@@ -705,10 +705,6 @@ smpRouter.put('/ra/:id', asyncHandler (async (req: Request, res: Response, next:
  */
 smpRouter.delete('/ra/:id', asyncHandler (async (req: Request, res: Response, next: NextFunction) => {
     await deleteRiskAssessment(req, res);
-}))
-
-smpRouter.get('/ra/form/:id', asyncHandler (async (req: Request, res: Response, next: NextFunction) => {
-    await getFormById(req, res);
 }))
 
 export {

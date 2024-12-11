@@ -109,6 +109,7 @@ export const createResponse = async (req: Request, res: Response) => {
 
     res.status(201).json(newResponse);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Failed to create response." });
   }
 };

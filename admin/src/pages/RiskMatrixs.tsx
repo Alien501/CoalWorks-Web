@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useNavigate } from "react-router-dom";
+import RiskPlanAnalyticsModal from "@/components/custom/riskPlanAnalyticsModal";
 
 
 const RiskMatrix = () => {
@@ -35,6 +36,7 @@ const RiskMatrix = () => {
   const [currentMatrix, setCurrentMatrix] = useState(null);
   const [riskReportModal, setRiskReportModal] = useState(false);
   const navigate = useNavigate()
+  const [formId, setFormId] = useState(null)
 
   const updateMatrixData = (key, value) => {
     console.log('Updated data', value);
@@ -85,18 +87,34 @@ const RiskMatrix = () => {
     }
   }
 
-  const RiskPlanAnalyticsModal = () => {
-    return (
-      <Dialog open={riskReportModal} onOpenChange={() => setRiskReportModal(false)}>
-        <DialogHeader>
-          {/* <DialogTitle>Risk Plan Report</DialogTitle> */}
-        </DialogHeader>
-        <DialogContent>
+  // const RiskPlanAnalyticsModal = ({id}) => {
+  //   const [analyticsData, setAnalyticsData] = useState(null);
 
-        </DialogContent>
-      </Dialog>
-    )
-  }
+  //   useEffect(() => {
+  //     const fetchAndSetFormResponse = async () => {
+  //       try {
+  //         const res = await axios.get(`/api/data/smp/rs/${id}`);
+  //         if(res.status === 200) {
+  //           console.log(res.data);
+  //         }
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     }
+
+  //     fetchAndSetFormResponse();
+  //   }, [])
+  //   return (
+  //     <Dialog open={riskReportModal} onOpenChange={() => setRiskReportModal(false)}>
+  //       <DialogHeader>
+  //         {/* <DialogTitle>Risk Plan Report</DialogTitle> */}
+  //       </DialogHeader>
+  //       <DialogContent>
+  //         <p>{id}</p>
+  //       </DialogContent>
+  //     </Dialog>
+  //   )
+  // }
 
   const renderStep = () => {
     switch (step) {
@@ -236,7 +254,11 @@ const RiskMatrix = () => {
                             <TableCell className="text-right pr-10">
                               {
                                 hazard.riskControlPlan ?
-                                  <Button className="w-20" onClick={() => setRiskReportModal(true)}><EyeIcon /> View</Button>
+                                  <Button className="w-20" onClick={() => {
+                                    setRiskReportModal(true);
+                                    setFormId(prev => hazard.id)
+
+                                  }}><EyeIcon /> View</Button>
                                   :
                                   <Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}><PlusIcon /> Add</Button>
                               }
@@ -247,7 +269,7 @@ const RiskMatrix = () => {
                       </TableRow>
                     ))
                   }
-                  <RiskPlanAnalyticsModal />
+                  <RiskPlanAnalyticsModal onOpenChange={() => setRiskReportModal(false)} open={riskReportModal} key={1} id={formId} />
                 </TableBody>
               </Table>
             </div>

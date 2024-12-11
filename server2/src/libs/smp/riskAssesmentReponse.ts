@@ -18,7 +18,9 @@ export const getAllResponses = async (req: Request, res: Response) => {
 
 // GET a single response by ID
 export const getResponseByFormId = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
+  console.log(req.params)
+  const id = parseInt(req.params.id || req.params.formId);
+  console.log(id)
   if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
 
   try {

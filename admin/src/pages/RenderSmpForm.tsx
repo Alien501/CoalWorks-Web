@@ -38,10 +38,11 @@ export const RenderSmpForm = () => {
   const [formData, setFormData] = useState<FormData | null>(null);
   const [completedSections, setCompletedSections] = useState<number[]>([]);
   const { register: loginRegister, handleSubmit: handleLoginSubmit } = useForm<LoginData>();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors, isValid }, watch } = useForm({ mode: 'onChange' });
   const params = useParams();
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null)
+  const watchedValues = watch();
 
   // Login form submission handler
   const onLoginSubmit = async (loginData: LoginData) => {
@@ -83,7 +84,6 @@ export const RenderSmpForm = () => {
       } catch (error) {
         console.error(error);
         toast.error('Failed to fetch form data');
-        // Optional: Redirect or handle error
         navigate(-1);
       }
     };
@@ -91,24 +91,28 @@ export const RenderSmpForm = () => {
     fetchAndSetForm();
   }, [isAuthenticated, params.id, navigate]);
 
-  // Form submission handler
-  const onSubmit = async (data: any) => {
-    const res = await axios.post("/api/data/riskresponse", {
-      userId: userId,
-      formId: parseInt(params.id),
-      response: data,
-      noOfSectionsCompleted: completedSections.length
-    })
-    if (res.status === 201) {
-      toast.success("Response submitted Successfully")
-    }
-    else {
-      toast.error("Error in submitting response")
-    }
+  // Check if a section's required fields are filled
+  const isSectionComplete = (section) => {
+    return section.fields
+      .filter(field => field.required)
+      .every(field => {
+        const value = watchedValues[field.name];
+        // Handle different field types 
+        if (field.type === 'checkbox') return value === true;
+        return value && value.toString().trim() !== '';
+      });
   };
 
   // Mark section as finished
   const markSectionAsFinished = (sectionIndex: number) => {
+    const section = formData.sections[sectionIndex];
+    
+    // Only allow marking if all required fields are filled
+    if (!isSectionComplete(section)) {
+      toast.error(`Please fill all required fields in Section ${sectionIndex + 1} before marking as finished`);
+      return;
+    }
+
     // Toggle section completion
     setCompletedSections(prev => 
       prev.includes(sectionIndex) 
@@ -117,6 +121,30 @@ export const RenderSmpForm = () => {
     );
     
     toast.success(`Section ${sectionIndex + 1} ${completedSections.includes(sectionIndex) ? 'unmarked' : 'marked'} as finished`);
+  };
+
+  // Form submission handler
+  const onSubmit = async (data: any) => {
+    // Automatically mark sections as complete if all required fields are filled
+    const autoCompletedSections = formData.sections.reduce((acc, section, index) => {
+      if (isSectionComplete(section)) {
+        acc.push(index);
+      }
+      return acc;
+    }, []);
+
+    const res = await axios.post("/api/data/riskresponse", {
+      userId: userId,
+      formId: parseInt(params.id),
+      response: data,
+      noOfSectionsCompleted: autoCompletedSections.length
+    })
+    if (res.status === 201) {
+      toast.success("Response submitted Successfully")
+    }
+    else {
+      toast.error("Error in submitting response")
+    }
   };
 
   // Login form rendering
@@ -183,6 +211,7 @@ export const RenderSmpForm = () => {
                         variant={completedSections.includes(sectionIndex) ? "default" : "outline"}
                         onClick={() => markSectionAsFinished(sectionIndex)}
                         className="ml-4"
+                        disabled={!isSectionComplete(section)}
                       >
                         {completedSections.includes(sectionIndex) ? 'Unmark' : 'Mark'} as Finished
                       </Button>
@@ -214,4 +243,4 @@ export const RenderSmpForm = () => {
       </Card>
     </div>
   );
-};
+};  

@@ -230,7 +230,7 @@ const RiskMatrix = () => {
             onChange={(e) =>
               updateMatrixData("dimensions", {
                 ...matrixData.dimensions,
-                [e.target.name]: e.target.name === "name" ? e.target.value : parseInt(e.target.value),
+                [e.target.name]: e.target.name === "name" ? e.target.value : parseFloat(e.target.value),
               })
             }
             onBackButtonClicked={prevStep}

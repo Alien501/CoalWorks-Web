@@ -214,7 +214,10 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
     try {
       const completeData = {
         ...formData,
-        Mechanism: formData.mechanism,
+        activity: activity.find(a => a.id === formData.activity).name,
+        exposedGroup: exposedGroup.find(a => a.id === formData.exposedGroup).name,
+        hazard: hazard.find(a => a.id === formData.hazard).name,
+        mechanism: mechanism.find(a => a.id === formData.mechanism).name,
         // riskContolPlan: controlRows
       };
 

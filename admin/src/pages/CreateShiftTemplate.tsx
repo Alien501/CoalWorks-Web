@@ -21,8 +21,8 @@ import { Sparkles } from "lucide-react"
 import { formData } from "./YellowBook"
 import { dummyAiResponse } from "@/lib/dummyAiResponse"
 import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
-import DynamicFormGenerator  from "@/components/custom/dynamicFormGenerator"
 import { getShifts } from "@/utils/getShifts"
+import DynamicFormGenerator from "@/components/custom/dynamicFormGenerator"
 import axios from "axios"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
@@ -76,8 +76,8 @@ interface AIFormTemplate {
 }
 
 function convertCustomFormToAITemplate(
-    customSections: CustomFormSection[], 
-    formName: string = 'Custom Form', 
+    customSections: CustomFormSection[],
+    formName: string = 'Custom Form',
     formDescription: string = 'Automatically generated form'
 ): AIFormTemplate {
     return {
@@ -266,7 +266,7 @@ export default function FormTemplateBuilder() {
         ))
     }
 
-    async function onAIGenerate(){
+    async function onAIGenerate() {
         const queryString = `Make me a shift log template for ${selectedRole} that will help me to fill ${selectedForm}, ${userQuery}`
         console.log("reaches")
         //make the api call here
@@ -345,6 +345,15 @@ export default function FormTemplateBuilder() {
         toast.success("Shift plan cannot be created due to some errors. Please try again later")
         navigate("/shift-templates")
     }
+        console.log(sections)
+        console.log("See above")
+        const formatedTemplates = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
+        // const res = await axios.post('/api/data/shifttemplate/create', {
+        //     shiftId: 1,
+        //     sectionid: basicInfo.section,
+        //     questions: formatedTemplate.sections
+        // })
+        console.log(formatedTemplate)
     }
 
     useEffect(() => {
@@ -438,7 +447,7 @@ export default function FormTemplateBuilder() {
                                         <Input
                                             id="query"
                                             className="col-span-3"
-                                            onChange={(e)=> setuserQuery(e.target.value)}
+                                            onChange={(e) => setuserQuery(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -453,7 +462,7 @@ export default function FormTemplateBuilder() {
                     </div>
                 </div>
 
-                {aiResponse=== null ?sections.map((section) => (
+                {aiResponse === null ? sections.map((section) => (
                     <Card key={section.id} className="border">
                         <div className="bg-blue-600 text-white p-4 rounded-t-lg flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -523,7 +532,7 @@ export default function FormTemplateBuilder() {
                             </Button>
                         </CardContent>
                     </Card>
-                )): (
+                )) : (
                     <DynamicFormGenerator formData={aiResponse}></DynamicFormGenerator>
                 )}
 

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import axios from 'axios';
+import DynamicFormGenerator from '@/components/custom/dynamicFormGenerator';
 
 interface LoginData {
   username: string;
@@ -76,12 +77,16 @@ export const RenderSmpForm = () => {
       navigate(-1);
       return;
     }
-
+    console.log("Inside useffect")
     const fetchAndSetForm = async () => {
+      console.log("Hello")
       try {
+        console.log(" ---- SEE HERE ----")
         const res = await axios.get(`/api/data/smp/ra/${params.id}`);
+        console.log(res.data.riskContolPlan[0])
         setFormData(res.data.riskControlPlan[0]);
       } catch (error) {
+        console.log("Error from here only")
         console.error(error);
         toast.error('Failed to fetch form data');
         navigate(-1);
@@ -89,7 +94,7 @@ export const RenderSmpForm = () => {
     };
 
     fetchAndSetForm();
-  }, [isAuthenticated, params.id, navigate]);
+  }, []);
 
   // Check if a section's required fields are filled
   const isSectionComplete = (section) => {
@@ -185,17 +190,18 @@ export const RenderSmpForm = () => {
       </div>
     );
   }
-
+  console.log("See here bruh")
+  console.log(formData)
   // Form rendering after authentication
   return (
     <div className='min-h-screen flex justify-center items-center'>
       <Card className="w-full max-w-3xl mx-auto ">
-        {!formData ? (
+        {/* {!formData ? (
           <p>No form found</p>
         ) : (
           <>
             <CardHeader>
-              <CardTitle>{formData.form_name}</CardTitle>
+              <CardTitle>{formData.form_name || "Form Name"}</CardTitle>
             </CardHeader>
             <form onSubmit={handleSubmit(onSubmit)}>
               <CardContent>
@@ -239,7 +245,8 @@ export const RenderSmpForm = () => {
               </CardFooter>
             </form>
           </>
-        )}
+        )} */}
+        <DynamicFormGenerator formData={formData} />
       </Card>
     </div>
   );

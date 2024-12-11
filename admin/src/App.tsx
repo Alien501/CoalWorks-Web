@@ -44,6 +44,7 @@ import FormPage from './pages/FormPage'
 // import { OperatorResponseForm } from './components/operatorResponseForm'
 import ControlPlanTemplateBuilder from './pages/createControlPlan'
 import { RenderSmpForm } from './pages/renderSmpForm'
+import SoftwareIntegration from './pages/SoftwareIntegration'
 
 
 interface ErrorPageProps {
@@ -234,7 +235,8 @@ function App() {
         },
         {
           path: 'home',
-          element: <ProtectedRoute><HomePage /></ProtectedRoute>
+          // element: <ProtectedRoute><HomePage /></ProtectedRoute>
+          element: <HomePage />
         },
         {
           path: 'master-data',
@@ -308,6 +310,10 @@ function App() {
           path: '/control-plan/:id',
           element: <ControlPlanTemplateBuilder />
         },
+        {
+          path: '/software-integration',
+          element: <SoftwareIntegration />
+        }
         // {
         //   path: '/form/:uniqueKey',
         //   element: <OperatorResponseForm />

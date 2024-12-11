@@ -422,3 +422,8 @@ model hazardExposedGroup {
   id   Int    @id @default(autoincrement())
   name String
 }
+
+model SoftwareIntegration {
+  id  Int @id @default(autoincrement())
+  
+}

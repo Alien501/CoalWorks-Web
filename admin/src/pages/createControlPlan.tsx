@@ -382,7 +382,8 @@ export default function ControlPlanTemplateBuilder() {
         const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
         const newFormatedTemplate = [formatedTemplate]
         const res = await axios.put(`/api/data/smp/ra/${id}`, {
-            riskControlPlan: newFormatedTemplate
+            riskControlPlan: newFormatedTemplate,
+            noOfSections: sections.length
         })
         setaxiosResponse(res)
         if (res.status === 200) {

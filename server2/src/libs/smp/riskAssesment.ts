@@ -17,6 +17,7 @@ export const RiskAssessmentSchema = z.object({
     probability: z.number().min(0),
     riskValue: z.number().min(0),
     riskControlPlan: z.array(z.record(z.any())).optional(),
+    noOfSections: z.number().optional()
 });
 
 export const RiskAssessmentUpdateSchema = RiskAssessmentSchema.partial();

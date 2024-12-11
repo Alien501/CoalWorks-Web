@@ -88,6 +88,7 @@ export const createResponse = async (req: Request, res: Response) => {
     userId: z.number(),
     formId: z.number(),
     response: z.any(),
+    noOfSectionsCompleted: z.any()
   });
 
   const result = schema.safeParse(req.body);
@@ -96,7 +97,8 @@ export const createResponse = async (req: Request, res: Response) => {
     return res.status(400).json({ error: result.error.errors });
   }
 
-  const { userId, formId, response } = result.data;
+  const { userId, formId, response, noOfSectionsCompleted } = result.data;
+  console.log(noOfSectionsCompleted)
 
   try {
     const newResponse = await prisma.riskAssessmentResponse.create({
@@ -105,7 +107,20 @@ export const createResponse = async (req: Request, res: Response) => {
         formId,
         response,
       },
-    });
+    });    
+
+    const updateProgress = await prisma.riskAssesment.update({
+      data:{
+        noOfSectionsCompleted: noOfSectionsCompleted
+      },
+      where:{
+        id: formId
+      }
+    })
+
+    console.log(updateProgress)
+
+
 
     res.status(201).json(newResponse);
   } catch (error) {

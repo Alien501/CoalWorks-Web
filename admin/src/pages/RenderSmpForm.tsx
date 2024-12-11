@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { renderField } from '@/components/custom/formFields';
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import axios from 'axios';
-import DynamicFormGenerator from '@/components/custom/dynamicFormGenerator';
 
 interface LoginData {
   username: string;
@@ -22,12 +21,15 @@ interface FormData {
       name: string;
       type: string;
       label: string;
-      value: string;
+      value: string | null;
       checked: boolean;
       required: boolean;
       description: string;
       placeholder: string;
-      options?: string[];
+      options?: { label: string; value: string }[];
+      variant: string;
+      disabled: boolean;
+      rowIndex: number;
     }[];
   }[];
   form_name: string;
@@ -38,6 +40,7 @@ export const RenderSmpForm = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
   const [completedSections, setCompletedSections] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { register: loginRegister, handleSubmit: handleLoginSubmit } = useForm<LoginData>();
   const { register, handleSubmit, formState: { errors, isValid }, watch } = useForm({ mode: 'onChange' });
   const params = useParams();
@@ -70,31 +73,33 @@ export const RenderSmpForm = () => {
 
   // Fetch form data after authentication
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated){
+      console.log("not authenticated")
+      return;
+    }
 
     if (!params.id || isNaN(Number(params.id))) {
       toast.error("Something went wrong!");
       navigate(-1);
       return;
     }
-    console.log("Inside useffect")
-    const fetchAndSetForm = async () => {
-      console.log("Hello")
-      try {
-        console.log(" ---- SEE HERE ----")
-        const res = await axios.get(`/api/data/smp/ra/${params.id}`);
-        console.log(res.data.riskContolPlan[0])
-        setFormData(res.data.riskControlPlan[0]);
-      } catch (error) {
-        console.log("Error from here only")
-        console.error(error);
-        toast.error('Failed to fetch form data');
-        navigate(-1);
-      }
-    };
 
     fetchAndSetForm();
-  }, []);
+  }, [isAuthenticated, params.id, navigate]);
+
+  const fetchAndSetForm = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(`/api/data/smp/ra/${params.id}`);
+      setFormData(res.data.riskControlPlan[0]);
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to fetch form data');
+      navigate(-1);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Check if a section's required fields are filled
   const isSectionComplete = (section) => {
@@ -102,8 +107,8 @@ export const RenderSmpForm = () => {
       .filter(field => field.required)
       .every(field => {
         const value = watchedValues[field.name];
-        // Handle different field types 
-        if (field.type === 'checkbox') return value === true;
+        if (field.type === 'Checkbox') return value === true;
+        if (field.type === 'Select') return value !== null && value !== '';
         return value && value.toString().trim() !== '';
       });
   };
@@ -190,13 +195,17 @@ export const RenderSmpForm = () => {
       </div>
     );
   }
-  console.log("See here bruh")
-  console.log(formData)
+
+  if (isLoading) {
+    return <div>Loading form data...</div>;
+  }
+
   // Form rendering after authentication
+  console.log('Form Data:', formData);
   return (
     <div className='min-h-screen flex justify-center items-center'>
       <Card className="w-full max-w-3xl mx-auto ">
-        {/* {!formData ? (
+        {!formData ? (
           <p>No form found</p>
         ) : (
           <>
@@ -228,7 +237,12 @@ export const RenderSmpForm = () => {
                           {field.label}
                           {field.required && <span className="text-red-500 ml-1">*</span>}
                         </Label>
-                        {renderField(field, register)}
+                        {renderField({
+                          ...field,
+                          register,
+                          error: errors[field.name],
+                          watch: watch,
+                        })}
                         {field.description && (
                           <p className="mt-1 text-sm text-gray-500">{field.description}</p>
                         )}
@@ -245,9 +259,9 @@ export const RenderSmpForm = () => {
               </CardFooter>
             </form>
           </>
-        )} */}
-        <DynamicFormGenerator formData={formData} />
+        )}
       </Card>
     </div>
   );
-};  
+};
+

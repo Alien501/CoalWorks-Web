@@ -32,7 +32,8 @@ const RiskMatrix = () => {
   });
   const [riskMatrix, setRiskMatrix] = useState([]);
   const [hazards, setHazards] = useState([]);
-  const [currentMatrix, setCurrentMatrix] = useState(null); // New state to store the selected matrix
+  const [currentMatrix, setCurrentMatrix] = useState(null);
+  const [riskReportModal, setRiskReportModal] = useState(false);
   const navigate = useNavigate()
 
   const updateMatrixData = (key, value) => {
@@ -82,6 +83,19 @@ const RiskMatrix = () => {
     } else {
       return <Badge className="px-2 py-1 text-white bg-red-500 rounded">High Risk</Badge>;
     }
+  }
+
+  const RiskPlanAnalyticsModal = () => {
+    return (
+      <Dialog open={riskReportModal} onOpenChange={() => setRiskReportModal(false)}>
+        <DialogHeader>
+          {/* <DialogTitle>Risk Plan Report</DialogTitle> */}
+        </DialogHeader>
+        <DialogContent>
+
+        </DialogContent>
+      </Dialog>
+    )
   }
 
   const renderStep = () => {
@@ -219,13 +233,21 @@ const RiskMatrix = () => {
                         <TableCell>{getRiskDetails(hazard.riskValue)}</TableCell>
                         {
                           index <= 5 ? (
-                            <TableCell className="text-right pr-10"><Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}>{hazard.riskControlPlan ? <><EyeIcon /> View</> : <><PlusIcon /> Add {'  '}</>}</Button></TableCell>
+                            <TableCell className="text-right pr-10">
+                              {
+                                hazard.riskControlPlan ?
+                                  <Button className="w-20" onClick={() => setRiskReportModal(true)}><EyeIcon /> View</Button>
+                                  :
+                                  <Button className="w-20" onClick={() => navigate(`/control-plan/${hazard.id}`)}><PlusIcon /> Add</Button>
+                              }
+                            </TableCell>
                           ) :
                             null
                         }
                       </TableRow>
                     ))
                   }
+                  <RiskPlanAnalyticsModal />
                 </TableBody>
               </Table>
             </div>

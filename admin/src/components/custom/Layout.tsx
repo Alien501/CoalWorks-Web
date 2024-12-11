@@ -14,20 +14,31 @@ interface PageTitle {
 
 const pageTitles: PageTitle[] = [
     { url: '/', title: 'Dashboard' },
+    { url: '/home', title: 'Dashboard' },
     { url: '/reports', title: 'Reports' },
     { url: '/rounds', title: 'Round Plans' },
+    { url: '/rounds-create', title: 'Create Rounds' },
     { url: '/scheduler', title: 'Scheduler' },
     { url: '/observations', title: 'Observations' },
     { url: '/archives', title: 'Archives' },
     { url: '/master-data', title: 'Master Config' },
     { url: '/shift-handover', title: 'Shift Handover' },
+    { url: '/shift-handover2', title: 'Shift Handover' },
+    { url: '/create-shift-handover', title: 'Create Shift Handover' },
+    { url: '/shift-tmeplates', title: 'View Shift Templates' },
+    { url: '/shift-tmeplate-create', title: 'Create Shift Template' },
+    { url: '/risk-matrix', title: 'Risk Matrix' },
+    { url: '/control-plan/:id   ', title: 'Edit Control Plan' },
+    { url: '/software-integration', title: 'Integrate Softwares' },
     { url: '/pdf-generator', title: 'Generate PDF' },
     { url: '/master-data/plants', title: 'Manage Sections'},
     { url: '/master-data/shift', title: 'Manage Shifts'},
     { url: '/master-data/locations', title: 'Manage Locations'},
     { url: '/master-data/assets', title: 'Manage Assets'},
     { url: '/master-data/positions', title: "Manage Positions"},
-    { url: '/master-data/permissions', title: "Manage Roles and Permissions"}
+    { url: '/master-data/permissions', title: "Manage Roles and Permissions"},
+    { url: '/master-data/mine', title: "Manage Mines"},
+    { url: '/master-data/user', title: "Manage Users"},
 ]
 
 const Layout = () => {

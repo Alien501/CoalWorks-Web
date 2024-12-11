@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, PickaxeIcon, Settings, SunIcon, UserRoundCog } from "lucide-react";
+import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, PickaxeIcon, ReplaceAll, Settings, SunIcon, TriangleAlert, UserRoundCog } from "lucide-react";
 import { Box } from "lucide-react"
 import { useTheme } from "./theme";
 
@@ -19,40 +19,45 @@ const menuItems: MenuItems[] = [
         url: '/',
         title: "Dashboard"
     },
-    {
-        icon: FolderCog2Icon,
-        url: '/reports',
-        title: 'Reports'
-    },
+    // {
+    //     icon: FolderCog2Icon,
+    //     url: '/reports',
+    //     title: 'Reports'
+    // },
     {
         icon: UserRoundCog,
         url: '/rounds',
         title: 'Round Plans'
     },
+    // {
+    //     icon: ForkliftIcon,
+    //     url: '/scheduler',
+    //     title: 'Scheduler'
+    // },
+    // {
+    //     icon: FileTextIcon,
+    //     url: '/observations',
+    //     title: 'Observations'
+    // },
+    // {
+    //     icon: PickaxeIcon,
+    //     url: '/archives',
+    //     title: 'Archives'
+    // },
     {
-        icon: ForkliftIcon,
-        url: '/scheduler',
-        title: 'Scheduler'
+        icon: TriangleAlert,
+        url: '/risk-matrix',
+        title: "Risk Matrix"
     },
     {
-        icon: FileTextIcon,
-        url: '/observations',
-        title: 'Observations'
-    },
-    {
-        icon: PickaxeIcon,
-        url: '/archives',
-        title: 'Archives'
+        icon: ReplaceAll,
+        url: '/shift-handover',
+        title: 'Shift Handover'
     },
     {
         icon: Settings,
         url: '/master-data',
         title: 'Master Config'
-    },
-    {
-        icon: Settings,
-        url: '/shift-handover',
-        title: 'Shift Handover'
     },
 ]
 

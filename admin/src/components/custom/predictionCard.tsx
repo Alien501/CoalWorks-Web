@@ -2,92 +2,139 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  AlertTriangle, 
-  HardHat, 
-  Gauge, 
-  Clock, 
-  ArrowRight, 
-  AlertCircle,
-  Wrench
+  Thermometer,
+  Gauge,
+  MapPin,
+  Wind,
+  AlertTriangle,
+  ArrowRight,
+  CloudRain,
+  Waves
 } from "lucide-react";
 
-interface PredictionCardProps {
-  prediction: {
-    title: string;
-    type: 'Breakdown' | 'Delay' | 'Safety';
-    severity: 'Critical' | 'Moderate';
-    probability: number;
-    recommendation: string;
-    timeframe: string;
-  };
+interface SensorData {
+  Node: number;
+  latitude: number;
+  longitude: number;
+  accelX: number;
+  accelY: number;
+  accelZ: number;
+  temperature: number;
+  pressure: number;
+  altitude: number;
+  methanePPM: number;
+  carbonMonoxidePPM: number;
+  alert: string;
 }
 
-const PredictionCard: React.FC<PredictionCardProps> = ({ prediction }) => {
-  const getSeverityColor = (severity: string) => {
-    return severity === 'Critical' ? 'text-red-500' : 'text-yellow-500';
+const mockData: SensorData = {
+  Node: 1,
+  latitude: 13.108029981761439,
+  longitude: 74.78920883115683,
+  accelX: -0.24024584079637626,
+  accelY: 0.6545699565123465,
+  accelZ: 0.9973476786460868,
+  temperature: 27.962769089562133,
+  pressure: 1007.3471602216696,
+  altitude: 44.39806418463238,
+  methanePPM: -559,
+  carbonMonoxidePPM: -510,
+  alert: "no"
+};
+
+const PredictionCard = ({ prediction }: { prediction: SensorData }) => {
+  const getAlertStatus = (alert: string) => {
+    return alert.toLowerCase() === "yes" ? "Critical" : "Normal";
   };
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'Breakdown':
-        return <Wrench className="h-5 w-5" />;
-      case 'Delay':
-        return <Clock className="h-5 w-5" />;
-      case 'Safety':
-        return <HardHat className="h-5 w-5" />;
-      default:
-        return <AlertCircle className="h-5 w-5" />;
-    }
+  const getAlertColor = (alert: string) => {
+    return alert.toLowerCase() === "yes" ? "text-red-500" : "text-green-500";
   };
 
   return (
-    <Card className="bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <div className="flex items-center space-x-2">
-          <AlertTriangle className={`h-6 w-6 ${getSeverityColor(prediction.severity)}`} />
-          <h3 className="font-bold text-lg">Priority Alert</h3>
-        </div>
-        <Badge 
-          variant="outline" 
-          className={`${getSeverityColor(prediction.severity)} border-current`}
-        >
-          {prediction.severity}
-        </Badge>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <h4 className="text-xl font-semibold leading-tight">{prediction.title}</h4>
-          <div className="flex items-center space-x-4 text-sm text-gray-300">
-            <div className="flex items-center space-x-1">
-              {getTypeIcon(prediction.type)}
-              <span>{prediction.type}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Gauge className="h-5 w-5" />
-              <span>{prediction.probability}% Probability</span>
+    <div className="bg-gray-100 p-8 dark:bg-gray-900">
+      <Card className="max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl transition-all duration-300">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 border-b dark:border-gray-700">
+          <div className="flex items-center space-x-2">
+            <AlertTriangle className={`h-6 w-6 ${getAlertColor(prediction.alert)}`} />
+            <div>
+              <h3 className="font-bold text-lg dark:text-white">Sensor Node {prediction.Node}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Real-time monitoring</p>
             </div>
           </div>
-        </div>
+          <Badge 
+            variant="outline" 
+            className={`${getAlertColor(prediction.alert)} border-current`}
+          >
+            {getAlertStatus(prediction.alert)}
+          </Badge>
+        </CardHeader>
+        <CardContent className="pt-6 space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <MapPin className="h-5 w-5 text-blue-500" />
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Location</p>
+                  <p className="text-sm dark:text-white">
+                    {prediction.latitude.toFixed(6)}, {prediction.longitude.toFixed(6)}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <Thermometer className="h-5 w-5 text-red-500" />
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Temperature</p>
+                  <p className="text-sm dark:text-white">{prediction.temperature.toFixed(2)}°C</p>
+                </div>
+              </div>
 
-        <div className="space-y-3 bg-gray-800/50 p-3 rounded-lg">
-          <div className="flex items-start space-x-2">
-            <Clock className="h-5 w-5 text-blue-400 mt-0.5" />
-            <p className="text-sm text-gray-300">
-              Timeframe: <span className="text-white">{prediction.timeframe}</span>
-            </p>
-          </div>
-          <div className="border-t border-gray-700 pt-2">
-            <p className="text-sm font-medium">Recommended Action:</p>
-            <p className="text-sm text-gray-300">{prediction.recommendation}</p>
-          </div>
-        </div>
+              <div className="flex items-center space-x-3">
+                <CloudRain className="h-5 w-5 text-cyan-500" />
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Pressure</p>
+                  <p className="text-sm dark:text-white">{prediction.pressure.toFixed(2)} hPa</p>
+                </div>
+              </div>
+            </div>
 
-        <Button className="w-full bg-blue-600 hover:bg-blue-700">
-          Take Action <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </CardContent>
-    </Card>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <Waves className="h-5 w-5 text-purple-500" />
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Acceleration</p>
+                  <p className="text-sm dark:text-white">
+                    X: {prediction.accelX.toFixed(2)}, Y: {prediction.accelY.toFixed(2)}, Z: {prediction.accelZ.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Wind className="h-5 w-5 text-yellow-500" />
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Gas Levels</p>
+                  <p className="text-sm dark:text-white">
+                    CH₄: {prediction.methanePPM} ppm
+                    <br />
+                    CO: {prediction.carbonMonoxidePPM} ppm
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Gauge className="h-5 w-5 text-emerald-500" />
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Altitude</p>
+                  <p className="text-sm dark:text-white">{prediction.altitude.toFixed(2)}m</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
-export default PredictionCard;
+export default PredictionCard

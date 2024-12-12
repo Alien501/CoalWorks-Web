@@ -21,8 +21,11 @@ import { Sparkles } from "lucide-react"
 import { formData } from "./YellowBook"
 import { dummyAiResponse } from "@/lib/dummyAiResponse"
 import { DynamicFormBuilder } from "@/components/forms/dynamic-form-builder"
+import { getShifts } from "@/utils/getShifts"
 import DynamicFormGenerator from "@/components/custom/dynamicFormGenerator"
 import axios from "axios"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
 
 type FieldType = 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date'
 
@@ -45,6 +48,7 @@ interface FormTemplateBasicInfo {
     name: string
     section: string
     position: string
+    shift: string
 }
 
 interface AIFormField {
@@ -118,7 +122,8 @@ export default function FormTemplateBuilder() {
     const [basicInfo, setBasicInfo] = useState<FormTemplateBasicInfo>({
         name: '',
         section: '',
-        position: ''
+        position: '',
+        shift: ''
     })
     const [sections, setSections] = useState<FormSection[]>([
         {
@@ -200,7 +205,7 @@ export default function FormTemplateBuilder() {
                     </div>
                     <div className="flex justify-end space-x-2">
                         <Button
-                            onClick={() => setCurrentStep(2)}
+                            onClick={() => {setCurrentStep(2); console.log(basicInfo)}}
                             disabled={!isStepValid}
                         >
                             Next
@@ -217,6 +222,7 @@ export default function FormTemplateBuilder() {
     const [currentField, setCurrentField] = useState<FormField | null>(null)
     const [userQuery, setuserQuery] = useState("")
     const [aiResponse, setAiResponse] = useState(null)
+    const navigate = useNavigate()
 
     const addSection = () => {
         const newSection: FormSection = {
@@ -304,6 +310,8 @@ export default function FormTemplateBuilder() {
         setEditFieldModalOpen(true)
     }
 
+    const [shifts, setShifts] = useState([])
+
     const updateField = () => {
         if (!currentSection || !currentField) return
 
@@ -322,9 +330,24 @@ export default function FormTemplateBuilder() {
     }
 
     const onSaveTemplateButtonClicked = async () => {
+        const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.shift)
+        console.log(formatedTemplate)
+        const res = await axios.post('/api/data/shifttemplate/create', {
+            positionId: basicInfo.position,
+            sectionId: basicInfo.section,
+            shiftTemplate: formatedTemplate
+    })
+    if(res.status === 201){
+        navigate("/shift-templates")
+        toast.success("Shift Plan Template created successfull")
+    }
+    else{
+        toast.success("Shift plan cannot be created due to some errors. Please try again later")
+        navigate("/shift-templates")
+    }
         console.log(sections)
         console.log("See above")
-        const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
+        const formatedTemplates = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
         // const res = await axios.post('/api/data/shifttemplate/create', {
         //     shiftId: 1,
         //     sectionid: basicInfo.section,
@@ -348,8 +371,16 @@ export default function FormTemplateBuilder() {
             }
         }
 
+        const getShift = async()=>{
+            const d = await getShifts();
+            if(d){
+                setShifts(d)
+            }
+        }        
+
         getAndSetAllSections();
         getAndSetRoles();
+        getShift()
     }, []);
 
     const renderFormBuilderStep = () => {

@@ -4,7 +4,8 @@ import { prisma } from "../../utils/prisma";
 
 const createSupervisorSchema = z.object({
   userId: z.array(z.number().int("User ID must be an integer")),
-  sectionId: z.number().int("Section ID must be an integer")
+  sectionId: z.number().int("Section ID must be an integer"),
+  shiftId: z.number()
 })
   
   const updateSupervisorSchema = z.object({
@@ -72,7 +73,8 @@ const createSupervisors = async (
         const supervisor = await prisma.supervisor.create({
           data: {
             userId,
-            sectionId: validatedData.sectionId
+            sectionId: validatedData.sectionId,
+            shiftId: validatedData.shiftId
           }
         });
 
@@ -89,6 +91,7 @@ const createSupervisors = async (
 
     res.status(201).json({ data: createdSupervisors });
   } catch (error: any) {
+    console.log(error)
     if (error instanceof z.ZodError) {
       return res.status(400).json({ 
         message: 'Validation error',

@@ -5,29 +5,18 @@ import { prisma } from "../../utils/prisma";
 // Create a new shift template
 export const createNewShiftTemplate = async (req: Request, res: Response) => {
   try {
-    const { shiftId, sectionId, questions } = req.body;
-
-    // Get the user ID from the authenticated request
-
-    // Create shift template
-    console.log("reaches here");
-    const shiftTemplate = await prisma.shiftTemplate.create({
+    const { positionId, sectionId, shiftTemplate } = req.body;
+    const shiftTemplateResponse = await prisma.shiftTemplate.create({
       data: {
-        shiftId,
+        shiftId: 1,
+        roleId: positionId,
         sectionId,
-        questions: {
-          create: questions.map((q: any) => ({
-            question: q.question,
-            responseType: q.responseType.toUpperCase(), // Ensure compatibility with enum
-            multipleChoiceOptions: q.multipleChoiceOptions || [],
-          })),
-        },
+        shiftTemplate: shiftTemplate
       },
-      include: {
-        questions: true,
-        shift: true,
+      select:{
         section: true,
-      },
+        createdAt: true,
+      }
     });
 
     res.status(201).json({
@@ -36,6 +25,7 @@ export const createNewShiftTemplate = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Error creating shift template:", error);
+    console.log(error)
     res.status(500).json({
       message: "Failed to create shift template",
       error: (error as Error).message,
@@ -46,20 +36,10 @@ export const createNewShiftTemplate = async (req: Request, res: Response) => {
 // Get all shift templates for a section
 export const getAllShiftTemplates = async (req: Request, res: Response) => {
   try {
-    const { sectionId } = req.params;
     const templates = await prisma.shiftTemplate.findMany({
-      where: {
-        sectionId: parseInt(sectionId),
-      },
       include: {
-        questions: true,
-        shift: true,
-        creator: {
-          select: {
-            userId: true,
-            username: true,
-          },
-        },
+        section: true,
+        role: true
       },
       orderBy: {
         createdAt: "desc",
@@ -73,6 +53,7 @@ export const getAllShiftTemplates = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error retrieving shift templates:", error);
     res.status(500).json({
+      
       message: "Failed to retrieve shift templates",
       error: (error as Error).message,
     });
@@ -123,31 +104,21 @@ export const getShiftTemplateById = async (req: Request, res: Response) => {
 export const updateShiftTemplate = async (req: Request, res: Response) => {
   try {
     const { templateId } = req.params;
-    const { shiftId, sectionId, questions } = req.body;
+    const { shiftId } = req.body;
 
     // Delete existing questions and create new ones
     const updatedTemplate = await prisma.shiftTemplate.update({
       where: { id: parseInt(templateId) },
       data: {
         shiftId,
-        sectionId,
-        questions: {
-          deleteMany: {},
-          create: questions.map((q: any) => ({
-            question: q.question,
-            responseType: q.responseType,
-            multipleChoiceOptions: q.multipleChoiceOptions || [],
-          })),
-        },
       },
       include: {
-        questions: true,
         shift: true,
         section: true,
       },
     });
 
-    res.json({
+    res.status(200).json({
       message: "Shift template updated successfully",
       data: updatedTemplate,
     });

@@ -397,10 +397,20 @@ export default function ControlPlanTemplateBuilder() {
     const onSaveTemplateButtonClicked = async () => {
         const formatedTemplate = convertCustomFormToAITemplate(sections, basicInfo.name, basicInfo.position + " " + basicInfo.section)
         const newFormatedTemplate = [formatedTemplate]
-        const res = await axios.put(`/api/data/smp/ra/${id}`, {
-            riskControlPlan:  [aiResponse] || newFormatedTemplate,
-            noOfSections: sections.length
-        })
+        let res;
+        if(aiResponse === null){
+            res = await axios.put(`/api/data/smp/ra/${id}`, {
+                riskControlPlan: newFormatedTemplate,
+                noOfSections: sections.length
+            })
+        }
+        else{
+            const noOfSection = aiResponse.sections.length
+            res = await axios.put(`/api/data/smp/ra/${id}`, {
+                riskControlPlan: [aiResponse],
+                noOfSections: noOfSection
+            })
+        }
         setaxiosResponse(res)
         if (res.status === 200) {
             toast.success("Control Plan Created Successully")
@@ -431,6 +441,7 @@ export default function ControlPlanTemplateBuilder() {
             else{
                 toast.error("Mail cannot be sent due to some errors")
             }
+            navigate("/risk-matrix")
         }
     }
 

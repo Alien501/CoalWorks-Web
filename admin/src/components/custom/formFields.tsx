@@ -11,69 +11,110 @@ import { CalendarIcon } from 'lucide-react'
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 
-export const renderField = (field: any, register: any) => {
-  switch (field.type) {
+export const renderField = ({
+  type, 
+  name, 
+  label, 
+  placeholder, 
+  required, 
+  options, 
+  register, 
+  error,
+  watch
+}: any) => {
+  switch (type) {
     case 'Text':
     case 'Number':
       return (
         <Input
-          type={field.type === 'Number' ? 'number' : 'text'}
-          id={field.name}
-          placeholder={field.placeholder}
-          {...register(field.name, { required: field.required })}
+          type={type === 'Number' ? 'number' : 'text'}
+          id={name}
+          placeholder={placeholder}
+          {...register(name, { 
+            required: required ? `${label} is required` : false 
+          })}
+          className={error ? "border-red-500" : ""}
         />
       );
     case 'Textarea':
       return (
         <Textarea
-          id={field.name}
-          placeholder={field.placeholder}
-          {...register(field.name, { required: field.required })}
+          id={name}
+          placeholder={placeholder}
+          {...register(name, { 
+            required: required ? `${label} is required` : false 
+          })}
+          className={error ? "border-red-500" : ""}
         />
       );
     case 'Checkbox':
       return (
-        <Checkbox
-          id={field.name}
-          {...register(field.name, { required: field.required })}
-        />
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id={name}
+            {...register(name)}
+          />
+          <label 
+            htmlFor={name} 
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {label}
+          </label>
+        </div>
       );
-    case 'Select':
-      return (
-        <Select {...register(field.name, { required: field.required })}>
-          <SelectTrigger>
-            <SelectValue placeholder={field.placeholder} />
-          </SelectTrigger>
-          <SelectContent>
-            {field.options.map((option: string, index: number) => (
-              <SelectItem key={index} value={option}>
-                {option}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      );
+    // case 'Select':
+    //   return (
+    //     <Select {...register(name, { 
+    //       required: required ? `${label} is required` : false 
+    //     })}>
+    //       <SelectTrigger className={error ? "border-red-500" : ""}>
+    //         <SelectValue placeholder={placeholder} />
+    //       </SelectTrigger>
+    //       <SelectContent>
+    //         {options.map((option: any, index: number) => (
+    //           <SelectItem 
+    //             key={index} 
+    //             value={option.value || option}
+    //           >
+    //             {option.label || option}
+    //           </SelectItem>
+    //         ))}
+    //       </SelectContent>
+    //     </Select>
+    //   );
     case 'File Input':
       return (
         <Input
           type="file"
-          id={field.name}
-          {...register(field.name, { required: field.required })}
+          id={name}
+          {...register(name, { 
+            required: required ? `${label} is required` : false 
+          })}
+          className={error ? "border-red-500" : ""}
         />
       );
     case 'Date Picker':
-      return (
-        <DatePickerField
-          field={field}
-          register={register}
-        />
-      );
+      return <DatePickerField 
+        name={name} 
+        label={label} 
+        placeholder={placeholder} 
+        register={register} 
+        required={required}
+        error={error}
+      />;
     default:
       return null;
   }
 };
 
-const DatePickerField = ({ field, register }: { field: any, register: any }) => {
+const DatePickerField = ({ 
+  name, 
+  label, 
+  placeholder, 
+  register, 
+  required,
+  error 
+}: any) => {
   const [date, setDate] = useState<Date>();
 
   return (
@@ -83,11 +124,12 @@ const DatePickerField = ({ field, register }: { field: any, register: any }) => 
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
+            error && "border-red-500"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>{field.placeholder}</span>}
+          {date ? format(date, "PPP") : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -96,7 +138,8 @@ const DatePickerField = ({ field, register }: { field: any, register: any }) => 
           selected={date}
           onSelect={(newDate) => {
             setDate(newDate);
-            register(field.name).onChange(newDate);
+            // Manually register the date value
+            register(name).onChange(newDate ? newDate.toISOString() : null);
           }}
           initialFocus
         />
@@ -104,4 +147,3 @@ const DatePickerField = ({ field, register }: { field: any, register: any }) => 
     </Popover>
   );
 };
-

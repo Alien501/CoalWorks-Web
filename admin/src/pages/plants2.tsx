@@ -65,6 +65,7 @@ import { Description } from '@radix-ui/react-dialog';
 // import { toast } from "@/components/ui/use-toast" // Assuming you're using shadcn/ui toast
 import { Checkbox } from "@/components/ui/checkbox"
 import CreateShiftTemplateDialog from '@/components/custom/createShiftTemplateDialog';
+import ShiftAssignmentDialog from '@/components/custom/ShiftAssignmentDialog';
 
 interface SectionType {
   id: number
@@ -408,6 +409,8 @@ export default function SectionsPage() {
     // fetchAllUsers();
   }, [])
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <div className="container mx-auto py-10 space-y-4">
       <Tabs defaultValue="types">
@@ -705,8 +708,8 @@ export default function SectionsPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Area</TableHead>
-                <TableHead>Configuration Status</TableHead>
-                <TableHead>Create Shift Template</TableHead>
+                <TableHead>Choose Template</TableHead>
+                <TableHead>Publish Shift Template</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -722,14 +725,12 @@ export default function SectionsPage() {
                     <TableCell>{sectionType?.name || 'Unknown'}</TableCell>
                     <TableCell>{section.area || 'N/A'}</TableCell>
                     <TableCell>
-                      <CreateShiftTemplateDialog sectionId={section.id}></CreateShiftTemplateDialog>
+                      {/* <CreateShiftTemplateDialog sectionId={section.id}></CreateShiftTemplateDialog> */}
+                      <Button onClick={() => setIsModalOpen(true)}>Choose Template</Button>
+                      <ShiftAssignmentDialog section={section.id} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  />
                     </TableCell>
                     <TableCell>
-                      {section.supervisors?.length > 0 ? (
-                        <Badge variant="default">Configured</Badge>
-                      ) : (
-                        <Badge variant="destructive">Not Configured</Badge>
-                      )}
+                      <Button>Publish Shift Template</Button>
                     </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>

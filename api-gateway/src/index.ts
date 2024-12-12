@@ -1,3 +1,31 @@
+// import express from 'express';
+// import morgan from 'morgan';
+// import cors from 'cors';
+// import { handleError } from './middlewares/handleError';
+// import { configDotenv } from 'dotenv';
+// import { serverProxy } from './proxy/proxy';
+
+// configDotenv();
+
+// if (!process.env.ENCRYPTION_KEY || process.env.ENCRYPTION_KEY.length !== 32) {
+//     throw new Error('ENCRYPTION_KEY must be a 32-character string in the .env file.');
+// }
+
+// const PORT = process.env.GATEWAY_PORT;
+// const app = express();
+
+// app.use(cors());
+// app.use(express.json());
+// app.use(morgan('tiny'));
+
+// app.use('/data', serverProxy);
+// app.use(handleError);
+
+// app.listen(PORT, () => {
+//     console.log(`API Gateway running on: http://localhost:${PORT}`);
+// });
+
+
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';

@@ -45,6 +45,7 @@ import FormPage from './pages/FormPage'
 import ControlPlanTemplateBuilder from './pages/createControlPlan'
 import { RenderSmpForm } from './pages/renderSmpForm'
 import SoftwareIntegration from './pages/SoftwareIntegration'
+import { RenderShiftTemplateForm } from './pages/renderShiftTemplateForm'
 
 
 interface ErrorPageProps {
@@ -360,6 +361,10 @@ function App() {
     {
       path: '/form/:id',
       element: <RenderSmpForm />
+    },
+    {
+      path: '/shift/form/:id',
+    element: <RenderShiftTemplateForm />
     }
   ])
 

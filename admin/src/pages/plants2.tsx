@@ -726,8 +726,15 @@ export default function SectionsPage() {
                     <TableCell>{section.area || 'N/A'}</TableCell>
                     <TableCell>
                       {/* <CreateShiftTemplateDialog sectionId={section.id}></CreateShiftTemplateDialog> */}
-                      <Button onClick={() => setIsModalOpen(true)}>Choose Template</Button>
-                      <ShiftAssignmentDialog section={section.id} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button onClick={() => setIsModalOpen(true)}>Choose Template</Button>
+                        </DialogTrigger>
+                        <DialogContent className='w-[90%] block '>
+                          <ShiftAssignmentDialog />
+                        </DialogContent>
+                      </Dialog>
+                      {/* <ShiftAssignmentDialog section={section.id} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  /> */}
                     </TableCell>
                     <TableCell>
                       <Button>Publish Shift Template</Button>

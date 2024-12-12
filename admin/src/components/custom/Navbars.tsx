@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, PickaxeIcon, ReplaceAll, Settings, SunIcon, TriangleAlert, UserRoundCog } from "lucide-react";
+import { Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, LanguagesIcon, PickaxeIcon, ReplaceAll, Settings, SunIcon, TriangleAlert, UserRoundCog } from "lucide-react";
 import { Box } from "lucide-react"
 import { useTheme } from "./theme";
 
@@ -104,10 +104,16 @@ const SideNavbar = () => {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <Button onClick={toggleTheme} variant={'ghost'} className="flex items-center justify-start">
-                                <SunIcon />
-                                <span className="text-sm font-medium">Change Theme</span>
-                            </Button>
+                            <div>
+                                <Button className="flex items-center justify-start" variant='ghost'>
+                                    <LanguagesIcon />
+                                    <span className="text-sm font-medium">Change Language</span>
+                                </Button>
+                                <Button onClick={toggleTheme} variant={'ghost'} className="flex items-center justify-start">
+                                    <SunIcon />
+                                    <span className="text-sm font-medium">Change Theme</span>
+                                </Button>
+                            </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

@@ -1,238 +1,172 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import axios from 'axios'
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription 
-} from "@/components/ui/dialog"
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { toast } from 'sonner'
-import { ScrollArea } from '../ui/scroll-area'
+'use client'
 
-// Existing interfaces + new ones
-interface ShiftTemplate {
-  id: number
-  name: string
-  startTime: string
-  endTime: string
-  description?: string
-}
+import React, { useEffect, useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface User {
-  userId: number
-  name: string
-  role: 'SUPERVISOR' | 'OPERATOR'
+  userId: string
+  username: string
 }
 
-interface ShiftAssignmentDialogProps {
-  section: Section
-  isOpen: boolean
-  onClose: () => void
+interface ShiftTemplate {
+  shiftTemplateId: string
+  form_name: string
 }
 
-function ShiftAssignmentDialog({ 
-  section, 
-  isOpen, 
-  onClose 
-}: ShiftAssignmentDialogProps) {
+interface ShiftData {
+  supervisor: string | null
+  workers: string[]
+  selectedTemplates: string[]
+}
+
+export default function ShiftAssignmentDialog() {
+  const [users, setUsers] = useState<User[]>([])
   const [shiftTemplates, setShiftTemplates] = useState<ShiftTemplate[]>([])
-  const [supervisors, setSupervisors] = useState<User[]>([])
-  const [operators, setOperators] = useState<User[]>([])
-
-  const [morningShiftData, setMorningShiftData] = useState({
-    supervisor: null,
-    operators: [],
-    templates: []
-  })
-  const [afternoonShiftData, setAfternoonShiftData] = useState({
-    supervisor: null,
-    operators: [],
-    templates: []
-  })
-  const [nightShiftData, setNightShiftData] = useState({
-    supervisor: null,
-    operators: [],
-    templates: []
+  const [shiftData, setShiftData] = useState<Record<string, ShiftData>>({
+    morning: { supervisor: null, workers: [], selectedTemplates: [] },
+    afternoon: { supervisor: null, workers: [], selectedTemplates: [] },
+    night: { supervisor: null, workers: [], selectedTemplates: [] },
   })
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [templatesRes, supervisorsRes, operatorsRes] = await Promise.all([
-          axios.get('/api/data/shifttemplate'),
-          axios.get('/api/data/user'),
-          axios.get('/api/data/user')
-        ])
-        console.log("See here bruh")
-        console.log(templatesRes.data)
-        setShiftTemplates(templatesRes.data.data)
-        setSupervisors(supervisorsRes.data.data)
-        setOperators(operatorsRes.data.data)
-      } catch (error) {
-        toast.error("Failed to load shift assignment data")
+    // Simulating API calls
+    setUsers([
+      { userId: "1", username: "John Doe" },
+      { userId: "2", username: "Jane Smith" },
+      { userId: "3", username: "Bob Johnson" },
+    ])
+    setShiftTemplates([
+      { shiftTemplateId: "1", form_name: "Standard Shift" },
+      { shiftTemplateId: "2", form_name: "Extended Shift" },
+      { shiftTemplateId: "3", form_name: "Special Operations" },
+    ])
+  }, [])
+
+  const handleSupervisorChange = (shift: string, userId: string) => {
+    setShiftData((prev) => ({
+      ...prev,
+      [shift]: { ...prev[shift], supervisor: userId },
+    }))
+  }
+
+  const handleWorkerChange = (shift: string, userId: string) => {
+    setShiftData((prev) => {
+      const currentWorkers = prev[shift].workers
+      const updatedWorkers = currentWorkers.includes(userId)
+        ? currentWorkers.filter((id) => id !== userId)
+        : [...currentWorkers, userId]
+      return {
+        ...prev,
+        [shift]: { ...prev[shift], workers: updatedWorkers },
       }
-    }
-
-    if (isOpen) {
-      fetchData()
-    }
-  }, [isOpen])
-
-  const handleSupervisorSelect = (shift: 'morning' | 'afternoon' | 'night', supervisor: User) => {
-    const setShiftData = {
-      'morning': setMorningShiftData,
-      'afternoon': setAfternoonShiftData,
-      'night': setNightShiftData
-    }[shift]
-
-    setShiftData(prev => ({
-      ...prev,
-      supervisor: supervisor
-    }))
+    })
   }
 
-  const handleOperatorToggle = (shift: 'morning' | 'afternoon' | 'night', operator: User) => {
-    const setShiftData = {
-      'morning': setMorningShiftData,
-      'afternoon': setAfternoonShiftData,
-      'night': setNightShiftData
-    }[shift]
-
-    setShiftData(prev => ({
-      ...prev,
-      operators: prev.operators.some(op => op.id === operator.id)
-        ? prev.operators.filter(op => op.id !== operator.id)
-        : [...prev.operators, operator]
-    }))
-  }
-
-  const handleTemplateToggle = (shift: 'morning' | 'afternoon' | 'night', template: ShiftTemplate) => {
-    const setShiftData = {
-      'morning': setMorningShiftData,
-      'afternoon': setAfternoonShiftData,
-      'night': setNightShiftData
-    }[shift]
-
-    setShiftData(prev => ({
-      ...prev,
-      templates: prev.templates.some(t => t.id === template.id)
-        ? prev.templates.filter(t => t.id !== template.id)
-        : [...prev.templates, template]
-    }))
-  }
-
-  const handleSaveShiftAssignment = async () => {
-    try {
-      const payload = {
-        sectionId: section.id,
-        shifts: {
-          morning: morningShiftData,
-          afternoon: afternoonShiftData,
-          night: nightShiftData
-        }
+  const handleTemplateChange = (shift: string, templateId: string) => {
+    setShiftData((prev) => {
+      const currentTemplates = prev[shift].selectedTemplates
+      const updatedTemplates = currentTemplates.includes(templateId)
+        ? currentTemplates.filter((id) => id !== templateId)
+        : [...currentTemplates, templateId]
+      return {
+        ...prev,
+        [shift]: { ...prev[shift], selectedTemplates: updatedTemplates },
       }
+    })
+  }
 
-      await axios.post('/api/section-shift-assignments', payload)
-      toast.success("Shift assignments saved successfully")
-      onClose()
-    } catch (error) {
-      toast.error("Failed to save shift assignments")
-    }
+  const handleSave = () => {
+    console.log("Saving shift data:", shiftData)
+    // Implement your save logic here
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl h-[90%]">
-        <ScrollArea>
-            <DialogHeader>
-            <DialogTitle>Assign Shifts for {section.name}</DialogTitle>
-            <DialogDescription>
-                Configure shift templates, supervisors, and operators
-            </DialogDescription>
-            </DialogHeader>
-
-            {/* Shift Configuration Sections */}
-            {['morning', 'afternoon', 'night'].map((shift) => (
-            <div key={shift} className="border p-4 rounded-lg mb-4">
-                <h3 className="text-lg font-semibold capitalize">{shift} Shift</h3>
-                
-                {/* Supervisor Selection */}
-                <div className="mb-4">
-                <label>Supervisor</label>
-                <Select 
-                    value={morningShiftData.supervisor?.id.toString()} 
-                    onValueChange={(value) => {
-                    const supervisor = supervisors.find(s => s.id === parseInt(value))
-                    handleSupervisorSelect(shift as any, supervisor)
-                    }}
-                >
-                    <SelectTrigger>
-                    <SelectValue placeholder="Select Supervisor" />
+    <Dialog>
+      <DialogContent className="sm:max-w-[800px]">
+        <DialogHeader>
+          <DialogTitle>Assign Shifts</DialogTitle>
+        </DialogHeader>
+        <Tabs defaultValue="morning">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="morning">Morning Shift</TabsTrigger>
+            <TabsTrigger value="afternoon">Afternoon Shift</TabsTrigger>
+            <TabsTrigger value="night">Night Shift</TabsTrigger>
+          </TabsList>
+          {Object.entries(shiftData).map(([shift, data]) => (
+            <TabsContent key={shift} value={shift}>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor={`${shift}-supervisor`}>Supervisor</Label>
+                  <Select
+                    value={data.supervisor || ""}
+                    onValueChange={(value) => handleSupervisorChange(shift, value)}
+                  >
+                    <SelectTrigger id={`${shift}-supervisor`}>
+                      <SelectValue placeholder="Select Supervisor" />
                     </SelectTrigger>
                     <SelectContent>
-                    {supervisors.map(supervisor => (
-                        <SelectItem 
-                        key={supervisor.userId} 
-                        value={supervisor.userId.toString()}
-                        >
-                        {supervisor.username}
+                      {users.map((user) => (
+                        <SelectItem key={user.userId} value={user.userId}>
+                          {user.username}
                         </SelectItem>
-                    ))}
+                      ))}
                     </SelectContent>
-                </Select>
+                  </Select>
                 </div>
-
-                {/* Operators Selection */}
-                <div className="mb-4">
-                <label>Operators</label>
-                <div className="grid grid-cols-3 gap-2">
-                    {operators.map(operator => (
-                    <div key={operator.userId} className="flex items-center space-x-2">
-                        <Checkbox
-                        checked={morningShiftData.operators.some(op => op.userId === operator.userId)}
-                        onCheckedChange={() => handleOperatorToggle(shift as any, operator)}
-                        />
-                        <span>{operator.username}</span>
-                    </div>
-                    ))}
-                </div>
-                </div>
-
-                {/* Shift Templates Selection */}
                 <div>
-                <label>Shift Templates</label>
-                <div className="grid grid-cols-3 gap-2">
-                    {shiftTemplates.map(template => (
-                    <div key={template.id} className="flex items-center space-x-2">
+                  <Label>Workers</Label>
+                  <ScrollArea className="h-[200px] w-full border rounded-md p-4">
+                    {users.map((user) => (
+                      <div key={user.userId} className="flex items-center space-x-2 mb-2">
                         <Checkbox
-                        checked={morningShiftData.templates.some(t => t.id === template.id)}
-                        onCheckedChange={() => handleTemplateToggle(shift as any, template)}
+                          id={`${shift}-worker-${user.userId}`}
+                          checked={data.workers.includes(user.userId)}
+                          onCheckedChange={() => handleWorkerChange(shift, user.userId)}
                         />
-                        <span>{template.shiftTemplate.form_name}</span>
-                    </div>
+                        <Label
+                          htmlFor={`${shift}-worker-${user.userId}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {user.username}
+                        </Label>
+                      </div>
                     ))}
+                  </ScrollArea>
                 </div>
+                <div>
+                  <Label>Shift Templates</Label>
+                  <ScrollArea className="h-[150px] w-full border rounded-md p-4">
+                    {shiftTemplates.map((template) => (
+                      <div key={template.shiftTemplateId} className="flex items-center space-x-2 mb-2">
+                        <Checkbox
+                          id={`${shift}-template-${template.shiftTemplateId}`}
+                          checked={data.selectedTemplates.includes(template.shiftTemplateId)}
+                          onCheckedChange={() => handleTemplateChange(shift, template.shiftTemplateId)}
+                        />
+                        <Label
+                          htmlFor={`${shift}-template-${template.shiftTemplateId}`}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {template.form_name}
+                        </Label>
+                      </div>
+                    ))}
+                  </ScrollArea>
                 </div>
-            </div>
-            ))}
-
-            <Button onClick={handleSaveShiftAssignment}>
-            Save Shift Assignments
-            </Button>
-        </ScrollArea>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+        <DialogFooter>
+          <Button onClick={handleSave}>Save Assignments</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
-}
-
-export default ShiftAssignmentDialog
+}   

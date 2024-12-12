@@ -14,7 +14,7 @@ const app = express();
 
 const kafka = new Kafka({
   clientId: 'iot-producer',
-  brokers: ['192.168.173.53:9093']
+  brokers: ['192.168.110.53:9093']
 });
 const producer = kafka.producer();
 const connectToKafka = async () => {

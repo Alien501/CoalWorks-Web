@@ -5,6 +5,7 @@ import { router } from './router/router';
 import cors from 'cors';
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocs } from './swagger';
+import { decryptMiddleware } from './middlewares/decryptData';
 
 const app = express();
 
@@ -30,7 +31,9 @@ app.use(morgan('tiny'));
  *     responses:
  *       200:
  *         description: Returns a success message.
- */
+*/
+// @ts-ignore
+app.use(decryptMiddleware);
 app.use('/api/v1', router);
 
 app.use(handleError);

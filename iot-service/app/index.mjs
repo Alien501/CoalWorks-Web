@@ -17,7 +17,7 @@ const httpServer = createServer(app);
 
 export const client = new Client({
   connectionString:
-    "postgresql://postgres:postgres@172.16.8.247:5432/development_database",
+    "postgresql://postgres:postgres@localhost:5434",
 });
 
 client

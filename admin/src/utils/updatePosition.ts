@@ -1,8 +1,13 @@
+import { encryptData } from "./encryptData";
+
 const updatePosition = async (data, positionId) => {
+    const encrypted = encryptData(data);
     try {
         const res = await fetch(`/api/data/position/${positionId}`, {
             method: 'PATCH',
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                encryptedData: encrypted
+            }),
             headers: {
                 'Content-type': 'application/json'
             }

@@ -109,7 +109,7 @@ model User {
   operatorAssignments   ShiftAssignmentOperator[] @relation("OperatorAssignments")
   shifts                ShiftUsers[]
   sections              SectionUsers[]
-  riskAssesmentResponse RiskAssessmentResponse[] 
+  riskAssesmentResponse RiskAssessmentResponse[]
 }
 
 model ShiftAssignment {
@@ -187,14 +187,15 @@ model Shift {
 }
 
 model ShiftTemplate {
-  id        Int                     @id @default(autoincrement())
-  shiftId   Int
-  sectionId Int
-  createdAt DateTime                @default(now())
-  updatedAt DateTime                @updatedAt
-  questions Json
-  shift     Shift                   @relation(fields: [shiftId], references: [shiftId])
-  section   Section                 @relation(fields: [sectionId], references: [id])
+  id                    Int                     @id @default(autoincrement())
+  shiftId               Int
+  sectionId             Int
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  questions             Json
+  shift                 Shift                   @relation(fields: [shiftId], references: [shiftId])
+  section               Section                 @relation(fields: [sectionId], references: [id])
+  ShiftTemplateQuestion ShiftTemplateQuestion[]
 }
 
 enum ResponseType {
@@ -338,31 +339,31 @@ model RiskValues {
 }
 
 model RiskAssesment {
-  id               Int      @id @default(autoincrement())
-  activity         String
-  sectionId        Int
-  section          Section  @relation(fields: [sectionId], references: [id])
-  hazard           String
-  mechanism        String
-  exposedGroup     String
-  description      String
-  consequence      Float
-  exposure         Float
-  probability      Float
-  riskValue        Float
-  riskControlPlan  Json?
-  noOfSections     Int?      @default(2)
-  noOfSectionsCompleted Int @default(0)
-  responses RiskAssessmentResponse[]
+  id                    Int                      @id @default(autoincrement())
+  activity              String
+  sectionId             Int
+  section               Section                  @relation(fields: [sectionId], references: [id])
+  hazard                String
+  mechanism             String
+  exposedGroup          String
+  description           String
+  consequence           Float
+  exposure              Float
+  probability           Float
+  riskValue             Float
+  riskControlPlan       Json?
+  noOfSections          Int?                     @default(2)
+  noOfSectionsCompleted Int                      @default(0)
+  responses             RiskAssessmentResponse[]
 }
 
 model RiskAssessmentResponse {
-  id               Int      @id @default(autoincrement())
-  userId           Int
-  formId           Int
-  response         Json
-  user             User     @relation(fields: [userId], references: [userId])
-  form   RiskAssesment @relation(fields: [formId], references: [id])
+  id       Int           @id @default(autoincrement())
+  userId   Int
+  formId   Int
+  response Json
+  user     User          @relation(fields: [userId], references: [userId])
+  form     RiskAssesment @relation(fields: [formId], references: [id])
 }
 
 enum MailStatus {
@@ -426,8 +427,9 @@ model hazardExposedGroup {
 }
 
 model SoftwareIntegration {
-  id   Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
-
+  apiKey String
+  
   @@map("software_integrations")
 }

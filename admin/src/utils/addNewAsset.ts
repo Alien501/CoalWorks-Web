@@ -1,10 +1,15 @@
+import { encryptData } from "./encryptData";
+
 const addNewAsset = async (data: any) => {
+    const encrypted = encryptData(data);
     try {
         const res = await fetch('/api/data/asset/create', {
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                encryptedData: encrypted
+            }),
             method: 'POST'
         })
         if(res.ok) {

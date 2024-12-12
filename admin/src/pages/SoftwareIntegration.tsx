@@ -2,7 +2,9 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { EyeIcon, EyeOffIcon, PlusIcon } from 'lucide-react'
+import { EyeIcon, EyeOffIcon, KeyIcon, PlusIcon } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 
 interface Software {
   id: number
@@ -11,14 +13,34 @@ interface Software {
 }
 
 export default function SoftwareIntegration() {
-  const [softwares, setSoftwares] = useState<Software[]>([
-    { id: 1, name: "Coal ERP", key: "generated-key-123" },
-    { id: 2, name: "Inventory Manager", key: "generated-key-456" },
-  ])
+  const [softwares, setSoftwares] = useState<Software[]>([])
   const [visibleKeys, setVisibleKeys] = useState<{ [key: number]: boolean }>({})
+  const [softwareName, setSoftwareName] = useState('');
 
   const toggleKeyVisibility = (id: number) => {
     setVisibleKeys((prev) => ({ ...prev, [id]: !prev[id] }))
+  }
+
+  const onGenerateKeyClicked = () => {
+    // Generate a cryptographically secure random key
+    const generateSecureKey = () => {
+      const array = new Uint8Array(16); // 16 bytes = 128 bits
+      crypto.getRandomValues(array);
+      return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    }
+
+    const newKey = generateSecureKey();
+    
+    // If a software name is entered, create a new software with that name
+    if (softwareName.trim()) {
+      const newSoftware: Software = {
+        id: softwares.length + 1,
+        name: softwareName.trim(),
+        key: newKey,
+      }
+      setSoftwares([...softwares, newSoftware]);
+      setSoftwareName(''); // Reset the input
+    }
   }
 
   const addSoftware = () => {
@@ -34,10 +56,34 @@ export default function SoftwareIntegration() {
     <section id="software-integration" className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Software Integration</h1>
-        <Button onClick={addSoftware} className="rounded-md">
-          <PlusIcon className="mr-2 h-4 w-4" />
-          Add Software
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              <PlusIcon />
+              Add New Software
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Software</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2">
+              <div>
+                <Label>Name: </Label>
+                <Input
+                  name="name"
+                  className="rounded-sm"
+                  placeholder="Software Name"
+                  value={softwareName}
+                  onChange={(e) => setSoftwareName(e.target.value)}
+                />
+              </div>
+              <div className="flex justify-end">
+               <Button onClick={onGenerateKeyClicked}><KeyIcon /> Generate Key</Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="border border-gray-200 rounded-lg overflow-hidden dark:border-gray-700">
         <Table>

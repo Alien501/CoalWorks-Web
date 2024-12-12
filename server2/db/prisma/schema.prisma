@@ -450,6 +450,7 @@ model hazardExposedGroup {
 model SoftwareIntegration {
   id   Int    @id @default(autoincrement())
   name String
-
+  apiKey String
+  
   @@map("software_integrations")
 }

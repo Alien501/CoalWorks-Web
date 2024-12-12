@@ -67,7 +67,7 @@ const RiskPlanAnalyticsModal: React.FC<{ id: number; open: boolean; onOpenChange
     return acc;
   }, [] as FormSubmission[]);
 
-  const PDFDocument = () => (
+  const PDFDocument = ({uniqueSubmissions, completionData}: {uniqueSubmissions: FormSubmission[], completionData: CompletionData | null}) => (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
@@ -80,6 +80,13 @@ const RiskPlanAnalyticsModal: React.FC<{ id: number; open: boolean; onOpenChange
               <Text style={styles.submissionText}>Description: {submission.response.description_of_the_control_plan}</Text>
             </View>
           ))}
+          {completionData && (
+            <View>
+              <Text style={styles.subtitle}>Completion Data</Text>
+              <Text style={styles.submissionText}>Completed Sections: {completionData.noOfSectionsCompleted}</Text>
+              <Text style={styles.submissionText}>Total Sections: {completionData.noOfSections}</Text>
+            </View>
+          )}
         </View>
       </Page>
     </Document>
@@ -152,10 +159,10 @@ const RiskPlanAnalyticsModal: React.FC<{ id: number; open: boolean; onOpenChange
           </div>
           
           <div className="flex justify-end">
-            <PDFDownloadLink document={<PDFDocument />} fileName="risk_plan_report.pdf">
+            <PDFDownloadLink document={<PDFDocument uniqueSubmissions={uniqueSubmissions} completionData={completionData} />} fileName="coal_mine_risk_plan_report.pdf">
               {({ blob, url, loading, error }) => 
                 <Button className="bg-red-700 text-white hover:bg-primary-dark">
-                  {loading ? 'Generating PDF...' : 'Download PDF Report'}
+                  {loading ? 'Generating PDF...' : 'Download Detailed PDF Report'}
                 </Button>
               }
             </PDFDownloadLink>
@@ -201,4 +208,3 @@ const styles = StyleSheet.create({
 });
 
 export default RiskPlanAnalyticsModal;
-

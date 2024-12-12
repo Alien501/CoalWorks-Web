@@ -8,7 +8,7 @@ export const createNewShiftTemplate = async (req: Request, res: Response) => {
     const { positionId, sectionId, shiftTemplate } = req.body;
     const shiftTemplateResponse = await prisma.shiftTemplate.create({
       data: {
-        shiftId: 1,
+        shiftId: 2,
         roleId: positionId,
         sectionId,
         shiftTemplate: shiftTemplate
@@ -69,15 +69,14 @@ export const getShiftTemplateById = async (req: Request, res: Response) => {
         id: parseInt(templateId),
       },
       include: {
-        questions: true,
         shift: true,
         section: true,
-        creator: {
-          select: {
-            userId: true,
-            username: true,
-          },
-        },
+        // creator: {
+        //   select: {
+        //     userId: true,
+        //     username: true,
+        //   },
+        // },
       },
     });
 
@@ -86,6 +85,7 @@ export const getShiftTemplateById = async (req: Request, res: Response) => {
         message: "Shift template not found",
       });
     }
+    console.log(template)
 
     res.json({
       message: "Shift template retrieved successfully",

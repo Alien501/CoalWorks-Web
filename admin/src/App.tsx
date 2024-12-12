@@ -43,8 +43,8 @@ import CreateShiftTemplate from './pages/CreateShiftTemplate'
 import FormPage from './pages/FormPage'
 // import { OperatorResponseForm } from './components/operatorResponseForm'
 import ControlPlanTemplateBuilder from './pages/createControlPlan'
-import { RenderSmpForm } from './pages/renderSmpForm'
 import SoftwareIntegration from './pages/SoftwareIntegration'
+import { RenderSmp } from './pages/RenderSmp'
 
 
 interface ErrorPageProps {
@@ -313,6 +313,10 @@ function App() {
         {
           path: '/software-integration',
           element: <SoftwareIntegration />
+        },
+        {
+          path: '/render-smp',
+          element: <RenderSmp />
         }
         // {
         //   path: '/form/:uniqueKey',
@@ -357,10 +361,10 @@ function App() {
       path: '/init',
       element: <InitPage />
     },
-    {
-      path: '/form/:id',
-      element: <RenderSmpForm />
-    }
+    // {
+    //   path: '/form/:id',
+    //   element: <RenderSmpForm />
+    // }
   ])
 
   return (

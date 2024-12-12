@@ -41,7 +41,7 @@ const MasterData = () => {
                         </CardContent>
                         </Card>
                     </Link>
-                    <Link to={'/master-data/plants'} className="block">
+                    {/* <Link to={'/master-data/plants'} className="block">
                         <Card className="hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-2">
                             <CardHeader>
                                 <CardTitle className="flex items-center justify-between">
@@ -168,7 +168,7 @@ const MasterData = () => {
                                 </div>
                             </CardContent>
                         </Card>
-                    </Link>
+                    </Link> */}
 
                     <div className="opacity-50 pointer-events-none">
                         <Card className="h-full">

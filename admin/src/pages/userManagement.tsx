@@ -68,10 +68,11 @@ interface User {
 export function UserManagement() {
 
     const [users, setUsers] = useState<User[]>([])
+    const [userChange, setUserChange] = useState(false)
 
     useEffect(() => {
         fetchUsers()
-    }, [])
+    }, [userChange])
 
     const fetchUsers = async () => {
         try {
@@ -91,7 +92,7 @@ export function UserManagement() {
         <div className="container mx-auto py-10">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold">User Management</h1>
-                <CreateUserDialog onUserCreated={handleUserCreated} />
+                <CreateUserDialog onUserCreated={handleUserCreated} setUserChange = {setUserChange} userChange ={userChange}/>
             </div>
             <Table>
                 <TableHeader>
@@ -125,7 +126,7 @@ interface CreateUserDialogProps {
     onUserCreated: () => void
 }
 
-export function CreateUserDialog({ onUserCreated }: CreateUserDialogProps) {
+export function CreateUserDialog({ onUserCreated, setUserChange, userChange }: any) {
 
     const formSchema = z.object({
         username: z.string(),
@@ -158,11 +159,13 @@ export function CreateUserDialog({ onUserCreated }: CreateUserDialogProps) {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
+            let res;
             const payload = {...values, userRoleId: Number(values.userRoleId)}
-            const res = await axios.post("/api/data/user/create", 
+            res = await axios.post("/api/data/user/create", 
                 payload
             )  
             if(res.status === 201){
+                setUserChange(!userChange)
                 toast.success("user created successfully")
             }
         } catch (error) {

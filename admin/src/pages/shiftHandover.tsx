@@ -13,8 +13,8 @@ export const ShiftHandover = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="w-72 h-72 transition-all duration-300 hover:shadow-xl group">
             <CardContent className="p-6 h-full flex flex-col items-center justify-center space-y-4">
-              <ClipboardList className="w-16 h-16 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
-              <h2 className="text-2xl font-semibold text-center group-hover:text-primary-foreground transition-colors duration-300">Shift Handover</h2>
+              <ClipboardList className="w-16 h-16 text-primary transition-colors duration-300" />
+              <h2 className="text-2xl font-semibold text-center transition-colors duration-300">Shift Handover</h2>
               <Button 
                 variant="outline" 
                 className="mt-4 w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
@@ -26,11 +26,11 @@ export const ShiftHandover = () => {
           </Card>
           <Card className="w-72 h-72 transition-all duration-300 hover:shadow-xl group">
             <CardContent className="p-6 h-full flex flex-col items-center justify-center space-y-4">
-              <FileText className="w-16 h-16 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
-              <h2 className="text-2xl font-semibold text-center group-hover:text-primary-foreground transition-colors duration-300">Shift-log Template</h2>
+              <FileText className="w-16 h-16 text-primary transition-colors duration-300" />
+              <h2 className="text-2xl font-semibold text-center transition-colors duration-300">Shift-log Template</h2>
               <Button 
                 variant="outline" 
-                className="mt-4 w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+                className="mt-4 w-full transition-all duration-300 hover:text-black hover:bg-white"
                 onClick={() => navigate('/shift-templates')}
               >
                 Manage Templates

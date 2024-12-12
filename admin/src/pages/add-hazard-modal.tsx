@@ -83,7 +83,7 @@ const NewHazardTypeModal = ({ title, placeholder, value, onInputChange, onSaveCl
   )
 }
 
-export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
+export function AddHazardModal({ currentMatrix, setRefreshContent, refreshContent }: { currentMatrix: any, setRefreshContent: any, refreshContent: any }) {
   const [sections, setSections] = useState<Section[]>([]);
   const [controlRows, setControlRows] = useState<ControlRow[]>([
     { type: '', details: '', person: '', dueDate: '', completed: false }
@@ -223,6 +223,7 @@ export function AddHazardModal({ currentMatrix }: { currentMatrix: any }) {
 
 
       const response = await axios.post('/api/data/smp/ra', completeData);
+      setRefreshContent(!refreshContent)
 
       toast.success("Risk Assessment Created Successfully");
 

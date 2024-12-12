@@ -37,6 +37,7 @@ const RiskMatrix = () => {
   const [riskReportModal, setRiskReportModal] = useState(false);
   const navigate = useNavigate()
   const [formId, setFormId] = useState(null)
+  const [refreshContent, setRefreshContent] = useState(false)
 
   const updateMatrixData = (key, value) => {
     console.log('Updated data', value);
@@ -185,7 +186,7 @@ const RiskMatrix = () => {
                   </DialogContent>
                 </Dialog>
                 <Button onClick={nextStep}>Configure Risk Matrix</Button>
-                <AddHazardModal currentMatrix={currentMatrix}></AddHazardModal>
+                <AddHazardModal currentMatrix={currentMatrix} setRefreshContent = {setRefreshContent} refreshContent = { refreshContent }></AddHazardModal>
                 {/* <Dialog>
                   <DialogTrigger><Button>View Hazards</Button></DialogTrigger>
                   <DialogContent>
@@ -374,7 +375,7 @@ const RiskMatrix = () => {
 
     getAndSetRiskMatrix();
     getAndSetHazards();
-  }, []);
+  }, [refreshContent]);
 
   return (
     <section id="riskmatrix-page" className="bg-background border-none">

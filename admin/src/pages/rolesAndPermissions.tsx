@@ -21,6 +21,7 @@ export default function RolesManagement() {
   const [searchTerm, setSearchTerm] = useState("")
   const [newRole, setNewRole] = useState<Partial<Role>>({})
   const [editingRole, setEditingRole] = useState<Role | null>(null)
+  const [refreshContent, setRefreshContent] = useState(false)
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -33,7 +34,7 @@ export default function RolesManagement() {
       }
     }
     fetchRoles()
-  }, [])
+  }, [refreshContent])
 
   const handleAddRole = async () => {
     if (!newRole.roleName) {
@@ -46,6 +47,7 @@ export default function RolesManagement() {
         roleName: newRole.roleName,
         description: newRole.description
       })
+      setRefreshContent(!refreshContent)
       toast.success("Role created successfully, Please refresh the page to see the changes")
       setRoles((prev) => [...prev, res.data])
       setNewRole({}) // Reset form

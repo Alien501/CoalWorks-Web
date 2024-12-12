@@ -45,6 +45,7 @@ import FormPage from './pages/FormPage'
 import ControlPlanTemplateBuilder from './pages/createControlPlan'
 import SoftwareIntegration from './pages/SoftwareIntegration'
 import { RenderSmp } from './pages/RenderSmp'
+import Dgms from './pages/Dgms'
 
 
 interface ErrorPageProps {
@@ -317,6 +318,10 @@ function App() {
         {
           path: '/render-smp',
           element: <RenderSmp />
+        },
+        {
+          path: '/dgms',
+          element: <Dgms />
         }
         // {
         //   path: '/form/:uniqueKey',

@@ -39,6 +39,7 @@ const pageTitles: PageTitle[] = [
     { url: '/master-data/permissions', title: "Manage Roles and Permissions"},
     { url: '/master-data/mine', title: "Manage Mines"},
     { url: '/master-data/user', title: "Manage Users"},
+    { url: '/dgms', title: "DGMS Files"},
 ]
 
 const Layout = () => {

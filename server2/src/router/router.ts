@@ -20,6 +20,7 @@ import { shiftTemplateRouter } from "./shiftTemplateRouter";
 import { smpRouter } from "./smpRouter";
 import { hazardRouter } from "./hazardRouter";
 import { riskAssesmentResponseRouter } from "./riskAssesmentResponseRouter";
+import { dgmsRouter } from "./dgmsRouter";
 
 const router = Router();
 
@@ -71,5 +72,7 @@ router.use('/smp', smpRouter);
 router.use('/riskresponse', riskAssesmentResponseRouter);
 
 router.use('/hazard', hazardRouter);
+
+router.use('/dgms', dgmsRouter);
 
 export { router };

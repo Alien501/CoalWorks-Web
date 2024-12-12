@@ -6,15 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import axios from 'axios';
+import { ShowShiftTemplates } from './showShiftTemplates';
 
-// Define response types
+// Define response 
 const RESPONSE_TYPES = [
-  'text', 
-  'image', 
-  'video', 
-  'audio', 
-  'document', 
-  'location', 
+  'text',
+  'image',
+  'video',
+  'audio',
+  'document',
+  'location',
   'multiple-choice'
 ] as const;
 
@@ -121,128 +122,13 @@ export const CreateShiftTemplateDialog: React.FC<CreateShiftTemplateDialogProps>
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Create Shift Template</Button>
+        <Button>Choose Shift Template</Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle>Create Shift Template</DialogTitle>
+          <DialogTitle>Choose Shift Template</DialogTitle>
         </DialogHeader>
-        
-        <ScrollArea className="flex-grow overflow-y-auto pr-4">
-          <div className="space-y-4">
-            {/* Shift Selection */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Select Shift</CardTitle>
-              </CardHeader>
-              <CardContent className="flex gap-4">
-                {shifts.map(shift => (
-                  <Button 
-                    key={shift.shiftId} 
-                    variant={selectedShift?.shiftId === shift.shiftId ? 'default' : 'outline'}
-                    onClick={() => handleShiftSelect(shift)}
-                  >
-                    {shift.name} ({shift.startTime} - {shift.endTime})
-                  </Button>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Shift Assignments */}
-            {shiftAssignments?.supervisors?.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Shift Assignments</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div>
-                    <h3 className="font-semibold mb-2">Supervisors</h3>
-                    {shiftAssignments.supervisors.map(supervisor => (
-                      <div key={supervisor.userId} className="mb-1">
-                        {supervisor.username}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Operators</h3>
-                    {shiftAssignments.operators.map(operator => (
-                      <div key={operator.userId} className="mb-1">
-                        {operator.username}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Question Creation */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Create Template Questions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {questions.map((question, index) => (
-                  <div key={index} className="mb-4 space-y-2">
-                    <Input 
-                      placeholder="Enter question" 
-                      value={question.question}
-                      onChange={(e) => updateQuestion(index, 'question', e.target.value)}
-                      className="mb-2"
-                    />
-                    <Select 
-                      value={question.responseType}
-                      onValueChange={(value: ResponseType) => 
-                        updateQuestion(index, 'responseType', value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Response Type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {RESPONSE_TYPES.map(type => (
-                          <SelectItem key={type} value={type}>
-                            {type.charAt(0).toUpperCase() + type.slice(1)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-
-                    {/* Multiple Choice Options */}
-                    {question.responseType === 'multiple-choice' && (
-                      <div className="space-y-2">
-                        {multipleChoiceOptions.map((option, optIndex) => (
-                          <Input 
-                            key={optIndex}
-                            placeholder={`Option ${optIndex + 1}`}
-                            value={option}
-                            onChange={(e) => {
-                              const newOptions = [...multipleChoiceOptions];
-                              newOptions[optIndex] = e.target.value;
-                              updateMultipleChoiceOptions(newOptions);
-                            }}
-                          />
-                        ))}
-                        <Button 
-                          variant="outline" 
-                          onClick={() => updateMultipleChoiceOptions([...multipleChoiceOptions, ''])}
-                        >
-                          Add Option
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                <Button onClick={addQuestion} variant="outline" className="mt-4">
-                  Add Question
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </ScrollArea>
-
-        <div className="mt-4 flex justify-end">
-          <Button onClick={handleCreateTemplate}>Create Template</Button>
-        </div>
+        <ShowShiftTemplates></ShowShiftTemplates>
       </DialogContent>
     </Dialog>
   );

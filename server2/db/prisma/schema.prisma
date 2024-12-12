@@ -53,6 +53,68 @@ model Owner {
   @@map("owners")
 }
 
+model User {
+  userId                Int                       @id @default(autoincrement())
+  username              String                    @unique @db.VarChar(100)
+  email                 String                    @unique @db.VarChar(100)
+  phone                 String?                   @db.VarChar(20)
+  passwordHash          String                    @db.VarChar(255)
+  salt                  String                    @db.VarChar(255)
+  userRoleId            Int
+  userRole              Role                      @relation(fields: [userRoleId], references: [roleId])
+  positionId            Int?
+  position              Position?                 @relation(fields: [positionId], references: [positionId])
+  isActive              Boolean                   @default(true)
+  profileImage          String?                   @db.VarChar(255)
+  lastLogin             DateTime?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  createdBy             Int?
+  creator               User?                     @relation("UserCreation", fields: [createdBy], references: [userId])
+  createdUsers          User[]                    @relation("UserCreation")
+  supervisor            Supervisor?
+  isSupervisor          Boolean                   @default(false)
+  activePlans           ActivePlans[]
+  supervisorAssignments ShiftAssignment[]         @relation("SupervisorAssignments")
+  operatorAssignments   ShiftAssignmentOperator[] @relation("OperatorAssignments")
+  shifts                ShiftUsers[]
+  sections              SectionUsers[]
+  riskAssesmentResponse RiskAssessmentResponse[]
+  supervisorSchedules   ShiftSchedule[]           @relation("SupervisorSchedules")
+  workerSchedules       ShiftSchedule[]           @relation("WorkerSchedules")
+}
+
+model Shift {
+  shiftId            Int               @id @default(autoincrement())
+  name               String            @db.VarChar(255)
+  startTime          String
+  endTime            String
+  isActive           Boolean           @default(true)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  users              ShiftUsers[]
+  shiftAssignments   ShiftAssignment[]
+  shiftTemplates     ShiftTemplate[]   @relation("TemplateShift")
+  supervisor         Supervisor?
+  shiftSchedules     ShiftSchedule[]   @relation("CurrentShift")
+  nextShiftSchedules ShiftSchedule[]   @relation("NextShift")
+}
+
+model ShiftTemplate {
+  id                Int             @id @default(autoincrement())
+  roleId            Int
+  sectionId         Int
+  shiftId           Int?            @unique
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  shiftTemplate     Json?
+  role              Role            @relation(fields: [roleId], references: [roleId])
+  section           Section         @relation(fields: [sectionId], references: [id])
+  shift             Shift?          @relation("TemplateShift", fields: [shiftId], references: [shiftId])
+  supervisors       Supervisor[]    @relation("TemplateSupervisors")
+  shiftSchedules    ShiftSchedule[]
+}
+
 model Position {
   positionId       Int      @id @default(autoincrement())
   positionName     String   @db.VarChar(100)
@@ -84,34 +146,6 @@ model Permission {
   isActive     Boolean @default(true)
 }
 
-model User {
-  userId                Int                       @id @default(autoincrement())
-  username              String                    @unique @db.VarChar(100)
-  email                 String                    @unique @db.VarChar(100)
-  phone                 String?                   @db.VarChar(20)
-  passwordHash          String                    @db.VarChar(255)
-  salt                  String                    @db.VarChar(255)
-  userRoleId            Int
-  userRole              Role                      @relation(fields: [userRoleId], references: [roleId])
-  positionId            Int?
-  position              Position?                 @relation(fields: [positionId], references: [positionId])
-  isActive              Boolean                   @default(true)
-  profileImage          String?                   @db.VarChar(255)
-  lastLogin             DateTime?
-  createdAt             DateTime                  @default(now())
-  updatedAt             DateTime                  @updatedAt
-  createdBy             Int?
-  creator               User?                     @relation("UserCreation", fields: [createdBy], references: [userId])
-  createdUsers          User[]                    @relation("UserCreation")
-  supervisor            Supervisor?
-  isSupervisor          Boolean                   @default(false)
-  activePlans           ActivePlans[]
-  supervisorAssignments ShiftAssignment[]         @relation("SupervisorAssignments")
-  operatorAssignments   ShiftAssignmentOperator[] @relation("OperatorAssignments")
-  shifts                ShiftUsers[]
-  sections              SectionUsers[]
-  riskAssesmentResponse RiskAssessmentResponse[]
-}
 
 model ShiftAssignment {
   id           Int      @id @default(autoincrement())
@@ -156,12 +190,14 @@ model Section {
 }
 
 model Supervisor {
-  id                Int              @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   sectionId         Int
-  userId            Int              @unique
-  section           Section          @relation(fields: [sectionId], references: [id])
-  user              User             @relation(fields: [userId], references: [userId])
-  assignedTemplates ShiftTemplate[]  @relation("TemplateSupervisors")
+  shiftId           Int             @unique // Ensure unique constraint
+  shift             Shift           @relation(fields: [shiftId], references: [shiftId])
+  userId            Int             @unique
+  section           Section         @relation(fields: [sectionId], references: [id])
+  user              User            @relation(fields: [userId], references: [userId])
+  assignedTemplates ShiftTemplate[] @relation("TemplateSupervisors")
 }
 
 model SectionUsers {
@@ -174,30 +210,22 @@ model SectionUsers {
   @@id([sectionId, userId])
 }
 
-model Shift {
-  shiftId            Int              @id @default(autoincrement())
-  name               String           @db.VarChar(255)
-  startTime          String
-  endTime            String
-  isActive           Boolean          @default(true)
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
-  users              ShiftUsers[]
-  shiftAssignments   ShiftAssignment[]
-  shiftTemplates     ShiftTemplate[]  @relation("TemplateShifts")
-}
 
-model ShiftTemplate {
-  id            Int           @id @default(autoincrement())
-  roleId        Int
-  sectionId     Int
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  shiftTemplate Json?
-  role          Role          @relation(fields: [roleId], references: [roleId])
-  section       Section       @relation(fields: [sectionId], references: [id])
-  shifts        Shift[]       @relation("TemplateShifts")
-  supervisors   Supervisor[]  @relation("TemplateSupervisors")
+
+model ShiftSchedule {
+  id              Int  @id @default(autoincrement())
+  supervisorId    Int
+  workerId        Int
+  shiftId         Int
+  shiftTemplateId Int
+  nextShiftId     Int?
+
+  supervisor    User          @relation("SupervisorSchedules", fields: [supervisorId], references: [userId])
+  worker        User          @relation("WorkerSchedules", fields: [workerId], references: [userId])
+  shift         Shift         @relation("CurrentShift", fields: [shiftId], references: [shiftId])
+  shiftTemplate ShiftTemplate @relation(fields: [shiftTemplateId], references: [id])
+  nextShift     Shift?        @relation("NextShift", fields: [nextShiftId], references: [shiftId])
+  shiftShiftId  Int?
 }
 
 enum ResponseType {

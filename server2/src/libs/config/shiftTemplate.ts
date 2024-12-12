@@ -8,6 +8,7 @@ export const createNewShiftTemplate = async (req: Request, res: Response) => {
     const { positionId, sectionId, shiftTemplate } = req.body;
     const shiftTemplateResponse = await prisma.shiftTemplate.create({
       data: {
+        shiftId: 1,
         roleId: positionId,
         sectionId,
         shiftTemplate: shiftTemplate
@@ -103,31 +104,21 @@ export const getShiftTemplateById = async (req: Request, res: Response) => {
 export const updateShiftTemplate = async (req: Request, res: Response) => {
   try {
     const { templateId } = req.params;
-    const { shiftId, sectionId, questions } = req.body;
+    const { shiftId } = req.body;
 
     // Delete existing questions and create new ones
     const updatedTemplate = await prisma.shiftTemplate.update({
       where: { id: parseInt(templateId) },
       data: {
         shiftId,
-        sectionId,
-        questions: {
-          deleteMany: {},
-          create: questions.map((q: any) => ({
-            question: q.question,
-            responseType: q.responseType,
-            multipleChoiceOptions: q.multipleChoiceOptions || [],
-          })),
-        },
       },
       include: {
-        questions: true,
         shift: true,
         section: true,
       },
     });
 
-    res.json({
+    res.status(200).json({
       message: "Shift template updated successfully",
       data: updatedTemplate,
     });

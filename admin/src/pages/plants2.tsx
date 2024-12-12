@@ -705,8 +705,8 @@ export default function SectionsPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Area</TableHead>
-                <TableHead>Configuration Status</TableHead>
-                <TableHead>Create Shift Template</TableHead>
+                <TableHead>Choose Template</TableHead>
+                <TableHead>Publish Shift Template</TableHead>
                 <TableHead className='text-right'>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -725,11 +725,7 @@ export default function SectionsPage() {
                       <CreateShiftTemplateDialog sectionId={section.id}></CreateShiftTemplateDialog>
                     </TableCell>
                     <TableCell>
-                      {section.supervisors?.length > 0 ? (
-                        <Badge variant="default">Configured</Badge>
-                      ) : (
-                        <Badge variant="destructive">Not Configured</Badge>
-                      )}
+                      <Button>Publish Shift Template</Button>
                     </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>

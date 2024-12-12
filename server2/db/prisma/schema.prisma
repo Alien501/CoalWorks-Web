@@ -454,3 +454,9 @@ model SoftwareIntegration {
   
   @@map("software_integrations")
 }
+
+model DgmsFiles {
+  id Int @id @default(autoincrement())
+  name  String
+  path  String
+}

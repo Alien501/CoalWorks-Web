@@ -46,6 +46,7 @@ import ControlPlanTemplateBuilder from './pages/createControlPlan'
 import { RenderSmpForm } from './pages/renderSmpForm'
 import SoftwareIntegration from './pages/SoftwareIntegration'
 import { RenderShiftTemplateForm } from './pages/renderShiftTemplateForm'
+import Dgms from './pages/Dgms'
 
 
 interface ErrorPageProps {
@@ -314,6 +315,10 @@ function App() {
         {
           path: '/software-integration',
           element: <SoftwareIntegration />
+        },
+        {
+          path: '/dgms',
+          element: <Dgms />
         }
         // {
         //   path: '/form/:uniqueKey',

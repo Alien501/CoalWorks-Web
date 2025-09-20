@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@172.16.11.46:5432/development_database"
 }
 
 model InitStatus {
@@ -82,6 +82,9 @@ model User {
   riskAssesmentResponse RiskAssessmentResponse[]
   supervisorSchedules   ShiftSchedule[]           @relation("SupervisorSchedules")
   workerSchedules       ShiftSchedule[]           @relation("WorkerSchedules")
+  createdActionPlans    ActionPlan[]              @relation("ActionPlanCreator")
+  assignedTasks         Task[]                    @relation("TaskAssignee")
+  createdAlerts         Alert[]                   @relation("AlertCreator")
 }
 
 model Shift {
@@ -459,4 +462,72 @@ model DgmsFiles {
   id Int @id @default(autoincrement())
   name  String
   path  String
+}
+
+model ActionPlan {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  description String?   @db.Text
+  status      String    @default("draft") // draft, active, completed, cancelled
+  priority    String    @default("medium") // low, medium, high, critical
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdBy   Int
+  creator     User      @relation("ActionPlanCreator", fields: [createdBy], references: [userId])
+  smps        SMP[]
+  alerts      Alert[]
+  
+  @@map("action_plans")
+}
+
+model SMP {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(255)
+  description  String?   @db.Text
+  actionPlanId Int
+  order        Int       // Order of execution
+  status       String    @default("pending") // pending, in_progress, completed, failed
+  estimatedDuration Int? // in minutes
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  actionPlan   ActionPlan @relation(fields: [actionPlanId], references: [id], onDelete: Cascade)
+  tasks        Task[]
+  
+  @@map("smps")
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  smpId       Int
+  order       Int       // Order within the SMP
+  status      String    @default("pending") // pending, in_progress, completed, failed
+  assignedTo  Int?      // User ID
+  dueDate     DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  smp         SMP       @relation(fields: [smpId], references: [id], onDelete: Cascade)
+  assignee    User?     @relation("TaskAssignee", fields: [assignedTo], references: [userId])
+  
+  @@map("tasks")
+}
+
+model Alert {
+  id           Int       @id @default(autoincrement())
+  title        String    @db.VarChar(255)
+  description  String?   @db.Text
+  severity     String    @default("medium") // low, medium, high, critical
+  status       String    @default("active") // active, acknowledged, resolved
+  actionPlanId Int?
+  triggeredAt  DateTime  @default(now())
+  resolvedAt   DateTime?
+  createdBy    Int
+  creator      User      @relation("AlertCreator", fields: [createdBy], references: [userId])
+  actionPlan   ActionPlan? @relation(fields: [actionPlanId], references: [id])
+  
+  @@map("alerts")
 }

@@ -21,6 +21,9 @@ import { smpRouter } from "./smpRouter";
 import { hazardRouter } from "./hazardRouter";
 import { riskAssesmentResponseRouter } from "./riskAssesmentResponseRouter";
 import { dgmsRouter } from "./dgmsRouter";
+import { demRouter } from "./demRouter";
+import { actionPlanRouter } from "./actionPlanRouter";
+import { mailRouter } from "./mailRouter";
 
 const router = Router();
 
@@ -74,5 +77,11 @@ router.use('/riskresponse', riskAssesmentResponseRouter);
 router.use('/hazard', hazardRouter);
 
 router.use('/dgms', dgmsRouter);
+
+router.use('/dem', demRouter);
+
+router.use('/action-plans', actionPlanRouter);
+
+router.use('/mail', mailRouter);
 
 export { router };

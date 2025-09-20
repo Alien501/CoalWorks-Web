@@ -8,7 +8,7 @@ const login = async (data: any) => {
                 'Content-type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({encrypted: encryptedData})
+            body: JSON.stringify({encryptedData: encryptedData})
         })
         if(res.ok) {
             const d = await res.json();

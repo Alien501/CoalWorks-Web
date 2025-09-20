@@ -35,7 +35,7 @@ const adminLogin = async (req: Request, res: Response) => {
                 username: superAdmin.name,
                 email: superAdmin.email,
             }, 
-            process.env.JWT_SECRET || 'default-secret-key', 
+            'secret', 
             { 
                 expiresIn: '1d' 
             }

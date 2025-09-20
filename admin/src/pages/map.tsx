@@ -1,21 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { fetchMines } from '@/utils/fetchMines';
 import { fetchSections } from '@/utils/fetchSections';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExpandIcon } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription,DialogFooter, DialogHeader } from '@/components/ui/dialog';
-import { fetchAssets } from '@/utils/fetchAssets';
-import { MapPin, MapIcon } from 'lucide-react';
-import AssetCard from '@/components/custom/assetCard';
-import ReactDOMServer from 'react-dom/server';
-import SectionCard from '@/components/custom/sectionCard';
-import MineCard from '@/components/custom/mineCard';
-import StylizedIndustrialNightScene from "@/assets/img/StylizedIndustrialNightScene.jpeg"
+import { ExpandIcon, Activity } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+} from "@/components/ui/dialog";
+import { fetchAssets } from "@/utils/fetchAssets";
+import { MapPin, MapIcon } from "lucide-react";
+import StylizedIndustrialNightScene from "@/assets/img/StylizedIndustrialNightScene.jpeg";
 import { motion } from "motion/react";
+import { io } from "socket.io-client";
+import IoTDataDisplay from '@/components/custom/iotDataDisplay';
 // Mock heat map data for mines in Tamil Nadu
 const mockHeatMapData = [
   {
@@ -64,6 +76,31 @@ interface Asset {
   coordinates: [number, number];
 }
 
+interface FrequencyBin {
+  Hz: number;
+  Magnitude: number;
+}
+
+interface AxisData {
+  RMS: number;
+  Peak: number;
+  STE: number;
+  FrequencyBins: FrequencyBin[];
+}
+
+interface BMP280Data {
+  Temperature: number;
+  Pressure: number;
+  Altitude: number;
+}
+
+interface IoTData {
+  x: AxisData;
+  y: AxisData;
+  z: AxisData;
+  bmp280: BMP280Data;
+}
+
 const calculateCentroid = (coordinates: [number, number][]): [number, number] => {
   const n = coordinates.length;
   let sumLat = 0;
@@ -85,16 +122,87 @@ export default function MapPoints() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [mode, setMode] = useState('navigation');
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
-  const [heatmapMetric, setHeatmapMetric] = useState('production');
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [selectedItem, setSelectedItem] = useState(null)
+  const [selectedItem, setSelectedItem] = useState<Asset | Section | null>(null);
+  const [iotData, setIotData] = useState<IoTData | null>(null);
+  const [isDataLive, setIsDataLive] = useState(false);
+
+  // Sample data for testing (remove this in production)
+  useEffect(() => {
+    if (selectedItem && 'coordinates' in selectedItem && !Array.isArray((selectedItem as any).coordinates[0])) {
+      // Set sample data when asset is selected for testing
+      const sampleData: IoTData = {
+        x: {
+          RMS: 9.564803,
+          Peak: 9.588778,
+          STE: 5855.069,
+          FrequencyBins: [
+            { Hz: 5, Magnitude: 0.12385 },
+            { Hz: 10, Magnitude: 32.68782 },
+            { Hz: 20, Magnitude: 18.42501 },
+            { Hz: 40, Magnitude: 11.08956 }
+          ]
+        },
+        y: {
+          RMS: 2.395423,
+          Peak: 2.420538,
+          STE: 367.2352,
+          FrequencyBins: [
+            { Hz: 5, Magnitude: 0.05008 },
+            { Hz: 10, Magnitude: 8.162321 },
+            { Hz: 20, Magnitude: 4.730114 },
+            { Hz: 40, Magnitude: 2.788032 }
+          ]
+        },
+        z: {
+          RMS: 0.61616,
+          Peak: 0.665588,
+          STE: 24.29777,
+          FrequencyBins: [
+            { Hz: 5, Magnitude: 0.19412 },
+            { Hz: 10, Magnitude: 2.173414 },
+            { Hz: 20, Magnitude: 1.122468 },
+            { Hz: 40, Magnitude: 0.849438 }
+          ]
+        },
+        bmp280: {
+          Temperature: 25.15,
+          Pressure: 1006.038,
+          Altitude: 60.21606
+        }
+      };
+      setIotData(sampleData);
+    }
+  }, [selectedItem]);
+
+  // Socket connection for IoT data
+  useEffect(() => {
+    const newSocket = io('ws://localhost:8888');
+
+    newSocket.on('iot-update', (data: IoTData) => {
+      try {
+        console.log('Received IoT data:', data);
+        setIotData(data);
+        setIsDataLive(true);
+        
+        // Reset live indicator after 3 seconds
+        setTimeout(() => setIsDataLive(false), 3000);
+      } catch (error) {
+        console.error('Failed to parse IoT data:', error);
+      }
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const getMineData = async () => {
       try {
         const res = await fetchMines();
-        const shapedMineData = res.map(mine => ({
+        const shapedMineData = res.map((mine: any) => ({
           ...mine,
           coordinates: [mine.locationLongitude, mine.locationLatitude],
           color: '#FF4444'
@@ -105,87 +213,13 @@ export default function MapPoints() {
       }
     };
 
-    const renderDialogContent = () => {
-      if (!selectedItem) return null;
-    
-      if ('coordinates' in selectedItem && Array.isArray(selectedItem.coordinates[0])) {
-        // It's a section
-        const section = selectedItem as Section;
-        return (
-          <>
-            <DialogHeader>
-              <DialogTitle className="flex items-center justify-between">
-                <span>{section.name}</span>
-                <MapIcon size={20} style={{ color: section.color }} />
-              </DialogTitle>
-              <DialogDescription>
-                Details about the selected section.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <img
-                src="/placeholder.svg?height=150&width=300"
-                alt={`${section.name} section`}
-                className="rounded-md object-cover w-full h-[150px]"
-              />
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="text-sm font-medium col-span-1">Type:</span>
-                <span className="col-span-3">Section</span>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="text-sm font-medium col-span-1">Color:</span>
-                <div className="col-span-3 flex items-center">
-                  <div className="w-6 h-6 rounded-full mr-2" style={{ backgroundColor: section.color }}></div>
-                  <span>{section.color}</span>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      } else {
-        // It's an asset
-        const asset = selectedItem as Asset;
-        return (
-          <>
-            <DialogHeader>
-              <DialogTitle className="flex items-center justify-between">
-                <span>{JSON.stringify(asset)}</span>
-                <MapPin size={20} color="#FF4444" />
-              </DialogTitle>
-              <DialogDescription>
-                Details about the selected asset.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <img
-                src={StylizedIndustrialNightScene}
-                // alt={`${asset.name} asset`}
-                className="rounded-md object-cover w-full h-[150px]"
-              />
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="text-sm font-medium col-span-1">Type:</span>
-                {/* <span className="col-span-3">{asset.type}</span> */}
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="text-sm font-medium col-span-1">Status:</span>
-                {/* <span className="col-span-3">{asset.status}</span> */}
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="text-sm font-medium col-span-1">Coordinates:</span>
-                {/* <span className="col-span-3">{asset.coordinates.join(', ')}</span> */}
-              </div>
-            </div>
-          </>
-        );
-      }
-    };
 
     const getSectionData = async () => {
       try {
         const res = await fetchSections();
-        const shapedSectionData = res.map(section => ({
+        const shapedSectionData = res.map((section: any) => ({
           name: section.name,
-          coordinates: section.coordinates.map(coord => [coord.longitude, coord.latitude]),
+          coordinates: section.coordinates.map((coord: any) => [coord.longitude, coord.latitude]),
           color: section.type.color || '#c01b1b'
         }));
         setSections(shapedSectionData);
@@ -197,7 +231,7 @@ export default function MapPoints() {
     const getAssetsData = async () => {
       try {
         const res = await fetchAssets();
-        const shapedAssetsData = res.map(asset => ({
+        const shapedAssetsData = res.map((asset: any) => ({
           name: asset.name,
           coordinates: [asset.longitude, asset.latitude]
         }));
@@ -278,15 +312,15 @@ export default function MapPoints() {
             properties: {
               title: mine.mineName,
               ...(mode === 'heat' && {
-                metric: mine[heatmapMetric as keyof Mine] || 0
+                metric: (mine as any)[mode === 'heat' ? 'production' : 'workforce'] || 0
               })
             }
           }
         });
 
         if (mode === 'heat') {
-          const metric = mine[heatmapMetric as keyof Mine] || 0;
-          const maxMetric = Math.max(...mines.map(m => m[heatmapMetric as keyof Mine] || 0));
+          const metric = (mine as any).production || 0;
+          const maxMetric = Math.max(...mines.map(m => (m as any).production || 0));
           const intensity = (metric / maxMetric) * 1;
 
           mapRef.current?.addLayer({
@@ -423,17 +457,17 @@ export default function MapPoints() {
     }
 
     if (mode === 'assets') {
-      assets.forEach((asset, index) => {
+      assets.forEach((asset) => {
         const el = document.createElement('div');
         el.className = 'marker';
         el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#FF4444" stroke="#FF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
 
-        const marker = new mapboxgl.Marker(el)
+        new mapboxgl.Marker(el)
           .setLngLat(asset.coordinates)
           .addTo(mapRef.current!);
 
         el.addEventListener('click', () => {
-          setSelectedItem(asset);
+          setSelectedItem(asset as Asset);
           setDialogOpen(true);
         });
       });
@@ -448,10 +482,14 @@ export default function MapPoints() {
 
     if (allCoordinates.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
-      allCoordinates.forEach(coord => bounds.extend(coord));
+      allCoordinates.forEach(coord => {
+        if (Array.isArray(coord) && coord.length >= 2) {
+          bounds.extend([coord[0], coord[1]]);
+        }
+      });
       mapRef.current.fitBounds(bounds, { padding: 50 });
     }
-  }, [mines, sections, assets, mode, isStyleLoaded, heatmapMetric]);
+  }, [mines, sections, assets, mode, isStyleLoaded]);
 
   return (
     <>
@@ -498,8 +536,8 @@ export default function MapPoints() {
       </Card>
       <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
         <motion.div layoutId='something'>
-          <DialogContent id='something' className="sm:max-w-[425px]">
-            {selectedSection && (
+          <DialogContent id='something' className="sm:max-w-[90vw] max-h-[90vh]">
+            {selectedSection ? (
               <>
                 <DialogHeader>
                   <DialogTitle className="flex items-center justify-between">
@@ -532,7 +570,44 @@ export default function MapPoints() {
                   <Button onClick={() => setDialogOpen(false)}>Close</Button>
                 </DialogFooter>
               </>
-            )}
+            ) : selectedItem && 'coordinates' in selectedItem && !Array.isArray((selectedItem as any).coordinates[0]) ? (
+              // Asset dialog with IoT data
+              <>
+                <DialogHeader>
+                  <DialogTitle className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span>{(selectedItem as Asset).name}</span>
+                      {isDataLive && (
+                        <div className="flex items-center gap-1 text-green-500 text-sm">
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                          LIVE
+                        </div>
+                      )}
+                    </div>
+                    <MapPin size={20} color="#FF4444" />
+                  </DialogTitle>
+                  <DialogDescription>
+                    Real-time IoT sensor data for the selected asset.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="max-h-[70vh] overflow-y-auto">
+                  {iotData ? (
+                    <IoTDataDisplay data={iotData} />
+                  ) : (
+                    <div className="flex items-center justify-center h-64">
+                      <div className="text-center">
+                        <Activity className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                        <p className="text-gray-500">Waiting for IoT data...</p>
+                        <p className="text-sm text-gray-400">Data will appear here when available</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <DialogFooter>
+                  <Button onClick={() => setDialogOpen(false)}>Close</Button>
+                </DialogFooter>
+              </>
+            ) : null}
           </DialogContent>
         </motion.div>
       </Dialog>

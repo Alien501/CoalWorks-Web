@@ -11,7 +11,7 @@ import pkg from "pg";
 const { Client } = pkg;
 configDotenv();
 
-const PORT = process.env.PORT || 4444;
+const PORT = 8888;
 const app = express();
 const httpServer = createServer(app);
 
@@ -20,17 +20,17 @@ export const client = new Client({
     "postgresql://postgres:postgres@localhost:5434",
 });
 
-client
-  .connect()
-  .then(() => console.log("Connected to PostgreSQL"))
-  .catch((err) => console.error("Connection error", err.stack));
+// client
+//   .connect()
+//   .then(() => console.log("Connected to PostgreSQL"))
+  // .catch((err) => console.error("Connection error", err.stack));
 
 initializeWebsocket(httpServer);
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use(logger);
 
-await run();
+// await run();
 
 app.use("/api/v1", router);
 app.use("/api/v1", (req, res) => {

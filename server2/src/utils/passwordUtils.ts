@@ -23,7 +23,7 @@ interface JwtPayload {
   iat: number;
   exp: number;
 }
-const JWT_SECRET: string = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET: string = 'secret';
 
 
 export const adminVerifyToken = async (req: Request, res: Response, next: NextFunction) => {

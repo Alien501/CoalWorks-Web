@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar"
-import { Book, Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, LanguagesIcon, PickaxeIcon, ReplaceAll, Settings, SunIcon, TriangleAlert, UserRoundCog } from "lucide-react";
+import { Book, Calendar, FileTextIcon, FolderCog2Icon, ForkliftIcon, Gauge, LanguagesIcon, PickaxeIcon, ReplaceAll, Settings, SunIcon, Torus, TriangleAlert, UserRoundCog, ClipboardList } from "lucide-react";
 import { Box } from "lucide-react"
 import { useTheme } from "./theme";
 
@@ -63,6 +63,16 @@ const menuItems: MenuItems[] = [
         icon: Book,
         url: '/dgms',
         title: 'DGMS Guidelines'
+    },
+    {
+        icon: Torus,
+        url: '/dem',
+        title: 'DEM'
+    },
+    {
+        icon: ClipboardList,
+        url: '/action-plans',
+        title: 'Action Plans'
     }
 ]
 

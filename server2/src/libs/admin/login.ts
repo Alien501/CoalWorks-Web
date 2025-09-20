@@ -1,12 +1,21 @@
 import { Request, RequestHandler, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import { hashPassword } from "../../utils/passwordUtils";
 import { prisma } from "../../utils/prisma";
 
 const adminLogin = async (req: Request, res: Response) => {
     try {
+        console.log("Admin login request body:", req.body);
         const { email, password } = req.body;
+
+        // Validate required fields
+        if (!email || !password) {
+            console.log("Missing fields - email:", email, "password:", password);
+            return res.status(400).json({ 
+                success: false, 
+                message: "Email and password are required" 
+            });
+        }
 
         const superAdmin = await prisma.superAdmin.findFirst({
             where: { 
@@ -21,7 +30,17 @@ const adminLogin = async (req: Request, res: Response) => {
             });
         }
 
-        const hashedInputPassword = hashPassword(password, superAdmin.salt);
+        let hashedInputPassword;
+        try {
+            hashedInputPassword = hashPassword(password, superAdmin.salt);
+        } catch (error) {
+            console.error('Password hashing error:', error);
+            return res.status(500).json({ 
+                success: false, 
+                message: "Internal server error during authentication" 
+            });
+        }
+
         if (hashedInputPassword !== superAdmin.passwordHash) {
             return res.status(401).json({ 
                 success: false, 
@@ -35,7 +54,7 @@ const adminLogin = async (req: Request, res: Response) => {
                 username: superAdmin.name,
                 email: superAdmin.email,
             }, 
-            process.env.JWT_SECRET || 'default-secret-key', 
+            'secret', 
             { 
                 expiresIn: '1d' 
             }

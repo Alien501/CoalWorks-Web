@@ -46,6 +46,8 @@ import ControlPlanTemplateBuilder from './pages/createControlPlan'
 import SoftwareIntegration from './pages/SoftwareIntegration'
 import { RenderSmp } from './pages/RenderSmp'
 import Dgms from './pages/Dgms'
+import DEMPage from './pages/dem'
+import ActionPlanPage from './pages/ActionPlan'
 
 
 interface ErrorPageProps {
@@ -322,6 +324,14 @@ function App() {
         {
           path: '/dgms',
           element: <Dgms />
+        },
+        {
+          path: '/dem',
+          element: <DEMPage />
+        },
+        {
+          path: '/action-plans',
+          element: <ProtectedRoute><ActionPlanPage /></ProtectedRoute>
         }
         // {
         //   path: '/form/:uniqueKey',

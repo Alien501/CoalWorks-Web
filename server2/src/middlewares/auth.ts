@@ -4,7 +4,7 @@ import { configDotenv } from "dotenv";
 
 configDotenv();
 
-const JWT_SECRET: string = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET: string = 'secret';
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     try {

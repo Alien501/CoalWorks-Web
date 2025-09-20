@@ -23,7 +23,7 @@ interface JwtPayload {
   iat: number;
   exp: number;
 }
-const JWT_SECRET: string = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET: string = 'secret';
 
 
 export const adminVerifyToken = async (req: Request, res: Response, next: NextFunction) => {
@@ -61,6 +61,13 @@ export function generateSalt(length = 16): string {
 }
 
 export function hashPassword(password: string, salt: string): string {
+  if (!password || typeof password !== 'string') {
+    throw new Error('Password must be a non-empty string');
+  }
+  if (!salt || typeof salt !== 'string') {
+    throw new Error('Salt must be a non-empty string');
+  }
+  
   const hash = crypto
     .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
     .toString('hex');

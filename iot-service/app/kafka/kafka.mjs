@@ -7,7 +7,7 @@ configDotenv();
 
 const kafka = new Kafka({
   clientId: 'iot-service',
-  brokers: ['192.168.110.53:9093'],
+  brokers: ['localhost:9093', '192.168.137.156:9093'],
 });
 
   
@@ -31,7 +31,7 @@ const run = async () => {
       try {
         const parsedMessage = JSON.parse(messageValue);
         emitSensorData(parsedMessage)
-        insertSensorData(parsedMessage)
+        // insertSensorData(parsedMessage)
         console.log('Parsed message: ', parsedMessage);
 
       } catch (error) {

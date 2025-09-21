@@ -5,6 +5,7 @@ import { configDotenv } from "dotenv";
 import { handleError } from "./utils/handleError.mjs";
 import { logger } from "./utils/logger.mjs";
 import { run } from "./kafka/kafka.mjs";
+import { initializeProducer } from "./kafka/producer.mjs";
 import { router } from "./routes/router.mjs";
 import { initializeWebsocket } from "./routes/webSocket.mjs";
 import pkg from "pg";
@@ -30,7 +31,9 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use(logger);
 
-// await run();
+// Initialize Kafka producer and consumer
+await initializeProducer();
+await run();
 
 app.use("/api/v1", router);
 app.use("/api/v1", (req, res) => {

@@ -302,7 +302,7 @@ const DEMPage = () => {
                                 </div>
                             </div>
                         ) : reportData ? (
-                            <div className="space-y-4 max-h-96 overflow-y-auto">
+                            <div className="space-y-4 flex-1 overflow-y-auto">
                                 {/* Executive Summary */}
                                 <div className="p-4 bg-muted/50 rounded-lg">
                                     <h3 className="font-semibold text-foreground mb-2">Executive Summary</h3>

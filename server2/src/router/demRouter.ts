@@ -218,8 +218,8 @@ router.post('/process', upload.single('file'), asyncHandler(async (req: Request,
         const formData = new FormData();
         const fileStream = fs.createReadStream(req.file.path);
         
-        // Append file with proper options
-        formData.append('file', fileStream, {
+        // Append file with proper options - API expects 'dem_file' field
+        formData.append('dem_file', fileStream, {
             filename: req.file.originalname,
             contentType: req.file.mimetype
         });

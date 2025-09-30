@@ -8,6 +8,12 @@ const decryptMiddleware = async (req: Request, res: Response, next: NextFunction
   console.log("Decrypt middleware - Original body:", req.body);
   console.log("SECRET_KEY exists:", !!SECRET_KEY);
   
+  // Skip decryption for payload routes
+  if (req.path.includes('/payload')) {
+    console.log("Skipping decryption for payload route");
+    return next();
+  }
+  
   if (req.body && (req.body.encrypted || req.body.encryptedData)) {
     try {
       const encryptedValue = req.body.encrypted || req.body.encryptedData;

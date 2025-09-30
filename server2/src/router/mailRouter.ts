@@ -236,12 +236,19 @@ router.post('/send-bulk-notifications', asyncHandler(async (req: Request, res: R
 
 // Helper function to generate email template
 function generateEmailTemplate(taskTitle: string, actionPlanName: string, alertDescription: string, priority: string): string {
-    const priorityColor = {
-        'critical': '#dc2626',
-        'high': '#ea580c',
-        'medium': '#d97706',
-        'low': '#16a34a'
-    }[priority] || '#6b7280';
+    const priorityWeight = {
+        'critical': '900',
+        'high': '700',
+        'medium': '500',
+        'low': '300'
+    }[priority] || '500';
+
+    const priorityText = {
+        'critical': 'CRITICAL',
+        'high': 'HIGH',
+        'medium': 'MEDIUM',
+        'low': 'LOW'
+    }[priority] || 'MEDIUM';
 
     return `
         <!DOCTYPE html>
@@ -249,42 +256,97 @@ function generateEmailTemplate(taskTitle: string, actionPlanName: string, alertD
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Task Notification - CoalWorks</title>
+            <title>Task Assignment - CoalWorks Safety System</title>
         </head>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <div style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
-                <h1 style="margin: 0; font-size: 28px;">CoalWorks System</h1>
-                <p style="margin: 10px 0 0 0; opacity: 0.9;">Safety & Operations Management</p>
+        <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #000000; max-width: 600px; margin: 0 auto; padding: 0; background-color: #ffffff;">
+            
+            <!-- Header -->
+            <div style="background-color: #000000; color: #ffffff; padding: 40px 30px; text-align: center; border-bottom: 3px solid #333333;">
+                <h1 style="margin: 0; font-size: 24px; font-weight: 300; letter-spacing: 1px;">COALWORKS</h1>
+                <p style="margin: 8px 0 0 0; font-size: 14px; font-weight: 300; opacity: 0.8; letter-spacing: 0.5px;">SAFETY MANAGEMENT SYSTEM</p>
             </div>
             
-            <div style="background: white; padding: 30px; border: 1px solid #e5e7eb; border-top: none;">
-                <div style="background: ${priorityColor}; color: white; padding: 15px; border-radius: 8px; margin-bottom: 25px; text-align: center;">
-                    <h2 style="margin: 0; font-size: 20px;">🚨 URGENT TASK ASSIGNMENT</h2>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.9;">Priority: ${priority.toUpperCase()}</p>
+            <!-- Main Content -->
+            <div style="background-color: #ffffff; padding: 40px 30px;">
+                
+                <!-- Priority Badge -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="display: inline-block; background-color: #000000; color: #ffffff; padding: 8px 20px; font-size: 12px; font-weight: ${priorityWeight}; letter-spacing: 1px; text-transform: uppercase;">
+                        ${priorityText} PRIORITY
+                    </div>
                 </div>
                 
-                <h3 style="color: #1e3a8a; margin-bottom: 15px;">Task Details</h3>
-                <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <p style="margin: 0 0 10px 0;"><strong>Task:</strong> ${taskTitle}</p>
-                    <p style="margin: 0 0 10px 0;"><strong>Action Plan:</strong> ${actionPlanName}</p>
-                    <p style="margin: 0;"><strong>Alert:</strong> ${alertDescription}</p>
+                <!-- Alert Header -->
+                <div style="text-align: center; margin-bottom: 35px;">
+                    <h2 style="margin: 0; font-size: 20px; font-weight: 400; color: #000000; letter-spacing: 0.5px;">TASK ASSIGNMENT NOTIFICATION</h2>
+                    <div style="width: 60px; height: 2px; background-color: #000000; margin: 15px auto 0;"></div>
                 </div>
                 
-                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin-bottom: 25px;">
-                    <h4 style="margin: 0 0 10px 0; color: #92400e;">⚠️ Immediate Action Required</h4>
-                    <p style="margin: 0; color: #92400e;">Please review and complete your assigned task as soon as possible. This is a ${priority} priority task that requires immediate attention.</p>
+                <!-- Task Details -->
+                <div style="background-color: #f8f8f8; border: 1px solid #e0e0e0; padding: 25px; margin-bottom: 25px;">
+                    <h3 style="margin: 0 0 20px 0; font-size: 16px; font-weight: 500; color: #000000; text-transform: uppercase; letter-spacing: 0.5px;">Task Information</h3>
+                    
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 8px 0; font-weight: 500; color: #333333; width: 30%; vertical-align: top;">Task:</td>
+                            <td style="padding: 8px 0; color: #000000;">${taskTitle}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 0; font-weight: 500; color: #333333; vertical-align: top;">Action Plan:</td>
+                            <td style="padding: 8px 0; color: #000000;">${actionPlanName}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 0; font-weight: 500; color: #333333; vertical-align: top;">Alert Type:</td>
+                            <td style="padding: 8px 0; color: #000000;">${alertDescription}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 0; font-weight: 500; color: #333333; vertical-align: top;">Priority:</td>
+                            <td style="padding: 8px 0; color: #000000; font-weight: ${priorityWeight};">${priorityText}</td>
+                        </tr>
+                    </table>
                 </div>
                 
-                <div style="text-align: center; margin-top: 30px;">
-                    <a href="#" style="background: #1e3a8a; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">
+                <!-- Action Required -->
+                <div style="border-left: 4px solid #000000; padding: 20px; margin-bottom: 30px; background-color: #fafafa;">
+                    <h4 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 500; color: #000000; text-transform: uppercase; letter-spacing: 0.5px;">Action Required</h4>
+                    <p style="margin: 0; color: #333333; font-size: 14px; line-height: 1.5;">
+                        Please review and complete your assigned task as soon as possible. This is a ${priorityText.toLowerCase()} priority task that requires immediate attention.
+                    </p>
+                </div>
+                
+                <!-- Instructions -->
+                <div style="margin-bottom: 35px;">
+                    <h4 style="margin: 0 0 15px 0; font-size: 14px; font-weight: 500; color: #000000; text-transform: uppercase; letter-spacing: 0.5px;">Next Steps</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #333333; font-size: 14px; line-height: 1.6;">
+                        <li style="margin-bottom: 8px;">Log into the CoalWorks system to view complete task details</li>
+                        <li style="margin-bottom: 8px;">Review all safety protocols and requirements</li>
+                        <li style="margin-bottom: 8px;">Coordinate with your team if necessary</li>
+                        <li style="margin-bottom: 8px;">Update task status upon completion</li>
+                        <li style="margin-bottom: 0;">Report any issues or concerns immediately</li>
+                    </ul>
+                </div>
+                
+                <!-- Call to Action -->
+                <div style="text-align: center; margin-top: 35px;">
+                    <a href="#" style="display: inline-block; background-color: #000000; color: #ffffff; padding: 12px 30px; text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; border: 2px solid #000000; transition: all 0.3s ease;">
                         View Task Details
                     </a>
                 </div>
             </div>
             
-            <div style="background: #f8fafc; padding: 20px; border-radius: 0 0 10px 10px; text-align: center; color: #6b7280; font-size: 14px;">
-                <p style="margin: 0;">This is an automated notification from CoalWorks Safety Management System</p>
-                <p style="margin: 5px 0 0 0;">Please do not reply to this email</p>
+            <!-- Footer -->
+            <div style="background-color: #f0f0f0; padding: 25px 30px; text-align: center; border-top: 1px solid #e0e0e0;">
+                <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666; font-weight: 300;">
+                    This is an automated notification from CoalWorks Safety Management System
+                </p>
+                <p style="margin: 0; font-size: 12px; color: #666666; font-weight: 300;">
+                    Please do not reply to this email
+                </p>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                    <p style="margin: 0; font-size: 11px; color: #999999;">
+                        © ${new Date().getFullYear()} CoalWorks. All rights reserved.
+                    </p>
+                </div>
             </div>
         </body>
         </html>

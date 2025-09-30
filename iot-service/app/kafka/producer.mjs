@@ -4,8 +4,8 @@ import { configDotenv } from "dotenv";
 configDotenv();
 
 const kafka = new Kafka({
-  clientId: 'iot-service-producer',
-  brokers: ['localhost:9093', '192.168.137.156:9093'],
+  clientId: "iot-service-producer",
+  brokers: ["localhost:9093", "192.168.137.156:9093", "10.88.133.84:9093"],
 });
 
 let producer = null;

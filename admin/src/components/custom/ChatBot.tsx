@@ -57,8 +57,8 @@ export default function ChatBot({ isOpen, onClose }: ChatBotProps) {
     scrollToBottom();
   
     try {
-      const res = await axios.post('http://192.168.110.223:8000/chatbot-query', {
-        query: input,
+      const res = await axios.post('http://192.168.137.240:8888/chat', {
+        message: input,
       });
   
       const assistantReply = res.data.response;
@@ -190,14 +190,14 @@ export default function ChatBot({ isOpen, onClose }: ChatBotProps) {
                   multiple
                   accept=".pdf,.doc,.docx,.xls,.xlsx,image/*"
                 />
-                <Button
+                {/* <Button
                   type="button"
                   size="icon"
                   variant="outline"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <Paperclip className="h-4 w-4" />
-                </Button>
+                </Button> */}
                 <Button
                   type="submit"
                   size="icon"

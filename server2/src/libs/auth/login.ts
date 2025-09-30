@@ -14,6 +14,7 @@ const LoginSchema = z.object({
 
 const login: RequestHandler = async (req: Request, res: Response) => {
     try {
+        console.log("REQ BODY", req.body)
         const validatedData = LoginSchema.parse(req.body);
 
         const user = await prisma.user.findUnique({
@@ -55,6 +56,7 @@ const login: RequestHandler = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
+        console.log(error)
         console.error('Login error:', error);
 
         if (error instanceof z.ZodError) {

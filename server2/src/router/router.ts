@@ -24,6 +24,7 @@ import { dgmsRouter } from "./dgmsRouter";
 import { demRouter } from "./demRouter";
 import { actionPlanRouter } from "./actionPlanRouter";
 import { mailRouter } from "./mailRouter";
+import { payloadRouter } from "./payloadRouter";
 
 const router = Router();
 
@@ -83,5 +84,7 @@ router.use('/dem', demRouter);
 router.use('/action-plans', actionPlanRouter);
 
 router.use('/mail', mailRouter);
+
+router.use('/payload', payloadRouter);
 
 export { router };

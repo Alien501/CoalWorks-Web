@@ -1,6 +1,7 @@
 import Map from "@/pages/map"
 import { SirenIcon } from "lucide-react"
 import AlertsCard from "./alertTimeLine"
+import RockfallAlertsCard from "./rockfallAlertsCard"
 
 export const SafetyCardContent = () => {
     return (
@@ -17,7 +18,7 @@ export const SafetyCardContent = () => {
                     </div>
                 </div> */}
                 <div>
-                    <AlertsCard />
+                    <RockfallAlertsCard refreshInterval={5000} />
                 </div>
             </div>
         </div>

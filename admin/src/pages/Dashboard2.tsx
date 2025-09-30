@@ -477,7 +477,7 @@ const NewDashboard: React.FC = () => {
         <section id="dashboard" className="p-2 bg-slate-100 dark:bg-zinc-950 dark:text-foreground">
             <div id="dash-header-section" className="flex justify-between items-center">
                 <div>
-                    <p className="font-medium">Hello Lincoln,</p>
+                    <p className="font-medium">Hello Vignesh,</p>
                     <p className="font-semibold text-3xl">Good Morning</p>
                 </div>
                 <div>
@@ -583,49 +583,6 @@ const NewDashboard: React.FC = () => {
                     </div>
                 </div>
                 <div className="p-2 grid grid-cols-2 gap-4">
-                    <div className="h-max">
-                        <UtilityCard
-                            title="Analytic View"
-                            subTitle="Key Performance Highlights"
-                            bodyContent={<OperationalTrendsCard />}
-                        />
-                    </div>
-                    <div>
-                        <UtilityCard
-                            title="Priority Alert"
-                            subTitle="Real-time predictions and actionable insights"
-                            bodyContent={
-                                <>
-                                    <ScrollArea className="h-[280px]">
-                                        {/* Priority Mail Cards */}
-                                        {priorityMailData.map((mailData, index) => (
-                                            <PriorityMailCard 
-                                                key={`mail-${index}`} 
-                                                title={mailData.title}
-                                                description={mailData.description}
-                                                priority={mailData.priority}
-                                                emailsSent={mailData.emailsSent}
-                                                lastSent={mailData.lastSent}
-                                                onClick={() => console.log('View mail details:', mailData)}
-                                            />
-                                        ))}
-                                        {/* Action Plan Alerts */}
-                                        {actionPlanAlerts.map((alert, index) => (
-                                            <ActionPlanAlertCard key={`alert-${index}`} alert={alert} />
-                                        ))}
-                                        {/* IoT Data Predictions */}
-                                        {iotData.map((prediction, index) => (
-                                            <PriorityCard key={`prediction-${index}`} prediction={prediction} />
-                                        ))}
-                                    </ScrollArea>
-                                    <div className="h-9 bg-red-300/0 flex items-center">
-                                        <Progress value={90} />
-                                    </div>
-                                </>
-                            }
-                            visible={false}
-                        />
-                    </div>
                     <div className="col-span-2">
                         <UtilityCard
                             title="Alerts"
@@ -635,10 +592,10 @@ const NewDashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div id="dashboard-table-container">
+            {/* <div id="dashboard-table-container">
                 <DashboardTable shiftsData={shiftsData} />
-            </div>
-            <RiskMatrix />
+            </div> */}
+            {/* <RiskMatrix /> */}
         </section>
     );
 };

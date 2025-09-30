@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@172.16.11.46:5432/development_database"
+  url      = "postgresql://postgres:postgres@localhost:5432/development_database"
 }
 
 model InitStatus {
@@ -530,4 +530,18 @@ model Alert {
   actionPlan   ActionPlan? @relation(fields: [actionPlanId], references: [id])
   
   @@map("alerts")
+}
+
+model Payload {
+  id                 Int      @id @default(autoincrement())
+  timestamp          DateTime
+  x_RMS              Float
+  y_RMS              Float
+  z_RMS              Float
+  x_position_change  Float
+  y_position_change  Float
+  z_position_change  Float
+  current_z_ste      Float
+  current_z_freq10   Float
+  rockfall_detected  Boolean
 }

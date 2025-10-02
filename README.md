@@ -1,5 +1,5 @@
-# CoalWorks
-CoalWorks provides a digital platform to address the issues faced in manual shift handovers and safety management. The software integrates with the current Statutory and non-statutory log formats and adheres to DGMS guidelines. It combines web and app-based platforms with AI and IoT technologies to streamline mining operations.
+# MineWorks
+MineWorks provides a digital platform to address the issues faced in manual shift handovers and safety management. The software integrates with the current Statutory and non-statutory log formats and adheres to DGMS guidelines. It combines web and app-based platforms with AI and IoT technologies to streamline mining operations.
 
 **Key Capabilities:**
 
@@ -19,7 +19,7 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 - **SMP Digitalization**: Safety Management Plan (SMP) automation for compliance with DGMS.
 - **Predictive Simulation AI**: Supervisors can simulate operations and estimate future needs.
 - **IoT Integration**: Ensures cross-validation of operations and safety measures, even in offline scenarios.
-- **Cross-Platform Compatibility**: CoalWorks operates smoothly across various environments with Docker integration.
+- **Cross-Platform Compatibility**: MineWorks operates smoothly across various environments with Docker integration.
 
 **Why We Stand Out:**
 
@@ -107,13 +107,13 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 3. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/coalworks.git
+   git clone https://github.com/yourusername/MineWorks.git
    ```
 
 4. Navigate into the project directory:
 
    ```bash
-   cd coalworks
+   cd MineWorks
    ```
 
 5. Install dependencies:
@@ -173,7 +173,7 @@ CoalWorks provides a digital platform to address the issues faced in manual shif
 ## System Design Diagrams
 
 **Description:**
-The Architecture Diagram provides a high-level overview of the CoalWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.
+The Architecture Diagram provides a high-level overview of the MineWorks system's structure. It depicts the key components, their interactions, and how they integrate to form the overall application architecture.
 
 **Key Points:**
 
@@ -200,7 +200,7 @@ This Use Case Diagram illustrates the interactions between different actors (Adm
 ![Sequence Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-sequenceDiagram.png)
 
 **Description:**
-The Sequence Diagram illustrates the flow of events and interactions between components in the CoalWorks system. It details how different parts of the application communicate during specific processes such as logging shift information, handling alerts, and updating safety data.
+The Sequence Diagram illustrates the flow of events and interactions between components in the MineWorks system. It details how different parts of the application communicate during specific processes such as logging shift information, handling alerts, and updating safety data.
 
 **Key Points:**
 
@@ -213,7 +213,7 @@ The Sequence Diagram illustrates the flow of events and interactions between com
 ![Deployment Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-deploymentDiagram.png)
 
 **Description:**
-The Deployment Diagram outlines the physical arrangement of components in the CoalWorks system. It visualizes how various servers, databases, and IoT devices are deployed and interconnected, highlighting the infrastructure required to support the application's functionalities.
+The Deployment Diagram outlines the physical arrangement of components in the MineWorks system. It visualizes how various servers, databases, and IoT devices are deployed and interconnected, highlighting the infrastructure required to support the application's functionalities.
 
 **Key Points:**
 
@@ -229,7 +229,7 @@ The Deployment Diagram outlines the physical arrangement of components in the Co
 ![ER Diagram](https://github.com/Alien501/sih-coal-work/blob/main/client/src/assets/documentation/coalWorks-ER-Diagram.png)
 
 **Description:**
-The ER Diagram provides a detailed view of the data model for CoalWorks. It maps out the entities, their attributes, and the relationships between them, showcasing how data is structured and organized within the system.
+The ER Diagram provides a detailed view of the data model for MineWorks. It maps out the entities, their attributes, and the relationships between them, showcasing how data is structured and organized within the system.
 
 **Key Points:**
 
